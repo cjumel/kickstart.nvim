@@ -201,16 +201,16 @@ require('lazy').setup({
   },
 
   {
-    -- Theme inspired by Atom
-    'navarasu/onedark.nvim',
+    -- Use catppuccin color scheme
+    'catppuccin/nvim',
+    name = 'catppuccin',
     priority = 1000,
     lazy = false,
     config = function()
-      require('onedark').setup {
-        -- Set a style preset. 'dark' is default.
-        style = 'dark', -- dark, darker, cool, deep, warm, warmer, light
-      }
-      require('onedark').load()
+      -- vim.cmd.colorscheme 'catppuccin-latte'
+      -- vim.cmd.colorscheme 'catppuccin-frappe'
+      -- vim.cmd.colorscheme 'catppuccin-macchiato'
+      vim.cmd.colorscheme 'catppuccin-mocha'
     end,
   },
 
@@ -221,7 +221,7 @@ require('lazy').setup({
     opts = {
       options = {
         icons_enabled = false,
-        theme = 'auto',
+        theme = 'catppuccin',
         component_separators = '|',
         section_separators = '',
       },
