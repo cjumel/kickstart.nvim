@@ -8,7 +8,7 @@ return {
   lazy = true,
   cmd = { 'NvimTreeFocus' },
   init = function()
-    vim.keymap.set('n', '<leader>n', '<cmd> NvimTreeFocus <CR>', { desc = 'Focus nvim-tree' })
+    vim.keymap.set('n', '<leader>n', '<cmd> NvimTreeFocus <CR>', { desc = '[N]vim-tree' })
   end,
   opts = {
     git = {

@@ -7,7 +7,7 @@ return {
   lazy = true,
   cmd = { 'Git' },
   init = function()
-    vim.keymap.set('n', '<leader>gs', '<cmd> tab Git <CR>', { desc = 'Git status' })
+    vim.keymap.set('n', '<leader>gs', '<cmd> tab Git <CR>', { desc = '[G]it [S]tatus' })
 
     -- Change keymaps in fugitive buffers
     local group = vim.api.nvim_create_augroup('Fugitive', { clear = false })
