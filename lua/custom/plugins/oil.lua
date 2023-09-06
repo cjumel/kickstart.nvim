@@ -3,10 +3,6 @@
 -- Enable netwrc-style file navigation in buffers.
 -- Additionally, this plugin supports editing files like editing a buffer (renaming, writing, etc.)
 
-vim.keymap.set('n', '-', function()
-  require('oil').open()
-end, { desc = '[-] Open Parent Directory' })
-
 return {
   'stevearc/oil.nvim',
   dependencies = { 'nvim-tree/nvim-web-devicons' },
@@ -56,4 +52,9 @@ return {
       end,
     },
   },
+  init = function()
+    vim.keymap.set('n', '-', function()
+      require('oil').open()
+    end, { desc = '[-] Open Parent Directory' })
+  end,
 }

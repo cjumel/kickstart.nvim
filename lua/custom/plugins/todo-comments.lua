@@ -3,8 +3,6 @@
 -- Enable highlighting for TODO comments, but also, FIXME, BUG, and others.
 -- Additionally, provide commands to list and access them.
 
-vim.keymap.set('n', '<leader>td', '<cmd> TodoQuickFix <CR>', { desc = '[T]o[d]o Comments' })
-
 return {
   'folke/todo-comments.nvim',
   dependencies = { 'nvim-lua/plenary.nvim' },
@@ -37,4 +35,7 @@ return {
       },
     },
   },
+  init = function()
+    vim.keymap.set('n', '<leader>td', '<cmd> TodoQuickFix <CR>', { desc = '[T]o[d]o Comments' })
+  end,
 }
