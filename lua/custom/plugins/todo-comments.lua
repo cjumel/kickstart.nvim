@@ -18,6 +18,7 @@ return {
         '--line-number',
         '--column',
         '--hidden',
+        '--glob=!.git/',
       },
     },
   },
