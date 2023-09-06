@@ -201,20 +201,6 @@ require('lazy').setup({
   },
 
   {
-    -- Use catppuccin color scheme
-    'catppuccin/nvim',
-    name = 'catppuccin',
-    priority = 1000,
-    lazy = false,
-    config = function()
-      -- vim.cmd.colorscheme 'catppuccin-latte'
-      -- vim.cmd.colorscheme 'catppuccin-frappe'
-      -- vim.cmd.colorscheme 'catppuccin-macchiato'
-      vim.cmd.colorscheme 'catppuccin-mocha'
-    end,
-  },
-
-  {
     -- Set lualine as statusline
     'nvim-lualine/lualine.nvim',
     -- See `:help lualine.txt`
