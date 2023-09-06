@@ -71,7 +71,7 @@ require('lazy').setup({
 
   -- Git related plugins
   -- 'tpope/vim-fugitive', -- Moved to lua/custom/plugins/fugitive.lua
-  'tpope/vim-rhubarb',
+  -- 'tpope/vim-rhubarb',
 
   -- Detect tabstop and shiftwidth automatically
   'tpope/vim-sleuth',
