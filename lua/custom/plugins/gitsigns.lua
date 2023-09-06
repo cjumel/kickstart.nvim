@@ -2,6 +2,12 @@
 --
 -- Super fast git decorations and utilities implemented purely in Lua.
 
+-- TODO: try:
+-- map('v', '<leader>hs', function() gs.stage_hunk {vim.fn.line('.'), vim.fn.line('v')} end)
+-- map('v', '<leader>hr', function() gs.reset_hunk {vim.fn.line('.'), vim.fn.line('v')} end)
+-- map('n', '<leader>hu', gs.undo_stage_hunk)
+-- map('n', '<leader>td', gs.toggle_deleted)
+
 return {
   'lewis6991/gitsigns.nvim',
   opts = {
