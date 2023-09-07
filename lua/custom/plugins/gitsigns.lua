@@ -7,6 +7,8 @@
 -- map('v', '<leader>hr', function() gs.reset_hunk {vim.fn.line('.'), vim.fn.line('v')} end)
 -- map('n', '<leader>hu', gs.undo_stage_hunk)
 -- map('n', '<leader>td', gs.toggle_deleted)
+-- -- Text object
+-- map({'o', 'x'}, 'ih', ':<C-U>Gitsigns select_hunk<CR>')
 
 return {
   'lewis6991/gitsigns.nvim',
