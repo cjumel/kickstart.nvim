@@ -19,13 +19,34 @@ return {
       changedelete = { text = '~' },
     },
     on_attach = function(bufnr)
-      vim.keymap.set('n', '[h', require('gitsigns').next_hunk, { buffer = bufnr, desc = '[[] Next [H]unk' })
-      vim.keymap.set('n', ']h', require('gitsigns').prev_hunk, { buffer = bufnr, desc = '[]] Previous [H]unk' })
-      vim.keymap.set('n', '<leader>ph', require('gitsigns').preview_hunk, { buffer = bufnr, desc = '[P]review [H]unk' })
-      vim.keymap.set('n', '<leader>rh', require('gitsigns').reset_hunk, { buffer = bufnr, desc = '[R]eset [H]unk' })
-      vim.keymap.set('n', '<leader>rb', require('gitsigns').reset_buffer, { buffer = bufnr, desc = '[R]eset [B]uffer' })
-      vim.keymap.set('n', '<leader>sh', require('gitsigns').stage_hunk, { buffer = bufnr, desc = '[S]tage [H]unk' })
-      vim.keymap.set('n', '<leader>sb', require('gitsigns').stage_buffer, { buffer = bufnr, desc = '[S]tage [B]uffer' })
+      -- Use keymaps very similar to gitsigns and kickstart defaults
+
+      -- Navigation
+      vim.keymap.set({ 'n', 'v' }, '[h', function()
+        if vim.wo.diff then
+          return ']c'
+        end
+        vim.schedule(function()
+          require('gitsigns').next_hunk()
+        end)
+        return '<Ignore>'
+      end, { expr = true, buffer = bufnr, desc = '[[] Next: Git [H]unk' })
+      vim.keymap.set({ 'n', 'v' }, ']h', function()
+        if vim.wo.diff then
+          return '[c'
+        end
+        vim.schedule(function()
+          require('gitsigns').prev_hunk()
+        end)
+        return '<Ignore>'
+      end, { expr = true, buffer = bufnr, desc = '[]] Previous: Git [H]unk' })
+
+      -- Actions
+      vim.keymap.set('n', '<leader>hp', require('gitsigns').preview_hunk, { buffer = bufnr, desc = 'Git [H]unk: [P]review' })
+      vim.keymap.set('n', '<leader>hs', require('gitsigns').stage_hunk, { buffer = bufnr, desc = 'Git [H]unk: [S]tage' })
+      vim.keymap.set('n', '<leader>hS', require('gitsigns').stage_buffer, { buffer = bufnr, desc = 'Git [H]unk: [S]tage All' })
+      vim.keymap.set('n', '<leader>hr', require('gitsigns').reset_hunk, { buffer = bufnr, desc = 'Git [H]unk: [R]eset' })
+      vim.keymap.set('n', '<leader>hR', require('gitsigns').reset_buffer, { buffer = bufnr, desc = 'Git [H]unk: [R]eset All' })
     end,
   },
 }
