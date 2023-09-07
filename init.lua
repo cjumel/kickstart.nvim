@@ -387,6 +387,12 @@ vim.defer_fn(function()
   }
 end, 0)
 
+-- Diagnostic keymaps
+vim.keymap.set('n', '[d', vim.diagnostic.goto_next, { desc = '[[] Next [D]iagnostic' })
+vim.keymap.set('n', ']d', vim.diagnostic.goto_prev, { desc = '[]] Previous [D]iagnostic' })
+vim.keymap.set('n', '<leader>dp', vim.diagnostic.open_float, { desc = '[D]iagnostic: [P]review' })
+vim.keymap.set('n', '<leader>dl', vim.diagnostic.setloclist, { desc = '[D]iagnostic: [L]ist' })
+
 -- [[ Configure LSP ]]
 --  This function gets run when an LSP connects to a particular buffer.
 local on_attach = function(_, bufnr)
