@@ -24,7 +24,7 @@ return {
           require('gitsigns').next_hunk()
         end)
         return '<Ignore>'
-      end, { expr = true, buffer = bufnr, desc = '[[] Next: Git [H]unk' })
+      end, { expr = true, buffer = bufnr, desc = '[[] Next Git [H]unk' })
       vim.keymap.set({ 'n', 'v' }, ']h', function()
         if vim.wo.diff then
           return '[c'
@@ -33,7 +33,7 @@ return {
           require('gitsigns').prev_hunk()
         end)
         return '<Ignore>'
-      end, { expr = true, buffer = bufnr, desc = '[]] Previous: Git [H]unk' })
+      end, { expr = true, buffer = bufnr, desc = '[]] Previous Git [H]unk' })
 
       -- Actions
       vim.keymap.set('n', '<leader>hp', require('gitsigns').preview_hunk, { buffer = bufnr, desc = 'Git [H]unk: [P]review' })
