@@ -229,7 +229,7 @@ vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = tr
 
 -- Maps for splits
 vim.keymap.set('n', '<leader>vs', '<cmd> vsplit <CR>', { desc = '[V]ertical [S]plit' })
-vim.keymap.set('n', '<leader>hs', '<cmd> split <CR>', { desc = '[H]orizontal [S]plit' })
+vim.keymap.set('n', '<leader>s', '<cmd> split <CR>', { desc = '(Horizontal) [S]plit' })
 
 -- [[ Highlight on yank ]]
 -- See `:help vim.highlight.on_yank()`
