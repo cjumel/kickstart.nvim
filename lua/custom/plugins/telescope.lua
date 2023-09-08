@@ -25,39 +25,34 @@ return {
   },
   lazy = true,
   init = function()
-    vim.keymap.set('n', '<leader>fo', function()
-      require('telescope.builtin').oldfiles()
-    end, { desc = '[F]ind [O]ld Files' })
     vim.keymap.set('n', '<leader><space>', function()
       require('telescope.builtin').buffers()
     end, { desc = '[ ] Find Buffers' })
+
     vim.keymap.set('n', '<leader>/', function()
-      -- You can pass additional configuration to telescope to change theme, layout, etc.
       require('telescope.builtin').current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
         winblend = 10,
         previewer = false,
       })
     end, { desc = '[/] Fuzzily Search in Buffer' })
 
+    -- Find files by file name or content
     vim.keymap.set('n', '<leader>ff', function()
       require('telescope.builtin').find_files {
         find_command = { 'rg', '--files', '--hidden' },
       }
     end, { desc = '[F]ind [F]iles' })
-    vim.keymap.set('n', '<leader>fh', function()
-      require('telescope.builtin').help_tags()
-    end, { desc = '[F]ind [H]elp' })
-    vim.keymap.set('n', '<leader>fw', function()
-      require('telescope.builtin').grep_string()
-    end, { desc = '[F]ind current [W]ord' })
+    vim.keymap.set('n', '<leader>fo', function()
+      require('telescope.builtin').oldfiles()
+    end, { desc = '[F]ind [O]ld Files' })
     vim.keymap.set('n', '<leader>fg', function()
       require('telescope.builtin').live_grep()
     end, { desc = '[F]ind by [G]rep' })
-    vim.keymap.set('n', '<leader>fd', function()
-      require('telescope.builtin').diagnostics()
-    end, { desc = '[F]ind [D]iagnostics' })
+    vim.keymap.set('n', '<leader>fw', function()
+      require('telescope.builtin').grep_string()
+    end, { desc = '[F]ind current [W]ord' })
 
-    -- Git-related
+    -- Git-related find commands
     vim.keymap.set('n', '<leader>fst', function()
       require('telescope.builtin').git_status()
     end, { desc = '[F]ind Git [S]ta[t]us' })
@@ -67,6 +62,11 @@ return {
     vim.keymap.set('n', '<leader>fsh', function()
       require('telescope.builtin').git_stash()
     end, { desc = '[F]ind Git [S]ta[s]h' })
+
+    -- Neovim-related find commands
+    vim.keymap.set('n', '<leader>fh', function()
+      require('telescope.builtin').help_tags()
+    end, { desc = '[F]ind [H]elp' })
   end,
   config = function()
     local actions = require 'telescope.actions'
