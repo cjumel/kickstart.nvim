@@ -56,6 +56,17 @@ return {
     vim.keymap.set('n', '<leader>fd', function()
       require('telescope.builtin').diagnostics()
     end, { desc = '[F]ind [D]iagnostics' })
+
+    -- Git-related
+    vim.keymap.set('n', '<leader>fst', function()
+      require('telescope.builtin').git_status()
+    end, { desc = '[F]ind Git [S]ta[t]us' })
+    vim.keymap.set('n', '<leader>fcm', function()
+      require('telescope.builtin').git_commits()
+    end, { desc = '[F]ind Git [C]o[m]mits' })
+    vim.keymap.set('n', '<leader>fsh', function()
+      require('telescope.builtin').git_stash()
+    end, { desc = '[F]ind Git [S]ta[s]h' })
   end,
   config = function()
     local actions = require 'telescope.actions'
