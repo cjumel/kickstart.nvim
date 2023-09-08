@@ -4,6 +4,6 @@
 
 return {
   'kylechui/nvim-surround',
-  event = 'VeryLazy',
+  event = 'VeryLazy', -- Making it lazy will make keymaps unknown before loading
   opts = {},
 }

@@ -4,7 +4,7 @@
 
 return {
   'numToStr/Comment.nvim',
-  event = 'VeryLazy',
+  event = 'VeryLazy', -- Making it lazy will make keymaps unknown before loading
   opts = {},
   init = function()
     vim.keymap.set('n', 'gtc', function()

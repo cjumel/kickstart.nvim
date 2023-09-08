@@ -4,6 +4,6 @@
 
 return {
   'folke/which-key.nvim',
-  event = 'VeryLazy',
+  event = 'VeryLazy', -- Can't be lazy for some reason
   opts = {},
 }
