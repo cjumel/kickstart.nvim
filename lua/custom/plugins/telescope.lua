@@ -23,9 +23,14 @@ return {
       end,
     },
   },
+  lazy = true,
   init = function()
-    vim.keymap.set('n', '<leader>fo', require('telescope.builtin').oldfiles, { desc = '[F]ind [O]ld Files' })
-    vim.keymap.set('n', '<leader><space>', require('telescope.builtin').buffers, { desc = '[ ] Find Buffers' })
+    vim.keymap.set('n', '<leader>fo', function()
+      require('telescope.builtin').oldfiles()
+    end, { desc = '[F]ind [O]ld Files' })
+    vim.keymap.set('n', '<leader><space>', function()
+      require('telescope.builtin').buffers()
+    end, { desc = '[ ] Find Buffers' })
     vim.keymap.set('n', '<leader>/', function()
       -- You can pass additional configuration to telescope to change theme, layout, etc.
       require('telescope.builtin').current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
@@ -34,11 +39,21 @@ return {
       })
     end, { desc = '[/] Fuzzily Search in Buffer' })
 
-    vim.keymap.set('n', '<leader>ff', require('telescope.builtin').find_files, { desc = '[F]ind [F]iles' })
-    vim.keymap.set('n', '<leader>fh', require('telescope.builtin').help_tags, { desc = '[F]ind [H]elp' })
-    vim.keymap.set('n', '<leader>fw', require('telescope.builtin').grep_string, { desc = '[F]ind current [W]ord' })
-    vim.keymap.set('n', '<leader>fg', require('telescope.builtin').live_grep, { desc = '[F]ind by [G]rep' })
-    vim.keymap.set('n', '<leader>fd', require('telescope.builtin').diagnostics, { desc = '[F]ind [D]iagnostics' })
+    vim.keymap.set('n', '<leader>ff', function()
+      require('telescope.builtin').find_files()
+    end, { desc = '[F]ind [F]iles' })
+    vim.keymap.set('n', '<leader>fh', function()
+      require('telescope.builtin').help_tags()
+    end, { desc = '[F]ind [H]elp' })
+    vim.keymap.set('n', '<leader>fw', function()
+      require('telescope.builtin').grep_string()
+    end, { desc = '[F]ind current [W]ord' })
+    vim.keymap.set('n', '<leader>fg', function()
+      require('telescope.builtin').live_grep()
+    end, { desc = '[F]ind by [G]rep' })
+    vim.keymap.set('n', '<leader>fd', function()
+      require('telescope.builtin').diagnostics()
+    end, { desc = '[F]ind [D]iagnostics' })
   end,
   config = function()
     require('telescope').setup {
