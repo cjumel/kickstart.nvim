@@ -56,17 +56,26 @@ return {
     vim.keymap.set('n', '<leader>fst', function()
       require('telescope.builtin').git_status()
     end, { desc = '[F]ind Git [S]ta[t]us' })
-    vim.keymap.set('n', '<leader>fcm', function()
+    vim.keymap.set('n', '<leader>fcmi', function()
       require('telescope.builtin').git_commits()
-    end, { desc = '[F]ind Git [C]o[m]mits' })
+    end, { desc = '[F]ind Git [C]o[m]m[i]ts' })
     vim.keymap.set('n', '<leader>fsh', function()
       require('telescope.builtin').git_stash()
     end, { desc = '[F]ind Git [S]ta[s]h' })
 
     -- Neovim-related find commands
+    vim.keymap.set('n', '<leader>fk', function()
+      require('telescope.builtin').keymaps()
+    end, { desc = '[F]ind [K]eymaps' })
+    vim.keymap.set('n', '<leader>fcma', function()
+      require('telescope.builtin').commands()
+    end, { desc = '[F]ind [C]o[m]m[a]nds' })
     vim.keymap.set('n', '<leader>fh', function()
       require('telescope.builtin').help_tags()
     end, { desc = '[F]ind [H]elp' })
+    vim.keymap.set('n', '<leader>fcs', function()
+      require('telescope.builtin').colorscheme()
+    end, { desc = '[F]ind [C]olor[S]cheme' })
   end,
   config = function()
     local actions = require 'telescope.actions'
