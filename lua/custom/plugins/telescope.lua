@@ -40,7 +40,9 @@ return {
     end, { desc = '[/] Fuzzily Search in Buffer' })
 
     vim.keymap.set('n', '<leader>ff', function()
-      require('telescope.builtin').find_files()
+      require('telescope.builtin').find_files {
+        find_command = { 'rg', '--files', '--hidden' },
+      }
     end, { desc = '[F]ind [F]iles' })
     vim.keymap.set('n', '<leader>fh', function()
       require('telescope.builtin').help_tags()
@@ -56,13 +58,34 @@ return {
     end, { desc = '[F]ind [D]iagnostics' })
   end,
   config = function()
+    local actions = require 'telescope.actions'
     require('telescope').setup {
       defaults = {
         mappings = {
           i = {
-            ['<C-u>'] = false,
-            ['<C-d>'] = false,
+            ['<C-s>'] = actions.select_horizontal,
+            ['<C-v>'] = actions.select_vertical,
           },
+          n = {
+            ['='] = actions.select_default,
+            ['<C-s>'] = actions.select_horizontal,
+            ['<C-v>'] = actions.select_vertical,
+            ['g?'] = actions.which_key,
+          },
+        },
+        -- vimgrep_arguments is used for live_grep and grep_string
+        vimgrep_arguments = {
+          'rg',
+          '--color=never', -- must not be removed
+          '--no-heading', -- must not be removed
+          '--with-filename', -- must not be removed
+          '--line-number', -- must not be removed
+          '--column', -- must not be removed
+          '--smart-case',
+          '--hidden',
+        },
+        file_ignore_patterns = {
+          '.git/',
         },
       },
     }
