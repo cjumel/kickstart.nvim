@@ -4,6 +4,6 @@
 
 return {
   'folke/which-key.nvim',
-  event = 'VeryLazy', -- Can't be lazy for some reason
+  keys = { '<leader>', '<c-r>', '"', "'", '`', 'c', 'v', 'g' },
   opts = {},
 }
