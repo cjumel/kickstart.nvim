@@ -4,7 +4,7 @@
 
 return {
   'nvim-lualine/lualine.nvim',
-  priority = 1000,
+  priority = 1000, -- UI stuff should be loaded first
   opts = {
     options = {
       icons_enabled = false,

@@ -5,7 +5,6 @@
 return {
   'nvim-tree/nvim-tree.lua',
   dependencies = { 'nvim-tree/nvim-web-devicons' },
-  lazy = true,
   cmd = { 'NvimTreeFocus' },
   init = function()
     vim.keymap.set('n', '<leader>n', '<cmd> NvimTreeFocus <CR>', { desc = '[N]vim-tree' })

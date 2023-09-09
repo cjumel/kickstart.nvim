@@ -1,10 +1,10 @@
 -- fugitive.vim
 --
--- Git integration in vim.
+-- Fugitive provides a few git-related features, which make it and gitsigns perfect for a complete
+-- git integration.
 
 return {
   'tpope/vim-fugitive',
-  lazy = true,
   cmd = { 'Git' },
   init = function()
     vim.keymap.set('n', '<leader>gs', '<cmd> tab Git <CR>', { desc = '[G]it [S]tatus' })

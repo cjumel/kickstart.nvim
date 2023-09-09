@@ -1,15 +1,12 @@
 -- catpuccin
 --
--- Define a color scheme with catpuccin.
+-- Catpuccin is a color scheme defining different tones as flavors.
 
 return {
   'catppuccin/nvim',
   name = 'catppuccin',
-  priority = 1000,
+  priority = 1000, -- UI stuff should be loaded first
   config = function()
-    -- vim.cmd.colorscheme 'catppuccin-latte'
-    -- vim.cmd.colorscheme 'catppuccin-frappe'
-    -- vim.cmd.colorscheme 'catppuccin-macchiato'
     vim.cmd.colorscheme 'catppuccin-mocha'
   end,
 }

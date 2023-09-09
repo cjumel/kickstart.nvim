@@ -9,7 +9,6 @@ return {
     'nvim-treesitter/nvim-treesitter-textobjects',
   },
   build = ':TSUpdate',
-  lazy = false,
   config = function()
     require('nvim-treesitter.configs').setup {
       ensure_installed = { -- Languages treesitter must install

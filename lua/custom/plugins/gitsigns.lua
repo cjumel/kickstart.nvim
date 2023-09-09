@@ -1,6 +1,7 @@
 -- gitsigns.nvim
 --
--- Super fast git decorations and utilities implemented purely in Lua.
+-- Super fast git decorations and utilities implemented purely in Lua, which make it and fugitive
+-- perfect for a complete git integration.
 
 return {
   'lewis6991/gitsigns.nvim',

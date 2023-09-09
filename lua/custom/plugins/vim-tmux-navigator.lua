@@ -5,7 +5,6 @@
 
 return {
   'christoomey/vim-tmux-navigator',
-  lazy = true,
   cmd = { 'TmuxNavigateLeft', 'TmuxNavigateRight', 'TmuxNavigateDown', 'TmuxNavigateUp' },
   init = function()
     vim.keymap.set('n', '<C-h>', '<cmd> TmuxNavigateLeft <CR>', { desc = 'Window left' })
