@@ -51,8 +51,8 @@ return {
       vim.keymap.set('n', '<leader>hd', require('gitsigns').toggle_deleted, { buffer = bufnr, desc = 'Git [H]unk: Toggle [D]eleted' })
 
       -- Text object
-      vim.keymap.set({ 'o', 'x' }, 'ih', ':<C-U>Gitsigns select_hunk<CR>', { buffer = bufnr, desc = '[I]nside Git [H]unk Object' })
-      vim.keymap.set({ 'o', 'x' }, 'ah', ':<C-U>Gitsigns select_hunk<CR>', { buffer = bufnr, desc = '[A]rround Git [H]unk Object' })
+      vim.keymap.set({ 'o', 'x' }, 'ih', ':<C-U>Gitsigns select_hunk<CR>', { buffer = bufnr, desc = 'inner git hunk' })
+      vim.keymap.set({ 'o', 'x' }, 'ah', ':<C-U>Gitsigns select_hunk<CR>', { buffer = bufnr, desc = 'a git hunk' })
     end,
   },
 }
