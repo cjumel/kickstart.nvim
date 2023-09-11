@@ -1,7 +1,7 @@
 -- todo-comments
 --
--- Enable highlighting for TODO comments, but also, FIXME, BUG, and others.
--- Additionally, provide commands to list and access them.
+-- Enable highlighting for TODO, FIXME, BUG, FIXIT, ISSUE & NOTE comments.
+-- This plugin can also be used as a provider for trouble.nvim.
 
 return {
   'folke/todo-comments.nvim',
@@ -35,7 +35,4 @@ return {
       },
     },
   },
-  init = function()
-    vim.keymap.set('n', '<leader>td', '<cmd> TodoQuickFix <CR>', { desc = '[T]o[d]o Comments' })
-  end,
 }
