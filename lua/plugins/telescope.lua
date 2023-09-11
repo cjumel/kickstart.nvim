@@ -10,6 +10,7 @@ return {
     'nvim-lua/plenary.nvim',
     'nvim-treesitter/nvim-treesitter',
     'nvim-tree/nvim-web-devicons',
+    'folke/trouble.nvim',
     -- Fuzzy Finder Algorithm which requires local dependencies to be built.
     -- Only load if `make` is available. Make sure you have the system
     -- requirements installed.
@@ -91,17 +92,20 @@ return {
   end,
   config = function()
     local actions = require 'telescope.actions'
+    local trouble = require 'trouble.providers.telescope'
     require('telescope').setup {
       defaults = {
         mappings = {
           i = {
             ['<C-s>'] = actions.select_horizontal,
             ['<C-v>'] = actions.select_vertical,
+            ['<c-t>'] = trouble.open_with_trouble,
           },
           n = {
             ['='] = actions.select_default,
             ['<C-s>'] = actions.select_horizontal,
             ['<C-v>'] = actions.select_vertical,
+            ['<c-t>'] = trouble.open_with_trouble,
             ['g?'] = actions.which_key,
           },
         },
