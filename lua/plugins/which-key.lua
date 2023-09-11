@@ -4,6 +4,7 @@
 
 return {
   'folke/which-key.nvim',
-  keys = { '<leader>', '<c-r>', '"', "'", '`', 'c', 'v', 'g' },
+  cmd = { 'WhichKey' },
+  keys = { '<leader>', '<c-r>', '"', "'", '`', 'c', 'v', 'g', '[', ']' },
   opts = {},
 }
