@@ -7,6 +7,8 @@ return {
   'github/copilot.vim',
   event = 'InsertEnter',
   init = function()
+    -- FIXME: when special characters are candidate for insertion, they go iterprated so they need
+    -- to be escaped
     local AcceptOneWord = function()
       vim.fn['copilot#Accept'] ''
       local bar = vim.fn['copilot#TextQueuedForInsertion']()
