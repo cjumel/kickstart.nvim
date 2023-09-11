@@ -14,7 +14,7 @@ return {
       ['<CR>'] = 'actions.select',
       ['='] = 'actions.select',
       ['<C-v>'] = 'actions.select_vsplit',
-      ['<C-s>'] = 'actions.select_split',
+      ['<C-x>'] = 'actions.select_split',
       ['<C-t>'] = 'actions.select_tab',
       ['<C-p>'] = 'actions.preview',
       ['q'] = 'actions.close',

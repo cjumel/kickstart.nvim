@@ -95,18 +95,14 @@ return {
     local trouble = require 'trouble.providers.telescope'
     require('telescope').setup {
       defaults = {
+        n = {
+          ['g?'] = actions.which_key,
+          ['='] = actions.select_default,
+          ['<c-t>'] = trouble.open_with_trouble,
+        },
         mappings = {
           i = {
-            ['<C-s>'] = actions.select_horizontal,
-            ['<C-v>'] = actions.select_vertical,
             ['<c-t>'] = trouble.open_with_trouble,
-          },
-          n = {
-            ['='] = actions.select_default,
-            ['<C-s>'] = actions.select_horizontal,
-            ['<C-v>'] = actions.select_vertical,
-            ['<c-t>'] = trouble.open_with_trouble,
-            ['g?'] = actions.which_key,
           },
         },
         -- vimgrep_arguments is used for live_grep and grep_string
