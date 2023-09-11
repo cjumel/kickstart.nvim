@@ -11,7 +11,6 @@ return {
     'williamboman/mason-lspconfig.nvim',
 
     -- Useful status updates for LSP
-    -- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
     { 'j-hui/fidget.nvim', tag = 'legacy', opts = {} },
 
     -- Additional lua configuration, makes nvim stuff amazing!
@@ -20,6 +19,10 @@ return {
     -- nvim-cmp supports additional completion capabilities
     'hrsh7th/nvim-cmp',
     'hrsh7th/cmp-nvim-lsp',
+
+    -- For code navigation
+    'folke/trouble.nvim',
+    'nvim-telescope/telescope.nvim',
   },
   ft = {
     'lua',
@@ -35,29 +38,24 @@ return {
         vim.keymap.set('n', keys, func, { buffer = bufnr, desc = desc })
       end
 
+      -- Documentation
+      nmap('K', vim.lsp.buf.hover, '[K] Hover Documentation')
+      nmap('<leader>K', vim.lsp.buf.signature_help, '[K] Signature Documentation')
+
+      -- Refactoring
       nmap('<leader>rn', vim.lsp.buf.rename, '[R]e[n]ame')
       nmap('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction')
 
-      nmap('gd', vim.lsp.buf.definition, '[G]oto [D]efinition')
-      -- nmap('gr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
-      -- vim.keymap.set("n", "gR", function() require("trouble").open("lsp_references") end)
-      nmap('gI', vim.lsp.buf.implementation, '[G]oto [I]mplementation')
-      nmap('<leader>D', vim.lsp.buf.type_definition, 'Type [D]efinition')
-      -- nmap('<leader>ds', require('telescope.builtin').lsp_document_symbols, '[D]ocument [S]ymbols')
-      -- nmap('<leader>ws', require('telescope.builtin').lsp_dynamic_workspace_symbols, '[W]orkspace [S]ymbols')
-
-      -- See `:help K` for why this keymap
-      nmap('K', vim.lsp.buf.hover, 'Hover Documentation')
-      -- The following keymap conflicts with vim-tmux-navigator
-      -- nmap('<C-k>', vim.lsp.buf.signature_help, 'Signature Documentation')
-
-      -- Lesser used LSP functionality
-      nmap('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
-      -- nmap('<leader>wa', vim.lsp.buf.add_workspace_folder, '[W]orkspace [A]dd Folder')
-      -- nmap('<leader>wr', vim.lsp.buf.remove_workspace_folder, '[W]orkspace [R]emove Folder')
-      -- nmap('<leader>wl', function()
-      --   print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-      -- end, '[W]orkspace [L]ist Folders')
+      -- Go to actions
+      nmap('gd', vim.lsp.buf.definition, '[G]o to [D]efinition')
+      nmap('gtd', vim.lsp.buf.type_definition, '[G]o to [T]ype [D]efinition')
+      nmap('gD', vim.lsp.buf.declaration, '[G]o to [D]eclaration')
+      nmap('gi', vim.lsp.buf.implementation, '[G]o to [I]mplementation')
+      nmap('gr', function()
+        require('trouble').open 'lsp_references'
+      end, '[G]o to [R]eferences')
+      nmap('gs', require('telescope.builtin').lsp_document_symbols, '[G]o to Document [S]ymbols')
+      nmap('gS', require('telescope.builtin').lsp_dynamic_workspace_symbols, '[G]o to Workspace [S]ymbols')
     end
 
     -- Enable the following language servers. They will automatically be installed.
