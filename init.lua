@@ -99,8 +99,7 @@ vim.keymap.set('n', '<leader>q', '<cmd> bd <CR>', { desc = '[Q]uit Buffer' })
 -- Diagnostic keymaps
 vim.keymap.set('n', '[d', vim.diagnostic.goto_next, { desc = '[[] Next [D]iagnostic' })
 vim.keymap.set('n', ']d', vim.diagnostic.goto_prev, { desc = '[]] Previous [D]iagnostic' })
-vim.keymap.set('n', '<leader>dp', vim.diagnostic.open_float, { desc = '[D]iagnostic: [P]review' })
-vim.keymap.set('n', '<leader>dl', vim.diagnostic.setloclist, { desc = '[D]iagnostic: [L]ist' })
+vim.keymap.set('n', '<leader>dp', vim.diagnostic.open_float, { desc = '[D]iagnostics: [P]review' })
 
 -- [[ Configure LSP ]]
 --  This function gets run when an LSP connects to a particular buffer.
