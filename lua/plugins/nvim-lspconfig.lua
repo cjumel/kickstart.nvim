@@ -42,7 +42,17 @@ return {
       nmap('K', vim.lsp.buf.hover, '[K] Hover Documentation')
       nmap('<leader>K', vim.lsp.buf.signature_help, '[K] Signature Documentation')
 
-      -- Refactoring
+      -- Code edition
+      local lsp_formatting = function()
+        vim.lsp.buf.format {
+          filter = function(client)
+            -- Enable only null-ls formatting, not other LSPs
+            return client.name == 'null-ls'
+          end,
+          bufnr = bufnr,
+        }
+      end
+      nmap('<leader>fm', lsp_formatting, '[F]or[m]at')
       nmap('<leader>rn', vim.lsp.buf.rename, '[R]e[n]ame')
       nmap('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction')
 
