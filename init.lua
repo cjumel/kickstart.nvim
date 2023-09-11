@@ -81,6 +81,10 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
 vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
 
+-- Remap gg/G to go to buffer beginning/end instead of first/last line
+vim.keymap.set({ 'n', 'o', 'x' }, 'gg', 'gg0', { desc = 'Beginning buffer' })
+vim.keymap.set({ 'n', 'o', 'x' }, 'G', 'G$', { desc = 'End of buffer' })
+
 -- Window splits
 vim.keymap.set('n', '<leader>v', '<cmd> vsplit <CR>', { desc = '[V]ertical Split' })
 vim.keymap.set('n', '<leader>s', '<cmd> split <CR>', { desc = '(Horizontal) [S]plit' })
