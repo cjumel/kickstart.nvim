@@ -23,6 +23,7 @@ return {
   },
   ft = {
     'lua',
+    'python',
   },
   config = function()
     --  This function gets run when an LSP connects to a particular buffer.
@@ -74,6 +75,7 @@ return {
           telemetry = { enable = false },
         },
       },
+      pyright = {},
     }
 
     -- Setup neovim lua configuration
