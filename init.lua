@@ -94,7 +94,7 @@ vim.keymap.set('v', '<tab>', '>gv', { desc = 'Indent selection' })
 vim.keymap.set('v', '<s-tab>', '<gv', { desc = 'Unindent selection' })
 
 -- Close buffer
-vim.keymap.set('n', '<leader>x', '<cmd> bd <CR>', { desc = '[X] Close current buffer' })
+vim.keymap.set('n', '<leader>q', '<cmd> bd <CR>', { desc = '[Q]uit Buffer' })
 
 -- Diagnostic keymaps
 vim.keymap.set('n', '[d', vim.diagnostic.goto_next, { desc = '[[] Next [D]iagnostic' })
