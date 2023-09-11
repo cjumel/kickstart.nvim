@@ -36,15 +36,24 @@ return {
       })
     end, { desc = '[/] Fuzzily Search in Buffer' })
 
-    -- Find files by file name or content
+    -- Find files by file name
     vim.keymap.set('n', '<leader>ff', function()
       require('telescope.builtin').find_files {
         find_command = { 'rg', '--files', '--hidden' },
       }
     end, { desc = '[F]ind [F]iles' })
+    vim.keymap.set('n', '<leader>fF', function()
+      require('telescope.builtin').find_files {
+        find_command = { 'rg', '--files', '--hidden' },
+        follow = true,
+        no_ignore = true,
+      }
+    end, { desc = '[F]ind All [F]iles' })
     vim.keymap.set('n', '<leader>fo', function()
       require('telescope.builtin').oldfiles()
     end, { desc = '[F]ind [O]ld Files' })
+
+    -- Find files by file content
     vim.keymap.set('n', '<leader>fg', function()
       require('telescope.builtin').live_grep()
     end, { desc = '[F]ind by [G]rep' })
