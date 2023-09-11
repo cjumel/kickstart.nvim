@@ -58,9 +58,6 @@ return {
       -- nmap('<leader>wl', function()
       --   print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
       -- end, '[W]orkspace [L]ist Folders')
-
-      -- Format a buffer with the local LSP
-      nmap('<leader>fm', vim.lsp.buf.format, '[F]or[m]at Buffer')
     end
 
     -- Enable the following language servers. They will automatically be installed.

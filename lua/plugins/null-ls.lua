@@ -16,8 +16,19 @@ return {
     'yaml',
   },
   opts = function()
+    local lsp_formatting = function(bufnr)
+      vim.lsp.buf.format {
+        filter = function(client)
+          -- Enable only null-ls formatting, not other LSPs
+          return client.name == 'null-ls'
+        end,
+        bufnr = bufnr,
+      }
+    end
+
     local null_ls = require 'null-ls'
     local augroup = vim.api.nvim_create_augroup('LspFormatting', {})
+
     return {
       sources = {
         -- Lua
@@ -45,7 +56,7 @@ return {
             group = augroup,
             buffer = bufnr,
             callback = function()
-              vim.lsp.buf.format { bufnr = bufnr }
+              lsp_formatting(bufnr)
             end,
           })
         end
