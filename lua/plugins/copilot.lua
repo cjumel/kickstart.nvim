@@ -7,12 +7,13 @@ return {
   'github/copilot.vim',
   event = 'InsertEnter',
   init = function()
-    -- FIXME: when special characters are candidate for insertion, they go iterprated so they need
-    -- to be escaped
     local AcceptOneWord = function()
       vim.fn['copilot#Accept'] ''
       local bar = vim.fn['copilot#TextQueuedForInsertion']()
-      return vim.fn.split(bar, [[[ .]\zs]])[1]
+      local word = vim.fn.split(bar, [[[ .]\zs]])[1]
+      -- Escape '<', as it causes trouble when inserted (e.g. "<leader>" is inserted as " ")
+      -- This doesn't work if escaping '>' as well
+      return string.gsub(word, '<', '<lt>')
     end
 
     vim.keymap.set('i', '<s-tab>', AcceptOneWord, { expr = true, remap = false, desc = 'copilot#AcceptOneWord()' })
