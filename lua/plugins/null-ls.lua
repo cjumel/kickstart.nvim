@@ -46,6 +46,24 @@ return {
         -- Other
         null_ls.builtins.formatting.prettier,
       },
+      should_attach = function(bufnr)
+        -- Don't attach null-ls to files in /usr/local
+        if vim.startswith(vim.api.nvim_buf_get_name(bufnr), '/usr/local') then
+          return false
+        end
+
+        -- Don't attach null-ls to git-ignored files (this check could be time-consuming)
+        local name = vim.api.nvim_buf_get_name(bufnr)
+        local dir = vim.fs.dirname(name)
+        local filename = vim.fs.basename(name)
+        local command = string.format('git -C %s check-ignore %s', dir, filename)
+        local output = vim.fn.trim(vim.fn.system(command))
+        if output == filename then
+          return false
+        end
+
+        return true
+      end,
       on_attach = function(client, bufnr)
         if client.supports_method 'textDocument/formatting' then
           vim.api.nvim_clear_autocmds {
