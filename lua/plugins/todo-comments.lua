@@ -35,4 +35,8 @@ return {
       },
     },
   },
+  init = function()
+    vim.keymap.set('n', '<leader>tt', 'ATODO: ', { desc = '[T]odo: insert [T]odo Prefix' })
+    vim.keymap.set('n', '<leader>tf', 'AFIX: ', { desc = '[T]odo: insert [F]ix Prefix' })
+  end,
 }

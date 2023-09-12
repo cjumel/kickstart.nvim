@@ -24,9 +24,9 @@ return {
     end, { desc = '[D]iagnostics: in [W]orkspace' })
 
     -- Todo-comments
-    vim.keymap.set('n', '<leader>td', function()
+    vim.keymap.set('n', '<leader>tl', function()
       require('trouble').open 'todo'
-    end, { desc = '[T]o[d]o-comments' })
+    end, { desc = '[T]odo: [L]ist' })
   end,
   opts = {},
 }
