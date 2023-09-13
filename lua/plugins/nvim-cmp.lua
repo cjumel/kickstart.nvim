@@ -6,9 +6,11 @@ return {
   -- Autocompletion
   'hrsh7th/nvim-cmp',
   ft = {
+    'dockerfile',
     'lua',
     'markdown',
     'python',
+    'yaml', -- For docker-compose.yml
   },
   dependencies = {
     -- Adds LSP completion capabilities
