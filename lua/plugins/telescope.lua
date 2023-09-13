@@ -37,6 +37,10 @@ return {
       })
     end, { desc = '[/] Fuzzily Search in Buffer' })
 
+    vim.keymap.set('n', '<leader>fr', function()
+      require('telescope.builtin').resume()
+    end, { desc = '[F]ind [R]resume' })
+
     -- Find files by file name
     vim.keymap.set('n', '<leader>ff', function()
       require('telescope.builtin').find_files {
@@ -60,7 +64,7 @@ return {
     end, { desc = '[F]ind by [G]rep' })
     vim.keymap.set('n', '<leader>fw', function()
       require('telescope.builtin').grep_string()
-    end, { desc = '[F]ind current [W]ord' })
+    end, { desc = '[F]ind Current [W]ord' })
 
     -- Git-related find commands
     vim.keymap.set('n', '<leader>fst', function()
