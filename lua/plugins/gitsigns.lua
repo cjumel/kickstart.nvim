@@ -16,7 +16,7 @@ return {
     on_attach = function(bufnr)
       -- Use keymaps very similar to gitsigns and kickstart defaults
 
-      -- Navigation
+      -- Navigation (don't override Fugitive keymaps)
       vim.keymap.set({ 'n', 'v' }, '[h', function()
         if vim.wo.diff then
           return ']c'
