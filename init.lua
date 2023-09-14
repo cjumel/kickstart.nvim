@@ -101,5 +101,10 @@ vim.keymap.set('n', '[d', vim.diagnostic.goto_next, { desc = '[[] Next [D]iagnos
 vim.keymap.set('n', ']d', vim.diagnostic.goto_prev, { desc = '[]] Previous [D]iagnostic' })
 vim.keymap.set('n', '<leader>dp', vim.diagnostic.open_float, { desc = '[D]iagnostics: [P]review' })
 
+-- [[ Comand Line keymaps ]]
+-- Use <c-p> and <c-n> to navigate through command line history matching the current input
+vim.keymap.set('c', '<c-p>', '<up>')
+vim.keymap.set('c', '<c-n>', '<down>')
+
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
