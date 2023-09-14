@@ -100,7 +100,6 @@ return {
     require('telescope').setup {
       defaults = {
         n = {
-          ['g?'] = actions.which_key,
           ['='] = actions.select_default,
           ['<c-t>'] = trouble.open_with_trouble,
         },

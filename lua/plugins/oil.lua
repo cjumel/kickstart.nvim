@@ -21,6 +21,7 @@ return {
       ['-'] = 'actions.parent',
       ['_'] = 'actions.open_cwd',
       ['H'] = 'actions.toggle_hidden',
+      ['R'] = 'actions.refresh',
     },
     use_default_keymaps = false,
     view_options = {
