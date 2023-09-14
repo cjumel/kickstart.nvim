@@ -47,13 +47,13 @@ return {
         find_command = { 'rg', '--files', '--hidden' },
       }
     end, { desc = '[F]ind [F]iles' })
-    vim.keymap.set('n', '<leader>fF', function()
+    vim.keymap.set('n', '<leader>fa', function()
       require('telescope.builtin').find_files {
         find_command = { 'rg', '--files', '--hidden' },
         follow = true,
         no_ignore = true,
       }
-    end, { desc = '[F]ind All [F]iles' })
+    end, { desc = '[F]ind [A]ll Files' })
     vim.keymap.set('n', '<leader>fo', function()
       require('telescope.builtin').oldfiles()
     end, { desc = '[F]ind [O]ld Files' })
@@ -67,15 +67,15 @@ return {
     end, { desc = '[F]ind Current [W]ord' })
 
     -- Git-related find commands
-    vim.keymap.set('n', '<leader>fst', function()
+    vim.keymap.set('n', '<leader>fs', function()
       require('telescope.builtin').git_status()
-    end, { desc = '[F]ind Git [S]ta[t]us' })
+    end, { desc = '[F]ind Git [S]tatus' })
     vim.keymap.set('n', '<leader>fcm', function()
       require('telescope.builtin').git_commits()
     end, { desc = '[F]ind Git [C]o[m]mits' })
-    vim.keymap.set('n', '<leader>fsh', function()
+    vim.keymap.set('n', '<leader>fS', function()
       require('telescope.builtin').git_stash()
-    end, { desc = '[F]ind Git [S]ta[s]h' })
+    end, { desc = '[F]ind Git [S]tash' })
 
     -- Neovim-related find commands
     vim.keymap.set('n', '<leader>fk', function()
