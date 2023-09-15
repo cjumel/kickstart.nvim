@@ -3,8 +3,8 @@
 -- Show the available keymaps once you start writink a few keys, the marks and registers.
 
 return {
-  'folke/which-key.nvim',
-  cmd = { 'WhichKey' },
-  keys = { '<leader>', '<c-r>', '"', "'", '`', 'c', 'v', 'g', '[', ']' },
+  "folke/which-key.nvim",
+  cmd = { "WhichKey" },
+  keys = { "<leader>", "<c-r>", '"', "'", "`", "c", "v", "g", "[", "]" },
   opts = {},
 }
