@@ -24,6 +24,7 @@ return {
       "black",
       "ruff",
       "mypy",
+      "debugpy",
       -- Other
       "prettier",
     },
