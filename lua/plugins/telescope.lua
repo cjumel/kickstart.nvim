@@ -28,7 +28,7 @@ return {
   init = function()
     vim.keymap.set("n", "<leader><space>", function()
       require("telescope.builtin").buffers()
-    end, { desc = "[ ] Find Buffers" })
+    end, { desc = "[ ] Find: buffers" })
 
     vim.keymap.set("n", "<leader>/", function()
       require("telescope.builtin").current_buffer_fuzzy_find(
@@ -37,64 +37,71 @@ return {
           previewer = false,
         })
       )
-    end, { desc = "[/] Fuzzily Search in Buffer" })
+    end, { desc = "[/] Find: fuzzily in buffer" })
 
-    vim.keymap.set("n", "<leader>fr", function()
+    local nmap = function(keys, func, desc)
+      if desc then
+        desc = "[F]ind: " .. desc
+      end
+      vim.keymap.set("n", keys, func, { desc = desc })
+    end
+
+    nmap("<leader>fr", function()
       require("telescope.builtin").resume()
-    end, { desc = "[F]ind [R]resume" })
+    end, "[R]esume")
 
     -- Find files by file name
-    vim.keymap.set("n", "<leader>ff", function()
+    nmap("<leader>ff", function()
       require("telescope.builtin").find_files({
         find_command = { "rg", "--files", "--hidden" },
       })
-    end, { desc = "[F]ind [F]iles" })
-    vim.keymap.set("n", "<leader>fa", function()
+    end, "[F]iles")
+    nmap("<leader>fa", function()
       require("telescope.builtin").find_files({
         find_command = { "rg", "--files", "--hidden" },
         follow = true,
         no_ignore = true,
       })
-    end, { desc = "[F]ind [A]ll Files" })
-    vim.keymap.set("n", "<leader>fo", function()
+    end, "[A]ll files")
+    nmap("<leader>fo", function()
       require("telescope.builtin").oldfiles()
-    end, { desc = "[F]ind [O]ld Files" })
+    end, "[O]ld files")
 
     -- Find files by file content
-    vim.keymap.set("n", "<leader>fg", function()
+    nmap("<leader>fg", function()
       require("telescope.builtin").live_grep()
-    end, { desc = "[F]ind by [G]rep" })
-    vim.keymap.set("n", "<leader>fw", function()
+    end, "by [G]rep")
+    nmap("<leader>fw", function()
       require("telescope.builtin").grep_string()
-    end, { desc = "[F]ind Current [W]ord" })
+    end, "[W]ord under the cursor")
 
     -- Git-related find commands
-    vim.keymap.set("n", "<leader>fs", function()
+    nmap("<leader>fs", function()
       require("telescope.builtin").git_status()
-    end, { desc = "[F]ind Git [S]tatus" })
-    vim.keymap.set("n", "<leader>fcm", function()
+    end, "git [S]tatus")
+    nmap("<leader>fcm", function()
       require("telescope.builtin").git_commits()
-    end, { desc = "[F]ind Git [C]o[m]mits" })
-    vim.keymap.set("n", "<leader>fS", function()
+    end, "git [C]o[M]mits")
+    nmap("<leader>fS", function()
       require("telescope.builtin").git_stash()
-    end, { desc = "[F]ind Git [S]tash" })
+    end, "git [S]tash")
 
     -- Neovim-related find commands
-    vim.keymap.set("n", "<leader>fk", function()
+    nmap("<leader>fk", function()
       require("telescope.builtin").keymaps()
-    end, { desc = "[F]ind [K]eymaps" })
-    vim.keymap.set("n", "<leader>fcu", function()
+    end, "[K]eymaps")
+    nmap("<leader>fcu", function()
       require("telescope.builtin").commands()
-    end, { desc = "[F]ind [C]ommand [U]sage" })
-    vim.keymap.set("n", "<leader>fch", function()
+    end, "[C]ommand [U]sage")
+    nmap("<leader>fch", function()
       require("telescope.builtin").command_history()
-    end, { desc = "[F]ind [C]ommand [H]istory" })
-    vim.keymap.set("n", "<leader>fh", function()
+    end, "[C]ommand [H]istory")
+    nmap("<leader>fh", function()
       require("telescope.builtin").help_tags()
-    end, { desc = "[F]ind [H]elp" })
-    vim.keymap.set("n", "<leader>fcs", function()
+    end, "[H]elp")
+    nmap("<leader>fcs", function()
       require("telescope.builtin").colorscheme()
-    end, { desc = "[F]ind [C]olor[S]cheme" })
+    end, "[C]olor [S]cheme")
   end,
   config = function()
     local actions = require("telescope.actions")
