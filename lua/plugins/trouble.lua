@@ -16,12 +16,12 @@ return {
     end, { desc = "[T]rouble: [O]pen" })
 
     -- Diagnostics
-    vim.keymap.set("n", "<leader>db", function()
+    vim.keymap.set("n", "<leader>dl", function()
       require("trouble").open("document_diagnostics")
-    end, { desc = "[D]iagnostics: in [B]uffer" })
-    vim.keymap.set("n", "<leader>dw", function()
+    end, { desc = "[D]iagnostics: [L]ist in buffer" })
+    vim.keymap.set("n", "<leader>dL", function()
       require("trouble").open("workspace_diagnostics")
-    end, { desc = "[D]iagnostics: in [W]orkspace" })
+    end, { desc = "[D]iagnostics: [L]ist in workspace" })
 
     -- Todo-comments
     vim.keymap.set("n", "<leader>tl", function()

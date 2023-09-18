@@ -98,9 +98,9 @@ vim.keymap.set("n", "<leader>q", "<cmd> bd <CR>", { desc = "[Q]uit buffer" })
 vim.keymap.set("n", "<leader>Q", "<cmd> bd! <CR>", { desc = "[Q]uit buffer (force)" })
 
 -- Diagnostic keymaps
-vim.keymap.set("n", "[d", vim.diagnostic.goto_next, { desc = "[[] Next [D]iagnostic" })
-vim.keymap.set("n", "]d", vim.diagnostic.goto_prev, { desc = "[]] Previous [D]iagnostic" })
-vim.keymap.set("n", "<leader>dp", vim.diagnostic.open_float, { desc = "[D]iagnostics: [P]review" })
+vim.keymap.set("n", "[d", vim.diagnostic.goto_next, { desc = "Next diagnostic" })
+vim.keymap.set("n", "]d", vim.diagnostic.goto_prev, { desc = "Previous diagnostic" })
+vim.keymap.set("n", "<leader>de", vim.diagnostic.open_float, { desc = "[D]iagnostics: [E]xpand" })
 
 -- [[ Comand Line keymaps ]]
 -- Use <c-p> and <c-n> to navigate through command line history matching the current input
