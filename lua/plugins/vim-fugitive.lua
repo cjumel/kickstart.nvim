@@ -18,6 +18,10 @@ return {
     )
     vim.api.nvim_create_autocmd(
       "FileType",
+      { command = "nmap <buffer> a s", group = group, pattern = pattern }
+    )
+    vim.api.nvim_create_autocmd(
+      "FileType",
       { command = "nmap <buffer> <C-p> (", group = group, pattern = pattern }
     )
     vim.api.nvim_create_autocmd(
