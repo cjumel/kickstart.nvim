@@ -39,8 +39,8 @@ return {
       end
 
       -- Documentation
-      nmap("K", vim.lsp.buf.hover, "[K] Hover Documentation")
-      nmap("<leader>K", vim.lsp.buf.signature_help, "[K] Signature Documentation")
+      nmap("K", vim.lsp.buf.hover, "[K] hover documentation")
+      nmap("<leader>K", vim.lsp.buf.signature_help, "[K] signature documentation")
 
       -- Code edition
       local lsp_formatting = function()
@@ -52,8 +52,8 @@ return {
           bufnr = bufnr,
         })
       end
-      nmap("<leader>fm", lsp_formatting, "[F]or[m]at")
-      nmap("<leader>rn", vim.lsp.buf.rename, "[R]e[n]ame")
+      nmap("<leader>fm", lsp_formatting, "[F]or[M]at")
+      nmap("<leader>rn", vim.lsp.buf.rename, "[R]e[N]ame")
       nmap("<leader>ca", vim.lsp.buf.code_action, "[C]ode [A]ction")
 
       -- Go to actions
@@ -64,11 +64,11 @@ return {
       nmap("gr", function()
         require("trouble").open("lsp_references")
       end, "[G]o to [R]eferences")
-      nmap("gs", require("telescope.builtin").lsp_document_symbols, "[G]o to Document [S]ymbols")
+      nmap("gs", require("telescope.builtin").lsp_document_symbols, "[G]o to [S]ymbols in document")
       nmap(
         "gS",
         require("telescope.builtin").lsp_dynamic_workspace_symbols,
-        "[G]o to Workspace [S]ymbols"
+        "[G]o to [S]ymbols in workspace"
       )
     end
 
