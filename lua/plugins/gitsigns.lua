@@ -17,7 +17,7 @@ return {
       -- Use keymaps very similar to gitsigns and kickstart defaults
 
       -- Navigation (don't override Fugitive keymaps)
-      vim.keymap.set({ "n", "v" }, "[h", function()
+      vim.keymap.set({ "n", "v" }, "[g", function()
         if vim.wo.diff then
           return "]c"
         end
@@ -25,8 +25,8 @@ return {
           require("gitsigns").next_hunk()
         end)
         return "<Ignore>"
-      end, { expr = true, buffer = bufnr, desc = "[[] Next Git [H]unk" })
-      vim.keymap.set({ "n", "v" }, "]h", function()
+      end, { expr = true, buffer = bufnr, desc = "[[] Next [G]it hunk" })
+      vim.keymap.set({ "n", "v" }, "]g", function()
         if vim.wo.diff then
           return "[c"
         end
@@ -34,56 +34,56 @@ return {
           require("gitsigns").prev_hunk()
         end)
         return "<Ignore>"
-      end, { expr = true, buffer = bufnr, desc = "[]] Previous Git [H]unk" })
+      end, { expr = true, buffer = bufnr, desc = "[]] Previous [G]it hunk" })
 
       -- Actions
       vim.keymap.set(
         "n",
-        "<leader>hp",
+        "<leader>gp",
         require("gitsigns").preview_hunk,
-        { buffer = bufnr, desc = "Git [H]unk: [P]review" }
+        { buffer = bufnr, desc = "[G]it: [P]review hunk" }
       )
       vim.keymap.set(
         "n",
-        "<leader>hs",
+        "<leader>ga",
         require("gitsigns").stage_hunk,
-        { buffer = bufnr, desc = "Git [H]unk: [S]tage" }
+        { buffer = bufnr, desc = "[G]it: [A]dd hunk" }
       )
-      vim.keymap.set("v", "<leader>hs", function()
+      vim.keymap.set("v", "<leader>ga", function()
         require("gitsigns").stage_hunk({ vim.fn.line("."), vim.fn.line("v") })
-      end, { buffer = bufnr, desc = "Git [H]unk: [S]tage" })
+      end, { buffer = bufnr, desc = "[G]it: [A]dd lines" })
       vim.keymap.set(
         "n",
-        "<leader>hS",
+        "<leader>gA",
         require("gitsigns").stage_buffer,
-        { buffer = bufnr, desc = "Git [H]unk: [S]tage All" }
+        { buffer = bufnr, desc = "[G]it: [A]dd buffer" }
       )
       vim.keymap.set(
         "n",
-        "<leader>hu",
+        "<leader>gu",
         require("gitsigns").undo_stage_hunk,
-        { buffer = bufnr, desc = "Git [H]unk: [U]ndo Stage" }
+        { buffer = bufnr, desc = "[G]it: [U]ndo 'add hunk'" }
       )
       vim.keymap.set(
         "n",
-        "<leader>hr",
+        "<leader>gr",
         require("gitsigns").reset_hunk,
-        { buffer = bufnr, desc = "Git [H]unk: [R]eset" }
+        { buffer = bufnr, desc = "[G]it: [R]eset hunk" }
       )
-      vim.keymap.set("v", "<leader>hr", function()
+      vim.keymap.set("v", "<leader>gr", function()
         require("gitsigns").reset_hunk({ vim.fn.line("."), vim.fn.line("v") })
-      end, { buffer = bufnr, desc = "Git [H]unk: [R]eset" })
+      end, { buffer = bufnr, desc = "[G]it: [R]eset lines" })
       vim.keymap.set(
         "n",
-        "<leader>hR",
+        "<leader>gR",
         require("gitsigns").reset_buffer,
-        { buffer = bufnr, desc = "Git [H]unk: [R]eset All" }
+        { buffer = bufnr, desc = "[G]it: [R]eset buffer" }
       )
       vim.keymap.set(
         "n",
-        "<leader>hd",
+        "<leader>gd",
         require("gitsigns").toggle_deleted,
-        { buffer = bufnr, desc = "Git [H]unk: Toggle [D]eleted" }
+        { buffer = bufnr, desc = "[G]it: toggle [D]eleted" }
       )
 
       -- Text object
