@@ -14,8 +14,12 @@ return {
       enable = true,
     },
     filters = {
+      git_ignored = false,
+      dotfiles = true,
       custom = {
         "^.git$",
+        "^.DS_Store",
+        "^__pycache__",
         "^.null-ls_",
       },
     },

@@ -25,16 +25,12 @@ return {
     },
     use_default_keymaps = false,
     view_options = {
-      show_hidden = true,
+      show_hidden = false,
       is_always_hidden = function(name, _)
         local always_hidden_names = {
-          ".DS_Store",
           ".git",
-          ".idea",
-          ".mypy_cache",
+          ".DS_Store",
           "__pycache__",
-          ".pytest_cache",
-          ".ruff_cache",
         }
         for _, always_hidden_name in ipairs(always_hidden_names) do
           if name == always_hidden_name then
@@ -43,7 +39,7 @@ return {
         end
 
         local always_hidden_name_starts = {
-          ".coverage",
+          ".null-ls_",
         }
         for _, always_hidden_name_start in ipairs(always_hidden_name_starts) do
           if vim.startswith(name, always_hidden_name_start) then
