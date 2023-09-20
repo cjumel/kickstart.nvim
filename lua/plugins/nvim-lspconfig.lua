@@ -94,6 +94,10 @@ return {
     local capabilities = vim.lsp.protocol.make_client_capabilities()
     capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
 
+    -- Fix pyright irrelevant diagnostics when something is not used
+    -- See: https://github.com/neovim/nvim-lspconfig/issues/726#issuecomment-1439132189
+    capabilities.textDocument.publishDiagnostics = { tagSupport = { valueSet = { 2 } } }
+
     -- Ensure the servers above are installed
     local mason_lspconfig = require("mason-lspconfig")
 
