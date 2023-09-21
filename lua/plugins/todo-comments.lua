@@ -36,6 +36,6 @@ return {
     },
   },
   init = function()
-    vim.keymap.set("n", "<leader>ti", "ITODO: ", { desc = "[T]odo: [I]nsert" })
+    vim.keymap.set("n", "<leader>ta", "ATODO: ", { desc = "[T]odo: [A]dd" })
   end,
 }
