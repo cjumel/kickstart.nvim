@@ -3,7 +3,7 @@
 -- Hop is a plugin enabling fast in-file navigation.
 
 return {
-  "phaazon/hop.nvim",
+  "smoka7/hop.nvim",
   lazy = true,
   opts = {
     keys = "hgjfkdlsmqyturieozpabvn",
