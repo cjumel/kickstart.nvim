@@ -6,6 +6,14 @@
 return {
   "folke/todo-comments.nvim",
   dependencies = { "nvim-lua/plenary.nvim" },
+  lazy = false,
+  keys = {
+    {
+      "<leader>ta",
+      "ATODO: ",
+      desc = "[T]odo: [A]dd",
+    },
+  },
   opts = {
     -- keywords recognized as todo comments
     keywords = {
@@ -35,7 +43,4 @@ return {
       },
     },
   },
-  init = function()
-    vim.keymap.set("n", "<leader>ta", "ATODO: ", { desc = "[T]odo: [A]dd" })
-  end,
 }

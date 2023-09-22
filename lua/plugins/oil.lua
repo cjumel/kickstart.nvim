@@ -6,7 +6,15 @@
 return {
   "stevearc/oil.nvim",
   dependencies = { "nvim-tree/nvim-web-devicons" },
-  lazy = true,
+  keys = {
+    {
+      "-",
+      function()
+        require("oil").open()
+      end,
+      desc = "[-] Open parent directory",
+    },
+  },
   opts = {
     default_file_explorer = false,
     keymaps = {
@@ -49,9 +57,4 @@ return {
       end,
     },
   },
-  init = function()
-    vim.keymap.set("n", "-", function()
-      require("oil").open()
-    end, { desc = "[-] Open Parent Directory" })
-  end,
 }

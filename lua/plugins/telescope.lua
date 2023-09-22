@@ -24,88 +24,147 @@ return {
       end,
     },
   },
-  lazy = true,
-  init = function()
-    vim.keymap.set("n", "<leader><space>", function()
-      require("telescope.builtin").buffers()
-    end, { desc = "[ ] Find: buffers" })
-
-    vim.keymap.set("n", "<leader>/", function()
-      require("telescope.builtin").current_buffer_fuzzy_find(
-        require("telescope.themes").get_dropdown({
-          winblend = 10,
-          previewer = false,
-        })
-      )
-    end, { desc = "[/] Find: fuzzily in buffer" })
-
-    local nmap = function(keys, func, desc)
-      if desc then
-        desc = "[F]ind: " .. desc
-      end
-      vim.keymap.set("n", keys, func, { desc = desc })
-    end
-
-    nmap("<leader>fr", function()
-      require("telescope.builtin").resume()
-    end, "[R]esume")
+  keys = {
+    -- General features
+    {
+      "<leader>fr",
+      function()
+        require("telescope.builtin").resume()
+      end,
+      desc = "[F]ind: [R]esume",
+    },
+    {
+      "<leader><space>",
+      function()
+        require("telescope.builtin").buffers()
+      end,
+      desc = "[ ] Find: buffers",
+    },
+    {
+      "<leader>/",
+      function()
+        require("telescope.builtin").current_buffer_fuzzy_find(
+          require("telescope.themes").get_dropdown({
+            winblend = 10,
+            previewer = false,
+          })
+        )
+      end,
+      desc = "[/] Find: fuzzily in buffer",
+    },
 
     -- Find files by file name
-    nmap("<leader>ff", function()
-      require("telescope.builtin").find_files({
-        find_command = { "rg", "--files", "--hidden" },
-      })
-    end, "[F]iles")
-    nmap("<leader>fa", function()
-      require("telescope.builtin").find_files({
-        find_command = { "rg", "--files", "--hidden" },
-        follow = true,
-        no_ignore = true,
-      })
-    end, "[A]ll files")
-    nmap("<leader>fo", function()
-      require("telescope.builtin").oldfiles()
-    end, "[O]ld files")
+    {
+      "<leader>ff",
+      function()
+        require("telescope.builtin").find_files({
+          find_command = { "rg", "--files", "--hidden" },
+        })
+      end,
+      desc = "[F]ind: [F]iles",
+    },
+    {
+      "<leader>fa",
+      function()
+        require("telescope.builtin").find_files({
+          find_command = { "rg", "--files", "--hidden" },
+          follow = true,
+          no_ignore = true,
+        })
+      end,
+      desc = "[F]ind: [A]ll files",
+    },
+    {
+      "<leader>fo",
+      function()
+        require("telescope.builtin").oldfiles()
+      end,
+      desc = "[F]ind: [O]ld files",
+    },
 
     -- Find files by file content
-    nmap("<leader>fg", function()
-      require("telescope.builtin").live_grep()
-    end, "by [G]rep")
-    nmap("<leader>fw", function()
-      require("telescope.builtin").grep_string()
-    end, "[W]ord under the cursor")
+    {
+      "<leader>fg",
+      function()
+        require("telescope.builtin").live_grep()
+      end,
+      desc = "[F]ind: by [G]rep",
+    },
+    {
+      "<leader>fw",
+      function()
+        require("telescope.builtin").grep_string()
+      end,
+      desc = "[F]ind: [W]ord under the cursor",
+    },
 
     -- Git-related find commands
-    nmap("<leader>fs", function()
-      require("telescope.builtin").git_status()
-    end, "git [S]tatus")
-    nmap("<leader>fb", function()
-      require("telescope.builtin").git_branches()
-    end, "git [B]ranches")
-    nmap("<leader>fcm", function()
-      require("telescope.builtin").git_commits()
-    end, "git [C]o[M]mits")
-    nmap("<leader>fS", function()
-      require("telescope.builtin").git_stash()
-    end, "git [S]tash")
+    {
+      "<leader>fs",
+      function()
+        require("telescope.builtin").git_status()
+      end,
+      desc = "[F]ind: git [S]tatus",
+    },
+    {
+      "<leader>fb",
+      function()
+        require("telescope.builtin").git_branches()
+      end,
+      desc = "[F]ind: git [B]ranches",
+    },
+    {
+      "<leader>fcm",
+      function()
+        require("telescope.builtin").git_commits()
+      end,
+      desc = "[F]ind: git [C]o[M]mits",
+    },
+    {
+      "<leader>fS",
+      function()
+        require("telescope.builtin").git_stash()
+      end,
+      desc = "[F]ind: git [S]tash",
+    },
 
     -- Neovim-related find commands
-    nmap("<leader>fk", function()
-      require("telescope.builtin").keymaps()
-    end, "[K]eymaps")
-    nmap("<leader>fcu", function()
-      require("telescope.builtin").commands()
-    end, "[C]ommand [U]sage")
-    nmap("<leader>fch", function()
-      require("telescope.builtin").command_history()
-    end, "[C]ommand [H]istory")
-    nmap("<leader>fh", function()
-      require("telescope.builtin").help_tags()
-    end, "[H]elp")
-    nmap("<leader>fcs", function()
-      require("telescope.builtin").colorscheme()
-    end, "[C]olor [S]cheme")
-  end,
+    {
+      "<leader>fk",
+      function()
+        require("telescope.builtin").keymaps()
+      end,
+      desc = "[F]ind: [K]eymaps",
+    },
+    {
+      "<leader>fcu",
+      function()
+        require("telescope.builtin").commands()
+      end,
+      desc = "[F]ind: [C]ommand [U]sage",
+    },
+    {
+      "<leader>fch",
+      function()
+        require("telescope.builtin").command_history()
+      end,
+      desc = "[F]ind: [C]ommand [H]istory",
+    },
+    {
+      "<leader>fh",
+      function()
+        require("telescope.builtin").help_tags()
+      end,
+      desc = "[F]ind: [H]elp",
+    },
+    {
+      "<leader>fcs",
+      function()
+        require("telescope.builtin").colorscheme()
+      end,
+      desc = "[F]ind: [C]olor [S]cheme",
+    },
+  },
   config = function()
     local actions = require("telescope.actions")
     local trouble = require("trouble.providers.telescope")
