@@ -14,6 +14,14 @@ return {
     vim.keymap.set("n", "<leader>hm", function()
       require("harpoon.ui").toggle_quick_menu()
     end, { desc = "[H]arpoon: [M]enu" })
+
+    vim.keymap.set("n", "[h", function()
+      require("harpoon.ui").nav_next()
+    end, { desc = "Next Harpoon file" })
+    vim.keymap.set("n", "]h", function()
+      require("harpoon.ui").nav_prev()
+    end, { desc = "Previous Harpoon file" })
+
     vim.keymap.set("n", "gh", function()
       require("harpoon.ui").nav_file(1)
     end, { desc = "[G]o to harpoon file [H] (1)" })
