@@ -14,14 +14,14 @@ return {
       function()
         require("telescope").extensions.git_worktree.git_worktrees()
       end,
-      desc = "[G]it: [W]orktree [L]ist",
+      desc = "[G]it [W]orktree [L]ist",
     },
     {
-      "<leader>gwc",
+      "<leader>gwa",
       function()
         require("telescope").extensions.git_worktree.create_git_worktree()
       end,
-      desc = "[G]it: [W]orktree [C]reate",
+      desc = "[G]it [W]orktree [A]dd",
     },
   },
   config = function()

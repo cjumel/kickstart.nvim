@@ -5,10 +5,14 @@
 
 return {
   "tpope/vim-fugitive",
-  cmd = { "Git" },
-  init = function()
-    vim.keymap.set("n", "<leader>gs", "<cmd> tab Git <CR>", { desc = "[G]it: [S]tatus" })
-
+  keys = {
+    {
+      "<leader>gs",
+      "<cmd> botright Git <CR>",
+      desc = "[G]it [S]tatus",
+    },
+  },
+  config = function()
     -- Change keymaps in fugitive buffers
     local group = vim.api.nvim_create_augroup("Fugitive", { clear = false })
     local pattern = { "fugitive", "fugitiveblame" }
@@ -17,16 +21,6 @@ return {
     vim.api.nvim_create_autocmd(
       "FileType",
       { command = "nmap <buffer> q gq", group = group, pattern = pattern }
-    )
-
-    -- Add or reset a hunk
-    vim.api.nvim_create_autocmd(
-      "FileType",
-      { command = "nmap <buffer> a s", group = group, pattern = pattern }
-    )
-    vim.api.nvim_create_autocmd(
-      "FileType",
-      { command = "nmap <buffer> R X", group = group, pattern = pattern }
     )
 
     -- Navigate hunks
