@@ -10,7 +10,7 @@ return {
   keys = {
     {
       "<leader>ta",
-      "ATODO: ",
+      "A TODO: ",
       desc = "[T]odo: [A]dd",
     },
   },
