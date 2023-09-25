@@ -3,9 +3,7 @@
 -- Dispatch commands like tests or builds asynchronously.
 
 -- TODO:
--- - Add hooks to install pre-commit and gitmoji if needed
 -- - Setup commands: python file, pytest all, pytest file, poetry update
--- - Make poetry out-project again, if needed
 
 return {
   "tpope/vim-dispatch",

@@ -2,6 +2,10 @@
 --
 -- A simple wrapper around git worktree operations, create, switch, and delete.
 
+-- TODO:
+-- - Make poetry out-project again, if needed
+-- - Add hooks to install pre-commit and gitmoji if needed
+
 return {
   "ThePrimeagen/git-worktree.nvim",
   dependencies = {
