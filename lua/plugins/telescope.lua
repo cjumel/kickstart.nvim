@@ -3,15 +3,11 @@
 -- Gaze deeply into unknwn regions of your code with powerful and blazing fast fuzzy finding
 -- tools.
 
--- TODO:
--- - re-implement commands for stash:
--- {
---   "<leader>gshl",
---   function()
---     require("telescope.builtin").git_stash()
---   end,
---   desc = "[F]ind: git [S]tash",
--- },
+local create_user_cmd = function()
+  vim.api.nvim_create_user_command("GitStashList", function()
+    require("telescope.builtin").git_stash()
+  end, { desc = "Git stash list" })
+end
 
 return {
   "nvim-telescope/telescope.nvim",
@@ -33,6 +29,9 @@ return {
         return vim.fn.executable("make") == 1
       end,
     },
+  },
+  cmd = {
+    "GitStashList",
   },
   keys = {
     -- General
@@ -172,7 +171,12 @@ return {
       desc = "[C]olor [S]cheme",
     },
   },
+  init = function()
+    create_user_cmd()
+  end,
   config = function()
+    create_user_cmd()
+
     local actions = require("telescope.actions")
     local trouble = require("trouble.providers.telescope")
     require("telescope").setup({
