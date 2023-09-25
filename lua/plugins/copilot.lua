@@ -6,6 +6,7 @@
 return {
   "github/copilot.vim",
   event = "InsertEnter",
+  -- TODO: remove init function
   init = function()
     local AcceptOneWord = function()
       vim.fn["copilot#Accept"]("")

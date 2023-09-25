@@ -3,6 +3,8 @@
 -- Neovim implementation of treesitter, implementing several features (code highlighting,
 -- navigation or edition), based on a language parser. Parsers exist for many languages.
 
+-- TODO: remove parameter stuff
+
 return {
   "nvim-treesitter/nvim-treesitter",
   dependencies = {

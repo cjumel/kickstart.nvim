@@ -3,6 +3,8 @@
 -- Fugitive provides a few git-related features, which make it and gitsigns perfect for a complete
 -- git integration.
 
+-- TODO: add keymap to git commit
+
 return {
   "tpope/vim-fugitive",
   keys = {

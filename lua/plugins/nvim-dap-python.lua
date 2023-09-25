@@ -6,6 +6,7 @@
 return {
   "mfussenegger/nvim-dap-python",
   lazy = true,
+  -- TODO: remove init function
   init = function()
     local nmap = function(keys, func, desc)
       if desc then
