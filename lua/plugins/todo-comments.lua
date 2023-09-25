@@ -15,6 +15,7 @@ return {
     },
   },
   opts = {
+    sign_priority = 1,
     -- keywords recognized as todo comments
     keywords = {
       FIX = {
