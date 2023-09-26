@@ -3,8 +3,6 @@
 -- Neovim implementation of treesitter, implementing several features (code highlighting,
 -- navigation or edition), based on a language parser. Parsers exist for many languages.
 
--- TODO: remove parameter stuff
-
 return {
   "nvim-treesitter/nvim-treesitter",
   dependencies = {
@@ -54,8 +52,6 @@ return {
           lookahead = true, -- Automatically jump forward to textobj, similar to targets.vim
           keymaps = {
             -- You can use the capture groups defined in textobjects.scm
-            ["aa"] = "@parameter.outer",
-            ["ia"] = "@parameter.inner",
             ["af"] = "@function.outer",
             ["if"] = "@function.inner",
             ["ac"] = "@class.outer",
@@ -84,12 +80,6 @@ return {
         },
         swap = {
           enable = true,
-          swap_next = {
-            ["<leader>a"] = "@parameter.inner",
-          },
-          swap_previous = {
-            ["<leader>A"] = "@parameter.inner",
-          },
         },
       },
     })
