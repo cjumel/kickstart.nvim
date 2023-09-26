@@ -8,22 +8,25 @@ local create_user_cmd = function()
   end, { desc = "Git commit" })
   vim.api.nvim_create_user_command("PrecommitRunAllFiles", function()
     vim.cmd("Dispatch pre-commit run --all-files")
-  end, { desc = "Run pre-commit on all files" })
+  end, { desc = "Pre-commit run on all files" })
   vim.api.nvim_create_user_command("PrecommitRunCurrentFile", function()
     vim.cmd("Dispatch pre-commit run --files %")
-  end, { desc = "Run pre-commit on the current file" })
+  end, { desc = "Pre-commit run on the current file" })
+  vim.api.nvim_create_user_command("PoetryInstall", function()
+    vim.cmd("Dispatch poetry install")
+  end, { desc = "Poetry install" })
   vim.api.nvim_create_user_command("PoetryUpdate", function()
     vim.cmd("Dispatch poetry update")
-  end, { desc = "Run poetry update" })
+  end, { desc = "Poetry update" })
   vim.api.nvim_create_user_command("PythonCurrentFile", function()
     vim.cmd("Dispatch python %")
-  end, { desc = "Run Python on the current file" })
+  end, { desc = "Python on the current file" })
   vim.api.nvim_create_user_command("Pytest", function()
     vim.cmd("Dispatch pytest --no-header")
-  end, { desc = "Run Pytest on all files" })
+  end, { desc = "Pytest on all files" })
   vim.api.nvim_create_user_command("PytestCurrentFile", function()
     vim.cmd("Dispatch pytest % --no-header")
-  end, { desc = "Run Pytest on the current file" })
+  end, { desc = "Pytest on the current file" })
 end
 
 return {
@@ -33,6 +36,7 @@ return {
     "GitCommit",
     "PrecommitRunAllFiles",
     "PrecommitRunCurrentFile",
+    "PoetryInstall",
     "PoetryUpdate",
     "PythonCurrentFile",
     "Pytest",
