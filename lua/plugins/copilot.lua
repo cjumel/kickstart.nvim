@@ -6,8 +6,7 @@
 return {
   "github/copilot.vim",
   event = "InsertEnter",
-  -- TODO: remove init function
-  init = function()
+  config = function()
     local AcceptOneWord = function()
       vim.fn["copilot#Accept"]("")
       local bar = vim.fn["copilot#TextQueuedForInsertion"]()
