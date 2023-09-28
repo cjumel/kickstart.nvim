@@ -63,9 +63,6 @@ vim.o.termguicolors = true
 -- Colorize the column corresponding to a 100-character line length
 vim.o.colorcolumn = "100"
 
--- When scrolling up or down, always keep a few lines between the cursor and the page limit
-vim.o.scrolloff = 3
-
 -- Highlight on yank
 local highlight_group = vim.api.nvim_create_augroup("YankHighlight", { clear = true })
 vim.api.nvim_create_autocmd("TextYankPost", {
