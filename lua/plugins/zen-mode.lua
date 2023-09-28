@@ -13,5 +13,12 @@ return {
       desc = "[Z]en mode",
     },
   },
-  opts = {},
+  opts = {
+    window = {
+      backdrop = 1, -- No difference between the background and the window
+      options = {
+        number = false, -- Disable number column
+      },
+    },
+  },
 }
