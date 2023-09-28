@@ -25,6 +25,10 @@ vim.opt.rtp:prepend(lazypath)
 require("lazy").setup({ { import = "plugins" } }, {})
 
 -- [[ Setting options ]]
+
+-- Disable neovim intro as it appears very briefly on startup and then disappears
+vim.opt.shortmess:append({ I = true })
+
 -- Set highlight on search
 vim.o.hlsearch = false
 
