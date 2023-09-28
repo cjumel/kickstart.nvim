@@ -107,22 +107,27 @@ return {
     },
     {
       "<leader>j",
-      function()
-        require("hop").hint_lines({
-          direction = require("hop.hint").HintDirection.AFTER_CURSOR,
-        })
-      end,
-      mode = { "n", "x", "o" },
+      "<cmd> HopLineAC <cr>",
+      mode = { "n", "x" },
       desc = "[j] vim key with Hop",
     },
     {
       "<leader>k",
-      function()
-        require("hop").hint_lines({
-          direction = require("hop.hint").HintDirection.BEFORE_CURSOR,
-        })
-      end,
-      mode = { "n", "x", "o" },
+      "<cmd> HopLineBC <cr>",
+      mode = { "n", "x" },
+      desc = "[k] vim key with Hop",
+    },
+    -- Make <leader>j and <leader>k work linewise in operator pending mode
+    {
+      "<leader>j",
+      "V<cmd> HopLineAC <cr>",
+      mode = { "o" },
+      desc = "[j] vim key with Hop",
+    },
+    {
+      "<leader>k",
+      "V<cmd> HopLineBC <cr>",
+      mode = { "o" },
       desc = "[k] vim key with Hop",
     },
   },
