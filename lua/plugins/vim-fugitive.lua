@@ -25,12 +25,12 @@ local create_user_cmd = function()
     vim.cmd("Git stash pop")
   end, { desc = "Git stash pop" })
 
-  vim.api.nvim_create_user_command("GitRebase", function()
-    vim.cmd("Git rebase")
-  end, { desc = "Git rebase" })
-  vim.api.nvim_create_user_command("GitRebaseInteractive", function()
-    vim.cmd("Git rebase --interactive")
-  end, { desc = "Git rebase interactive" })
+  vim.api.nvim_create_user_command("GitRebaseMain", function()
+    vim.cmd("Git rebase main")
+  end, { desc = "Git rebase main" })
+  vim.api.nvim_create_user_command("GitRebaseMainInteractive", function()
+    vim.cmd("Git rebase main --interactive")
+  end, { desc = "Git rebase main interactive" })
 
   vim.api.nvim_create_user_command("GitResetLast", function()
     vim.cmd("Git reset HEAD~1")
@@ -53,8 +53,8 @@ return {
     "GitCommitWip",
     "GitStash",
     "GitStashPop",
-    "GitRebase",
-    "GitRebaseInteractive",
+    "GitRebaseMain",
+    "GitRebaseMainInteractive",
     "GitResetLast",
     "GitResetSoftLast",
     "GitResetHardLast",
