@@ -120,10 +120,42 @@ return {
     {
       "<leader><leader>",
       function()
-        require("telescope.builtin").commands(require("telescope.themes").get_dropdown({
+        local opts = require("telescope.themes").get_dropdown({
           winblend = 10,
           previewer = false,
-        }))
+        })
+
+        -- Simplify the display of commands with only name & description
+        local displayer = require("telescope.pickers.entry_display").create({
+          separator = "▏",
+          items = {
+            { width = 0.33 },
+            { remaining = true },
+          },
+        })
+        local make_display = function(entry)
+          return displayer({
+            { entry.name, "TelescopeResultsIdentifier" },
+            entry.definition,
+          })
+        end
+        local entry_maker = function(entry)
+          return {
+            name = entry.name,
+            bang = entry.bang,
+            nargs = entry.nargs,
+            complete = entry.complete,
+            definition = entry.definition,
+            --
+            value = entry,
+            valid = true,
+            ordinal = entry.name,
+            display = make_display,
+          }
+        end
+        opts.entry_maker = entry_maker
+
+        require("telescope.builtin").commands(opts)
       end,
       desc = "[ ] Find fuzzily in commands",
     },
