@@ -64,9 +64,6 @@ vim.o.completeopt = "menuone,noselect"
 -- Use true colors in terminal
 vim.o.termguicolors = true
 
--- Colorize the column corresponding to a 100-character line length
-vim.o.colorcolumn = "100"
-
 -- Highlight on yank
 local highlight_group = vim.api.nvim_create_augroup("YankHighlight", { clear = true })
 vim.api.nvim_create_autocmd("TextYankPost", {
