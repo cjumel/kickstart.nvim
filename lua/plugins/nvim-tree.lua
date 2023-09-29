@@ -44,6 +44,7 @@ return {
 
       -- custom mappings
       vim.keymap.set("n", "=", api.node.open.edit, opts("Open"))
+      vim.keymap.set("n", "-", api.node.navigate.parent_close, opts("Close Parent"))
     end,
     renderer = {
       root_folder_label = false,
