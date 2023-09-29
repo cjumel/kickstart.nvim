@@ -69,6 +69,13 @@ return {
   },
   keys = {
     {
+      "<leader>co",
+      function()
+        vim.cmd("Copen")
+      end,
+      desc = "[C]ommand [O]pen",
+    },
+    {
       "<leader>gcm",
       function()
         vim.cmd("GitCommit")
