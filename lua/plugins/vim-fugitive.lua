@@ -8,16 +8,6 @@ local create_user_cmd = function()
     vim.cmd("Git")
   end, { desc = "Git status" })
 
-  vim.api.nvim_create_user_command("GitCommitAmend", function()
-    vim.cmd("Git commit --amend --no-edit")
-  end, { desc = "Git commit amend" })
-  vim.api.nvim_create_user_command("GitCommitAmendEdit", function()
-    vim.cmd("Git commit --amend")
-  end, { desc = "Git commit amend & edit" })
-  vim.api.nvim_create_user_command("GitCommitWip", function()
-    vim.cmd("Git commit --no-verify --message '🚧 WIP'")
-  end, { desc = "Git commit WIP" })
-
   vim.api.nvim_create_user_command("GitStash", function()
     vim.cmd("Git stash")
   end, { desc = "Git stash" })
@@ -48,9 +38,6 @@ return {
   cmd = {
     "Git",
     "GitStatus",
-    "GitCommitAmend",
-    "GitCommitAmendEdit",
-    "GitCommitWip",
     "GitStash",
     "GitStashPop",
     "GitRebaseMain",
@@ -66,20 +53,6 @@ return {
         vim.cmd("GitStatus")
       end,
       desc = "[G]it [S]tatus",
-    },
-    {
-      "<leader>gca",
-      function()
-        vim.cmd("GitCommitAmend")
-      end,
-      desc = "[G]it [C]ommit [A]mend",
-    },
-    {
-      "<leader>gcw",
-      function()
-        vim.cmd("GitCommitWip")
-      end,
-      desc = "[G]it [C]ommit [W]IP",
     },
   },
   init = function()

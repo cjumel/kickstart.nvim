@@ -6,6 +6,12 @@ local create_user_cmd = function()
   vim.api.nvim_create_user_command("GitCommit", function()
     vim.cmd("Dispatch git commit --no-edit")
   end, { desc = "Git commit" })
+  vim.api.nvim_create_user_command("GitCommitAmend", function()
+    vim.cmd("Dispatch! git commit --amend --no-edit")
+  end, { desc = "Git commit amend" })
+  vim.api.nvim_create_user_command("GitCommitWip", function()
+    vim.cmd("Dispatch! git commit --no-verify --message '🚧 WIP'")
+  end, { desc = "Git commit WIP" })
 
   vim.api.nvim_create_user_command("PrecommitRunAllFiles", function()
     vim.cmd("Dispatch! pre-commit run --all-files")
@@ -45,6 +51,8 @@ return {
     "Dispatch",
     "Copen",
     "GitCommit",
+    "GitCommitAmend",
+    "GitCommitWip",
     "PrecommitRunAllFiles",
     "PrecommitRunCurrentFile",
     "PoetryInstall",
@@ -62,6 +70,20 @@ return {
         vim.cmd("GitCommit")
       end,
       desc = "[G]it [C]ommit with [M]essage",
+    },
+    {
+      "<leader>gca",
+      function()
+        vim.cmd("GitCommitAmend")
+      end,
+      desc = "[G]it [C]ommit [A]mend",
+    },
+    {
+      "<leader>gcw",
+      function()
+        vim.cmd("GitCommitWip")
+      end,
+      desc = "[G]it [C]ommit [W]IP",
     },
   },
   init = function()
