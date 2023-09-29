@@ -19,6 +19,9 @@ local create_user_cmd = function()
   vim.api.nvim_create_user_command("PrecommitRunCurrentFile", function()
     vim.cmd("Dispatch! pre-commit run --files %")
   end, { desc = "Pre-commit run on the current file" })
+  vim.api.nvim_create_user_command("PrecommitAutoupdate", function()
+    vim.cmd("Dispatch! pre-commit autoupdate")
+  end, { desc = "Pre-commit auto-update" })
 
   vim.api.nvim_create_user_command("PoetryInstall", function()
     vim.cmd("Dispatch! poetry install")
@@ -55,6 +58,7 @@ return {
     "GitCommitWip",
     "PrecommitRunAllFiles",
     "PrecommitRunCurrentFile",
+    "PrecommitAutoupdate",
     "PoetryInstall",
     "PoetryUpdate",
     "PythonCurrentFile",
