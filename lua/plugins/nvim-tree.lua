@@ -43,7 +43,10 @@ return {
       api.config.mappings.default_on_attach(bufnr)
 
       -- custom mappings
-      vim.keymap.set("n", "=", api.node.open.edit, opts("Open"))
+      vim.keymap.set("n", "o", api.node.open.no_window_picker, opts("Open"))
+      vim.keymap.set("n", "=", api.node.open.no_window_picker, opts("Open"))
+      vim.keymap.set("n", "<CR>", api.node.open.no_window_picker, opts("Open"))
+      vim.keymap.set("n", "O", api.node.open.edit, opts("Open (Window Picker)"))
       vim.keymap.set("n", "-", api.node.navigate.parent_close, opts("Close Parent"))
     end,
     renderer = {
