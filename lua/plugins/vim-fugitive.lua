@@ -4,10 +4,12 @@
 -- git integration.
 
 local create_user_cmd = function()
+  -- Status
   vim.api.nvim_create_user_command("GitStatus", function()
     vim.cmd("Git")
   end, { desc = "Git status" })
 
+  -- Stash
   vim.api.nvim_create_user_command("GitStash", function()
     vim.cmd("Git stash")
   end, { desc = "Git stash" })
@@ -15,6 +17,7 @@ local create_user_cmd = function()
     vim.cmd("Git stash pop")
   end, { desc = "Git stash pop" })
 
+  -- Rebase
   vim.api.nvim_create_user_command("GitRebaseMain", function()
     vim.cmd("Git rebase main")
   end, { desc = "Git rebase main" })
@@ -28,6 +31,7 @@ local create_user_cmd = function()
     vim.cmd("Git rebase --continue")
   end, { desc = "Git rebase continue" })
 
+  -- Reset
   vim.api.nvim_create_user_command("GitResetLast", function()
     vim.cmd("Git reset HEAD~1")
   end, { desc = "Git reset last commit" })
@@ -42,19 +46,25 @@ end
 return {
   "tpope/vim-fugitive",
   cmd = {
+    -- General
     "Git",
+    -- Status
     "GitStatus",
+    -- Stash
     "GitStash",
     "GitStashPop",
+    -- Rebase
     "GitRebaseMain",
     "GitRebaseMainInteractive",
     "GitRebaseAbort",
     "GitRebaseContinue",
+    -- Reset
     "GitResetLast",
     "GitResetSoftLast",
     "GitResetHardLast",
   },
   keys = {
+    -- Status
     {
       "<leader>gs",
       function()
