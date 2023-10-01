@@ -10,17 +10,23 @@ local create_user_cmd = function()
   vim.api.nvim_create_user_command("GitCommitAmend", function()
     vim.cmd("Dispatch! git commit --amend --no-edit")
   end, { desc = "Git commit amend" })
+  vim.api.nvim_create_user_command("GitCommitFixup", function()
+    vim.cmd("Dispatch! git commit --message '🚧 FIXUP'")
+  end, { desc = "Git commit fixup" })
   vim.api.nvim_create_user_command("GitCommitWip", function()
     vim.cmd("Dispatch! git commit --no-verify --message '🚧 WIP'")
   end, { desc = "Git commit WIP" })
 
   -- Pre-commit
-  vim.api.nvim_create_user_command("PrecommitRunAllFiles", function()
-    vim.cmd("Dispatch! pre-commit run --all-files")
-  end, { desc = "Pre-commit run on all files" })
   vim.api.nvim_create_user_command("PrecommitRunCurrentFile", function()
     vim.cmd("Dispatch! pre-commit run --files %")
   end, { desc = "Pre-commit run on the current file" })
+  vim.api.nvim_create_user_command("PrecommitRunCurrentDirectory", function()
+    vim.cmd("Dispatch! pre-commit run --files **/*")
+  end, { desc = "Pre-commit run on the current directory" })
+  vim.api.nvim_create_user_command("PrecommitRunAllFiles", function()
+    vim.cmd("Dispatch! pre-commit run --all-files")
+  end, { desc = "Pre-commit run on all files" })
   vim.api.nvim_create_user_command("PrecommitAutoupdate", function()
     vim.cmd("Dispatch! pre-commit autoupdate")
   end, { desc = "Pre-commit auto-update" })
@@ -62,10 +68,12 @@ return {
     -- Git commit
     "GitCommit",
     "GitCommitAmend",
+    "GitCommitFixup",
     "GitCommitWip",
     -- Pre-commit
-    "PrecommitRunAllFiles",
     "PrecommitRunCurrentFile",
+    "PrecommitRunCurrentDirectory",
+    "PrecommitRunAllFiles",
     "PrecommitAutoupdate",
     -- Poetry
     "PoetryInstall",
@@ -93,7 +101,7 @@ return {
       function()
         vim.cmd("GitCommit")
       end,
-      desc = "[G]it [C]ommit with [M]essage",
+      desc = "[G]it [C]o[M]mit",
     },
     {
       "<leader>gca",
@@ -101,6 +109,13 @@ return {
         vim.cmd("GitCommitAmend")
       end,
       desc = "[G]it [C]ommit [A]mend",
+    },
+    {
+      "<leader>gcf",
+      function()
+        vim.cmd("GitCommitFixup")
+      end,
+      desc = "[G]it [C]ommit [F]ixup",
     },
     {
       "<leader>gcw",

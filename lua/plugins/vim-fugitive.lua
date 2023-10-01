@@ -17,7 +17,24 @@ local create_user_cmd = function()
     vim.cmd("Git stash pop")
   end, { desc = "Git stash pop" })
 
+  -- Add
+  vim.api.nvim_create_user_command("GitAddCurrentFile", function()
+    vim.cmd("Git add %")
+  end, { desc = "Git add current file" })
+  vim.api.nvim_create_user_command("GitAddCurrentDirectory", function()
+    vim.cmd("Git add .")
+  end, { desc = "Git add current directory" })
+  vim.api.nvim_create_user_command("GitAddAll", function()
+    vim.cmd("Git add --all")
+  end, { desc = "Git add all" })
+
   -- Rebase
+  vim.api.nvim_create_user_command("GitRebase", function(opts)
+    vim.cmd("Git rebase " .. opts.args)
+  end, { nargs = 1, desc = "Git rebase" })
+  vim.api.nvim_create_user_command("GitRebaseInteractive", function(opts)
+    vim.cmd("Git rebase " .. opts.args .. " --interactive")
+  end, { nargs = 1, desc = "Git rebase interactive" })
   vim.api.nvim_create_user_command("GitRebaseMain", function()
     vim.cmd("Git rebase main")
   end, { desc = "Git rebase main" })
@@ -53,7 +70,13 @@ return {
     -- Stash
     "GitStash",
     "GitStashPop",
+    -- Add
+    "GitAddCurrentFile",
+    "GitAddCurrentDirectory",
+    "GitAddAll",
     -- Rebase
+    "GitRebase",
+    "GitRebaseInteractive",
     "GitRebaseMain",
     "GitRebaseMainInteractive",
     "GitRebaseAbort",
