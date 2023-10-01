@@ -32,21 +32,24 @@ local create_user_cmd = function()
   vim.api.nvim_create_user_command("GitRebase", function(opts)
     vim.cmd("Git rebase " .. opts.args)
   end, { nargs = 1, desc = "Git rebase" })
-  vim.api.nvim_create_user_command("GitRebaseInteractive", function(opts)
-    vim.cmd("Git rebase " .. opts.args .. " --interactive")
-  end, { nargs = 1, desc = "Git rebase interactive" })
   vim.api.nvim_create_user_command("GitRebaseMain", function()
     vim.cmd("Git rebase main")
   end, { desc = "Git rebase main" })
-  vim.api.nvim_create_user_command("GitRebaseMainInteractive", function()
-    vim.cmd("Git rebase main --interactive")
-  end, { desc = "Git rebase main interactive" })
+  vim.api.nvim_create_user_command("GitRebaseInteractive", function(opts)
+    vim.cmd("Git rebase --interactive " .. opts.args)
+  end, { nargs = 1, desc = "Git rebase interactive" })
+  vim.api.nvim_create_user_command("GitRebaseInteractiveMain", function()
+    vim.cmd("Git rebase --interactive main")
+  end, { desc = "Git rebase interactive main" })
   vim.api.nvim_create_user_command("GitRebaseAbort", function()
     vim.cmd("Git rebase --abort")
   end, { desc = "Git rebase abort" })
   vim.api.nvim_create_user_command("GitRebaseContinue", function()
     vim.cmd("Git rebase --continue")
   end, { desc = "Git rebase continue" })
+  vim.api.nvim_create_user_command("GitRebaseSkip", function()
+    vim.cmd("Git rebase --skip")
+  end, { desc = "Git rebase skip" })
 
   -- Reset
   vim.api.nvim_create_user_command("GitResetLast", function()
@@ -76,11 +79,12 @@ return {
     "GitAddAll",
     -- Rebase
     "GitRebase",
-    "GitRebaseInteractive",
     "GitRebaseMain",
-    "GitRebaseMainInteractive",
+    "GitRebaseInteractive",
+    "GitRebaseInteractiveMain",
     "GitRebaseAbort",
     "GitRebaseContinue",
+    "GitRebaseSkip",
     -- Reset
     "GitResetLast",
     "GitResetSoftLast",
