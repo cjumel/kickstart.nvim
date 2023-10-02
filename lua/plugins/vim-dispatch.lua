@@ -2,6 +2,10 @@
 --
 -- Dispatch commands like tests or builds asynchronously.
 
+local function is_empty_string(s)
+  return s == nil or s == ""
+end
+
 local create_user_cmd = function()
   -- Git commit
   vim.api.nvim_create_user_command("GitCommit", function()
@@ -18,12 +22,16 @@ local create_user_cmd = function()
   end, { desc = "Git commit WIP" })
 
   -- Pre-commit
-  vim.api.nvim_create_user_command("PrecommitRunCurrentFile", function()
+  vim.api.nvim_create_user_command("PrecommitRunFile", function()
     vim.cmd("Dispatch! pre-commit run --files %")
-  end, { desc = "Pre-commit run on the current file" })
-  vim.api.nvim_create_user_command("PrecommitRunCurrentDirectory", function()
-    vim.cmd("Dispatch! pre-commit run --files **/*")
-  end, { desc = "Pre-commit run on the current directory" })
+  end, { desc = "Pre-commit run on current file" })
+  vim.api.nvim_create_user_command("PrecommitRunDirectory", function(opts)
+    if not is_empty_string(opts.args) then
+      vim.cmd("Dispatch! pre-commit run --files " .. opts.args .. "/**/*")
+    else
+      vim.cmd("Dispatch! pre-commit run --files ./**/*")
+    end
+  end, { nargs = "?", desc = "Pre-commit run on a directory (current by default)" })
   vim.api.nvim_create_user_command("PrecommitRunAllFiles", function()
     vim.cmd("Dispatch! pre-commit run --all-files")
   end, { desc = "Pre-commit run on all files" })
@@ -40,9 +48,9 @@ local create_user_cmd = function()
   end, { desc = "Poetry update" })
 
   -- Python
-  vim.api.nvim_create_user_command("PythonCurrentFile", function()
+  vim.api.nvim_create_user_command("PythonRunFile", function()
     vim.cmd("Dispatch python %")
-  end, { desc = "Python on the current file" })
+  end, { desc = "Python run on the current file" })
 
   -- Pytest
   vim.api.nvim_create_user_command("Pytest", function()
@@ -54,7 +62,7 @@ local create_user_cmd = function()
   vim.api.nvim_create_user_command("PytestSlow", function()
     vim.cmd("Dispatch pytest -m 'slow'")
   end, { desc = "Pytest on slow tests" })
-  vim.api.nvim_create_user_command("PytestCurrentFile", function()
+  vim.api.nvim_create_user_command("PytestFile", function()
     vim.cmd("Dispatch pytest %")
   end, { desc = "Pytest on the current file" })
 end
@@ -71,20 +79,20 @@ return {
     "GitCommitFixup",
     "GitCommitWip",
     -- Pre-commit
-    "PrecommitRunCurrentFile",
-    "PrecommitRunCurrentDirectory",
+    "PrecommitRunFile",
+    "PrecommitRunDirectory",
     "PrecommitRunAllFiles",
     "PrecommitAutoupdate",
     -- Poetry
     "PoetryInstall",
     "PoetryUpdate",
     -- Python
-    "PythonCurrentFile",
+    "PythonRunFile",
     -- Pytest
     "Pytest",
     "PytestFast",
     "PytestSlow",
-    "PytestCurrentFile",
+    "PytestFile",
   },
   keys = {
     -- General
