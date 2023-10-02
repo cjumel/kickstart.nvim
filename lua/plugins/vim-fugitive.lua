@@ -3,6 +3,10 @@
 -- Fugitive provides a few git-related features, which make it and gitsigns perfect for a complete
 -- git integration.
 
+local function is_empty_string(s)
+  return s == nil or s == ""
+end
+
 local create_user_cmd = function()
   -- Status
   vim.api.nvim_create_user_command("GitStatus", function()
@@ -30,17 +34,19 @@ local create_user_cmd = function()
 
   -- Rebase
   vim.api.nvim_create_user_command("GitRebase", function(opts)
-    vim.cmd("Git rebase " .. opts.args)
-  end, { nargs = 1, desc = "Git rebase" })
-  vim.api.nvim_create_user_command("GitRebaseMain", function()
-    vim.cmd("Git rebase main")
-  end, { desc = "Git rebase main" })
+    if not is_empty_string(opts.args) then
+      vim.cmd("Git rebase " .. opts.args)
+    else
+      vim.cmd("Git rebase main")
+    end
+  end, { nargs = "?", desc = "Git rebase (on main by default)" })
   vim.api.nvim_create_user_command("GitRebaseInteractive", function(opts)
-    vim.cmd("Git rebase --interactive " .. opts.args)
-  end, { nargs = 1, desc = "Git rebase interactive" })
-  vim.api.nvim_create_user_command("GitRebaseInteractiveMain", function()
-    vim.cmd("Git rebase --interactive main")
-  end, { desc = "Git rebase interactive main" })
+    if not is_empty_string(opts.args) then
+      vim.cmd("Git rebase --interactive " .. opts.args)
+    else
+      vim.cmd("Git rebase --interactive main")
+    end
+  end, { nargs = "?", desc = "Git rebase interactive (on main by default)" })
   vim.api.nvim_create_user_command("GitRebaseAbort", function()
     vim.cmd("Git rebase --abort")
   end, { desc = "Git rebase abort" })
@@ -79,9 +85,7 @@ return {
     "GitAddAll",
     -- Rebase
     "GitRebase",
-    "GitRebaseMain",
     "GitRebaseInteractive",
-    "GitRebaseInteractiveMain",
     "GitRebaseAbort",
     "GitRebaseContinue",
     "GitRebaseSkip",
