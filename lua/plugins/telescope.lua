@@ -195,13 +195,6 @@ return {
       end,
       desc = "[H]elp [T]ags",
     },
-    {
-      "<leader>cs",
-      function()
-        require("telescope.builtin").colorscheme()
-      end,
-      desc = "[C]olor [S]cheme",
-    },
   },
   init = function()
     create_user_cmd()
