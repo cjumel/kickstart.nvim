@@ -29,6 +29,9 @@ require("lazy").setup({ { import = "plugins" } }, {})
 -- Disable neovim intro as it appears very briefly on startup and then disappears
 vim.opt.shortmess:append({ I = true })
 
+-- Display a line between horizontal splits instead of moving the status line
+vim.o.laststatus = 3
+
 -- Set highlight on search
 vim.o.hlsearch = false
 
