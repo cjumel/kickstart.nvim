@@ -121,6 +121,7 @@ return {
       "<leader><leader>",
       function()
         local opts = require("telescope.themes").get_dropdown({
+          winblend = 10,
           previewer = false,
         })
 
@@ -162,6 +163,7 @@ return {
       "<leader>:",
       function()
         require("telescope.builtin").command_history(require("telescope.themes").get_dropdown({
+          winblend = 10,
           previewer = false,
         }))
       end,
@@ -172,6 +174,7 @@ return {
       function()
         require("telescope.builtin").current_buffer_fuzzy_find(
           require("telescope.themes").get_dropdown({
+            winblend = 10,
             previewer = false,
           })
         )

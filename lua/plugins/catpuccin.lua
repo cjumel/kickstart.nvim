@@ -10,7 +10,6 @@ return {
     -- setup must be called before loading
     require("catppuccin").setup({
       flavour = "mocha", -- latte, frappe, macchiato, mocha
-      transparent_background = true, -- disables setting the background color.
       integrations = { -- add highlight groups for popular plugins
         fidget = true,
         harpoon = true,
