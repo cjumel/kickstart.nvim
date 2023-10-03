@@ -58,15 +58,27 @@ local create_user_cmd = function()
   end, { desc = "Git rebase skip" })
 
   -- Reset
-  vim.api.nvim_create_user_command("GitResetLast", function()
-    vim.cmd("Git reset HEAD~1")
-  end, { desc = "Git reset last commit" })
-  vim.api.nvim_create_user_command("GitResetSoftLast", function()
-    vim.cmd("Git reset --soft HEAD~1")
-  end, { desc = "Git reset soft last commit" })
-  vim.api.nvim_create_user_command("GitResetHardLast", function()
-    vim.cmd("Git reset --hard HEAD~1")
-  end, { desc = "Git reset hard last commit" })
+  vim.api.nvim_create_user_command("GitResetMixedLast", function(opts)
+    if not is_empty_string(opts.args) then
+      vim.cmd("Git reset HEAD~" .. opts.args)
+    else
+      vim.cmd("Git reset HEAD~1")
+    end
+  end, { desc = "Git reset mixed the last commits (1 by default)" })
+  vim.api.nvim_create_user_command("GitResetSoftLast", function(opts)
+    if not is_empty_string(opts.args) then
+      vim.cmd("Git reset --soft HEAD~" .. opts.args)
+    else
+      vim.cmd("Git reset --soft HEAD~1")
+    end
+  end, { desc = "Git reset soft the last commits (1 by default)" })
+  vim.api.nvim_create_user_command("GitResetHardLast", function(opts)
+    if not is_empty_string(opts.args) then
+      vim.cmd("Git reset --hard HEAD~" .. opts.args)
+    else
+      vim.cmd("Git reset --hard HEAD~1")
+    end
+  end, { desc = "Git reset hard the last commits (1 by default)" })
 end
 
 return {
@@ -90,7 +102,7 @@ return {
     "GitRebaseContinue",
     "GitRebaseSkip",
     -- Reset
-    "GitResetLast",
+    "GitResetMixedLast",
     "GitResetSoftLast",
     "GitResetHardLast",
   },

@@ -2,10 +2,6 @@
 --
 -- Dispatch commands like tests or builds asynchronously.
 
-local function is_empty_string(s)
-  return s == nil or s == ""
-end
-
 local create_user_cmd = function()
   -- Git commit
   vim.api.nvim_create_user_command("GitCommit", function()
@@ -25,17 +21,13 @@ local create_user_cmd = function()
   vim.api.nvim_create_user_command("PrecommitRunFile", function()
     vim.cmd("Dispatch! pre-commit run --files %")
   end, { desc = "Pre-commit run on current file" })
-  vim.api.nvim_create_user_command("PrecommitRunDirectory", function(opts)
-    if not is_empty_string(opts.args) then
-      vim.cmd("Dispatch! pre-commit run --files " .. opts.args .. "/**/*")
-    else
-      vim.cmd("Dispatch! pre-commit run --files ./**/*")
-    end
-  end, { nargs = "?", desc = "Pre-commit run on a directory (current by default)" })
+  vim.api.nvim_create_user_command("PrecommitRunDirectory", function()
+    vim.cmd("Dispatch! pre-commit run --files ./**/*")
+  end, { desc = "Pre-commit run on current directory" })
   vim.api.nvim_create_user_command("PrecommitRunAllFiles", function()
     vim.cmd("Dispatch! pre-commit run --all-files")
   end, { desc = "Pre-commit run on all files" })
-  vim.api.nvim_create_user_command("PrecommitAutoupdate", function()
+  vim.api.nvim_create_user_command("PrecommitAutoUpdate", function()
     vim.cmd("Dispatch! pre-commit autoupdate")
   end, { desc = "Pre-commit auto-update" })
 
@@ -82,7 +74,7 @@ return {
     "PrecommitRunFile",
     "PrecommitRunDirectory",
     "PrecommitRunAllFiles",
-    "PrecommitAutoupdate",
+    "PrecommitAutoUpdate",
     -- Poetry
     "PoetryInstall",
     "PoetryUpdate",
