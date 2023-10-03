@@ -1,6 +1,7 @@
--- catpuccin
+-- Catppuccin
 --
--- Catpuccin is a color scheme defining different tones as flavors.
+-- Catppuccin is a color scheme compatible with many tools, including neovim, and defining
+-- different tones from light to dark.
 
 local create_user_cmd = function()
   vim.api.nvim_create_user_command("SetLightTheme", function()
