@@ -7,6 +7,12 @@ return {
   name = "catppuccin",
   priority = 1000, -- UI stuff should be loaded first
   config = function()
-    vim.cmd.colorscheme("catppuccin-mocha")
+    -- setup must be called before loading
+    require("catppuccin").setup({
+      flavour = "mocha", -- latte, frappe, macchiato, mocha
+      transparent_background = true, -- disables setting the background color.
+    })
+
+    vim.cmd.colorscheme("catppuccin")
   end,
 }
