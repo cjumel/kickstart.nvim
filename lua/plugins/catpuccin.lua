@@ -11,6 +11,16 @@ return {
     require("catppuccin").setup({
       flavour = "mocha", -- latte, frappe, macchiato, mocha
       transparent_background = true, -- disables setting the background color.
+      integrations = { -- add highlight groups for popular plugins
+        fidget = true,
+        harpoon = true,
+        hop = true,
+        mason = true,
+        noice = true,
+        notify = true,
+        lsp_trouble = true,
+        which_key = true,
+      },
     })
 
     vim.cmd.colorscheme("catppuccin")
