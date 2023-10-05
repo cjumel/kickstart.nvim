@@ -51,32 +51,46 @@ return {
         select = {
           enable = true,
           lookahead = true, -- Automatically jump forward to textobj, similar to targets.vim
-          keymaps = {
-            -- You can use the capture groups defined in textobjects.scm
-            ["af"] = "@function.outer",
-            ["if"] = "@function.inner",
-            ["ac"] = "@class.outer",
-            ["ic"] = "@class.inner",
+          keymaps = { -- You can use the capture groups defined in textobjects.scm
+            -- Class
+            ["ac"] = { query = "@class.outer", desc = "a class" },
+            ["ic"] = { query = "@class.inner", desc = "inner class" },
+
+            -- Function definition
+            ["am"] = { query = "@function.outer", desc = "a function defintion" },
+            ["im"] = { query = "@function.inner", desc = "inner function definition" },
           },
         },
         move = {
           enable = true,
           set_jumps = true, -- whether to set jumps in the jumplist
           goto_next_start = {
-            ["[f"] = "@function.outer",
-            ["[c"] = "@class.outer",
+            -- Class
+            ["[c"] = { query = "@class.outer", desc = "Next class start" },
+
+            -- Function definition
+            ["[m"] = { query = "@function.outer", desc = "Next function definition start" },
           },
           goto_next_end = {
-            ["[F"] = "@function.outer",
-            ["[C"] = "@class.outer",
+            -- Class
+            ["[C"] = { query = "@class.outer", desc = "Next class end" },
+
+            -- Function definition
+            ["[M"] = { query = "@function.outer", desc = "Next function definition end" },
           },
           goto_previous_start = {
-            ["]f"] = "@function.outer",
-            ["]c"] = "@class.outer",
+            -- Class
+            ["]c"] = { query = "@class.outer", desc = "Previous class start" },
+
+            -- Function definition
+            ["]m"] = { query = "@function.outer", desc = "Previous function definition start" },
           },
           goto_previous_end = {
-            ["]F"] = "@function.outer",
-            ["]C"] = "@class.outer",
+            -- Class
+            ["]C"] = { query = "@class.outer", desc = "Previous class end" },
+
+            -- Function definition
+            ["]M"] = { query = "@function.outer", desc = "Previous function definition end" },
           },
         },
       },
