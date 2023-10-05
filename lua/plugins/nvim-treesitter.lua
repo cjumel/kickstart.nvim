@@ -79,9 +79,6 @@ return {
             ["]C"] = "@class.outer",
           },
         },
-        swap = {
-          enable = true,
-        },
       },
     })
   end,
