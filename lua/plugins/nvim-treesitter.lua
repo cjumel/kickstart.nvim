@@ -127,5 +127,12 @@ return {
     -- vim-way: ; goes to the direction you were moving.
     vim.keymap.set({ "n", "x", "o" }, ";", ts_repeat_move.repeat_last_move)
     vim.keymap.set({ "n", "x", "o" }, ",", ts_repeat_move.repeat_last_move_opposite)
+
+    -- Make diagnostic navigation repeatable
+    -- make sure forward function comes first
+    local next_diagnostic_repeat, prev_diagnostic_repeat =
+      ts_repeat_move.make_repeatable_move_pair(vim.diagnostic.goto_next, vim.diagnostic.goto_prev)
+    vim.keymap.set("n", "[d", next_diagnostic_repeat, { desc = "Next diagnostic" })
+    vim.keymap.set("n", "]d", prev_diagnostic_repeat, { desc = "Previous diagnostic" })
   end,
 }
