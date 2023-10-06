@@ -5,6 +5,10 @@
 
 return {
   "lewis6991/gitsigns.nvim",
+  dependencies = {
+    "nvim-treesitter/nvim-treesitter",
+    "nvim-treesitter/nvim-treesitter-textobjects",
+  },
   opts = {
     signs = {
       add = { text = "+" },
@@ -16,25 +20,15 @@ return {
     on_attach = function(bufnr)
       -- Use keymaps very similar to gitsigns and kickstart defaults
 
-      -- Navigation (don't override Fugitive keymaps)
-      vim.keymap.set({ "n", "v" }, "[g", function()
-        if vim.wo.diff then
-          return "]c"
-        end
-        vim.schedule(function()
-          require("gitsigns").next_hunk()
-        end)
-        return "<Ignore>"
-      end, { expr = true, buffer = bufnr, desc = "Next Git hunk" })
-      vim.keymap.set({ "n", "v" }, "]g", function()
-        if vim.wo.diff then
-          return "[c"
-        end
-        vim.schedule(function()
-          require("gitsigns").prev_hunk()
-        end)
-        return "<Ignore>"
-      end, { expr = true, buffer = bufnr, desc = "Previous Git hunk" })
+      -- Navigation (make them repeatable with tree-sitter-objects)
+      local ts_repeat_move = require("nvim-treesitter.textobjects.repeatable_move")
+      -- make sure forward function comes first
+      local next_hunk_repeat, prev_hunk_repeat = ts_repeat_move.make_repeatable_move_pair(
+        require("gitsigns").next_hunk,
+        require("gitsigns").prev_hunk
+      )
+      vim.keymap.set({ "n", "x", "o" }, "[g", next_hunk_repeat, { desc = "Next Git hunk" })
+      vim.keymap.set({ "n", "x", "o" }, "]g", prev_hunk_repeat, { desc = "Previous Git hunk" })
 
       -- Actions
       vim.keymap.set(
