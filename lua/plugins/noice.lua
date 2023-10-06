@@ -11,6 +11,13 @@ return {
     "rcarriga/nvim-notify",
     "nvim-treesitter/nvim-treesitter",
   },
+  keys = {
+    {
+      "<leader>o",
+      "<cmd> Noice dismiss <CR>",
+      desc = "Clear [O]utputs",
+    },
+  },
   opts = {
     lsp = {
       -- override markdown rendering so that **cmp** and other plugins use **Treesitter**
