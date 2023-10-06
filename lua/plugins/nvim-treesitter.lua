@@ -59,6 +59,32 @@ return {
             -- Function definition
             ["am"] = { query = "@function.outer", desc = "a function defintion" },
             ["im"] = { query = "@function.inner", desc = "inner function definition" },
+
+            -- Parameter
+            ["aa"] = { query = "@parameter.outer", desc = "a parameter" },
+            ["ia"] = { query = "@parameter.inner", desc = "inner parameter" },
+
+            -- Function call
+            ["af"] = { query = "@call.outer", desc = "a function call" },
+            ["if"] = { query = "@call.inner", desc = "inner function call" },
+
+            -- Conditional
+            ["ai"] = { query = "@conditional.outer", desc = "a conditional" },
+            ["ii"] = { query = "@conditional.inner", desc = "inner conditional" },
+
+            -- Loop
+            ["al"] = { query = "@loop.outer", desc = "a loop" },
+            ["il"] = { query = "@loop.inner", desc = "inner loop" },
+
+            -- Assignment
+            ["a="] = { query = "@assignment.outer", desc = "an assignment" },
+            ["i="] = { query = "@assignment.inner", desc = "inner assignment" },
+            ["=l"] = { query = "@assignment.lhs", desc = "assignment left hand side" },
+            ["=r"] = { query = "@assignment.rhs", desc = "assignment right hand side" },
+
+            -- Comment
+            ["a#"] = { query = "@comment.outer", desc = "a comment" },
+            ["i#"] = { query = "@comment.inner", desc = "inner comment" },
           },
         },
         move = {
