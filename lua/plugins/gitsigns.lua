@@ -89,13 +89,13 @@ return {
       -- Text object
       vim.keymap.set(
         { "o", "x" },
-        "ih",
+        "ig",
         ":<C-U>Gitsigns select_hunk<CR>",
         { buffer = bufnr, desc = "inner git hunk" }
       )
       vim.keymap.set(
         { "o", "x" },
-        "ah",
+        "ag",
         ":<C-U>Gitsigns select_hunk<CR>",
         { buffer = bufnr, desc = "a git hunk" }
       )
