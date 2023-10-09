@@ -15,7 +15,7 @@ return {
       function()
         require("trouble").open()
       end,
-      { desc = "[T]rouble: [O]pen" },
+      desc = "[T]rouble [O]pen",
     },
 
     -- Diagnostics
