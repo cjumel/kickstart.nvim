@@ -25,14 +25,18 @@ return {
   },
   config = function()
     local cmp = require("cmp")
-    local luasnip = require("luasnip")
-    require("luasnip.loaders.from_vscode").lazy_load()
-    luasnip.config.setup({})
+    local ls = require("luasnip")
+    local ls_from_vscode_loader = require("luasnip.loaders.from_vscode")
+
+    -- Use existing VS Code style snippets from a plugin (eg. rafamadriz/friendly-snippets)
+    ls_from_vscode_loader.lazy_load()
+
+    ls.config.setup({})
 
     cmp.setup({
       snippet = {
         expand = function(args)
-          luasnip.lsp_expand(args.body)
+          ls.lsp_expand(args.body)
         end,
       },
       mapping = cmp.mapping.preset.insert({
