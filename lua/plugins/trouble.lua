@@ -20,18 +20,18 @@ return {
 
     -- Diagnostics
     {
-      "<leader>dl",
+      "<leader>dd",
       function()
         require("trouble").open("document_diagnostics")
       end,
-      desc = "[D]iagnostics: [L]ist in buffer",
+      desc = "[D]iagnostics: in [D]ocument",
     },
     {
-      "<leader>dL",
+      "<leader>dw",
       function()
         require("trouble").open("workspace_diagnostics")
       end,
-      desc = "[D]iagnostics: [L]ist in workspace",
+      desc = "[D]iagnostics: in [W]orkspace",
     },
 
     -- Todo-comments

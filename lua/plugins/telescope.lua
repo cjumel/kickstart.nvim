@@ -36,11 +36,11 @@ return {
   keys = {
     -- General
     {
-      "<leader>tr",
+      "<leader>fr",
       function()
         require("telescope.builtin").resume()
       end,
-      desc = "[T]elescope [R]esume",
+      desc = "[F]ind [R]esume",
     },
 
     -- Find files
