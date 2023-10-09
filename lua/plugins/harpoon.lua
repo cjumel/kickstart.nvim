@@ -23,22 +23,6 @@ return {
       desc = "[H]arpoon: [M]enu",
     },
 
-    -- Next/previous Harpoon file
-    {
-      "[h",
-      function()
-        require("harpoon.ui").nav_next()
-      end,
-      desc = "Next Harpoon file",
-    },
-    {
-      "]h",
-      function()
-        require("harpoon.ui").nav_prev()
-      end,
-      desc = "Previous Harpoon file",
-    },
-
     -- Jump to Harpoon file
     {
       "gh",
