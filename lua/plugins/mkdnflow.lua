@@ -6,22 +6,22 @@ return {
   "jakewvincent/mkdnflow.nvim",
   keys = {
     {
-      "<leader>tt",
+      "<leader>cc",
       "<cmd> MkdnToggleToDo <cr>",
       mode = { "n", "v" },
-      desc = "[T]odo [T]oggle (markdown)",
+      desc = "[C]heckbox [C]heck",
     },
     {
-      "<leader>tf",
+      "<leader>cf",
       "/- [ \\] \\|- [\\-\\] <cr>",
       mode = { "n" },
-      desc = "[T]odo [F]ind (markdown)",
+      desc = "[C]heckbox [F]ind unchecked",
     },
     {
-      "<leader>tF",
+      "<leader>cF",
       "/- [x\\] <cr>",
       mode = { "n" },
-      desc = "[T]odo [F]ind done (markdown)",
+      desc = "[C]heckbox [F]ind checked",
     },
   },
   opts = {
