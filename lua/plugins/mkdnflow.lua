@@ -25,16 +25,13 @@ return {
     },
   },
   opts = {
+    modules = {
+      maps = false, -- Disable all default mappings
+    },
     to_do = {
       -- Using lower "x" enables some synthax highlighting
       symbols = { " ", "-", "x" },
       complete = "x",
     },
-  },
-  mappings = {
-    -- Disable a few default mappings conflicting with other stuff
-    MkdnIncreaseHeading = false,
-    MkdnDecreaseHeading = false,
-    MkdnToggleToDo = false,
   },
 }
