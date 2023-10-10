@@ -35,10 +35,7 @@ return {
 
     -- Add custom snippets
     ls.add_snippets("all", {
-      s(
-        "td", -- todo
-        { t("TODO: ") }
-      ),
+      s("todo", { t("TODO: ") }),
     })
 
     ls.config.setup({})

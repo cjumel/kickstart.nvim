@@ -36,11 +36,11 @@ return {
 
     -- Todo-comments
     {
-      "<leader>td",
+      "<leader>tl",
       function()
         require("trouble").open("todo")
       end,
-      desc = "[T]o-[D]o list",
+      desc = "[T]odo [L]ist",
     },
   },
   opts = {},
