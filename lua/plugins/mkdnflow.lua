@@ -37,4 +37,10 @@ return {
       complete = "x",
     },
   },
+  mappings = {
+    -- Disable a few default mappings conflicting with other stuff
+    MkdnIncreaseHeading = false,
+    MkdnDecreaseHeading = false,
+    MkdnToggleToDo = false,
+  },
 }
