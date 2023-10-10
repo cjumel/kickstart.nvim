@@ -9,19 +9,19 @@ return {
       "<leader>tt",
       "<cmd> MkdnToggleToDo <cr>",
       mode = { "n", "v" },
-      desc = "[T]odo [T]oggle",
+      desc = "[T]odo [T]oggle (markdown)",
     },
     {
       "<leader>tf",
       "/- [ \\] \\|- [\\-\\] <cr>",
       mode = { "n" },
-      desc = "[T]odo [F]ind",
+      desc = "[T]odo [F]ind (markdown)",
     },
     {
       "<leader>tF",
       "/- [x\\] <cr>",
       mode = { "n" },
-      desc = "[T]odo [F]ind (done)",
+      desc = "[T]odo [F]ind done (markdown)",
     },
   },
   opts = {
