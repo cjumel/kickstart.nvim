@@ -12,22 +12,16 @@ return {
       desc = "[T]odo [T]oggle",
     },
     {
-      "<leader>tn",
-      "/[ \\] <cr>",
+      "<leader>tf",
+      "/- [ \\] \\|- [\\-\\] <cr>",
       mode = { "n" },
-      desc = "[T]odo find [N]ot started",
+      desc = "[T]odo [F]ind",
     },
     {
-      "<leader>tw",
-      "/[-\\] <cr>",
+      "<leader>tF",
+      "/- [x\\] <cr>",
       mode = { "n" },
-      desc = "[T]odo find [W]IP",
-    },
-    {
-      "<leader>td",
-      "/[x\\] <cr>",
-      mode = { "n" },
-      desc = "[T]odo find [D]one",
+      desc = "[T]odo [F]ind (done)",
     },
   },
   opts = {
