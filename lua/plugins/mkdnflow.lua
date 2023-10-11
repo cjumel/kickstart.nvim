@@ -16,10 +16,10 @@ local create_user_cmd = function()
     vim.cmd("silent!?- [x\\]")
   end
   local next_heading = function()
-    vim.cmd("MkdnNextHeading")
+    vim.cmd("silent! MkdnNextHeading")
   end
   local previous_heading = function()
-    vim.cmd("MkdnPrevHeading")
+    vim.cmd("silent! MkdnPrevHeading")
   end
 
   local ts_repeat_move = require("nvim-treesitter.textobjects.repeatable_move")
