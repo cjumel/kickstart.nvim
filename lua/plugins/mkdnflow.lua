@@ -135,7 +135,17 @@ return {
 
     require("mkdnflow").setup({
       modules = {
+        bib = false,
+        buffers = false,
+        conceal = false,
+        cursor = true, -- For MkdnNextHeading and MkdnPrevHeading
+        folds = false,
+        links = false,
+        lists = true, -- For MkdnToggleToDo
         maps = false, -- Disable all default mappings
+        paths = false,
+        tables = false,
+        yaml = false,
       },
       wrap = true,
       to_do = {
