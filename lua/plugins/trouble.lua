@@ -43,5 +43,9 @@ return {
       desc = "[T]odo [L]ist",
     },
   },
-  opts = {},
+  opts = {
+    action_keys = {
+      jump = { "<cr>", "=" }, -- jump to the diagnostic or open / close folds
+    },
+  },
 }
