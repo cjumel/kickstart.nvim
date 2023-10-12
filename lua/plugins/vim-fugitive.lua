@@ -135,6 +135,16 @@ return {
     -- Navigate hunks
     vim.api.nvim_create_autocmd(
       "FileType",
+      { command = "nmap <buffer> , [c", group = group, pattern = pattern }
+    )
+    vim.api.nvim_create_autocmd(
+      "FileType",
+      { command = "nmap <buffer> ; ]c", group = group, pattern = pattern }
+    )
+
+    -- Navigate files
+    vim.api.nvim_create_autocmd(
+      "FileType",
       { command = "nmap <buffer> <C-p> (", group = group, pattern = pattern }
     )
     vim.api.nvim_create_autocmd(
