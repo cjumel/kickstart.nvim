@@ -64,11 +64,15 @@ return {
       nmap("gr", function()
         require("trouble").open("lsp_references")
       end, "[G]o to [R]eferences")
-      nmap("gs", require("telescope.builtin").lsp_document_symbols, "[G]o to [S]ymbols in document")
       nmap(
-        "gS",
+        "gsd",
+        require("telescope.builtin").lsp_document_symbols,
+        "[G]o to [S]ymbols in [D]ocument"
+      )
+      nmap(
+        "gsw",
         require("telescope.builtin").lsp_dynamic_workspace_symbols,
-        "[G]o to [S]ymbols in workspace"
+        "[G]o to [S]ymbols in [W]orkspace"
       )
     end
 
