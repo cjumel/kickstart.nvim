@@ -16,6 +16,20 @@ return {
       desc = "[H]arpoon: [A]dd file",
     },
     {
+      "<leader>hr",
+      function()
+        require("harpoon.mark").rm_file()
+      end,
+      desc = "[H]arpoon: [R]emove file",
+    },
+    {
+      "<leader>hc",
+      function()
+        require("harpoon.mark").clear_all()
+      end,
+      desc = "[H]arpoon: [C]lear files",
+    },
+    {
       "<leader>hm",
       function()
         require("harpoon.ui").toggle_quick_menu()
