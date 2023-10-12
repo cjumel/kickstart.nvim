@@ -12,13 +12,17 @@ return {
       "<leader>ha",
       function()
         require("harpoon.mark").add_file()
+        local idx = require("harpoon.mark").get_current_index()
+        print("File " .. idx .. " added to Harpoon!")
       end,
       desc = "[H]arpoon: [A]dd file",
     },
     {
       "<leader>hr",
       function()
+        local idx = require("harpoon.mark").get_current_index()
         require("harpoon.mark").rm_file()
+        print("File " .. idx .. " removed from Harpoon!")
       end,
       desc = "[H]arpoon: [R]emove file",
     },
@@ -26,6 +30,7 @@ return {
       "<leader>hc",
       function()
         require("harpoon.mark").clear_all()
+        print("Harpoon files cleared!")
       end,
       desc = "[H]arpoon: [C]lear files",
     },
