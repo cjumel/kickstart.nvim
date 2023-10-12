@@ -99,5 +99,10 @@ vim.keymap.set("n", "<leader>de", vim.diagnostic.open_float, { desc = "[D]iagnos
 vim.keymap.set("c", "<c-p>", "<up>")
 vim.keymap.set("c", "<c-n>", "<down>")
 
+-- [[ Custom Commands ]]
+vim.api.nvim_create_user_command("QuickNotes", function()
+  vim.cmd("edit ./notes.md")
+end, { desc = "Quick notes in Markdown" })
+
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
