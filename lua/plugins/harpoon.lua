@@ -79,4 +79,17 @@ return {
       desc = "[G]o to harpoon file [M] (5)",
     },
   },
+  config = function()
+    -- Define custom keymaps for quick menu
+    local group = vim.api.nvim_create_augroup("Harpoon Augroup", { clear = true })
+    vim.api.nvim_create_autocmd("FileType", {
+      pattern = "harpoon",
+      group = group,
+      callback = function()
+        vim.keymap.set("n", "=", function()
+          require("harpoon.ui").select_menu_item()
+        end, { noremap = true, silent = true })
+      end,
+    })
+  end,
 }
