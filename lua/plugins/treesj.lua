@@ -22,6 +22,13 @@ return {
       end,
       desc = "[J]oin current node",
     },
+    {
+      "gT",
+      function()
+        require("treesj").toggle()
+      end,
+      desc = "[T]oggle split/join current node",
+    },
   },
   opts = {
     use_default_keymaps = false,
