@@ -73,5 +73,21 @@ return {
       end,
       desc = "[G]o to harpoon file [M] (5)",
     },
+
+    -- Cycle through Harpoon files
+    {
+      "[[",
+      function()
+        require("harpoon.ui").nav_next()
+      end,
+      desc = "Next Harpoon file",
+    },
+    {
+      "]]",
+      function()
+        require("harpoon.ui").nav_prev()
+      end,
+      desc = "Previous Harpoon file",
+    },
   },
 }
