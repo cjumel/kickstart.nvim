@@ -13,9 +13,9 @@ return {
   },
   keys = {
     {
-      "<leader>o",
+      "<leader>cn",
       "<cmd> Noice dismiss <CR>",
-      desc = "Clear [O]utputs",
+      desc = "[C]lear [N]otifications",
     },
   },
   opts = {
