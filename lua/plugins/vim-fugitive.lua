@@ -142,14 +142,14 @@ return {
       { command = "nmap <buffer> ; ]c", group = group, pattern = pattern }
     )
 
-    -- Navigate files
+    -- Navigate sections
     vim.api.nvim_create_autocmd(
       "FileType",
-      { command = "nmap <buffer> <C-p> (", group = group, pattern = pattern }
+      { command = "nmap <buffer> <C-p> [[", group = group, pattern = pattern }
     )
     vim.api.nvim_create_autocmd(
       "FileType",
-      { command = "nmap <buffer> <C-n> )", group = group, pattern = pattern }
+      { command = "nmap <buffer> <C-n> ]]", group = group, pattern = pattern }
     )
 
     -- Open files in split windows
