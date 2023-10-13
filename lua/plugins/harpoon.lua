@@ -7,13 +7,19 @@ return {
   "ThePrimeagen/harpoon",
   dependencies = { "nvim-lua/plenary.nvim" },
   keys = {
-    -- Global Harpoon action
+    -- Harpoon in-file actions
     {
       "<leader>ha",
       function()
-        require("harpoon.mark").add_file()
         local idx = require("harpoon.mark").get_current_index()
-        print("File " .. idx .. " added to Harpoon!")
+        if idx ~= nil then
+          print("File already in Harpoon as file " .. idx)
+          return
+        end
+
+        require("harpoon.mark").add_file()
+        idx = require("harpoon.mark").get_current_index()
+        print("File " .. idx .. " added to Harpoon")
       end,
       desc = "[H]arpoon: [A]dd file",
     },
@@ -21,8 +27,13 @@ return {
       "<leader>hr",
       function()
         local idx = require("harpoon.mark").get_current_index()
+        if idx == nil then
+          print("File not in Harpoon")
+          return
+        end
+
         require("harpoon.mark").rm_file()
-        print("File " .. idx .. " removed from Harpoon!")
+        print("File " .. idx .. " removed from Harpoon")
       end,
       desc = "[H]arpoon: [R]emove file",
     },
@@ -30,10 +41,12 @@ return {
       "<leader>hc",
       function()
         require("harpoon.mark").clear_all()
-        print("Harpoon files cleared!")
+        print("Harpoon files cleared")
       end,
       desc = "[H]arpoon: [C]lear files",
     },
+
+    -- Harpoon menu
     {
       "<leader>hm",
       function()
@@ -48,35 +61,35 @@ return {
       function()
         require("harpoon.ui").nav_file(1)
       end,
-      desc = "[G]o to harpoon file [H] (1)",
+      desc = "Go to Harpoon file 1",
     },
     {
       "gj",
       function()
         require("harpoon.ui").nav_file(2)
       end,
-      desc = "[G]o to harpoon file [J] (2)",
+      desc = "Go to Harpoon file 2",
     },
     {
       "gk",
       function()
         require("harpoon.ui").nav_file(3)
       end,
-      desc = "[G]o to harpoon file [K] (3)",
+      desc = "Go to Harpoon file 3",
     },
     {
       "gl",
       function()
         require("harpoon.ui").nav_file(4)
       end,
-      desc = "[G]o to harpoon file [L] (4)",
+      desc = "Go to Harpoon file 4",
     },
     {
       "gm",
       function()
         require("harpoon.ui").nav_file(5)
       end,
-      desc = "[G]o to harpoon file [M] (5)",
+      desc = "Go to Harpoon file 5",
     },
   },
   config = function()
