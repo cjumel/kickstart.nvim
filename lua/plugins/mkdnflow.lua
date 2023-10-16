@@ -34,32 +34,32 @@ local create_user_cmd = function()
   vim.api.nvim_create_user_command(
     "MkdnGotoNextUncheckedCheckbox",
     next_unchecked_checkbox_repeat,
-    { desc = "Next unchecked checkbox (markdown)" }
+    { desc = "Next unchecked checkbox" }
   )
   vim.api.nvim_create_user_command(
     "MkdnGotoPreviousUncheckedCheckbox",
     previous_unchecked_checkbox_repeat,
-    { desc = "Previous unchecked checkbox (markdown)" }
+    { desc = "Previous unchecked checkbox" }
   )
   vim.api.nvim_create_user_command(
     "MkdnGotoNextCheckedCheckbox",
     next_checked_checkbox_repeat,
-    { desc = "Next checked checkbox (markdown)" }
+    { desc = "Next checked checkbox" }
   )
   vim.api.nvim_create_user_command(
     "MkdnGotoPreviousCheckedCheckbox",
     previous_checked_checkbox_repeat,
-    { desc = "Previous checked checkbox (markdown)" }
+    { desc = "Previous checked checkbox" }
   )
   vim.api.nvim_create_user_command(
     "MkdnGotoNextHeading",
     next_heading_repeat,
-    { desc = "Next heading (markdown)" }
+    { desc = "Next heading" }
   )
   vim.api.nvim_create_user_command(
     "MkdnGotoPreviousHeading",
     previous_heading_repeat,
-    { desc = "Previous heading (markdown)" }
+    { desc = "Previous heading" }
   )
 end
 
@@ -75,6 +75,7 @@ return {
       function()
         vim.cmd("MkdnToggleToDo")
       end,
+      ft = "markdown",
       mode = { "n", "v" },
       desc = "[x] Check checkbox",
     },
@@ -83,48 +84,54 @@ return {
       function()
         vim.cmd("MkdnGotoNextUncheckedCheckbox")
       end,
+      ft = "markdown",
       mode = { "n", "x", "o" },
-      desc = "Next unchecked checkbox (markdown)",
+      desc = "Next unchecked checkbox",
     },
     {
       "]x",
       function()
         vim.cmd("MkdnGotoPreviousUncheckedCheckbox")
       end,
+      ft = "markdown",
       mode = { "n", "x", "o" },
-      desc = "Previous unchecked checkbox (markdown)",
+      desc = "Previous unchecked checkbox",
     },
     {
       "[X",
       function()
         vim.cmd("MkdnGotoNextCheckedCheckbox")
       end,
+      ft = "markdown",
       mode = { "n", "x", "o" },
-      desc = "Next checked checkbox (markdown)",
+      desc = "Next checked checkbox",
     },
     {
       "]X",
       function()
         vim.cmd("MkdnGotoPreviousCheckedCheckbox")
       end,
+      ft = "markdown",
       mode = { "n", "x", "o" },
-      desc = "Previous checked checkbox (markdown)",
+      desc = "Previous checked checkbox",
     },
     {
       "[h",
       function()
         vim.cmd("MkdnGotoNextHeading")
       end,
+      ft = "markdown",
       mode = { "n", "x", "o" },
-      desc = "Next heading (markdown)",
+      desc = "Next heading",
     },
     {
       "]h",
       function()
         vim.cmd("MkdnGotoPreviousHeading")
       end,
+      ft = "markdown",
       mode = { "n", "x", "o" },
-      desc = "Previous heading (markdown)",
+      desc = "Previous heading",
     },
   },
   init = function()
