@@ -18,8 +18,6 @@ return {
       changedelete = { text = "~" },
     },
     on_attach = function(bufnr)
-      -- Use keymaps very similar to gitsigns and kickstart defaults
-
       -- Navigation (make them repeatable with tree-sitter-objects)
       local ts_repeat_move = require("nvim-treesitter.textobjects.repeatable_move")
       -- make sure forward function comes first
@@ -27,8 +25,28 @@ return {
         require("gitsigns").next_hunk,
         require("gitsigns").prev_hunk
       )
+      local next_conflict_marker_repeat, prev_conflict_marker_repeat = ts_repeat_move.make_repeatable_move_pair(
+        function()
+          vim.cmd("silent!/<<<<<<< \\|=======\\|>>>>>>> ")
+        end,
+        function()
+          vim.cmd("silent!?<<<<<<< \\|=======\\|>>>>>>> ")
+        end
+      )
       vim.keymap.set({ "n", "x", "o" }, "[g", next_hunk_repeat, { desc = "Next Git hunk" })
       vim.keymap.set({ "n", "x", "o" }, "]g", prev_hunk_repeat, { desc = "Previous Git hunk" })
+      vim.keymap.set(
+        { "n", "x", "o" },
+        "[G",
+        next_conflict_marker_repeat,
+        { desc = "Next Git conflict marker" }
+      )
+      vim.keymap.set(
+        { "n", "x", "o" },
+        "]G",
+        prev_conflict_marker_repeat,
+        { desc = "Previous Git conflict marker" }
+      )
 
       -- Actions
       vim.keymap.set(
