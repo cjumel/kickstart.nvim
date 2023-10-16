@@ -3,25 +3,11 @@
 -- Catppuccin is a color scheme compatible with many tools, including neovim, and defining
 -- different tones from light to dark.
 
-local create_user_cmd = function()
-  vim.api.nvim_create_user_command("SetLightTheme", function()
-    vim.cmd("set background=light")
-  end, { desc = "Set light theme" })
-  vim.api.nvim_create_user_command("SetDarkTheme", function()
-    vim.cmd("set background=dark")
-  end, { desc = "Set dark theme" })
-end
-
 return {
   "catppuccin/nvim",
   name = "catppuccin",
   priority = 1000, -- UI stuff should be loaded first
-  init = function()
-    create_user_cmd()
-  end,
   config = function()
-    create_user_cmd()
-
     -- setup must be called before loading
     require("catppuccin").setup({
       flavour = "mocha", -- latte, frappe, macchiato, mocha
@@ -42,5 +28,13 @@ return {
     })
 
     vim.cmd.colorscheme("catppuccin")
+
+    -- Commands to switch between light and dark themes
+    vim.api.nvim_create_user_command("SetLightTheme", function()
+      vim.cmd("set background=light")
+    end, { desc = "Set light theme" })
+    vim.api.nvim_create_user_command("SetDarkTheme", function()
+      vim.cmd("set background=dark")
+    end, { desc = "Set dark theme" })
   end,
 }
