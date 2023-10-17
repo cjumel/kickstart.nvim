@@ -9,14 +9,6 @@ return {
   },
   keys = {
     {
-      "<leader>dr",
-      function()
-        require("dap").run_last()
-      end,
-      ft = "python",
-      desc = "[D]ebug: [R]erun",
-    },
-    {
       "<leader>db",
       function()
         require("dap").toggle_breakpoint()
@@ -31,6 +23,22 @@ return {
       end,
       ft = "python",
       desc = "[D]ebug: [C]ontinue",
+    },
+    {
+      "<leader>dr",
+      function()
+        require("dap").run_last()
+      end,
+      ft = "python",
+      desc = "[D]ebug: [R]erun",
+    },
+    {
+      "<leader>dt",
+      function()
+        require("dapui").toggle()
+      end,
+      ft = "python",
+      desc = "[D]ebug: [T]oggle UI",
     },
   },
   config = function()
