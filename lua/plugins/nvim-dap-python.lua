@@ -5,7 +5,9 @@
 
 return {
   "mfussenegger/nvim-dap-python",
-  lazy = true,
+  dependencies = {
+    "mfussenegger/nvim-dap",
+  },
   keys = {
     -- Run Python
     {
@@ -20,7 +22,7 @@ return {
         })
       end,
       ft = "python",
-      desc = "[D]ebug: [P]ython [R]un",
+      desc = "[D]ebug [P]ython: [R]un",
     },
 
     -- Test with Pytest
@@ -30,7 +32,7 @@ return {
         require("dap-python").test_method({ test_runner = "pytest" })
       end,
       ft = "python",
-      desc = "[D]ebug: [P]ython [T]est method",
+      desc = "[D]ebug [P]ython: [T]est method",
     },
     {
       "<leader>dpT",
@@ -45,7 +47,7 @@ return {
         })
       end,
       ft = "python",
-      desc = "[D]ebug: [P]ython [T]est file",
+      desc = "[D]ebug [P]ython: [T]est file",
     },
   },
   config = function()
