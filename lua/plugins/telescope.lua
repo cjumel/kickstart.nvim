@@ -220,6 +220,11 @@ return {
         file_ignore_patterns = {
           ".git/",
         },
+        layout_config = {
+          horizontal = {
+            preview_width = 0.5,
+          },
+        },
       },
     })
 
