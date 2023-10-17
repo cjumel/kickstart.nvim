@@ -197,11 +197,11 @@ return {
     local trouble = require("trouble.providers.telescope")
     require("telescope").setup({
       defaults = {
-        n = {
-          ["="] = actions.select_default,
-          ["<c-t>"] = trouble.open_with_trouble,
-        },
         mappings = {
+          n = {
+            ["="] = actions.select_default,
+            ["<c-t>"] = trouble.open_with_trouble,
+          },
           i = {
             ["<c-t>"] = trouble.open_with_trouble,
           },
