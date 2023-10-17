@@ -24,8 +24,6 @@ return {
       ft = "python",
       desc = "[D]ebug: [B]reakpoint",
     },
-
-    -- Debugging setup
     {
       "<leader>dc",
       function()
@@ -33,24 +31,6 @@ return {
       end,
       ft = "python",
       desc = "[D]ebug: [C]ontinue",
-    },
-
-    -- State inspection
-    {
-      "<leader>dK",
-      function()
-        require("dap.ui.widgets").hover()
-      end,
-      ft = "python",
-      desc = "[D]ebug: [K] hover",
-    },
-    {
-      "<leader>do",
-      function()
-        require("dap").repl.open()
-      end,
-      ft = "python",
-      desc = "[D]ebug: [O]pen console",
     },
   },
   config = function()
