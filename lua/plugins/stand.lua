@@ -18,6 +18,7 @@ return {
     {
       "<leader>sn",
       function()
+        print("Stand timer restarting")
         vim.cmd("StandNow")
       end,
       desc = "[S]tand [N]ow",
@@ -28,13 +29,6 @@ return {
         vim.cmd("StandWhen")
       end,
       desc = "[S]tand [W]hen",
-    },
-    {
-      "<leader>sd",
-      function()
-        vim.cmd("StandDisable")
-      end,
-      desc = "[S]tand [D]isable",
     },
   },
   opts = {
