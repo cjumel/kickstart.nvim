@@ -32,6 +32,6 @@ return {
     },
   },
   opts = {
-    minute_interval = 50,
+    minute_interval = 25, -- pomodoro-style default
   },
 }
