@@ -74,7 +74,7 @@ vim.api.nvim_create_autocmd("TextYankPost", {
   pattern = "*",
 })
 
--- [[ Basic Keymaps ]]
+-- [[ Core keymaps ]]
 -- Remap for dealing with word wrap
 vim.keymap.set("n", "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
 vim.keymap.set("n", "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
@@ -87,15 +87,14 @@ vim.keymap.set({ "n", "o", "x" }, "G", "G$", { desc = "End of buffer" })
 vim.keymap.set("v", "<tab>", ">gv", { desc = "Indent selection" })
 vim.keymap.set("v", "<s-tab>", "<gv", { desc = "Unindent selection" })
 
--- Diagnostic keymaps
+-- Diagnostics
 vim.keymap.set("n", "<leader>de", vim.diagnostic.open_float, { desc = "[D]iagnostics: [E]xpand" })
 
--- [[ Comand Line keymaps ]]
--- Use <c-p> and <c-n> to navigate through command line history matching the current input
+-- Use <c-p> and <c-n> in command line to navigate through command line history matching the current input
 vim.keymap.set("c", "<c-p>", "<up>")
 vim.keymap.set("c", "<c-n>", "<down>")
 
--- [[ Custom Commands ]]
+-- [[ Core commands ]]
 vim.api.nvim_create_user_command("QuickNotes", function()
   vim.cmd("edit ./notes.md")
 end, { desc = "Quick notes in Markdown" })
