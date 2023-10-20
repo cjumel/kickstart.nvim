@@ -90,14 +90,14 @@ vim.keymap.set("v", "<s-tab>", "<gv", { desc = "Unindent selection" })
 -- Diagnostics
 vim.keymap.set("n", "<leader>de", vim.diagnostic.open_float, { desc = "[D]iagnostics: [E]xpand" })
 
+-- Quick notes
+vim.keymap.set("n", "<leader>qn", function()
+  vim.cmd("edit ./notes.md")
+end, { desc = "[Q]uick [N]otes" })
+
 -- Use <c-p> and <c-n> in command line to navigate through command line history matching the current input
 vim.keymap.set("c", "<c-p>", "<up>")
 vim.keymap.set("c", "<c-n>", "<down>")
-
--- [[ Core commands ]]
-vim.api.nvim_create_user_command("QuickNotes", function()
-  vim.cmd("edit ./notes.md")
-end, { desc = "Quick notes in Markdown" })
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
