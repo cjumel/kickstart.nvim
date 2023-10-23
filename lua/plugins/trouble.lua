@@ -15,7 +15,7 @@ return {
       function()
         require("trouble").open()
       end,
-      desc = "[T]rouble [O]pen",
+      desc = "[T]rouble: [O]pen",
     },
 
     -- Diagnostics
@@ -40,7 +40,7 @@ return {
       function()
         require("trouble").open("todo")
       end,
-      desc = "[T]odo [L]ist",
+      desc = "[T]odo: [L]ist",
     },
   },
   opts = {

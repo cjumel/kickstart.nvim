@@ -23,28 +23,28 @@ return {
       function()
         vim.cmd("GitCommit")
       end,
-      desc = "[G]it [C]o[M]mit",
+      desc = "[G]it: [C]o[M]mit",
     },
     {
       "<leader>gca",
       function()
         vim.cmd("GitCommitAmend")
       end,
-      desc = "[G]it [C]ommit [A]mend",
+      desc = "[G]it: [C]ommit [A]mend",
     },
     {
       "<leader>gcf",
       function()
         vim.cmd("GitCommitFixup")
       end,
-      desc = "[G]it [C]ommit [F]ixup",
+      desc = "[G]it: [C]ommit [F]ixup",
     },
     {
       "<leader>gcw",
       function()
         vim.cmd("GitCommitWip")
       end,
-      desc = "[G]it [C]ommit [W]IP",
+      desc = "[G]it: [C]ommit [W]IP",
     },
   },
   init = function()

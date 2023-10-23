@@ -11,7 +11,7 @@ return {
         require("hop").hint_char2()
       end,
       mode = { "n", "x", "o" },
-      desc = "[S]earch 2 keys with Hop",
+      desc = "Hop: [S]earch with 2 keys",
     },
     {
       "f",
@@ -22,7 +22,7 @@ return {
         })
       end,
       mode = { "n", "x", "o" },
-      desc = "[f] vim key with Hop",
+      desc = "Hop: [f] key",
     },
     {
       "F",
@@ -33,7 +33,7 @@ return {
         })
       end,
       mode = { "n", "x", "o" },
-      desc = "[F] vim key with Hop",
+      desc = "Hop: [F] key",
     },
     {
       "t",
@@ -45,7 +45,7 @@ return {
         })
       end,
       mode = { "n", "x", "o" },
-      desc = "[t] vim key with Hop",
+      desc = "Hop: [t] key",
     },
     {
       "T",
@@ -57,7 +57,7 @@ return {
         })
       end,
       mode = { "n", "x", "o" },
-      desc = "[T] vim key with Hop",
+      desc = "Hop: [T] key",
     },
     {
       "<leader>w",
@@ -68,7 +68,7 @@ return {
         })
       end,
       mode = { "n", "x", "o" },
-      desc = "[w] vim key with Hop",
+      desc = "Hop: [w] key",
     },
     {
       "<leader>b",
@@ -79,7 +79,7 @@ return {
         })
       end,
       mode = { "n", "x", "o" },
-      desc = "[b] vim key with Hop",
+      desc = "Hop: [b] key",
     },
     {
       "<leader>e",
@@ -91,7 +91,7 @@ return {
         })
       end,
       mode = { "n", "x", "o" },
-      desc = "[e] vim key with Hop",
+      desc = "Hop: [e] key",
     },
     {
       "<leader>ge",
@@ -103,32 +103,32 @@ return {
         })
       end,
       mode = { "n", "x", "o" },
-      desc = "[ge] vim keys with Hop",
+      desc = "Hop: [ge] keys",
     },
     {
       "<leader>j",
       "<cmd> HopLineAC <cr>",
       mode = { "n", "x" },
-      desc = "[j] vim key with Hop",
+      desc = "Hop: [j] key",
     },
     {
       "<leader>k",
       "<cmd> HopLineBC <cr>",
       mode = { "n", "x" },
-      desc = "[k] vim key with Hop",
+      desc = "Hop: [k] key",
     },
     -- Make <leader>j and <leader>k work linewise in operator pending mode
     {
       "<leader>j",
       "V<cmd> HopLineAC <cr>",
       mode = { "o" },
-      desc = "[j] vim key with Hop",
+      desc = "Hop: [j] key",
     },
     {
       "<leader>k",
       "V<cmd> HopLineBC <cr>",
       mode = { "o" },
-      desc = "[k] vim key with Hop",
+      desc = "Hop: [k] key",
     },
   },
   opts = {

@@ -19,7 +19,7 @@ return {
       function()
         vim.cmd("GitStatus")
       end,
-      desc = "[G]it [S]tatus",
+      desc = "[G]it: [S]tatus",
     },
   },
   init = function()

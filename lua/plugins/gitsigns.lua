@@ -53,49 +53,43 @@ return {
         "n",
         "<leader>gp",
         require("gitsigns").preview_hunk,
-        { buffer = bufnr, desc = "[G]it [P]review hunk" }
+        { buffer = bufnr, desc = "[G]it: [P]review hunk" }
       )
       vim.keymap.set(
         "n",
         "<leader>ga",
         require("gitsigns").stage_hunk,
-        { buffer = bufnr, desc = "[G]it [A]dd hunk" }
+        { buffer = bufnr, desc = "[G]it: [A]dd hunk" }
       )
       vim.keymap.set("v", "<leader>ga", function()
         require("gitsigns").stage_hunk({ vim.fn.line("."), vim.fn.line("v") })
-      end, { buffer = bufnr, desc = "[G]it [A]dd lines" })
+      end, { buffer = bufnr, desc = "[G]it: [A]dd lines" })
       vim.keymap.set(
         "n",
         "<leader>gA",
         require("gitsigns").stage_buffer,
-        { buffer = bufnr, desc = "[G]it [A]dd buffer" }
+        { buffer = bufnr, desc = "[G]it: [A]dd buffer" }
       )
       vim.keymap.set(
         "n",
         "<leader>gu",
         require("gitsigns").undo_stage_hunk,
-        { buffer = bufnr, desc = "[G]it [U]ndo 'add hunk'" }
+        { buffer = bufnr, desc = "[G]it: [U]ndo 'add hunk'" }
       )
       vim.keymap.set(
         "n",
         "<leader>gr",
         require("gitsigns").reset_hunk,
-        { buffer = bufnr, desc = "[G]it [R]eset hunk" }
+        { buffer = bufnr, desc = "[G]it: [R]eset hunk" }
       )
       vim.keymap.set("v", "<leader>gr", function()
         require("gitsigns").reset_hunk({ vim.fn.line("."), vim.fn.line("v") })
-      end, { buffer = bufnr, desc = "[G]it [R]eset lines" })
+      end, { buffer = bufnr, desc = "[G]it: [R]eset lines" })
       vim.keymap.set(
         "n",
         "<leader>gR",
         require("gitsigns").reset_buffer,
-        { buffer = bufnr, desc = "[G]it [R]eset buffer" }
-      )
-      vim.keymap.set(
-        "n",
-        "<leader>gd",
-        require("gitsigns").toggle_deleted,
-        { buffer = bufnr, desc = "[G]it toggle [D]eleted" }
+        { buffer = bufnr, desc = "[G]it: [R]eset buffer" }
       )
 
       -- Text object

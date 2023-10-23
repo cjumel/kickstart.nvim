@@ -21,14 +21,14 @@ return {
         print("Stand timer restarting")
         vim.cmd("StandNow")
       end,
-      desc = "[S]tand [N]ow",
+      desc = "[S]tand: [N]ow",
     },
     {
       "<leader>sw",
       function()
         vim.cmd("StandWhen")
       end,
-      desc = "[S]tand [W]hen",
+      desc = "[S]tand: [W]hen",
     },
   },
   opts = {

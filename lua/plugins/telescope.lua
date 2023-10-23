@@ -31,7 +31,7 @@ return {
       function()
         require("telescope.builtin").resume()
       end,
-      desc = "[F]ind [R]esume",
+      desc = "[F]ind: [R]esume",
     },
 
     -- Find files
@@ -42,7 +42,7 @@ return {
           find_command = { "rg", "--files", "--hidden" },
         })
       end,
-      desc = "[F]ind [F]iles",
+      desc = "[F]ind: [F]iles",
     },
     {
       "<leader>fa",
@@ -53,42 +53,42 @@ return {
           no_ignore = true,
         })
       end,
-      desc = "[F]ind [A]ll files",
+      desc = "[F]ind: [A]ll files",
     },
     {
       "<leader>fo",
       function()
         require("telescope.builtin").oldfiles()
       end,
-      desc = "[F]ind [O]ld files",
+      desc = "[F]ind: [O]ld files",
     },
     {
       "<leader>fc",
       function()
         require("telescope.builtin").git_status()
       end,
-      desc = "[F]ind [C]hanges",
+      desc = "[F]ind: [C]hanged files",
     },
     {
       "<leader>fb",
       function()
         require("telescope.builtin").buffers()
       end,
-      desc = "[F]ind [B]uffers",
+      desc = "[F]ind: [B]uffers",
     },
     {
       "<leader>fg",
       function()
         require("telescope.builtin").live_grep()
       end,
-      desc = "[F]ind by [G]rep",
+      desc = "[F]ind: by [G]rep",
     },
     {
       "<leader>fw",
       function()
         require("telescope.builtin").grep_string()
       end,
-      desc = "[F]ind [W]ord under the cursor",
+      desc = "[F]ind: [W]ord under the cursor",
     },
 
     -- Git-related
@@ -97,14 +97,14 @@ return {
       function()
         require("telescope.builtin").git_branches()
       end,
-      desc = "[G]it [B]ranches",
+      desc = "[G]it: [B]ranches",
     },
     {
       "<leader>gl",
       function()
         require("telescope.builtin").git_commits()
       end,
-      desc = "[G]it [L]og",
+      desc = "[G]it: [L]og",
     },
 
     -- Vim- or Neovim-related
@@ -173,18 +173,18 @@ return {
       desc = "[/] Find fuzzily in buffer",
     },
     {
-      "<leader>m",
+      "<leader>fk",
       function()
         require("telescope.builtin").keymaps()
       end,
-      desc = "[M]appings",
+      desc = "[F]ind: [K]eymaps",
     },
     {
-      "<leader>ht",
+      "<leader>fh",
       function()
         require("telescope.builtin").help_tags()
       end,
-      desc = "[H]elp [T]ags",
+      desc = "[F]ind: [H]elp tags",
     },
   },
   init = function()

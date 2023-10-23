@@ -15,7 +15,7 @@ return {
     {
       "<leader>n",
       "<cmd> Noice dismiss <CR>",
-      desc = "[N]oice: dismiss",
+      desc = "[N]oice dismiss",
     },
   },
   opts = {
