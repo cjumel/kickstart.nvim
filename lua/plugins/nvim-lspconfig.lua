@@ -52,8 +52,8 @@ return {
           bufnr = bufnr,
         })
       end
-      nmap("<leader>fm", lsp_formatting, "[F]or[M]at")
-      nmap("<leader>rn", vim.lsp.buf.rename, "[R]e[N]ame")
+      nmap("<leader>cf", lsp_formatting, "[C]ode: [F]ormat")
+      nmap("<leader>cr", vim.lsp.buf.rename, "[C]ode: [R]ename")
       nmap("<leader>ca", vim.lsp.buf.code_action, "[C]ode [A]ction")
 
       -- Go to actions
