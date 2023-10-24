@@ -4,10 +4,12 @@
 
 return {
   "nvim-lualine/lualine.nvim",
+  dependencies = {
+    "nvim-tree/nvim-web-devicons",
+  },
   priority = 1000, -- UI stuff should be loaded first
   opts = {
     options = {
-      icons_enabled = false,
       theme = "catppuccin",
       component_separators = "|",
       section_separators = "",
