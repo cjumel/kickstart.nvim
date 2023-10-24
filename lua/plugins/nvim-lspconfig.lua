@@ -21,7 +21,6 @@ return {
     "hrsh7th/cmp-nvim-lsp",
 
     -- For code navigation
-    "folke/trouble.nvim",
     "nvim-telescope/telescope.nvim",
   },
   ft = {
@@ -33,7 +32,7 @@ return {
     local on_attach = function(_, bufnr)
       local nmap = function(keys, func, desc)
         if desc then
-          desc = "LSP: " .. desc
+          desc = desc .. " (LSP)"
         end
         vim.keymap.set("n", keys, func, { buffer = bufnr, desc = desc })
       end
@@ -54,26 +53,23 @@ return {
       end
       nmap("<leader>cf", lsp_formatting, "[C]ode: [F]ormat")
       nmap("<leader>cr", vim.lsp.buf.rename, "[C]ode: [R]ename")
-      nmap("<leader>ca", vim.lsp.buf.code_action, "[C]ode [A]ction")
+      nmap("<leader>ca", vim.lsp.buf.code_action, "[C]ode: [A]ction")
+      nmap(
+        "<leader>cs",
+        require("telescope.builtin").lsp_document_symbols,
+        "[C]ode: [S]ymbols in document"
+      )
+      nmap(
+        "<leader>cS",
+        require("telescope.builtin").lsp_dynamic_workspace_symbols,
+        "[C]ode: [S]ymbols in workspace"
+      )
 
       -- Go to actions
-      nmap("gd", vim.lsp.buf.definition, "[G]o to [D]efinition")
-      nmap("gtd", vim.lsp.buf.type_definition, "[G]o to [T]ype [D]efinition")
-      nmap("gD", vim.lsp.buf.declaration, "[G]o to [D]eclaration")
-      nmap("gi", vim.lsp.buf.implementation, "[G]o to [I]mplementation")
-      nmap("gr", function()
-        require("trouble").open("lsp_references")
-      end, "[G]o to [R]eferences")
-      nmap(
-        "gsd",
-        require("telescope.builtin").lsp_document_symbols,
-        "[G]o to [S]ymbols in [D]ocument"
-      )
-      nmap(
-        "gsw",
-        require("telescope.builtin").lsp_dynamic_workspace_symbols,
-        "[G]o to [S]ymbols in [W]orkspace"
-      )
+      nmap("gd", require("telescope.builtin").lsp_definitions, "[G]oto [D]efinition")
+      nmap("gr", require("telescope.builtin").lsp_references, "[G]oto [R]eferences")
+      nmap("gI", require("telescope.builtin").lsp_implementations, "[G]oto [I]mplementation")
+      nmap("<leader>D", require("telescope.builtin").lsp_type_definitions, "Type [D]efinition")
     end
 
     -- mason-lspconfig requires that these setup functions are called in this order

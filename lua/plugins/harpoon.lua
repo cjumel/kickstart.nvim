@@ -74,35 +74,35 @@ return {
       function()
         go_to_harpoon_file(1)
       end,
-      desc = "Go to Harpoon file 1",
+      desc = "Goto Harpoon file 1",
     },
     {
       "gj",
       function()
         go_to_harpoon_file(2)
       end,
-      desc = "Go to Harpoon file 2",
+      desc = "Goto Harpoon file 2",
     },
     {
       "gk",
       function()
         go_to_harpoon_file(3)
       end,
-      desc = "Go to Harpoon file 3",
+      desc = "Goto Harpoon file 3",
     },
     {
       "gl",
       function()
         go_to_harpoon_file(4)
       end,
-      desc = "Go to Harpoon file 4",
+      desc = "Goto Harpoon file 4",
     },
     {
       "gm",
       function()
         go_to_harpoon_file(5)
       end,
-      desc = "Go to Harpoon file 5",
+      desc = "Goto Harpoon file 5",
     },
   },
   config = function()
