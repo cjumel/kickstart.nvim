@@ -64,17 +64,8 @@ vim.o.completeopt = "menuone,noselect"
 -- Use true colors in terminal
 vim.o.termguicolors = true
 
--- Highlight on yank
-local highlight_group = vim.api.nvim_create_augroup("YankHighlight", { clear = true })
-vim.api.nvim_create_autocmd("TextYankPost", {
-  callback = function()
-    vim.highlight.on_yank()
-  end,
-  group = highlight_group,
-  pattern = "*",
-})
+-- [[ Basic keymaps ]]
 
--- [[ Core keymaps ]]
 -- Remap for dealing with word wrap
 vim.keymap.set("n", "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
 vim.keymap.set("n", "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
@@ -98,6 +89,16 @@ end, { desc = "[Q]uick: [N]otes" })
 -- Use <c-p> and <c-n> in command line to navigate through command line history matching the current input
 vim.keymap.set("c", "<c-p>", "<up>")
 vim.keymap.set("c", "<c-n>", "<down>")
+
+-- [[ Highlight on yank ]]
+local highlight_group = vim.api.nvim_create_augroup("YankHighlight", { clear = true })
+vim.api.nvim_create_autocmd("TextYankPost", {
+  callback = function()
+    vim.highlight.on_yank()
+  end,
+  group = highlight_group,
+  pattern = "*",
+})
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
