@@ -76,6 +76,11 @@ return {
       )
     end
 
+    -- mason-lspconfig requires that these setup functions are called in this order
+    -- before setting up the servers.
+    require("mason").setup()
+    require("mason-lspconfig").setup()
+
     -- Enable the following language servers. They will automatically be installed.
     -- Add any additional override configuration in the following tables. They will be passed to
     -- the `settings` field of the server config. If you want to override the default filetypes that
