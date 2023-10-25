@@ -84,14 +84,6 @@ vim.keymap.set("v", "<s-tab>", "<gv", { desc = "Unindent selection" })
 -- Diagnostics
 vim.keymap.set("n", "<leader>de", vim.diagnostic.open_float, { desc = "[D]iagnostics: [E]xpand" })
 
--- Light theme
-vim.keymap.set("n", "<leader>le", function()
-  vim.cmd("set background=light")
-end, { desc = "[L]ight theme: enable" })
-vim.keymap.set("n", "<leader>ld", function()
-  vim.cmd("set background=dark")
-end, { desc = "[L]ight theme: disable" })
-
 -- Quick notes
 vim.keymap.set("n", "<leader>qn", function()
   vim.cmd("edit ./notes.md")

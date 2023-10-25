@@ -17,7 +17,6 @@ return {
       ["<leader>g"] = { name = "[G]it", _ = "which_key_ignore" },
       ["<leader>gc"] = { name = "[G]it [C]ommit", _ = "which_key_ignore" },
       ["<leader>h"] = { name = "[H]arpoon", _ = "which_key_ignore" },
-      ["<leader>l"] = { name = "[L]ight theme", _ = "which_key_ignore" },
       ["<leader>q"] = { name = "[Q]uick", _ = "which_key_ignore" },
       ["<leader>s"] = { name = "[S]tand", _ = "which_key_ignore" },
       ["<leader>t"] = { name = "[T]odo/[T]rouble", _ = "which_key_ignore" },
