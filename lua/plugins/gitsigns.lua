@@ -6,7 +6,6 @@
 return {
   "lewis6991/gitsigns.nvim",
   dependencies = {
-    "nvim-treesitter/nvim-treesitter",
     "nvim-treesitter/nvim-treesitter-textobjects",
   },
   event = { "BufNewFile", "BufReadPre" },

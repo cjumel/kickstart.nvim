@@ -5,7 +5,6 @@
 return {
   "jakewvincent/mkdnflow.nvim",
   dependencies = {
-    "nvim-treesitter/nvim-treesitter",
     "nvim-treesitter/nvim-treesitter-textobjects",
   },
   cmd = {
