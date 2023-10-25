@@ -1,6 +1,4 @@
 -- [[ Leader key ]]
--- Unmap <space>
-vim.keymap.set({ "n", "v" }, "<Space>", "<Nop>", { silent = true })
 
 -- Set <space> as the leader key; it must happen before plugins are required
 vim.g.mapleader = " "
@@ -65,6 +63,8 @@ vim.o.completeopt = "menuone,noselect"
 vim.o.termguicolors = true
 
 -- [[ Basic keymaps ]]
+
+vim.keymap.set({ "n", "v" }, "<Space>", "<Nop>", { silent = true })
 
 -- Remap for dealing with word wrap
 vim.keymap.set("n", "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })

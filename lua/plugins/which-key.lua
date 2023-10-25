@@ -4,8 +4,7 @@
 
 return {
   "folke/which-key.nvim",
-  cmd = { "WhichKey" },
-  keys = { "<leader>", "<c-r>", '"', "'", "`", "d", "c", "y", "v", "g", "[", "]" },
+  event = "VeryLazy",
   config = function()
     require("which-key").setup({})
 
