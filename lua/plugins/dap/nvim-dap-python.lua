@@ -1,6 +1,6 @@
 -- nvim-dap-python
 --
--- Python integration of nimv-dap. This plugins defines a few configurations and some functions
+-- Python integration of nvim-dap. This plugins defines a few configurations and some functions
 -- to make debugging Python code easier.
 
 return {
@@ -27,15 +27,15 @@ return {
 
     -- Test with Pytest
     {
-      "<leader>dpt",
+      "<leader>dpm",
       function()
         require("dap-python").test_method({ test_runner = "pytest" })
       end,
       ft = "python",
-      desc = "[D]ebug [P]ython: [T]est method",
+      desc = "[D]ebug [P]ython: test [M]ethod",
     },
     {
-      "<leader>dpT",
+      "<leader>dpf",
       function()
         require("dap").run({
           type = "python",
@@ -47,7 +47,7 @@ return {
         })
       end,
       ft = "python",
-      desc = "[D]ebug [P]ython: [T]est file",
+      desc = "[D]ebug [P]ython: test [F]ile",
     },
   },
   config = function()

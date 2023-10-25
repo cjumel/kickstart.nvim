@@ -33,12 +33,12 @@ return {
       desc = "[D]ebug: [R]erun",
     },
     {
-      "<leader>dt",
+      "<leader>du",
       function()
         require("dapui").toggle()
       end,
       ft = "python",
-      desc = "[D]ebug: [T]oggle UI",
+      desc = "[D]ebug: toggle [U]I",
     },
   },
   config = function()
