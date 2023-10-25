@@ -28,13 +28,5 @@ return {
     })
 
     vim.cmd.colorscheme("catppuccin")
-
-    -- Commands to switch between light and dark themes
-    vim.api.nvim_create_user_command("ThemeLight", function()
-      vim.cmd("set background=light")
-    end, { desc = "Set light theme" })
-    vim.api.nvim_create_user_command("ThemeDark", function()
-      vim.cmd("set background=dark")
-    end, { desc = "Set dark theme" })
   end,
 }
