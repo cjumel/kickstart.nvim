@@ -20,6 +20,7 @@ return {
       ["<leader>q"] = { name = "[Q]uick", _ = "which_key_ignore" },
       ["<leader>s"] = { name = "[S]tand", _ = "which_key_ignore" },
       ["<leader>t"] = { name = "[T]odo/[T]rouble", _ = "which_key_ignore" },
+      ["<leader>u"] = { name = "[U]I", _ = "which_key_ignore" },
     })
   end,
 }

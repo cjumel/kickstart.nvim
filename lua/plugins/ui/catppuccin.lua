@@ -5,9 +5,6 @@
 
 return {
   "catppuccin/nvim",
-  dependencies = {
-    "folke/which-key.nvim",
-  },
   name = "catppuccin",
   priority = 1000, -- Main UI stuff should be loaded first
   config = function()
@@ -31,10 +28,6 @@ return {
     })
 
     vim.cmd.colorscheme("catppuccin")
-
-    require("which-key").register({
-      ["<leader>u"] = { name = "[U]I", _ = "which_key_ignore" },
-    })
 
     vim.keymap.set("n", "<leader>ud", function()
       vim.cmd("set background=dark")
