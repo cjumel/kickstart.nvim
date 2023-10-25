@@ -7,7 +7,7 @@ return {
   dependencies = {
     "nvim-tree/nvim-web-devicons",
   },
-  priority = 1000, -- UI stuff should be loaded first
+  priority = 1000, -- Main UI stuff should be loaded first
   opts = {
     options = {
       theme = "catppuccin",

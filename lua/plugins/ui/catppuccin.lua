@@ -6,7 +6,7 @@
 return {
   "catppuccin/nvim",
   name = "catppuccin",
-  priority = 1000, -- UI stuff should be loaded first
+  priority = 1000, -- Main UI stuff should be loaded first
   config = function()
     -- setup must be called before loading
     require("catppuccin").setup({

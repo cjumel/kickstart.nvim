@@ -19,8 +19,11 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
--- Automatically add your plugins, configuration, etc from `lua/plugins/*.lua`
-require("lazy").setup({ { import = "plugins" } }, {})
+-- Automatically add your plugins, configuration, etc from `lua/plugins/` directory
+require("lazy").setup({
+  { import = "plugins.ui" },
+  { import = "plugins" },
+}, {})
 
 -- [[ Setting options ]]
 
