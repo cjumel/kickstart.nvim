@@ -21,6 +21,7 @@ vim.opt.rtp:prepend(lazypath)
 
 -- Automatically add your plugins, configuration, etc from `lua/plugins/` directory
 require("lazy").setup({
+  { import = "plugins.dap" },
   { import = "plugins.ui" },
   { import = "plugins" },
 }, {})
