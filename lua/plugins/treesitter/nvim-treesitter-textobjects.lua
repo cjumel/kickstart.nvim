@@ -11,6 +11,7 @@ end
 
 return {
   "nvim-treesitter/nvim-treesitter-textobjects",
+  event = { "BufNewFile", "BufReadPre" },
   config = function()
     local ts_repeat_move = require("nvim-treesitter.textobjects.repeatable_move")
 

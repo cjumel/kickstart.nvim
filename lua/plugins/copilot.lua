@@ -5,7 +5,7 @@
 
 return {
   "github/copilot.vim",
-  event = "InsertEnter",
+  event = { "BufNewFile", "BufReadPre" },
   config = function()
     local AcceptOneWord = function()
       vim.fn["copilot#Accept"]("")

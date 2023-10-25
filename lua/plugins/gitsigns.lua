@@ -9,6 +9,7 @@ return {
     "nvim-treesitter/nvim-treesitter",
     "nvim-treesitter/nvim-treesitter-textobjects",
   },
+  event = { "BufNewFile", "BufReadPre" },
   opts = {
     signs = {
       add = { text = "+" },

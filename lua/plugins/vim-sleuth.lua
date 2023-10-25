@@ -4,5 +4,5 @@
 
 return {
   "tpope/vim-sleuth",
-  lazy = false, -- This must not be lazy, otherwise it would break the indent line
+  event = { "BufNewFile", "BufReadPre" },
 }

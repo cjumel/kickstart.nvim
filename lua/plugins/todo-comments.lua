@@ -10,7 +10,7 @@ return {
     "nvim-treesitter/nvim-treesitter",
     "nvim-treesitter/nvim-treesitter-textobjects",
   },
-  lazy = false,
+  event = { "BufNewFile", "BufReadPre" },
   config = function()
     require("todo-comments").setup({
       sign_priority = 1,
