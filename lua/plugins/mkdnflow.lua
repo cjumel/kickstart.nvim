@@ -14,13 +14,13 @@ return {
   },
   keys = {
     {
-      "<leader>x",
+      "<leader>m",
       function()
         vim.cmd("MkdnToggleToDo")
       end,
       ft = "markdown",
       mode = { "n", "v" },
-      desc = "[x] Check checkbox",
+      desc = "[M]ark checkbox",
     },
     {
       "[x",

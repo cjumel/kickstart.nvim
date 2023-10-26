@@ -11,34 +11,30 @@ return {
   },
   keys = {
     {
-      "<leader>to",
+      "<leader>xx",
       function()
-        require("trouble").open()
+        require("trouble").toggle()
       end,
-      desc = "[T]rouble: [O]pen",
-    },
-
-    -- Diagnostics
-    {
-      "<leader>dd",
-      function()
-        require("trouble").open("document_diagnostics")
-      end,
-      desc = "[D]iagnostics: in [D]ocument",
+      desc = "[X] Trouble: [X] toggle",
     },
     {
-      "<leader>dw",
+      "<leader>xd",
       function()
-        require("trouble").open("workspace_diagnostics")
+        require("trouble").toggle("document_diagnostics")
       end,
-      desc = "[D]iagnostics: in [W]orkspace",
+      desc = "[X] Trouble: [D]ocument diagnostics",
     },
-
-    -- Todo-comments
+    {
+      "<leader>xw",
+      function()
+        require("trouble").toggle("workspace_diagnostics")
+      end,
+      desc = "[X] Trouble: [W]orkspace diagnostics",
+    },
     {
       "<leader>tl",
       function()
-        require("trouble").open("todo")
+        require("trouble").toggle("todo")
       end,
       desc = "[T]odo: [L]ist",
     },
