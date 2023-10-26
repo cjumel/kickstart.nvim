@@ -84,7 +84,7 @@ vim.keymap.set("v", "<tab>", ">gv", { desc = "Indent selection" })
 vim.keymap.set("v", "<s-tab>", "<gv", { desc = "Unindent selection" })
 
 -- Diagnostics
-vim.keymap.set("n", "<leader>de", vim.diagnostic.open_float, { desc = "[D]iagnostics: [E]xpand" })
+vim.keymap.set("n", "<leader>?", vim.diagnostic.open_float, { desc = "[?] Expand diagnostic" })
 
 -- Quick notes
 vim.keymap.set("n", "<leader>qn", function()
