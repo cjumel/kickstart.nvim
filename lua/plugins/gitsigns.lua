@@ -15,6 +15,7 @@ return {
   "lewis6991/gitsigns.nvim",
   dependencies = {
     "nvim-treesitter/nvim-treesitter-textobjects",
+    "trouble.nvim",
   },
   event = { "BufNewFile", "BufReadPre" },
   opts = {
@@ -59,6 +60,12 @@ return {
         gs.reset_hunk({ vim.fn.line("."), vim.fn.line("v") })
       end, { desc = "Git: reset lines" })
       map("n", "<leader>gR", gs.reset_buffer, { desc = "[G]it: [R]eset buffer" })
+      map("n", "<leader>gd", gs.diffthis, { desc = "[G]it: [D]iff with index" })
+      map("n", "<leader>gD", function()
+        gs.diffthis("~")
+      end, { desc = "[G]it: [D]iff with last commit" })
+      -- The following command uses Trouble if available
+      map("n", "<leader>gt", ":Gitsigns setqflist<CR>", { desc = "[G]it: [T]rouble" })
 
       -- Text object
       map({ "o", "x" }, "ig", ":<C-U>Gitsigns select_hunk<CR>", { desc = "inner Git hunk" })
