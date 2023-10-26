@@ -47,17 +47,17 @@ return {
       map({ "n", "x", "o" }, "]G", prev_conflict_repeat, { desc = "Previous Git conflict" })
 
       -- Action keymaps
-      map("n", "<leader>gp", gs.preview_hunk, { desc = "[G]it: [P]review hunk" })
-      map("n", "<leader>ga", gs.stage_hunk, { desc = "[G]it: [A]dd hunk" })
-      map("v", "<leader>ga", function()
+      map("n", "<TAB>", gs.preview_hunk, { desc = "Git: preview hunk" })
+      map("n", "<CR>", gs.stage_hunk, { desc = "Git: add hunk" })
+      map("v", "<CR>", function()
         gs.stage_hunk({ vim.fn.line("."), vim.fn.line("v") })
-      end, { desc = "[G]it: [A]dd lines" })
-      map("n", "<leader>gA", gs.stage_buffer, { desc = "[G]it: [A]dd buffer" })
+      end, { desc = "Git: add lines" })
+      map("n", "<leader>ga", gs.stage_buffer, { desc = "[G]it: [A]dd buffer" })
       map("n", "<leader>gu", gs.undo_stage_hunk, { desc = "[G]it: [U]ndo 'add hunk'" })
-      map("n", "<leader>gr", gs.reset_hunk, { desc = "[G]it: [R]eset hunk" })
-      map("v", "<leader>gr", function()
+      map("n", "<BS>", gs.reset_hunk, { desc = "Git: reset hunk" })
+      map("v", "<BS>", function()
         gs.reset_hunk({ vim.fn.line("."), vim.fn.line("v") })
-      end, { desc = "[G]it: [R]eset lines" })
+      end, { desc = "Git: reset lines" })
       map("n", "<leader>gR", gs.reset_buffer, { desc = "[G]it: [R]eset buffer" })
 
       -- Text object
