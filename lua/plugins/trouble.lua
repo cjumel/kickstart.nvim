@@ -7,7 +7,6 @@ return {
   "folke/trouble.nvim",
   dependencies = {
     "nvim-tree/nvim-web-devicons",
-    "folke/todo-comments.nvim", -- Add a 'todo' source
   },
   keys = {
     {
@@ -30,13 +29,6 @@ return {
         require("trouble").toggle("workspace_diagnostics")
       end,
       desc = "[X] Trouble: [W]orkspace diagnostics",
-    },
-    {
-      "<leader>tl",
-      function()
-        require("trouble").toggle("todo")
-      end,
-      desc = "[T]odo: [L]ist",
     },
   },
   opts = {
