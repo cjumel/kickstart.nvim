@@ -3,6 +3,14 @@
 -- Super fast git decorations and utilities implemented purely in Lua, which make it and fugitive
 -- perfect for a complete git integration.
 
+local conflict_marker = "<<<<<<< \\|=======\\|>>>>>>> "
+local next_conflict = function()
+  vim.cmd("silent!/" .. conflict_marker)
+end
+local prev_conflict = function()
+  vim.cmd("silent!?" .. conflict_marker)
+end
+
 return {
   "lewis6991/gitsigns.nvim",
   dependencies = {
@@ -18,93 +26,43 @@ return {
       changedelete = { text = "~" },
     },
     on_attach = function(bufnr)
-      -- Navigation (make them repeatable with tree-sitter-objects)
-      local ts_repeat_move = require("nvim-treesitter.textobjects.repeatable_move")
-      -- make sure forward function comes first
-      local next_hunk_repeat, prev_hunk_repeat = ts_repeat_move.make_repeatable_move_pair(
-        require("gitsigns").next_hunk,
-        require("gitsigns").prev_hunk
-      )
-      local next_conflict_marker_repeat, prev_conflict_marker_repeat = ts_repeat_move.make_repeatable_move_pair(
-        function()
-          vim.cmd("silent!/<<<<<<< \\|=======\\|>>>>>>> ")
-        end,
-        function()
-          vim.cmd("silent!?<<<<<<< \\|=======\\|>>>>>>> ")
-        end
-      )
-      vim.keymap.set({ "n", "x", "o" }, "[g", next_hunk_repeat, { desc = "Next Git hunk" })
-      vim.keymap.set({ "n", "x", "o" }, "]g", prev_hunk_repeat, { desc = "Previous Git hunk" })
-      vim.keymap.set(
-        { "n", "x", "o" },
-        "[G",
-        next_conflict_marker_repeat,
-        { desc = "Next Git conflict marker" }
-      )
-      vim.keymap.set(
-        { "n", "x", "o" },
-        "]G",
-        prev_conflict_marker_repeat,
-        { desc = "Previous Git conflict marker" }
-      )
+      local gs = package.loaded.gitsigns
+      local function map(mode, l, r, opts)
+        opts = opts or {}
+        opts.buffer = bufnr
+        vim.keymap.set(mode, l, r, opts)
+      end
 
-      -- Actions
-      vim.keymap.set(
-        "n",
-        "<leader>gp",
-        require("gitsigns").preview_hunk,
-        { buffer = bufnr, desc = "[G]it: [P]review hunk" }
-      )
-      vim.keymap.set(
-        "n",
-        "<leader>ga",
-        require("gitsigns").stage_hunk,
-        { buffer = bufnr, desc = "[G]it: [A]dd hunk" }
-      )
-      vim.keymap.set("v", "<leader>ga", function()
-        require("gitsigns").stage_hunk({ vim.fn.line("."), vim.fn.line("v") })
-      end, { buffer = bufnr, desc = "[G]it: [A]dd lines" })
-      vim.keymap.set(
-        "n",
-        "<leader>gA",
-        require("gitsigns").stage_buffer,
-        { buffer = bufnr, desc = "[G]it: [A]dd buffer" }
-      )
-      vim.keymap.set(
-        "n",
-        "<leader>gu",
-        require("gitsigns").undo_stage_hunk,
-        { buffer = bufnr, desc = "[G]it: [U]ndo 'add hunk'" }
-      )
-      vim.keymap.set(
-        "n",
-        "<leader>gr",
-        require("gitsigns").reset_hunk,
-        { buffer = bufnr, desc = "[G]it: [R]eset hunk" }
-      )
-      vim.keymap.set("v", "<leader>gr", function()
-        require("gitsigns").reset_hunk({ vim.fn.line("."), vim.fn.line("v") })
-      end, { buffer = bufnr, desc = "[G]it: [R]eset lines" })
-      vim.keymap.set(
-        "n",
-        "<leader>gR",
-        require("gitsigns").reset_buffer,
-        { buffer = bufnr, desc = "[G]it: [R]eset buffer" }
-      )
+      -- Make navigation functions repeatable
+      local ts_repeat_move = require("nvim-treesitter.textobjects.repeatable_move")
+      local next_hunk_repeat, prev_hunk_repeat =
+        ts_repeat_move.make_repeatable_move_pair(gs.next_hunk, gs.prev_hunk)
+      local next_conflict_repeat, prev_conflict_repeat =
+        ts_repeat_move.make_repeatable_move_pair(next_conflict, prev_conflict)
+
+      -- Navigation keymaps
+      map({ "n", "x", "o" }, "[g", next_hunk_repeat, { desc = "Next Git hunk" })
+      map({ "n", "x", "o" }, "]g", prev_hunk_repeat, { desc = "Previous Git hunk" })
+      map({ "n", "x", "o" }, "[G", next_conflict_repeat, { desc = "Next Git conflict" })
+      map({ "n", "x", "o" }, "]G", prev_conflict_repeat, { desc = "Previous Git conflict" })
+
+      -- Action keymaps
+      map("n", "<leader>gp", gs.preview_hunk, { desc = "[G]it: [P]review hunk" })
+      map("n", "<leader>ga", gs.stage_hunk, { desc = "[G]it: [A]dd hunk" })
+      map("v", "<leader>ga", function()
+        gs.stage_hunk({ vim.fn.line("."), vim.fn.line("v") })
+      end, { desc = "[G]it: [A]dd lines" })
+      map("n", "<leader>gA", gs.stage_buffer, { desc = "[G]it: [A]dd buffer" })
+      map("n", "<leader>gu", gs.undo_stage_hunk, { desc = "[G]it: [U]ndo 'add hunk'" })
+      map("n", "<leader>gr", gs.reset_hunk, { desc = "[G]it: [R]eset hunk" })
+      map("v", "<leader>gr", function()
+        gs.reset_hunk({ vim.fn.line("."), vim.fn.line("v") })
+      end, { desc = "[G]it: [R]eset lines" })
+      map("n", "<leader>gR", gs.reset_buffer, { desc = "[G]it: [R]eset buffer" })
 
       -- Text object
-      vim.keymap.set(
-        { "o", "x" },
-        "ig",
-        ":<C-U>Gitsigns select_hunk<CR>",
-        { buffer = bufnr, desc = "inner git hunk" }
-      )
-      vim.keymap.set(
-        { "o", "x" },
-        "ag",
-        ":<C-U>Gitsigns select_hunk<CR>",
-        { buffer = bufnr, desc = "a git hunk" }
-      )
+      map({ "o", "x" }, "ig", ":<C-U>Gitsigns select_hunk<CR>", { desc = "inner Git hunk" })
+      map({ "o", "x" }, "ag", ":<C-U>Gitsigns select_hunk<CR>", { desc = "a Git hunk" })
     end,
   },
 }
