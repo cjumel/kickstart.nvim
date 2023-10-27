@@ -2,6 +2,25 @@
 --
 -- Mkdnflow is designed for the fluent navigation of documents and notebooks (AKA "wikis") written in markdown.
 
+local next_unchecked_checkbox = function()
+  vim.cmd("silent!/- [ \\] \\|- [\\-\\] ")
+end
+local previous_unchecked_checkbox = function()
+  vim.cmd("silent!?- [ \\] \\|- [\\-\\] ")
+end
+local next_checked_checkbox = function()
+  vim.cmd("silent!/- [x\\]")
+end
+local previous_checked_checkbox = function()
+  vim.cmd("silent!?- [x\\]")
+end
+local next_heading = function()
+  vim.cmd("silent! MkdnNextHeading")
+end
+local previous_heading = function()
+  vim.cmd("silent! MkdnPrevHeading")
+end
+
 return {
   "jakewvincent/mkdnflow.nvim",
   dependencies = {
@@ -77,28 +96,30 @@ return {
       desc = "Previous heading",
     },
   },
-  init = function()
-    local next_unchecked_checkbox = function()
-      vim.cmd("silent!/- [ \\] \\|- [\\-\\] ")
-    end
-    local previous_unchecked_checkbox = function()
-      vim.cmd("silent!?- [ \\] \\|- [\\-\\] ")
-    end
-    local next_checked_checkbox = function()
-      vim.cmd("silent!/- [x\\]")
-    end
-    local previous_checked_checkbox = function()
-      vim.cmd("silent!?- [x\\]")
-    end
-    local next_heading = function()
-      vim.cmd("silent! MkdnNextHeading")
-    end
-    local previous_heading = function()
-      vim.cmd("silent! MkdnPrevHeading")
-    end
+  config = function()
+    require("mkdnflow").setup({
+      modules = {
+        bib = false,
+        buffers = false,
+        conceal = false,
+        cursor = true, -- For MkdnNextHeading and MkdnPrevHeading
+        folds = false,
+        links = false,
+        lists = true, -- For MkdnToggleToDo
+        maps = false, -- Disable all default mappings
+        paths = false,
+        tables = false,
+        yaml = false,
+      },
+      wrap = true,
+      to_do = {
+        -- Using lower "x" enables some synthax highlighting
+        symbols = { " ", "-", "x" },
+        complete = "x",
+      },
+    })
 
     local ts_repeat_move = require("nvim-treesitter.textobjects.repeatable_move")
-    -- make sure forward function comes first
     local next_unchecked_checkbox_repeat, previous_unchecked_checkbox_repeat =
       ts_repeat_move.make_repeatable_move_pair(next_unchecked_checkbox, previous_unchecked_checkbox)
     local next_checked_checkbox_repeat, previous_checked_checkbox_repeat =
@@ -137,25 +158,4 @@ return {
       { desc = "Previous heading" }
     )
   end,
-  opts = {
-    modules = {
-      bib = false,
-      buffers = false,
-      conceal = false,
-      cursor = true, -- For MkdnNextHeading and MkdnPrevHeading
-      folds = false,
-      links = false,
-      lists = true, -- For MkdnToggleToDo
-      maps = false, -- Disable all default mappings
-      paths = false,
-      tables = false,
-      yaml = false,
-    },
-    wrap = true,
-    to_do = {
-      -- Using lower "x" enables some synthax highlighting
-      symbols = { " ", "-", "x" },
-      complete = "x",
-    },
-  },
 }
