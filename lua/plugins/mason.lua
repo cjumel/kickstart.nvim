@@ -11,10 +11,6 @@ return {
     "Mason",
     "MasonInstall",
     "MasonInstallAll", -- Custom command to install all Mason packages (taken from NvChad)
-    "MasonUninstall",
-    "MasonUninstallAll",
-    "MasonUpdate",
-    "MasonLog",
   },
   opts = {
     ensure_installed = {

@@ -21,47 +21,33 @@ return {
     {
       "<leader>gcm",
       function()
-        vim.cmd("GitCommit")
+        vim.cmd("Dispatch git commit --no-edit")
       end,
       desc = "[G]it [C]o[M]mit",
     },
     {
       "<leader>gca",
       function()
-        vim.cmd("GitCommitAmend")
+        vim.cmd("Dispatch! git commit --amend --no-edit")
       end,
       desc = "[G]it [C]ommit: [A]mend",
     },
     {
       "<leader>gcf",
       function()
-        vim.cmd("GitCommitFixup")
+        vim.cmd("Dispatch! git commit --message '🚧 FIXUP'")
       end,
       desc = "[G]it [C]ommit: [F]ixup",
     },
     {
       "<leader>gcw",
       function()
-        vim.cmd("GitCommitWip")
+        vim.cmd("Dispatch! git commit --no-verify --message '🚧 WIP'")
       end,
       desc = "[G]it [C]ommit: [W]IP",
     },
   },
   init = function()
-    -- Git commit
-    vim.api.nvim_create_user_command("GitCommit", function()
-      vim.cmd("Dispatch git commit --no-edit")
-    end, { desc = "Git commit" })
-    vim.api.nvim_create_user_command("GitCommitAmend", function()
-      vim.cmd("Dispatch! git commit --amend --no-edit")
-    end, { desc = "Git commit amend" })
-    vim.api.nvim_create_user_command("GitCommitFixup", function()
-      vim.cmd("Dispatch! git commit --message '🚧 FIXUP'")
-    end, { desc = "Git commit fixup" })
-    vim.api.nvim_create_user_command("GitCommitWip", function()
-      vim.cmd("Dispatch! git commit --no-verify --message '🚧 WIP'")
-    end, { desc = "Git commit WIP" })
-
     -- Pre-commit
     vim.api.nvim_create_user_command("PrecommitRunFile", function()
       vim.cmd("Dispatch! pre-commit run --files %")

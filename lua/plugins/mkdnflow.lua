@@ -26,11 +26,6 @@ return {
   dependencies = {
     "nvim-treesitter/nvim-treesitter-textobjects",
   },
-  cmd = {
-    "MkdnNextHeading",
-    "MkdnPrevHeading",
-    "MkdnToggleToDo",
-  },
   keys = {
     {
       "<leader>m",

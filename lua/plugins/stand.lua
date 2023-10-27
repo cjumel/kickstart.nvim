@@ -7,13 +7,6 @@ return {
   dependencies = {
     "rcarriga/nvim-notify",
   },
-  cmd = {
-    "StandNow",
-    "StandWhen",
-    "StandEvery",
-    "StandDisable",
-    "StandEnable",
-  },
   keys = {
     {
       "<leader>sn",
@@ -29,6 +22,20 @@ return {
         vim.cmd("StandWhen")
       end,
       desc = "[S]tand: [W]hen",
+    },
+    {
+      "<leader>sd",
+      function()
+        vim.cmd("StandDisable")
+      end,
+      desc = "[S]tand: [D]isable",
+    },
+    {
+      "<leader>se",
+      function()
+        vim.cmd("StandEnable")
+      end,
+      desc = "[S]tand: [E]nable",
     },
   },
   opts = {
