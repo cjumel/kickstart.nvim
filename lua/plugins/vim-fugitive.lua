@@ -135,5 +135,11 @@ return {
       "FileType",
       { command = "nmap <buffer> <C-x> o", group = group, pattern = pattern }
     )
+
+    -- Disabling keys
+    vim.api.nvim_create_autocmd(
+      "FileType",
+      { command = "nmap <buffer> - <Nop>", group = group, pattern = pattern }
+    )
   end,
 }
