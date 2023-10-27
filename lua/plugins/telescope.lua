@@ -95,7 +95,14 @@ return {
     {
       "<leader>gb",
       function()
-        require("telescope.builtin").git_branches()
+        local opts = require("telescope.themes").get_dropdown({
+          initial_mode = "normal",
+          layout_config = {
+            anchor = "N", -- Anchor to the top of the screen
+            width = 0.8,
+          },
+        })
+        require("telescope.builtin").git_branches(opts)
       end,
       desc = "[G]it: [B]ranches",
     },
