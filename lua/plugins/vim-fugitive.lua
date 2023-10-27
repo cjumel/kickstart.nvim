@@ -99,47 +99,20 @@ return {
     -- Change keymaps in fugitive buffers
     local group = vim.api.nvim_create_augroup("Fugitive", { clear = false })
     local pattern = { "fugitive", "fugitiveblame" }
+    local function remap(l, r)
+      vim.api.nvim_create_autocmd(
+        "FileType",
+        { command = "nmap <buffer> " .. l .. " " .. r, group = group, pattern = pattern }
+      )
+    end
 
-    -- Quit
-    vim.api.nvim_create_autocmd(
-      "FileType",
-      { command = "nmap <buffer> q gq", group = group, pattern = pattern }
-    )
-
-    -- Navigate hunks
-    vim.api.nvim_create_autocmd(
-      "FileType",
-      { command = "nmap <buffer> , [c", group = group, pattern = pattern }
-    )
-    vim.api.nvim_create_autocmd(
-      "FileType",
-      { command = "nmap <buffer> ; ]c", group = group, pattern = pattern }
-    )
-
-    -- Navigate sections
-    vim.api.nvim_create_autocmd(
-      "FileType",
-      { command = "nmap <buffer> <C-p> [[", group = group, pattern = pattern }
-    )
-    vim.api.nvim_create_autocmd(
-      "FileType",
-      { command = "nmap <buffer> <C-n> ]]", group = group, pattern = pattern }
-    )
-
-    -- Open files in split windows
-    vim.api.nvim_create_autocmd(
-      "FileType",
-      { command = "nmap <buffer> <C-v> gO", group = group, pattern = pattern }
-    )
-    vim.api.nvim_create_autocmd(
-      "FileType",
-      { command = "nmap <buffer> <C-x> o", group = group, pattern = pattern }
-    )
-
-    -- Disabling keys
-    vim.api.nvim_create_autocmd(
-      "FileType",
-      { command = "nmap <buffer> - <Nop>", group = group, pattern = pattern }
-    )
+    remap("q", "gq") -- Quit
+    remap(",", "[c") -- Previous hunk
+    remap(";", "]c") -- Next hunk
+    remap("<C-p>", "[[") -- Previous section
+    remap("<C-n>", "]]") -- Next section
+    remap("<C-v>", "go") -- Open file in vertical split
+    remap("<C-x>", "o") -- Open file in horizontal split
+    remap("-", "<Nop>") -- Disable key
   end,
 }
