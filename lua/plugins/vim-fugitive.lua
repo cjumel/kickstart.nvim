@@ -65,7 +65,7 @@ return {
       vim.cmd("Git rebase --interactive " .. get_value(opts, "main"))
     end, { nargs = "?", desc = "Git rebase interactive <arg> (main by default)" })
     vim.api.nvim_create_user_command("GitRebaseInteractiveOrigin", function(opts)
-      vim.cmd("Git rebase --interactive origin/" .. get_value(opts.args, "main"))
+      vim.cmd("Git rebase --interactive origin/" .. get_value(opts, "main"))
     end, { nargs = "?", desc = "Git rebase interactive origin/<arg> (main by default)" })
     vim.api.nvim_create_user_command("GitRebaseAbort", function()
       vim.cmd("Git rebase --abort")
@@ -79,13 +79,13 @@ return {
 
     -- Reset
     vim.api.nvim_create_user_command("GitResetMixedLast", function(opts)
-      vim.cmd("Git reset HEAD~" .. get_value(opts.args, "1"))
+      vim.cmd("Git reset HEAD~" .. get_value(opts, "1"))
     end, { nargs = "?", desc = "Git reset mixed the last <arg> commits (1 by default)" })
     vim.api.nvim_create_user_command("GitResetSoftLast", function(opts)
-      vim.cmd("Git reset --soft HEAD~" .. get_value(opts.args, "1"))
+      vim.cmd("Git reset --soft HEAD~" .. get_value(opts, "1"))
     end, { nargs = "?", desc = "Git reset soft the last <arg> commits (1 by default)" })
     vim.api.nvim_create_user_command("GitResetHardLast", function(opts)
-      vim.cmd("Git reset --hard HEAD~" .. get_value(opts.args, "1"))
+      vim.cmd("Git reset --hard HEAD~" .. get_value(opts, "1"))
     end, { nargs = "?", desc = "Git reset hard the last <arg> commits (1 by default)" })
   end,
   config = function()
