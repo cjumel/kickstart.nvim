@@ -13,21 +13,15 @@ return {
     "Git",
   },
   keys = {
-    -- Status
     {
       "<leader>gs",
       function()
-        vim.cmd("GitStatus")
+        vim.cmd("Git")
       end,
       desc = "[G]it: [S]tatus",
     },
   },
   init = function()
-    -- Status
-    vim.api.nvim_create_user_command("GitStatus", function()
-      vim.cmd("Git")
-    end, { desc = "Git status" })
-
     -- Stash
     vim.api.nvim_create_user_command("GitStash", function()
       vim.cmd("Git stash")
@@ -35,17 +29,6 @@ return {
     vim.api.nvim_create_user_command("GitStashPop", function()
       vim.cmd("Git stash pop")
     end, { desc = "Git stash pop" })
-
-    -- Add
-    vim.api.nvim_create_user_command("GitAddCurrentFile", function()
-      vim.cmd("Git add %")
-    end, { desc = "Git add current file" })
-    vim.api.nvim_create_user_command("GitAddCurrentDirectory", function()
-      vim.cmd("Git add .")
-    end, { desc = "Git add current directory" })
-    vim.api.nvim_create_user_command("GitAddAll", function()
-      vim.cmd("Git add --all")
-    end, { desc = "Git add all" })
 
     -- Rebase
     vim.api.nvim_create_user_command("GitRebase", function(opts)
