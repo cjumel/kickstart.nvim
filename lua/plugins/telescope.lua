@@ -102,7 +102,14 @@ return {
     {
       "<leader>gl",
       function()
-        require("telescope.builtin").git_commits()
+        local opts = require("telescope.themes").get_dropdown({
+          initial_mode = "normal",
+          layout_config = {
+            anchor = "N", -- Anchor to the top of the screen
+            width = 0.8,
+          },
+        })
+        require("telescope.builtin").git_commits(opts)
       end,
       desc = "[G]it: [L]og",
     },
@@ -189,7 +196,14 @@ return {
   },
   init = function()
     vim.api.nvim_create_user_command("GitStashList", function()
-      require("telescope.builtin").git_stash()
+      local opts = require("telescope.themes").get_dropdown({
+        initial_mode = "normal",
+        layout_config = {
+          anchor = "N", -- Anchor to the top of the screen
+          width = 0.8,
+        },
+      })
+      require("telescope.builtin").git_stash(opts)
     end, { desc = "Git stash list" })
   end,
   config = function()
