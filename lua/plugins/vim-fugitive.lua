@@ -20,6 +20,20 @@ return {
       end,
       desc = "[G]it: [S]tatus",
     },
+    {
+      "<leader>gps",
+      function()
+        vim.cmd("Git push")
+      end,
+      desc = "[G]it: [P]u[S]h",
+    },
+    {
+      "<leader>gpl",
+      function()
+        vim.cmd("Git pull")
+      end,
+      desc = "[G]it: [P]u[L]l",
+    },
   },
   init = function()
     -- Stash
@@ -29,6 +43,9 @@ return {
     vim.api.nvim_create_user_command("GitStashPop", function()
       vim.cmd("Git stash pop")
     end, { desc = "Git stash pop" })
+    vim.api.nvim_create_user_command("GitStashClear", function()
+      vim.cmd("Git stash clear")
+    end, { desc = "Git stash clear" })
 
     -- Rebase
     vim.api.nvim_create_user_command("GitRebase", function(opts)
