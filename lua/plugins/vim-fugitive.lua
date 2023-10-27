@@ -109,6 +109,7 @@ return {
     remap("q", "gq") -- Quit
     remap(",", "[c") -- Previous hunk
     remap(";", "]c") -- Next hunk
+    remap("R", "X") -- Reset changes under the cursor
     remap("<C-p>", "[[") -- Previous section
     remap("<C-n>", "]]") -- Next section
     remap("<C-v>", "go") -- Open file in vertical split
