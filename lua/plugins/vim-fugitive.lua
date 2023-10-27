@@ -6,6 +6,13 @@
 local function is_empty_string(s)
   return s == nil or s == ""
 end
+local function get_value(opts, default)
+  if not is_empty_string(opts.args) then
+    return opts.args
+  else
+    return default
+  end
+end
 
 return {
   "tpope/vim-fugitive",
@@ -49,18 +56,10 @@ return {
 
     -- Rebase
     vim.api.nvim_create_user_command("GitRebase", function(opts)
-      if not is_empty_string(opts.args) then
-        vim.cmd("Git rebase " .. opts.args)
-      else
-        vim.cmd("Git rebase main")
-      end
+      vim.cmd("Git rebase " .. get_value(opts, "main"))
     end, { nargs = "?", desc = "Git rebase (on main by default)" })
     vim.api.nvim_create_user_command("GitRebaseInteractive", function(opts)
-      if not is_empty_string(opts.args) then
-        vim.cmd("Git rebase --interactive " .. opts.args)
-      else
-        vim.cmd("Git rebase --interactive main")
-      end
+      vim.cmd("Git rebase --interactive " .. get_value(opts, "main"))
     end, { nargs = "?", desc = "Git rebase interactive (on main by default)" })
     vim.api.nvim_create_user_command("GitRebaseAbort", function()
       vim.cmd("Git rebase --abort")
@@ -74,25 +73,13 @@ return {
 
     -- Reset
     vim.api.nvim_create_user_command("GitResetMixedLast", function(opts)
-      if not is_empty_string(opts.args) then
-        vim.cmd("Git reset HEAD~" .. opts.args)
-      else
-        vim.cmd("Git reset HEAD~1")
-      end
+      vim.cmd("Git reset HEAD~" .. get_value(opts.args, "1"))
     end, { desc = "Git reset mixed the last commits (1 by default)" })
     vim.api.nvim_create_user_command("GitResetSoftLast", function(opts)
-      if not is_empty_string(opts.args) then
-        vim.cmd("Git reset --soft HEAD~" .. opts.args)
-      else
-        vim.cmd("Git reset --soft HEAD~1")
-      end
+      vim.cmd("Git reset --soft HEAD~" .. get_value(opts.args, "1"))
     end, { desc = "Git reset soft the last commits (1 by default)" })
     vim.api.nvim_create_user_command("GitResetHardLast", function(opts)
-      if not is_empty_string(opts.args) then
-        vim.cmd("Git reset --hard HEAD~" .. opts.args)
-      else
-        vim.cmd("Git reset --hard HEAD~1")
-      end
+      vim.cmd("Git reset --hard HEAD~" .. get_value(opts.args, "1"))
     end, { desc = "Git reset hard the last commits (1 by default)" })
   end,
   config = function()
