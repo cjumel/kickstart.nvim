@@ -84,13 +84,7 @@ return {
     {
       "<leader>gb",
       function()
-        local opts = require("telescope.themes").get_dropdown({
-          initial_mode = "normal",
-          layout_config = {
-            anchor = "N", -- Anchor to the top of the screen
-            width = 0.8,
-          },
-        })
+        local opts = require("plugins.telescope.utils.themes").get_large_dropdown()
         require("telescope.builtin").git_branches(opts)
       end,
       desc = "[G]it: [B]ranches",
@@ -98,13 +92,7 @@ return {
     {
       "<leader>gl",
       function()
-        local opts = require("telescope.themes").get_dropdown({
-          initial_mode = "normal",
-          layout_config = {
-            anchor = "N", -- Anchor to the top of the screen
-            width = 0.8,
-          },
-        })
+        local opts = require("plugins.telescope.utils.themes").get_large_dropdown("normal")
         require("telescope.builtin").git_commits(opts)
       end,
       desc = "[G]it: [L]og",
@@ -114,41 +102,7 @@ return {
     {
       "<leader><leader>",
       function()
-        local opts = require("telescope.themes").get_dropdown({
-          winblend = 10,
-          previewer = false,
-        })
-
-        -- Simplify the display of commands with only name & description
-        local displayer = require("telescope.pickers.entry_display").create({
-          separator = "▏",
-          items = {
-            { width = 0.33 },
-            { remaining = true },
-          },
-        })
-        local make_display = function(entry)
-          return displayer({
-            { entry.name, "TelescopeResultsIdentifier" },
-            entry.definition,
-          })
-        end
-        local entry_maker = function(entry)
-          return {
-            name = entry.name,
-            bang = entry.bang,
-            nargs = entry.nargs,
-            complete = entry.complete,
-            definition = entry.definition,
-            --
-            value = entry,
-            valid = true,
-            ordinal = entry.name,
-            display = make_display,
-          }
-        end
-        opts.entry_maker = entry_maker
-
+        local opts = require("plugins.telescope.utils.themes").get_commands_dropdown()
         require("telescope.builtin").commands(opts)
       end,
       desc = "[ ] Find fuzzily in commands",
@@ -156,22 +110,16 @@ return {
     {
       "<leader>:",
       function()
-        require("telescope.builtin").command_history(require("telescope.themes").get_dropdown({
-          winblend = 10,
-          previewer = false,
-        }))
+        local opts = require("plugins.telescope.utils.themes").get_small_dropdown()
+        require("telescope.builtin").command_history(opts)
       end,
       desc = "[:] Find fuzzily in command history",
     },
     {
       "<leader>/",
       function()
-        require("telescope.builtin").current_buffer_fuzzy_find(
-          require("telescope.themes").get_dropdown({
-            winblend = 10,
-            previewer = false,
-          })
-        )
+        local opts = require("plugins.telescope.utils.themes").get_small_dropdown()
+        require("telescope.builtin").current_buffer_fuzzy_find(opts)
       end,
       desc = "[/] Find fuzzily in buffer",
     },
@@ -192,13 +140,7 @@ return {
   },
   init = function()
     vim.api.nvim_create_user_command("GitStashList", function()
-      local opts = require("telescope.themes").get_dropdown({
-        initial_mode = "normal",
-        layout_config = {
-          anchor = "N", -- Anchor to the top of the screen
-          width = 0.8,
-        },
-      })
+      local opts = require("plugins.telescope.utils.themes").get_large_dropdown("normal")
       require("telescope.builtin").git_stash(opts)
     end, { desc = "Git stash list" })
   end,

@@ -12,13 +12,7 @@ return {
     {
       "<leader>p",
       function()
-        local opts = require("telescope.themes").get_dropdown({
-          initial_mode = "normal",
-          layout_config = {
-            mirror = true, -- make the preview below the prompt and results
-            width = 0.7, -- just enough for the content spec column
-          },
-        })
+        local opts = require("plugins.telescope.utils.themes").get_small_dropdown("normal")
         require("telescope").extensions.neoclip.default(opts)
       end,
       desc = "[P]aste from history",
