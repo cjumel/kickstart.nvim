@@ -23,6 +23,7 @@ vim.opt.rtp:prepend(lazypath)
 require("lazy").setup({
   { import = "plugins.dap" },
   { import = "plugins.edition" },
+  { import = "plugins.telescope" },
   { import = "plugins.treesitter" },
   { import = "plugins.ui" },
   { import = "plugins" },
