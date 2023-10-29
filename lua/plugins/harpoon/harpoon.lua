@@ -3,19 +3,6 @@
 -- Enable harpooning files. Harpooned files can be accessed from anywhere and at all time
 -- with a simple command.
 
-local go_to_harpoon_file = function(id)
-  local idx = require("harpoon.mark").get_index_of(id)
-  if idx == nil then
-    print("No file " .. id .. " in Harpoon")
-    return
-  elseif idx == require("harpoon.mark").get_current_index() then
-    print("Already on Harpoon file " .. idx)
-    return
-  end
-
-  require("harpoon.ui").nav_file(id)
-end
-
 return {
   "ThePrimeagen/harpoon",
   dependencies = { "nvim-lua/plenary.nvim" },
@@ -72,35 +59,35 @@ return {
     {
       "gh",
       function()
-        go_to_harpoon_file(1)
+        require("plugins.harpoon.utils.mark").go_to_harpoon_file(1)
       end,
       desc = "Goto Harpoon file 1",
     },
     {
       "gj",
       function()
-        go_to_harpoon_file(2)
+        require("plugins.harpoon.utils.mark").go_to_harpoon_file(2)
       end,
       desc = "Goto Harpoon file 2",
     },
     {
       "gk",
       function()
-        go_to_harpoon_file(3)
+        require("plugins.harpoon.utils.mark").go_to_harpoon_file(3)
       end,
       desc = "Goto Harpoon file 3",
     },
     {
       "gl",
       function()
-        go_to_harpoon_file(4)
+        require("plugins.harpoon.utils.mark").go_to_harpoon_file(4)
       end,
       desc = "Goto Harpoon file 4",
     },
     {
       "gm",
       function()
-        go_to_harpoon_file(5)
+        require("plugins.harpoon.utils.mark").go_to_harpoon_file(5)
       end,
       desc = "Goto Harpoon file 5",
     },
