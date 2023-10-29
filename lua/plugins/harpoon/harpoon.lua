@@ -11,29 +11,14 @@ return {
     {
       "<leader>ha",
       function()
-        local idx = require("harpoon.mark").get_current_index()
-        if idx ~= nil then
-          print("File already in Harpoon as file " .. idx)
-          return
-        end
-
-        require("harpoon.mark").add_file()
-        idx = require("harpoon.mark").get_current_index()
-        print("File " .. idx .. " added to Harpoon")
+        require("plugins.harpoon.utils.mark").add_harpoon_file()
       end,
       desc = "[H]arpoon: [A]dd file",
     },
     {
       "<leader>hr",
       function()
-        local idx = require("harpoon.mark").get_current_index()
-        if idx == nil then
-          print("File not in Harpoon")
-          return
-        end
-
-        require("harpoon.mark").rm_file()
-        print("File " .. idx .. " removed from Harpoon")
+        require("plugins.harpoon.utils.mark").remove_harpoon_file()
       end,
       desc = "[H]arpoon: [R]emove file",
     },
