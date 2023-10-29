@@ -18,7 +18,7 @@ return {
       ["<leader>gc"] = { name = "[G]it [C]ommit", _ = "which_key_ignore" },
       ["<leader>gp"] = { name = "[G]it [P]...", _ = "which_key_ignore" },
       ["<leader>h"] = { name = "[H]arpoon", _ = "which_key_ignore" },
-      ["<leader>q"] = { name = "[Q]uick", _ = "which_key_ignore" },
+      ["<leader>q"] = { name = "[Q]uick file", _ = "which_key_ignore" },
       ["<leader>s"] = { name = "[S]tand", _ = "which_key_ignore" },
       ["<leader>t"] = { name = "[T]odo", _ = "which_key_ignore" },
       ["<leader>u"] = { name = "[U]I", _ = "which_key_ignore" },

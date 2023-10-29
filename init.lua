@@ -85,10 +85,13 @@ vim.keymap.set("v", "<s-tab>", "<gv", { desc = "Unindent selection" })
 -- Diagnostics
 vim.keymap.set("n", "<leader>?", vim.diagnostic.open_float, { desc = "[?] Expand diagnostic" })
 
--- Quick notes
+-- Quick files
 vim.keymap.set("n", "<leader>qn", function()
   vim.cmd("edit ./notes.md")
-end, { desc = "[Q]uick: [N]otes" })
+end, { desc = "[Q]uick file: [N]otes" })
+vim.keymap.set("n", "<leader>qp", function()
+  vim.cmd("edit ./temp.py")
+end, { desc = "[Q]uick file: [P]ython" })
 
 -- Use <c-p> and <c-n> in command line to navigate through command line history matching the current input
 vim.keymap.set("c", "<c-p>", "<up>")
