@@ -27,7 +27,7 @@ return {
       ["<C-v>"] = "actions.select_vsplit",
       ["<C-x>"] = "actions.select_split",
       ["<C-t>"] = "actions.select_tab",
-      ["<C-p>"] = "actions.preview",
+      ["<tab>"] = "actions.preview",
       ["q"] = "actions.close",
       ["-"] = "actions.parent",
       ["_"] = "actions.open_cwd",
