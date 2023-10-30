@@ -193,6 +193,7 @@ return {
             width = 0.9,
           },
         },
+        path_display = { truncate = 1 },
       },
     })
 
