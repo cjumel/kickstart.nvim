@@ -118,6 +118,7 @@ return {
       "<leader>:",
       function()
         local opts = require("plugins.telescope.utils.themes").get_small_dropdown()
+        opts.filter_fn = require("plugins.telescope.utils.filters").command_history_filter_fn
         require("telescope.builtin").command_history(opts)
       end,
       desc = "[:] Find fuzzily in command history",
