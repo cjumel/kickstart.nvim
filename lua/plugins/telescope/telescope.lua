@@ -33,6 +33,19 @@ return {
       end,
       desc = "[S]earch fuzzily",
     },
+    {
+      "<leader><tab>",
+      function()
+        local opts = require("plugins.telescope.utils.themes").get_small_dropdown()
+        opts.previewer = false
+        opts.initial_mode = "normal"
+        opts.ignore_current_buffer = true
+        opts.only_cwd = true
+        opts.sort_mru = true
+        require("telescope.builtin").buffers(opts)
+      end,
+      desc = "[  ] Buffer switcher",
+    },
 
     -- Find files
     {
@@ -73,13 +86,6 @@ return {
         require("telescope.builtin").git_status({ initial_mode = "normal" })
       end,
       desc = "[F]ind: [C]hanged files",
-    },
-    {
-      "<leader>fb",
-      function()
-        require("telescope.builtin").buffers({ initial_mode = "normal" })
-      end,
-      desc = "[F]ind: [B]uffers",
     },
     {
       "<leader>fg",
