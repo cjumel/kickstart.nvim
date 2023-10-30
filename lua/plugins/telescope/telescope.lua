@@ -55,7 +55,7 @@ return {
     {
       "<leader>fo",
       function()
-        require("telescope.builtin").oldfiles()
+        require("telescope.builtin").oldfiles({ initial_mode = "normal" })
       end,
       desc = "[F]ind: [O]ld files",
     },
