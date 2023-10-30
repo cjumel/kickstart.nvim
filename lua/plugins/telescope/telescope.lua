@@ -86,8 +86,9 @@ return {
     {
       "<leader>fw",
       function()
-        require("telescope.builtin").grep_string()
+        require("telescope.builtin").grep_string({ initial_mode = "normal" })
       end,
+      mode = { "n", "v" },
       desc = "[F]ind: [W]ord under the cursor",
     },
 
