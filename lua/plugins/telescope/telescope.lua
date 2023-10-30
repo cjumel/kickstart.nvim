@@ -193,7 +193,19 @@ return {
             width = 0.9,
           },
         },
-        path_display = { truncate = 1 },
+        path_display = function(opts, path)
+          -- Apply builtin path display options
+          local path_display_opts = {
+            truncate = 1, -- truncate and leave some space with the border
+          }
+          local transform_path = require("telescope.utils").transform_path
+          path = transform_path({ path_display = path_display_opts }, path)
+
+          -- Replace home directory with ~
+          path = string.gsub(path, "/Users/clement", "~")
+
+          return path
+        end,
       },
     })
 
