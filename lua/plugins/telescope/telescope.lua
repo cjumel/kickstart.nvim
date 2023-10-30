@@ -19,11 +19,11 @@ return {
   keys = {
     -- General
     {
-      "<leader>fr",
+      "<leader>F",
       function()
         require("telescope.builtin").resume()
       end,
-      desc = "[F]ind: [R]esume",
+      desc = "[F]ind: resume",
     },
     {
       "S",
