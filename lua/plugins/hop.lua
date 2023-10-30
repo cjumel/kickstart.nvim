@@ -11,7 +11,7 @@ return {
         require("hop").hint_char2()
       end,
       mode = { "n", "x", "o" },
-      desc = "Hop: [S]earch with 2 keys",
+      desc = "[S]earch 2 key patterns (Hop)",
     },
     {
       "f",
@@ -22,7 +22,7 @@ return {
         })
       end,
       mode = { "n", "x", "o" },
-      desc = "Hop: [f] key",
+      desc = "[f]-key style search (Hop)",
     },
     {
       "F",
@@ -33,7 +33,7 @@ return {
         })
       end,
       mode = { "n", "x", "o" },
-      desc = "Hop: [F] key",
+      desc = "[F]-key style search (Hop)",
     },
     {
       "t",
@@ -45,7 +45,7 @@ return {
         })
       end,
       mode = { "n", "x", "o" },
-      desc = "Hop: [t] key",
+      desc = "[t]-key style search (Hop)",
     },
     {
       "T",
@@ -57,7 +57,7 @@ return {
         })
       end,
       mode = { "n", "x", "o" },
-      desc = "Hop: [T] key",
+      desc = "[T]-key style search (Hop)",
     },
     {
       "<leader>w",
@@ -68,7 +68,7 @@ return {
         })
       end,
       mode = { "n", "x", "o" },
-      desc = "Hop: [w] key",
+      desc = "[w]-key style search (Hop)",
     },
     {
       "<leader>b",
@@ -79,7 +79,7 @@ return {
         })
       end,
       mode = { "n", "x", "o" },
-      desc = "Hop: [b] key",
+      desc = "[b]-key style search (Hop)",
     },
     {
       "<leader>e",
@@ -91,7 +91,7 @@ return {
         })
       end,
       mode = { "n", "x", "o" },
-      desc = "Hop: [e] key",
+      desc = "[e]-key style search (Hop)",
     },
     {
       "<leader>ge",
@@ -103,32 +103,32 @@ return {
         })
       end,
       mode = { "n", "x", "o" },
-      desc = "Hop: [ge] keys",
+      desc = "[ge]-keys style search (Hop)",
     },
     {
       "<leader>j",
       "<cmd> HopLineAC <cr>",
       mode = { "n", "x" },
-      desc = "Hop: [j] key",
+      desc = "[j]-key style search (Hop)",
     },
     {
       "<leader>k",
       "<cmd> HopLineBC <cr>",
       mode = { "n", "x" },
-      desc = "Hop: [k] key",
+      desc = "[k]-key style search (Hop)",
     },
     -- Make <leader>j and <leader>k work linewise in operator pending mode
     {
       "<leader>j",
       "V<cmd> HopLineAC <cr>",
       mode = { "o" },
-      desc = "Hop: [j] key",
+      desc = "[j]-key style search (Hop)",
     },
     {
       "<leader>k",
       "V<cmd> HopLineBC <cr>",
       mode = { "o" },
-      desc = "Hop: [k] key",
+      desc = "[k]-key style search (Hop)",
     },
   },
   opts = {

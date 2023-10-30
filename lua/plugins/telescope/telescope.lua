@@ -28,7 +28,7 @@ return {
         local opts = require("plugins.telescope.utils.themes").get_small_dropdown()
         require("telescope.builtin").current_buffer_fuzzy_find(opts)
       end,
-      desc = "[S]earch fuzzily in buffer",
+      desc = "[S]earch fuzzily",
     },
 
     -- Find files
