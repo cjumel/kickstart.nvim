@@ -33,21 +33,8 @@ return {
       end,
       desc = "[S]earch fuzzily",
     },
-    {
-      "<leader><tab>",
-      function()
-        local opts = require("plugins.telescope.utils.themes").get_small_dropdown()
-        opts.previewer = false
-        opts.initial_mode = "normal"
-        opts.ignore_current_buffer = true
-        opts.only_cwd = true
-        opts.sort_mru = true
-        require("telescope.builtin").buffers(opts)
-      end,
-      desc = "[  ] Buffer switcher",
-    },
 
-    -- Find files
+    -- Find files by name
     {
       "<leader>ff",
       function()
@@ -80,6 +67,8 @@ return {
       end,
       desc = "[F]ind: [O]ld files",
     },
+
+    -- Find files by content
     {
       "<leader>fg",
       function()
@@ -124,6 +113,19 @@ return {
 
     -- Vim- or Neovim-related
     {
+      "<leader><tab>",
+      function()
+        local opts = require("plugins.telescope.utils.themes").get_small_dropdown()
+        opts.previewer = false
+        opts.initial_mode = "normal"
+        opts.ignore_current_buffer = true
+        opts.only_cwd = true
+        opts.sort_mru = true
+        require("telescope.builtin").buffers(opts)
+      end,
+      desc = "[  ] Buffer switcher",
+    },
+    {
       "<leader><leader>",
       function()
         local opts = require("plugins.telescope.utils.themes").get_commands_dropdown()
@@ -148,6 +150,8 @@ return {
       end,
       desc = "[/] Find fuzzily in search history",
     },
+
+    -- Help-related
     {
       "<leader>fk",
       function()
