@@ -3,10 +3,6 @@
 -- Python integration of nvim-dap. This plugins defines a few configurations and some functions
 -- to make debugging Python code easier.
 
--- ISSUE: The debugger with pytest don't stop on failures, we need to use a breakpoint to make it stop.
--- TODO: Try neotest (https://github.com/nvim-neotest/neotest), this could solve the issue above, or
--- bring additional features.
-
 return {
   "mfussenegger/nvim-dap-python",
   dependencies = {
@@ -55,9 +51,17 @@ return {
     },
   },
   config = function()
-    require("dap-python").setup(
+    local dap = require("dap")
+    local dap_python = require("dap-python")
+
+    dap_python.setup(
       "~/.local/share/nvim/mason/packages/debugpy/venv/bin/python",
       { include_configs = false, console = "integratedTerminal" }
     )
+
+    -- Enable debugpy to detect errors caught by pytest and break
+    dap.listeners.after.event_initialized["dap_exception_breakpoint"] = function()
+      dap.set_exception_breakpoints({ "userUnhandled" })
+    end
   end,
 }
