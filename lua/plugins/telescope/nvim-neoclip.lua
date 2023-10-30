@@ -15,6 +15,7 @@ return {
         local opts = require("plugins.telescope.utils.themes").get_small_dropdown("normal")
         require("telescope").extensions.neoclip.default(opts)
       end,
+      mode = { "n", "v" },
       desc = "[P]aste from history",
     },
     {
@@ -22,6 +23,7 @@ return {
       function()
         require("neoclip").clear_history()
       end,
+      mode = { "n", "v" },
       desc = "Clear [P]aste history",
     },
   },
