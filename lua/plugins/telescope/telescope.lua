@@ -160,6 +160,7 @@ return {
         mappings = {
           n = {
             ["="] = actions.select_default,
+            ["q"] = actions.close,
             ["<c-t>"] = trouble.open_with_trouble,
           },
           i = {
