@@ -81,13 +81,6 @@ return {
       desc = "[F]ind: [O]ld files",
     },
     {
-      "<leader>fc",
-      function()
-        require("telescope.builtin").git_status({ initial_mode = "normal" })
-      end,
-      desc = "[F]ind: [C]hanged files",
-    },
-    {
       "<leader>fg",
       function()
         require("telescope.builtin").live_grep()
@@ -104,6 +97,14 @@ return {
     },
 
     -- Git-related
+    {
+      "<leader>gf",
+      function()
+        local opts = require("plugins.telescope.utils.themes").get_large_dropdown("normal")
+        require("telescope.builtin").git_status(opts)
+      end,
+      desc = "[G]it: [F]ind modified files",
+    },
     {
       "<leader>gb",
       function()
