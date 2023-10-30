@@ -40,6 +40,7 @@ return {
       function()
         require("telescope.builtin").find_files({
           find_command = { "rg", "--files", "--hidden" },
+          preview = { hide_on_startup = true },
         })
       end,
       desc = "[F]ind: [F]iles",
@@ -51,6 +52,7 @@ return {
           find_command = { "rg", "--files", "--hidden" },
           follow = true,
           no_ignore = true,
+          preview = { hide_on_startup = true },
         })
       end,
       desc = "[F]ind: [A]ll files",
@@ -58,7 +60,10 @@ return {
     {
       "<leader>fo",
       function()
-        require("telescope.builtin").oldfiles({ initial_mode = "normal" })
+        require("telescope.builtin").oldfiles({
+          initial_mode = "normal",
+          preview = { hide_on_startup = true },
+        })
       end,
       desc = "[F]ind: [O]ld files",
     },
