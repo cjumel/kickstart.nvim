@@ -66,8 +66,16 @@ return {
       )
 
       -- Go to actions
-      nmap("gd", require("telescope.builtin").lsp_definitions, "[G]oto [D]efinition")
-      nmap("gr", require("telescope.builtin").lsp_references, "[G]oto [R]eferences")
+      nmap("gd", function()
+        local opts = require("plugins.telescope.utils.themes").get_large_dropdown("normal")
+        opts.show_line = false
+        require("telescope.builtin").lsp_definitions(opts)
+      end, "[G]oto [D]efinition")
+      nmap("gr", function()
+        local opts = require("plugins.telescope.utils.themes").get_large_dropdown("normal")
+        opts.show_line = false
+        require("telescope.builtin").lsp_references(opts)
+      end, "[G]oto [R]eferences")
       nmap("gI", require("telescope.builtin").lsp_implementations, "[G]oto [I]mplementation")
       nmap("<leader>D", require("telescope.builtin").lsp_type_definitions, "Type [D]efinition")
     end
