@@ -65,14 +65,14 @@ return {
     {
       "<leader>fc",
       function()
-        require("telescope.builtin").git_status()
+        require("telescope.builtin").git_status({ initial_mode = "normal" })
       end,
       desc = "[F]ind: [C]hanged files",
     },
     {
       "<leader>fb",
       function()
-        require("telescope.builtin").buffers()
+        require("telescope.builtin").buffers({ initial_mode = "normal" })
       end,
       desc = "[F]ind: [B]uffers",
     },
