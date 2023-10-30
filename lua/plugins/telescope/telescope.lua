@@ -22,6 +22,14 @@ return {
       end,
       desc = "[F]ind: [R]esume",
     },
+    {
+      "S",
+      function()
+        local opts = require("plugins.telescope.utils.themes").get_small_dropdown()
+        require("telescope.builtin").current_buffer_fuzzy_find(opts)
+      end,
+      desc = "[S]earch fuzzily in buffer",
+    },
 
     -- Find files
     {
@@ -119,9 +127,9 @@ return {
       "<leader>/",
       function()
         local opts = require("plugins.telescope.utils.themes").get_small_dropdown()
-        require("telescope.builtin").current_buffer_fuzzy_find(opts)
+        require("telescope.builtin").search_history(opts)
       end,
-      desc = "[/] Find fuzzily in buffer",
+      desc = "[/] Find fuzzily in search history",
     },
     {
       "<leader>fk",
