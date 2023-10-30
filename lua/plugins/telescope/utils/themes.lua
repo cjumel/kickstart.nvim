@@ -3,6 +3,7 @@ local M = {}
 M.get_small_dropdown = function(initial_mode)
   return require("telescope.themes").get_dropdown({
     initial_mode = initial_mode or "insert",
+    previewer = false,
     winblend = 10,
     layout_config = {
       width = 0.7,

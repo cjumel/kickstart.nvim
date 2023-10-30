@@ -116,7 +116,6 @@ return {
       "<leader><tab>",
       function()
         local opts = require("plugins.telescope.utils.themes").get_small_dropdown()
-        opts.previewer = false
         opts.initial_mode = "normal"
         opts.ignore_current_buffer = true
         opts.only_cwd = true
