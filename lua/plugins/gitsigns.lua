@@ -49,7 +49,7 @@ return {
 
       -- Action keymaps
       map("n", "<TAB>", gs.preview_hunk, { desc = "Preview hunk (Git)" })
-      map("n", "<leader>a", gs.stage_hunk, { desc = "[A]dd hunk (git)" })
+      map("n", "<leader>a", gs.stage_hunk, { desc = "[A]dd hunk (Git)" })
       map("v", "<leader>a", function()
         gs.stage_hunk({ vim.fn.line("."), vim.fn.line("v") })
       end, { desc = "[A]dd lines (Git)" })
