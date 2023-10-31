@@ -109,26 +109,25 @@ return {
       "<leader>j",
       "<cmd> HopLineStartAC <cr>",
       mode = { "n", "x" },
-      desc = "[j]-key style search (Hop)",
+      desc = "Search down for line starts (Hop)",
+    },
+    { -- linewise in operator pending mode
+      "<leader>j",
+      "V<cmd> HopLineStartAC <cr>",
+      mode = { "o" },
+      desc = "Search down for line starts (Hop)",
     },
     {
       "<leader>k",
       "<cmd> HopLineStartBC <cr>",
       mode = { "n", "x" },
-      desc = "[k]-key style search (Hop)",
+      desc = "Search up for line starts (Hop)",
     },
-    -- Make <leader>j and <leader>k work linewise in operator pending mode
-    {
-      "<leader>j",
-      "V<cmd> HopLineStartAC <cr>",
-      mode = { "o" },
-      desc = "[j]-key style search (Hop)",
-    },
-    {
+    { -- linewise in operator pending mode
       "<leader>k",
       "V<cmd> HopLineStartBC <cr>",
       mode = { "o" },
-      desc = "[k]-key style search (Hop)",
+      desc = "Search up for line starts (Hop)",
     },
   },
   opts = {
