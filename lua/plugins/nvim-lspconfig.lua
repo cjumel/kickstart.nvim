@@ -39,7 +39,7 @@ return {
 
       -- Documentation
       nmap("K", vim.lsp.buf.hover, "[K] hover documentation")
-      nmap("<leader>K", vim.lsp.buf.signature_help, "[K] signature documentation")
+      nmap("<leader>cs", vim.lsp.buf.signature_help, "[C]ode: [S]ignature help")
 
       -- Code edition
       local lsp_formatting = function()
@@ -55,14 +55,14 @@ return {
       nmap("<leader>cr", vim.lsp.buf.rename, "[C]ode: [R]ename")
       nmap("<leader>ca", vim.lsp.buf.code_action, "[C]ode: [A]ction")
       nmap(
-        "<leader>cs",
+        "<leader>cd",
         require("telescope.builtin").lsp_document_symbols,
-        "[C]ode: [S]ymbols in document"
+        "[C]ode: [D]ocument symbols"
       )
       nmap(
-        "<leader>cS",
+        "<leader>cw",
         require("telescope.builtin").lsp_dynamic_workspace_symbols,
-        "[C]ode: [S]ymbols in workspace"
+        "[C]ode: [W]orkspace symbols"
       )
 
       -- Go to actions
