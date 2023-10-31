@@ -25,7 +25,7 @@ return {
     {
       "<leader>p",
       function()
-        local opts = require("plugins.telescope.utils.themes").get_small_dropdown("normal")
+        local opts = require("plugins.telescope.utils.themes").get_dropdown("normal")
         require("telescope").extensions.neoclip.default(opts)
       end,
       mode = { "n", "v" },

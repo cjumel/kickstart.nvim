@@ -28,7 +28,7 @@ return {
     {
       "S",
       function()
-        local opts = require("plugins.telescope.utils.themes").get_small_dropdown()
+        local opts = require("plugins.telescope.utils.themes").get_dropdown()
         require("telescope.builtin").current_buffer_fuzzy_find(opts)
       end,
       desc = "[S]earch fuzzily",
@@ -89,24 +89,27 @@ return {
     {
       "<leader>gf",
       function()
-        local opts = require("plugins.telescope.utils.themes").get_large_dropdown("normal")
-        require("telescope.builtin").git_status(opts)
+        require("telescope.builtin").git_status({
+          layout_strategy = "vertical",
+          initial_mode = "normal",
+        })
       end,
       desc = "[G]it: [F]ind modified files",
     },
     {
       "<leader>gb",
       function()
-        local opts = require("plugins.telescope.utils.themes").get_large_dropdown()
-        require("telescope.builtin").git_branches(opts)
+        require("telescope.builtin").git_branches({ layout_strategy = "vertical" })
       end,
       desc = "[G]it: [B]ranches",
     },
     {
       "<leader>gl",
       function()
-        local opts = require("plugins.telescope.utils.themes").get_large_dropdown("normal")
-        require("telescope.builtin").git_commits(opts)
+        require("telescope.builtin").git_commits({
+          layout_strategy = "vertical",
+          initial_mode = "normal",
+        })
       end,
       desc = "[G]it: [L]og",
     },
@@ -115,7 +118,7 @@ return {
     {
       "<leader><tab>",
       function()
-        local opts = require("plugins.telescope.utils.themes").get_small_dropdown()
+        local opts = require("plugins.telescope.utils.themes").get_dropdown()
         opts.initial_mode = "normal"
         opts.only_cwd = true
         opts.sort_lastused = true
@@ -135,7 +138,7 @@ return {
     {
       "<leader>:",
       function()
-        local opts = require("plugins.telescope.utils.themes").get_small_dropdown("normal")
+        local opts = require("plugins.telescope.utils.themes").get_dropdown("normal")
         opts.filter_fn = require("plugins.telescope.utils.filters").command_history_filter_fn
         require("telescope.builtin").command_history(opts)
       end,
@@ -144,7 +147,7 @@ return {
     {
       "<leader>/",
       function()
-        local opts = require("plugins.telescope.utils.themes").get_small_dropdown("normal")
+        local opts = require("plugins.telescope.utils.themes").get_dropdown("normal")
         require("telescope.builtin").search_history(opts)
       end,
       desc = "[/] Find fuzzily in search history",
@@ -168,8 +171,10 @@ return {
   },
   init = function()
     vim.api.nvim_create_user_command("GitStashList", function()
-      local opts = require("plugins.telescope.utils.themes").get_large_dropdown("normal")
-      require("telescope.builtin").git_stash(opts)
+      require("telescope.builtin").git_stash({
+        layout_strategy = "vertical",
+        initial_mode = "normal",
+      })
     end, { desc = "Git stash list" })
   end,
   config = function()
@@ -238,6 +243,10 @@ return {
             preview_width = 0.5,
             prompt_position = "top",
             width = 0.9,
+          },
+          vertical = {
+            prompt_position = "top",
+            mirror = true,
           },
         },
         path_display = function(opts, path)

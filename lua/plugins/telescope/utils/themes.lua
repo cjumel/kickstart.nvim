@@ -1,6 +1,6 @@
 local M = {}
 
-M.get_small_dropdown = function(initial_mode)
+M.get_dropdown = function(initial_mode)
   return require("telescope.themes").get_dropdown({
     initial_mode = initial_mode or "insert",
     previewer = false,
@@ -12,7 +12,7 @@ M.get_small_dropdown = function(initial_mode)
 end
 
 M.get_commands_dropdown = function()
-  local opts = M.get_small_dropdown()
+  local opts = M.get_dropdown()
 
   -- Simplify the display of commands with only name & description
   local displayer = require("telescope.pickers.entry_display").create({
@@ -45,16 +45,6 @@ M.get_commands_dropdown = function()
   opts.entry_maker = entry_maker
 
   return opts
-end
-
-M.get_large_dropdown = function(initial_mode)
-  return require("telescope.themes").get_dropdown({
-    initial_mode = initial_mode or "insert",
-    layout_config = {
-      anchor = "N", -- Anchor to the top of the screen
-      width = 0.8,
-    },
-  })
 end
 
 return M

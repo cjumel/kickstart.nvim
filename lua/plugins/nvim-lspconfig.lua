@@ -67,14 +67,18 @@ return {
 
       -- Go to actions
       nmap("gd", function()
-        local opts = require("plugins.telescope.utils.themes").get_large_dropdown("normal")
-        opts.show_line = false
-        require("telescope.builtin").lsp_definitions(opts)
+        require("telescope.builtin").lsp_definitions({
+          layout_strategy = "vertical",
+          initial_mode = "normal",
+          show_line = false,
+        })
       end, "[G]oto [D]efinition")
       nmap("gr", function()
-        local opts = require("plugins.telescope.utils.themes").get_large_dropdown("normal")
-        opts.show_line = false
-        require("telescope.builtin").lsp_references(opts)
+        require("telescope.builtin").lsp_references({
+          layout_strategy = "vertical",
+          initial_mode = "normal",
+          show_line = false,
+        })
       end, "[G]oto [R]eferences")
       nmap("gI", require("telescope.builtin").lsp_implementations, "[G]oto [I]mplementation")
       nmap("<leader>D", require("telescope.builtin").lsp_type_definitions, "Type [D]efinition")
