@@ -178,18 +178,6 @@ return {
     local trouble = require("trouble.providers.telescope")
     require("telescope").setup({
       defaults = {
-        mappings = {
-          n = {
-            ["<tab>"] = actions_layout.toggle_preview,
-            ["="] = actions.select_default,
-            ["q"] = actions.close,
-            ["<c-t>"] = trouble.open_with_trouble,
-          },
-          i = {
-            ["<tab>"] = actions_layout.toggle_preview,
-            ["<c-t>"] = trouble.open_with_trouble,
-          },
-        },
         default_mappings = {
           i = {
             ["<C-n>"] = actions.move_selection_next,
@@ -198,7 +186,9 @@ return {
             ["<CR>"] = actions.select_default,
             ["<C-x>"] = actions.select_horizontal,
             ["<C-v>"] = actions.select_vertical,
+            ["<c-t>"] = trouble.open_with_trouble,
 
+            ["<tab>"] = actions_layout.toggle_preview,
             ["<C-u>"] = actions.preview_scrolling_up,
             ["<C-d>"] = actions.preview_scrolling_down,
 
@@ -208,9 +198,12 @@ return {
 
           n = {
             ["<esc>"] = actions.close,
+            ["q"] = actions.close,
             ["<CR>"] = actions.select_default,
+            ["="] = actions.select_default,
             ["<C-x>"] = actions.select_horizontal,
             ["<C-v>"] = actions.select_vertical,
+            ["<c-t>"] = trouble.open_with_trouble,
 
             ["j"] = actions.move_selection_next,
             ["k"] = actions.move_selection_previous,
@@ -218,6 +211,7 @@ return {
             ["gg"] = actions.move_to_top,
             ["G"] = actions.move_to_bottom,
 
+            ["<tab>"] = actions_layout.toggle_preview,
             ["<C-u>"] = actions.preview_scrolling_up,
             ["<C-d>"] = actions.preview_scrolling_down,
 
