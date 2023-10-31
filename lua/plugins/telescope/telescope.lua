@@ -117,8 +117,8 @@ return {
       function()
         local opts = require("plugins.telescope.utils.themes").get_small_dropdown()
         opts.initial_mode = "normal"
-        opts.ignore_current_buffer = true
         opts.only_cwd = true
+        opts.sort_lastused = true
         opts.sort_mru = true
         require("telescope.builtin").buffers(opts)
       end,
