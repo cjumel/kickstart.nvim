@@ -29,8 +29,8 @@ return {
             },
             n = {
               ["<cr>"] = require("telescope-undo.actions").yank_additions,
+              ["="] = require("telescope-undo.actions").yank_additions,
               ["<bs>"] = require("telescope-undo.actions").yank_deletions,
-              ["="] = require("telescope.actions").nop,
             },
           },
         },

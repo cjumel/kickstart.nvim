@@ -58,7 +58,7 @@ return {
           select = "<cr>",
         },
         n = {
-          select = "<cr>",
+          select = { "<cr>", "=" },
           paste = "p",
           paste_behind = "P",
           delete = "dd",
