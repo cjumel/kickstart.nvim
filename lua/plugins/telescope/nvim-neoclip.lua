@@ -25,8 +25,10 @@ return {
     {
       "<leader>p",
       function()
-        local opts = require("plugins.telescope.utils.themes").get_dropdown("normal")
-        require("telescope").extensions.neoclip.default(opts)
+        require("telescope").extensions.neoclip.default({
+          layout_strategy = "vertical",
+          initial_mode = "normal",
+        })
       end,
       mode = { "n", "v" },
       desc = "[P]aste from history",
