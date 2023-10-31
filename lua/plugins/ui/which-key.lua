@@ -21,7 +21,6 @@ return {
       ["<leader>q"] = { name = "[Q]uick file", _ = "which_key_ignore" },
       ["<leader>s"] = { name = "[S]tand", _ = "which_key_ignore" },
       ["<leader>t"] = { name = "[T]odo", _ = "which_key_ignore" },
-      ["<leader>u"] = { name = "[U]I", _ = "which_key_ignore" },
       ["<leader>x"] = { name = "[X] Trouble", _ = "which_key_ignore" },
     })
   end,

@@ -6,21 +6,7 @@
 return {
   "catppuccin/nvim",
   name = "catppuccin",
-  lazy = false,
   priority = 1000, -- Main UI stuff should be loaded first
-  keys = {
-    {
-      "<leader>ut",
-      function()
-        if vim.o.background == "dark" then
-          vim.cmd("set background=light")
-        else
-          vim.cmd("set background=dark")
-        end
-      end,
-      desc = "[U]I: [T]heme switch ",
-    },
-  },
   config = function()
     -- setup must be called before loading
     require("catppuccin").setup({
@@ -42,5 +28,13 @@ return {
     })
 
     vim.cmd.colorscheme("catppuccin")
+
+    vim.api.nvim_create_user_command("SwitchTheme", function()
+      if vim.o.background == "dark" then
+        vim.cmd("set background=light")
+      else
+        vim.cmd("set background=dark")
+      end
+    end, { desc = "Switch between light and dark themes" })
   end,
 }
