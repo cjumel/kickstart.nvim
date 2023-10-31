@@ -118,6 +118,18 @@ return {
       desc = "Search down for line starts (Hop)",
     },
     {
+      "<leader>J",
+      "<cmd> HopVerticalAC <cr>",
+      mode = { "n", "x" },
+      desc = "Search down vertically (Hop)",
+    },
+    { -- linewise in operator pending mode
+      "<leader>J",
+      "V<cmd> HopVerticalAC <cr>",
+      mode = { "o" },
+      desc = "Search down vertically (Hop)",
+    },
+    {
       "<leader>k",
       "<cmd> HopLineStartBC <cr>",
       mode = { "n", "x" },
@@ -128,6 +140,18 @@ return {
       "V<cmd> HopLineStartBC <cr>",
       mode = { "o" },
       desc = "Search up for line starts (Hop)",
+    },
+    {
+      "<leader>K",
+      "<cmd> HopVerticalBC <cr>",
+      mode = { "n", "x" },
+      desc = "Search up vertically (Hop)",
+    },
+    { -- linewise in operator pending mode
+      "<leader>K",
+      "V<cmd> HopVerticalBC <cr>",
+      mode = { "o" },
+      desc = "Search up vertically (Hop)",
     },
   },
   opts = {
