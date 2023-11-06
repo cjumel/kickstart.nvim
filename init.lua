@@ -34,7 +34,7 @@ require("lazy").setup({
   { import = "plugins.ui" },
   -- Plugins related to the global workflow with external tools (git, tests, external package manager, etc.)
   { import = "plugins.workflow" },
-  { import = "plugins.workflow.git" },
+  { import = "plugins.workflow.vcs" },
 }, {})
 
 -- [[ Setting options ]]
