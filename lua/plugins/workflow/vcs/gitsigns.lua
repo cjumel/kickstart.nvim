@@ -3,13 +3,7 @@
 -- Super fast git decorations and utilities implemented purely in Lua, which make it and fugitive
 -- perfect for a complete git integration.
 
-local conflict_marker = "<<<<<<< \\|=======\\|>>>>>>> "
-local next_conflict = function()
-  vim.cmd("silent!/" .. conflict_marker)
-end
-local prev_conflict = function()
-  vim.cmd("silent!?" .. conflict_marker)
-end
+local utils = require("plugins.workflow.vcs.utils.gitsigns")
 
 return {
   "lewis6991/gitsigns.nvim",
@@ -38,7 +32,7 @@ return {
       local next_hunk_repeat, prev_hunk_repeat =
         ts_repeat_move.make_repeatable_move_pair(gs.next_hunk, gs.prev_hunk)
       local next_conflict_repeat, prev_conflict_repeat =
-        ts_repeat_move.make_repeatable_move_pair(next_conflict, prev_conflict)
+        ts_repeat_move.make_repeatable_move_pair(utils.next_conflict, utils.prev_conflict)
 
       -- Navigation keymaps
       map({ "n", "x", "o" }, "[g", next_hunk_repeat, { desc = "Next Git hunk" })
