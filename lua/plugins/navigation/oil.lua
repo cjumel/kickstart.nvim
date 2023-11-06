@@ -42,7 +42,7 @@ return {
         end
         local dir = require("oil").get_current_dir()
         local path = dir .. entry.name
-        require("plugins.harpoon.utils.mark").add_harpoon_file(path)
+        require("plugins.navigation.utils.harpoon").add_harpoon_file(path)
       end,
       ["<leader>hr"] = function()
         local entry = require("oil").get_cursor_entry()
@@ -51,7 +51,7 @@ return {
         end
         local dir = require("oil").get_current_dir()
         local path = dir .. entry.name
-        require("plugins.harpoon.utils.mark").remove_harpoon_file(path)
+        require("plugins.navigation.utils.harpoon").remove_harpoon_file(path)
       end,
     },
     use_default_keymaps = false,
