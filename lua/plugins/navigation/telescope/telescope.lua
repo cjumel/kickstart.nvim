@@ -67,6 +67,17 @@ return {
       end,
       desc = "[F]ind: [O]ld files",
     },
+    {
+      "<leader>fs",
+      function()
+        require("telescope.builtin").git_status({
+          initial_mode = "normal",
+          -- <tab> is used to stage in this picker so we can't enable the preview after startup
+          preview = { hide_on_startup = false },
+        })
+      end,
+      desc = "[F]ind: Git [S]tatus files",
+    },
 
     -- Find files by content
     {
@@ -86,16 +97,6 @@ return {
     },
 
     -- Git-related
-    {
-      "<leader>gf",
-      function()
-        require("telescope.builtin").git_status({
-          layout_strategy = "vertical",
-          initial_mode = "normal",
-        })
-      end,
-      desc = "[G]it: [F]ind modified files",
-    },
     {
       "<leader>gb",
       function()
