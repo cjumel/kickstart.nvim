@@ -30,16 +30,18 @@ return {
   config = function()
     --  This function gets run when an LSP connects to a particular buffer.
     local on_attach = function(_, bufnr)
-      local nmap = function(keys, func, desc)
-        if desc then
-          desc = desc .. " (LSP)"
+      local nmap = function(keys, func, desc, has_prefix)
+        has_prefix = has_prefix or true
+        if desc and has_prefix then
+          desc = "[L]SP: " .. desc
         end
         vim.keymap.set("n", keys, func, { buffer = bufnr, desc = desc })
       end
+      local telescope = require("telescope.builtin")
 
       -- Documentation
-      nmap("K", vim.lsp.buf.hover, "[K] hover documentation")
-      nmap("<leader>cs", vim.lsp.buf.signature_help, "[C]ode: [S]ignature help")
+      nmap("K", vim.lsp.buf.hover, "[K] hover documentation", false)
+      nmap("<leader>ls", vim.lsp.buf.signature_help, "[S]ignature help")
 
       -- Code edition
       local lsp_formatting = function()
@@ -51,37 +53,29 @@ return {
           bufnr = bufnr,
         })
       end
-      nmap("<leader>cf", lsp_formatting, "[C]ode: [F]ormat")
-      nmap("<leader>cr", vim.lsp.buf.rename, "[C]ode: [R]ename")
-      nmap("<leader>ca", vim.lsp.buf.code_action, "[C]ode: [A]ction")
-      nmap(
-        "<leader>cd",
-        require("telescope.builtin").lsp_document_symbols,
-        "[C]ode: [D]ocument symbols"
-      )
-      nmap(
-        "<leader>cw",
-        require("telescope.builtin").lsp_dynamic_workspace_symbols,
-        "[C]ode: [W]orkspace symbols"
-      )
+      nmap("<leader>lf", lsp_formatting, "[F]ormat")
+      nmap("<leader>lr", vim.lsp.buf.rename, "[R]ename")
+      nmap("<leader>la", vim.lsp.buf.code_action, "[A]ction")
+      nmap("<leader>ld", telescope.lsp_document_symbols, "[D]ocument symbols")
+      nmap("<leader>lw", telescope.lsp_dynamic_workspace_symbols, "[W]orkspace symbols")
 
       -- Go to actions
       nmap("gd", function()
-        require("telescope.builtin").lsp_definitions({
+        telescope.lsp_definitions({
           layout_strategy = "vertical",
           initial_mode = "normal",
           show_line = false,
         })
-      end, "[G]oto [D]efinition")
+      end, "[G]oto [D]efinition", false)
       nmap("gr", function()
-        require("telescope.builtin").lsp_references({
+        telescope.lsp_references({
           layout_strategy = "vertical",
           initial_mode = "normal",
           show_line = false,
         })
-      end, "[G]oto [R]eferences")
-      nmap("gI", require("telescope.builtin").lsp_implementations, "[G]oto [I]mplementation")
-      nmap("<leader>D", require("telescope.builtin").lsp_type_definitions, "Type [D]efinition")
+      end, "[G]oto [R]eferences", false)
+      nmap("gI", telescope.lsp_implementations, "[G]oto [I]mplementation", false)
+      nmap("<leader>D", telescope.lsp_type_definitions, "Type [D]efinition", false)
     end
 
     -- mason-lspconfig requires that these setup functions are called in this order

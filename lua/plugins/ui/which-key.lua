@@ -10,7 +10,6 @@ return {
 
     -- document existing key chains
     require("which-key").register({
-      ["<leader>c"] = { name = "[C]ode", _ = "which_key_ignore" },
       ["<leader>d"] = { name = "[D]ebug", _ = "which_key_ignore" },
       ["<leader>dp"] = { name = "[D]ebug [P]ython", _ = "which_key_ignore" },
       ["<leader>f"] = { name = "[F]ind", _ = "which_key_ignore" },
@@ -18,6 +17,7 @@ return {
       ["<leader>gc"] = { name = "[G]it [C]ommit", _ = "which_key_ignore" },
       ["<leader>gp"] = { name = "[G]it [P]...", _ = "which_key_ignore" },
       ["<leader>h"] = { name = "[H]arpoon", _ = "which_key_ignore" },
+      ["<leader>l"] = { name = "[L]SP", _ = "which_key_ignore" },
       ["<leader>q"] = { name = "[Q]uick file", _ = "which_key_ignore" },
       ["<leader>s"] = { name = "[S]tand", _ = "which_key_ignore" },
       ["<leader>t"] = { name = "[T]odo", _ = "which_key_ignore" },
