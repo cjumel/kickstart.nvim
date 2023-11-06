@@ -55,13 +55,13 @@ return {
     keys = {
       telescope = {
         i = {
-          select = "<cr>",
+          select = "<CR>",
         },
         n = {
-          select = { "<cr>", "=" },
+          select = "<CR>",
           paste = "p",
           paste_behind = "P",
-          delete = "dd",
+          delete = "d",
         },
       },
     },

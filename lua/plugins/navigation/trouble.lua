@@ -31,9 +31,5 @@ return {
       desc = "[X] Trouble: [W]orkspace diagnostics",
     },
   },
-  opts = {
-    action_keys = {
-      jump = { "<cr>", "=" }, -- jump to the diagnostic or open / close folds
-    },
-  },
+  opts = {},
 }

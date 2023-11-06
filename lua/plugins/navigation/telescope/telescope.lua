@@ -185,13 +185,10 @@ return {
       defaults = {
         default_mappings = {
           i = {
-            ["<C-n>"] = actions.move_selection_next,
-            ["<C-p>"] = actions.move_selection_previous,
-
             ["<CR>"] = actions.select_default,
             ["<C-x>"] = actions.select_horizontal,
             ["<C-v>"] = actions.select_vertical,
-            ["<c-t>"] = trouble.open_with_trouble,
+            ["<C-t>"] = trouble.open_with_trouble,
 
             ["<tab>"] = actions_layout.toggle_preview,
             ["<C-u>"] = actions.preview_scrolling_up,
@@ -202,24 +199,21 @@ return {
           },
 
           n = {
-            ["<esc>"] = actions.close,
-            ["q"] = actions.close,
             ["<CR>"] = actions.select_default,
-            ["="] = actions.select_default,
             ["<C-x>"] = actions.select_horizontal,
             ["<C-v>"] = actions.select_vertical,
-            ["<c-t>"] = trouble.open_with_trouble,
-
-            ["j"] = actions.move_selection_next,
-            ["k"] = actions.move_selection_previous,
-
-            ["gg"] = actions.move_to_top,
-            ["G"] = actions.move_to_bottom,
+            ["<C-t>"] = trouble.open_with_trouble,
 
             ["<tab>"] = actions_layout.toggle_preview,
             ["<C-u>"] = actions.preview_scrolling_up,
             ["<C-d>"] = actions.preview_scrolling_down,
 
+            ["j"] = actions.move_selection_next,
+            ["k"] = actions.move_selection_previous,
+            ["gg"] = actions.move_to_top,
+            ["G"] = actions.move_to_bottom,
+
+            ["<esc>"] = actions.close,
             ["?"] = actions.which_key,
           },
         },

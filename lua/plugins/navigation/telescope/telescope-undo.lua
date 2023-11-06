@@ -25,12 +25,12 @@ return {
           initial_mode = "normal",
           mappings = {
             i = {
-              ["<cr>"] = require("telescope-undo.actions").restore,
+              ["<CR>"] = require("telescope-undo.actions").restore,
             },
             n = {
-              ["<cr>"] = require("telescope-undo.actions").restore,
-              ["="] = require("telescope-undo.actions").yank_additions,
-              ["-"] = require("telescope-undo.actions").yank_deletions,
+              ["<CR>"] = require("telescope-undo.actions").restore,
+              ["y"] = require("telescope-undo.actions").yank_additions,
+              ["Y"] = require("telescope-undo.actions").yank_deletions,
             },
           },
         },
