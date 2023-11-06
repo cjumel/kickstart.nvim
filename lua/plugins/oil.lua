@@ -7,7 +7,8 @@ return {
   "stevearc/oil.nvim",
   dependencies = {
     "nvim-tree/nvim-web-devicons",
-    "ThePrimeagen/harpoon",
+    -- The following dependencies are needed but don't need to be loaded when the plugin is loaded
+    -- "ThePrimeagen/harpoon",
   },
   keys = {
     {

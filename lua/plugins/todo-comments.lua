@@ -9,8 +9,9 @@ return {
     "nvim-lua/plenary.nvim",
     "nvim-treesitter/nvim-treesitter",
     "nvim-treesitter/nvim-treesitter-textobjects",
-    "numToStr/Comment.nvim",
-    "folke/trouble.nvim", -- todo-comments adds a "todo" source to trouble
+    -- The following dependencies are needed but don't need to be loaded when the plugin is loaded
+    -- "numToStr/Comment.nvim",
+    -- "folke/trouble.nvim", -- todo-comments adds a "todo" source to trouble
   },
   event = { "BufNewFile", "BufReadPre" },
   keys = {

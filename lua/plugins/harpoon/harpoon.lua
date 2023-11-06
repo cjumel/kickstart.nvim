@@ -5,7 +5,9 @@
 
 return {
   "ThePrimeagen/harpoon",
-  dependencies = { "nvim-lua/plenary.nvim" },
+  dependencies = {
+    "nvim-lua/plenary.nvim",
+  },
   keys = {
     -- Harpoon in-file actions
     {
