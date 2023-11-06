@@ -1,7 +1,7 @@
 -- fugitive.vim
 --
--- Fugitive provides a few git-related features, which make it and gitsigns perfect for a complete
--- git integration.
+-- A Git wrapper so awesome, it should be illegal. This plugins provides many commands wrapping
+-- around git commands.
 
 local utils = require("plugins.workflow.vcs.utils.vim-fugitive")
 
@@ -11,13 +11,6 @@ return {
     "Git",
   },
   keys = {
-    {
-      "<leader>gs",
-      function()
-        vim.cmd("Git")
-      end,
-      desc = "[G]it: [S]tatus",
-    },
     {
       "<leader>gps",
       function()
@@ -78,26 +71,5 @@ return {
     vim.api.nvim_create_user_command("GitResetHardLast", function(opts)
       vim.cmd("Git reset --hard HEAD~" .. utils.get_value(opts, "1"))
     end, { nargs = "?", desc = "Git reset hard the last <arg> commits (1 by default)" })
-  end,
-  config = function()
-    -- Change keymaps in fugitive buffers
-    local group = vim.api.nvim_create_augroup("Fugitive", { clear = false })
-    local pattern = { "fugitive", "fugitiveblame" }
-    local function remap(l, r)
-      vim.api.nvim_create_autocmd(
-        "FileType",
-        { command = "nmap <buffer> " .. l .. " " .. r, group = group, pattern = pattern }
-      )
-    end
-
-    remap("q", "gq") -- Quit
-    remap(",", "[c") -- Previous hunk
-    remap(";", "]c") -- Next hunk
-    remap("R", "X") -- Reset changes under the cursor
-    remap("<C-p>", "[[") -- Previous section
-    remap("<C-n>", "]]") -- Next section
-    remap("<C-v>", "go") -- Open file in vertical split
-    remap("<C-x>", "o") -- Open file in horizontal split
-    remap("-", "<Nop>") -- Disable key
   end,
 }

@@ -1,7 +1,7 @@
 -- gitsigns.nvim
 --
--- Super fast git decorations and utilities implemented purely in Lua, which make it and fugitive
--- perfect for a complete git integration.
+-- Super fast git decorations and utilities implemented purely in Lua. This plugin brings
+-- buffer-centric features, like signs to mark git hunks, or functions to stage them.
 
 local utils = require("plugins.workflow.vcs.utils.gitsigns")
 
