@@ -13,14 +13,14 @@ return {
     {
       "<leader>ha",
       function()
-        require("plugins.harpoon.utils.mark").add_harpoon_file()
+        require("plugins.navigation.utils.harpoon").add_harpoon_file()
       end,
       desc = "[H]arpoon: [A]dd file",
     },
     {
       "<leader>hr",
       function()
-        require("plugins.harpoon.utils.mark").remove_harpoon_file()
+        require("plugins.navigation.utils.harpoon").remove_harpoon_file()
       end,
       desc = "[H]arpoon: [R]emove file",
     },
@@ -46,35 +46,35 @@ return {
     {
       "gh",
       function()
-        require("plugins.harpoon.utils.mark").go_to_harpoon_file(1)
+        require("plugins.navigation.utils.harpoon").go_to_harpoon_file(1)
       end,
       desc = "Goto Harpoon file 1",
     },
     {
       "gj",
       function()
-        require("plugins.harpoon.utils.mark").go_to_harpoon_file(2)
+        require("plugins.navigation.utils.harpoon").go_to_harpoon_file(2)
       end,
       desc = "Goto Harpoon file 2",
     },
     {
       "gk",
       function()
-        require("plugins.harpoon.utils.mark").go_to_harpoon_file(3)
+        require("plugins.navigation.utils.harpoon").go_to_harpoon_file(3)
       end,
       desc = "Goto Harpoon file 3",
     },
     {
       "gl",
       function()
-        require("plugins.harpoon.utils.mark").go_to_harpoon_file(4)
+        require("plugins.navigation.utils.harpoon").go_to_harpoon_file(4)
       end,
       desc = "Goto Harpoon file 4",
     },
     {
       "gm",
       function()
-        require("plugins.harpoon.utils.mark").go_to_harpoon_file(5)
+        require("plugins.navigation.utils.harpoon").go_to_harpoon_file(5)
       end,
       desc = "Goto Harpoon file 5",
     },

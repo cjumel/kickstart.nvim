@@ -21,13 +21,20 @@ vim.opt.rtp:prepend(lazypath)
 
 -- Automatically add your plugins, configuration, etc from `lua/plugins/` directory
 require("lazy").setup({
-  { import = "plugins.dap" },
+  -- Plugins related to code (LSP, completion, debugging, etc.)
+  { import = "plugins.code" },
+  { import = "plugins.code.dap" },
+  -- Plugins related to simple editions (highlighting, motions, text objects, etc.)
   { import = "plugins.edition" },
-  { import = "plugins.harpoon" },
-  { import = "plugins.telescope" },
-  { import = "plugins.treesitter" },
+  { import = "plugins.edition.treesitter" },
+  -- Plugins related to code navigation (fuzzy finding, file tree navigation, etc.)
+  { import = "plugins.navigation" },
+  { import = "plugins.navigation.telescope" },
+  -- Plugins related to the user interface (color scheme, visual elements, etc.)
   { import = "plugins.ui" },
-  { import = "plugins" },
+  -- Plugins related to the global workflow with external tools (git, tests, external package manager, etc.)
+  { import = "plugins.workflow" },
+  { import = "plugins.workflow.git" },
 }, {})
 
 -- [[ Setting options ]]
