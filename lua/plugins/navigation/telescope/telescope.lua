@@ -96,25 +96,6 @@ return {
       desc = "[F]ind: [W]ord under the cursor",
     },
 
-    -- Git-related
-    {
-      "<leader>gb",
-      function()
-        require("telescope.builtin").git_branches({ layout_strategy = "vertical" })
-      end,
-      desc = "[G]it: [B]ranches",
-    },
-    {
-      "<leader>gl",
-      function()
-        require("telescope.builtin").git_commits({
-          layout_strategy = "vertical",
-          initial_mode = "normal",
-        })
-      end,
-      desc = "[G]it: [L]og",
-    },
-
     -- Vim- or Neovim-related
     {
       "<leader><tab>",
@@ -171,14 +152,6 @@ return {
       desc = "[F]ind: [H]elp tags",
     },
   },
-  init = function()
-    vim.api.nvim_create_user_command("GitStashList", function()
-      require("telescope.builtin").git_stash({
-        layout_strategy = "vertical",
-        initial_mode = "normal",
-      })
-    end, { desc = "Git stash list" })
-  end,
   config = function()
     local actions = require("telescope.actions")
     local actions_layout = require("telescope.actions.layout")

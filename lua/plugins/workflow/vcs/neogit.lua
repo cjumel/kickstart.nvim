@@ -17,6 +17,24 @@ return {
       end,
       desc = "[G]it: [S]tatus",
     },
+    -- Telescope Git features
+    {
+      "<leader>gb",
+      function()
+        require("telescope.builtin").git_branches({ layout_strategy = "vertical" })
+      end,
+      desc = "[G]it: [B]ranches",
+    },
+    {
+      "<leader>gl",
+      function()
+        require("telescope.builtin").git_commits({
+          layout_strategy = "vertical",
+          initial_mode = "normal",
+        })
+      end,
+      desc = "[G]it: [L]og",
+    },
   },
   opts = {
     disable_hint = true,
