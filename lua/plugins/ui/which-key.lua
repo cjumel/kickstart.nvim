@@ -15,13 +15,11 @@ return {
       ["<leader>f"] = { name = "[F]ind", _ = "which_key_ignore" },
       ["<leader>g"] = { name = "[G]it", _ = "which_key_ignore" },
       ["<leader>gc"] = { name = "[G]it [C]ommit", _ = "which_key_ignore" },
-      ["<leader>gp"] = { name = "[G]it [P]...", _ = "which_key_ignore" },
-      ["<leader>h"] = { name = "[H]arpoon", _ = "which_key_ignore" },
       ["<leader>l"] = { name = "[L]SP", _ = "which_key_ignore" },
       ["<leader>q"] = { name = "[Q]uick file", _ = "which_key_ignore" },
       ["<leader>s"] = { name = "[S]tand", _ = "which_key_ignore" },
       ["<leader>t"] = { name = "[T]odo", _ = "which_key_ignore" },
-      ["<leader>x"] = { name = "[X] Trouble", _ = "which_key_ignore" },
+      ["<leader>x"] = { name = "Trouble", _ = "which_key_ignore" },
     })
   end,
 }
