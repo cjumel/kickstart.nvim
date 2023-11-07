@@ -232,6 +232,15 @@ return {
           return path
         end,
       },
+      pickers = {
+        buffers = {
+          mappings = {
+            n = {
+              ["d"] = actions.delete_buffer + actions.move_to_top,
+            },
+          },
+        },
+      },
     })
 
     -- Enable telescope fzf native, if installed
