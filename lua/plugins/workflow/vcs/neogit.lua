@@ -20,7 +20,6 @@ return {
   },
   opts = {
     disable_hint = true,
-    disable_context_highlighting = true,
     kind = "replace",
     integrations = {
       telescope = true,
