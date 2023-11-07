@@ -33,9 +33,9 @@ return {
       ["_"] = "actions.open_cwd",
       ["H"] = "actions.toggle_hidden",
       ["R"] = "actions.refresh",
-      -- Overwrite Harpoon keymaps to add/remove the file under the cursor in Oil buffer instead
+      -- Overwrite Harpoon keymap to add the file under the cursor in Oil buffer instead
       -- of Oil buffer itself
-      ["<leader>ha"] = function()
+      ["<leader><CR>"] = function()
         local entry = require("oil").get_cursor_entry()
         if entry == nil then
           return
@@ -43,15 +43,6 @@ return {
         local dir = require("oil").get_current_dir()
         local path = dir .. entry.name
         require("plugins.navigation.utils.harpoon").add_harpoon_file(path)
-      end,
-      ["<leader>hr"] = function()
-        local entry = require("oil").get_cursor_entry()
-        if entry == nil then
-          return
-        end
-        local dir = require("oil").get_current_dir()
-        local path = dir .. entry.name
-        require("plugins.navigation.utils.harpoon").remove_harpoon_file(path)
       end,
     },
     use_default_keymaps = false,

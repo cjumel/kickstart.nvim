@@ -9,37 +9,28 @@ return {
     "nvim-lua/plenary.nvim",
   },
   keys = {
-    -- Harpoon in-file actions
+    -- Harpoon file actions
     {
-      "<leader>ha",
+      "<leader><CR>",
       function()
         require("plugins.navigation.utils.harpoon").add_harpoon_file()
       end,
-      desc = "[H]arpoon: [A]dd file",
+      desc = "Harpoon: add file",
     },
     {
-      "<leader>hr",
+      "<leader>h",
       function()
-        require("plugins.navigation.utils.harpoon").remove_harpoon_file()
+        require("harpoon.ui").toggle_quick_menu()
       end,
-      desc = "[H]arpoon: [R]emove file",
+      desc = "[H]arpoon: menu",
     },
     {
-      "<leader>hc",
+      "<leader>H",
       function()
         require("harpoon.mark").clear_all()
         print("Harpoon files cleared")
       end,
-      desc = "[H]arpoon: [C]lear files",
-    },
-
-    -- Harpoon menu
-    {
-      "<leader>hm",
-      function()
-        require("harpoon.ui").toggle_quick_menu()
-      end,
-      desc = "[H]arpoon: [M]enu",
+      desc = "[H]arpoon: clear files",
     },
 
     -- Jump to Harpoon file
