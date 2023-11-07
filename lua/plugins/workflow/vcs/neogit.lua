@@ -6,6 +6,7 @@ return {
   "NeogitOrg/neogit",
   dependencies = {
     "nvim-lua/plenary.nvim",
+    "nvim-telescope/telescope.nvim",
     "sindrets/diffview.nvim",
   },
   keys = {
@@ -22,6 +23,7 @@ return {
     disable_context_highlighting = true,
     kind = "replace",
     integrations = {
+      telescope = true,
       diffview = true,
     },
     mappings = {
