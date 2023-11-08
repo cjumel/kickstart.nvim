@@ -13,21 +13,17 @@ return {
     {
       "<leader>p",
       function()
-        require("telescope").extensions.neoclip.default({
-          layout_strategy = "vertical",
-          initial_mode = "normal",
-        })
+        local opts = require("plugins.navigation.telescope.utils.themes").get_dropdown("normal")
+        require("telescope").extensions.neoclip.default(opts)
       end,
-      mode = { "n", "v" },
-      desc = "[P]aste from history",
+      desc = "Copy history",
     },
     {
       "<leader>P",
       function()
         require("neoclip").clear_history()
       end,
-      mode = { "n", "v" },
-      desc = "Clear [P]aste history",
+      desc = "Clear copy history",
     },
   },
   opts = {
@@ -38,19 +34,6 @@ return {
     on_paste = {
       set_reg = true,
       move_to_front = true,
-    },
-    keys = {
-      telescope = {
-        i = {
-          select = "<CR>",
-        },
-        n = {
-          select = "<CR>",
-          paste = "p",
-          paste_behind = "P",
-          delete = "d",
-        },
-      },
     },
     -- Don't store pure whitespace yanks
     filter = require("plugins.navigation.telescope.utils.filters").whitespace_yank_filter_fn,
