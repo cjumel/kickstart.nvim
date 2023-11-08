@@ -20,8 +20,8 @@ return {
     "hrsh7th/nvim-cmp",
     "hrsh7th/cmp-nvim-lsp",
 
-    -- For code navigation
-    "nvim-telescope/telescope.nvim",
+    -- The following dependencies are needed but don't need to be loaded when the plugin is loaded
+    -- "nvim-telescope/telescope.nvim",
   },
   ft = {
     "lua",
@@ -37,7 +37,6 @@ return {
         end
         vim.keymap.set("n", keys, func, { buffer = bufnr, desc = desc })
       end
-      local telescope = require("telescope.builtin")
 
       -- Documentation
       nmap("K", vim.lsp.buf.hover, "[K] hover documentation", false)
@@ -56,26 +55,34 @@ return {
       nmap("<leader>lf", lsp_formatting, "[F]ormat")
       nmap("<leader>lr", vim.lsp.buf.rename, "[R]ename")
       nmap("<leader>la", vim.lsp.buf.code_action, "[A]ction")
-      nmap("<leader>ld", telescope.lsp_document_symbols, "[D]ocument symbols")
-      nmap("<leader>lw", telescope.lsp_dynamic_workspace_symbols, "[W]orkspace symbols")
+      nmap("<leader>ld", function()
+        require("telescope.builtin").lsp_document_symbols()
+      end, "[D]ocument symbols")
+      nmap("<leader>lw", function()
+        require("telescope.builtin").lsp_dynamic_workspace_symbols()
+      end, "[W]orkspace symbols")
 
       -- Go to actions
       nmap("gd", function()
-        telescope.lsp_definitions({
+        require("telescope.builtin").lsp_definitions({
           layout_strategy = "vertical",
           initial_mode = "normal",
           show_line = false,
         })
       end, "[G]oto [D]efinition", false)
       nmap("gr", function()
-        telescope.lsp_references({
+        require("telescope.builtin").lsp_references({
           layout_strategy = "vertical",
           initial_mode = "normal",
           show_line = false,
         })
       end, "[G]oto [R]eferences", false)
-      nmap("gI", telescope.lsp_implementations, "[G]oto [I]mplementation", false)
-      nmap("<leader>D", telescope.lsp_type_definitions, "Type [D]efinition", false)
+      nmap("gI", function()
+        require("telescope.builtin").lsp_implementations()
+      end, "[G]oto [I]mplementation", false)
+      nmap("<leader>D", function()
+        require("telescope.builtin").lsp_type_definitions()
+      end, "Type [D]efinition", false)
     end
 
     -- mason-lspconfig requires that these setup functions are called in this order
