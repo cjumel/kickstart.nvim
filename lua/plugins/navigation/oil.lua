@@ -23,6 +23,9 @@ return {
   },
   config = function()
     require("oil").setup({
+      win_options = {
+        signcolumn = "yes",
+      },
       keymaps = {
         ["g?"] = "actions.show_help",
         ["<CR>"] = "actions.select",
