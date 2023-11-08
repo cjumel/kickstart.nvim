@@ -30,7 +30,6 @@ return {
     },
   },
   opts = {
-    history = 25,
     content_spec_column = true,
     on_select = {
       move_to_front = true,
