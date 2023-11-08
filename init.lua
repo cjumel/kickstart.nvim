@@ -93,8 +93,9 @@ vim.keymap.set({ "n", "o", "x" }, "G", "G$", { desc = "End of buffer" })
 vim.keymap.set("v", "<tab>", ">gv", { desc = "Indent selection" })
 vim.keymap.set("v", "<s-tab>", "<gv", { desc = "Unindent selection" })
 
--- Use system register for yank or paste
+-- Shortcuts to access main registers
 vim.keymap.set({ "n", "v" }, "+", '"+', { desc = "System register" })
+vim.keymap.set({ "n", "v" }, "_", '"_', { desc = "Black hole register" })
 
 -- Diagnostics
 vim.keymap.set("n", "<leader>?", vim.diagnostic.open_float, { desc = "[?] Expand diagnostic" })
