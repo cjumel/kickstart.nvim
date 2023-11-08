@@ -25,6 +25,14 @@ return {
       end,
       desc = "Clear copy history",
     },
+    {
+      "<leader>Q",
+      function()
+        local opts = require("plugins.navigation.telescope.utils.themes").get_dropdown("normal")
+        require("telescope").extensions.macroscope.default(opts)
+      end,
+      desc = "Macro history",
+    },
   },
   opts = {
     content_spec_column = true,
@@ -32,6 +40,10 @@ return {
       move_to_front = true,
     },
     on_paste = {
+      set_reg = true,
+      move_to_front = true,
+    },
+    on_replay = {
       set_reg = true,
       move_to_front = true,
     },

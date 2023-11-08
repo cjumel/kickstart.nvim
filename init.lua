@@ -94,8 +94,9 @@ vim.keymap.set("v", "<tab>", ">gv", { desc = "Indent selection" })
 vim.keymap.set("v", "<s-tab>", "<gv", { desc = "Unindent selection" })
 
 -- Shortcuts to access main registers
-vim.keymap.set({ "n", "v" }, "+", '"+', { desc = "System register" })
-vim.keymap.set({ "n", "v" }, "_", '"_', { desc = "Black hole register" })
+vim.keymap.set({ "n", "v" }, "+", '"+', { desc = "System copy register" })
+vim.keymap.set({ "n", "v" }, "_", '"_', { desc = "Black hole copy register" })
+vim.keymap.set({ "n", "v" }, "Q", "@q", { desc = "Default macro register" })
 
 -- Diagnostics
 vim.keymap.set("n", "<leader>?", vim.diagnostic.open_float, { desc = "[?] Expand diagnostic" })
