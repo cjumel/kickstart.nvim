@@ -10,6 +10,8 @@ return {
     -- The following dependencies are needed but don't need to be loaded when the plugin is loaded
     -- "ThePrimeagen/harpoon",
   },
+  -- To use oil as default file explorer, it must not be lazy loaded or with VeryLazy event
+  lazy = false,
   keys = {
     {
       "-",
@@ -21,7 +23,6 @@ return {
   },
   config = function()
     require("oil").setup({
-      default_file_explorer = false,
       keymaps = {
         ["g?"] = "actions.show_help",
         ["<CR>"] = "actions.select",
