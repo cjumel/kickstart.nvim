@@ -42,6 +42,9 @@ require("lazy").setup({
 -- Disable neovim intro as it appears very briefly on startup and then disappears
 vim.opt.shortmess:append({ I = true })
 
+-- Disable builtin show mode as it is done by lualine and it messes with the macro messages
+vim.opt.showmode = false
+
 -- Set highlight on search
 vim.o.hlsearch = false
 

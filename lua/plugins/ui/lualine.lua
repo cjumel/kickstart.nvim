@@ -20,13 +20,11 @@ return {
     sections = {
       lualine_x = {
         {
-          -- Get only a message when recording a macro, not other events (e.g. entering insert mode)
           function()
-            local mode = require("noice").api.statusline.mode.get()
-            if mode then
-              return string.match(mode, "^recording @.*") or ""
-            end
-            return ""
+            return require("noice").api.statusline.mode.get()
+          end,
+          cond = function()
+            return require("noice").api.statusline.mode.has()
           end,
           color = { fg = "#ff9e64" },
         },
