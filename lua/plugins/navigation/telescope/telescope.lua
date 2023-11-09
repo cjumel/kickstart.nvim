@@ -107,7 +107,7 @@ return {
         opts.sort_mru = true
         require("telescope.builtin").buffers(opts)
       end,
-      desc = "[  ] Buffer switcher",
+      desc = "Buffer switcher",
     },
     {
       "<leader><leader>",
@@ -115,7 +115,7 @@ return {
         local opts = require("plugins.navigation.telescope.utils.themes").get_commands_dropdown()
         require("telescope.builtin").commands(opts)
       end,
-      desc = "[ ] Find fuzzily in commands",
+      desc = "Find fuzzily in commands",
     },
     {
       "<leader>:",
@@ -125,7 +125,7 @@ return {
           require("plugins.navigation.telescope.utils.filters").command_history_filter_fn
         require("telescope.builtin").command_history(opts)
       end,
-      desc = "[:] Find fuzzily in command history",
+      desc = "Find fuzzily in command history",
     },
     {
       "<leader>/",
@@ -133,7 +133,7 @@ return {
         local opts = require("plugins.navigation.telescope.utils.themes").get_dropdown("normal")
         require("telescope.builtin").search_history(opts)
       end,
-      desc = "[/] Find fuzzily in search history",
+      desc = "Find fuzzily in search history",
     },
 
     -- Help-related
@@ -163,6 +163,7 @@ return {
             ["<CR>"] = actions.select_default,
             ["<C-x>"] = actions.select_horizontal,
             ["<C-v>"] = actions.select_vertical,
+            ["<C-q>"] = actions.send_to_qflist + actions.open_qflist,
             ["<C-t>"] = trouble.open_with_trouble,
 
             ["<tab>"] = actions_layout.toggle_preview,
@@ -177,6 +178,7 @@ return {
             ["<CR>"] = actions.select_default,
             ["<C-x>"] = actions.select_horizontal,
             ["<C-v>"] = actions.select_vertical,
+            ["<C-q>"] = actions.send_to_qflist + actions.open_qflist,
             ["<C-t>"] = trouble.open_with_trouble,
 
             ["<tab>"] = actions_layout.toggle_preview,
@@ -187,6 +189,7 @@ return {
             ["k"] = actions.move_selection_previous,
             ["gg"] = actions.move_to_top,
             ["G"] = actions.move_to_bottom,
+            ["v"] = actions.toggle_selection,
 
             ["<esc>"] = actions.close,
             ["?"] = actions.which_key,
