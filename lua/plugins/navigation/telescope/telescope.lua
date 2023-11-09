@@ -189,7 +189,10 @@ return {
             ["k"] = actions.move_selection_previous,
             ["gg"] = actions.move_to_top,
             ["G"] = actions.move_to_bottom,
+
             ["v"] = actions.toggle_selection,
+            ["Q"] = actions.send_selected_to_qflist + actions.open_qflist,
+            ["T"] = trouble.open_selected_with_trouble,
 
             ["<esc>"] = actions.close,
             ["?"] = actions.which_key,
