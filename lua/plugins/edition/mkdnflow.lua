@@ -31,7 +31,7 @@ return {
       desc = "[M]ark checkbox",
     },
     {
-      "[X",
+      "[x",
       function()
         vim.cmd("MkdnNextUncheckedCheckbox")
       end,
@@ -40,7 +40,7 @@ return {
       desc = "Next checkbox",
     },
     {
-      "]X",
+      "]x",
       function()
         vim.cmd("MkdnPrevUncheckedCheckbox")
       end,
@@ -49,7 +49,7 @@ return {
       desc = "Previous checkbox",
     },
     {
-      "[H",
+      "[h",
       function()
         vim.cmd("MkdnNextHeadingRepeat")
       end,
@@ -58,7 +58,7 @@ return {
       desc = "Next heading",
     },
     {
-      "]H",
+      "]h",
       function()
         vim.cmd("MkdnPrevHeadingRepeat")
       end,
