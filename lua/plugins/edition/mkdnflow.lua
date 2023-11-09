@@ -31,7 +31,7 @@ return {
       desc = "[M]ark checkbox",
     },
     {
-      "[x",
+      "[X",
       function()
         vim.cmd("MkdnNextUncheckedCheckbox")
       end,
@@ -40,7 +40,7 @@ return {
       desc = "Next checkbox",
     },
     {
-      "]x",
+      "]X",
       function()
         vim.cmd("MkdnPrevUncheckedCheckbox")
       end,

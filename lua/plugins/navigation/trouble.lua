@@ -7,6 +7,7 @@ return {
   "folke/trouble.nvim",
   dependencies = {
     "nvim-tree/nvim-web-devicons",
+    "nvim-treesitter/nvim-treesitter-textobjects",
   },
   keys = {
     {
@@ -44,6 +45,44 @@ return {
       end,
       desc = "Trouble: [W]orkspace diagnostics",
     },
+    {
+      "[x",
+      function()
+        vim.cmd("TroubleNext")
+      end,
+      desc = "Next Trouble item",
+    },
+    {
+      "]x",
+      function()
+        vim.cmd("TroublePrevious")
+      end,
+      desc = "Previous Trouble item",
+    },
   },
-  opts = {},
+  config = function()
+    require("trouble").setup()
+
+    local next_trouble_item = function()
+      require("trouble").next({ skip_groups = true, jump = true })
+    end
+    local previous_trouble_item = function()
+      require("trouble").previous({ skip_groups = true, jump = true })
+    end
+
+    local ts_repeat_move = require("nvim-treesitter.textobjects.repeatable_move")
+    local next_trouble_item_repeat, previous_trouble_item_repeat =
+      ts_repeat_move.make_repeatable_move_pair(next_trouble_item, previous_trouble_item)
+
+    vim.api.nvim_create_user_command(
+      "TroubleNext",
+      next_trouble_item_repeat,
+      { desc = "Next Trouble item" }
+    )
+    vim.api.nvim_create_user_command(
+      "TroublePrevious",
+      previous_trouble_item_repeat,
+      { desc = "Previous Trouble item" }
+    )
+  end,
 }
