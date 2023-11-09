@@ -52,7 +52,7 @@ return {
       },
       use_default_keymaps = false,
       view_options = {
-        show_hidden = false,
+        show_hidden = true,
         is_always_hidden = function(name, _)
           local always_hidden_names = {
             ".git",
