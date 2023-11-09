@@ -8,12 +8,6 @@ end
 local previous_unchecked_checkbox = function()
   vim.cmd("silent!?- [ \\] \\|- [\\-\\] ")
 end
-local next_checked_checkbox = function()
-  vim.cmd("silent!/- [x\\]")
-end
-local previous_checked_checkbox = function()
-  vim.cmd("silent!?- [x\\]")
-end
 local next_heading = function()
   vim.cmd("silent! MkdnNextHeading")
 end
@@ -37,43 +31,25 @@ return {
       desc = "[M]ark checkbox",
     },
     {
-      "[x",
+      "[X",
       function()
         vim.cmd("MkdnNextUncheckedCheckbox")
       end,
       ft = "markdown",
       mode = { "n", "x", "o" },
-      desc = "Next unchecked checkbox",
+      desc = "Next checkbox",
     },
     {
-      "]x",
+      "]X",
       function()
         vim.cmd("MkdnPrevUncheckedCheckbox")
       end,
       ft = "markdown",
       mode = { "n", "x", "o" },
-      desc = "Previous unchecked checkbox",
+      desc = "Previous checkbox",
     },
     {
-      "[X",
-      function()
-        vim.cmd("MkdnNextCheckedCheckbox")
-      end,
-      ft = "markdown",
-      mode = { "n", "x", "o" },
-      desc = "Next checked checkbox",
-    },
-    {
-      "]X",
-      function()
-        vim.cmd("MkdnPrevCheckedCheckbox")
-      end,
-      ft = "markdown",
-      mode = { "n", "x", "o" },
-      desc = "Previous checked checkbox",
-    },
-    {
-      "[h",
+      "[H",
       function()
         vim.cmd("MkdnNextHeadingRepeat")
       end,
@@ -82,7 +58,7 @@ return {
       desc = "Next heading",
     },
     {
-      "]h",
+      "]H",
       function()
         vim.cmd("MkdnPrevHeadingRepeat")
       end,
@@ -117,8 +93,6 @@ return {
     local ts_repeat_move = require("nvim-treesitter.textobjects.repeatable_move")
     local next_unchecked_checkbox_repeat, previous_unchecked_checkbox_repeat =
       ts_repeat_move.make_repeatable_move_pair(next_unchecked_checkbox, previous_unchecked_checkbox)
-    local next_checked_checkbox_repeat, previous_checked_checkbox_repeat =
-      ts_repeat_move.make_repeatable_move_pair(next_checked_checkbox, previous_checked_checkbox)
     local next_heading_repeat, previous_heading_repeat =
       ts_repeat_move.make_repeatable_move_pair(next_heading, previous_heading)
 
@@ -131,16 +105,6 @@ return {
       "MkdnPrevUncheckedCheckbox",
       previous_unchecked_checkbox_repeat,
       { desc = "Previous unchecked checkbox" }
-    )
-    vim.api.nvim_create_user_command(
-      "MkdnNextCheckedCheckbox",
-      next_checked_checkbox_repeat,
-      { desc = "Next checked checkbox" }
-    )
-    vim.api.nvim_create_user_command(
-      "MkdnPrevCheckedCheckbox",
-      previous_checked_checkbox_repeat,
-      { desc = "Previous checked checkbox" }
     )
     vim.api.nvim_create_user_command(
       "MkdnNextHeadingRepeat",
