@@ -14,21 +14,35 @@ return {
       function()
         require("trouble").toggle()
       end,
-      desc = "[X] Trouble: [X] toggle",
+      desc = "Trouble: toggle Trouble",
+    },
+    {
+      "<leader>xq",
+      function()
+        require("trouble").toggle("quickfix")
+      end,
+      desc = "Trouble: toggle [Q]uickfix",
+    },
+    {
+      "<leader>xl",
+      function()
+        require("trouble").toggle("loclist")
+      end,
+      desc = "Trouble: toggle [L]oclist",
     },
     {
       "<leader>xd",
       function()
         require("trouble").toggle("document_diagnostics")
       end,
-      desc = "[X] Trouble: [D]ocument diagnostics",
+      desc = "Trouble: [D]ocument diagnostics",
     },
     {
       "<leader>xw",
       function()
         require("trouble").toggle("workspace_diagnostics")
       end,
-      desc = "[X] Trouble: [W]orkspace diagnostics",
+      desc = "Trouble: [W]orkspace diagnostics",
     },
   },
   opts = {},
