@@ -13,8 +13,10 @@ return {
     {
       "<leader>p",
       function()
-        local opts = require("plugins.navigation.telescope.utils.themes").get_dropdown("normal")
-        require("telescope").extensions.neoclip.default(opts)
+        require("telescope").extensions.neoclip.default({
+          initial_mode = "normal",
+          layout_strategy = "vertical",
+        })
       end,
       desc = "Copy history",
     },
