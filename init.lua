@@ -71,8 +71,9 @@ vim.wo.signcolumn = "yes"
 vim.o.updatetime = 250
 vim.o.timeoutlen = 300
 
--- Set completeopt to have a better completion experience
-vim.o.completeopt = "menuone,noselect"
+-- Disable builtin auto-completion (replaced by nvim-cmp)
+vim.o.complete = ""
+vim.o.completeopt = ""
 
 -- Use true colors in terminal
 vim.o.termguicolors = true
@@ -80,6 +81,10 @@ vim.o.termguicolors = true
 -- [[ Basic keymaps ]]
 
 vim.keymap.set({ "n", "v" }, "<Space>", "<Nop>", { silent = true })
+
+-- Disable builtin auto-completion keymaps (avoid writting letters when calling them)
+vim.keymap.set("i", "<C-n>", "<Nop>", { silent = true })
+vim.keymap.set("i", "<C-p>", "<Nop>", { silent = true })
 
 -- Remap for dealing with word wrap
 vim.keymap.set("n", "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
