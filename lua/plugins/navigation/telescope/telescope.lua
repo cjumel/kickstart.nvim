@@ -60,21 +60,16 @@ return {
     {
       "<leader>fo",
       function()
-        require("telescope.builtin").oldfiles({
-          initial_mode = "normal",
-          preview = { hide_on_startup = true },
-        })
+        local opts = require("plugins.navigation.telescope.utils.themes").get_dropdown("normal")
+        require("telescope.builtin").oldfiles(opts)
       end,
       desc = "[F]ind: [O]ld files",
     },
     {
       "<leader>fs",
       function()
-        require("telescope.builtin").git_status({
-          initial_mode = "normal",
-          -- <tab> is used to stage in this picker so we can't enable the preview after startup
-          preview = { hide_on_startup = false },
-        })
+        local opts = require("plugins.navigation.telescope.utils.themes").get_dropdown("normal")
+        require("telescope.builtin").git_status(opts)
       end,
       desc = "[F]ind: Git [S]tatus files",
     },
@@ -100,8 +95,7 @@ return {
     {
       "<leader><tab>",
       function()
-        local opts = require("plugins.navigation.telescope.utils.themes").get_dropdown()
-        opts.initial_mode = "normal"
+        local opts = require("plugins.navigation.telescope.utils.themes").get_dropdown("normal")
         opts.only_cwd = true
         opts.sort_lastused = true
         opts.sort_mru = true
