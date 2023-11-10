@@ -51,6 +51,9 @@ vim.o.hlsearch = false
 -- Make line numbers default
 vim.wo.number = true
 
+-- Display a column ruler after the 100th character
+vim.o.colorcolumn = "101"
+
 -- Enable mouse mode
 vim.o.mouse = "a"
 
