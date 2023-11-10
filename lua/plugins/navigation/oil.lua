@@ -28,12 +28,15 @@ return {
       win_options = {
         signcolumn = "yes",
       },
+      -- Cleanup the oil buffer right away to avoid jumping back to it with <C-o> and <C-i>
+      cleanup_delay_ms = 0,
       keymaps = {
         ["g?"] = "actions.show_help",
         ["<CR>"] = "actions.select",
         ["<C-v>"] = "actions.select_vsplit",
         ["<C-x>"] = "actions.select_split",
         ["<C-t>"] = "actions.select_tab",
+        -- Using <tab> will break <C-i> to jump forward in the jump list as they are the same key
         ["<tab>"] = "actions.preview",
         ["q"] = "actions.close",
         ["-"] = "actions.parent",
