@@ -32,7 +32,8 @@ require("lazy").setup({
   { import = "plugins.navigation.telescope" },
   -- Plugins related to the user interface (color scheme, visual elements, etc.)
   { import = "plugins.ui" },
-  -- Plugins related to the global workflow with external tools (git, tests, external package manager, etc.)
+  -- Plugins related to the global workflow with external tools (git, tests, external package
+  -- manager, etc.)
   { import = "plugins.workflow" },
   { import = "plugins.workflow.vcs" },
 }, {})
@@ -126,7 +127,8 @@ vim.keymap.set("n", "<leader>qp", function()
   vim.cmd("edit ./temp.py")
 end, { desc = "[Q]uick file: [P]ython" })
 
--- Use <c-p> and <c-n> in command line to navigate through command line history matching the current input
+-- Use <c-p> and <c-n> in command line to navigate through command line history matching the
+-- current input
 vim.keymap.set("c", "<c-p>", "<up>")
 vim.keymap.set("c", "<c-n>", "<down>")
 
