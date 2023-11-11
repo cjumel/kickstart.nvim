@@ -108,7 +108,7 @@ vim.keymap.set({ "n", "v" }, "_", '"_', { desc = "Black hole copy register" })
 vim.keymap.set({ "n", "v" }, "Q", "@q", { desc = "Default macro register" })
 
 -- Diagnostics
-vim.keymap.set("n", "<leader>?", vim.diagnostic.open_float, { desc = "[?] Expand diagnostic" })
+vim.keymap.set("n", "<leader>?", vim.diagnostic.open_float, { desc = "Expand diagnostic" })
 
 -- Theme
 vim.keymap.set("n", "<leader>T", function()

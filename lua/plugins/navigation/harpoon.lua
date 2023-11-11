@@ -15,7 +15,7 @@ return {
       function()
         require("plugins.navigation.utils.harpoon").add_harpoon_file()
       end,
-      desc = "Harpoon: add file",
+      desc = "Add file to Harpoon",
     },
     {
       "<leader>h",
@@ -30,7 +30,7 @@ return {
         require("harpoon.mark").clear_all()
         print("Harpoon files cleared")
       end,
-      desc = "[H]arpoon: clear files",
+      desc = "[H]arpoon: clear",
     },
 
     -- Jump to Harpoon file

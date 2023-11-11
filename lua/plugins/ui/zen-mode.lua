@@ -13,14 +13,14 @@ return {
       function()
         require("zen-mode").toggle()
       end,
-      desc = "[Z]en mode",
+      desc = "[Z]en mode: toggle",
     },
     {
       "<leader>Z",
       function()
         require("twilight").toggle()
       end,
-      desc = "[Z]en mode (Twilight)",
+      desc = "[Z]en mode: toggle Twilight",
     },
   },
   opts = {
