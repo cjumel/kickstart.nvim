@@ -109,6 +109,15 @@ vim.keymap.set({ "n", "v" }, "Q", "@q", { desc = "Default macro register" })
 -- Diagnostics
 vim.keymap.set("n", "<leader>?", vim.diagnostic.open_float, { desc = "[?] Expand diagnostic" })
 
+-- Theme
+vim.keymap.set("n", "<leader>T", function()
+  if vim.o.background == "dark" then
+    vim.cmd("set background=light")
+  else
+    vim.cmd("set background=dark")
+  end
+end, { desc = "[T]heme light/dark" })
+
 -- Quick files
 vim.keymap.set("n", "<leader>qn", function()
   vim.cmd("edit ./notes.md")
