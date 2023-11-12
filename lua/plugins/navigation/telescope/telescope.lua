@@ -209,6 +209,7 @@ return {
         sorting_strategy = "ascending",
         layout_config = {
           horizontal = {
+            preview_cutoff = 50,
             preview_width = 0.5,
             prompt_position = "top",
             width = 0.9,
