@@ -85,8 +85,5 @@ return {
     vim.api.nvim_create_user_command("PytestSlow", function()
       vim.cmd("Dispatch pytest -m 'slow'")
     end, { desc = "Pytest on slow tests" })
-    vim.api.nvim_create_user_command("PytestFile", function()
-      vim.cmd("Dispatch pytest %")
-    end, { desc = "Pytest on the current file" })
   end,
 }
