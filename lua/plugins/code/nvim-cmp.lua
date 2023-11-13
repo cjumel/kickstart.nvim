@@ -39,11 +39,12 @@ return {
         ["<C-n>"] = cmp.mapping.select_next_item(),
         ["<C-p>"] = cmp.mapping.select_prev_item(),
       }),
-      sources = {
-        { name = "nvim_lsp" },
-        { name = "luasnip" },
-        { name = "buffer" },
-      },
+      sources = cmp.config.sources({
+        { name = "nvim_lsp", keyword_length = 3 },
+        { name = "luasnip", keyword_length = 3 },
+      }, {
+        { name = "buffer", keyword_length = 3 },
+      }),
     })
 
     -- Snippet-related keymaps
