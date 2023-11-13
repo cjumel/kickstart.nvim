@@ -3,23 +3,18 @@
 -- Nvim-cmp is a lightweight and extensible completion plugin for neovim written in lua.
 
 return {
-  -- Autocompletion
   "hrsh7th/nvim-cmp",
-  event = { "BufNewFile", "BufReadPre" },
   dependencies = {
-    -- Adds LSP completion capabilities
+    -- LSP
     "hrsh7th/cmp-nvim-lsp",
-
-    -- Snippet Engine & its associated nvim-cmp source
-    "L3MON4D3/LuaSnip",
+    -- Snippets
     "saadparwaiz1/cmp_luasnip",
-
-    -- Add snippets
-    "rafamadriz/friendly-snippets",
-
-    -- Add buffer completion
+    "L3MON4D3/LuaSnip", -- Snippets engine
+    "rafamadriz/friendly-snippets", -- Collection of snippets
+    -- Buffer words based completion
     "hrsh7th/cmp-buffer",
   },
+  event = { "BufNewFile", "BufReadPre" },
   config = function()
     local cmp = require("cmp")
     local ls = require("luasnip")
