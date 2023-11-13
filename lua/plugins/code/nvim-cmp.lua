@@ -23,19 +23,9 @@ return {
   config = function()
     local cmp = require("cmp")
     local ls = require("luasnip")
-    local ls_from_vscode_loader = require("luasnip.loaders.from_vscode")
-    local s = ls.snippet
-    local t = ls.text_node
 
-    -- Use existing VS Code style snippets from a plugin (eg. rafamadriz/friendly-snippets)
-    ls_from_vscode_loader.lazy_load()
-
-    -- Add custom snippets
-    ls.add_snippets("all", {
-      s("todo", { t("TODO: ") }),
-    })
-
-    ls.config.setup({})
+    -- Load existing VS Code style snippets from plugins (eg. fom rafamadriz/friendly-snippets)
+    require("luasnip.loaders.from_vscode").lazy_load()
 
     cmp.setup({
       snippet = {
