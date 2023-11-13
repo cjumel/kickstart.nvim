@@ -27,15 +27,15 @@ return {
 
     -- Test with Pytest
     {
-      "<leader>dpm",
+      "<leader>dpT",
       function()
         require("dap-python").test_method({ test_runner = "pytest" })
       end,
       ft = "python",
-      desc = "[D]ebug [P]ython: test [M]ethod",
+      desc = "[D]ebug [P]ython: [T]est method",
     },
     {
-      "<leader>dpf",
+      "<leader>dpt",
       function()
         require("dap").run({
           type = "python",
@@ -47,7 +47,7 @@ return {
         })
       end,
       ft = "python",
-      desc = "[D]ebug [P]ython: test [F]ile",
+      desc = "[D]ebug [P]ython: [T]est file",
     },
   },
   config = function()

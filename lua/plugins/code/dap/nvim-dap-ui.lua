@@ -9,12 +9,12 @@ return {
   },
   keys = {
     {
-      "<leader>dt",
+      "<leader>dd",
       function()
         require("dapui").toggle()
       end,
       ft = "python",
-      desc = "[D]ebug: [T]oggle UI",
+      desc = "[D]ebug: toggle [D]ebug UI",
     },
   },
   config = function()
