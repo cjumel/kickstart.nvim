@@ -41,6 +41,9 @@ return {
         null_ls.builtins.formatting.ruff,
         null_ls.builtins.diagnostics.ruff,
         null_ls.builtins.diagnostics.mypy.with({
+          -- Only run diagnostics on save for mypy as it's quite slow
+          method = null_ls.methods.DIAGNOSTICS_ON_SAVE,
+          -- Detect Python virtual environment and use it
           extra_args = function()
             local virtual = os.getenv("VIRTUAL_ENV") or "/usr"
             return { "--ignore-missing-imports", "--python-executable", virtual .. "/bin/python3" }
