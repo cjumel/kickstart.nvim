@@ -5,7 +5,6 @@ require("lazy").setup({
 
   -- Plugins related to code (LSP, completion, debugging, etc.)
   { import = "plugins.code" },
-  { import = "plugins.code.cmp" },
   { import = "plugins.code.dap" },
 
   -- Plugins related to simple editions (highlighting, motions, text objects, etc.)

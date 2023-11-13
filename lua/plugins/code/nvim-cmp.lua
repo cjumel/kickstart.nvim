@@ -5,13 +5,7 @@
 return {
   -- Autocompletion
   "hrsh7th/nvim-cmp",
-  ft = {
-    "dockerfile",
-    "lua",
-    "markdown",
-    "python",
-    "yaml", -- For docker-compose.yml
-  },
+  event = { "BufNewFile", "BufReadPre" },
   dependencies = {
     -- Adds LSP completion capabilities
     "hrsh7th/cmp-nvim-lsp",
@@ -22,6 +16,9 @@ return {
 
     -- Add snippets
     "rafamadriz/friendly-snippets",
+
+    -- Add buffer completion
+    "hrsh7th/cmp-buffer",
   },
   config = function()
     local cmp = require("cmp")
@@ -60,6 +57,7 @@ return {
       sources = {
         { name = "nvim_lsp" },
         { name = "luasnip" },
+        { name = "buffer" },
       },
     })
   end,
