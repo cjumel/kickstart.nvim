@@ -4,9 +4,6 @@
 
 return {
   "folke/zen-mode.nvim",
-  dependencies = {
-    "folke/twilight.nvim",
-  },
   keys = {
     {
       "<leader>z",
@@ -14,13 +11,6 @@ return {
         require("zen-mode").toggle()
       end,
       desc = "[Z]en mode: toggle",
-    },
-    {
-      "<leader>Z",
-      function()
-        require("twilight").toggle()
-      end,
-      desc = "[Z]en mode: toggle Twilight",
     },
   },
   opts = {
@@ -33,7 +23,7 @@ return {
       },
     },
     plugins = {
-      twilight = { enabled = true }, -- Enable Twilight by default
+      twilight = { enabled = false }, -- Disable Twilight by default
       tmux = { enabled = true }, -- Disable Tmux status line
     },
   },
