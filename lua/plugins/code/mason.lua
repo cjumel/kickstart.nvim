@@ -19,7 +19,6 @@ return {
       -- Python
       "black",
       "ruff",
-      "mypy",
       "debugpy",
       -- Other
       "prettier",
