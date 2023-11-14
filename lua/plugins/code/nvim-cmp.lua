@@ -21,6 +21,10 @@ return {
 
     -- Load existing VS Code style snippets from plugins (eg. fom rafamadriz/friendly-snippets)
     require("luasnip.loaders.from_vscode").lazy_load()
+    -- Keymap for snippets
+    vim.keymap.set({ "i", "s" }, "<C-y>", function()
+      ls.jump(1)
+    end, { silent = true, desc = "Accept snippet placeholder and jump to next one" })
 
     cmp.setup({
       snippet = {
@@ -31,30 +35,21 @@ return {
       mapping = cmp.mapping.preset.insert({
         ["<C-b>"] = cmp.mapping.scroll_docs(-4),
         ["<C-f>"] = cmp.mapping.scroll_docs(4),
-        ["<C-o>"] = cmp.mapping.complete({}),
+        ["<C-c>"] = cmp.mapping.complete({}),
         ["<CR>"] = cmp.mapping.confirm({
-          behavior = cmp.ConfirmBehavior.Replace,
+          behavior = cmp.ConfirmBehavior.Replace, -- When completing within a word, replace it
           select = true,
         }),
         ["<C-n>"] = cmp.mapping.select_next_item(),
         ["<C-p>"] = cmp.mapping.select_prev_item(),
       }),
+      -- Sources are grouped by decreasing priority
       sources = cmp.config.sources({
-        { name = "nvim_lsp", keyword_length = 3 },
-        { name = "luasnip", keyword_length = 3 },
+        { name = "nvim_lsp", keyword_length = 2 },
+        { name = "luasnip", keyword_length = 2 },
       }, {
-        { name = "buffer", keyword_length = 3 },
+        { name = "buffer", keyword_length = 2 },
       }),
     })
-
-    -- Snippet-related keymaps
-    vim.keymap.set({ "i", "s" }, "<C-y>", function()
-      ls.jump(1)
-    end, { silent = true, desc = "Jump to next snippet placeholder" })
-    vim.keymap.set({ "i", "s" }, "<C-e>", function()
-      if ls.choice_active() then
-        ls.change_choice(1)
-      end
-    end, { silent = true, desc = "Change snippet choice" })
   end,
 }
