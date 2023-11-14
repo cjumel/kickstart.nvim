@@ -50,4 +50,10 @@ return {
       },
     },
   },
+  config = function(_, opts)
+    require("neogit").setup(opts)
+
+    -- Disable column ruler in Neogit buffers
+    vim.api.nvim_command("autocmd FileType Neogit* setlocal colorcolumn=")
+  end,
 }
