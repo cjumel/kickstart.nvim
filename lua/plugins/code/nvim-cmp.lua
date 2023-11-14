@@ -11,10 +11,13 @@ return {
     "saadparwaiz1/cmp_luasnip",
     "L3MON4D3/LuaSnip", -- Snippets engine
     "rafamadriz/friendly-snippets", -- Collection of snippets
-    -- Buffer words based completion
+    -- Other
     "hrsh7th/cmp-buffer",
+    "hrsh7th/cmp-cmdline",
+    "hrsh7th/cmp-path",
+    "hrsh7th/cmp-emoji",
   },
-  event = { "BufNewFile", "BufReadPre" },
+  event = "VeryLazy",
   config = function()
     local cmp = require("cmp")
     local ls = require("luasnip")
@@ -49,6 +52,34 @@ return {
         { name = "luasnip", keyword_length = 2 },
       }, {
         { name = "buffer", keyword_length = 2 },
+      }),
+    })
+
+    -- Set configuration for specific filetypes
+    cmp.setup.filetype({ "gitcommit", "NeogitCommitMessage" }, {
+      sources = cmp.config.sources({
+        { name = "emoji" }, -- For gitmojis
+      }, {
+        { name = "buffer" },
+      }),
+    })
+
+    -- Use buffer source for `/` and `?`
+    cmp.setup.cmdline({ "/", "?" }, {
+      mapping = cmp.mapping.preset.cmdline(),
+      sources = {
+        { name = "buffer" },
+      },
+    })
+
+    -- Use cmdline & path source for ':'
+    -- Path is redundant with cmdline, but it's easier to use for paths
+    cmp.setup.cmdline(":", {
+      mapping = cmp.mapping.preset.cmdline(),
+      sources = cmp.config.sources({
+        { name = "path" },
+      }, {
+        { name = "cmdline" },
       }),
     })
   end,
