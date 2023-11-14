@@ -28,7 +28,7 @@ return {
     {
       "S",
       function()
-        local opts = require("plugins.navigation.telescope.utils.themes").get_dropdown()
+        local opts = require("plugins.navigation.telescope.custom.themes").get_dropdown()
         require("telescope.builtin").current_buffer_fuzzy_find(opts)
       end,
       desc = "[S]earch fuzzily",
@@ -60,7 +60,7 @@ return {
     {
       "<leader>fo",
       function()
-        local opts = require("plugins.navigation.telescope.utils.themes").get_dropdown("normal")
+        local opts = require("plugins.navigation.telescope.custom.themes").get_dropdown("normal")
         require("telescope.builtin").oldfiles(opts)
       end,
       desc = "[F]ind: [O]ld files",
@@ -68,7 +68,7 @@ return {
     {
       "<leader>fs",
       function()
-        local opts = require("plugins.navigation.telescope.utils.themes").get_dropdown("normal")
+        local opts = require("plugins.navigation.telescope.custom.themes").get_dropdown("normal")
         require("telescope.builtin").git_status(opts)
       end,
       desc = "[F]ind: Git [S]tatus files",
@@ -95,7 +95,7 @@ return {
     {
       "<leader><tab>",
       function()
-        local opts = require("plugins.navigation.telescope.utils.themes").get_dropdown("normal")
+        local opts = require("plugins.navigation.telescope.custom.themes").get_dropdown("normal")
         opts.only_cwd = true
         opts.sort_lastused = true
         opts.sort_mru = true
@@ -106,7 +106,7 @@ return {
     {
       "<leader><leader>",
       function()
-        local opts = require("plugins.navigation.telescope.utils.themes").get_commands_dropdown()
+        local opts = require("plugins.navigation.telescope.custom.themes").get_commands_dropdown()
         require("telescope.builtin").commands(opts)
       end,
       desc = "Find fuzzily in commands",
@@ -114,9 +114,9 @@ return {
     {
       "<leader>:",
       function()
-        local opts = require("plugins.navigation.telescope.utils.themes").get_dropdown("normal")
+        local opts = require("plugins.navigation.telescope.custom.themes").get_dropdown("normal")
         opts.filter_fn =
-          require("plugins.navigation.telescope.utils.filters").command_history_filter_fn
+          require("plugins.navigation.telescope.custom.filters").command_history_filter_fn
         require("telescope.builtin").command_history(opts)
       end,
       desc = "Find fuzzily in command history",
@@ -124,7 +124,7 @@ return {
     {
       "<leader>/",
       function()
-        local opts = require("plugins.navigation.telescope.utils.themes").get_dropdown("normal")
+        local opts = require("plugins.navigation.telescope.custom.themes").get_dropdown("normal")
         require("telescope.builtin").search_history(opts)
       end,
       desc = "Find fuzzily in search history",

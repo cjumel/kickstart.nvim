@@ -30,7 +30,7 @@ return {
     {
       "<leader>Q",
       function()
-        local opts = require("plugins.navigation.telescope.utils.themes").get_dropdown("normal")
+        local opts = require("plugins.navigation.telescope.custom.themes").get_dropdown("normal")
         require("telescope").extensions.macroscope.default(opts)
       end,
       desc = "Macro history",
@@ -50,6 +50,6 @@ return {
       move_to_front = true,
     },
     -- Don't store pure whitespace yanks
-    filter = require("plugins.navigation.telescope.utils.filters").whitespace_yank_filter_fn,
+    filter = require("plugins.navigation.telescope.custom.filters").whitespace_yank_filter_fn,
   },
 }
