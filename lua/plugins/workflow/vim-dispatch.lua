@@ -17,35 +17,6 @@ return {
       end,
       desc = "[O]pen command output",
     },
-    -- Git commit
-    {
-      "<leader>gcm",
-      function()
-        vim.cmd("Dispatch git commit --no-edit")
-      end,
-      desc = "[G]it [C]o[M]mit",
-    },
-    {
-      "<leader>gca",
-      function()
-        vim.cmd("Dispatch! git commit --amend --no-edit")
-      end,
-      desc = "[G]it [C]ommit: [A]mend",
-    },
-    {
-      "<leader>gcf",
-      function()
-        vim.cmd("Dispatch! git commit --message '🚧 FIXUP'")
-      end,
-      desc = "[G]it [C]ommit: [F]ixup",
-    },
-    {
-      "<leader>gcw",
-      function()
-        vim.cmd("Dispatch! git commit --no-verify --message '🚧 WIP'")
-      end,
-      desc = "[G]it [C]ommit: [W]IP",
-    },
   },
   init = function()
     -- Pre-commit
