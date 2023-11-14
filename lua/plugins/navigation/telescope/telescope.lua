@@ -154,6 +154,11 @@ return {
       defaults = {
         default_mappings = {
           i = {
+            ["<C-n>"] = actions.move_selection_next,
+            ["<C-p>"] = actions.move_selection_previous,
+
+            ["<C-c>"] = actions.close,
+
             ["<CR>"] = actions.select_default,
             ["<C-x>"] = actions.select_horizontal,
             ["<C-v>"] = actions.select_vertical,
