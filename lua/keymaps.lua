@@ -26,14 +26,21 @@ vim.keymap.set({ "n", "v" }, "Q", "@q", { desc = "Default macro register" })
 -- Diagnostics
 vim.keymap.set("n", "<leader>?", vim.diagnostic.open_float, { desc = "Expand diagnostic" })
 
--- Theme
+-- UI switches
 vim.keymap.set("n", "<leader>T", function()
   if vim.o.background == "dark" then
     vim.cmd("set background=light")
   else
     vim.cmd("set background=dark")
   end
-end, { desc = "[T]heme light/dark" })
+end, { desc = "[T]heme switch" })
+vim.keymap.set("n", "<leader>N", function()
+  if vim.wo.relativenumber then
+    vim.wo.relativenumber = false
+  else
+    vim.wo.relativenumber = true
+  end
+end, { desc = "[N]umbering switch" })
 
 -- Quick files
 vim.keymap.set("n", "<leader>qn", function()
