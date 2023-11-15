@@ -49,7 +49,8 @@ return {
       },
       use_default_keymaps = false,
       view_options = {
-        show_hidden = true,
+        show_hidden = false,
+        is_hidden_file = utils.is_hidden,
         is_always_hidden = utils.is_always_hidden,
       },
     })

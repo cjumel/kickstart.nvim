@@ -10,6 +10,10 @@ M.add_oil_entry_to_harpoon = function()
   require("plugins.navigation.utils.harpoon").add_harpoon_file(path)
 end
 
+M.is_hidden = function(name, _)
+  return (name ~= "..") and vim.startswith(name, ".")
+end
+
 M.is_always_hidden = function(name, _)
   local always_hidden_names = {
     ".git",
