@@ -16,6 +16,14 @@ return {
       ft = "python",
       desc = "[D]ebug: toggle [D]ebug UI",
     },
+    {
+      "<leader>dr",
+      function()
+        require("dapui").open({ reset = true })
+      end,
+      ft = "python",
+      desc = "[D]ebug: [R]eset debug UI",
+    },
   },
   config = function()
     local dap = require("dap")
