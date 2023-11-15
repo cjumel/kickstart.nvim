@@ -25,12 +25,20 @@ return {
       desc = "[D]ebug: [C]ontinue",
     },
     {
-      "<leader>dr",
+      "<leader>dl",
       function()
         require("dap").run_last()
       end,
       ft = "python",
-      desc = "[D]ebug: [R]erun",
+      desc = "[D]ebug: rerun [L]ast",
+    },
+    {
+      "<leader>dh",
+      function()
+        require("dap.ui.widgets").hover()
+      end,
+      ft = "python",
+      desc = "[D]ebug: [H]over",
     },
   },
 }

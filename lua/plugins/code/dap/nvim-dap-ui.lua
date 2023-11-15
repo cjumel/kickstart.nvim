@@ -28,23 +28,23 @@ return {
             -- Vertical elements are displayed bottom to top
             {
               id = "scopes",
-              size = 0.3,
+              size = 0.25,
             },
             {
               id = "watches",
-              size = 0.3,
+              size = 0.25,
             },
             {
               id = "breakpoints",
-              size = 0.3,
+              size = 0.25,
             },
             {
               id = "repl",
-              size = 0.1,
+              size = 0.25,
             },
           },
           position = "right",
-          size = 30,
+          size = 40,
         },
         {
           elements = {
