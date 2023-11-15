@@ -249,6 +249,17 @@ return {
             },
           },
         },
+        -- Override the <tab> key in git_status for the preview instead of staging the file
+        git_status = {
+          mappings = {
+            i = {
+              ["<tab>"] = layout_actions.toggle_preview,
+            },
+            n = {
+              ["<tab>"] = layout_actions.toggle_preview,
+            },
+          },
+        },
       },
     })
 
