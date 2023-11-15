@@ -94,7 +94,7 @@ return {
       desc = "[e]-key style search (Hop)",
     },
     {
-      "<leader>ge",
+      "<leader>E",
       function()
         require("hop").hint_words({
           hint_position = require("hop.hint").HintPosition.END,
@@ -103,7 +103,7 @@ return {
         })
       end,
       mode = { "n", "x", "o" },
-      desc = "[ge]-keys style search (Hop)",
+      desc = "[e]-key style search backward (Hop)",
     },
     {
       "<leader>j",

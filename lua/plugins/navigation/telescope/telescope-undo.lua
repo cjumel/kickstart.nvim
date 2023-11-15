@@ -9,7 +9,7 @@ return {
   },
   keys = {
     {
-      "<leader>u",
+      "<leader>U",
       function()
         require("telescope").extensions.undo.undo()
       end,

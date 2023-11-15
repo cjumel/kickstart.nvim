@@ -65,14 +65,6 @@ return {
       end,
       desc = "[F]ind: [O]ld files",
     },
-    {
-      "<leader>fs",
-      function()
-        local opts = require("plugins.navigation.telescope.custom.themes").get_dropdown("normal")
-        require("telescope.builtin").git_status(opts)
-      end,
-      desc = "[F]ind: Git [S]tatus files",
-    },
 
     -- Find files by content
     {
@@ -120,6 +112,26 @@ return {
         require("telescope.builtin").search_history(opts)
       end,
       desc = "Find fuzzily in search history",
+    },
+
+    -- Git related
+    {
+      "<leader>fs",
+      function()
+        local opts = require("plugins.navigation.telescope.custom.themes").get_dropdown("normal")
+        require("telescope.builtin").git_status(opts)
+      end,
+      desc = "[F]ind: Git [S]tatus files",
+    },
+    {
+      "<leader>fc",
+      function()
+        require("telescope.builtin").git_commits({
+          layout_strategy = "vertical",
+          initial_mode = "normal",
+        })
+      end,
+      desc = "[F]ind: Git [C]ommits",
     },
 
     -- Help-related
