@@ -41,7 +41,7 @@ return {
       map({ "n", "x", "o" }, "]G", prev_conflict_repeat, { desc = "Previous Git conflict" })
 
       -- Action keymaps
-      map("n", "<leader>gp", gs.preview_hunk, { desc = "[G]it: [P]review hunk" })
+      map("n", "<leader><TAB>", gs.preview_hunk, { desc = "Preview hunk (Git)" })
       map("n", "<leader>a", gs.stage_hunk, { desc = "[A]dd hunk (Git)" })
       map("v", "<leader>a", function()
         gs.stage_hunk({ vim.fn.line("."), vim.fn.line("v") })

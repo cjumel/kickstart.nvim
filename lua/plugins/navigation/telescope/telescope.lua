@@ -93,7 +93,7 @@ return {
 
     -- Vim- or Neovim-related
     {
-      "<leader><tab>",
+      "<leader><leader>",
       function()
         local opts = require("plugins.navigation.telescope.custom.themes").get_dropdown("normal")
         opts.only_cwd = true
@@ -102,14 +102,6 @@ return {
         require("telescope.builtin").buffers(opts)
       end,
       desc = "Buffer switcher",
-    },
-    {
-      "<leader><leader>",
-      function()
-        local opts = require("plugins.navigation.telescope.custom.themes").get_commands_dropdown()
-        require("telescope.builtin").commands(opts)
-      end,
-      desc = "Find fuzzily in commands",
     },
     {
       "<leader>:",
