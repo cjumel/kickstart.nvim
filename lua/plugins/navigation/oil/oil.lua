@@ -47,7 +47,7 @@ return {
         ["R"] = "actions.refresh",
         -- Overwrite Harpoon keymap to add the file under the cursor in Oil buffer instead
         -- of Oil buffer itself
-        ["<leader><CR>"] = custom_actions.add_oil_entry_to_harpoon,
+        ["<leader><CR>"] = custom_actions.add_harpoon_mark_from_oil,
       },
       use_default_keymaps = false,
       view_options = {
