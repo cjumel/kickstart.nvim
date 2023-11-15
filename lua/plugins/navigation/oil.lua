@@ -16,7 +16,7 @@ return {
     {
       "-",
       function()
-        require("oil").open()
+        require("oil").open_float()
       end,
       desc = "[-] Open parent directory",
     },
@@ -38,6 +38,7 @@ return {
         ["<C-t>"] = "actions.select_tab",
         -- Using <tab> will break <C-i> to jump forward in the jump list as they are the same key
         ["<tab>"] = "actions.preview",
+        ["<ESC>"] = "actions.close",
         ["q"] = "actions.close",
         ["-"] = "actions.parent",
         ["_"] = "actions.open_cwd",
@@ -52,6 +53,11 @@ return {
         show_hidden = false,
         is_hidden_file = utils.is_hidden,
         is_always_hidden = utils.is_always_hidden,
+      },
+      float = {
+        max_width = 80,
+        max_height = 20,
+        border = "single",
       },
     })
 
