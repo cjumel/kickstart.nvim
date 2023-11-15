@@ -39,7 +39,7 @@ return {
       end
 
       -- Documentation
-      nmap("K", vim.lsp.buf.hover, "[K] hover documentation", false)
+      nmap("K", vim.lsp.buf.hover, "Hover documentation", false)
       nmap("<leader>ls", vim.lsp.buf.signature_help, "[S]ignature help")
 
       -- Code edition
