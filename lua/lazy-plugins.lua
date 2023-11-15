@@ -4,24 +4,24 @@
 require("lazy").setup({
 
   -- Plugins related to code (LSP, completion, debugging, etc.)
-  { import = "plugins.code" },
   { import = "plugins.code.dap" },
+  { import = "plugins.code" },
 
   -- Plugins related to simple editions (highlighting, motions, text objects, etc.)
-  { import = "plugins.edition" },
   { import = "plugins.edition.treesitter" },
+  { import = "plugins.edition" },
 
   -- Plugins related to code navigation (fuzzy finding, file tree navigation, etc.)
-  { import = "plugins.navigation" },
   { import = "plugins.navigation.telescope" },
+  { import = "plugins.navigation" },
 
   -- Plugins related to the user interface (color scheme, visual elements, etc.)
   { import = "plugins.ui" },
 
   -- Plugins related to the global workflow with external tools (git, tests, external package
   -- manager, etc.)
-  { import = "plugins.workflow" },
   { import = "plugins.workflow.vcs" },
+  { import = "plugins.workflow" },
 }, {})
 
 -- vim: ts=2 sts=2 sw=2 et
