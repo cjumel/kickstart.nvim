@@ -22,7 +22,8 @@ return {
     },
   },
   config = function()
-    local utils = require("plugins.navigation.utils.oil")
+    local custom_actions = require("plugins.navigation.oil.custom.actions")
+    local custom_opts = require("plugins.navigation.oil.custom.opts")
 
     require("oil").setup({
       win_options = {
@@ -46,13 +47,13 @@ return {
         ["R"] = "actions.refresh",
         -- Overwrite Harpoon keymap to add the file under the cursor in Oil buffer instead
         -- of Oil buffer itself
-        ["<leader><CR>"] = utils.add_oil_entry_to_harpoon,
+        ["<leader><CR>"] = custom_actions.add_oil_entry_to_harpoon,
       },
       use_default_keymaps = false,
       view_options = {
         show_hidden = false,
-        is_hidden_file = utils.is_hidden,
-        is_always_hidden = utils.is_always_hidden,
+        is_hidden_file = custom_opts.is_hidden,
+        is_always_hidden = custom_opts.is_always_hidden,
       },
       float = {
         max_width = 80,

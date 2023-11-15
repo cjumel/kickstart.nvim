@@ -1,15 +1,5 @@
 local M = {}
 
-M.add_oil_entry_to_harpoon = function()
-  local entry = require("oil").get_cursor_entry()
-  if entry == nil then
-    return
-  end
-  local dir = require("oil").get_current_dir()
-  local path = dir .. entry.name
-  require("plugins.navigation.utils.harpoon").add_harpoon_file(path)
-end
-
 M.is_hidden = function(name, _)
   return (name ~= "..") and vim.startswith(name, ".")
 end

@@ -12,6 +12,8 @@ require("lazy").setup({
   { import = "plugins.edition" },
 
   -- Plugins related to code navigation (fuzzy finding, file tree navigation, etc.)
+  { import = "plugins.navigation.harpoon" },
+  { import = "plugins.navigation.oil" },
   { import = "plugins.navigation.telescope" },
   { import = "plugins.navigation" },
 
