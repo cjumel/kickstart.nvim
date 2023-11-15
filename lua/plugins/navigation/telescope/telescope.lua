@@ -148,8 +148,10 @@ return {
   },
   config = function()
     local actions = require("telescope.actions")
-    local actions_layout = require("telescope.actions.layout")
-    local trouble = require("trouble.providers.telescope")
+    local layout_actions = require("telescope.actions.layout")
+    local trouble_actions = require("trouble.providers.telescope")
+    local custom_actions = require("plugins.navigation.telescope.custom.actions")
+
     require("telescope").setup({
       defaults = {
         default_mappings = {
@@ -163,9 +165,9 @@ return {
             ["<C-x>"] = actions.select_horizontal,
             ["<C-v>"] = actions.select_vertical,
             ["<C-q>"] = actions.send_to_qflist + actions.open_qflist,
-            ["<C-t>"] = trouble.open_with_trouble,
+            ["<C-t>"] = trouble_actions.open_with_trouble,
 
-            ["<tab>"] = actions_layout.toggle_preview,
+            ["<tab>"] = layout_actions.toggle_preview,
             ["<C-u>"] = actions.preview_scrolling_up,
             ["<C-d>"] = actions.preview_scrolling_down,
 
@@ -178,9 +180,9 @@ return {
             ["<C-x>"] = actions.select_horizontal,
             ["<C-v>"] = actions.select_vertical,
             ["<C-q>"] = actions.send_to_qflist + actions.open_qflist,
-            ["<C-t>"] = trouble.open_with_trouble,
+            ["<C-t>"] = trouble_actions.open_with_trouble,
 
-            ["<tab>"] = actions_layout.toggle_preview,
+            ["<tab>"] = layout_actions.toggle_preview,
             ["<C-u>"] = actions.preview_scrolling_up,
             ["<C-d>"] = actions.preview_scrolling_down,
 
@@ -191,7 +193,8 @@ return {
 
             ["v"] = actions.toggle_selection,
             ["Q"] = actions.send_selected_to_qflist + actions.open_qflist,
-            ["T"] = trouble.open_selected_with_trouble,
+            ["T"] = trouble_actions.open_selected_with_trouble,
+            ["<leader><CR>"] = custom_actions.add_harpoon_mark_from_telescope,
 
             ["<esc>"] = actions.close,
             ["?"] = actions.which_key,
