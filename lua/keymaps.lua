@@ -34,13 +34,13 @@ vim.keymap.set("n", "<leader>T", function()
     vim.cmd("set background=dark")
   end
 end, { desc = "[T]heme switch" })
-vim.keymap.set("n", "<leader>N", function()
+vim.keymap.set("n", "<leader>L", function()
   if vim.wo.relativenumber then
     vim.wo.relativenumber = false
   else
     vim.wo.relativenumber = true
   end
-end, { desc = "[N]umbering switch" })
+end, { desc = "[L]ine numbering switch" })
 
 -- Quick files
 vim.keymap.set("n", "<leader>qn", function()

@@ -17,6 +17,11 @@ return {
       "<cmd> Noice dismiss <CR>",
       desc = "[N]otifications: clear",
     },
+    {
+      "<leader>N",
+      "<cmd> Noice <CR>",
+      desc = "[N]otifications: history",
+    },
   },
   opts = {
     lsp = {
