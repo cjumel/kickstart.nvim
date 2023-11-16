@@ -3,7 +3,7 @@
 -- Super fast git decorations and utilities implemented purely in Lua. This plugin brings
 -- buffer-centric features, like signs to mark git hunks, or functions to stage them.
 
-local utils = require("plugins.workflow.vcs.utils.gitsigns")
+local utils = require("plugins.external_tools.vcs.utils.gitsigns")
 
 return {
   "lewis6991/gitsigns.nvim",
