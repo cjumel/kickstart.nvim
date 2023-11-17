@@ -27,13 +27,13 @@ vim.keymap.set({ "n", "v" }, "Q", "@q", { desc = "Default macro register" })
 vim.keymap.set("n", "<leader>?", vim.diagnostic.open_float, { desc = "Expand diagnostic" })
 
 -- UI switches
-vim.keymap.set("n", "<leader>T", function()
+vim.keymap.set("n", "<leader>C", function()
   if vim.o.background == "dark" then
     vim.cmd("set background=light")
   else
     vim.cmd("set background=dark")
   end
-end, { desc = "[T]heme switch" })
+end, { desc = "[C]olor scheme switch" })
 vim.keymap.set("n", "<leader>L", function()
   if vim.wo.relativenumber then
     vim.wo.relativenumber = false
