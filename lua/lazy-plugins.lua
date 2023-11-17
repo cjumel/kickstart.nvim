@@ -1,7 +1,14 @@
 -- [[ Configure plugins ]]
 -- NOTE: The imports below can automatically add your own plugins, configuration, etc. from
 -- different directories in `lua/plugins/`
-require("lazy").setup({
+
+local opts = {
+  ui = {
+    border = "single", -- A lot better for transparent background
+  },
+}
+
+local plugins = {
 
   -- Plugins related to code (LSP, completion, debugging, etc.)
   { import = "plugins.code.dap" },
@@ -23,6 +30,8 @@ require("lazy").setup({
 
   -- Plugins related to the user interface (color scheme, visual elements, etc.)
   { import = "plugins.ui" },
-}, {})
+}
+
+require("lazy").setup(plugins, opts)
 
 -- vim: ts=2 sts=2 sw=2 et
