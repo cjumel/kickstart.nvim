@@ -15,6 +15,7 @@ return {
         light = "latte",
         dark = "mocha",
       },
+      transparent_background = true,
       integrations = { -- add highlight groups for popular plugins
         fidget = true,
         harpoon = true,
