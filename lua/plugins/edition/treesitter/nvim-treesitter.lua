@@ -83,8 +83,8 @@ return {
             ["=r"] = { query = "@assignment.rhs", desc = "assignment right hand side" },
 
             -- Comment
-            ["a#"] = { query = "@comment.outer", desc = "a comment" },
-            ["i#"] = { query = "@comment.inner", desc = "inner comment" },
+            ["ag"] = { query = "@comment.outer", desc = "a comment" },
+            ["ig"] = { query = "@comment.inner", desc = "inner comment" },
           },
         },
         move = {
@@ -113,7 +113,7 @@ return {
             ["[="] = { query = "@assignment.outer", desc = "Next assignment" },
 
             -- Comment
-            ["[#"] = { query = "@comment.outer", desc = "Next comment" },
+            ["[g"] = { query = "@comment.outer", desc = "Next comment" },
           },
           goto_next_end = {
             -- Class
@@ -154,7 +154,7 @@ return {
             ["]="] = { query = "@assignment.outer", desc = "Previous assignment" },
 
             -- Comment
-            ["]#"] = { query = "@comment.outer", desc = "Previous comment" },
+            ["]g"] = { query = "@comment.outer", desc = "Previous comment" },
           },
           goto_previous_end = {
             -- Class
