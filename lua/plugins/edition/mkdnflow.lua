@@ -22,13 +22,13 @@ return {
   },
   keys = {
     {
-      "<leader>m",
+      "<C-m>",
       function()
         vim.cmd("MkdnToggleToDo")
       end,
       ft = "markdown",
       mode = { "n", "v" },
-      desc = "[M]ark checkbox",
+      desc = "Mark checkbox (Markdown)",
     },
     {
       "[X",
@@ -37,7 +37,7 @@ return {
       end,
       ft = "markdown",
       mode = { "n", "x", "o" },
-      desc = "Next checkbox",
+      desc = "Next checkbox (Markdown)",
     },
     {
       "]X",
@@ -46,49 +46,50 @@ return {
       end,
       ft = "markdown",
       mode = { "n", "x", "o" },
-      desc = "Previous checkbox",
+      desc = "Previous checkbox (Markdown)",
     },
     {
-      "[h",
+      "[T",
       function()
         vim.cmd("MkdnNextHeadingRepeat")
       end,
       ft = "markdown",
       mode = { "n", "x", "o" },
-      desc = "Next heading",
+      desc = "Next title (Markdown)",
     },
     {
-      "]h",
+      "]T",
       function()
         vim.cmd("MkdnPrevHeadingRepeat")
       end,
       ft = "markdown",
       mode = { "n", "x", "o" },
-      desc = "Previous heading",
+      desc = "Previous title (Markdown)",
     },
   },
-  config = function()
-    require("mkdnflow").setup({
-      modules = {
-        bib = false,
-        buffers = false,
-        conceal = false,
-        cursor = true, -- For MkdnNextHeading and MkdnPrevHeading
-        folds = false,
-        links = false,
-        lists = true, -- For MkdnToggleToDo
-        maps = false, -- Disable all default mappings
-        paths = false,
-        tables = false,
-        yaml = false,
-      },
-      wrap = true,
-      to_do = {
-        -- Using lower "x" enables some synthax highlighting
-        symbols = { " ", "-", "x" },
-        complete = "x",
-      },
-    })
+  opts = {
+    modules = {
+      bib = false,
+      buffers = false,
+      conceal = false,
+      cursor = true, -- For MkdnNextHeading and MkdnPrevHeading
+      folds = false,
+      links = false,
+      lists = true, -- For MkdnToggleToDo
+      maps = false, -- Disable all default mappings
+      paths = false,
+      tables = false,
+      yaml = false,
+    },
+    wrap = true,
+    to_do = {
+      -- Using lower "x" enables some synthax highlighting
+      symbols = { " ", "-", "x" },
+      complete = "x",
+    },
+  },
+  config = function(_, opts)
+    require("mkdnflow").setup(opts)
 
     local ts_repeat_move = require("nvim-treesitter.textobjects.repeatable_move")
     local next_unchecked_checkbox_repeat, previous_unchecked_checkbox_repeat =
