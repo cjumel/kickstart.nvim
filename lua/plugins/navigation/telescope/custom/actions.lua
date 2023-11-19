@@ -10,13 +10,10 @@ M.add_harpoon_mark_from_telescope = function(tb)
   telescope_utils.map_selections(tb, function(selection)
     local file = selection[1]
 
-    -- This lets it work with live grep picker
-    if selection.filename then
+    -- Handle special pickers
+    if selection.filename then -- For live_grep picker
       file = selection.filename
-    end
-
-    -- this lets it work with git status picker
-    if selection.value then
+    elseif selection.value then -- For git_status picker
       file = selection.value
     end
 
