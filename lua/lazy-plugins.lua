@@ -1,5 +1,5 @@
 -- [[ Configure plugins ]]
--- NOTE: The imports below can automatically add your own plugins, configuration, etc. from
+-- The imports below can automatically add your own plugins, configuration, etc. from
 -- different directories in `lua/plugins/`
 
 local opts = {
