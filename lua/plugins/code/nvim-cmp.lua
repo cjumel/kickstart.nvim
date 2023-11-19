@@ -9,8 +9,7 @@ return {
     "hrsh7th/cmp-nvim-lsp",
     -- Snippets
     "saadparwaiz1/cmp_luasnip",
-    "L3MON4D3/LuaSnip", -- Snippets engine
-    "rafamadriz/friendly-snippets", -- Collection of snippets
+    "L3MON4D3/LuaSnip",
     -- Other
     "hrsh7th/cmp-buffer",
     "hrsh7th/cmp-cmdline",
@@ -20,19 +19,11 @@ return {
   event = "VeryLazy",
   config = function()
     local cmp = require("cmp")
-    local ls = require("luasnip")
-
-    -- Load existing VS Code style snippets from plugins (eg. fom rafamadriz/friendly-snippets)
-    require("luasnip.loaders.from_vscode").lazy_load()
-    -- Keymap for snippets
-    vim.keymap.set({ "i", "s" }, "<C-y>", function()
-      ls.jump(1)
-    end, { silent = true, desc = "Accept snippet placeholder and jump to next one" })
 
     cmp.setup({
       snippet = {
         expand = function(args)
-          ls.lsp_expand(args.body)
+          require("luasnip").lsp_expand(args.body)
         end,
       },
       mapping = cmp.mapping.preset.insert({

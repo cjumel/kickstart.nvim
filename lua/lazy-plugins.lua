@@ -12,6 +12,7 @@ local plugins = {
 
   -- Plugins related to code (LSP, completion, debugging, etc.)
   { import = "plugins.code.dap" },
+  { import = "plugins.code.luasnip" },
   { import = "plugins.code" },
 
   -- Plugins related to simple editions (highlighting, motions, text objects, etc.)
