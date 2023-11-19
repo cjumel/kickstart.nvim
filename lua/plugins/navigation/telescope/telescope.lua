@@ -124,6 +124,16 @@ return {
       desc = "[F]ind: Git [S]tatus files",
     },
     {
+      "<leader>fb",
+      function()
+        require("telescope.builtin").git_branches({
+          layout_strategy = "vertical",
+          initial_mode = "normal",
+        })
+      end,
+      desc = "[F]ind: Git [B]ranches",
+    },
+    {
       "<leader>fc",
       function()
         require("telescope.builtin").git_commits({
