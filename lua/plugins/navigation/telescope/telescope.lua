@@ -5,7 +5,8 @@
 
 return {
   "nvim-telescope/telescope.nvim",
-  -- TODO: it is not recommanded to use the master branch, but it is necessary for the filter_fn
+  -- NOTE:
+  -- It is not recommanded to use the master branch, but it is necessary for the filter_fn
   -- option of the command_history function; uncomment the following line when it's not necessary
   -- anymore:
   -- branch = "0.1.x",
