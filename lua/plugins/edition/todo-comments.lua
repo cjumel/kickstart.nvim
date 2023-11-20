@@ -13,6 +13,12 @@ return {
   event = { "BufNewFile", "BufReadPre" },
   opts = {
     sign_priority = 1, -- Low sign priority to not override other signs
+    keywords = {
+      TODO = { icon = " ", color = "info" },
+      BUG = { icon = " ", color = "error", alt = { "FIXME", "ISSUE" } },
+      NOTE = { icon = " ", color = "hint" },
+    },
+    merge_keywords = false,
     search = {
       args = {
         "--color=never",
