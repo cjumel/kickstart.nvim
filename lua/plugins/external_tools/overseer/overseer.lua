@@ -2,6 +2,12 @@
 --
 -- A task runner and job management plugin for Neovim.
 
+-- TODO: tasks from vim-dispatch:
+-- - pre-commit run file, pre-commit run directory, pre-commit run all files, pre-commit autoupdate
+-- - poetry install, poetry update
+-- - python run file
+-- - pytest, pytest fast, pytest slow
+
 return {
   "stevearc/overseer.nvim",
   keys = {
