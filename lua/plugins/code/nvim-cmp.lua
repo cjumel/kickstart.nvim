@@ -14,7 +14,7 @@ return {
     "hrsh7th/cmp-buffer",
     "hrsh7th/cmp-cmdline",
     "hrsh7th/cmp-path",
-    "hrsh7th/cmp-emoji",
+    "clementjumel/cmp-gitmoji",
   },
   event = "VeryLazy",
   config = function()
@@ -49,7 +49,7 @@ return {
     -- Set configuration for specific filetypes
     cmp.setup.filetype({ "gitcommit", "NeogitCommitMessage" }, {
       sources = cmp.config.sources({
-        { name = "emoji" }, -- For gitmojis
+        { name = "gitmoji" },
       }, {
         { name = "buffer" },
       }),
