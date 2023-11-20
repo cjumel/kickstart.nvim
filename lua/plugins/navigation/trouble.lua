@@ -8,6 +8,8 @@ return {
   dependencies = {
     "nvim-tree/nvim-web-devicons",
     "nvim-treesitter/nvim-treesitter-textobjects",
+    -- The following dependencies are needed but don't need to be loaded when the plugin is loaded
+    -- "folke/todo-comments.nvim",
   },
   keys = {
     {
@@ -44,6 +46,14 @@ return {
         require("trouble").toggle("workspace_diagnostics")
       end,
       desc = "Trouble: [W]orkspace diagnostics",
+    },
+    {
+      "<leader>xt",
+      function()
+        require("todo-comments") -- Lazy load todo-comments which adds a "todo" source to trouble
+        require("trouble").toggle("todo")
+      end,
+      desc = "Trouble: [T]odo-list",
     },
     {
       "[x",
