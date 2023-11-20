@@ -20,6 +20,7 @@ local plugins = {
   { import = "plugins.edition" },
 
   -- Plugins related to external tools (VCS, pre-commit, external package manager, etc.)
+  { import = "plugins.external_tools.overseer" },
   { import = "plugins.external_tools.vcs" },
   { import = "plugins.external_tools" },
 

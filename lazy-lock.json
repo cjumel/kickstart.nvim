@@ -39,6 +39,7 @@
   "nvim-various-textobjs": { "branch": "main", "commit": "c0012f4b87d0145d61d0d7320f62588d9472fe7c" },
   "nvim-web-devicons": { "branch": "master", "commit": "11eb26fc166742db8d1e8a6f5a7de9df37b09aae" },
   "oil.nvim": { "branch": "master", "commit": "af04969c437e0c46a2b3c86d7892458e878ecc40" },
+  "overseer.nvim": { "branch": "master", "commit": "6f462a61ce9a5f47743cbf78454bed14a855eb03" },
   "plenary.nvim": { "branch": "master", "commit": "50012918b2fc8357b87cff2a7f7f0446e47da174" },
   "stand.nvim": { "branch": "main", "commit": "0ea887e52b27b4ad1f9d53f77ce1cb8bd17d7f92" },
   "telescope-fzf-native.nvim": { "branch": "main", "commit": "6c921ca12321edaa773e324ef64ea301a1d0da62" },
