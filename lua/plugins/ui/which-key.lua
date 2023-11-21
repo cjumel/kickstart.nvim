@@ -14,6 +14,7 @@ return {
       ["<leader>dp"] = { name = "[D]ebug [P]ython", _ = "which_key_ignore" },
       ["<leader>f"] = { name = "[F]ind", _ = "which_key_ignore" },
       ["<leader>l"] = { name = "[L]SP", _ = "which_key_ignore" },
+      ["<leader>o"] = { name = "[O]verseer", _ = "which_key_ignore" },
       ["<leader>q"] = { name = "[Q]uick file", _ = "which_key_ignore" },
       ["<leader>s"] = { name = "[S]tand", _ = "which_key_ignore" },
       ["<leader>t"] = { name = "[T]odo", _ = "which_key_ignore" },
