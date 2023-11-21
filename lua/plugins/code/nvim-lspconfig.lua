@@ -70,6 +70,9 @@ return {
           show_line = false,
         })
       end, "[G]oto [D]efinition", false)
+      nmap("gD", function()
+        require("telescope.builtin").lsp_type_definitions()
+      end, "[G]oto type [D]efinition", false)
       nmap("gr", function()
         require("telescope.builtin").lsp_references({
           layout_strategy = "vertical",
@@ -80,9 +83,6 @@ return {
       nmap("gI", function()
         require("telescope.builtin").lsp_implementations()
       end, "[G]oto [I]mplementation", false)
-      nmap("<leader>D", function()
-        require("telescope.builtin").lsp_type_definitions()
-      end, "Type [D]efinition", false)
     end
 
     -- mason-lspconfig requires that these setup functions are called in this order
