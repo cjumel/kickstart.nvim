@@ -35,4 +35,14 @@ return {
       { c1 = c(1, { t("TODO"), t("NOTE"), t("BUG"), t("FIXME"), t("ISSUE") }), i2 = i(2, "text") }
     )
   ),
+  s(
+    "main",
+    fmt(
+      [[
+      if __name__ == "__main__":
+          {i1}
+      ]],
+      { i1 = i(1, "# code") }
+    )
+  ),
 }
