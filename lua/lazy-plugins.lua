@@ -22,6 +22,7 @@ local plugins = {
   -- Plugins related to external tools (VCS, pre-commit, external package manager, etc.)
   { import = "plugins.external_tools.overseer" },
   { import = "plugins.external_tools.vcs" },
+  { import = "plugins.external_tools.vim-dadbod" },
   { import = "plugins.external_tools" },
 
   -- Plugins related to code navigation (fuzzy finding, file tree navigation, etc.)
