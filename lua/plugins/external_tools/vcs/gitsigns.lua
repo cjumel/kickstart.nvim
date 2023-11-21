@@ -41,7 +41,7 @@ return {
       map({ "n", "x", "o" }, "]H", prev_conflict_repeat, { desc = "Previous conflict hunk" })
 
       -- Action keymaps
-      map("n", "<leader><TAB>", gs.preview_hunk, { desc = "Preview hunk (Git)" })
+      map({ "n", "v" }, "<leader><TAB>", gs.preview_hunk, { desc = "Preview hunk (Git)" })
 
       map("n", "<leader>a", gs.stage_hunk, { desc = "[A]dd hunk (Git)" })
       map("v", "<leader>a", function()
