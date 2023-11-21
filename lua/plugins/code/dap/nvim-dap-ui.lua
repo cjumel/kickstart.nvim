@@ -14,7 +14,7 @@ return {
         require("dapui").toggle()
       end,
       ft = "python",
-      desc = "[D]ebug: toggle [D]ebug UI",
+      desc = "[D]ebug: toggle UI",
     },
     {
       "<leader>dr",
@@ -22,7 +22,7 @@ return {
         require("dapui").open({ reset = true })
       end,
       ft = "python",
-      desc = "[D]ebug: [R]eset debug UI",
+      desc = "[D]ebug: [R]eset UI",
     },
   },
   config = function()
