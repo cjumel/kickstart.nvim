@@ -9,10 +9,22 @@ return {
     {
       "<C-y>",
       function()
-        require("luasnip").jump(1)
+        local ls = require("luasnip")
+        ls.jump(1)
       end,
       mode = { "i", "s" },
-      desc = "Accept snippet placeholder and jump to next one",
+      desc = "Accept snippet node content",
+    },
+    {
+      "<C-o>",
+      function()
+        local ls = require("luasnip")
+        if ls.choice_active() then
+          ls.change_choice(1)
+        end
+      end,
+      mode = { "i", "s" },
+      desc = "Change snippet node choice option",
     },
   },
   config = function()
