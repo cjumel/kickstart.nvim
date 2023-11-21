@@ -21,7 +21,5 @@ return {
   config = function()
     -- Load existing VS Code style snippets from plugins (eg. fom rafamadriz/friendly-snippets)
     require("luasnip.loaders.from_vscode").lazy_load()
-
-    require("luasnip").add_snippets("all", require("plugins.code.luasnip.snippets.all"))
   end,
 }
