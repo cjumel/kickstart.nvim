@@ -9,10 +9,10 @@ return {
     t("# "),
     c(1, {
       t("TODO: "),
+      t("NOTE: "),
       t("BUG: "),
       t("FIXME: "),
       t("ISSUE: "),
-      t("NOTE: "),
     }),
   }),
 }

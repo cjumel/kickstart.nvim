@@ -15,8 +15,8 @@ return {
     sign_priority = 1, -- Low sign priority to not override other signs
     keywords = {
       TODO = { icon = " ", color = "info" },
-      BUG = { icon = " ", color = "error", alt = { "FIXME", "ISSUE" } },
       NOTE = { icon = " ", color = "hint" },
+      BUG = { icon = " ", color = "error", alt = { "FIXME", "ISSUE" } },
     },
     merge_keywords = false,
     search = {
