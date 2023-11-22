@@ -21,7 +21,7 @@ return {
     {
       "<leader>or",
       function()
-        vim.cmd("OverseerRun")
+        vim.cmd("OverseerRun shell")
       end,
       desc = "[O]verseer: [R]un",
     },
@@ -40,6 +40,9 @@ return {
     },
   },
   opts = {
+    task_list = {
+      direction = "bottom",
+    },
     task_editor = {
       bindings = {
         i = {
