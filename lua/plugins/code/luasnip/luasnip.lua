@@ -27,7 +27,12 @@ return {
       desc = "Change snippet node choice option",
     },
   },
-  config = function()
+  opts = {
+    enable_autosnippets = true,
+  },
+  config = function(_, opts)
+    require("luasnip").setup(opts)
+
     require("luasnip").add_snippets("lua", require("plugins.code.luasnip.snippets.lua"))
     require("luasnip").add_snippets("python", require("plugins.code.luasnip.snippets.python"))
   end,
