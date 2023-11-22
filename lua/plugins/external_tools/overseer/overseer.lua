@@ -40,9 +40,6 @@ return {
     },
   },
   opts = {
-    task_list = {
-      direction = "bottom",
-    },
     task_editor = {
       bindings = {
         i = {
