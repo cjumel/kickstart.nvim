@@ -27,7 +27,7 @@ return {
       desc = "[F]ind: resume",
     },
     {
-      "S",
+      "S", -- Builtin `S` is equivalent to `cc` & is not super usefull
       function()
         local opts = require("plugins.navigation.telescope.custom.themes").get_dropdown()
         require("telescope.builtin").current_buffer_fuzzy_find(opts)

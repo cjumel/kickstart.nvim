@@ -6,7 +6,7 @@ return {
   "smoka7/hop.nvim",
   keys = {
     {
-      "s",
+      "s", -- Buitlin `s` is equivalent to `cl` & is pretty much useless
       function()
         require("hop").hint_char2()
       end,
