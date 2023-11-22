@@ -22,10 +22,10 @@ return {
     "def",
     fmt(
       [[
-      def {i1}() -> {i2}:
-          {i3}
+      def {i1}({i2}) -> {i3}:
+          {i4}
       ]],
-      { i1 = i(1, "name"), i2 = i(2, "type"), i3 = i(3, "# code") }
+      { i1 = i(1, "name"), i2 = i(2), i3 = i(3, "None"), i4 = i(4, "pass") }
     )
   ),
   s(
@@ -42,7 +42,7 @@ return {
       if __name__ == "__main__":
           {i1}
       ]],
-      { i1 = i(1, "# code") }
+      { i1 = i(1, "pass") }
     )
   ),
 }

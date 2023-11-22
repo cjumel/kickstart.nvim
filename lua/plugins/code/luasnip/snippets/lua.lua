@@ -8,7 +8,7 @@ local t = ls.text_node
 local fmt = require("luasnip.extras.fmt").fmt
 
 return {
-  s("local", fmt("local {i1} = {i2}", { i1 = i(1, "name"), i2 = i(2, [["var"]]) })),
+  s("local", fmt("local {i1} = {i2}", { i1 = i(1, "name"), i2 = i(2, [["value"]]) })),
   s("require", fmt([[require("{i1}")]], { i1 = i(1, "module") })),
   s(
     "function",
@@ -18,7 +18,7 @@ return {
         {i3}
       end
       ]],
-      { i1 = i(1), i2 = i(2), i3 = i(3, "-- code") }
+      { i1 = i(1), i2 = i(2), i3 = i(3) }
     )
   ),
   s(
