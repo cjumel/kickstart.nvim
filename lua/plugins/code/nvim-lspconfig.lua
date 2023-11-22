@@ -100,6 +100,8 @@ return {
         Lua = {
           workspace = { checkThirdParty = false },
           telemetry = { enable = false },
+          -- Disable LSP snippets as they are redundant with custom ones
+          completion = { keywordSnippet = "Disable" },
         },
       },
       pyright = {},
