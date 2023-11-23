@@ -33,6 +33,7 @@ return {
   config = function(_, opts)
     require("luasnip").setup(opts)
 
+    require("luasnip").add_snippets("all", require("plugins.code.luasnip.snippets.all"))
     require("luasnip").add_snippets("lua", require("plugins.code.luasnip.snippets.lua"))
     require("luasnip").add_snippets("python", require("plugins.code.luasnip.snippets.python"))
   end,
