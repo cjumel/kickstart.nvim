@@ -12,7 +12,7 @@ local custom_conds = require("plugins.code.luasnip.custom.conds")
 return {
   s(
     {
-      trig = "imp ",
+      trig = "im ",
       snippetType = "autosnippet",
       condition = custom_conds.is_in_code * expand_conds.line_begin,
     },
@@ -38,7 +38,7 @@ return {
   ),
   s(
     {
-      trig = "from ",
+      trig = "fim ",
       snippetType = "autosnippet",
       condition = custom_conds.is_in_code * expand_conds.line_begin,
     },
@@ -156,7 +156,7 @@ return {
   ),
   s(
     {
-      trig = "_main_",
+      trig = "main",
       snippetType = "autosnippet",
       condition = custom_conds.is_in_code * expand_conds.line_begin,
     },

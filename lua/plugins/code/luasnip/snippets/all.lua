@@ -17,7 +17,7 @@ return {
   -- Let's define two auto-snippets, one for when in comments and one for when in code.
   s(
     {
-      trig = "todo ",
+      trig = "tod ",
       snippetType = "autosnippet",
       condition = custom_conds.is_in_comment,
     },
@@ -27,7 +27,7 @@ return {
       ]],
       {
         c(1, { t("TODO"), t("NOTE"), t("BUG"), t("FIXME"), t("ISSUE") }),
-        i(2, "text"),
+        i(0),
       }
     )
   ),
@@ -35,7 +35,7 @@ return {
   -- https://github.com/L3MON4D3/LuaSnip/wiki/Cool-Snippets#all---todo-commentsnvim-snippets
   s(
     {
-      trig = "todo ",
+      trig = "tod ",
       snippetType = "autosnippet",
       condition = custom_conds.is_in_code,
     },
@@ -48,7 +48,7 @@ return {
           return utils.get_comment_strings(1)[1]
         end),
         c(1, { t("TODO"), t("NOTE"), t("BUG"), t("FIXME"), t("ISSUE") }),
-        i(2, "text"),
+        i(0),
         f(function()
           return utils.get_comment_strings(1)[2]
         end),

@@ -43,7 +43,7 @@ return {
   ),
   s(
     {
-      trig = "func ",
+      trig = "fun ",
       snippetType = "autosnippet",
       condition = custom_conds.is_in_code,
     },
@@ -79,17 +79,33 @@ return {
       snippetType = "autosnippet",
       condition = custom_conds.is_in_code * expand_conds.line_begin,
     },
-    fmt(
-      [[
-        if {} then
-          {}
-        end
-      ]],
-      {
-        i(1, "cond"),
-        i(2),
-      }
-    )
+    c(1, {
+      fmt(
+        [[
+          if {} then
+            {}
+          end
+        ]],
+        {
+          i(1, "cond"),
+          i(2),
+        }
+      ),
+      fmt(
+        [[
+          if {} then
+            {}
+          else
+            {}
+          end
+        ]],
+        {
+          i(1, "cond"),
+          i(2),
+          i(3),
+        }
+      ),
+    })
   ),
   s(
     {
