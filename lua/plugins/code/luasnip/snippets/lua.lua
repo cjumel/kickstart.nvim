@@ -1,5 +1,6 @@
 local ls = require("luasnip")
 
+local c = ls.choice_node
 local i = ls.insert_node
 local s = ls.snippet
 
@@ -18,14 +19,24 @@ return {
   ),
   s(
     { trig = "func ", snippetType = "autosnippet", condition = custom_conds.is_in_code },
-    fmt(
-      [[
+    c(1, {
+      fmt(
+        [[
       function({})
         {}
       end
       ]],
-      { i(1), i(2) }
-    )
+        { i(1), i(2) }
+      ),
+      fmt(
+        [[
+      function {}({})
+        {}
+      end
+      ]],
+        { i(1, "name"), i(2), i(3) }
+      ),
+    })
   ),
   s(
     { trig = "if ", snippetType = "autosnippet", condition = custom_conds.is_in_code },
@@ -40,24 +51,23 @@ return {
   ),
   s(
     { trig = "for ", snippetType = "autosnippet", condition = custom_conds.is_in_code },
-    fmt(
-      [[
+    c(1, {
+      fmt(
+        [[
       for {} do
         {}
       end
       ]],
-      { i(1, "loop"), i(2) }
-    )
-  ),
-  s(
-    { trig = "fori ", snippetType = "autosnippet", condition = custom_conds.is_in_code },
-    fmt(
-      [[
+        { i(1, "loop"), i(2) }
+      ),
+      fmt(
+        [[
       for {}, {} in ipairs({}) do
         {}
       end
       ]],
-      { i(1, "i"), i(2, "var"), i(3, "iterable"), i(4) }
-    )
+        { i(1, "idx"), i(2, "var"), i(3, "iterable"), i(4) }
+      ),
+    })
   ),
 }
