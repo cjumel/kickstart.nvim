@@ -6,6 +6,7 @@ local s = ls.snippet
 
 local fmt = require("luasnip.extras.fmt").fmt
 
+local expand_conds = require("luasnip.extras.conditions.expand")
 local custom_conds = require("plugins.code.luasnip.custom.conds")
 
 return {
@@ -13,7 +14,7 @@ return {
     {
       trig = "imp ",
       snippetType = "autosnippet",
-      condition = custom_conds.is_in_code,
+      condition = custom_conds.is_in_code * expand_conds.line_begin,
     },
     c(1, {
       fmt(
@@ -39,7 +40,7 @@ return {
     {
       trig = "from ",
       snippetType = "autosnippet",
-      condition = custom_conds.is_in_code,
+      condition = custom_conds.is_in_code * expand_conds.line_begin,
     },
     c(1, {
       fmt(
@@ -113,7 +114,7 @@ return {
     {
       trig = "def ",
       snippetType = "autosnippet",
-      condition = custom_conds.is_in_code,
+      condition = custom_conds.is_in_code * expand_conds.line_begin,
     },
     c(1, {
       fmt(
@@ -157,7 +158,7 @@ return {
     {
       trig = "_main_",
       snippetType = "autosnippet",
-      condition = custom_conds.is_in_code,
+      condition = custom_conds.is_in_code * expand_conds.line_begin,
     },
     fmt(
       [[
