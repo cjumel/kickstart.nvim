@@ -30,8 +30,8 @@ return {
         ["<CR>"] = cmp.mapping.confirm({ select = true }),
         ["<C-n>"] = cmp.mapping.select_next_item(),
         ["<C-p>"] = cmp.mapping.select_prev_item(),
-        ["<C-c>"] = cmp.mapping.complete({}),
-        ["<C-s>"] = cmp.mapping.abort(), -- stop
+        ["<C-s>"] = cmp.mapping.complete({}), -- suggest
+        ["<C-c>"] = cmp.mapping.abort(),
         ["<C-f>"] = cmp.mapping.scroll_docs(4), -- forward documentation
         ["<C-b>"] = cmp.mapping.scroll_docs(-4), -- backward documentation
       }),
