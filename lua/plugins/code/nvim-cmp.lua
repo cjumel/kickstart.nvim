@@ -27,12 +27,13 @@ return {
         end,
       },
       mapping = cmp.mapping.preset.insert({
-        ["<C-b>"] = cmp.mapping.scroll_docs(-4),
-        ["<C-f>"] = cmp.mapping.scroll_docs(4),
-        ["<C-c>"] = cmp.mapping.complete({}),
         ["<CR>"] = cmp.mapping.confirm({ select = true }),
         ["<C-n>"] = cmp.mapping.select_next_item(),
         ["<C-p>"] = cmp.mapping.select_prev_item(),
+        ["<C-c>"] = cmp.mapping.complete({}),
+        ["<C-s>"] = cmp.mapping.abort(), -- stop
+        ["<C-f>"] = cmp.mapping.scroll_docs(4), -- forward documentation
+        ["<C-b>"] = cmp.mapping.scroll_docs(-4), -- backward documentation
       }),
       -- Sources are grouped by decreasing priority
       sources = cmp.config.sources({
