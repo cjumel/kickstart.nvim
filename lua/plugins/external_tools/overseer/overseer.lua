@@ -2,12 +2,6 @@
 --
 -- A task runner and job management plugin for Neovim.
 
--- TODO: tasks to implement:
--- - pre-commit run file, pre-commit run directory, pre-commit run all files, pre-commit autoupdate
--- - poetry install, poetry update
--- - pytest all, pytest fast, pytest slow
--- - debug file with run/pytest on save
-
 return {
   "stevearc/overseer.nvim",
   keys = {
@@ -21,7 +15,7 @@ return {
     {
       "<leader>or",
       function()
-        vim.cmd("OverseerRun shell")
+        vim.cmd("OverseerRun")
       end,
       desc = "[O]verseer: [R]un",
     },
@@ -40,6 +34,7 @@ return {
     },
   },
   opts = {
+    templates = { "shell" },
     task_editor = {
       bindings = {
         i = {
@@ -60,4 +55,12 @@ return {
       },
     },
   },
+  config = function(_, opts)
+    local overseer = require("overseer")
+
+    overseer.setup(opts)
+
+    overseer.register_template(require("plugins.external_tools.overseer.templates.pre_commit_run"))
+    overseer.register_template(require("plugins.external_tools.overseer.templates.poetry_update"))
+  end,
 }
