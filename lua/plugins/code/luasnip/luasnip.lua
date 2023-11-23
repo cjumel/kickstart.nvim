@@ -12,11 +12,20 @@ return {
         local ls = require("luasnip")
         ls.jump(1)
       end,
-      mode = { "i", "s" },
-      desc = "Accept snippet node content",
+      mode = { "n", "i", "s" },
+      desc = "Next snippet node",
     },
     {
-      "<C-o>",
+      "<C-g>",
+      function()
+        local ls = require("luasnip")
+        ls.jump(-1)
+      end,
+      mode = { "n", "i", "s" },
+      desc = "Previous snippet node",
+    },
+    {
+      "<C-o>", -- This keymap is okay to remap only in insert mode
       function()
         local ls = require("luasnip")
         if ls.choice_active() then
@@ -24,7 +33,7 @@ return {
         end
       end,
       mode = { "i", "s" },
-      desc = "Change snippet node choice option",
+      desc = "Next snippet choice option",
     },
   },
   opts = {
