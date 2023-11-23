@@ -5,18 +5,59 @@ local s = ls.snippet
 
 local fmt = require("luasnip.extras.fmt").fmt
 
+local custom_conds = require("plugins.code.luasnip.custom.conds")
+
 return {
-  s("local", fmt("local {i1} = {i2}", { i1 = i(1, "name"), i2 = i(2, [["value"]]) })),
-  s("require", fmt([[require("{i1}")]], { i1 = i(1, "module") })),
   s(
-    "function",
+    { trig = "loc ", snippetType = "autosnippet", condition = custom_conds.is_in_code },
+    fmt("local {} = {}", { i(1, "var"), i(2, [["value"]]) })
+  ),
+  s(
+    { trig = "req ", snippetType = "autosnippet", condition = custom_conds.is_in_code },
+    fmt([[require("{}")]], { i(1, "module") })
+  ),
+  s(
+    { trig = "func ", snippetType = "autosnippet", condition = custom_conds.is_in_code },
     fmt(
       [[
-      function {i1}({i2})
-        {i3}
+      function({})
+        {}
       end
       ]],
-      { i1 = i(1), i2 = i(2), i3 = i(3) }
+      { i(1), i(2) }
+    )
+  ),
+  s(
+    { trig = "if ", snippetType = "autosnippet", condition = custom_conds.is_in_code },
+    fmt(
+      [[
+      if {} then
+        {}
+      end
+      ]],
+      { i(1, "cond"), i(2) }
+    )
+  ),
+  s(
+    { trig = "for ", snippetType = "autosnippet", condition = custom_conds.is_in_code },
+    fmt(
+      [[
+      for {} do
+        {}
+      end
+      ]],
+      { i(1, "loop"), i(2) }
+    )
+  ),
+  s(
+    { trig = "fori ", snippetType = "autosnippet", condition = custom_conds.is_in_code },
+    fmt(
+      [[
+      for {}, {} in ipairs({}) do
+        {}
+      end
+      ]],
+      { i(1, "i"), i(2, "var"), i(3, "iterable"), i(4) }
     )
   ),
 }
