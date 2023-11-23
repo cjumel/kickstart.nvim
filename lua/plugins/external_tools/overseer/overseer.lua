@@ -35,6 +35,9 @@ return {
   },
   opts = {
     templates = { "shell" },
+    task_list = {
+      direction = "bottom",
+    },
     task_editor = {
       bindings = {
         i = {
