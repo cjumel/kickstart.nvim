@@ -17,7 +17,7 @@ return {
   -- Let's define two auto-snippets, one for when in comments and one for when in code.
   s(
     {
-      trig = "tod ",
+      trig = "td ",
       snippetType = "autosnippet",
       condition = custom_conds.is_in_comment,
     },
@@ -35,7 +35,7 @@ return {
   -- https://github.com/L3MON4D3/LuaSnip/wiki/Cool-Snippets#all---todo-commentsnvim-snippets
   s(
     {
-      trig = "tod ",
+      trig = "td ",
       snippetType = "autosnippet",
       condition = custom_conds.is_in_code,
     },
