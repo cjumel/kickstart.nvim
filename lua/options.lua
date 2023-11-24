@@ -45,6 +45,9 @@ vim.o.completeopt = ""
 -- Use true colors in terminal
 vim.o.termguicolors = true
 
+-- Add a bborder to the diagnostics popup (especially useful for transparent background)
+vim.diagnostic.config({ float = { border = "rounded" } })
+
 -- [[ Highlight on yank ]]
 local highlight_group = vim.api.nvim_create_augroup("YankHighlight", { clear = true })
 vim.api.nvim_create_autocmd("TextYankPost", {
