@@ -31,15 +31,17 @@ return {
 
     dapui.setup({
       layouts = {
+        -- Vertical section
+        -- Let's only remove the "stacks" element, add the repl at the bottom (elements are
+        -- displayed bottom to top), and move the section on the right
         {
           elements = {
-            -- Vertical elements are displayed bottom to top
             {
-              id = "scopes",
+              id = "repl",
               size = 0.25,
             },
             {
-              id = "watches",
+              id = "scopes",
               size = 0.25,
             },
             {
@@ -47,16 +49,17 @@ return {
               size = 0.25,
             },
             {
-              id = "repl",
+              id = "watches",
               size = 0.25,
             },
           },
-          position = "left",
+          position = "right",
           size = 40,
         },
+        -- Horizontal section
+        -- Let's remove the repl to make more room for the console
         {
           elements = {
-
             {
               id = "console",
               size = 1.0,
