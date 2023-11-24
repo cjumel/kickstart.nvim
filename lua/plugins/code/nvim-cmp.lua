@@ -37,10 +37,10 @@ return {
       }),
       -- Sources are grouped by decreasing priority
       sources = cmp.config.sources({
-        { name = "luasnip", priority = 2, keyword_length = 2 },
-        { name = "nvim_lsp", priority = 1, keyword_length = 2 },
+        { name = "luasnip", priority = 2 },
+        { name = "nvim_lsp", priority = 1 },
       }, {
-        { name = "buffer", keyword_length = 2 },
+        { name = "buffer" },
       }),
     })
 
