@@ -26,8 +26,8 @@ return {
         {}: {}
       ]],
       {
-        c(1, { t("TODO"), t("NOTE"), t("BUG"), t("FIXME"), t("ISSUE") }),
-        i(0),
+        c(2, { t("TODO"), t("NOTE"), t("BUG"), t("FIXME"), t("ISSUE") }),
+        i(1),
       }
     )
   ),
@@ -47,8 +47,8 @@ return {
         f(function()
           return utils.get_comment_strings(1)[1]
         end),
-        c(1, { t("TODO"), t("NOTE"), t("BUG"), t("FIXME"), t("ISSUE") }),
-        i(0),
+        c(2, { t("TODO"), t("NOTE"), t("BUG"), t("FIXME"), t("ISSUE") }),
+        i(1),
         f(function()
           return utils.get_comment_strings(1)[2]
         end),
