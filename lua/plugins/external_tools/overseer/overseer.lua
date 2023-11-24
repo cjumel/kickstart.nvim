@@ -37,6 +37,13 @@ return {
     templates = { "shell" },
     task_list = {
       direction = "bottom",
+      bindings = {
+        -- Disable bindings conflicting with window navigation keymaps
+        ["<C-h>"] = false,
+        ["<C-j>"] = false,
+        ["<C-k>"] = false,
+        ["<C-l>"] = false,
+      },
     },
     task_editor = {
       bindings = {
