@@ -15,6 +15,7 @@ return {
     {
       "<leader>n",
       "<cmd> Noice dismiss <CR>",
+      mode = { "n", "v" },
       desc = "[N]otifications: clear",
     },
     {
