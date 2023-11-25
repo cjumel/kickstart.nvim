@@ -22,8 +22,8 @@ return {
     kind = "replace",
     mappings = {
       status = {
-        [","] = "GoToPreviousHunkHeader",
-        [";"] = "GoToNextHunkHeader",
+        [","] = "GoToNextHunkHeader",
+        [";"] = "GoToPreviousHunkHeader",
       },
     },
   },
