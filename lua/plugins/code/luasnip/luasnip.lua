@@ -12,22 +12,22 @@ return {
   version = "v2.*",
   keys = {
     {
-      "<C-y>",
+      "<C-^>", -- Actually <C-m> in my setup
       function()
         local ls = require("luasnip")
         ls.jump(1)
       end,
       mode = { "n", "i", "s" },
-      desc = "Next snippet node",
+      desc = "Move to next snippet node",
     },
     {
-      "<C-g>",
+      "<C-]>", -- Actually <C-%> in my setup; because it's right next to <C-m>
       function()
         local ls = require("luasnip")
         ls.jump(-1)
       end,
       mode = { "n", "i", "s" },
-      desc = "Previous snippet node",
+      desc = "Move to previous snippet node",
     },
     {
       "<C-o>", -- This keymap is okay to remap only in insert mode
