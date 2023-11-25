@@ -1,3 +1,13 @@
+-- [[ Mappings override ]]
+
+-- With Karabiner, I redefined some keymaps to leverage more features with control-combination
+-- in Neovim:
+-- - <C-m> to <C-^>
+-- - <C-%> to <C-]>
+-- - <C-``> is already <C-\>
+-- - <C-^> & <C-$> to <C-a> & <C-e>
+-- - <C-,> & <C-;> to <C-d> & <C-u>
+
 -- [[ Basic keymaps ]]
 
 vim.keymap.set({ "n", "v" }, "<Space>", "<Nop>", { silent = true })
