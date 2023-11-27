@@ -16,12 +16,6 @@ vim.keymap.set({ "n", "v" }, "<Space>", "<Nop>", { silent = true })
 vim.keymap.set("i", "<C-n>", "<Nop>", { silent = true })
 vim.keymap.set("i", "<C-p>", "<Nop>", { silent = true })
 
--- Terminal-like keymaps for insert mode with <C-e>, like "end", and <C-a>, like "ante" (before)
-vim.keymap.set("i", "<C-e>", "<End>", { desc = "Move cursor to end of line" })
-vim.keymap.set("i", "<C-a>", "<Home>", { desc = "Move cursor to beginning of line" })
--- Additionally, let's make <C-a> consistent with <C-e>'s scrolling in normal mode
-vim.keymap.set("n", "<C-a>", "<C-y>", { desc = "Scroll down one line" })
-
 -- Remap for dealing with word wrap
 vim.keymap.set("n", "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
 vim.keymap.set("n", "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
@@ -42,7 +36,18 @@ vim.keymap.set({ "n", "v" }, "Q", "@q", { desc = "Default macro register" })
 -- Diagnostics
 vim.keymap.set("n", "<leader>?", vim.diagnostic.open_float, { desc = "Expand diagnostic" })
 
--- UI toggles
+-- [[ Terminal-like keymaps ]]
+-- Keymaps for insert mode to emulate terminal-like behavior
+
+-- Move cursor to line start or end
+-- Mnemonic: <C-e> is like "end" & <C-a> is like "ante", meaning before in Latin
+vim.keymap.set("i", "<C-e>", "<End>", { desc = "Move cursor to end of line" })
+vim.keymap.set("i", "<C-a>", "<Home>", { desc = "Move cursor to beginning of line" })
+-- Additionally, let's make <C-a> consistent with <C-e>'s scrolling in normal mode
+vim.keymap.set("n", "<C-a>", "<C-y>", { desc = "Scroll down one line" })
+
+-- [[ UI toggles keymaps ]]
+
 vim.keymap.set("n", "<leader>tl", function()
   if vim.o.background == "dark" then
     vim.cmd("set background=light")
@@ -58,7 +63,8 @@ vim.keymap.set("n", "<leader>tr", function()
   end
 end, { desc = "[T]oggle: [R]elative line numbers" })
 
--- Quick files
+-- [[ Quick files keymaps ]]
+
 vim.keymap.set("n", "<leader>qn", function()
   vim.cmd("edit ./notes.md")
 end, { desc = "[Q]uick file: [N]otes" })
@@ -66,8 +72,9 @@ vim.keymap.set("n", "<leader>qp", function()
   vim.cmd("edit ./temp.py")
 end, { desc = "[Q]uick file: [P]ython" })
 
--- Use <c-p> and <c-n> in command line to navigate through command line history matching the
--- current input
+-- [[ Command line keymaps ]]
+
+-- Use <c-p> and <c-n> to navigate through command line history matching the current input
 vim.keymap.set("c", "<c-p>", "<up>")
 vim.keymap.set("c", "<c-n>", "<down>")
 
