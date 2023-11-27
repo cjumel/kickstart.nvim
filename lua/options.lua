@@ -6,8 +6,8 @@ vim.opt.shortmess:append({ I = true })
 -- Disable builtin show mode as it is done by lualine and it messes with the macro messages
 vim.opt.showmode = false
 
--- Use a global status line & a thin line to separate splits
-vim.o.laststatus = 3
+-- Status line mode
+vim.o.laststatus = require("statusline").laststatus
 
 -- Display a column ruler after the 100th character
 vim.o.colorcolumn = "101"

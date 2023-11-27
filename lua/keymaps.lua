@@ -67,6 +67,12 @@ vim.keymap.set("n", "<leader>tr", function()
     vim.wo.relativenumber = true
   end
 end, { desc = "[T]oggle: [R]elative line numbers" })
+vim.keymap.set(
+  "n",
+  "<leader>ts",
+  require("statusline").toggle,
+  { desc = "[T]oggle: [S]tatus line" }
+)
 
 -- [[ Quick files keymaps ]]
 
