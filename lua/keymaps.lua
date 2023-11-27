@@ -46,6 +46,11 @@ vim.keymap.set("i", "<C-a>", "<Home>", { desc = "Move cursor to beginning of lin
 -- Additionally, let's make <C-a> consistent with <C-e>'s scrolling in normal mode
 vim.keymap.set("n", "<C-a>", "<C-y>", { desc = "Scroll down one line" })
 
+-- Move cursor one character left or right
+-- Mnemonic: <C-b> is like "back" & <C-f> is like "forward"
+vim.keymap.set("i", "<C-b>", "<Left>", { desc = "Move cursor one character left" })
+vim.keymap.set("i", "<C-f>", "<Right>", { desc = "Move cursor one character right" })
+
 -- [[ UI toggles keymaps ]]
 
 vim.keymap.set("n", "<leader>tl", function()
