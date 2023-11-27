@@ -182,8 +182,12 @@ return {
             ["<C-t>"] = trouble_actions.open_with_trouble,
 
             ["<tab>"] = layout_actions.toggle_preview,
-            ["<C-u>"] = actions.preview_scrolling_up,
-            ["<C-d>"] = actions.preview_scrolling_down,
+
+            -- Prevent conflicts with insert mode terminal-like keymaps
+            ["<C-u>"] = false,
+            ["<C-d>"] = false,
+            ["<C-b>"] = false,
+            ["<C-f>"] = false,
 
             -- disable c-j because we dont want to allow new lines #2123
             ["<C-j>"] = actions.nop,
