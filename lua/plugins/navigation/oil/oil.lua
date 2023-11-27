@@ -38,7 +38,6 @@ return {
         ["<C-x>"] = "actions.select_split",
         ["<C-t>"] = "actions.select_tab",
         -- Using <tab> will break <C-i> to jump forward in the jump list as they are the same key
-        ["<tab>"] = "actions.preview",
         ["<ESC>"] = "actions.close",
         ["q"] = "actions.close",
         ["-"] = "actions.parent",
