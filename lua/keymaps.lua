@@ -37,19 +37,19 @@ vim.keymap.set({ "n", "v" }, "Q", "@q", { desc = "Default macro register" })
 vim.keymap.set("n", "<leader>?", vim.diagnostic.open_float, { desc = "Expand diagnostic" })
 
 -- [[ Terminal-like keymaps ]]
--- Keymaps for insert mode to emulate terminal-like behavior
+-- Keymaps for insert & command line modes to emulate terminal-like behavior
 
 -- Move cursor to line start or end
 -- Mnemonic: <C-e> is like "end" & <C-a> is like "ante", meaning before in Latin
-vim.keymap.set("i", "<C-e>", "<End>", { desc = "Move cursor to end of line" })
-vim.keymap.set("i", "<C-a>", "<Home>", { desc = "Move cursor to beginning of line" })
+vim.keymap.set({ "i", "c" }, "<C-e>", "<End>", { desc = "Move cursor to end of line" })
+vim.keymap.set({ "i", "c" }, "<C-a>", "<Home>", { desc = "Move cursor to beginning of line" })
 -- Additionally, let's make <C-a> consistent with <C-e>'s scrolling in normal mode
 vim.keymap.set("n", "<C-a>", "<C-y>", { desc = "Scroll down one line" })
 
 -- Move cursor one character left or right
 -- Mnemonic: <C-b> is like "back" & <C-f> is like "forward"
-vim.keymap.set("i", "<C-b>", "<Left>", { desc = "Move cursor one character left" })
-vim.keymap.set("i", "<C-f>", "<Right>", { desc = "Move cursor one character right" })
+vim.keymap.set({ "i", "c" }, "<C-b>", "<Left>", { desc = "Move cursor one character left" })
+vim.keymap.set({ "i", "c" }, "<C-f>", "<Right>", { desc = "Move cursor one character right" })
 
 -- [[ UI toggles keymaps ]]
 
