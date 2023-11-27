@@ -75,6 +75,21 @@ return {
   ),
   s(
     {
+      trig = "ret ",
+      snippetType = "autosnippet",
+      condition = custom_conds.is_in_code * expand_conds.line_begin,
+    },
+    fmt(
+      [[
+        return {}
+      ]],
+      {
+        i(1, "nil"),
+      }
+    )
+  ),
+  s(
+    {
       trig = "if ",
       snippetType = "autosnippet",
       condition = custom_conds.is_in_code * expand_conds.line_begin,

@@ -156,7 +156,22 @@ return {
   ),
   s(
     {
-      trig = "main",
+      trig = "ret ",
+      snippetType = "autosnippet",
+      condition = custom_conds.is_in_code * expand_conds.line_begin,
+    },
+    fmt(
+      [[
+        return {}
+      ]],
+      {
+        i(1, "None"),
+      }
+    )
+  ),
+  s(
+    {
+      trig = "main ",
       snippetType = "autosnippet",
       condition = custom_conds.is_in_code * expand_conds.line_begin,
     },
