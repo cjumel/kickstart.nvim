@@ -27,7 +27,14 @@ return {
       function()
         require("dap").run_last()
       end,
-      desc = "[D]ebug: rerun [L]ast",
+      desc = "[D]ebug: run [L]ast",
+    },
+    {
+      "<leader>dt",
+      function()
+        require("dap").terminate()
+      end,
+      desc = "[D]ebug: [T]erminate",
     },
     {
       "<leader>dh",
