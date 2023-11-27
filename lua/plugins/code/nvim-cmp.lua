@@ -5,20 +5,23 @@
 return {
   "hrsh7th/nvim-cmp",
   dependencies = {
-    -- LSP
+    -- LSP completion source
     "hrsh7th/cmp-nvim-lsp",
-    -- Snippets
+    -- Snippets completion source
     "saadparwaiz1/cmp_luasnip",
     "L3MON4D3/LuaSnip",
-    -- Other
+    -- Other completion sources
     "hrsh7th/cmp-buffer",
     "hrsh7th/cmp-cmdline",
     "hrsh7th/cmp-path",
     "clementjumel/cmp-gitmoji",
+    -- Other
+    "windwp/nvim-autopairs",
   },
   event = "VeryLazy",
   config = function()
     local cmp = require("cmp")
+    local cmp_autopairs = require("nvim-autopairs.completion.cmp")
 
     cmp.setup({
       snippet = {
@@ -75,5 +78,8 @@ return {
         { name = "cmdline" },
       }),
     })
+
+    -- Insert `(` when selecting a function or method item
+    cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
   end,
 }
