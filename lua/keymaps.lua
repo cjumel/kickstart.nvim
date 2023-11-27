@@ -16,9 +16,11 @@ vim.keymap.set({ "n", "v" }, "<Space>", "<Nop>", { silent = true })
 vim.keymap.set("i", "<C-n>", "<Nop>", { silent = true })
 vim.keymap.set("i", "<C-p>", "<Nop>", { silent = true })
 
--- Terminal-like keymaps for insert mode
+-- Terminal-like keymaps for insert mode with <C-e>, like "end", and <C-a>, like "ante" (before)
 vim.keymap.set("i", "<C-e>", "<End>", { desc = "Move cursor to end of line" })
 vim.keymap.set("i", "<C-a>", "<Home>", { desc = "Move cursor to beginning of line" })
+-- Additionally, let's make <C-a> consistent with <C-e>'s scrolling in normal mode
+vim.keymap.set("n", "<C-a>", "<C-y>", { desc = "Scroll down one line" })
 
 -- Remap for dealing with word wrap
 vim.keymap.set("n", "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
