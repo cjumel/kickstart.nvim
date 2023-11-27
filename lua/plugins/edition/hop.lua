@@ -8,7 +8,7 @@ return {
     {
       "s", -- Buitlin `s` is equivalent to `cl` & is pretty much useless
       function()
-        require("hop").hint_char2()
+        require("hop").hint_char2({})
       end,
       mode = { "n", "x", "o" },
       desc = "[S]earch 2 key patterns (Hop)",
