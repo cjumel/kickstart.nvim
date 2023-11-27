@@ -13,7 +13,6 @@ return {
       function()
         require("dap").toggle_breakpoint()
       end,
-      ft = "python",
       desc = "[D]ebug: [B]reakpoint",
     },
     {
@@ -21,7 +20,6 @@ return {
       function()
         require("dap").continue()
       end,
-      ft = "python",
       desc = "[D]ebug: [C]ontinue",
     },
     {
@@ -29,7 +27,6 @@ return {
       function()
         require("dap").run_last()
       end,
-      ft = "python",
       desc = "[D]ebug: rerun [L]ast",
     },
     {
@@ -37,7 +34,6 @@ return {
       function()
         require("dap.ui.widgets").hover()
       end,
-      ft = "python",
       desc = "[D]ebug: [H]over",
     },
   },
