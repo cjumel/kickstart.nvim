@@ -10,7 +10,7 @@ return {
   priority = 1000, -- Main UI stuff should be loaded first
   keys = {
     {
-      "<leader>T",
+      "<leader>tt",
       function()
         local opts = require("catppuccin").options
         opts.transparent_background = not opts.transparent_background
@@ -22,7 +22,7 @@ return {
         require("catppuccin").setup(opts)
         vim.cmd.colorscheme("catppuccin")
       end,
-      desc = "[T]ransparency switch",
+      desc = "[T]oggle: [T]ransparency",
     },
   },
   opts = {

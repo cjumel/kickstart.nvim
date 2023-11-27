@@ -42,21 +42,21 @@ vim.keymap.set({ "n", "v" }, "Q", "@q", { desc = "Default macro register" })
 -- Diagnostics
 vim.keymap.set("n", "<leader>?", vim.diagnostic.open_float, { desc = "Expand diagnostic" })
 
--- UI switches
-vim.keymap.set("n", "<leader>C", function()
+-- UI toggles
+vim.keymap.set("n", "<leader>tl", function()
   if vim.o.background == "dark" then
     vim.cmd("set background=light")
   else
     vim.cmd("set background=dark")
   end
-end, { desc = "[C]olor scheme switch" })
-vim.keymap.set("n", "<leader>L", function()
+end, { desc = "[T]oggle: [L]ight theme" })
+vim.keymap.set("n", "<leader>tr", function()
   if vim.wo.relativenumber then
     vim.wo.relativenumber = false
   else
     vim.wo.relativenumber = true
   end
-end, { desc = "[L]ine numbering switch" })
+end, { desc = "[T]oggle: [R]elative line numbers" })
 
 -- Quick files
 vim.keymap.set("n", "<leader>qn", function()
