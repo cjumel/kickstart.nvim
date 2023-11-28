@@ -28,7 +28,7 @@ return {
     -- Repeatable diagnostic movements
     local next_diagnostic_repeat, prev_diagnostic_repeat =
       ts_repeat_move.make_repeatable_move_pair(vim.diagnostic.goto_next, vim.diagnostic.goto_prev)
-    vim.keymap.set("n", "[?", next_diagnostic_repeat, { desc = "Next diagnostic" })
-    vim.keymap.set("n", "]?", prev_diagnostic_repeat, { desc = "Previous diagnostic" })
+    vim.keymap.set("n", "[%", next_diagnostic_repeat, { desc = "Next diagnostic" })
+    vim.keymap.set("n", "]%", prev_diagnostic_repeat, { desc = "Previous diagnostic" })
   end,
 }
