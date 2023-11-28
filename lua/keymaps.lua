@@ -34,7 +34,12 @@ vim.keymap.set({ "n", "v" }, "_", '"_', { desc = "Black hole copy register" })
 vim.keymap.set({ "n", "v" }, "Q", "@q", { desc = "Default macro register" })
 
 -- Diagnostics
-vim.keymap.set("n", "<leader>?", vim.diagnostic.open_float, { desc = "Expand diagnostic" })
+vim.keymap.set(
+  { "n", "i" },
+  "<C-]>", -- Actually <C-%> on my setup
+  vim.diagnostic.open_float,
+  { desc = "Expand diagnostic" }
+)
 
 -- [[ Terminal-like keymaps ]]
 -- Keymaps for insert & command line modes to emulate terminal-like behavior
