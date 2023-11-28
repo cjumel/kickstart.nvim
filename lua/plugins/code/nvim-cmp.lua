@@ -29,6 +29,9 @@ return {
           require("luasnip").lsp_expand(args.body)
         end,
       },
+      completion = {
+        completeopt = "menu,menuone,noinsert", -- Ensure first menu item is selected by default
+      },
       window = {
         completion = cmp.config.window.bordered(),
         documentation = cmp.config.window.bordered(),
