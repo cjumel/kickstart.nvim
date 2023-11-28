@@ -18,14 +18,14 @@ return {
           layout_strategy = "vertical",
         })
       end,
-      desc = "Copy history",
+      desc = "[P]aste: copy history",
     },
     {
       "<leader>P",
       function()
         require("neoclip").clear_history()
       end,
-      desc = "Clear copy history",
+      desc = "[P]aste: clear copy history",
     },
     {
       "<leader>Q",
@@ -33,7 +33,7 @@ return {
         local opts = require("plugins.navigation.telescope.custom.themes").get_dropdown("normal")
         require("telescope").extensions.macroscope.default(opts)
       end,
-      desc = "Macro history",
+      desc = "[Q]-register macro history",
     },
   },
   opts = {
