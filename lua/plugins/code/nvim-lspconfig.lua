@@ -39,8 +39,13 @@ return {
       end
 
       -- Documentation
-      nmap("K", vim.lsp.buf.hover, "Hover documentation", false)
-      nmap("<leader>ls", vim.lsp.buf.signature_help, "[S]ignature help")
+      vim.keymap.set("n", "K", vim.lsp.buf.hover, { buffer = bufnr, desc = "Hover documentation" })
+      vim.keymap.set(
+        { "n", "i" },
+        "<C-s>",
+        vim.lsp.buf.signature_help,
+        { buffer = bufnr, desc = "Signature help" }
+      )
 
       -- Code edition
       local lsp_formatting = function()
