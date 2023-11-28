@@ -13,15 +13,15 @@ return {
   },
   keys = {
     {
-      "<leader>n",
+      "<C-x>",
       "<cmd> Noice dismiss <CR>",
-      mode = { "n", "v" },
-      desc = "[N]otifications: clear",
+      mode = { "n", "i", "v" },
+      desc = "Clear Noice elements",
     },
     {
-      "<leader>N",
+      "<leader>n",
       "<cmd> Noice <CR>",
-      desc = "[N]otifications: history",
+      desc = "[N]otification history",
     },
   },
   opts = {
