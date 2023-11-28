@@ -20,11 +20,11 @@ return {
   keys = {
     -- General
     {
-      "<leader>F",
+      "<leader><leader>",
       function()
         require("telescope.builtin").resume()
       end,
-      desc = "[F]ind: resume",
+      desc = "Resume Telescope",
     },
     {
       "S", -- Builtin `S` is equivalent to `cc` & is not super usefull
@@ -85,17 +85,6 @@ return {
     },
 
     -- Vim- or Neovim-related
-    {
-      "<leader><leader>",
-      function()
-        local opts = require("plugins.navigation.telescope.custom.themes").get_dropdown("normal")
-        opts.only_cwd = true
-        opts.sort_lastused = true
-        opts.sort_mru = true
-        require("telescope.builtin").buffers(opts)
-      end,
-      desc = "Buffer switcher",
-    },
     {
       "<leader>:",
       function()
