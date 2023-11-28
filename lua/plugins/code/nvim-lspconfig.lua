@@ -100,6 +100,8 @@ return {
         Lua = {
           workspace = { checkThirdParty = false },
           telemetry = { enable = false },
+          -- Ignore noisy `missing-fields` warnings
+          diagnostics = { disable = { "missing-fields" } },
           -- Disable LSP snippets as they are redundant with custom ones
           completion = { keywordSnippet = "Disable" },
         },
