@@ -22,12 +22,12 @@ return {
   },
   keys = {
     {
-      "<C-m>",
+      "<C-^>", -- Actually <C-m> on my setup, but not <CR>
       function()
         vim.cmd("MkdnToggleToDo")
       end,
       ft = "markdown",
-      mode = { "n", "v" },
+      mode = { "n", "i", "v" },
       desc = "Mark checkbox (Markdown)",
     },
     {
