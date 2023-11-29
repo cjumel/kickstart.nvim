@@ -1,12 +1,14 @@
 -- [[ Mappings override ]]
 
 -- With Karabiner, I redefined some keymaps to leverage more features with control-combination
--- in Neovim:
+-- in Neovim or make some keybindings easier to type:
 -- - <C-m> to <C-^>
 -- - <C-%> to <C-]>
 -- - <C-`> is already <C-\>
 -- - <C-^> & <C-$> to <C-a> & <C-e>
 -- - <C-,> & <C-;> to <C-d> & <C-u>
+-- - <C-:> to <C-c>
+-- - <C-BS> to <C-w>
 
 -- [[ Basic keymaps ]]
 
