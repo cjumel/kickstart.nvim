@@ -13,7 +13,7 @@ return {
   },
   keys = {
     {
-      "<C-x>",
+      "<C-c>",
       "<cmd> Noice dismiss <CR>",
       mode = { "n", "i", "v" },
       desc = "Clear Noice elements",

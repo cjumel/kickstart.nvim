@@ -9,6 +9,6 @@ return {
   config = function()
     -- <Tab> is the regular completion key
     vim.keymap.set("i", "<S-Tab>", "<Plug>(copilot-accept-word)")
-    vim.keymap.set("i", "<C-c>", "<Plug>(copilot-dismiss)")
+    vim.keymap.set("i", "<C-x>", "<Plug>(copilot-dismiss)")
   end,
 }
