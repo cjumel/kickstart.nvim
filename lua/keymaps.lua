@@ -48,8 +48,6 @@ vim.keymap.set(
 -- Mnemonic: <C-e> is like "end" & <C-a> is like "ante", meaning before in Latin
 vim.keymap.set({ "i", "c" }, "<C-e>", "<End>", { desc = "Move cursor to end of line" })
 vim.keymap.set({ "i", "c" }, "<C-a>", "<Home>", { desc = "Move cursor to beginning of line" })
--- Additionally, let's make <C-a> consistent with <C-e>'s scrolling in normal mode
-vim.keymap.set("n", "<C-a>", "<C-y>", { desc = "Scroll down one line" })
 
 -- Move cursor one character left or right
 -- Mnemonic: <C-b> is like "back" & <C-f> is like "forward"
