@@ -79,8 +79,8 @@ return {
             -- Assignment
             ["a="] = { query = "@assignment.outer", desc = "an assignment" },
             ["i="] = { query = "@assignment.inner", desc = "inner assignment" },
-            ["=l"] = { query = "@assignment.lhs", desc = "assignment left hand side" },
-            ["=r"] = { query = "@assignment.rhs", desc = "assignment right hand side" },
+            ["=h"] = { query = "@assignment.lhs", desc = "assignment left hand side" },
+            ["=l"] = { query = "@assignment.rhs", desc = "assignment right hand side" },
 
             -- Comment
             ["ag"] = { query = "@comment.outer", desc = "a comment" },
