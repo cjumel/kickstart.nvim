@@ -21,15 +21,13 @@ return {
       snippetType = "autosnippet",
       condition = custom_conds.is_in_comment,
     },
-    fmt(
-      [[
-        {}: {}
-      ]],
-      {
-        c(2, { t("TODO"), t("NOTE"), t("BUG"), t("FIXME"), t("ISSUE") }),
-        i(1),
-      }
-    )
+    c(1, {
+      fmt("TODO: {}", { i(1) }),
+      fmt("NOTE: {}", { i(1) }),
+      fmt("BUG: {}", { i(1) }),
+      fmt("FIXME: {}", { i(1) }),
+      fmt("ISSUE: {}", { i(1) }),
+    })
   ),
   -- Snippet below is adapted from
   -- https://github.com/L3MON4D3/LuaSnip/wiki/Cool-Snippets#all---todo-commentsnvim-snippets
@@ -39,20 +37,52 @@ return {
       snippetType = "autosnippet",
       condition = custom_conds.is_in_code,
     },
-    fmt(
-      [[
-        {} {}: {}{}
-      ]],
-      {
+    c(1, {
+      fmt("{} TODO: {}{}", {
         f(function()
           return utils.get_comment_strings(1)[1]
         end),
-        c(2, { t("TODO"), t("NOTE"), t("BUG"), t("FIXME"), t("ISSUE") }),
         i(1),
         f(function()
           return utils.get_comment_strings(1)[2]
         end),
-      }
-    )
+      }),
+      fmt("{} NOTE: {}{}", {
+        f(function()
+          return utils.get_comment_strings(1)[1]
+        end),
+        i(1),
+        f(function()
+          return utils.get_comment_strings(1)[2]
+        end),
+      }),
+      fmt("{} BUG: {}{}", {
+        f(function()
+          return utils.get_comment_strings(1)[1]
+        end),
+        i(1),
+        f(function()
+          return utils.get_comment_strings(1)[2]
+        end),
+      }),
+      fmt("{} FIXME: {}{}", {
+        f(function()
+          return utils.get_comment_strings(1)[1]
+        end),
+        i(1),
+        f(function()
+          return utils.get_comment_strings(1)[2]
+        end),
+      }),
+      fmt("{} ISSUE: {}{}", {
+        f(function()
+          return utils.get_comment_strings(1)[1]
+        end),
+        i(1),
+        f(function()
+          return utils.get_comment_strings(1)[2]
+        end),
+      }),
+    })
   ),
 }
