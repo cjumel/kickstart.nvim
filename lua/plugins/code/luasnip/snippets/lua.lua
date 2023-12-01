@@ -47,31 +47,18 @@ return {
       snippetType = "autosnippet",
       condition = custom_conds.is_in_code,
     },
-    c(1, {
-      fmt(
-        [[
-          function({})
-            {}
-          end
-        ]],
-        {
-          i(1),
-          i(2),
-        }
-      ),
-      fmt(
-        [[
-          function {}({})
-            {}
-          end
-        ]],
-        {
-          i(1, "name"),
-          i(2),
-          i(3),
-        }
-      ),
-    })
+    fmt(
+      [[
+        function {}({})
+          {}
+        end
+      ]],
+      {
+        i(1),
+        i(2),
+        i(3),
+      }
+    )
   ),
   s(
     {
