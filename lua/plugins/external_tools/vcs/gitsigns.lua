@@ -24,6 +24,8 @@ return {
       local function map(mode, l, r, opts)
         opts = opts or {}
         opts.buffer = bufnr
+        opts.desc = opts.desc or ""
+        opts.desc = opts.desc .. " (Git)"
         vim.keymap.set(mode, l, r, opts)
       end
 
@@ -41,21 +43,19 @@ return {
       map({ "n", "x", "o" }, "]H", prev_conflict_repeat, { desc = "Previous conflict hunk" })
 
       -- Action keymaps
-      map({ "n", "v" }, "<leader><TAB>", gs.preview_hunk, { desc = "Preview hunk (Git)" })
+      map({ "n", "v" }, "<leader>p", gs.preview_hunk, { desc = "[P]review hunk" })
 
-      map("n", "<leader>a", gs.stage_hunk, { desc = "[A]dd hunk (Git)" })
-      map("v", "<leader>a", function()
+      map("n", "<leader>s", gs.stage_hunk, { desc = "[S]tage hunk" })
+      map("v", "<leader>s", function()
         gs.stage_hunk({ vim.fn.line("."), vim.fn.line("v") })
-      end, { desc = "[A]dd lines (Git)" })
-      map("n", "<leader>A", gs.stage_buffer, { desc = "[A]dd buffer (Git)" })
+      end, { desc = "[S]tage lines" })
 
-      map("n", "<leader>r", gs.reset_hunk, { desc = "[R]eset hunk (Git)" })
+      map("n", "<leader>r", gs.reset_hunk, { desc = "[R]eset hunk" })
       map("v", "<leader>r", function()
         gs.reset_hunk({ vim.fn.line("."), vim.fn.line("v") })
-      end, { desc = "[R]eset lines (Git)" })
-      map("n", "<leader>R", gs.reset_buffer, { desc = "[R]eset buffer (Git)" })
+      end, { desc = "[R]eset lines" })
 
-      map("n", "<leader>u", gs.undo_stage_hunk, { desc = "[U]ndo 'add hunk' (Git)" })
+      map("n", "<leader>u", gs.undo_stage_hunk, { desc = "[U]ndo 'stage hunk'" })
 
       -- Text object
       map({ "o", "x" }, "ih", ":<C-U>Gitsigns select_hunk<CR>", { desc = "inner hunk" })
