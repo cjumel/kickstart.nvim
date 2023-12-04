@@ -5,11 +5,6 @@
 
 return {
   "nvim-telescope/telescope.nvim",
-  -- NOTE:
-  -- It is not recommanded to use the master branch, but it is necessary for the filter_fn
-  -- option of the command_history function; uncomment the following line when it's not necessary
-  -- anymore:
-  -- branch = "0.1.x",
   dependencies = {
     "nvim-lua/plenary.nvim",
     "nvim-tree/nvim-web-devicons",
