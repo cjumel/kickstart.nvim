@@ -93,7 +93,7 @@ return {
           require("plugins.navigation.telescope.custom.filters").command_history_filter_fn
         require("telescope.builtin").command_history(opts)
       end,
-      desc = "Find fuzzily in command history",
+      desc = "Command history",
     },
     {
       "<leader>/",
@@ -101,7 +101,7 @@ return {
         local opts = require("plugins.navigation.telescope.custom.themes").get_dropdown()
         require("telescope.builtin").search_history(opts)
       end,
-      desc = "Find fuzzily in search history",
+      desc = "Search history",
     },
 
     -- Git related
