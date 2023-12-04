@@ -20,12 +20,6 @@ return {
     disable_hint = true,
     disable_context_highlighting = true,
     kind = "replace",
-    mappings = {
-      status = {
-        [","] = "GoToNextHunkHeader",
-        [";"] = "GoToPreviousHunkHeader",
-      },
-    },
   },
   config = function(_, opts)
     require("neogit").setup(opts)
