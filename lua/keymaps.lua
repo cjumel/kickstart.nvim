@@ -65,18 +65,6 @@ vim.keymap.set(
   { desc = "[T]oggle: [S]tatus line" }
 )
 
--- [[ Quick files keymaps ]]
-
-vim.keymap.set("n", "<leader>qn", function()
-  vim.cmd("edit ./notes.md")
-end, { desc = "[Q]uick file: [N]otes" })
-vim.keymap.set("n", "<leader>qt", function()
-  vim.cmd("edit ./notes.txt")
-end, { desc = "[Q]uick file: [T]ext" })
-vim.keymap.set("n", "<leader>qp", function()
-  vim.cmd("edit ./temp.py")
-end, { desc = "[Q]uick file: [P]ython" })
-
 -- [[ Command line keymaps ]]
 
 -- Use <c-p> and <c-n> to navigate through command line history matching the current input
