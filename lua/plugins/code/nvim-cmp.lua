@@ -23,6 +23,21 @@ return {
     local cmp = require("cmp")
     local cmp_autopairs = require("nvim-autopairs.completion.cmp")
 
+    local custom_select_next_item = function()
+      if cmp.visible() then
+        cmp.select_next_item()
+      else
+        cmp.complete()
+      end
+    end
+    local custom_select_prev_item = function()
+      if cmp.visible() then
+        cmp.select_prev_item()
+      else
+        cmp.complete()
+      end
+    end
+
     cmp.setup({
       snippet = {
         expand = function(args)
@@ -36,19 +51,18 @@ return {
         completion = cmp.config.window.bordered(),
         documentation = cmp.config.window.bordered(),
       },
-      mapping = cmp.mapping.preset.insert({
-        ["<CR>"] = cmp.mapping.confirm({ select = true }),
-        ["<C-n>"] = cmp.mapping.select_next_item(),
-        ["<C-p>"] = cmp.mapping.select_prev_item(),
-        ["<C-o>"] = cmp.mapping.complete(), -- show options
+      mapping = { -- By default, mappings are in insert mode
+        ["<CR>"] = cmp.mapping.confirm(),
+        ["<C-n>"] = custom_select_next_item,
+        ["<C-p>"] = custom_select_prev_item,
         ["<C-c>"] = cmp.mapping.abort(),
-        ["<C-f>"] = cmp.mapping.scroll_docs(4), -- forward documentation
-        ["<C-b>"] = cmp.mapping.scroll_docs(-4), -- backward documentation
-      }),
+        ["<C-d>"] = cmp.mapping.scroll_docs(5),
+        ["<C-u>"] = cmp.mapping.scroll_docs(-5),
+      },
       -- Sources are grouped by decreasing priority
       sources = cmp.config.sources({
-        { name = "luasnip", priority = 2 },
-        { name = "nvim_lsp", priority = 1 },
+        { name = "nvim_lsp" },
+        { name = "luasnip" },
       }, {
         { name = "buffer" },
       }),
@@ -63,18 +77,22 @@ return {
       }),
     })
 
-    -- Use buffer source for `/` and `?`
+    local cmdline_mapping = { -- "c =" means command line mode
+      ["<Tab>"] = { c = cmp.mapping.confirm() },
+      ["<C-n>"] = { c = custom_select_next_item },
+      ["<C-p>"] = { c = custom_select_prev_item },
+      ["<C-c>"] = { c = cmp.mapping.abort() },
+    }
+
     cmp.setup.cmdline({ "/", "?" }, {
-      mapping = cmp.mapping.preset.cmdline(),
+      mapping = cmdline_mapping,
       sources = {
         { name = "buffer" },
       },
     })
 
-    -- Use cmdline & path source for ':'
-    -- Path is redundant with cmdline, but it's easier to use for paths
     cmp.setup.cmdline(":", {
-      mapping = cmp.mapping.preset.cmdline(),
+      mapping = cmdline_mapping,
       sources = cmp.config.sources({
         { name = "path" },
       }, {
