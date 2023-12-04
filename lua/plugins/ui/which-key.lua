@@ -5,8 +5,13 @@
 return {
   "folke/which-key.nvim",
   event = "VeryLazy",
-  config = function()
-    require("which-key").setup({})
+  opts = {
+    window = {
+      border = "single",
+    },
+  },
+  config = function(_, opts)
+    require("which-key").setup(opts)
 
     -- document existing key chains
     require("which-key").register({
