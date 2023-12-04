@@ -174,6 +174,8 @@ return {
 
             -- Actually <C-CR> on my setup
             ["<C-_>"] = custom_actions.add_harpoon_mark_from_telescope,
+            -- Actually <C-%> on my setup
+            ["<C-]>"] = actions.which_key,
 
             -- Prevent conflicts with insert mode terminal-like keymaps
             ["<C-u>"] = false,
@@ -202,6 +204,8 @@ return {
 
             -- Actually <C-CR> on my setup
             ["<C-_>"] = custom_actions.add_harpoon_mark_from_telescope,
+            -- Actually <C-%> on my setup
+            ["<C-]>"] = actions.which_key,
 
             ["j"] = actions.move_selection_next,
             ["k"] = actions.move_selection_previous,

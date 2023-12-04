@@ -5,6 +5,32 @@
 return {
   "folke/which-key.nvim",
   event = "VeryLazy",
+  keys = {
+    {
+      "<C-]>", -- Actually <C-%> on my setup
+      function()
+        vim.cmd("WhichKey '' n")
+      end,
+      mode = { "n" },
+      desc = "Which key",
+    },
+    {
+      "<C-]>", -- Actually <C-%> on my setup
+      function()
+        vim.cmd("WhichKey '' i")
+      end,
+      mode = { "i" },
+      desc = "Which key",
+    },
+    {
+      "<C-]>", -- Actually <C-%> on my setup
+      function()
+        vim.cmd("WhichKey '' v")
+      end,
+      mode = { "v" },
+      desc = "Which key",
+    },
+  },
   opts = {
     window = {
       border = "single",
