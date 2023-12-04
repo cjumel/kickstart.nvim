@@ -61,7 +61,7 @@ return {
     {
       "<leader>fo",
       function()
-        local opts = require("plugins.navigation.telescope.custom.themes").get_dropdown("normal")
+        local opts = require("plugins.navigation.telescope.custom.themes").get_dropdown()
         require("telescope.builtin").oldfiles(opts)
       end,
       desc = "[F]ind: [O]ld files",
@@ -78,7 +78,7 @@ return {
     {
       "<leader>fw",
       function()
-        require("telescope.builtin").grep_string({ initial_mode = "normal" })
+        require("telescope.builtin").grep_string()
       end,
       mode = { "n", "v" },
       desc = "[F]ind: [W]ord under the cursor",
@@ -88,7 +88,7 @@ return {
     {
       "<leader>:",
       function()
-        local opts = require("plugins.navigation.telescope.custom.themes").get_dropdown("normal")
+        local opts = require("plugins.navigation.telescope.custom.themes").get_dropdown()
         opts.filter_fn =
           require("plugins.navigation.telescope.custom.filters").command_history_filter_fn
         require("telescope.builtin").command_history(opts)
@@ -98,7 +98,7 @@ return {
     {
       "<leader>/",
       function()
-        local opts = require("plugins.navigation.telescope.custom.themes").get_dropdown("normal")
+        local opts = require("plugins.navigation.telescope.custom.themes").get_dropdown()
         require("telescope.builtin").search_history(opts)
       end,
       desc = "Find fuzzily in search history",
@@ -108,7 +108,7 @@ return {
     {
       "<leader>fs",
       function()
-        local opts = require("plugins.navigation.telescope.custom.themes").get_dropdown("normal")
+        local opts = require("plugins.navigation.telescope.custom.themes").get_dropdown()
         require("telescope.builtin").git_status(opts)
       end,
       desc = "[F]ind: Git [S]tatus files",
@@ -118,7 +118,6 @@ return {
       function()
         require("telescope.builtin").git_branches({
           layout_strategy = "vertical",
-          initial_mode = "normal",
         })
       end,
       desc = "[F]ind: Git [B]ranches",
@@ -128,7 +127,6 @@ return {
       function()
         require("telescope.builtin").git_commits({
           layout_strategy = "vertical",
-          initial_mode = "normal",
         })
       end,
       desc = "[F]ind: Git [C]ommits",

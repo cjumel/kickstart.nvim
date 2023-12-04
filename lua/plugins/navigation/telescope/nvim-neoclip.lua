@@ -15,7 +15,6 @@ return {
       "<leader>fp",
       function()
         require("telescope").extensions.neoclip.default({
-          initial_mode = "normal",
           layout_strategy = "vertical",
         })
       end,
@@ -24,7 +23,7 @@ return {
     {
       "<leader>fm",
       function()
-        local opts = require("plugins.navigation.telescope.custom.themes").get_dropdown("normal")
+        local opts = require("plugins.navigation.telescope.custom.themes").get_dropdown()
         require("telescope").extensions.macroscope.default(opts)
       end,
       desc = "[F]ind: [M]acro history",

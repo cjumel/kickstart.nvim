@@ -22,7 +22,6 @@ return {
         undo = {
           diff_context_lines = 3,
           layout_strategy = "vertical",
-          initial_mode = "normal",
           mappings = {
             i = {
               ["<CR>"] = require("telescope-undo.actions").restore,
