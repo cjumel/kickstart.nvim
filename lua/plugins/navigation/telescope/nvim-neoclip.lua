@@ -12,21 +12,21 @@ return {
   event = { "BufNewFile", "BufReadPre" },
   keys = {
     {
-      "<leader>fp",
+      "<leader>p",
       function()
         require("telescope").extensions.neoclip.default({
           layout_strategy = "vertical",
         })
       end,
-      desc = "[F]ind: [P]aste history",
+      desc = "[P]aste candidates history",
     },
     {
-      "<leader>fm",
+      "<leader>q",
       function()
         local opts = require("plugins.navigation.telescope.custom.themes").get_dropdown()
         require("telescope").extensions.macroscope.default(opts)
       end,
-      desc = "[F]ind: [M]acro history",
+      desc = "[Q]-register macro history",
     },
   },
   opts = {
