@@ -11,11 +11,11 @@ return {
   },
   keys = {
     {
-      "<leader>DD",
+      "<leader>s",
       function()
         vim.cmd("DBUIToggle")
       end,
-      desc = "[D]atabase: toggle UI",
+      desc = "[S]QL UI toggle",
     },
   },
 }

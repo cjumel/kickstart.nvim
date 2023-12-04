@@ -43,7 +43,6 @@ return {
     require("which-key").register({
       ["<leader>d"] = { name = "[D]ebug", _ = "which_key_ignore" },
       ["<leader>dp"] = { name = "[D]ebug [P]ython", _ = "which_key_ignore" },
-      ["<leader>D"] = { name = "[D]atabase", _ = "which_key_ignore" },
       ["<leader>f"] = { name = "[F]ind", _ = "which_key_ignore" },
       ["<leader>l"] = { name = "[L]SP", _ = "which_key_ignore" },
       ["<leader>o"] = { name = "[O]verseer", _ = "which_key_ignore" },
