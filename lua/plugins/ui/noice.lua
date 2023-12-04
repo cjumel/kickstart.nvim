@@ -36,16 +36,5 @@ return {
     presets = {
       lsp_doc_border = true, -- add a border to hover docs and signature help
     },
-    -- Don't notify "written" messages
-    routes = {
-      {
-        filter = {
-          event = "msg_show",
-          kind = "",
-          find = "written",
-        },
-        opts = { skip = true },
-      },
-    },
   },
 }
