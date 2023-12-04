@@ -172,6 +172,9 @@ return {
 
             ["<tab>"] = layout_actions.toggle_preview,
 
+            -- Actually <C-CR> on my setup
+            ["<C-_>"] = custom_actions.add_harpoon_mark_from_telescope,
+
             -- Prevent conflicts with insert mode terminal-like keymaps
             ["<C-u>"] = false,
             ["<C-d>"] = false,
@@ -197,6 +200,9 @@ return {
             ["<C-u>"] = actions.preview_scrolling_up,
             ["<C-d>"] = actions.preview_scrolling_down,
 
+            -- Actually <C-CR> on my setup
+            ["<C-_>"] = custom_actions.add_harpoon_mark_from_telescope,
+
             ["j"] = actions.move_selection_next,
             ["k"] = actions.move_selection_previous,
             ["gg"] = actions.move_to_top,
@@ -205,7 +211,6 @@ return {
             ["v"] = actions.toggle_selection,
             ["Q"] = actions.send_selected_to_qflist + actions.open_qflist,
             ["T"] = trouble_actions.open_selected_with_trouble,
-            ["<leader><CR>"] = custom_actions.add_harpoon_mark_from_telescope,
 
             ["<esc>"] = actions.close,
             ["?"] = actions.which_key,
