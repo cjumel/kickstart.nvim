@@ -24,8 +24,6 @@ return {
       local function map(mode, l, r, opts)
         opts = opts or {}
         opts.buffer = bufnr
-        opts.desc = opts.desc or ""
-        opts.desc = opts.desc .. " (Git)"
         vim.keymap.set(mode, l, r, opts)
       end
 
@@ -37,29 +35,28 @@ return {
         ts_repeat_move.make_repeatable_move_pair(utils.next_conflict, utils.prev_conflict)
 
       -- Navigation keymaps
-      map({ "n", "x", "o" }, "[h", next_hunk_repeat, { desc = "Next hunk" })
-      map({ "n", "x", "o" }, "]h", prev_hunk_repeat, { desc = "Previous hunk" })
-      map({ "n", "x", "o" }, "[H", next_conflict_repeat, { desc = "Next conflict hunk" })
-      map({ "n", "x", "o" }, "]H", prev_conflict_repeat, { desc = "Previous conflict hunk" })
+      map({ "n", "x", "o" }, "[h", next_hunk_repeat, { desc = "Next Git hunk" })
+      map({ "n", "x", "o" }, "]h", prev_hunk_repeat, { desc = "Previous Git hunk" })
+      map({ "n", "x", "o" }, "[H", next_conflict_repeat, { desc = "Next Git conflict hunk" })
+      map({ "n", "x", "o" }, "]H", prev_conflict_repeat, { desc = "Previous Git conflict hunk" })
 
       -- Action keymaps
-      map({ "n", "v" }, "<leader>p", gs.preview_hunk, { desc = "[P]review hunk" })
+      map({ "n", "v" }, "<leader><TAB>", gs.preview_hunk, { desc = "Preview Git hunk" })
 
-      map("n", "<leader>s", gs.stage_hunk, { desc = "[S]tage hunk" })
-      map("v", "<leader>s", function()
+      map("n", "<leader>a", gs.stage_hunk, { desc = "[A]dd Git hunk" })
+      map("v", "<leader>a", function()
         gs.stage_hunk({ vim.fn.line("."), vim.fn.line("v") })
-      end, { desc = "[S]tage lines" })
+      end, { desc = "[A]dd Git lines" })
+      map("n", "<leader>A", gs.undo_stage_hunk, { desc = "[A]dd-Git-hunk undo" })
 
-      map("n", "<leader>r", gs.reset_hunk, { desc = "[R]eset hunk" })
+      map("n", "<leader>r", gs.reset_hunk, { desc = "[R]eset Git hunk" })
       map("v", "<leader>r", function()
         gs.reset_hunk({ vim.fn.line("."), vim.fn.line("v") })
-      end, { desc = "[R]eset lines" })
-
-      map("n", "<leader>u", gs.undo_stage_hunk, { desc = "[U]ndo 'stage hunk'" })
+      end, { desc = "[R]eset Git lines" })
 
       -- Text object
-      map({ "o", "x" }, "ih", ":<C-U>Gitsigns select_hunk<CR>", { desc = "inner hunk" })
-      map({ "o", "x" }, "ah", ":<C-U>Gitsigns select_hunk<CR>", { desc = "a hunk" })
+      map({ "o", "x" }, "ih", ":<C-U>Gitsigns select_hunk<CR>", { desc = "inner Git hunk" })
+      map({ "o", "x" }, "ah", ":<C-U>Gitsigns select_hunk<CR>", { desc = "a Git hunk" })
     end,
   },
 }
