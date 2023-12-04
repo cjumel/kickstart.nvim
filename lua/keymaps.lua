@@ -14,9 +14,12 @@ vim.keymap.set("n", "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = tr
 vim.keymap.set({ "n", "o", "x" }, "gg", "gg0", { desc = "Beginning buffer" })
 vim.keymap.set({ "n", "o", "x" }, "G", "G$", { desc = "End of buffer" })
 
+-- Use enter in normal mode to write the current buffer
+vim.keymap.set("n", "<CR>", "<cmd> w <CR>", { desc = "Write" })
+
 -- Use tab in visual mode to indent
-vim.keymap.set("v", "<tab>", ">gv", { desc = "Indent selection" })
-vim.keymap.set("v", "<s-tab>", "<gv", { desc = "Unindent selection" })
+vim.keymap.set("v", "<TAB>", ">gv", { desc = "Indent selection" })
+vim.keymap.set("v", "<S-TAB>", "<gv", { desc = "Unindent selection" })
 
 -- Shortcuts to access main registers
 vim.keymap.set({ "n", "v" }, "+", '"+', { desc = "System copy register" })

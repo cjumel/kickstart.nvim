@@ -13,8 +13,17 @@ return {
   },
   keys = {
     {
+      "<ESC>",
+      function()
+        vim.cmd("Noice dismiss")
+      end,
+      desc = "Clear Noice elements",
+    },
+    {
       "<C-c>",
-      "<cmd> Noice dismiss <CR>",
+      function()
+        vim.cmd("Noice dismiss")
+      end,
       mode = { "n", "i", "v" },
       desc = "Clear Noice elements",
     },
