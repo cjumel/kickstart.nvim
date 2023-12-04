@@ -38,15 +38,6 @@ return {
       ignore_install = {}, -- List of parsers to ignore installing (or "all")
       highlight = { enable = true },
       indent = { enable = true },
-      incremental_selection = {
-        enable = true,
-        keymaps = {
-          init_selection = "<leader>i",
-          node_incremental = "<leader>i",
-          scope_incremental = false,
-          node_decremental = "<bs>",
-        },
-      },
       textobjects = {
         select = {
           enable = true,
