@@ -11,7 +11,7 @@ return {
         require("hop").hint_char2({})
       end,
       mode = { "n", "x", "o" },
-      desc = "[S]earch 2 key patterns (Hop)",
+      desc = "[S]earch 2 characters & jump",
     },
     {
       "f",
@@ -22,7 +22,7 @@ return {
         })
       end,
       mode = { "n", "x", "o" },
-      desc = "[f]-key style search (Hop)",
+      desc = "[F]ind 1 character & jump",
     },
     {
       "F",
@@ -33,7 +33,7 @@ return {
         })
       end,
       mode = { "n", "x", "o" },
-      desc = "[F]-key style search (Hop)",
+      desc = "[F]ind 1 character backward & jump",
     },
     {
       "t",
@@ -45,7 +45,7 @@ return {
         })
       end,
       mode = { "n", "x", "o" },
-      desc = "[t]-key style search (Hop)",
+      desc = "[T]ill 1 character jump",
     },
     {
       "T",
@@ -57,7 +57,7 @@ return {
         })
       end,
       mode = { "n", "x", "o" },
-      desc = "[T]-key style search (Hop)",
+      desc = "[T]ill 1 character backward jump",
     },
     {
       "<leader>w",
@@ -68,7 +68,7 @@ return {
         })
       end,
       mode = { "n", "x", "o" },
-      desc = "[w]-key style search (Hop)",
+      desc = "[W]ord jump",
     },
     {
       "<leader>b",
@@ -79,7 +79,7 @@ return {
         })
       end,
       mode = { "n", "x", "o" },
-      desc = "[b]-key style search (Hop)",
+      desc = "[B]ackward word jump",
     },
     {
       "<leader>e",
@@ -91,7 +91,7 @@ return {
         })
       end,
       mode = { "n", "x", "o" },
-      desc = "[e]-key style search (Hop)",
+      desc = "[E]nd of word jump",
     },
     {
       "<leader>E",
@@ -103,55 +103,55 @@ return {
         })
       end,
       mode = { "n", "x", "o" },
-      desc = "[e]-key style search backward (Hop)",
+      desc = "[E]nd of word backward jump",
     },
     {
       "<leader>j",
       "<cmd> HopLineStartAC <cr>",
       mode = { "n", "x" },
-      desc = "Search down for line starts (Hop)",
+      desc = "Downward line start jump",
     },
     { -- linewise in operator pending mode
       "<leader>j",
       "V<cmd> HopLineStartAC <cr>",
       mode = { "o" },
-      desc = "Search down for line starts (Hop)",
+      desc = "Downward line start jump",
     },
     {
       "<leader>J",
       "<cmd> HopVerticalAC <cr>",
       mode = { "n", "x" },
-      desc = "Search down vertically (Hop)",
+      desc = "Downward vertical jump",
     },
     { -- linewise in operator pending mode
       "<leader>J",
       "V<cmd> HopVerticalAC <cr>",
       mode = { "o" },
-      desc = "Search down vertically (Hop)",
+      desc = "Downward vertical jump",
     },
     {
       "<leader>k",
       "<cmd> HopLineStartBC <cr>",
       mode = { "n", "x" },
-      desc = "Search up for line starts (Hop)",
+      desc = "Upward line start jump",
     },
     { -- linewise in operator pending mode
       "<leader>k",
       "V<cmd> HopLineStartBC <cr>",
       mode = { "o" },
-      desc = "Search up for line starts (Hop)",
+      desc = "Upward line start jump",
     },
     {
       "<leader>K",
       "<cmd> HopVerticalBC <cr>",
       mode = { "n", "x" },
-      desc = "Search up vertically (Hop)",
+      desc = "Upward vertical jump",
     },
     { -- linewise in operator pending mode
       "<leader>K",
       "V<cmd> HopVerticalBC <cr>",
       mode = { "o" },
-      desc = "Search up vertically (Hop)",
+      desc = "Upward vertical jump",
     },
   },
   opts = {
