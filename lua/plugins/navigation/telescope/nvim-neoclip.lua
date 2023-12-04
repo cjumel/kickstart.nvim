@@ -12,22 +12,22 @@ return {
   event = { "BufNewFile", "BufReadPre" },
   keys = {
     {
-      "<leader>p",
+      "<leader>fp",
       function()
         require("telescope").extensions.neoclip.default({
           initial_mode = "normal",
           layout_strategy = "vertical",
         })
       end,
-      desc = "[p]-key (paste) from history",
+      desc = "[F]ind: [P]aste history",
     },
     {
-      "<leader>Q",
+      "<leader>fm",
       function()
         local opts = require("plugins.navigation.telescope.custom.themes").get_dropdown("normal")
         require("telescope").extensions.macroscope.default(opts)
       end,
-      desc = "[Q]-key (replay macro) from history",
+      desc = "[F]ind: [M]acro history",
     },
   },
   opts = {
