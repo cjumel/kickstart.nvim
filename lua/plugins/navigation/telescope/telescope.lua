@@ -153,64 +153,54 @@ return {
       defaults = {
         default_mappings = {
           i = {
+            ["<CR>"] = actions.select_default,
             ["<C-n>"] = actions.move_selection_next,
             ["<C-p>"] = actions.move_selection_previous,
             ["<C-c>"] = actions.close,
 
-            ["<CR>"] = actions.select_default,
+            ["<tab>"] = layout_actions.toggle_preview,
+            ["<C-f>"] = actions.preview_scrolling_down,
+            ["<C-b>"] = actions.preview_scrolling_up,
+
             ["<C-x>"] = actions.select_horizontal,
             ["<C-v>"] = actions.select_vertical,
-            ["<C-q>"] = actions.send_to_qflist + actions.open_qflist,
             ["<C-t>"] = trouble_actions.open_with_trouble,
-
-            ["<tab>"] = layout_actions.toggle_preview,
-
-            -- Actually <C-CR> on my setup
-            ["<C-_>"] = custom_actions.add_harpoon_mark_from_telescope,
-            -- Actually <C-%> on my setup
-            ["<C-]>"] = actions.which_key,
+            ["<C-_>"] = custom_actions.add_harpoon_mark_from_telescope, -- Actually <C-CR> on my setup
+            ["<C-]>"] = actions.which_key, -- Actually <C-%> on my setup
 
             -- Prevent conflicts with insert mode terminal-like keymaps
             ["<C-u>"] = false,
             ["<C-d>"] = false,
-            ["<C-b>"] = false,
-            ["<C-f>"] = false,
 
             -- disable c-j because we dont want to allow new lines #2123
             ["<C-j>"] = actions.nop,
           },
 
           n = {
+            ["<CR>"] = actions.select_default,
             ["<C-n>"] = actions.move_selection_next,
             ["<C-p>"] = actions.move_selection_previous,
             ["<C-c>"] = actions.close,
 
-            ["<CR>"] = actions.select_default,
+            ["<tab>"] = layout_actions.toggle_preview,
+            ["<C-f>"] = actions.preview_scrolling_down,
+            ["<C-b>"] = actions.preview_scrolling_up,
+
             ["<C-x>"] = actions.select_horizontal,
             ["<C-v>"] = actions.select_vertical,
-            ["<C-q>"] = actions.send_to_qflist + actions.open_qflist,
             ["<C-t>"] = trouble_actions.open_with_trouble,
-
-            ["<tab>"] = layout_actions.toggle_preview,
-            ["<C-u>"] = actions.preview_scrolling_up,
-            ["<C-d>"] = actions.preview_scrolling_down,
-
-            -- Actually <C-CR> on my setup
-            ["<C-_>"] = custom_actions.add_harpoon_mark_from_telescope,
-            -- Actually <C-%> on my setup
-            ["<C-]>"] = actions.which_key,
+            ["<C-_>"] = custom_actions.add_harpoon_mark_from_telescope, -- Actually <C-CR> on my setup
+            ["<C-]>"] = actions.which_key, -- Actually <C-%> on my setup
 
             ["j"] = actions.move_selection_next,
             ["k"] = actions.move_selection_previous,
             ["gg"] = actions.move_to_top,
             ["G"] = actions.move_to_bottom,
-
-            ["v"] = actions.toggle_selection,
-            ["Q"] = actions.send_selected_to_qflist + actions.open_qflist,
-            ["T"] = trouble_actions.open_selected_with_trouble,
-
             ["<esc>"] = actions.close,
-            ["?"] = actions.which_key,
+            ["<C-u>"] = actions.results_scrolling_up,
+            ["<C-d>"] = actions.results_scrolling_down,
+            ["v"] = actions.toggle_selection,
+            ["T"] = trouble_actions.open_selected_with_trouble,
           },
         },
         -- vimgrep_arguments is used for live_grep and grep_string
