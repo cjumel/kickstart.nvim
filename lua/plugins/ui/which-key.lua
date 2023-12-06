@@ -46,12 +46,12 @@ return {
       ["<C-w>"] = { name = "Window", _ = "which_key_ignore" },
       ["<leader>"] = { name = "Leader", _ = "which_key_ignore" },
 
+      ["<leader>c"] = { name = "[C]onfig", _ = "which_key_ignore" },
       ["<leader>d"] = { name = "[D]ebug", _ = "which_key_ignore" },
       ["<leader>dp"] = { name = "[D]ebug [P]ython", _ = "which_key_ignore" },
       ["<leader>f"] = { name = "[F]ind", _ = "which_key_ignore" },
       ["<leader>l"] = { name = "[L]SP", _ = "which_key_ignore" },
       ["<leader>o"] = { name = "[O]verseer", _ = "which_key_ignore" },
-      ["<leader>t"] = { name = "[T]oggle", _ = "which_key_ignore" },
       ["<leader>x"] = { name = "Trouble", _ = "which_key_ignore" },
     })
   end,

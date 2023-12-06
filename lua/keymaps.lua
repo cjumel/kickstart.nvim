@@ -44,27 +44,27 @@ vim.keymap.set({ "i", "c" }, "<C-a>", "<Home>", { desc = "Move cursor to beginni
 vim.keymap.set({ "i", "c" }, "<C-b>", "<Left>", { desc = "Move cursor one character left" })
 vim.keymap.set({ "i", "c" }, "<C-f>", "<Right>", { desc = "Move cursor one character right" })
 
--- [[ UI toggles keymaps ]]
+-- [[ Config keymaps ]]
 
-vim.keymap.set("n", "<leader>tl", function()
+vim.keymap.set("n", "<leader>cl", function()
   if vim.o.background == "dark" then
     vim.cmd("set background=light")
   else
     vim.cmd("set background=dark")
   end
-end, { desc = "[T]oggle: [L]ight theme" })
-vim.keymap.set("n", "<leader>tr", function()
+end, { desc = "[C]onfig: toggle [L]ight theme" })
+vim.keymap.set("n", "<leader>cr", function()
   if vim.wo.relativenumber then
     vim.wo.relativenumber = false
   else
     vim.wo.relativenumber = true
   end
-end, { desc = "[T]oggle: [R]elative line numbers" })
+end, { desc = "[C]onfig: toggle [R]elative line numbers" })
 vim.keymap.set(
   "n",
-  "<leader>ts",
+  "<leader>cs",
   require("statusline").toggle,
-  { desc = "[T]oggle: [S]tatus line" }
+  { desc = "[C]onfig: toggle [S]tatus line" }
 )
 
 -- [[ Command line keymaps ]]
