@@ -3,7 +3,13 @@
 -- Super fast git decorations and utilities implemented purely in Lua. This plugin brings
 -- buffer-centric features, like signs to mark git hunks, or functions to stage them.
 
-local utils = require("plugins.external_tools.vcs.utils.gitsigns")
+local conflict_marker = "<<<<<<< \\|=======\\|>>>>>>> "
+local next_conflict = function()
+  vim.cmd("silent!/" .. conflict_marker)
+end
+local prev_conflict = function()
+  vim.cmd("silent!?" .. conflict_marker)
+end
 
 return {
   "lewis6991/gitsigns.nvim",
@@ -32,7 +38,7 @@ return {
       local next_hunk_repeat, prev_hunk_repeat =
         ts_repeat_move.make_repeatable_move_pair(gs.next_hunk, gs.prev_hunk)
       local next_conflict_repeat, prev_conflict_repeat =
-        ts_repeat_move.make_repeatable_move_pair(utils.next_conflict, utils.prev_conflict)
+        ts_repeat_move.make_repeatable_move_pair(next_conflict, prev_conflict)
 
       -- Navigation keymaps
       map({ "n", "x", "o" }, "[h", next_hunk_repeat, { desc = "Next Git hunk" })
