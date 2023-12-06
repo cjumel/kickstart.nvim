@@ -9,29 +9,15 @@ return {
   },
   keys = {
     {
-      "gS",
-      function()
-        require("treesj").split()
-      end,
-      desc = "[S]plit current node",
-    },
-    {
-      "gJ",
-      function()
-        require("treesj").join()
-      end,
-      desc = "[J]oin current node",
-    },
-    {
-      "gT",
+      "S",
       function()
         require("treesj").toggle()
       end,
-      desc = "[T]oggle split/join current node",
+      desc = "[S]plit/join node",
     },
   },
   opts = {
     use_default_keymaps = false,
-    max_join_length = 100,
+    max_join_length = 1000,
   },
 }

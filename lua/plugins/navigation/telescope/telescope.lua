@@ -21,14 +21,6 @@ return {
       end,
       desc = "Resume Telescope",
     },
-    {
-      "S", -- Builtin `S` is equivalent to `cc` & is not super usefull
-      function()
-        local opts = require("plugins.navigation.telescope.custom.themes").get_dropdown()
-        require("telescope.builtin").current_buffer_fuzzy_find(opts)
-      end,
-      desc = "[S]earch fuzzily",
-    },
 
     -- Find files by name
     {
@@ -62,7 +54,14 @@ return {
       desc = "[F]ind: [O]ld files",
     },
 
-    -- Find files by content
+    -- Find by content
+    {
+      "<leader>fz",
+      function()
+        require("telescope.builtin").current_buffer_fuzzy_find()
+      end,
+      desc = "[F]ind: fu[Z]zily in current buffer",
+    },
     {
       "<leader>fg",
       function()
