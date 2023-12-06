@@ -1,25 +1,25 @@
 -- MKDNFLOW
 --
--- Mkdnflow is designed for the fluent navigation of documents and notebooks (AKA "wikis") written in markdown.
+-- Mkdnflow is designed for the fluent navigation of documents and notebooks (AKA "wikis") written
+-- in markdown.
 
-local next_unchecked_checkbox = function()
-  vim.cmd("silent!/- [ \\] \\|- [\\-\\] ")
-end
-local previous_unchecked_checkbox = function()
-  vim.cmd("silent!?- [ \\] \\|- [\\-\\] ")
-end
-local next_heading = function()
+local ts_repeat_move = require("nvim-treesitter.textobjects.repeatable_move")
+local next_unchecked_checkbox, previous_unchecked_checkbox = ts_repeat_move.make_repeatable_move_pair(
+  function()
+    vim.cmd("silent!/- [ \\] \\|- [\\-\\] ")
+  end,
+  function()
+    vim.cmd("silent!?- [ \\] \\|- [\\-\\] ")
+  end
+)
+local next_heading, previous_heading = ts_repeat_move.make_repeatable_move_pair(function()
   vim.cmd("silent! MkdnNextHeading")
-end
-local previous_heading = function()
+end, function()
   vim.cmd("silent! MkdnPrevHeading")
-end
+end)
 
 return {
   "jakewvincent/mkdnflow.nvim",
-  dependencies = {
-    "nvim-treesitter/nvim-treesitter-textobjects",
-  },
   keys = {
     {
       "<C-^>", -- Actually <C-m> on my setup, but not <CR>
@@ -32,36 +32,28 @@ return {
     },
     {
       "[X",
-      function()
-        vim.cmd("MkdnNextUncheckedCheckbox")
-      end,
+      next_unchecked_checkbox,
       ft = "markdown",
       mode = { "n", "x", "o" },
       desc = "Next checkbox (Markdown)",
     },
     {
       "]X",
-      function()
-        vim.cmd("MkdnPrevUncheckedCheckbox")
-      end,
+      previous_unchecked_checkbox,
       ft = "markdown",
       mode = { "n", "x", "o" },
       desc = "Previous checkbox (Markdown)",
     },
     {
       "[T",
-      function()
-        vim.cmd("MkdnNextHeadingRepeat")
-      end,
+      next_heading,
       ft = "markdown",
       mode = { "n", "x", "o" },
       desc = "Next title (Markdown)",
     },
     {
       "]T",
-      function()
-        vim.cmd("MkdnPrevHeadingRepeat")
-      end,
+      previous_heading,
       ft = "markdown",
       mode = { "n", "x", "o" },
       desc = "Previous title (Markdown)",
@@ -88,34 +80,4 @@ return {
       complete = "x",
     },
   },
-  config = function(_, opts)
-    require("mkdnflow").setup(opts)
-
-    local ts_repeat_move = require("nvim-treesitter.textobjects.repeatable_move")
-    local next_unchecked_checkbox_repeat, previous_unchecked_checkbox_repeat =
-      ts_repeat_move.make_repeatable_move_pair(next_unchecked_checkbox, previous_unchecked_checkbox)
-    local next_heading_repeat, previous_heading_repeat =
-      ts_repeat_move.make_repeatable_move_pair(next_heading, previous_heading)
-
-    vim.api.nvim_create_user_command(
-      "MkdnNextUncheckedCheckbox",
-      next_unchecked_checkbox_repeat,
-      { desc = "Next unchecked checkbox" }
-    )
-    vim.api.nvim_create_user_command(
-      "MkdnPrevUncheckedCheckbox",
-      previous_unchecked_checkbox_repeat,
-      { desc = "Previous unchecked checkbox" }
-    )
-    vim.api.nvim_create_user_command(
-      "MkdnNextHeadingRepeat",
-      next_heading_repeat,
-      { desc = "Next heading" }
-    )
-    vim.api.nvim_create_user_command(
-      "MkdnPrevHeadingRepeat",
-      previous_heading_repeat,
-      { desc = "Previous heading" }
-    )
-  end,
 }
