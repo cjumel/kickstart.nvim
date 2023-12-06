@@ -16,8 +16,18 @@ return {
     local ts_repeat_move = require("nvim-treesitter.textobjects.repeatable_move")
 
     -- Repeat movement with ; (forward) and , (backward)
-    vim.keymap.set({ "n", "x", "o" }, ",", ts_repeat_move.repeat_last_move_next)
-    vim.keymap.set({ "n", "x", "o" }, ";", ts_repeat_move.repeat_last_move_previous)
+    vim.keymap.set(
+      { "n", "x", "o" },
+      ",",
+      ts_repeat_move.repeat_last_move_next,
+      { desc = "Repeat last move next" }
+    )
+    vim.keymap.set(
+      { "n", "x", "o" },
+      ";",
+      ts_repeat_move.repeat_last_move_previous,
+      { desc = "Repeat last move previous" }
+    )
 
     -- Repeatable paragraph movements
     local next_paragraph_repeat, prev_paragraph_repeat =
