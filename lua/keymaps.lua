@@ -24,7 +24,7 @@ vim.keymap.set({ "n", "v" }, "_", '"_', { desc = "Black hole copy register" })
 vim.keymap.set({ "n", "v" }, "Q", "@q", { desc = "Default macro register" })
 
 -- Diagnostics
-vim.keymap.set("n", "<leader>%", vim.diagnostic.open_float, { desc = "Expand diagnostic" })
+vim.keymap.set("n", "<leader>x", vim.diagnostic.open_float, { desc = "E[X]pand diagnostic" })
 local ts_repeat_move = require("nvim-treesitter.textobjects.repeatable_move")
 local next_diagnostic, prev_diagnostic =
   ts_repeat_move.make_repeatable_move_pair(vim.diagnostic.goto_next, vim.diagnostic.goto_prev)
