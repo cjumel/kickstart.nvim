@@ -7,7 +7,7 @@ local s = ls.snippet
 local fmt = require("luasnip.extras.fmt").fmt
 
 local expand_conds = require("luasnip.extras.conditions.expand")
-local custom_conds = require("plugins.code.luasnip.custom.conds")
+local custom_conds = require("plugins.code.luasnip.utils.conds")
 
 return {
   s(
