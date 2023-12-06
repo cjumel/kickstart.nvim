@@ -3,6 +3,36 @@
 -- Gaze deeply into unknwn regions of your code with powerful and blazing fast fuzzy finding
 -- tools.
 
+local command_history_filter_fn = function(cmd)
+  -- Discard commands like "w", "q", "wq", "wqa", etc.
+  if string.len(cmd) < 4 then
+    return false
+  end
+  return true
+end
+
+-- Code taken from https://gist.github.com/benlubas/09254459af633cce1b5ac12d16640f0e
+local add_harpoon_mark_from_telescope = function(tb)
+  local telescope_utils = require("telescope.actions.utils")
+  local actions = require("telescope.actions")
+
+  actions.drop_all(tb)
+  actions.add_selection(tb)
+  telescope_utils.map_selections(tb, function(selection)
+    local file = selection[1]
+
+    -- Handle special pickers
+    if selection.filename then -- For live_grep picker
+      file = selection.filename
+    elseif selection.value then -- For git_status picker
+      file = selection.value
+    end
+
+    require("plugins.navigation.harpoon.utils.actions").add_mark(file)
+  end)
+  actions.remove_selection(tb)
+end
+
 return {
   "nvim-telescope/telescope.nvim",
   dependencies = {
@@ -48,7 +78,7 @@ return {
     {
       "<leader>fo",
       function()
-        local opts = require("plugins.navigation.telescope.custom.themes").get_dropdown()
+        local opts = require("plugins.navigation.telescope.utils.themes").get_dropdown()
         require("telescope.builtin").oldfiles(opts)
       end,
       desc = "[F]ind: [O]ld files",
@@ -82,9 +112,8 @@ return {
     {
       "<leader>:",
       function()
-        local opts = require("plugins.navigation.telescope.custom.themes").get_dropdown()
-        opts.filter_fn =
-          require("plugins.navigation.telescope.custom.filters").command_history_filter_fn
+        local opts = require("plugins.navigation.telescope.utils.themes").get_dropdown()
+        opts.filter_fn = command_history_filter_fn
         require("telescope.builtin").command_history(opts)
       end,
       desc = "Command history",
@@ -92,7 +121,7 @@ return {
     {
       "<leader>/",
       function()
-        local opts = require("plugins.navigation.telescope.custom.themes").get_dropdown()
+        local opts = require("plugins.navigation.telescope.utils.themes").get_dropdown()
         require("telescope.builtin").search_history(opts)
       end,
       desc = "Search history",
@@ -102,7 +131,7 @@ return {
     {
       "<leader>fs",
       function()
-        local opts = require("plugins.navigation.telescope.custom.themes").get_dropdown()
+        local opts = require("plugins.navigation.telescope.utils.themes").get_dropdown()
         require("telescope.builtin").git_status(opts)
       end,
       desc = "[F]ind: Git [S]tatus files",
@@ -146,7 +175,6 @@ return {
     local actions = require("telescope.actions")
     local layout_actions = require("telescope.actions.layout")
     local trouble_actions = require("trouble.providers.telescope")
-    local custom_actions = require("plugins.navigation.telescope.custom.actions")
 
     require("telescope").setup({
       defaults = {
@@ -164,7 +192,7 @@ return {
             ["<C-x>"] = actions.select_horizontal,
             ["<C-v>"] = actions.select_vertical,
             ["<C-t>"] = trouble_actions.open_with_trouble,
-            ["<C-_>"] = custom_actions.add_harpoon_mark_from_telescope, -- Actually <C-CR> on my setup
+            ["<C-_>"] = add_harpoon_mark_from_telescope, -- Actually <C-CR> on my setup
             ["<C-]>"] = actions.which_key, -- Actually <C-%> on my setup
 
             -- Prevent conflicts with insert mode terminal-like keymaps
@@ -188,7 +216,7 @@ return {
             ["<C-x>"] = actions.select_horizontal,
             ["<C-v>"] = actions.select_vertical,
             ["<C-t>"] = trouble_actions.open_with_trouble,
-            ["<C-_>"] = custom_actions.add_harpoon_mark_from_telescope, -- Actually <C-CR> on my setup
+            ["<C-_>"] = add_harpoon_mark_from_telescope, -- Actually <C-CR> on my setup
             ["<C-]>"] = actions.which_key, -- Actually <C-%> on my setup
 
             ["j"] = actions.move_selection_next,
@@ -229,7 +257,7 @@ return {
             mirror = true,
           },
         },
-        path_display = function(opts, path)
+        path_display = function(_, path)
           -- Apply builtin path display options
           local path_display_opts = {
             truncate = 1, -- truncate and leave some space with the border

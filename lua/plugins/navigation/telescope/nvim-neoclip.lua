@@ -2,6 +2,23 @@
 --
 -- neoclip is a clipboard manager for neovim inspired for example by clipmenu.
 
+local function is_whitespace(line)
+  return vim.fn.match(line, [[^\s*$]]) ~= -1
+end
+
+local function all(tbl, check)
+  for _, entry in ipairs(tbl) do
+    if not check(entry) then
+      return false
+    end
+  end
+  return true
+end
+
+local whitespace_yank_filter_fn = function(data)
+  return not all(data.event.regcontents, is_whitespace)
+end
+
 return {
   "AckslD/nvim-neoclip.lua",
   dependencies = {
@@ -23,7 +40,7 @@ return {
     {
       "<leader>q",
       function()
-        local opts = require("plugins.navigation.telescope.custom.themes").get_dropdown()
+        local opts = require("plugins.navigation.telescope.utils.themes").get_dropdown()
         require("telescope").extensions.macroscope.default(opts)
       end,
       desc = "[Q]-register macro history",
@@ -44,6 +61,6 @@ return {
       move_to_front = true,
     },
     -- Don't store pure whitespace yanks
-    filter = require("plugins.navigation.telescope.custom.filters").whitespace_yank_filter_fn,
+    filter = whitespace_yank_filter_fn,
   },
 }
