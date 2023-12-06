@@ -6,6 +6,16 @@
 
 return {
   "nat-418/boole.nvim",
+  keys = {
+    {
+      "<C-a>",
+      desc = "Increment",
+    },
+    {
+      "<C-x>",
+      desc = "Decrement",
+    },
+  },
   opts = {
     mappings = {
       increment = "<C-a>",
