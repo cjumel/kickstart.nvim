@@ -17,7 +17,7 @@ M.add_harpoon_mark_from_telescope = function(tb)
       file = selection.value
     end
 
-    require("plugins.navigation.harpoon.custom.actions").add_mark(file)
+    require("plugins.navigation.harpoon.utils.actions").add_mark(file)
   end)
   actions.remove_selection(tb)
 end

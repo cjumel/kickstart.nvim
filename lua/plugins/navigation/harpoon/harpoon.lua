@@ -13,7 +13,7 @@ return {
     {
       "<leader><CR>",
       function()
-        require("plugins.navigation.harpoon.custom.actions").add_mark()
+        require("plugins.navigation.harpoon.utils.actions").add_mark()
       end,
       desc = "Add Harpoon mark",
     },
@@ -37,35 +37,35 @@ return {
     {
       "gh",
       function()
-        require("plugins.navigation.harpoon.custom.actions").go_to_mark(1)
+        require("plugins.navigation.harpoon.utils.actions").go_to_mark(1)
       end,
       desc = "Goto Harpoon file 1",
     },
     {
       "gj",
       function()
-        require("plugins.navigation.harpoon.custom.actions").go_to_mark(2)
+        require("plugins.navigation.harpoon.utils.actions").go_to_mark(2)
       end,
       desc = "Goto Harpoon file 2",
     },
     {
       "gk",
       function()
-        require("plugins.navigation.harpoon.custom.actions").go_to_mark(3)
+        require("plugins.navigation.harpoon.utils.actions").go_to_mark(3)
       end,
       desc = "Goto Harpoon file 3",
     },
     {
       "gl",
       function()
-        require("plugins.navigation.harpoon.custom.actions").go_to_mark(4)
+        require("plugins.navigation.harpoon.utils.actions").go_to_mark(4)
       end,
       desc = "Goto Harpoon file 4",
     },
     {
       "gm",
       function()
-        require("plugins.navigation.harpoon.custom.actions").go_to_mark(5)
+        require("plugins.navigation.harpoon.utils.actions").go_to_mark(5)
       end,
       desc = "Goto Harpoon file 5",
     },

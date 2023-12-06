@@ -10,7 +10,7 @@ local add_harpoon_mark_from_oil = function()
   end
   local dir = require("oil").get_current_dir()
   local path = dir .. entry.name
-  require("plugins.navigation.harpoon.custom.actions").add_mark(path)
+  require("plugins.navigation.harpoon.utils.actions").add_mark(path)
 end
 
 local is_hidden = function(name, _)
