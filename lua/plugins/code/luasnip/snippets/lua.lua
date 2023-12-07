@@ -11,11 +11,7 @@ local custom_conds = require("plugins.code.luasnip.utils.conds")
 
 return {
   s(
-    {
-      trig = "loc ",
-      snippetType = "autosnippet",
-      condition = custom_conds.is_in_code * expand_conds.line_begin,
-    },
+    "local",
     fmt(
       [[
         local {} = {}
@@ -27,11 +23,7 @@ return {
     )
   ),
   s(
-    {
-      trig = "req ",
-      snippetType = "autosnippet",
-      condition = custom_conds.is_in_code,
-    },
+    "require",
     fmt(
       [[
         require("{}")
@@ -42,11 +34,7 @@ return {
     )
   ),
   s(
-    {
-      trig = "fun ",
-      snippetType = "autosnippet",
-      condition = custom_conds.is_in_code,
-    },
+    "function",
     fmt(
       [[
         function {}({})
@@ -57,21 +45,6 @@ return {
         i(1),
         i(2),
         i(3),
-      }
-    )
-  ),
-  s(
-    {
-      trig = "ret ",
-      snippetType = "autosnippet",
-      condition = custom_conds.is_in_code * expand_conds.line_begin,
-    },
-    fmt(
-      [[
-        return {}
-      ]],
-      {
-        i(1, "nil"),
       }
     )
   ),
