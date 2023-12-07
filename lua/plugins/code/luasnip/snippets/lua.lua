@@ -3,6 +3,8 @@ local ls = require("luasnip")
 local c = ls.choice_node
 local i = ls.insert_node
 local s = ls.snippet
+local sn = ls.snippet_node
+local t = ls.text_node
 
 local fmt = require("luasnip.extras.fmt").fmt
 
@@ -14,11 +16,21 @@ return {
     "local",
     fmt(
       [[
-        local {} = {}
+        local {}
       ]],
       {
-        i(1, "var"),
-        i(2, [["value"]]),
+        c(1, {
+          sn(nil, { i(1, "var"), t(" = "), i(2, [["value"]]) }),
+          sn(nil, {
+            t("function "),
+            i(1, "name"),
+            t("("),
+            i(2),
+            t({ ")", "  " }),
+            i(3),
+            t({ "", "end" }),
+          }),
+        }),
       }
     )
   ),
@@ -37,14 +49,13 @@ return {
     "function",
     fmt(
       [[
-        function {}({})
+        function({})
           {}
         end
       ]],
       {
         i(1),
         i(2),
-        i(3),
       }
     )
   ),
