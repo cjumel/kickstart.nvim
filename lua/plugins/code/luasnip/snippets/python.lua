@@ -45,6 +45,53 @@ return {
   ),
   s(
     {
+      trig = "if ", -- new line version
+      snippetType = "autosnippet",
+      condition = custom_conds.is_in_code * expand_conds.line_begin,
+    },
+    fmt(
+      [[
+        if {}:
+            {}
+        {}
+      ]],
+      {
+        i(1, "cond"),
+        i(2, "pass"),
+        c(3, {
+          t(""),
+          sn(nil, {
+            t({ "else:", "    " }),
+            i(1, "pass"),
+          }),
+        }),
+      }
+    )
+  ),
+  s(
+    {
+      trig = "if ", -- inline version
+      snippetType = "autosnippet",
+      condition = custom_conds.is_in_code * -expand_conds.line_begin,
+    },
+    fmt(
+      [[
+        if {}{}
+      ]],
+      {
+        i(1, "cond"),
+        c(2, {
+          t(""),
+          sn(nil, {
+            t({ " else " }),
+            i(1, [["value"]]),
+          }),
+        }),
+      }
+    )
+  ),
+  s(
+    {
       trig = "for ", -- new line version
       snippetType = "autosnippet",
       condition = custom_conds.is_in_code * expand_conds.line_begin,
@@ -107,6 +154,35 @@ return {
         }),
         i(3, "None"),
         i(4, "pass"),
+      }
+    )
+  ),
+  s(
+    "lambda",
+    fmt(
+      [[
+        lambda {}: {}
+      ]],
+      {
+        i(1, "x"),
+        i(2, "pass"),
+      }
+    )
+  ),
+  s(
+    "class",
+    fmt(
+      [[
+        class {}{}:
+            {}
+      ]],
+      {
+        i(1, "Name"),
+        c(2, {
+          t(""),
+          sn(nil, { t("("), i(1, "Parent"), t(")") }),
+        }),
+        i(3, "pass"),
       }
     )
   ),
