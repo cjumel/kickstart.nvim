@@ -3,6 +3,8 @@ local ls = require("luasnip")
 local c = ls.choice_node
 local i = ls.insert_node
 local s = ls.snippet
+local sn = ls.snippet_node
+local t = ls.text_node
 
 local fmt = require("luasnip.extras.fmt").fmt
 
@@ -12,49 +14,34 @@ local custom_conds = require("plugins.code.luasnip.utils.conds")
 return {
   s(
     "import",
-    c(1, {
-      fmt(
-        [[
-          import {}
-        ]],
-        {
-          i(1, "module"),
-        }
-      ),
-      fmt(
-        [[
-          import {} as {}
-        ]],
-        {
-          i(1, "module"),
-          i(2, "name"),
-        }
-      ),
-    })
+    fmt(
+      [[
+        import {}{}
+      ]],
+      {
+        i(1, "module"),
+        c(2, {
+          t(""),
+          sn(nil, { t(" as "), i(1, "name") }),
+        }),
+      }
+    )
   ),
   s(
     "from",
-    c(1, {
-      fmt(
-        [[
-          from {} import {}
-        ]],
-        {
-          i(1, "module"),
-          i(2, "var"),
-        }
-      ),
-      fmt(
-        [[
-          from {} import {} as {}
-        ]],
-        {
-          i(1, "module"),
-          i(2, "var"),
-          i(3, "name"),
-        }
-      ),
-    })
+    fmt(
+      [[
+        from {} import {}{}
+      ]],
+      {
+        i(1, "module"),
+        i(2, "var"),
+        c(3, {
+          t(""),
+          sn(nil, { t(" as "), i(1, "name") }),
+        }),
+      }
+    )
   ),
   s(
     {
@@ -62,19 +49,22 @@ return {
       snippetType = "autosnippet",
       condition = custom_conds.is_in_code * expand_conds.line_begin,
     },
-    c(1, {
-      fmt(
-        [[
-          for {} in {}:
-              {}
-        ]],
-        {
-          i(1, "var"),
-          i(2, "iterable"),
-          i(3, "pass"),
-        }
-      ),
-    })
+    fmt(
+      [[
+        for {} in {}:
+            {}
+      ]],
+      {
+        i(1, "var"),
+        c(2, {
+          i(nil, "iterable"),
+          sn(nil, { t("enumerate("), i(1, "iterable"), t(")") }),
+          sn(nil, { t("range("), i(1, "integer"), t(")") }),
+          sn(nil, { t("zip("), i(1, "iterables"), t(")") }),
+        }),
+        i(3, "pass"),
+      }
+    )
   ),
   s(
     {
@@ -82,17 +72,20 @@ return {
       snippetType = "autosnippet",
       condition = custom_conds.is_in_code * -expand_conds.line_begin,
     },
-    c(1, {
-      fmt(
-        [[
-          for {} in {}
-        ]],
-        {
-          i(1, "var"),
-          i(2, "iterable"),
-        }
-      ),
-    })
+    fmt(
+      [[
+        for {} in {}
+      ]],
+      {
+        i(1, "var"),
+        c(2, {
+          i(nil, "iterable"),
+          sn(nil, { t("enumerate("), i(1, "iterable"), t(")") }),
+          sn(nil, { t("range("), i(1, "integers"), t(")") }),
+          sn(nil, { t("zip("), i(1, "iterables"), t(")") }),
+        }),
+      }
+    )
   ),
   s(
     {
@@ -100,43 +93,52 @@ return {
       snippetType = "autosnippet",
       condition = custom_conds.is_in_code * expand_conds.line_begin,
     },
-    c(1, {
-      fmt(
-        [[
-          def {}({}) -> {}:
-              {}
-        ]],
-        {
-          i(1, "function"),
-          i(2),
-          i(3, "None"),
-          i(4, "pass"),
-        }
-      ),
-      fmt(
-        [[
-          def {}({}) -> {}:
-              """{}
-
-              Args:
-                  {}
-
-              Returns:
-                  {}
-              """
-              {}
-        ]],
-        {
-          i(1, "function"),
-          i(2),
-          i(3, "None"),
-          i(4),
-          i(5),
-          i(6),
-          i(7, "pass"),
-        }
-      ),
-    })
+    fmt(
+      [[
+        def {}({}) -> {}:
+            {}
+      ]],
+      {
+        i(1, "function"),
+        c(2, {
+          t(""),
+          sn(nil, { t("self"), i(1) }),
+          sn(nil, { t("cls"), i(1) }),
+        }),
+        i(3, "None"),
+        i(4, "pass"),
+      }
+    )
+  ),
+  s(
+    {
+      trig = [["""]],
+      snippetType = "autosnippet",
+      condition = custom_conds.is_in_code * expand_conds.line_begin,
+    },
+    fmt(
+      [[
+        """{}{}
+      ]],
+      {
+        i(1, "Description."),
+        c(2, {
+          t(""),
+          sn(nil, {
+            t({ "", "", "Args:", "    " }),
+            i(1),
+            t({ "", "", "Returns:", "    " }),
+            i(2),
+            t({ "", "" }),
+          }),
+          sn(nil, {
+            t({ "", "", "Attributes:", "    " }),
+            i(1),
+            t({ "", "" }),
+          }),
+        }),
+      }
+    )
   ),
   s(
     "__main__",
