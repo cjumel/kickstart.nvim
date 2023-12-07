@@ -58,9 +58,29 @@ return {
   ),
   s(
     {
-      trig = "for ",
+      trig = "for ", -- new line version
       snippetType = "autosnippet",
-      condition = custom_conds.is_in_code,
+      condition = custom_conds.is_in_code * expand_conds.line_begin,
+    },
+    c(1, {
+      fmt(
+        [[
+          for {} in {}:
+              {}
+        ]],
+        {
+          i(1, "var"),
+          i(2, "iterable"),
+          i(3, "pass"),
+        }
+      ),
+    })
+  ),
+  s(
+    {
+      trig = "for ", -- inline version
+      snippetType = "autosnippet",
+      condition = custom_conds.is_in_code * -expand_conds.line_begin,
     },
     c(1, {
       fmt(
@@ -70,34 +90,6 @@ return {
         {
           i(1, "var"),
           i(2, "iterable"),
-        }
-      ),
-      fmt(
-        [[
-          for {}, {} in enumerate({})
-        ]],
-        {
-          i(1, "idx"),
-          i(2, "var"),
-          i(3, "iterable"),
-        }
-      ),
-      fmt(
-        [[
-          for {} in range({})
-        ]],
-        {
-          i(1, "idx"),
-          i(2, "integer"),
-        }
-      ),
-      fmt(
-        [[
-          for {} in zip({})
-        ]],
-        {
-          i(1, "vars"),
-          i(2, "iterables"),
         }
       ),
     })
