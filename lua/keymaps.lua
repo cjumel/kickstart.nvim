@@ -53,13 +53,20 @@ vim.keymap.set("n", "<leader>cl", function()
     vim.cmd("set background=dark")
   end
 end, { desc = "[C]onfig: toggle [L]ight theme" })
-vim.keymap.set("n", "<leader>cr", function()
-  if vim.wo.relativenumber then
-    vim.wo.relativenumber = false
-  else
+vim.keymap.set("n", "<leader>cn", function()
+  -- Switch between absolute to relative numbering
+  if vim.wo.number and not vim.wo.relativenumber then
     vim.wo.relativenumber = true
+  -- Switch between relative to no numbering
+  elseif vim.wo.number and vim.wo.relativenumber then
+    vim.wo.number = false
+    vim.wo.relativenumber = false
+  -- Switch between anything else to absolute numbering
+  else
+    vim.wo.number = true
+    vim.wo.relativenumber = false
   end
-end, { desc = "[C]onfig: toggle [R]elative line numbers" })
+end, { desc = "[C]onfig: line [N]umbering switch" })
 vim.keymap.set(
   "n",
   "<leader>cs",
