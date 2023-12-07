@@ -62,5 +62,25 @@ return {
     },
     -- Don't store pure whitespace yanks
     filter = whitespace_yank_filter_fn,
+    keys = {
+      telescope = {
+        i = {
+          select = "<CR>",
+          paste = false,
+          paste_behind = false,
+          replay = false,
+          delete = "<C-d>",
+          edit = "<C-e>",
+        },
+        n = {
+          select = "<CR>",
+          paste = false,
+          paste_behind = false,
+          replay = false,
+          delete = "d",
+          edit = "e",
+        },
+      },
+    },
   },
 }
