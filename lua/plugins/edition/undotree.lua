@@ -1,25 +1,19 @@
 -- undotree
 --
--- A neovim undotree plugin written in lua.
+-- The undo history visualizer for VIM.
 
 return {
-  "jiaoshijie/undotree",
-  dependencies = {
-    "nvim-lua/plenary.nvim",
-  },
+  "mbbill/undotree",
   keys = {
     {
       "<leader>u",
       function()
-        require("undotree").toggle()
+        vim.cmd("UndotreeToggle")
       end,
       desc = "[U]ndo tree",
     },
   },
-  opts = {
-    position = "right",
-    window = {
-      winblend = 0,
-    },
-  },
+  config = function()
+    vim.g.undotree_WindowLayout = 3 -- Window on the right of the screen
+  end,
 }
