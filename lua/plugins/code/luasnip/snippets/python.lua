@@ -91,6 +91,19 @@ return {
     )
   ),
   s(
+    "elif",
+    fmt(
+      [[
+        elif {}:
+            {}
+      ]],
+      {
+        i(1, "cond"),
+        i(2, "pass"),
+      }
+    )
+  ),
+  s(
     {
       trig = "for ", -- new line version
       snippetType = "autosnippet",
@@ -131,6 +144,19 @@ return {
           sn(nil, { t("range("), i(1, "integers"), t(")") }),
           sn(nil, { t("zip("), i(1, "iterables"), t(")") }),
         }),
+      }
+    )
+  ),
+  s(
+    "while",
+    fmt(
+      [[
+        while {}:
+            {}
+      ]],
+      {
+        i(1, "cond"),
+        i(2, "pass"),
       }
     )
   ),

@@ -65,33 +65,38 @@ return {
       snippetType = "autosnippet",
       condition = custom_conds.is_in_code * expand_conds.line_begin,
     },
-    c(1, {
-      fmt(
-        [[
-          if {} then
-            {}
-          end
-        ]],
-        {
-          i(1, "cond"),
-          i(2),
-        }
-      ),
-      fmt(
-        [[
-          if {} then
-            {}
-          else
-            {}
-          end
-        ]],
-        {
-          i(1, "cond"),
-          i(2),
-          i(3),
-        }
-      ),
-    })
+    fmt(
+      [[
+        if {} then
+          {}
+        {}
+      ]],
+      {
+        i(1, "cond"),
+        i(2),
+        c(3, {
+          t("end"),
+          sn(nil, {
+            t({ "else", "  " }),
+            i(1),
+            t({ "", "end" }),
+          }),
+        }),
+      }
+    )
+  ),
+  s(
+    "elseif",
+    fmt(
+      [[
+        elseif {} then
+          {}
+      ]],
+      {
+        i(1, "cond"),
+        i(2),
+      }
+    )
   ),
   s(
     {
@@ -99,31 +104,26 @@ return {
       snippetType = "autosnippet",
       condition = custom_conds.is_in_code * expand_conds.line_begin,
     },
-    c(1, {
-      fmt(
-        [[
-          for {} do
-            {}
-          end
-        ]],
-        {
+    fmt(
+      [[
+        for {} do
+          {}
+        end
+      ]],
+      {
+        c(1, {
           i(1, "loop"),
-          i(2),
-        }
-      ),
-      fmt(
-        [[
-          for {}, {} in ipairs({}) do
-            {}
-          end
-        ]],
-        {
-          i(1, "idx"),
-          i(2, "var"),
-          i(3, "iterable"),
-          i(4),
-        }
-      ),
-    })
+          sn(nil, {
+            i(1, "_"),
+            t(", "),
+            i(2, "var"),
+            t(" in ipairs("),
+            i(3, "table"),
+            t(")"),
+          }),
+        }),
+        i(2),
+      }
+    )
   ),
 }
