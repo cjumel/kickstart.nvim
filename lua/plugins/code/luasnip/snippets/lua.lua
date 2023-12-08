@@ -14,37 +14,19 @@ local custom_conds = require("plugins.code.luasnip.utils.conds")
 return {
   s(
     "local",
-    fmt(
-      [[
-        local {}
-      ]],
-      {
-        c(1, {
-          sn(nil, { i(1, "var"), t(" = "), i(2, [["value"]]) }),
-          sn(nil, {
-            t("function "),
-            i(1, "name"),
-            t("("),
-            i(2),
-            t({ ")", "  " }),
-            i(3),
-            t({ "", "end" }),
-          }),
-        }),
-      }
-    )
+    c(1, {
+      fmt("local {} = {}", { i(1, "var"), i(2, "value") }),
+      fmt(
+        [[
+          local function {}({})
+            {}
+          end
+        ]],
+        { i(1, "name"), i(2), i(3) }
+      ),
+    })
   ),
-  s(
-    "require",
-    fmt(
-      [[
-        require("{}")
-      ]],
-      {
-        i(1, "module"),
-      }
-    )
-  ),
+  s("require", fmt([[require("{}")]], { i(1, "module") })),
   s(
     "function",
     fmt(
@@ -53,10 +35,7 @@ return {
           {}
         end
       ]],
-      {
-        i(1),
-        i(2),
-      }
+      { i(1), i(2) }
     )
   ),
   s(
@@ -69,20 +48,9 @@ return {
       [[
         if {} then
           {}
-        {}
+        end
       ]],
-      {
-        i(1, "cond"),
-        i(2),
-        c(3, {
-          t("end"),
-          sn(nil, {
-            t({ "else", "  " }),
-            i(1),
-            t({ "", "end" }),
-          }),
-        }),
-      }
+      { i(1, "cond"), i(2) }
     )
   ),
   s(
@@ -92,10 +60,17 @@ return {
         elseif {} then
           {}
       ]],
-      {
-        i(1, "cond"),
-        i(2),
-      }
+      { i(1, "cond"), i(2) }
+    )
+  ),
+  s(
+    "else",
+    fmt(
+      [[
+        else
+          {}
+      ]],
+      { i(1) }
     )
   ),
   s(
@@ -113,14 +88,7 @@ return {
       {
         c(1, {
           i(1, "loop"),
-          sn(nil, {
-            i(1, "_"),
-            t(", "),
-            i(2, "var"),
-            t(" in ipairs("),
-            i(3, "table"),
-            t(")"),
-          }),
+          sn(nil, { i(1, "_"), t(", "), i(2, "var"), t(" in ipairs("), i(3, "table"), t(")") }),
         }),
         i(2),
       }

@@ -14,38 +14,21 @@ local custom_conds = require("plugins.code.luasnip.utils.conds")
 return {
   s(
     "import",
-    fmt(
-      [[
-        import {}{}
-      ]],
-      {
-        i(1, "module"),
-        c(2, {
-          t(""),
-          sn(nil, { t(" as "), i(1, "name") }),
-        }),
-      }
-    )
+    c(1, {
+      fmt("import {}", { i(1, "module") }),
+      fmt("import {} as {}", { i(1, "module"), i(2, "name") }),
+    })
   ),
   s(
     "from",
-    fmt(
-      [[
-        from {} import {}{}
-      ]],
-      {
-        i(1, "module"),
-        i(2, "var"),
-        c(3, {
-          t(""),
-          sn(nil, { t(" as "), i(1, "name") }),
-        }),
-      }
-    )
+    c(1, {
+      fmt("from {} import {}", { i(1, "module"), i(2, "var") }),
+      fmt("from {} import {} as {}", { i(1, "module"), i(2, "var"), i(3, "name") }),
+    })
   ),
   s(
     {
-      trig = "if ", -- new line version
+      trig = "if ", -- New line version
       snippetType = "autosnippet",
       condition = custom_conds.is_in_code * expand_conds.line_begin,
     },
@@ -53,41 +36,8 @@ return {
       [[
         if {}:
             {}
-        {}
       ]],
-      {
-        i(1, "cond"),
-        i(2, "pass"),
-        c(3, {
-          t(""),
-          sn(nil, {
-            t({ "else:", "    " }),
-            i(1, "pass"),
-          }),
-        }),
-      }
-    )
-  ),
-  s(
-    {
-      trig = "if ", -- inline version
-      snippetType = "autosnippet",
-      condition = custom_conds.is_in_code * -expand_conds.line_begin,
-    },
-    fmt(
-      [[
-        if {}{}
-      ]],
-      {
-        i(1, "cond"),
-        c(2, {
-          t(""),
-          sn(nil, {
-            t({ " else " }),
-            i(1, [["value"]]),
-          }),
-        }),
-      }
+      { i(1, "cond"), i(2, "pass") }
     )
   ),
   s(
@@ -97,15 +47,22 @@ return {
         elif {}:
             {}
       ]],
-      {
-        i(1, "cond"),
-        i(2, "pass"),
-      }
+      { i(1, "cond"), i(2, "pass") }
+    )
+  ),
+  s(
+    "else",
+    fmt(
+      [[
+        else:
+            {}
+      ]],
+      { i(1, "pass") }
     )
   ),
   s(
     {
-      trig = "for ", -- new line version
+      trig = "for ", -- New line version
       snippetType = "autosnippet",
       condition = custom_conds.is_in_code * expand_conds.line_begin,
     },
@@ -127,37 +84,13 @@ return {
     )
   ),
   s(
-    {
-      trig = "for ", -- inline version
-      snippetType = "autosnippet",
-      condition = custom_conds.is_in_code * -expand_conds.line_begin,
-    },
-    fmt(
-      [[
-        for {} in {}
-      ]],
-      {
-        i(1, "var"),
-        c(2, {
-          i(nil, "iterable"),
-          sn(nil, { t("enumerate("), i(1, "iterable"), t(")") }),
-          sn(nil, { t("range("), i(1, "integers"), t(")") }),
-          sn(nil, { t("zip("), i(1, "iterables"), t(")") }),
-        }),
-      }
-    )
-  ),
-  s(
     "while",
     fmt(
       [[
         while {}:
             {}
       ]],
-      {
-        i(1, "cond"),
-        i(2, "pass"),
-      }
+      { i(1, "cond"), i(2, "pass") }
     )
   ),
   s(
@@ -197,50 +130,60 @@ return {
   ),
   s(
     "class",
-    fmt(
-      [[
-        class {}{}:
-            {}
-      ]],
-      {
-        i(1, "Name"),
-        c(2, {
-          t(""),
-          sn(nil, { t("("), i(1, "Parent"), t(")") }),
-        }),
-        i(3, "pass"),
-      }
-    )
+    c(1, {
+      fmt(
+        [[
+          class {}:
+              {}
+        ]],
+        { i(1, "Name"), i(2, "pass") }
+      ),
+      fmt(
+        [[
+          class {}({}):
+              {}
+        ]],
+        { i(1, "Name"), i(2, "Parent"), i(3, "pass") }
+      ),
+    })
   ),
   s(
     {
-      trig = [["""]],
+      trig = [["""]], -- Remaining """ are inserted by nvim-autopairs
       snippetType = "autosnippet",
       condition = custom_conds.is_in_code * expand_conds.line_begin,
     },
-    fmt(
-      [[
-        """{}{}
-      ]],
-      {
-        i(1, "Description."),
-        c(2, {
-          t(""),
-          sn(nil, {
-            t({ "", "", "Args:", "    " }),
-            i(1),
-            t({ "", "", "Returns:", "    " }),
-            i(2),
-            t({ "", "" }),
-          }),
-          sn(nil, {
-            t({ "", "", "Attributes:", "    " }),
-            i(1),
-            t({ "", "" }),
-          }),
-        }),
-      }
-    )
+    c(1, {
+      fmt(
+        [[
+          """{}
+        ]],
+        { i(1) }
+      ),
+      fmt(
+        [[
+          """{}
+
+          Args:
+              {}
+
+          Returns:
+              {}
+
+        ]],
+        { i(1), i(2), i(3) }
+      ),
+      fmt(
+        [[
+          """{}
+
+          Attributes:
+              {}
+
+        ]],
+        { i(1), i(2) }
+      ),
+    })
   ),
   s(
     "__main__",
@@ -249,9 +192,7 @@ return {
         if __name__ == "__main__":
             {}
       ]],
-      {
-        i(1, "pass"),
-      }
+      { i(1, "pass") }
     )
   ),
 }
