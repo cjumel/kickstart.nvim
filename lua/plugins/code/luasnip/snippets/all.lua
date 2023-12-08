@@ -12,10 +12,8 @@ local custom_conds = require("plugins.code.luasnip.utils.conds")
 local calculate_comment_string = require("Comment.ft").calculate
 local utils = require("Comment.utils")
 
--- Function below is taken from
--- https://github.com/L3MON4D3/LuaSnip/wiki/Cool-Snippets#all---todo-commentsnvim-snippets
-
---- Get the comment string { beg, end } table
+--- Get the comment string { start, end } table. Function is taken from
+--- https://github.com/L3MON4D3/LuaSnip/wiki/Cool-Snippets#all---todo-commentsnvim-snippets.
 ---@param ctype integer 1 for `line`-comment and 2 for `block`-comment
 ---@return table comment_strings {begcstring, endcstring}
 local get_comment_strings = function(ctype)
@@ -30,12 +28,17 @@ local get_comment_strings = function(ctype)
   return { left, right }
 end
 
+local function get_comment_string_start()
+  return get_comment_strings(1)[1]
+end
+local function get_comment_string_end()
+  return get_comment_strings(1)[2]
+end
+
 return {
-  -- [[ Todo-comments]]
-  -- Let's define two auto-snippets, one for when in comments and one for when in code.
   s(
     {
-      trig = "td ",
+      trig = "td ", -- In-comment version (don't add comment strings)
       snippetType = "autosnippet",
       condition = custom_conds.is_in_comment,
     },
@@ -47,60 +50,20 @@ return {
       fmt("ISSUE: {}", { i(1) }),
     })
   ),
-  -- Snippet below is adapted from
-  -- https://github.com/L3MON4D3/LuaSnip/wiki/Cool-Snippets#all---todo-commentsnvim-snippets
   s(
     {
-      trig = "td ",
+      trig = "td ", -- In-code version (add comment strings)
       snippetType = "autosnippet",
       condition = custom_conds.is_in_code,
     },
     c(1, {
-      fmt("{} TODO: {}{}", {
-        f(function()
-          return get_comment_strings(1)[1]
-        end),
-        i(1),
-        f(function()
-          return get_comment_strings(1)[2]
-        end),
-      }),
-      fmt("{} NOTE: {}{}", {
-        f(function()
-          return get_comment_strings(1)[1]
-        end),
-        i(1),
-        f(function()
-          return get_comment_strings(1)[2]
-        end),
-      }),
-      fmt("{} BUG: {}{}", {
-        f(function()
-          return get_comment_strings(1)[1]
-        end),
-        i(1),
-        f(function()
-          return get_comment_strings(1)[2]
-        end),
-      }),
-      fmt("{} FIXME: {}{}", {
-        f(function()
-          return get_comment_strings(1)[1]
-        end),
-        i(1),
-        f(function()
-          return get_comment_strings(1)[2]
-        end),
-      }),
-      fmt("{} ISSUE: {}{}", {
-        f(function()
-          return get_comment_strings(1)[1]
-        end),
-        i(1),
-        f(function()
-          return get_comment_strings(1)[2]
-        end),
-      }),
+      -- Adapted from
+      -- https://github.com/L3MON4D3/LuaSnip/wiki/Cool-Snippets#all---todo-commentsnvim-snippets
+      fmt("{} TODO: {}{}", { f(get_comment_string_start), i(1), f(get_comment_string_end) }),
+      fmt("{} NOTE: {}{}", { f(get_comment_string_start), i(1), f(get_comment_string_end) }),
+      fmt("{} BUG: {}{}", { f(get_comment_string_start), i(1), f(get_comment_string_end) }),
+      fmt("{} FIXME: {}{}", { f(get_comment_string_start), i(1), f(get_comment_string_end) }),
+      fmt("{} ISSUE: {}{}", { f(get_comment_string_start), i(1), f(get_comment_string_end) }),
     })
   ),
 }
