@@ -87,10 +87,4 @@ vim.keymap.set(
   { desc = "Settings: toggle [S]tatus line" }
 )
 
--- [[ Command line keymaps ]]
-
--- Use <c-p> and <c-n> to navigate through command line history matching the current input
-vim.keymap.set("c", "<c-p>", "<up>")
-vim.keymap.set("c", "<c-n>", "<down>")
-
 -- vim: ts=2 sts=2 sw=2 et
