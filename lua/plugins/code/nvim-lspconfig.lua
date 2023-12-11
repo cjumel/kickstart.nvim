@@ -62,26 +62,20 @@ return {
       end, { buffer = bufnr, desc = "[W]orkspace symbols" })
 
       -- Go to actions
+      local telescope_opts = {
+        layout_strategy = "vertical",
+        initial_mode = "normal",
+        show_line = false, -- Don't show the whole line in the picker next to the file path
+      }
       vim.keymap.set("n", "gd", function()
-        require("telescope.builtin").lsp_definitions({
-          layout_strategy = "vertical",
-          initial_mode = "normal",
-          show_line = false,
-        })
+        require("telescope.builtin").lsp_definitions(telescope_opts)
       end, { buffer = bufnr, desc = "Go to definition" })
       vim.keymap.set("n", "gD", function()
-        require("telescope.builtin").lsp_type_definitions()
+        require("telescope.builtin").lsp_type_definitions(telescope_opts)
       end, { buffer = bufnr, desc = "Go to type definition" })
       vim.keymap.set("n", "gr", function()
-        require("telescope.builtin").lsp_references({
-          layout_strategy = "vertical",
-          initial_mode = "normal",
-          show_line = false,
-        })
+        require("telescope.builtin").lsp_references(telescope_opts)
       end, { buffer = bufnr, desc = "Go to references" })
-      vim.keymap.set("n", "gI", function()
-        require("telescope.builtin").lsp_implementations()
-      end, { buffer = bufnr, desc = "Go to implementation" })
     end
 
     -- mason-lspconfig requires that these setup functions are called in this order
