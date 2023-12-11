@@ -27,14 +27,6 @@ return {
   config = function()
     --  This function gets run when an LSP connects to a particular buffer.
     local on_attach = function(_, bufnr)
-      local nmap = function(keys, func, desc, has_prefix)
-        has_prefix = has_prefix or true
-        if desc and has_prefix then
-          desc = "[L]SP: " .. desc
-        end
-        vim.keymap.set("n", keys, func, { buffer = bufnr, desc = desc })
-      end
-
       -- Documentation
       vim.keymap.set("n", "K", vim.lsp.buf.hover, { buffer = bufnr, desc = "Hover documentation" })
       vim.keymap.set(
@@ -54,37 +46,42 @@ return {
           bufnr = bufnr,
         })
       end
-      nmap("<leader>lf", lsp_formatting, "[F]ormat")
-      nmap("<leader>lr", vim.lsp.buf.rename, "[R]ename")
-      nmap("<leader>la", vim.lsp.buf.code_action, "[A]ction")
-      nmap("<leader>ld", function()
+      vim.keymap.set("n", "<leader>lf", lsp_formatting, { buffer = bufnr, desc = "[F]ormat" })
+      vim.keymap.set("n", "<leader>lr", vim.lsp.buf.rename, { buffer = bufnr, desc = "[R]ename" })
+      vim.keymap.set(
+        "n",
+        "<leader>la",
+        vim.lsp.buf.code_action,
+        { buffer = bufnr, desc = "[A]ction" }
+      )
+      vim.keymap.set("n", "<leader>ld", function()
         require("telescope.builtin").lsp_document_symbols()
-      end, "[D]ocument symbols")
-      nmap("<leader>lw", function()
+      end, { buffer = bufnr, desc = "[D]ocument symbols" })
+      vim.keymap.set("n", "<leader>lw", function()
         require("telescope.builtin").lsp_dynamic_workspace_symbols()
-      end, "[W]orkspace symbols")
+      end, { buffer = bufnr, desc = "[W]orkspace symbols" })
 
       -- Go to actions
-      nmap("gd", function()
+      vim.keymap.set("n", "gd", function()
         require("telescope.builtin").lsp_definitions({
           layout_strategy = "vertical",
           initial_mode = "normal",
           show_line = false,
         })
-      end, "[G]oto [D]efinition", false)
-      nmap("gD", function()
+      end, { buffer = bufnr, desc = "Go to definition" })
+      vim.keymap.set("n", "gD", function()
         require("telescope.builtin").lsp_type_definitions()
-      end, "[G]oto type [D]efinition", false)
-      nmap("gr", function()
+      end, { buffer = bufnr, desc = "Go to type definition" })
+      vim.keymap.set("n", "gr", function()
         require("telescope.builtin").lsp_references({
           layout_strategy = "vertical",
           initial_mode = "normal",
           show_line = false,
         })
-      end, "[G]oto [R]eferences", false)
-      nmap("gI", function()
+      end, { buffer = bufnr, desc = "Go to references" })
+      vim.keymap.set("n", "gI", function()
         require("telescope.builtin").lsp_implementations()
-      end, "[G]oto [I]mplementation", false)
+      end, { buffer = bufnr, desc = "Go to implementation" })
     end
 
     -- mason-lspconfig requires that these setup functions are called in this order
