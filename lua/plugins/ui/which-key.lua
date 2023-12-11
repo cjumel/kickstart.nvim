@@ -52,7 +52,7 @@ return {
       ["<leader>f"] = { name = "[F]ind", _ = "which_key_ignore" },
       ["<leader>l"] = { name = "[L]SP", _ = "which_key_ignore" },
       ["<leader>o"] = { name = "[O]verseer", _ = "which_key_ignore" },
-      ["<leader>t"] = { name = "[T]rouble", _ = "which_key_ignore" },
+      ["<leader>x"] = { name = "Trouble", _ = "which_key_ignore" },
     })
   end,
 }

@@ -19,25 +19,25 @@ return {
   },
   keys = {
     {
-      "<leader>tt",
+      "<leader>xx",
       function()
         require("trouble").toggle()
       end,
-      desc = "[T]rouble: [T]oggle",
+      desc = "Trouble: toggle",
     },
     {
       "<leader>td",
       function()
         require("trouble").toggle("document_diagnostics")
       end,
-      desc = "[T]rouble: [D]iagnostics (document)",
+      desc = "Trouble: [D]iagnostics (document)",
     },
     {
       "<leader>tD",
       function()
         require("trouble").toggle("workspace_diagnostics")
       end,
-      desc = "[T]rouble: [D]iagnostics (workspace)",
+      desc = "Trouble: [D]iagnostics (workspace)",
     },
     {
       "<leader>tl",
@@ -45,15 +45,15 @@ return {
         require("todo-comments") -- Lazy load todo-comments which adds a "todo" source to trouble
         require("trouble").toggle("todo")
       end,
-      desc = "[T]rouble: todo [L]ist",
+      desc = "Trouble: todo [L]ist",
     },
     {
-      "[t",
+      "[x",
       next_trouble_item,
       desc = "Next Trouble item",
     },
     {
-      "]t",
+      "]x",
       previous_trouble_item,
       desc = "Previous Trouble item",
     },
