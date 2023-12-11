@@ -22,13 +22,13 @@ return {
   "jakewvincent/mkdnflow.nvim",
   keys = {
     {
-      "<C-^>", -- Actually <C-m> on my setup, but not <CR>
+      "<leader>m",
       function()
         vim.cmd("MkdnToggleToDo")
       end,
       ft = "markdown",
       mode = { "n", "i", "v" },
-      desc = "Mark checkbox (Markdown)",
+      desc = "Mark Markdown checkbox",
     },
     {
       "[X",

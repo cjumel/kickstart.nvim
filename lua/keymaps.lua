@@ -25,7 +25,12 @@ vim.keymap.set({ "n", "v" }, "Q", "@q", { desc = "Default macro register" })
 
 -- Diagnostics
 -- They can be errors, warnings, information messages or hints
-vim.keymap.set("n", "<leader>x", vim.diagnostic.open_float, { desc = "E[X]pand diagnostic" })
+vim.keymap.set(
+  { "n", "i" },
+  "<C-^>", -- Actually <C-m> on my setup, but not <CR>
+  vim.diagnostic.open_float,
+  { desc = "More diagnostic" }
+)
 local ts_repeat_move = require("nvim-treesitter.textobjects.repeatable_move")
 local next_diagnostic, prev_diagnostic =
   ts_repeat_move.make_repeatable_move_pair(vim.diagnostic.goto_next, vim.diagnostic.goto_prev)
