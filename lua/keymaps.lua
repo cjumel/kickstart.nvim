@@ -57,16 +57,16 @@ vim.keymap.set({ "i", "c" }, "<C-a>", "<Home>", { desc = "Move cursor to beginni
 vim.keymap.set({ "i", "c" }, "<C-b>", "<Left>", { desc = "Move cursor one character left" })
 vim.keymap.set({ "i", "c" }, "<C-f>", "<Right>", { desc = "Move cursor one character right" })
 
--- [[ Config keymaps ]]
+-- [[ Settings keymaps ]]
 
-vim.keymap.set("n", "<leader>cl", function()
+vim.keymap.set("n", "<leader>,c", function()
   if vim.o.background == "dark" then
     vim.cmd("set background=light")
   else
     vim.cmd("set background=dark")
   end
-end, { desc = "[C]onfig: toggle [L]ight theme" })
-vim.keymap.set("n", "<leader>cn", function()
+end, { desc = "Settings: switch [C]olorscheme mode" })
+vim.keymap.set("n", "<leader>,n", function()
   -- Switch between absolute to relative numbering
   if vim.wo.number and not vim.wo.relativenumber then
     vim.wo.relativenumber = true
@@ -79,12 +79,12 @@ vim.keymap.set("n", "<leader>cn", function()
     vim.wo.number = true
     vim.wo.relativenumber = false
   end
-end, { desc = "[C]onfig: line [N]umbering switch" })
+end, { desc = "Settings: switch line [N]umbering mode" })
 vim.keymap.set(
   "n",
-  "<leader>cs",
+  "<leader>,s",
   require("statusline").toggle,
-  { desc = "[C]onfig: toggle [S]tatus line" }
+  { desc = "Settings: toggle [S]tatus line" }
 )
 
 -- [[ Command line keymaps ]]
