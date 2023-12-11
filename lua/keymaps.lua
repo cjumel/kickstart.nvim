@@ -24,12 +24,20 @@ vim.keymap.set({ "n", "v" }, "_", '"_', { desc = "Black hole copy register" })
 vim.keymap.set({ "n", "v" }, "Q", "@q", { desc = "Default macro register" })
 
 -- Diagnostics
+-- They can be errors, warnings, information messages or hints
 vim.keymap.set("n", "<leader>x", vim.diagnostic.open_float, { desc = "E[X]pand diagnostic" })
 local ts_repeat_move = require("nvim-treesitter.textobjects.repeatable_move")
 local next_diagnostic, prev_diagnostic =
   ts_repeat_move.make_repeatable_move_pair(vim.diagnostic.goto_next, vim.diagnostic.goto_prev)
-vim.keymap.set("n", "[d", next_diagnostic, { desc = "Next diagnostic" })
-vim.keymap.set("n", "]d", prev_diagnostic, { desc = "Previous diagnostic" })
+vim.keymap.set({ "n", "x", "o" }, "[d", next_diagnostic, { desc = "Next diagnostic" })
+vim.keymap.set({ "n", "x", "o" }, "]d", prev_diagnostic, { desc = "Previous diagnostic" })
+local next_error, prev_error = ts_repeat_move.make_repeatable_move_pair(function()
+  vim.diagnostic.goto_next({ severity = vim.diagnostic.severity.ERROR })
+end, function()
+  vim.diagnostic.goto_prev({ severity = vim.diagnostic.severity.ERROR })
+end)
+vim.keymap.set({ "n", "x", "o" }, "[e", next_error, { desc = "Next error" })
+vim.keymap.set({ "n", "x", "o" }, "]e", prev_error, { desc = "Previous error" })
 
 -- [[ Terminal-like keymaps ]]
 -- Keymaps for insert & command line modes to emulate terminal-like behavior
