@@ -8,6 +8,7 @@ return {
   lazy = true,
   opts = {
     providers = { "lsp" }, -- Only enable LSP to decrease false positives
+    min_count_to_highlight = 2, -- Don't highlight singles (which include all literals)
   },
   config = function(_, opts)
     require("illuminate").configure(opts)
