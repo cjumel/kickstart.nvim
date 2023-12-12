@@ -27,7 +27,6 @@ return {
         vim.cmd("MkdnToggleToDo")
       end,
       ft = "markdown",
-      mode = { "n", "i", "v" },
       desc = "Mark Markdown checkbox",
     },
     {
