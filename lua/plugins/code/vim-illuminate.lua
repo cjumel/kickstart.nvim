@@ -11,5 +11,13 @@ return {
   },
   config = function(_, opts)
     require("illuminate").configure(opts)
+
+    local ts_repeat_move = require("nvim-treesitter.textobjects.repeatable_move")
+    local next_reference, prev_reference = ts_repeat_move.make_repeatable_move_pair(
+      require("illuminate").goto_next_reference,
+      require("illuminate").goto_prev_reference
+    )
+    vim.keymap.set({ "n", "x", "o" }, "[r", next_reference, { desc = "Next reference" })
+    vim.keymap.set({ "n", "x", "o" }, "]r", prev_reference, { desc = "Previous reference" })
   end,
 }
