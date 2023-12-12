@@ -17,6 +17,9 @@ return {
     "hrsh7th/nvim-cmp",
     "hrsh7th/cmp-nvim-lsp",
 
+    -- Illuminates references to the symbol under the cursor
+    "RRethy/vim-illuminate",
+
     -- The following dependencies are needed but don't need to be loaded when the plugin is loaded
     -- "nvim-telescope/telescope.nvim",
   },
