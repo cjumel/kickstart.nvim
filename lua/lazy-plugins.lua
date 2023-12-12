@@ -6,6 +6,9 @@ local opts = {
   ui = {
     border = "single", -- A lot better for transparent background
   },
+  change_detection = {
+    enabled = false,
+  },
 }
 
 local plugins = {
