@@ -15,7 +15,7 @@ return {
   opts = {
     ensure_installed = {
       -- Lua
-      "lua_ls",
+      "lua-language-server", -- "lua_ls"
       "stylua",
       -- Python
       "pyright",
