@@ -15,8 +15,10 @@ return {
   opts = {
     ensure_installed = {
       -- Lua
+      "lua_ls",
       "stylua",
       -- Python
+      "pyright",
       "black",
       "ruff",
       "debugpy",
