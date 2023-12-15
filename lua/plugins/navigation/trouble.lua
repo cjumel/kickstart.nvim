@@ -26,26 +26,26 @@ return {
       desc = "Trouble: toggle",
     },
     {
-      "<leader>td",
+      "<leader>xd",
       function()
         require("trouble").toggle("document_diagnostics")
       end,
-      desc = "Trouble: [D]iagnostics (document)",
+      desc = "Trouble: document [D]iagnostics",
     },
     {
-      "<leader>tD",
+      "<leader>xD",
       function()
         require("trouble").toggle("workspace_diagnostics")
       end,
-      desc = "Trouble: [D]iagnostics (workspace)",
+      desc = "Trouble: workspace [D]iagnostics",
     },
     {
-      "<leader>tl",
+      "<leader>xt",
       function()
         require("todo-comments") -- Lazy load todo-comments which adds a "todo" source to trouble
         require("trouble").toggle("todo")
       end,
-      desc = "Trouble: todo [L]ist",
+      desc = "Trouble: [T]odo list",
     },
     {
       "[x",
