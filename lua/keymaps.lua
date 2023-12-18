@@ -25,12 +25,7 @@ vim.keymap.set({ "n", "v" }, "Q", "@q", { desc = "Default macro register" })
 
 -- Diagnostics
 -- They can be errors, warnings, information messages or hints
-vim.keymap.set(
-  { "n", "i" },
-  "<C-^>", -- Actually <C-m> on my setup, but not <CR>
-  vim.diagnostic.open_float,
-  { desc = "More diagnostic" }
-)
+vim.keymap.set({ "n" }, "<leader>m", vim.diagnostic.open_float, { desc = "[M]ore diagnostic" })
 local ts_repeat_move = require("nvim-treesitter.textobjects.repeatable_move")
 local next_diagnostic, prev_diagnostic =
   ts_repeat_move.make_repeatable_move_pair(vim.diagnostic.goto_next, vim.diagnostic.goto_prev)
@@ -47,15 +42,29 @@ vim.keymap.set({ "n", "x", "o" }, "]e", prev_error, { desc = "Previous error" })
 -- [[ Terminal-like keymaps ]]
 -- Keymaps for insert & command line modes to emulate terminal-like behavior
 
--- Move cursor to line start or end
--- Mnemonic: <C-e> is like "end" & <C-a> is like "ante", meaning before in Latin
-vim.keymap.set({ "i", "c" }, "<C-e>", "<End>", { desc = "Move cursor to end of line" })
-vim.keymap.set({ "i", "c" }, "<C-a>", "<Home>", { desc = "Move cursor to beginning of line" })
-
 -- Move cursor one character left or right
 -- Mnemonic: <C-b> is like "back" & <C-f> is like "forward"
 vim.keymap.set({ "i", "c" }, "<C-b>", "<Left>", { desc = "Move cursor one character left" })
 vim.keymap.set({ "i", "c" }, "<C-f>", "<Right>", { desc = "Move cursor one character right" })
+
+-- Move cursor one word left or right
+vim.keymap.set(
+  { "i", "c" },
+  "<C-^>", -- Actually <C-m> on my setup, but not <CR>
+  "<C-Left>",
+  { desc = "Move cursor one word left" }
+)
+vim.keymap.set(
+  { "i", "c" },
+  "<C-]>", -- Actually <C-%> on my setup
+  "<C-Right>",
+  { desc = "Move cursor one word right" }
+)
+
+-- Move cursor to line start or end
+-- Mnemonic: <C-e> is like "end" & <C-a> is like "ante", meaning before in Latin
+vim.keymap.set({ "i", "c" }, "<C-e>", "<End>", { desc = "Move cursor to end of line" })
+vim.keymap.set({ "i", "c" }, "<C-a>", "<Home>", { desc = "Move cursor to beginning of line" })
 
 -- [[ Settings keymaps ]]
 

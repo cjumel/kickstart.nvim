@@ -15,11 +15,12 @@ return {
       desc = "Which key",
     },
     {
-      "<C-]>", -- Actually <C-%> on my setup
+      -- In insert mode, <C-]> (or <C-%> on my setup) is taken for next word navigation
+      "<C-^>", -- Actually <C-m> on my setup, but not <CR>
       function()
         vim.cmd("WhichKey '' i")
       end,
-      mode = { "i" },
+      mode = { "n" },
       desc = "Which key",
     },
     {
