@@ -129,30 +129,25 @@ return {
 
     -- Git related
     {
-      "<leader>fs",
+      "<leader>gs",
       function()
-        local opts = require("plugins.navigation.telescope.utils.themes").get_dropdown()
-        require("telescope.builtin").git_status(opts)
+        require("telescope.builtin").git_status()
       end,
-      desc = "[F]ind: Git [S]tatus files",
+      desc = "[G]it: [S]tatus",
     },
     {
-      "<leader>fb",
+      "<leader>gb",
       function()
-        require("telescope.builtin").git_branches({
-          layout_strategy = "vertical",
-        })
+        require("telescope.builtin").git_branches()
       end,
-      desc = "[F]ind: Git [B]ranches",
+      desc = "[G]it: [B]ranches",
     },
     {
-      "<leader>fc",
+      "<leader>gl",
       function()
-        require("telescope.builtin").git_commits({
-          layout_strategy = "vertical",
-        })
+        require("telescope.builtin").git_commits()
       end,
-      desc = "[F]ind: Git [C]ommits",
+      desc = "[G]it: [L]og",
     },
 
     -- Help-related
