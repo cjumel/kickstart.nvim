@@ -52,7 +52,7 @@ return {
     {
       "-",
       function()
-        require("oil").open_float()
+        require("oil").open()
       end,
       desc = "[-] Open parent directory",
     },
@@ -64,18 +64,16 @@ return {
     -- Cleanup the oil buffer right away to avoid jumping back to it with <C-o> and <C-i>
     cleanup_delay_ms = 0,
     keymaps = {
-      ["g?"] = "actions.show_help",
       ["<CR>"] = "actions.select",
+      ["<tab>"] = "actions.preview",
       ["<C-v>"] = "actions.select_vsplit",
       ["<C-x>"] = "actions.select_split",
-      ["<C-t>"] = "actions.select_tab",
-      -- Using <tab> will break <C-i> to jump forward in the jump list as they are the same key
-      ["<ESC>"] = "actions.close",
       ["q"] = "actions.close",
       ["-"] = "actions.parent",
       ["_"] = "actions.open_cwd",
       ["H"] = "actions.toggle_hidden",
       ["R"] = "actions.refresh",
+      ["<C-]>"] = "actions.show_help", -- Actually <C-%> on my setup
       -- Overwrite Harpoon keymap to add the file under the cursor in Oil buffer instead
       -- of Oil buffer itself
       ["<leader><CR>"] = add_harpoon_mark_from_oil,
@@ -85,11 +83,6 @@ return {
       show_hidden = false,
       is_hidden_file = is_hidden,
       is_always_hidden = is_always_hidden,
-    },
-    float = {
-      max_width = 80,
-      max_height = 20,
-      border = "single",
     },
   },
   config = function(_, opts)
