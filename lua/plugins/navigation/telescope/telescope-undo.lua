@@ -9,11 +9,11 @@ return {
   },
   keys = {
     {
-      "<leader>fu",
+      "<leader>U",
       function()
         require("telescope").extensions.undo.undo()
       end,
-      desc = "[F]ind: [U]ndo tree",
+      desc = "[U]ndo tree search",
     },
   },
   config = function()

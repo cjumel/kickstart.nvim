@@ -57,7 +57,7 @@ return {
       "<leader>ff",
       function()
         require("telescope.builtin").find_files({
-          find_command = { "rg", "--files", "--hidden" },
+          find_command = { "rg", "--files" },
           preview = { hide_on_startup = true },
         })
       end,
@@ -68,7 +68,6 @@ return {
       function()
         require("telescope.builtin").find_files({
           find_command = { "rg", "--files", "--hidden" },
-          follow = true,
           no_ignore = true,
           preview = { hide_on_startup = true },
         })
@@ -78,8 +77,9 @@ return {
     {
       "<leader>fo",
       function()
-        local opts = require("plugins.navigation.telescope.utils.themes").get_dropdown()
-        require("telescope.builtin").oldfiles(opts)
+        require("telescope.builtin").oldfiles({
+          preview = { hide_on_startup = true },
+        })
       end,
       desc = "[F]ind: [O]ld files",
     },
@@ -150,20 +150,20 @@ return {
       desc = "[G]it: [L]og",
     },
 
-    -- Help-related
+    -- Help related
     {
-      "<leader>fk",
+      "<leader>,k",
       function()
         require("telescope.builtin").keymaps()
       end,
-      desc = "[F]ind: [K]eymaps",
+      desc = "Settings: [K]eymaps",
     },
     {
-      "<leader>fh",
+      "<leader>,h",
       function()
         require("telescope.builtin").help_tags()
       end,
-      desc = "[F]ind: [H]elp tags",
+      desc = "Settings: [H]elp tags",
     },
   },
   config = function()
