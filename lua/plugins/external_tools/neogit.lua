@@ -18,7 +18,6 @@ return {
   },
   opts = {
     disable_hint = true,
-    disable_context_highlighting = true,
     kind = "replace",
   },
   config = function(_, opts)
@@ -26,5 +25,7 @@ return {
 
     -- Disable column ruler in Neogit buffers
     vim.api.nvim_command("autocmd FileType Neogit* setlocal colorcolumn=")
+    -- Improve Neogit buffer context hightlight to make current hunk background text more visible
+    vim.api.nvim_command("hi NeogitDiffContextHighlight guifg=#cdd6f4 guibg=#1e1e2e")
   end,
 }
