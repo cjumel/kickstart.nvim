@@ -68,7 +68,6 @@ return {
       function()
         require("telescope.builtin").find_files({
           find_command = { "rg", "--files", "--hidden" },
-          no_ignore = true,
           preview = { hide_on_startup = true },
         })
       end,
