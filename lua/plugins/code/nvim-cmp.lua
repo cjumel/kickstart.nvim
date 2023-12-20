@@ -66,6 +66,18 @@ return {
       }, {
         { name = "buffer" },
       }),
+      -- Disable menu in completion window
+      -- This menu can describe the source of the completion item (e.g. its global source like
+      -- "LSP" or "Luasnip", or the module corresponding to a completion item for languages like
+      -- Python), however disabling it solves an issue with the documentation window hiding the
+      -- completion item (see https://github.com/hrsh7th/nvim-cmp/issues/1154 or
+      -- https://github.com/hrsh7th/nvim-cmp/issues/1673).
+      formatting = {
+        format = function(_, vim_item)
+          vim_item.menu = nil
+          return vim_item
+        end,
+      },
     })
 
     -- Set configuration for specific filetypes
