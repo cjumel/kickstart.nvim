@@ -7,8 +7,11 @@ return {
   "github/copilot.vim",
   event = { "BufNewFile", "BufReadPre" },
   config = function()
+    vim.g.copilot_filetypes = { -- Enable or disable on some file types
+      markdown = true,
+    }
+
     -- <Tab> is the regular completion key
     vim.keymap.set("i", "<S-Tab>", "<Plug>(copilot-accept-word)")
-    vim.keymap.set("i", "<C-x>", "<Plug>(copilot-dismiss)")
   end,
 }
