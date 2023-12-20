@@ -21,7 +21,6 @@ return {
   event = "VeryLazy",
   config = function()
     local cmp = require("cmp")
-    local cmp_autopairs = require("nvim-autopairs.completion.cmp")
 
     local custom_select_next_item = function()
       if cmp.visible() then
@@ -43,9 +42,6 @@ return {
         expand = function(args)
           require("luasnip").lsp_expand(args.body)
         end,
-      },
-      completion = {
-        completeopt = "menu,menuone,noinsert", -- Ensure first menu item is selected by default
       },
       window = {
         completion = cmp.config.window.bordered(),
@@ -90,7 +86,7 @@ return {
     })
 
     local cmdline_mapping = { -- "c =" means command line mode
-      ["<Tab>"] = { c = cmp.mapping.confirm() },
+      ["<CR>"] = { c = cmp.mapping.confirm() },
       ["<C-n>"] = { c = custom_select_next_item },
       ["<C-p>"] = { c = custom_select_prev_item },
       ["<C-c>"] = { c = cmp.mapping.abort() },
@@ -113,6 +109,7 @@ return {
     })
 
     -- Insert `(` when selecting a function or method item
+    local cmp_autopairs = require("nvim-autopairs.completion.cmp")
     cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
   end,
 }
