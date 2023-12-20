@@ -22,19 +22,23 @@ return {
   config = function()
     local cmp = require("cmp")
 
-    local custom_select_next_item = function()
+    local select_next_item_or_complete = function()
       if cmp.visible() then
         cmp.select_next_item()
       else
         cmp.complete()
       end
     end
-    local custom_select_prev_item = function()
+    local select_prev_item_or_complete = function()
       if cmp.visible() then
         cmp.select_prev_item()
       else
         cmp.complete()
       end
+    end
+    local select_next_item_and_confirm = function()
+      cmp.select_next_item()
+      cmp.confirm()
     end
 
     cmp.setup({
@@ -49,8 +53,9 @@ return {
       },
       mapping = { -- By default, mappings are in insert mode
         ["<CR>"] = cmp.mapping.confirm(),
-        ["<C-n>"] = custom_select_next_item,
-        ["<C-p>"] = custom_select_prev_item,
+        ["<C-n>"] = select_next_item_or_complete,
+        ["<C-p>"] = select_prev_item_or_complete,
+        ["<C-_>"] = select_next_item_and_confirm, -- Actually <C-CR> on my setup
         ["<C-c>"] = cmp.mapping.abort(),
         ["<C-f>"] = cmp.mapping.scroll_docs(5),
         ["<C-b>"] = cmp.mapping.scroll_docs(-5),
@@ -87,8 +92,9 @@ return {
 
     local cmdline_mapping = { -- "c =" means command line mode
       ["<CR>"] = { c = cmp.mapping.confirm() },
-      ["<C-n>"] = { c = custom_select_next_item },
-      ["<C-p>"] = { c = custom_select_prev_item },
+      ["<C-n>"] = { c = select_next_item_or_complete },
+      ["<C-p>"] = { c = select_prev_item_or_complete },
+      ["<C-_>"] = { c = select_next_item_and_confirm }, -- Actually <C-CR> on my setup
       ["<C-c>"] = { c = cmp.mapping.abort() },
     }
 
