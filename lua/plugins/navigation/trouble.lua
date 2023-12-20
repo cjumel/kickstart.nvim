@@ -30,14 +30,14 @@ return {
       function()
         require("trouble").toggle("document_diagnostics")
       end,
-      desc = "Trouble: document [D]iagnostics",
+      desc = "Trouble: [D]ocument diagnostics",
     },
     {
-      "<leader>xD",
+      "<leader>xw",
       function()
         require("trouble").toggle("workspace_diagnostics")
       end,
-      desc = "Trouble: workspace [D]iagnostics",
+      desc = "Trouble: [W]orkspace diagnostics",
     },
     {
       "<leader>xt",
