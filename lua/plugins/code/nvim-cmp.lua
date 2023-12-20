@@ -36,10 +36,6 @@ return {
         cmp.complete()
       end
     end
-    local select_next_item_and_confirm = function()
-      cmp.select_next_item()
-      cmp.confirm()
-    end
 
     cmp.setup({
       snippet = {
@@ -55,7 +51,6 @@ return {
         ["<CR>"] = cmp.mapping.confirm(),
         ["<C-n>"] = select_next_item_or_complete,
         ["<C-p>"] = select_prev_item_or_complete,
-        ["<C-_>"] = select_next_item_and_confirm, -- Actually <C-CR> on my setup
         ["<C-c>"] = cmp.mapping.abort(),
         ["<C-f>"] = cmp.mapping.scroll_docs(5),
         ["<C-b>"] = cmp.mapping.scroll_docs(-5),
@@ -94,7 +89,6 @@ return {
       ["<CR>"] = { c = cmp.mapping.confirm() },
       ["<C-n>"] = { c = select_next_item_or_complete },
       ["<C-p>"] = { c = select_prev_item_or_complete },
-      ["<C-_>"] = { c = select_next_item_and_confirm }, -- Actually <C-CR> on my setup
       ["<C-c>"] = { c = cmp.mapping.abort() },
     }
 
