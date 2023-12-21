@@ -19,20 +19,28 @@ end
 
 -- Condition determining wether a snippet is in actual code or not, using treesitter.
 function M.is_in_code(line_to_cursor)
-  local node = get_treesitter_node(line_to_cursor)
-  return node
-    and not (
-      node:type() == "comment"
-      or node:type() == "comment_content"
-      or node:type() == "string"
-      or node:type() == "string_content"
-    )
+  local is_treesitter_parsable, node = pcall(get_treesitter_node, line_to_cursor)
+  if is_treesitter_parsable then
+    return node
+      and not (
+        node:type() == "comment"
+        or node:type() == "comment_content"
+        or node:type() == "string"
+        or node:type() == "string_content"
+      )
+  else
+    return false
+  end
 end
 
 -- Condition determining wether a snippet is in a comment or not, using treesitter.
 function M.is_in_comment(line_to_cursor)
-  local node = get_treesitter_node(line_to_cursor)
-  return node and (node:type() == "comment" or node:type() == "comment_content")
+  local is_treesitter_parsable, node = pcall(get_treesitter_node, line_to_cursor)
+  if is_treesitter_parsable then
+    return node and (node:type() == "comment" or node:type() == "comment_content")
+  else
+    return false
+  end
 end
 
 return M
