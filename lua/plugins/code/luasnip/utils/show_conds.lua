@@ -4,9 +4,11 @@
 local M = {}
 
 local function get_treesitter_node(line_to_cursor)
-  -- matched_trigger is considered to be the last word of line_to_cursor
-  -- this is true as long as triggers don't have white spaces
-  local _, matched_trigger = string.match(line_to_cursor, "^(.-)%s(.+)$")
+  -- matched_trigger is considered to be everything after the last white space (this is true as
+  -- long as triggers don't have white spaces)
+  -- The first capturing group in the regex captures greedily everything until a white space is
+  -- found (since it's greedy, it will capture everything until the last white space)
+  local _, matched_trigger = string.match(line_to_cursor, "(.*)%s(.*)$")
   if matched_trigger == nil then
     matched_trigger = ""
   end
