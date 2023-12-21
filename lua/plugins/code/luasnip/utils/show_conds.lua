@@ -45,4 +45,18 @@ function M.is_in_comment(line_to_cursor)
   end
 end
 
+-- Condition determining wether a snippet is at the beginning of a line or not.
+function M.line_begin(line_to_cursor)
+  -- matched_trigger is considered to be everything after the last white space (this is true as
+  -- long as triggers don't have white spaces)
+  -- The first capturing group in the regex captures greedily everything until a white space is
+  -- found (since it's greedy, it will capture everything until the last white space)
+  local before_matched_trigger, _ = string.match(line_to_cursor, "(.*)%s(.*)$")
+  if before_matched_trigger == nil then
+    before_matched_trigger = ""
+  end
+
+  return string.match(before_matched_trigger, "^%s*$") ~= nil
+end
+
 return M
