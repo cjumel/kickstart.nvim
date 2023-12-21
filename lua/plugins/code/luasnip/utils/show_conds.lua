@@ -1,6 +1,8 @@
 -- These functions must be used with the `show_condition` option in snippets, they are not suited to
 -- the `condition` as they don't support the right parameters for it.
 
+local cond_obj = require("luasnip.extras.conditions")
+
 local M = {}
 
 local function get_treesitter_node(line_to_cursor)
@@ -20,7 +22,7 @@ local function get_treesitter_node(line_to_cursor)
 end
 
 -- Condition determining wether a snippet is in actual code or not, using treesitter.
-function M.is_in_code(line_to_cursor)
+local function is_in_code(line_to_cursor)
   local is_treesitter_parsable, node = pcall(get_treesitter_node, line_to_cursor)
   if is_treesitter_parsable then
     return node
@@ -34,9 +36,10 @@ function M.is_in_code(line_to_cursor)
     return false
   end
 end
+M.is_in_code = cond_obj.make_condition(is_in_code)
 
 -- Condition determining wether a snippet is in a comment or not, using treesitter.
-function M.is_in_comment(line_to_cursor)
+local function is_in_comment(line_to_cursor)
   local is_treesitter_parsable, node = pcall(get_treesitter_node, line_to_cursor)
   if is_treesitter_parsable then
     return node and (node:type() == "comment" or node:type() == "comment_content")
@@ -44,9 +47,10 @@ function M.is_in_comment(line_to_cursor)
     return false
   end
 end
+M.is_in_comment = cond_obj.make_condition(is_in_comment)
 
 -- Condition determining wether a snippet is at the beginning of a line or not.
-function M.line_begin(line_to_cursor)
+local function line_begin(line_to_cursor)
   -- matched_trigger is considered to be everything after the last white space (this is true as
   -- long as triggers don't have white spaces)
   -- The first capturing group in the regex captures greedily everything until a white space is
@@ -58,5 +62,6 @@ function M.line_begin(line_to_cursor)
 
   return string.match(before_matched_trigger, "^%s*$") ~= nil
 end
+M.line_begin = cond_obj.make_condition(line_begin)
 
 return M
