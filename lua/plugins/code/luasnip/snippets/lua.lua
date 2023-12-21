@@ -8,27 +8,45 @@ local t = ls.text_node
 
 local fmt = require("luasnip.extras.fmt").fmt
 
-local expand_conds = require("luasnip.extras.conditions.expand")
-local custom_conds = require("plugins.code.luasnip.utils.conds")
+local show_conds = require("luasnip.extras.conditions.show")
+local custom_show_conds = require("plugins.code.luasnip.utils.show_conds")
 
 return {
+  s({
+    trig = "local",
+    show_condition = (
+      custom_show_conds.is_in_code
+      * custom_show_conds.line_begin
+      * show_conds.line_end
+    ),
+  }, fmt("local {} = {}", { i(1, "var"), i(2, "value") })),
   s(
-    "local",
-    c(1, {
-      fmt("local {} = {}", { i(1, "var"), i(2, "value") }),
-      fmt(
-        [[
-          local function {}({})
-            {}
-          end
-        ]],
-        { i(1, "name"), i(2), i(3) }
+    {
+      trig = "local-function",
+      show_condition = (
+        custom_show_conds.is_in_code
+        * custom_show_conds.line_begin
+        * show_conds.line_end
       ),
-    })
+    },
+    fmt(
+      [[
+        local function {}({})
+          {}
+        end
+      ]],
+      { i(1, "name"), i(2), i(3) }
+    )
   ),
-  s("require", fmt([[require("{}")]], { i(1, "module") })),
+  s({
+    trig = "require",
+    show_condition = custom_show_conds.is_in_code,
+  }, fmt([[require("{}")]], { i(1, "module") })),
   s(
-    "function",
+    {
+      trig = "function",
+      show_condition = custom_show_conds.is_in_code,
+    },
     fmt(
       [[
         function({})
@@ -40,9 +58,12 @@ return {
   ),
   s(
     {
-      trig = "if ",
-      snippetType = "autosnippet",
-      condition = custom_conds.is_in_code * expand_conds.line_begin,
+      trig = "if",
+      show_condition = (
+        custom_show_conds.is_in_code
+        * custom_show_conds.line_begin
+        * show_conds.line_end
+      ),
     },
     fmt(
       [[
@@ -54,7 +75,14 @@ return {
     )
   ),
   s(
-    "elseif",
+    {
+      trig = "elseif",
+      show_condition = (
+        custom_show_conds.is_in_code
+        * custom_show_conds.line_begin
+        * show_conds.line_end
+      ),
+    },
     fmt(
       [[
         elseif {} then
@@ -64,7 +92,14 @@ return {
     )
   ),
   s(
-    "else",
+    {
+      trig = "else",
+      show_condition = (
+        custom_show_conds.is_in_code
+        * custom_show_conds.line_begin
+        * show_conds.line_end
+      ),
+    },
     fmt(
       [[
         else
@@ -75,9 +110,12 @@ return {
   ),
   s(
     {
-      trig = "for ",
-      snippetType = "autosnippet",
-      condition = custom_conds.is_in_code * expand_conds.line_begin,
+      trig = "for",
+      show_condition = (
+        custom_show_conds.is_in_code
+        * custom_show_conds.line_begin
+        * show_conds.line_end
+      ),
     },
     fmt(
       [[

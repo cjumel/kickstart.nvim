@@ -52,9 +52,7 @@ return {
       desc = "Previous snippet choice option",
     },
   },
-  opts = {
-    enable_autosnippets = true,
-  },
+  opts = {},
   config = function(_, opts)
     require("luasnip").setup(opts)
 

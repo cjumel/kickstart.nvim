@@ -8,29 +8,50 @@ local t = ls.text_node
 
 local fmt = require("luasnip.extras.fmt").fmt
 
-local expand_conds = require("luasnip.extras.conditions.expand")
-local custom_conds = require("plugins.code.luasnip.utils.conds")
+local show_conds = require("luasnip.extras.conditions.show")
+local custom_show_conds = require("plugins.code.luasnip.utils.show_conds")
 
 return {
-  s(
-    "import",
-    c(1, {
-      fmt("import {}", { i(1, "module") }),
-      fmt("import {} as {}", { i(1, "module"), i(2, "name") }),
-    })
-  ),
-  s(
-    "from",
-    c(1, {
-      fmt("from {} import {}", { i(1, "module"), i(2, "var") }),
-      fmt("from {} import {} as {}", { i(1, "module"), i(2, "var"), i(3, "name") }),
-    })
-  ),
+  s({
+    trig = "import",
+    show_condition = (
+      custom_show_conds.is_in_code
+      * custom_show_conds.line_begin
+      * show_conds.line_end
+    ),
+  }, fmt("import {}", { i(1, "module") })),
+  s({
+    trig = "import-as",
+    show_condition = (
+      custom_show_conds.is_in_code
+      * custom_show_conds.line_begin
+      * show_conds.line_end
+    ),
+  }, fmt("import {} as {}", { i(1, "module"), i(2, "name") })),
+  s({
+    trig = "from-import",
+    show_condition = (
+      custom_show_conds.is_in_code
+      * custom_show_conds.line_begin
+      * show_conds.line_end
+    ),
+  }, fmt("from {} import {}", { i(1, "module"), i(2, "var") })),
+  s({
+    trig = "from-import-as",
+    show_condition = (
+      custom_show_conds.is_in_code
+      * custom_show_conds.line_begin
+      * show_conds.line_end
+    ),
+  }, fmt("from {} import {} as {}", { i(1, "module"), i(2, "var"), i(3, "name") })),
   s(
     {
-      trig = "if ", -- New line version
-      snippetType = "autosnippet",
-      condition = custom_conds.is_in_code * expand_conds.line_begin,
+      trig = "if",
+      show_condition = (
+        custom_show_conds.is_in_code
+        * custom_show_conds.line_begin
+        * show_conds.line_end
+      ),
     },
     fmt(
       [[
@@ -40,8 +61,19 @@ return {
       { i(1, "cond"), i(2, "pass") }
     )
   ),
+  s({
+    trig = "if", -- Inline version
+    show_condition = custom_show_conds.is_in_code * -custom_show_conds.line_begin,
+  }, fmt("if {} else {}", { i(1, "cond"), i(2, "None") })),
   s(
-    "elif",
+    {
+      trig = "elif",
+      show_condition = (
+        custom_show_conds.is_in_code
+        * custom_show_conds.line_begin
+        * show_conds.line_end
+      ),
+    },
     fmt(
       [[
         elif {}:
@@ -51,7 +83,14 @@ return {
     )
   ),
   s(
-    "else",
+    {
+      trig = "else",
+      show_condition = (
+        custom_show_conds.is_in_code
+        * custom_show_conds.line_begin
+        * show_conds.line_end
+      ),
+    },
     fmt(
       [[
         else:
@@ -62,9 +101,12 @@ return {
   ),
   s(
     {
-      trig = "for ", -- New line version
-      snippetType = "autosnippet",
-      condition = custom_conds.is_in_code * expand_conds.line_begin,
+      trig = "for",
+      show_condition = (
+        custom_show_conds.is_in_code
+        * custom_show_conds.line_begin
+        * show_conds.line_end
+      ),
     },
     fmt(
       [[
@@ -84,7 +126,29 @@ return {
     )
   ),
   s(
-    "while",
+    {
+      trig = "for", -- Inline version
+      show_condition = custom_show_conds.is_in_code * -custom_show_conds.line_begin,
+    },
+    fmt("for {} in {}", {
+      i(1, "var"),
+      c(2, {
+        i(nil, "iterable"),
+        sn(nil, { t("enumerate("), i(1, "iterable"), t(")") }),
+        sn(nil, { t("range("), i(1, "integer"), t(")") }),
+        sn(nil, { t("zip("), i(1, "iterables"), t(")") }),
+      }),
+    })
+  ),
+  s(
+    {
+      trig = "while",
+      show_condition = (
+        custom_show_conds.is_in_code
+        * custom_show_conds.line_begin
+        * show_conds.line_end
+      ),
+    },
     fmt(
       [[
         while {}:
@@ -95,9 +159,12 @@ return {
   ),
   s(
     {
-      trig = "def ",
-      snippetType = "autosnippet",
-      condition = custom_conds.is_in_code * expand_conds.line_begin,
+      trig = "def",
+      show_condition = (
+        custom_show_conds.is_in_code
+        * custom_show_conds.line_begin
+        * show_conds.line_end
+      ),
     },
     fmt(
       [[
@@ -106,18 +173,17 @@ return {
       ]],
       {
         i(1, "function"),
-        c(2, {
-          t(""),
-          sn(nil, { t("self"), i(1) }),
-          sn(nil, { t("cls"), i(1) }),
-        }),
+        i(2),
         i(3, "None"),
         i(4, "pass"),
       }
     )
   ),
   s(
-    "lambda",
+    {
+      trig = "lambda",
+      show_condition = custom_show_conds.is_in_code * -custom_show_conds.line_begin,
+    },
     fmt(
       [[
         lambda {}: {}
@@ -129,64 +195,74 @@ return {
     )
   ),
   s(
-    "class",
-    c(1, {
-      fmt(
-        [[
-          class {}:
-              {}
-        ]],
-        { i(1, "Name"), i(2, "pass") }
+    {
+      trig = "class",
+      show_condition = (
+        custom_show_conds.is_in_code
+        * custom_show_conds.line_begin
+        * show_conds.line_end
       ),
-      fmt(
-        [[
-          class {}({}):
-              {}
-        ]],
-        { i(1, "Name"), i(2, "Parent"), i(3, "pass") }
-      ),
-    })
+    },
+    fmt(
+      [[
+        class {}:
+            {}
+      ]],
+      { i(1, "Name"), i(2, "pass") }
+    )
   ),
   s(
     {
-      trig = [["""]], -- Remaining """ are inserted by nvim-autopairs
-      snippetType = "autosnippet",
-      condition = custom_conds.is_in_code * expand_conds.line_begin,
+      trig = "docstring-function",
+      show_condition = (
+        custom_show_conds.is_in_code
+        * custom_show_conds.line_begin
+        * show_conds.line_end
+      ),
     },
-    c(1, {
-      fmt(
-        [[
-          """{}
-        ]],
-        { i(1) }
-      ),
-      fmt(
-        [[
-          """{}
+    fmt(
+      [[
+        """{}
 
-          Args:
-              {}
+        Args:
+            {}
 
-          Returns:
-              {}
-
-        ]],
-        { i(1), i(2), i(3) }
-      ),
-      fmt(
-        [[
-          """{}
-
-          Attributes:
-              {}
-
-        ]],
-        { i(1), i(2) }
-      ),
-    })
+        Returns:
+            {}
+        """
+      ]],
+      { i(1), i(2), i(3) }
+    )
   ),
   s(
-    "__main__",
+    {
+      trig = "docstring-class",
+      show_condition = (
+        custom_show_conds.is_in_code
+        * custom_show_conds.line_begin
+        * show_conds.line_end
+      ),
+    },
+    fmt(
+      [[
+        """{}
+
+        Attributes:
+            {}
+        """
+      ]],
+      { i(1), i(2) }
+    )
+  ),
+  s(
+    {
+      trig = "__main__",
+      show_condition = (
+        custom_show_conds.is_in_code
+        * custom_show_conds.line_begin
+        * show_conds.line_end
+      ),
+    },
     fmt(
       [[
         if __name__ == "__main__":
