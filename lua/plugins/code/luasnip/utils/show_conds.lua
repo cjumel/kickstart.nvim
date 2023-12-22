@@ -26,31 +26,52 @@ local function get_treesitter_node(line_to_cursor)
   })
 end
 
--- Condition determining wether a snippet is in actual code or not, using treesitter.
-local function is_in_code(line_to_cursor)
+local function concatenate_tables(table_1, table_2)
+  local result = {}
+  for _, value in ipairs(table_1) do
+    table.insert(result, value)
+  end
+  for _, value in ipairs(table_2) do
+    table.insert(result, value)
+  end
+  return result
+end
+
+local treesitter_node_types_comment = {
+  "comment",
+  "comment_content",
+}
+local treesitter_node_types_string = {
+  "string",
+  "string_content",
+}
+local treesitter_node_types_comment_and_string =
+  concatenate_tables(treesitter_node_types_comment, treesitter_node_types_string)
+
+local function tresitter_check_node_type(line_to_cursor, inclusion, treesitter_node_types)
   local is_treesitter_parsable, node = pcall(get_treesitter_node, line_to_cursor)
-  if is_treesitter_parsable then
-    return node
-      and not (
-        node:type() == "comment"
-        or node:type() == "comment_content"
-        or node:type() == "string"
-        or node:type() == "string_content"
-      )
-  else
+  if not is_treesitter_parsable or not node then
     return false
   end
+
+  for _, treesitter_node_type in ipairs(treesitter_node_types) do
+    if node:type() == treesitter_node_type then
+      return inclusion
+    end
+  end
+
+  return not inclusion
+end
+
+-- Condition determining wether a snippet is in actual code or not, using treesitter.
+local function is_in_code(line_to_cursor)
+  return tresitter_check_node_type(line_to_cursor, false, treesitter_node_types_comment_and_string)
 end
 M.is_in_code = cond_obj.make_condition(is_in_code)
 
 -- Condition determining wether a snippet is in a comment or not, using treesitter.
 local function is_in_comment(line_to_cursor)
-  local is_treesitter_parsable, node = pcall(get_treesitter_node, line_to_cursor)
-  if is_treesitter_parsable then
-    return node and (node:type() == "comment" or node:type() == "comment_content")
-  else
-    return false
-  end
+  return tresitter_check_node_type(line_to_cursor, true, treesitter_node_types_comment)
 end
 M.is_in_comment = cond_obj.make_condition(is_in_comment)
 
