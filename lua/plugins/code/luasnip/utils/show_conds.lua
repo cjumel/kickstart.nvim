@@ -37,17 +37,21 @@ local function concatenate_tables(table_1, table_2)
   return result
 end
 
+local treesitter_node_type_class = {
+  "class_definition",
+}
 local treesitter_node_types_comment = {
   "comment",
   "comment_content",
+}
+local treesitter_node_type_function = {
+  "function_definition",
 }
 local treesitter_node_types_string = {
   "string",
   "string_start",
   "string_content",
 }
-local treesitter_node_types_comment_and_string =
-  concatenate_tables(treesitter_node_types_comment, treesitter_node_types_string)
 
 local function tresitter_check_node_type(line_to_cursor, inclusion, treesitter_node_types)
   local is_treesitter_parsable, node = pcall(get_treesitter_node, line_to_cursor)
@@ -64,11 +68,11 @@ local function tresitter_check_node_type(line_to_cursor, inclusion, treesitter_n
   return not inclusion
 end
 
--- Condition determining wether a snippet is in actual code or not, using treesitter.
-local function is_in_code(line_to_cursor)
-  return tresitter_check_node_type(line_to_cursor, false, treesitter_node_types_comment_and_string)
+-- Condition determining wether a snippet is in a class or not, using treesitter.
+local function is_in_class(line_to_cursor)
+  return tresitter_check_node_type(line_to_cursor, true, treesitter_node_type_class)
 end
-M.is_in_code = cond_obj.make_condition(is_in_code)
+M.is_in_class = cond_obj.make_condition(is_in_class)
 
 -- Condition determining wether a snippet is in a comment or not, using treesitter.
 local function is_in_comment(line_to_cursor)
@@ -76,11 +80,25 @@ local function is_in_comment(line_to_cursor)
 end
 M.is_in_comment = cond_obj.make_condition(is_in_comment)
 
+-- Condition determining wether a snippet is in a function or not, using treesitter.
+local function is_in_function(line_to_cursor)
+  return tresitter_check_node_type(line_to_cursor, true, treesitter_node_type_function)
+end
+M.is_in_function = cond_obj.make_condition(is_in_function)
+
 -- Condition determining wether a snippet is in a string or not, using treesitter.
 local function is_in_string(line_to_cursor)
   return tresitter_check_node_type(line_to_cursor, true, treesitter_node_types_string)
 end
 M.is_in_string = cond_obj.make_condition(is_in_string)
+
+-- Condition determining wether a snippet is in actual code or not, using treesitter.
+local function is_in_code(line_to_cursor)
+  local treesitter_node_types_comment_and_string =
+    concatenate_tables(treesitter_node_types_comment, treesitter_node_types_string)
+  return tresitter_check_node_type(line_to_cursor, false, treesitter_node_types_comment_and_string)
+end
+M.is_in_code = cond_obj.make_condition(is_in_code)
 
 -- Condition determining wether a snippet is at the beginning of a line or not.
 local function line_begin(line_to_cursor)
