@@ -5,12 +5,17 @@ local cond_obj = require("luasnip.extras.conditions")
 
 local M = {}
 
+-- A matched trigger is considered to be everything after the last white space or punctuation mark
+-- in the line before cursor (this is true as long as the matched trigger doesn't have white spaces
+-- or punctuation marks itself, which is a good assumption as `nvim-cmp` doesn't take them into
+-- account when completing).
+local matched_trigger_separator_pattern = "[%s%p]"
+-- In the following pattern, the first capturing group captures greedily everything until a
+-- separator is found (since it's greedy, it will capture everything until the last occurence)
+local matched_trigger_pattern = "(.*)" .. matched_trigger_separator_pattern .. "(.*)$"
+
 local function get_treesitter_node(line_to_cursor)
-  -- matched_trigger is considered to be everything after the last white space (this is true as
-  -- long as triggers don't have white spaces)
-  -- The first capturing group in the regex captures greedily everything until a white space is
-  -- found (since it's greedy, it will capture everything until the last white space)
-  local _, matched_trigger = string.match(line_to_cursor, "(.*)%s(.*)$")
+  local _, matched_trigger = string.match(line_to_cursor, matched_trigger_pattern)
   if matched_trigger == nil then
     matched_trigger = ""
   end
@@ -51,11 +56,7 @@ M.is_in_comment = cond_obj.make_condition(is_in_comment)
 
 -- Condition determining wether a snippet is at the beginning of a line or not.
 local function line_begin(line_to_cursor)
-  -- matched_trigger is considered to be everything after the last white space (this is true as
-  -- long as triggers don't have white spaces)
-  -- The first capturing group in the regex captures greedily everything until a white space is
-  -- found (since it's greedy, it will capture everything until the last white space)
-  local before_matched_trigger, _ = string.match(line_to_cursor, "(.*)%s(.*)$")
+  local before_matched_trigger, _ = string.match(line_to_cursor, matched_trigger_pattern)
   if before_matched_trigger == nil then
     before_matched_trigger = ""
   end
