@@ -41,7 +41,7 @@ return {
   s(
     {
       trig = "todo-comment",
-      show_condition = custom_show_conds.is_in_comment,
+      show_condition = custom_show_conds.is_in_comment * -custom_show_conds.is_in_string,
     },
     fmt("{}: {}", {
       c(2, { t("TODO"), t("NOTE"), t("BUG"), t("FIXME"), t("ISSUE") }),
@@ -52,7 +52,7 @@ return {
   s(
     {
       trig = "todo-comment",
-      show_condition = custom_show_conds.is_in_code,
+      show_condition = custom_show_conds.is_in_code * -custom_show_conds.is_in_string,
     },
     -- Adapted from
     -- https://github.com/L3MON4D3/LuaSnip/wiki/Cool-Snippets#all---todo-commentsnvim-snippets

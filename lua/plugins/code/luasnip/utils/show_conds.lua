@@ -43,6 +43,7 @@ local treesitter_node_types_comment = {
 }
 local treesitter_node_types_string = {
   "string",
+  "string_start",
   "string_content",
 }
 local treesitter_node_types_comment_and_string =
@@ -74,6 +75,12 @@ local function is_in_comment(line_to_cursor)
   return tresitter_check_node_type(line_to_cursor, true, treesitter_node_types_comment)
 end
 M.is_in_comment = cond_obj.make_condition(is_in_comment)
+
+-- Condition determining wether a snippet is in a string or not, using treesitter.
+local function is_in_string(line_to_cursor)
+  return tresitter_check_node_type(line_to_cursor, true, treesitter_node_types_string)
+end
+M.is_in_string = cond_obj.make_condition(is_in_string)
 
 -- Condition determining wether a snippet is at the beginning of a line or not.
 local function line_begin(line_to_cursor)
