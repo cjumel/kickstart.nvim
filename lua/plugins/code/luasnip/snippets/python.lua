@@ -211,29 +211,22 @@ return {
       { i(1, "Name"), i(2, "pass") }
     )
   ),
-  s(
-    {
-      trig = "docstring", -- Function version
-      show_condition = (
-        custom_show_conds.is_in_function
-        * custom_show_conds.line_begin
-        * show_conds.line_end
-      ),
-    },
-    fmt(
-      [[
-        """{}
-
-        Args:
-            {}
-
-        Returns:
-            {}
-        """
-      ]],
-      { i(1), i(2), i(3) }
-    )
-  ),
+  s({
+    trig = "docstring", -- Function version
+    show_condition = (
+      custom_show_conds.is_in_function
+      * custom_show_conds.line_begin
+      * show_conds.line_end
+    ),
+  }, {
+    t('"""'),
+    i(1),
+    t({ "", "", "Args:", "\t" }),
+    i(2),
+    t({ "", "", "Returns:", "\t" }),
+    i(3),
+    t({ "", '"""' }),
+  }),
   s(
     {
       trig = "docstring", -- Class version
