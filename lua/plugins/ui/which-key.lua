@@ -5,33 +5,6 @@
 return {
   "folke/which-key.nvim",
   event = "VeryLazy",
-  keys = {
-    {
-      "<C-]>", -- Actually <C-%> on my setup
-      function()
-        vim.cmd("WhichKey '' n")
-      end,
-      mode = { "n" },
-      desc = "Which key",
-    },
-    {
-      -- In insert mode, <C-]> (or <C-%> on my setup) is taken for next word navigation
-      "<C-^>", -- Actually <C-m> on my setup, but not <CR>
-      function()
-        vim.cmd("WhichKey '' i")
-      end,
-      mode = { "n" },
-      desc = "Which key",
-    },
-    {
-      "<C-]>", -- Actually <C-%> on my setup
-      function()
-        vim.cmd("WhichKey '' v")
-      end,
-      mode = { "v" },
-      desc = "Which key",
-    },
-  },
   opts = {
     window = {
       border = "single",
@@ -56,5 +29,12 @@ return {
       ["<leader>o"] = { name = "[O]verseer", _ = "which_key_ignore" },
       ["<leader>x"] = { name = "Trouble", _ = "which_key_ignore" },
     })
+
+    vim.api.nvim_create_user_command("WhichKeyNormalMode", function()
+      vim.cmd("WhichKey '' n")
+    end, { desc = "Show WhichKey help in normal mode" })
+    vim.api.nvim_create_user_command("WhichKeyInsertMode", function()
+      vim.cmd("WhichKey '' i")
+    end, { desc = "Show WhichKey help in insert mode" })
   end,
 }
