@@ -76,7 +76,7 @@ return {
       ["<C-]>"] = "actions.show_help", -- Actually <C-%> on my setup
       -- Overwrite Harpoon keymap to add the file under the cursor in Oil buffer instead
       -- of Oil buffer itself
-      ["<leader><CR>"] = add_harpoon_mark_from_oil,
+      ["<leader><CR>"] = { callback = add_harpoon_mark_from_oil, desc = "Add Harpoon mark" },
     },
     use_default_keymaps = false,
     view_options = {
