@@ -30,5 +30,13 @@ return {
         },
       },
     },
+    extensions = {
+      "lazy",
+      "mason",
+      "nvim-dap-ui",
+      "oil",
+      "overseer",
+      "trouble",
+    },
   },
 }
