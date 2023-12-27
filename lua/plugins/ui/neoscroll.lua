@@ -29,20 +29,6 @@ return {
       "<C-e>",
       desc = "Scroll down 10% of a window height",
     },
-    {
-      "<BS>",
-      function()
-        require("neoscroll").scroll(-0.10, false, 100)
-      end,
-      desc = "Scroll up 10% of a window height",
-    },
-    {
-      "<CR>",
-      function()
-        require("neoscroll").scroll(0.10, false, 100)
-      end,
-      desc = "Scroll down 10% of a window height",
-    },
   },
   opts = {
     mappings = { "<C-u>", "<C-d>", "<C-b>", "<C-f>", "<C-y>", "<C-e>" },
