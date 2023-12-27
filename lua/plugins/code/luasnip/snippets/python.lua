@@ -1,6 +1,7 @@
 local ls = require("luasnip")
 
 local c = ls.choice_node
+local d = ls.dynamic_node
 local i = ls.insert_node
 local s = ls.snippet
 local sn = ls.snippet_node
@@ -221,11 +222,50 @@ return {
   }, {
     t('"""'),
     i(1),
-    t({ "", "", "Args:", "\t" }),
-    i(2),
-    t({ "", "", "Returns:", "\t" }),
-    i(3),
-    t({ "", '"""' }),
+    d(2, function(_)
+      local snippets = {}
+
+      local function_node = vim.treesitter.get_node()
+      if function_node == nil or function_node:type() ~= "function_definition" then
+        return sn(nil, snippets)
+      end
+
+      -- In function node's children, first index is "def", second is function's name
+      local parameters_node = function_node:child(2)
+      if parameters_node:type() ~= "parameters" then
+        return sn(nil, snippets)
+      end
+
+      local args = {}
+      local bufnr = vim.api.nvim_get_current_buf()
+      for parameter_node in parameters_node:iter_children() do
+        -- Children types can be "identifier" or "typed_parameter" or something else in which case
+        -- they are not relevant (correspond to parenthesis or commas for example)
+        local parameter_type = parameter_node:type()
+        if parameter_type == "identifier" then -- Parameter without type
+          local arg = vim.treesitter.get_node_text(parameter_node, bufnr)
+          table.insert(args, arg)
+        elseif parameter_type == "typed_parameter" then
+          local arg_with_type = vim.treesitter.get_node_text(parameter_node, bufnr)
+          local arg = arg_with_type:match("([^:]+):")
+          table.insert(args, arg)
+        end
+      end
+
+      if #args ~= 0 then
+        table.insert(snippets, t({ "", "", "Args:" }))
+        for arg_idx, arg in ipairs(args) do
+          table.insert(snippets, t({ "", "\t" .. arg .. ": " }))
+          table.insert(snippets, i(arg_idx))
+        end
+      end
+
+      table.insert(snippets, t({ "", "", "Returns:", "\t" }))
+      table.insert(snippets, i(#args + 1))
+      table.insert(snippets, t({ "", "" }))
+      return sn(3, snippets)
+    end),
+    t('"""'),
   }),
   s(
     {
