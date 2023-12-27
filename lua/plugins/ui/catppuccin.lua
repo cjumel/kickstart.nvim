@@ -33,12 +33,12 @@ return {
     },
     transparent_background = true,
     integrations = { -- add highlight groups for popular plugins
-      fidget = true,
       harpoon = true,
       hop = true,
       mason = true,
       noice = true,
       notify = true,
+      overseer = true,
       lsp_trouble = true,
       which_key = true,
     },
@@ -46,5 +46,14 @@ return {
   config = function(_, opts)
     require("catppuccin").setup(opts) -- setup must be called before loading
     vim.cmd.colorscheme("catppuccin")
+
+    -- Integration for nvim-dap
+    local sign = vim.fn.sign_define
+    sign("DapBreakpoint", { text = "●", texthl = "DapBreakpoint", linehl = "", numhl = "" })
+    sign(
+      "DapBreakpointCondition",
+      { text = "●", texthl = "DapBreakpointCondition", linehl = "", numhl = "" }
+    )
+    sign("DapLogPoint", { text = "◆", texthl = "DapLogPoint", linehl = "", numhl = "" })
   end,
 }
