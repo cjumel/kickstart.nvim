@@ -224,46 +224,84 @@ return {
     i(1),
     d(2, function(_)
       local snippets = {}
+      local insert_snippet_idx = 1
+      local bufnr = vim.api.nvim_get_current_buf()
 
       local function_node = vim.treesitter.get_node()
       if function_node == nil or function_node:type() ~= "function_definition" then
         return sn(nil, snippets)
       end
 
-      -- In function node's children, first index is "def", second is function's name
-      local parameters_node = function_node:child(2)
-      if parameters_node:type() ~= "parameters" then
-        return sn(nil, snippets)
-      end
-
-      local args = {}
-      local bufnr = vim.api.nvim_get_current_buf()
-      for parameter_node in parameters_node:iter_children() do
-        -- Children types can be "identifier" or "typed_parameter" or something else in which case
-        -- they are not relevant (correspond to parenthesis or commas for example)
-        local parameter_type = parameter_node:type()
-        if parameter_type == "identifier" then -- Parameter without type
-          local arg = vim.treesitter.get_node_text(parameter_node, bufnr)
-          table.insert(args, arg)
-        elseif parameter_type == "typed_parameter" then
-          local arg_with_type = vim.treesitter.get_node_text(parameter_node, bufnr)
-          local arg = arg_with_type:match("([^:]+):")
-          table.insert(args, arg)
+      local parameters_node = nil
+      local type_node = nil
+      for function_child_node in function_node:iter_children() do
+        local function_child_node_type = function_child_node:type()
+        if function_child_node_type == "parameters" then
+          parameters_node = function_child_node
+          if type_node ~= nil then
+            break
+          end
+        elseif function_child_node_type == "type" then
+          type_node = function_child_node
+          if parameters_node ~= nil then
+            break
+          end
         end
       end
 
-      if #args ~= 0 then
-        table.insert(snippets, t({ "", "", "Args:" }))
-        for arg_idx, arg in ipairs(args) do
-          table.insert(snippets, t({ "", "\t" .. arg .. ": " }))
-          table.insert(snippets, i(arg_idx))
+      if parameters_node ~= nil then
+        local args = {}
+        for parameter_node in parameters_node:iter_children() do
+          -- Children types can be "identifier" or "typed_parameter" or something else in which case
+          -- they are not relevant (correspond to parenthesis or commas for example)
+          local parameter_type = parameter_node:type()
+          if parameter_type == "identifier" then -- Parameter without type
+            local arg = vim.treesitter.get_node_text(parameter_node, bufnr)
+            table.insert(args, arg)
+          elseif parameter_type == "typed_parameter" then
+            local arg_with_type = vim.treesitter.get_node_text(parameter_node, bufnr)
+            local arg = arg_with_type:match("([^:]+):")
+            table.insert(args, arg)
+          end
+        end
+
+        if #args ~= 0 then
+          table.insert(snippets, t({ "", "", "Args:" }))
+          for _, arg in ipairs(args) do
+            table.insert(snippets, t({ "", "\t" .. arg .. ": " }))
+            table.insert(snippets, i(insert_snippet_idx))
+            insert_snippet_idx = insert_snippet_idx + 1
+          end
         end
       end
 
-      table.insert(snippets, t({ "", "", "Returns:", "\t" }))
-      table.insert(snippets, i(#args + 1))
-      table.insert(snippets, t({ "", "" }))
-      return sn(3, snippets)
+      if type_node ~= nil then
+        local return_type = vim.treesitter.get_node_text(type_node, bufnr)
+        if return_type ~= "None" then
+          local keyword = nil
+          local yield_type_starts = { "Generator", "Iterator" }
+          for _, yield_type_start in ipairs(yield_type_starts) do
+            if return_type:sub(1, #yield_type_start) == yield_type_start then
+              keyword = "Yields"
+              break
+            end
+          end
+          if keyword == nil then
+            keyword = "Returns"
+          end
+
+          table.insert(snippets, t({ "", "", keyword .. ":", "\t" }))
+          table.insert(snippets, i(insert_snippet_idx))
+          insert_snippet_idx = insert_snippet_idx + 1
+        end
+      end
+
+      -- If at least an arg, return or yield is inserted, add a line break
+      if insert_snippet_idx ~= 1 then
+        table.insert(snippets, t({ "", "" }))
+      end
+
+      return sn(nil, snippets)
     end),
     t('"""'),
   }),
