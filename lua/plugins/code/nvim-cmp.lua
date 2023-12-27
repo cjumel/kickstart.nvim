@@ -52,8 +52,8 @@ return {
         ["<C-n>"] = select_next_item_or_complete,
         ["<C-p>"] = select_prev_item_or_complete,
         ["<C-c>"] = cmp.mapping.abort(),
-        ["<C-f>"] = cmp.mapping.scroll_docs(5),
-        ["<C-b>"] = cmp.mapping.scroll_docs(-5),
+        ["<C-d>"] = cmp.mapping.scroll_docs(5),
+        ["<C-u>"] = cmp.mapping.scroll_docs(-5),
       },
       -- Sources are grouped by decreasing priority
       sources = cmp.config.sources({
