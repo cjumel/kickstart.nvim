@@ -9,7 +9,7 @@ vim.keymap.set("i", "<C-p>", "<Nop>", { silent = true })
 -- Remap to automatically indent on empty line
 vim.keymap.set("n", "i", function()
   return string.match(vim.api.nvim_get_current_line(), "%g") == nil and "cc" or "i"
-end, { expr = true, noremap = true })
+end, { desc = "Enter insert mode", expr = true, noremap = true })
 
 -- Remap for dealing with word wrap
 vim.keymap.set("n", "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
