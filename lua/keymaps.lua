@@ -50,13 +50,13 @@ vim.keymap.set({ "i", "c" }, "<C-f>", "<Right>", { desc = "Move cursor one chara
 -- Move cursor one word left or right
 vim.keymap.set(
   { "i", "c" },
-  "<C-^>", -- Actually <C-m> on my setup, but not <CR>
+  "<C-^>", -- Actually <C-%> on my setup
   "<C-Left>",
   { desc = "Move cursor one word left" }
 )
 vim.keymap.set(
   { "i", "c" },
-  "<C-]>", -- Actually <C-%> on my setup
+  "<C-_>", -- Actually <C-`> on my setup
   "<C-Right>",
   { desc = "Move cursor one word right" }
 )
