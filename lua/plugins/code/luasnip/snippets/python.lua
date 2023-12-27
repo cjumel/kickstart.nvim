@@ -255,12 +255,14 @@ return {
           -- Children types can be "identifier" or "typed_parameter" or something else in which case
           -- they are not relevant (correspond to parenthesis or commas for example)
           local parameter_type = parameter_node:type()
+          local arg = nil
           if parameter_type == "identifier" then -- Parameter without type
-            local arg = vim.treesitter.get_node_text(parameter_node, bufnr)
-            table.insert(args, arg)
+            arg = vim.treesitter.get_node_text(parameter_node, bufnr)
           elseif parameter_type == "typed_parameter" then
             local arg_with_type = vim.treesitter.get_node_text(parameter_node, bufnr)
-            local arg = arg_with_type:match("([^:]+):")
+            arg = arg_with_type:match("([^:]+):")
+          end
+          if arg ~= nil and arg ~= "self" and arg ~= "cls" then
             table.insert(args, arg)
           end
         end
