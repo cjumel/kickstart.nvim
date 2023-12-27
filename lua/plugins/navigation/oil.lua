@@ -73,7 +73,7 @@ return {
       ["_"] = "actions.open_cwd",
       ["H"] = "actions.toggle_hidden",
       ["R"] = "actions.refresh",
-      ["<C-]>"] = "actions.show_help", -- Actually <C-%> on my setup
+      ["?"] = "actions.show_help",
       -- Overwrite Harpoon keymap to add the file under the cursor in Oil buffer instead
       -- of Oil buffer itself
       ["<leader><CR>"] = { callback = add_harpoon_mark_from_oil, desc = "Add Harpoon mark" },
