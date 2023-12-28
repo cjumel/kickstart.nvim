@@ -97,11 +97,5 @@ vim.keymap.set("n", "<leader>,n", function()
     vim.wo.relativenumber = false
   end
 end, { desc = "Settings: switch line [N]umbering mode" })
-vim.keymap.set(
-  "n",
-  "<leader>,s",
-  require("statusline").toggle,
-  { desc = "Settings: toggle [S]tatus line" }
-)
 
 -- vim: ts=2 sts=2 sw=2 et
