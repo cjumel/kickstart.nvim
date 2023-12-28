@@ -84,17 +84,15 @@ vim.keymap.set("n", "<leader>,c", function()
   end
 end, { desc = "Settings: switch [C]olorscheme mode" })
 vim.keymap.set("n", "<leader>,n", function()
-  -- Switch between absolute to relative numbering
-  if vim.wo.number and not vim.wo.relativenumber then
-    vim.wo.relativenumber = true
-  -- Switch between relative to no numbering
-  elseif vim.wo.number and vim.wo.relativenumber then
-    vim.wo.number = false
-    vim.wo.relativenumber = false
-  -- Switch between anything else to absolute numbering
-  else
+  -- Numbering shouldn't be off, but in case it happens this is convenient to re-enable it
+  if not vim.wo.number then
     vim.wo.number = true
-    vim.wo.relativenumber = false
+  else
+    if vim.wo.relativenumber then
+      vim.wo.relativenumber = false
+    else
+      vim.wo.relativenumber = true
+    end
   end
 end, { desc = "Settings: switch line [N]umbering mode" })
 vim.keymap.set("n", "<leader>,s", function()
