@@ -82,6 +82,8 @@ vim.keymap.set("n", "<leader>,c", function()
   else
     vim.cmd("set background=dark")
   end
+  -- For an unknown reason, this function changes the status line, so we need to reset it
+  vim.o.laststatus = 3 -- Use a global status line & a thin line to separate splits
 end, { desc = "Settings: switch [C]olorscheme mode" })
 vim.keymap.set("n", "<leader>,n", function()
   -- Numbering shouldn't be off, but in case it happens this is convenient to re-enable it

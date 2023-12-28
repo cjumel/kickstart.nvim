@@ -21,6 +21,8 @@ return {
         end
         require("catppuccin").setup(opts)
         vim.cmd.colorscheme("catppuccin")
+        -- For an unknown reason, this function changes the status line, so we need to reset it
+        vim.o.laststatus = 3 -- Use a global status line & a thin line to separate splits
       end,
       desc = "Settings: toggle [T]ransparency",
     },
