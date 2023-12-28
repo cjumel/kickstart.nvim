@@ -7,7 +7,7 @@ vim.opt.shortmess:append({ I = true })
 vim.opt.showmode = false
 
 -- Status line mode
-vim.o.laststatus = require("statusline").laststatus
+vim.o.laststatus = 3 -- Use a global status line & a thin line to separate splits
 
 -- Display a column ruler after the 100th character
 vim.o.colorcolumn = "101"

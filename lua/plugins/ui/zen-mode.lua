@@ -9,10 +9,11 @@ return {
       "<leader>z",
       function()
         -- Zen-mode doesn't disable the status line if `vim.o.laststatus = 3`, let's fix this
+        -- (this shouldn't be used for other values of `vim.o.laststatus`)
         if require("zen-mode.view").is_open() then
-          require("statusline").enable()
+          vim.o.laststatus = 3
         else
-          require("statusline").disable()
+          vim.o.laststatus = 0
         end
 
         require("zen-mode").toggle()
