@@ -345,17 +345,15 @@ return {
     t('"""'),
     i(1),
     d(2, function(_)
-      local snippets = {}
-      local insert_snippet_idx = 1
       local bufnr = vim.api.nvim_get_current_buf()
 
       local node = vim.treesitter.get_node()
       if node == nil or node:type() ~= "class_definition" then
-        return sn(nil, snippets)
+        return sn(nil, {})
       end
       local body_node = node:field("body")[1]
       if body_node == nil then
-        return sn(nil, snippets)
+        return sn(nil, {})
       end
 
       local attributes = {}
@@ -367,26 +365,29 @@ return {
             local left_assignment_node = assignment_node:field("left")[1]
             if left_assignment_node ~= nil then
               local attribute = vim.treesitter.get_node_text(left_assignment_node, bufnr)
-              -- Don't take into account private attributes
-              if attribute:sub(1, 1) ~= "_" then
-                table.insert(attributes, attribute)
-              end
+              table.insert(attributes, attribute)
             end
           end
         end
       end
 
-      if #attributes ~= 0 then
+      -- Don't take into account private attributes
+      local attributes_filtered = {}
+      for _, attribute in ipairs(attributes) do
+        if attribute:sub(1, 1) ~= "_" then
+          table.insert(attributes_filtered, attribute)
+        end
+      end
+
+      local snippets = {}
+      local insert_snippet_idx = 1
+      if #attributes_filtered ~= 0 then
         table.insert(snippets, t({ "", "", "Attributes:" }))
-        for _, attribute in ipairs(attributes) do
+        for _, attribute in ipairs(attributes_filtered) do
           table.insert(snippets, t({ "", "\t" .. attribute .. ": " }))
           table.insert(snippets, i(insert_snippet_idx))
           insert_snippet_idx = insert_snippet_idx + 1
         end
-      end
-
-      -- If at least an attribute, add a line break
-      if insert_snippet_idx ~= 1 then
         table.insert(snippets, t({ "", "" }))
       end
 
