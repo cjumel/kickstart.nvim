@@ -97,5 +97,12 @@ vim.keymap.set("n", "<leader>,n", function()
     vim.wo.relativenumber = false
   end
 end, { desc = "Settings: switch line [N]umbering mode" })
+vim.keymap.set("n", "<leader>,s", function()
+  if vim.wo.signcolumn == "number" then
+    vim.wo.signcolumn = "yes"
+  else
+    vim.wo.signcolumn = "number"
+  end
+end, { desc = "Settings: switch [S]ign column mode" })
 
 -- vim: ts=2 sts=2 sw=2 et
