@@ -13,6 +13,9 @@ return {
     "MasonInstallAll", -- Custom command to install all Mason packages (taken from NvChad)
   },
   opts = {
+    ui = {
+      border = "single",
+    },
     ensure_installed = {
       -- Lua
       "lua-language-server", -- "lua_ls"
