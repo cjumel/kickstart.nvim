@@ -94,6 +94,12 @@ return {
     -- Add a message in the status line when recording a macro
     -- This means that noice needs to pass the message to the statusline (see noice's wiki)
     sections = {
+      lualine_c = {
+        {
+          "filename",
+          path = 1, -- Relative path
+        },
+      },
       lualine_x = {
         {
           function()
