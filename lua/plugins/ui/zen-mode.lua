@@ -28,6 +28,7 @@ return {
       options = {
         signcolumn = "no", -- Disable sign column
         number = false, -- Disable number column
+        relativenumber = false,
       },
     },
     plugins = {
