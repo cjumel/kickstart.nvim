@@ -44,7 +44,8 @@ local custom_extensions = {
         function()
           local ok, oil = pcall(require, "oil")
           if ok then
-            return vim.fn.fnamemodify(oil.get_current_dir(), ":~")
+            -- Show relative path if in directory, or truncate with "~" if possible
+            return vim.fn.fnamemodify(oil.get_current_dir(), ":p:~:.")
           else
             return ""
           end
