@@ -22,8 +22,16 @@ local custom_extensions = {
       "dapui_stacks",
       "dapui_breakpoints",
       "dapui_scopes",
+      -- DB-UI
+      "dbui",
+      -- Neogit
+      "NeogitStatus",
+      -- Noice
+      "noice",
       -- Overseer
       "OverseerList",
+      -- Undo-tree
+      "undotree",
     },
   },
   oil = {
