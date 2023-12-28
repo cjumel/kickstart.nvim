@@ -26,6 +26,8 @@ local custom_extensions = {
       "dbui",
       -- Neogit
       "NeogitStatus",
+      "NeogitPopup",
+      "NeogitCommitMessage",
       -- Noice
       "noice",
       -- Overseer
