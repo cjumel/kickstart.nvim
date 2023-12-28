@@ -26,7 +26,6 @@ return {
       backdrop = 1, -- No difference between the background and the window
       width = 100,
       options = {
-        signcolumn = "no", -- Disable sign column
         number = false, -- Disable number column
         relativenumber = false,
       },
