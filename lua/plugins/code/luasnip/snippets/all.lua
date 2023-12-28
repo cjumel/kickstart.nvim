@@ -4,9 +4,8 @@ local c = ls.choice_node
 local f = ls.function_node
 local i = ls.insert_node
 local s = ls.snippet
+local sn = ls.snippet_node
 local t = ls.text_node
-
-local fmt = require("luasnip.extras.fmt").fmt
 
 local custom_show_conds = require("plugins.code.luasnip.utils.show_conds")
 
@@ -26,6 +25,14 @@ local get_comment_strings = function(ctype)
   -- split the left and right side
   local left, right = utils.unwrap_cstr(cstring)
   -- create a `{left, right}` table for it
+
+  if left ~= "" then
+    left = left .. " "
+  end
+  if right ~= "" then
+    right = " " .. right
+  end
+
   return { left, right }
 end
 
@@ -37,30 +44,32 @@ local function get_comment_string_end()
 end
 
 return {
-  -- In-comment version (don't add comment strings)
-  s(
-    {
-      trig = "todo-comment",
-      show_condition = custom_show_conds.is_in_comment * -custom_show_conds.is_in_string,
-    },
-    fmt("{}: {}", {
-      c(2, { t("TODO"), t("NOTE"), t("BUG"), t("FIXME"), t("ISSUE") }),
-      i(1),
-    })
-  ),
-  -- In-code version (add comment strings)
-  s(
-    {
-      trig = "todo-comment",
-      show_condition = custom_show_conds.is_in_code * -custom_show_conds.is_in_string,
-    },
+  s({
+    trig = "todo-comment", -- In-code version
+    show_condition = custom_show_conds.is_in_code * -custom_show_conds.is_in_string,
+  }, {
     -- Adapted from
     -- https://github.com/L3MON4D3/LuaSnip/wiki/Cool-Snippets#all---todo-commentsnvim-snippets
-    fmt("{} {}: {}{}", {
-      f(get_comment_string_start),
-      c(2, { t("TODO"), t("NOTE"), t("BUG"), t("FIXME"), t("ISSUE") }),
-      i(1),
-      f(get_comment_string_end),
-    })
-  ),
+    f(get_comment_string_start),
+    c(1, {
+      sn(nil, { t("TODO: "), i(1) }),
+      sn(nil, { t("NOTE: "), i(1) }),
+      sn(nil, { t("BUG: "), i(1) }),
+      sn(nil, { t("FIXME: "), i(1) }),
+      sn(nil, { t("ISSUE: "), i(1) }),
+    }),
+    f(get_comment_string_end),
+  }),
+  s({
+    trig = "todo-comment", -- In-comment version (don't add comment strings)
+    show_condition = custom_show_conds.is_in_comment * -custom_show_conds.is_in_string,
+  }, {
+    c(1, {
+      sn(nil, { t("TODO: "), i(1) }),
+      sn(nil, { t("NOTE: "), i(1) }),
+      sn(nil, { t("BUG: "), i(1) }),
+      sn(nil, { t("FIXME: "), i(1) }),
+      sn(nil, { t("ISSUE: "), i(1) }),
+    }),
+  }),
 }
