@@ -367,7 +367,10 @@ return {
             local left_assignment_node = assignment_node:field("left")[1]
             if left_assignment_node ~= nil then
               local attribute = vim.treesitter.get_node_text(left_assignment_node, bufnr)
-              table.insert(attributes, attribute)
+              -- Don't take into account private attributes
+              if attribute:sub(1, 1) ~= "_" then
+                table.insert(attributes, attribute)
+              end
             end
           end
         end
