@@ -46,6 +46,26 @@ local custom_extensions = {
     },
     filetypes = { "oil" },
   },
+  trouble = {
+    sections = {
+      lualine_a = { "mode" },
+      lualine_b = { "branch", "diff", "diagnostics" },
+      lualine_c = {
+        function()
+          local opts = require("trouble.config").options
+          local words = vim.split(opts.mode, "[%W]")
+          for i, word in ipairs(words) do
+            words[i] = word:sub(1, 1):upper() .. word:sub(2)
+          end
+          return table.concat(words, " ")
+        end,
+      },
+      lualine_x = { "filetype" },
+      lualine_y = { "progress" },
+      lualine_z = { "location" },
+    },
+    filetypes = { "Trouble" },
+  },
 }
 
 return {
@@ -83,7 +103,7 @@ return {
     extensions = {
       custom_extensions.generic,
       custom_extensions.oil,
-      "trouble",
+      custom_extensions.trouble,
     },
   },
 }
