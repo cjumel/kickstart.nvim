@@ -2,6 +2,32 @@
 --
 -- A blazing fast and customizable status bar written in Lua.
 
+-- Redefine some extensions to customize them (see lualine/extensions/ for the initial
+-- implementations)
+
+local custom_extensions = {
+  oil = {
+    sections = {
+      lualine_a = { "mode" },
+      lualine_b = { "branch", "diff", "diagnostics" },
+      lualine_c = {
+        function()
+          local ok, oil = pcall(require, "oil")
+          if ok then
+            return vim.fn.fnamemodify(oil.get_current_dir(), ":~")
+          else
+            return ""
+          end
+        end,
+      },
+      lualine_x = { "filetype" },
+      lualine_y = { "progress" },
+      lualine_z = { "location" },
+    },
+    filetypes = { "oil" },
+  },
+}
+
 return {
   "nvim-lualine/lualine.nvim",
   dependencies = {
@@ -36,7 +62,7 @@ return {
     },
     extensions = {
       "nvim-dap-ui",
-      "oil",
+      custom_extensions.oil,
       "overseer",
       "trouble",
     },
