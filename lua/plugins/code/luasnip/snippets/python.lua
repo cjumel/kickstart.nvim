@@ -174,7 +174,34 @@ return {
       ]],
       {
         i(1, "function"),
-        i(2),
+        d(2, function(_)
+          local node = vim.treesitter.get_node()
+
+          local is_in_class
+          if node == nil then
+            is_in_class = false
+          elseif node:type() == "class_definition" then
+            is_in_class = true
+          elseif node:parent() ~= nil and node:parent():type() == "class_definition" then
+            is_in_class = true
+          else
+            is_in_class = false
+          end
+
+          local snippets
+          if is_in_class then
+            snippets = {
+              c(1, {
+                sn(nil, { t("self"), i(1) }),
+                sn(nil, { t("cls"), i(1) }),
+                sn(nil, { i(1) }),
+              }),
+            }
+          else
+            snippets = { i(1) }
+          end
+          return sn(nil, snippets)
+        end),
         i(3, "None"),
         i(4, "pass"),
       }
