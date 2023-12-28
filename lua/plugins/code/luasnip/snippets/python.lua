@@ -359,6 +359,7 @@ return {
       local attributes = {}
 
       for body_child_node in body_node:iter_children() do
+        -- Class level attributes
         if body_child_node:type() == "expression_statement" then
           local assignment_node = body_child_node:child(0)
           if assignment_node ~= nil and assignment_node:type() == "assignment" then
@@ -366,6 +367,36 @@ return {
             if left_assignment_node ~= nil then
               local attribute = vim.treesitter.get_node_text(left_assignment_node, bufnr)
               table.insert(attributes, attribute)
+            end
+          end
+
+        -- __init__ attributes
+        elseif body_child_node:type() == "function_definition" then
+          local function_name_node = body_child_node:field("name")[1]
+          if function_name_node ~= nil then
+            local function_name = vim.treesitter.get_node_text(function_name_node, bufnr)
+            if function_name == "__init__" then
+              local function_body_node = body_child_node:field("body")[1]
+              if function_body_node ~= nil then
+                for function_body_child_node in function_body_node:iter_children() do
+                  if function_body_child_node:type() == "expression_statement" then
+                    local assignment_node = function_body_child_node:child(0)
+                    if assignment_node ~= nil and assignment_node:type() == "assignment" then
+                      local left_assignment_node = assignment_node:field("left")[1]
+                      if left_assignment_node ~= nil then
+                        local prefixed_attribute =
+                          vim.treesitter.get_node_text(left_assignment_node, bufnr)
+                        -- Only keep assignments to self
+                        if prefixed_attribute:sub(1, 5) == "self." then
+                          -- Remove "self." prefix
+                          local attribute = prefixed_attribute:sub(6)
+                          table.insert(attributes, attribute)
+                        end
+                      end
+                    end
+                  end
+                end
+              end
             end
           end
         end
