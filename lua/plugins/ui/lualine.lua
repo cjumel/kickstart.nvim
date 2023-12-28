@@ -6,6 +6,26 @@
 -- implementations)
 
 local custom_extensions = {
+  generic = {
+    sections = {
+      lualine_a = { "mode" },
+      lualine_b = { "branch", "diff", "diagnostics" },
+      lualine_x = { "filetype" },
+      lualine_y = { "progress" },
+      lualine_z = { "location" },
+    },
+    filetypes = {
+      -- DAP
+      "dap-repl",
+      "dapui_console",
+      "dapui_watches",
+      "dapui_stacks",
+      "dapui_breakpoints",
+      "dapui_scopes",
+      -- Overseer
+      "OverseerList",
+    },
+  },
   oil = {
     sections = {
       lualine_a = { "mode" },
@@ -61,9 +81,8 @@ return {
       },
     },
     extensions = {
-      "nvim-dap-ui",
+      custom_extensions.generic,
       custom_extensions.oil,
-      "overseer",
       "trouble",
     },
   },
