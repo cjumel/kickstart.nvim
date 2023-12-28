@@ -28,6 +28,10 @@ return {
           end,
           color = { fg = "#ff9e64" },
         },
+        -- Default content
+        "encoding",
+        "fileformat",
+        "filetype",
       },
     },
     extensions = {
