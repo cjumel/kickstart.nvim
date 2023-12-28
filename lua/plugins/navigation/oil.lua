@@ -90,6 +90,7 @@ return {
 
     -- Disable line numbers and column ruler in Oil buffer
     vim.api.nvim_command("autocmd FileType oil setlocal nonumber")
+    vim.api.nvim_command("autocmd FileType oil setlocal norelativenumber")
     vim.api.nvim_command("autocmd FileType oil setlocal colorcolumn=")
   end,
 }
