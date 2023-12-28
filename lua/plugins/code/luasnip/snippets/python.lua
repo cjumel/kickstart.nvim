@@ -334,26 +334,63 @@ return {
     end),
     t('"""'),
   }),
-  s(
-    {
-      trig = "docstring", -- Class version
-      show_condition = (
-        custom_show_conds.is_in_class
-        * custom_show_conds.line_begin
-        * show_conds.line_end
-      ),
-    },
-    fmt(
-      [[
-        """{}
+  s({
+    trig = "docstring", -- Class version
+    show_condition = (
+      custom_show_conds.is_in_class
+      * custom_show_conds.line_begin
+      * show_conds.line_end
+    ),
+  }, {
+    t('"""'),
+    i(1),
+    d(2, function(_)
+      local snippets = {}
+      local insert_snippet_idx = 1
+      local bufnr = vim.api.nvim_get_current_buf()
 
-        Attributes:
-            {}
-        """
-      ]],
-      { i(1), i(2) }
-    )
-  ),
+      local node = vim.treesitter.get_node()
+      if node == nil or node:type() ~= "class_definition" then
+        return sn(nil, snippets)
+      end
+      local body_node = node:field("body")[1]
+      if body_node == nil then
+        return sn(nil, snippets)
+      end
+
+      local attributes = {}
+
+      for body_child_node in body_node:iter_children() do
+        if body_child_node:type() == "expression_statement" then
+          local assignment_node = body_child_node:child(0)
+          if assignment_node ~= nil and assignment_node:type() == "assignment" then
+            local left_assignment_node = assignment_node:field("left")[1]
+            if left_assignment_node ~= nil then
+              local attribute = vim.treesitter.get_node_text(left_assignment_node, bufnr)
+              table.insert(attributes, attribute)
+            end
+          end
+        end
+      end
+
+      if #attributes ~= 0 then
+        table.insert(snippets, t({ "", "", "Attributes:" }))
+        for _, attribute in ipairs(attributes) do
+          table.insert(snippets, t({ "", "\t" .. attribute .. ": " }))
+          table.insert(snippets, i(insert_snippet_idx))
+          insert_snippet_idx = insert_snippet_idx + 1
+        end
+      end
+
+      -- If at least an attribute, add a line break
+      if insert_snippet_idx ~= 1 then
+        table.insert(snippets, t({ "", "" }))
+      end
+
+      return sn(nil, snippets)
+    end),
+    t('"""'),
+  }),
   s(
     {
       trig = "__main__",
