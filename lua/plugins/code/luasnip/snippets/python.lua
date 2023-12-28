@@ -371,10 +371,10 @@ return {
         end
       end
 
-      -- Don't take into account private attributes
+      -- Don't take into account private attributes and duplicates
       local attributes_filtered = {}
       for _, attribute in ipairs(attributes) do
-        if attribute:sub(1, 1) ~= "_" then
+        if attribute:sub(1, 1) ~= "_" and not vim.tbl_contains(attributes_filtered, attribute) then
           table.insert(attributes_filtered, attribute)
         end
       end
