@@ -15,5 +15,6 @@ return {
   },
   config = function()
     vim.g.undotree_WindowLayout = 3 -- Window on the right of the screen
+    vim.g.undotree_SetFocusWhenToggle = 1
   end,
 }
