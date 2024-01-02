@@ -218,14 +218,15 @@ return {
             ["<ESC>"] = actions.close,
           },
         },
-        -- vimgrep_arguments is used for live_grep and grep_string
-        vimgrep_arguments = {
+        vimgrep_arguments = { -- for live_grep and grep_string pickers
+          -- mandatory arguments
           "rg",
-          "--color=never", -- must not be removed
-          "--no-heading", -- must not be removed
-          "--with-filename", -- must not be removed
-          "--line-number", -- must not be removed
-          "--column", -- must not be removed
+          "--color=never",
+          "--no-heading",
+          "--with-filename",
+          "--line-number",
+          "--column",
+          -- optional arguments
           "--smart-case",
           "--hidden",
         },
