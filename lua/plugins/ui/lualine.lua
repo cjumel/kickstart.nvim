@@ -99,6 +99,9 @@ return {
         {
           "filename",
           path = 1, -- Relative path
+          symbols = {
+            modified = "●", -- Text to show when the buffer is modified
+          },
         },
       },
       lualine_x = {
