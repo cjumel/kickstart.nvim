@@ -57,7 +57,14 @@ return {
       "<leader>ff",
       function()
         require("telescope.builtin").find_files({
-          find_command = { "rg", "--files" },
+          find_command = {
+            -- Default command for fd in telescope implementation
+            "fd",
+            "--type",
+            "f",
+            "--color",
+            "never",
+          },
           preview = { hide_on_startup = true },
         })
       end,
@@ -67,7 +74,18 @@ return {
       "<leader>fa",
       function()
         require("telescope.builtin").find_files({
-          find_command = { "rg", "--files", "--hidden" },
+          find_command = {
+            -- Default command for fd in telescope implementation
+            "fd",
+            "--type",
+            "f",
+            "--color",
+            "never",
+            -- Additional arguments
+            "--hidden",
+            "--exclude",
+            ".git",
+          },
           preview = { hide_on_startup = true },
         })
       end,
