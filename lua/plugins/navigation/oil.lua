@@ -3,17 +3,24 @@
 -- Enable netwrc-style file navigation in buffers.
 -- Additionally, this plugin supports editing files like editing a buffer (renaming, writing, etc.)
 
-local add_harpoon_mark_from_oil = function()
-  local entry = require("oil").get_cursor_entry()
-  if entry == nil then
-    return
-  end
-  local dir = require("oil").get_current_dir()
-  local path = dir .. entry.name
-  require("plugins.navigation.harpoon.utils.actions").add_mark(path)
-end
+local custom_actions = {}
 
-local is_hidden = function(name, _)
+-- Overwrite Harpoon keymap to add the file under the cursor in Oil buffer instead
+-- of Oil buffer itself
+custom_actions.add_harpoon_mark = {
+  desc = "Add Harpoon mark",
+  callback = function()
+    local entry = require("oil").get_cursor_entry()
+    if entry == nil then
+      return
+    end
+    local dir = require("oil").get_current_dir()
+    local path = dir .. entry.name
+    require("plugins.navigation.harpoon.utils.actions").add_mark(path)
+  end,
+}
+
+local is_hidden_file = function(name, _)
   return (name ~= "..") and vim.startswith(name, ".")
 end
 
@@ -43,8 +50,6 @@ return {
   "stevearc/oil.nvim",
   dependencies = {
     "nvim-tree/nvim-web-devicons",
-    -- The following dependencies are needed but don't need to be loaded when the plugin is loaded
-    -- "ThePrimeagen/harpoon",
   },
   -- To use oil as default file explorer, it must not be lazy loaded or with VeryLazy event
   lazy = false,
@@ -54,7 +59,7 @@ return {
       function()
         require("oil").open()
       end,
-      desc = "[-] Open parent directory",
+      desc = "Open Oil buffer",
     },
   },
   opts = {
@@ -74,14 +79,12 @@ return {
       ["H"] = "actions.toggle_hidden",
       ["R"] = "actions.refresh",
       ["?"] = "actions.show_help",
-      -- Overwrite Harpoon keymap to add the file under the cursor in Oil buffer instead
-      -- of Oil buffer itself
-      ["<leader><CR>"] = { callback = add_harpoon_mark_from_oil, desc = "Add Harpoon mark" },
+      ["<leader><CR>"] = custom_actions.add_harpoon_mark,
     },
     use_default_keymaps = false,
     view_options = {
       show_hidden = false,
-      is_hidden_file = is_hidden,
+      is_hidden_file = is_hidden_file,
       is_always_hidden = is_always_hidden,
     },
   },
