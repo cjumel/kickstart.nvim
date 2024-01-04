@@ -76,7 +76,7 @@ vim.keymap.set({ "i", "c" }, "<C-a>", "<Home>", { desc = "Move cursor to beginni
 
 -- [[ Settings keymaps ]]
 
-vim.keymap.set("n", "<leader>,c", function()
+vim.keymap.set("n", "<leader>,l", function()
   if vim.o.background == "dark" then
     vim.cmd("set background=light")
   else
@@ -84,7 +84,7 @@ vim.keymap.set("n", "<leader>,c", function()
   end
   -- For an unknown reason, this function changes the status line, so we need to reset it
   vim.o.laststatus = 3 -- Use a global status line & a thin line to separate splits
-end, { desc = "Settings: switch [C]olorscheme mode" })
+end, { desc = "Settings: toggle [L]ight theme" })
 vim.keymap.set("n", "<leader>,n", function()
   if vim.wo.number and not vim.wo.relativenumber then
     vim.wo.relativenumber = true
@@ -96,7 +96,7 @@ vim.keymap.set("n", "<leader>,n", function()
     vim.wo.relativenumber = false
   end
 end, { desc = "Settings: switch line [N]umbering mode" })
-vim.keymap.set("n", "<leader>,s", function()
+vim.keymap.set("n", "<leader>,c", function()
   if vim.wo.signcolumn == "number" then
     vim.wo.signcolumn = "yes"
   elseif vim.wo.signcolumn == "yes" then
@@ -104,6 +104,6 @@ vim.keymap.set("n", "<leader>,s", function()
   else
     vim.wo.signcolumn = "number"
   end
-end, { desc = "Settings: switch [S]ign column mode" })
+end, { desc = "Settings: switch sign [C]olumn mode" })
 
 -- vim: ts=2 sts=2 sw=2 et
