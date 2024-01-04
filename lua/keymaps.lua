@@ -86,20 +86,21 @@ vim.keymap.set("n", "<leader>,c", function()
   vim.o.laststatus = 3 -- Use a global status line & a thin line to separate splits
 end, { desc = "Settings: switch [C]olorscheme mode" })
 vim.keymap.set("n", "<leader>,n", function()
-  -- Numbering shouldn't be off, but in case it happens this is convenient to re-enable it
-  if not vim.wo.number then
-    vim.wo.number = true
+  if vim.wo.number and not vim.wo.relativenumber then
+    vim.wo.relativenumber = true
+  elseif vim.wo.number and vim.wo.relativenumber then
+    vim.wo.number = false
+    vim.wo.relativenumber = false
   else
-    if vim.wo.relativenumber then
-      vim.wo.relativenumber = false
-    else
-      vim.wo.relativenumber = true
-    end
+    vim.wo.number = true
+    vim.wo.relativenumber = false
   end
 end, { desc = "Settings: switch line [N]umbering mode" })
 vim.keymap.set("n", "<leader>,s", function()
   if vim.wo.signcolumn == "number" then
     vim.wo.signcolumn = "yes"
+  elseif vim.wo.signcolumn == "yes" then
+    vim.wo.signcolumn = "no"
   else
     vim.wo.signcolumn = "number"
   end
