@@ -212,18 +212,18 @@ return {
 
     -- Help related
     {
-      "<leader>,k",
+      "<leader>?k",
       function()
         require("telescope.builtin").keymaps()
       end,
-      desc = "Settings: [K]eymaps",
+      desc = "Help: [K]eymaps",
     },
     {
-      "<leader>,h",
+      "<leader>?t",
       function()
         require("telescope.builtin").help_tags()
       end,
-      desc = "Settings: [H]elp tags",
+      desc = "Help: [T]ags",
     },
   },
   config = function()
