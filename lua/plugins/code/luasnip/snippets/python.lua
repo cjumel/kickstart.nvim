@@ -304,25 +304,42 @@ return {
         end
       end
 
-      if type_node ~= nil then
-        local return_type = vim.treesitter.get_node_text(type_node, bufnr)
-        if return_type ~= "None" then
-          local keyword = nil
-          local yield_type_starts = { "Generator", "Iterator" }
-          for _, yield_type_start in ipairs(yield_type_starts) do
-            if return_type:sub(1, #yield_type_start) == yield_type_start then
-              keyword = "Yields"
-              break
+      -- Detect the relevant output keyword ("Returns" or "Yields") and output it, or nil when
+      -- none is found.
+      local function get_output_keyword(node)
+        if node == nil then
+          return nil
+        end
+
+        local return_type = vim.treesitter.get_node_text(node, bufnr)
+        if return_type == "None" then
+          return nil
+        end
+
+        local yield_starts_and_excludes = {
+          { "Iterator", "Iterator[None]" },
+          { "Generator", "Generator[None, None, None]" },
+        }
+        for _, yield_start_and_exclude in ipairs(yield_starts_and_excludes) do
+          local yield_start = yield_start_and_exclude[1]
+          local yield_exclude = yield_start_and_exclude[2]
+          if return_type:sub(1, #yield_start) == yield_start then
+            if return_type ~= yield_exclude then
+              return "Yields"
+            else
+              return nil
             end
           end
-          if keyword == nil then
-            keyword = "Returns"
-          end
-
-          table.insert(snippets, t({ "", "", keyword .. ":", "\t" }))
-          table.insert(snippets, i(insert_snippet_idx))
-          insert_snippet_idx = insert_snippet_idx + 1
         end
+
+        return "Returns"
+      end
+
+      local keyword = get_output_keyword(type_node)
+      if keyword ~= nil then
+        table.insert(snippets, t({ "", "", keyword .. ":", "\t" }))
+        table.insert(snippets, i(insert_snippet_idx))
+        insert_snippet_idx = insert_snippet_idx + 1
       end
 
       -- If at least an arg, return or yield is inserted, add a line break
