@@ -18,15 +18,12 @@ return {
   opts = {
     scope = {
       show_end = false, -- Don't underline the end of the scope
-      include = { -- Add treesitter nodes considered as scope by indent-blankline
+      -- Add treesitter nodes to be considered as scope by indent-blankline
+      -- To not overload this feature, only add nodes which contains actual code as they can be
+      -- arbitrary long & complex
+      include = {
         node_type = {
-          ["lua"] = {
-            "function_call",
-            "table_constructor",
-          },
-          ["python"] = {
-            "call",
-            "assignment",
+          ["*"] = {
             "if_statement",
             "for_statement",
             "while_statement",
