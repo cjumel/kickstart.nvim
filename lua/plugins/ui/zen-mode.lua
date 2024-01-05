@@ -24,10 +24,11 @@ return {
   opts = {
     window = {
       backdrop = 1, -- No difference between the background and the window
-      width = 100,
+      width = 106, -- Give some room for line numbers and column signs
       options = {
         number = false, -- Disable number column
         relativenumber = false,
+        colorcolumn = "0", -- Disable column ruler
       },
     },
     plugins = {
