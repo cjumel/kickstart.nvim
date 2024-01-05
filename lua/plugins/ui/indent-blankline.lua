@@ -15,5 +15,9 @@ return {
       desc = "Settings: toggle [S]cope highlighting",
     },
   },
-  opts = {},
+  opts = {
+    scope = {
+      show_end = false, -- Don't underline the end of the scope
+    },
+  },
 }
