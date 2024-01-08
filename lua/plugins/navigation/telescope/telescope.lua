@@ -3,16 +3,11 @@
 -- Gaze deeply into unknwn regions of your code with powerful and blazing fast fuzzy finding
 -- tools.
 
-local command_history_filter_fn = function(cmd)
-  -- Discard commands like "w", "q", "wq", "wqa", etc.
-  if string.len(cmd) < 4 then
-    return false
-  end
-  return true
-end
+local custom_actions = {}
 
+-- Overwrite Harpoon keymap to add the Telescope entry
 -- Code taken from https://gist.github.com/benlubas/09254459af633cce1b5ac12d16640f0e
-local add_harpoon_mark_from_telescope = function(tb)
+custom_actions.add_harpoon_mark = function(tb)
   local telescope_utils = require("telescope.actions.utils")
   local actions = require("telescope.actions")
 
@@ -33,6 +28,14 @@ local add_harpoon_mark_from_telescope = function(tb)
   actions.remove_selection(tb)
 end
 
+local command_history_filter_fn = function(cmd)
+  -- Discard commands like "w", "q", "wq", "wqa", etc.
+  if string.len(cmd) < 4 then
+    return false
+  end
+  return true
+end
+
 return {
   "nvim-telescope/telescope.nvim",
   dependencies = {
@@ -49,7 +52,7 @@ return {
       function()
         require("telescope.builtin").resume()
       end,
-      desc = "Resume Telescope",
+      desc = "Expand Telescope",
     },
 
     -- Find files by name
@@ -270,7 +273,7 @@ return {
             ["<C-t>"] = trouble_actions.open_with_trouble,
             ["v"] = actions.toggle_selection,
             ["t"] = trouble_actions.open_selected_with_trouble,
-            ["<leader><CR>"] = add_harpoon_mark_from_telescope,
+            ["<leader>h"] = custom_actions.add_harpoon_mark,
 
             ["<C-\\>"] = actions.which_key, -- Actually <C-m> on my setup, like "mappings"
             ["?"] = actions.which_key,

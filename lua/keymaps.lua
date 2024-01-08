@@ -32,7 +32,7 @@ vim.keymap.set({ "n", "v" }, "_", '"_', { desc = "Black hole copy register" })
 vim.keymap.set({ "n", "v" }, "Q", "@q", { desc = "Default macro register" })
 
 -- Expand a diagnostic message
-vim.keymap.set({ "n" }, "<leader>m", vim.diagnostic.open_float, { desc = "[M]ore diagnostic" })
+vim.keymap.set("n", "<leader><CR>", vim.diagnostic.open_float, { desc = "Expand diagnostic" })
 
 -- [[ Navigation keymaps ]]
 

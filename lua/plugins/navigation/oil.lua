@@ -31,7 +31,7 @@ custom_actions.preview = {
 -- Overwrite Harpoon keymap to add the file under the cursor in Oil buffer instead
 -- of Oil buffer itself
 custom_actions.add_harpoon_mark = {
-  desc = "Add Harpoon mark",
+  desc = "Hook with Harpoon",
   callback = function()
     local entry = require("oil").get_cursor_entry()
     if entry == nil then
@@ -102,7 +102,7 @@ return {
       ["H"] = "actions.toggle_hidden",
       ["R"] = "actions.refresh",
       ["?"] = "actions.show_help",
-      ["<leader><CR>"] = custom_actions.add_harpoon_mark,
+      ["<leader>h"] = custom_actions.add_harpoon_mark,
     },
     use_default_keymaps = false,
     view_options = {

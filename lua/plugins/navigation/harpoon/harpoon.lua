@@ -11,18 +11,18 @@ return {
   keys = {
     -- Harpoon file actions
     {
-      "<leader><CR>",
+      "<leader>h",
       function()
         require("plugins.navigation.harpoon.utils.actions").add_mark()
       end,
-      desc = "Add Harpoon mark",
+      desc = "[H]ook with Harpoon",
     },
     {
-      "<leader>h",
+      "<leader>m",
       function()
         require("harpoon.ui").toggle_quick_menu()
       end,
-      desc = "[H]arpoon: menu",
+      desc = "[M]enu with Harpoon",
     },
     {
       "<leader>H",
