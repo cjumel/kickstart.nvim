@@ -1,4 +1,4 @@
--- [[ Setting options ]]
+-- [[ General settings ]]
 
 -- Disable neovim intro as it appears very briefly on startup and then disappears
 vim.opt.shortmess:append({ I = true })
@@ -70,6 +70,7 @@ vim.diagnostic.config({
 })
 
 -- [[ Highlight on yank ]]
+
 local highlight_group = vim.api.nvim_create_augroup("YankHighlight", { clear = true })
 vim.api.nvim_create_autocmd("TextYankPost", {
   callback = function()

@@ -31,14 +31,19 @@ vim.keymap.set({ "n", "v" }, "+", '"+', { desc = "System copy register" })
 vim.keymap.set({ "n", "v" }, "_", '"_', { desc = "Black hole copy register" })
 vim.keymap.set({ "n", "v" }, "Q", "@q", { desc = "Default macro register" })
 
--- Diagnostics
--- They can be errors, warnings, information messages or hints
+-- Expand a diagnostic message
 vim.keymap.set({ "n" }, "<leader>m", vim.diagnostic.open_float, { desc = "[M]ore diagnostic" })
+
+-- [[ Navigation keymaps ]]
+
 local ts_repeat_move = require("nvim-treesitter.textobjects.repeatable_move")
+
+-- Dianostics can be errors, warnings, information messages or hints
 local next_diagnostic, prev_diagnostic =
   ts_repeat_move.make_repeatable_move_pair(vim.diagnostic.goto_next, vim.diagnostic.goto_prev)
 vim.keymap.set({ "n", "x", "o" }, "[d", next_diagnostic, { desc = "Next diagnostic" })
 vim.keymap.set({ "n", "x", "o" }, "]d", prev_diagnostic, { desc = "Previous diagnostic" })
+
 local next_error, prev_error = ts_repeat_move.make_repeatable_move_pair(function()
   vim.diagnostic.goto_next({ severity = vim.diagnostic.severity.ERROR })
 end, function()
@@ -75,6 +80,7 @@ vim.keymap.set({ "i", "c" }, "<C-e>", "<End>", { desc = "Move cursor to end of l
 vim.keymap.set({ "i", "c" }, "<C-a>", "<Home>", { desc = "Move cursor to beginning of line" })
 
 -- [[ Settings keymaps ]]
+-- Keymaps to dynamically change some settings in Neovim
 
 vim.keymap.set("n", "<leader>,l", function()
   if vim.o.background == "dark" then
@@ -85,6 +91,7 @@ vim.keymap.set("n", "<leader>,l", function()
   -- For an unknown reason, this function changes the status line, so we need to reset it
   vim.o.laststatus = 3 -- Use a global status line & a thin line to separate splits
 end, { desc = "Settings: toggle [L]ight theme" })
+
 vim.keymap.set("n", "<leader>,n", function()
   if vim.wo.number and not vim.wo.relativenumber then
     vim.wo.relativenumber = true
@@ -96,6 +103,7 @@ vim.keymap.set("n", "<leader>,n", function()
     vim.wo.relativenumber = false
   end
 end, { desc = "Settings: switch line [N]umbering mode" })
+
 vim.keymap.set("n", "<leader>,c", function()
   if vim.wo.signcolumn == "number" then
     vim.wo.signcolumn = "yes"
