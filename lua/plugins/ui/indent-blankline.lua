@@ -18,11 +18,8 @@ return {
   opts = {
     scope = {
       show_end = false, -- Don't underline the end of the scope
-      -- Add treesitter nodes to be considered as scope by indent-blankline
-      -- To not overload this feature, only add nodes which contains actual code as they can be
-      -- arbitrary long & complex
       include = {
-        node_type = {
+        node_type = { -- Add treesitter nodes to be considered as scope
           ["*"] = {
             "if_statement",
             "for_statement",
