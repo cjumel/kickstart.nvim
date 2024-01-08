@@ -51,12 +51,12 @@ return {
     -- Adapted from
     -- https://github.com/L3MON4D3/LuaSnip/wiki/Cool-Snippets#all---todo-commentsnvim-snippets
     f(get_comment_string_start),
-    c(1, {
-      sn(nil, { t("TODO: "), i(1) }),
-      sn(nil, { t("NOTE: "), i(1) }),
-      sn(nil, { t("BUG: "), i(1) }),
-      sn(nil, { t("FIXME: "), i(1) }),
-      sn(nil, { t("ISSUE: "), i(1) }),
+    c(1, { -- Snippet nodes below are weirdly defined to avoid being recognized as a todo-comment
+      sn(nil, { t("TODO"), t(": "), i(1) }),
+      sn(nil, { t("NOTE"), t(": "), i(1) }),
+      sn(nil, { t("BUG"), t(": "), i(1) }),
+      sn(nil, { t("FIXME"), t(": "), i(1) }),
+      sn(nil, { t("ISSUE"), t(": "), i(1) }),
     }),
     f(get_comment_string_end),
   }),
@@ -64,12 +64,12 @@ return {
     trig = "todo-comment", -- In-comment version (don't add comment strings)
     show_condition = custom_show_conds.is_in_comment * -custom_show_conds.is_in_string,
   }, {
-    c(1, {
-      sn(nil, { t("TODO: "), i(1) }),
-      sn(nil, { t("NOTE: "), i(1) }),
-      sn(nil, { t("BUG: "), i(1) }),
-      sn(nil, { t("FIXME: "), i(1) }),
-      sn(nil, { t("ISSUE: "), i(1) }),
+    c(1, { -- Snippet nodes below are weirdly defined to avoid being recognized as a todo-comment
+      sn(nil, { t("TODO"), t(": "), i(1) }),
+      sn(nil, { t("NOTE"), t(": "), i(1) }),
+      sn(nil, { t("BUG"), t(": "), i(1) }),
+      sn(nil, { t("FIXME"), t(": "), i(1) }),
+      sn(nil, { t("ISSUE"), t(": "), i(1) }),
     }),
   }),
 }
