@@ -38,6 +38,14 @@ vim.keymap.set({ "n" }, "<leader>m", vim.diagnostic.open_float, { desc = "[M]ore
 
 local ts_repeat_move = require("nvim-treesitter.textobjects.repeatable_move")
 
+local next_paragraph, prev_paragraph = ts_repeat_move.make_repeatable_move_pair(function()
+  vim.cmd("normal! }")
+end, function()
+  vim.cmd("normal! {")
+end)
+vim.keymap.set({ "n", "x", "o" }, "[p", next_paragraph, { desc = "Next paragraph" })
+vim.keymap.set({ "n", "x", "o" }, "]p", prev_paragraph, { desc = "Previous paragraph" })
+
 -- Dianostics can be errors, warnings, information messages or hints
 local next_diagnostic, prev_diagnostic =
   ts_repeat_move.make_repeatable_move_pair(vim.diagnostic.goto_next, vim.diagnostic.goto_prev)
