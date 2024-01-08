@@ -18,19 +18,18 @@ return {
       desc = "[H]ook with Harpoon",
     },
     {
+      "<leader>H",
+      function()
+        require("plugins.navigation.harpoon.utils.actions").add_mark(nil, { clear_all = true })
+      end,
+      desc = "[H]ook with Harpoon (overwrite)",
+    },
+    {
       "<leader>m",
       function()
         require("harpoon.ui").toggle_quick_menu()
       end,
       desc = "[M]enu with Harpoon",
-    },
-    {
-      "<leader>H",
-      function()
-        require("harpoon.mark").clear_all()
-        print("Harpoon files cleared")
-      end,
-      desc = "[H]arpoon: clear",
     },
 
     -- Jump to Harpoon file

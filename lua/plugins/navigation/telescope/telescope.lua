@@ -7,7 +7,7 @@ local custom_actions = {}
 
 -- Overwrite Harpoon keymap to add the Telescope entry
 -- Code taken from https://gist.github.com/benlubas/09254459af633cce1b5ac12d16640f0e
-custom_actions.add_harpoon_mark = function(tb)
+local function add_harpoon_mark(tb, opts)
   local telescope_utils = require("telescope.actions.utils")
   local actions = require("telescope.actions")
 
@@ -23,9 +23,15 @@ custom_actions.add_harpoon_mark = function(tb)
       file = selection.value
     end
 
-    require("plugins.navigation.harpoon.utils.actions").add_mark(file)
+    require("plugins.navigation.harpoon.utils.actions").add_mark(file, opts)
   end)
   actions.remove_selection(tb)
+end
+custom_actions.add_harpoon_mark = function(tb)
+  add_harpoon_mark(tb)
+end
+custom_actions.add_harpoon_mark_clear_all = function(tb)
+  add_harpoon_mark(tb, { clear_all = true })
 end
 
 local command_history_filter_fn = function(cmd)
@@ -274,6 +280,7 @@ return {
             ["v"] = actions.toggle_selection,
             ["t"] = trouble_actions.open_selected_with_trouble,
             ["<leader>h"] = custom_actions.add_harpoon_mark,
+            ["<leader>H"] = custom_actions.add_harpoon_mark_clear_all,
 
             ["<C-\\>"] = actions.which_key, -- Actually <C-m> on my setup, like "mappings"
             ["?"] = actions.which_key,

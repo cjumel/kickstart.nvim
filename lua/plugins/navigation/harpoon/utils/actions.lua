@@ -7,7 +7,14 @@ local get_index = function(item)
   return require("harpoon.mark").get_index_of(item)
 end
 
-M.add_mark = function(item)
+M.add_mark = function(item, opts)
+  opts = opts or {}
+  local clear_all = opts.clear_all or false
+
+  if clear_all then
+    require("harpoon.mark").clear_all()
+  end
+
   local idx = get_index(item)
   if idx ~= nil then
     print("File already in Harpoon mark " .. idx)
@@ -15,8 +22,13 @@ M.add_mark = function(item)
   end
 
   require("harpoon.mark").add_file(item)
+
   idx = get_index(item)
-  print("Mark " .. idx .. " added to Harpoon")
+  if clear_all then
+    print("Marks cleared and mark " .. idx .. " added to Harpoon")
+  else
+    print("Mark " .. idx .. " added to Harpoon")
+  end
 end
 
 M.go_to_mark = function(item)
