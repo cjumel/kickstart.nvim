@@ -9,6 +9,7 @@ end
 
 M.add_mark = function(item, opts)
   opts = opts or {}
+  local verbose = opts.verbose or false
   local clear_all = opts.clear_all or false
 
   if clear_all then
@@ -17,16 +18,18 @@ M.add_mark = function(item, opts)
 
   local idx = get_index(item)
   if idx ~= nil then
-    print("File already in Harpoon mark " .. idx)
+    if verbose then
+      print("File already in Harpoon mark " .. idx)
+    end
     return
   end
 
   require("harpoon.mark").add_file(item)
 
   idx = get_index(item)
-  if clear_all then
+  if clear_all and verbose then
     print("Marks cleared and mark " .. idx .. " added to Harpoon")
-  else
+  elseif verbose then
     print("Mark " .. idx .. " added to Harpoon")
   end
 end

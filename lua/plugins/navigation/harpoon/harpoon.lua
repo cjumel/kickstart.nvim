@@ -13,14 +13,17 @@ return {
     {
       "<leader>h",
       function()
-        require("plugins.navigation.harpoon.utils.actions").add_mark()
+        require("plugins.navigation.harpoon.utils.actions").add_mark(nil, { verbose = true })
       end,
       desc = "[H]ook with Harpoon",
     },
     {
       "<leader>H",
       function()
-        require("plugins.navigation.harpoon.utils.actions").add_mark(nil, { clear_all = true })
+        require("plugins.navigation.harpoon.utils.actions").add_mark(
+          nil,
+          { verbose = true, clear_all = true }
+        )
       end,
       desc = "[H]ook with Harpoon (overwrite)",
     },

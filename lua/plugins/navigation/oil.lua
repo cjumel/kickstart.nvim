@@ -42,13 +42,13 @@ end
 custom_actions.add_harpoon_mark = {
   desc = "Hook with Harpoon",
   callback = function()
-    add_harpoon_mark()
+    add_harpoon_mark({ verbose = true })
   end,
 }
 custom_actions.add_harpoon_mark_clear_all = {
   desc = "Hook with Harpoon (overwrite)",
   callback = function()
-    add_harpoon_mark({ clear_all = true })
+    add_harpoon_mark({ verbose = true, clear_all = true })
   end,
 }
 
