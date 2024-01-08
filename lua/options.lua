@@ -12,6 +12,9 @@ vim.o.laststatus = 3 -- Use a global status line & a thin line to separate split
 -- Display a column ruler after the 100th character
 vim.o.colorcolumn = "101"
 
+-- Support additional pairs of characters
+vim.o.matchpairs = vim.o.matchpairs .. ",<:>"
+
 -- Set highlight on search
 vim.o.hlsearch = false
 
