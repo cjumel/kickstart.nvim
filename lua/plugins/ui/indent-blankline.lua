@@ -20,7 +20,8 @@ return {
       show_end = false, -- Don't underline the end of the scope
       include = {
         node_type = { -- Add treesitter nodes to be considered as scope
-          ["*"] = {
+          ["python"] = {
+            -- By default, only actual variable scopes are considered: classes & functions
             "if_statement",
             "for_statement",
             "while_statement",
