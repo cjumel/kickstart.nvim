@@ -77,14 +77,38 @@ custom_actions.telescope_live_grep = {
     )
   end,
 }
+custom_actions.telescope_live_grep_unrestricted = {
+  desc = "[F]ind: by [G]rep (unrestricted)",
+  callback = function()
+    local commands_utils = require("plugins.navigation.telescope.utils.commands")
+    require("telescope.builtin").live_grep(
+      commands_utils.concatenate_opts(
+        { cwd = require("oil").get_current_dir() },
+        commands_utils.live_grep_unrestricted_opts
+      )
+    )
+  end,
+}
 custom_actions.telescope_grep_string = {
-  desc = "[F]ind: [W]ord under the cursor",
+  desc = "[F]ind: [W]ord or selection",
   callback = function()
     local commands_utils = require("plugins.navigation.telescope.utils.commands")
     require("telescope.builtin").grep_string(
       commands_utils.concatenate_opts(
         { cwd = require("oil").get_current_dir() },
         commands_utils.grep_string_opts
+      )
+    )
+  end,
+}
+custom_actions.telescope_grep_string_unrestricted = {
+  desc = "[F]ind: [W]ord or selection (unrestricted)",
+  callback = function()
+    local commands_utils = require("plugins.navigation.telescope.utils.commands")
+    require("telescope.builtin").grep_string(
+      commands_utils.concatenate_opts(
+        { cwd = require("oil").get_current_dir() },
+        commands_utils.grep_string_unrestricted_opts
       )
     )
   end,
@@ -178,7 +202,9 @@ return {
       ["<leader>fh"] = custom_actions.telescope_find_files_hidden,
       ["<leader>fa"] = custom_actions.telescope_find_files_all,
       ["<leader>fg"] = custom_actions.telescope_live_grep,
+      ["<leader>fG"] = custom_actions.telescope_live_grep_unrestricted,
       ["<leader>fw"] = custom_actions.telescope_grep_string,
+      ["<leader>fW"] = custom_actions.telescope_grep_string_unrestricted,
 
       ["<leader>h"] = custom_actions.add_harpoon_mark,
       ["<leader>H"] = custom_actions.add_harpoon_mark_clear_all,

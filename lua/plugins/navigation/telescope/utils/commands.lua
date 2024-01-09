@@ -53,6 +53,8 @@ M.find_files_all_opts = {
 }
 
 M.live_grep_opts = {}
+M.live_grep_unrestricted_opts = { additional_args = { "-uu" } }
 M.grep_string_opts = {}
+M.grep_string_unrestricted_opts = { additional_args = { "-uu" } }
 
 return M

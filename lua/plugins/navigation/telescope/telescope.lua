@@ -122,13 +122,30 @@ return {
       desc = "[F]ind: by [G]rep",
     },
     {
+      "<leader>fG",
+      function()
+        local commands_utils = require("plugins.navigation.telescope.utils.commands")
+        require("telescope.builtin").live_grep(commands_utils.live_grep_unrestricted_opts)
+      end,
+      desc = "[F]ind: by [G]rep (unrestricted)",
+    },
+    {
       "<leader>fw",
       function()
         local commands_utils = require("plugins.navigation.telescope.utils.commands")
         require("telescope.builtin").grep_string(commands_utils.grep_string_opts)
       end,
       mode = { "n", "v" },
-      desc = "[F]ind: [W]ord under the cursor",
+      desc = "[F]ind: [W]ord or selection",
+    },
+    {
+      "<leader>fW",
+      function()
+        local commands_utils = require("plugins.navigation.telescope.utils.commands")
+        require("telescope.builtin").grep_string(commands_utils.grep_string_unrestricted_opts)
+      end,
+      mode = { "n", "v" },
+      desc = "[F]ind: [W]ord or selection (unrestricted)",
     },
 
     -- Vim- or Neovim-related
