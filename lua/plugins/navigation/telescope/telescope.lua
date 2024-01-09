@@ -58,7 +58,7 @@ return {
       function()
         require("telescope.builtin").resume()
       end,
-      desc = "Expand Telescope",
+      desc = "Resume Telescope",
     },
 
     -- Find files by name
