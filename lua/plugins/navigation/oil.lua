@@ -28,7 +28,85 @@ custom_actions.preview = {
   end,
 }
 
--- Overwrite Harpoon keymap to add the file under the cursor in Oil buffer instead
+-- Overwrite Telescope keymaps to search in the current directory when in Oil buffer
+custom_actions.telescope_find_files = {
+  desc = "[F]ind: [F]iles",
+  callback = function()
+    require("telescope.builtin").find_files({
+      cwd = require("oil").get_current_dir(),
+      find_command = {
+        -- Default command for fd in telescope implementation
+        "fd",
+        "--type",
+        "f",
+        "--color",
+        "never",
+      },
+      preview = { hide_on_startup = true },
+    })
+  end,
+}
+custom_actions.telescope_find_files_hidden = {
+  desc = "[F]ind: files including [H]idden",
+  callback = function()
+    require("telescope.builtin").find_files({
+      cwd = require("oil").get_current_dir(),
+      find_command = {
+        -- Default command for fd in telescope implementation
+        "fd",
+        "--type",
+        "f",
+        "--color",
+        "never",
+        -- Additional arguments
+        "--hidden",
+        "--exclude",
+        ".git",
+      },
+      preview = { hide_on_startup = true },
+    })
+  end,
+}
+custom_actions.telescope_find_files_all = {
+  desc = "[F]ind: [A]ll files",
+  callback = function()
+    require("telescope.builtin").find_files({
+      cwd = require("oil").get_current_dir(),
+      find_command = {
+        -- Default command for fd in telescope implementation
+        "fd",
+        "--type",
+        "f",
+        "--color",
+        "never",
+        -- Additional arguments
+        "--hidden",
+        "--no-ignore",
+        "--exclude",
+        ".git",
+      },
+      preview = { hide_on_startup = true },
+    })
+  end,
+}
+custom_actions.telescope_live_grep = {
+  desc = "[F]ind: by [G]rep",
+  callback = function()
+    require("telescope.builtin").live_grep({
+      cwd = require("oil").get_current_dir(),
+    })
+  end,
+}
+custom_actions.telescope_grep_string = {
+  desc = "[F]ind: [W]ord under the cursor",
+  callback = function()
+    require("telescope.builtin").grep_string({
+      cwd = require("oil").get_current_dir(),
+    })
+  end,
+}
+
+-- Overwrite Harpoon keymaps to add the file under the cursor in Oil buffer instead
 -- of Oil buffer itself
 local function add_harpoon_mark(opts)
   local entry = require("oil").get_cursor_entry()
@@ -111,6 +189,13 @@ return {
       ["H"] = "actions.toggle_hidden",
       ["R"] = "actions.refresh",
       ["?"] = "actions.show_help",
+
+      ["<leader>ff"] = custom_actions.telescope_find_files,
+      ["<leader>fh"] = custom_actions.telescope_find_files_hidden,
+      ["<leader>fa"] = custom_actions.telescope_find_files_all,
+      ["<leader>fg"] = custom_actions.telescope_live_grep,
+      ["<leader>fw"] = custom_actions.telescope_grep_string,
+
       ["<leader>h"] = custom_actions.add_harpoon_mark,
       ["<leader>H"] = custom_actions.add_harpoon_mark_clear_all,
     },
