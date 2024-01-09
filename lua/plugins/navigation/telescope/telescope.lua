@@ -101,27 +101,6 @@ return {
       desc = "[F]ind: files including [H]idden",
     },
     {
-      "<leader>fi",
-      function()
-        require("telescope.builtin").find_files({
-          find_command = {
-            -- Default command for fd in telescope implementation
-            "fd",
-            "--type",
-            "f",
-            "--color",
-            "never",
-            -- Additional arguments
-            "--no-ignore",
-            "--exclude",
-            ".git",
-          },
-          preview = { hide_on_startup = true },
-        })
-      end,
-      desc = "[F]ind: files including [I]gnored",
-    },
-    {
       "<leader>fa",
       function()
         require("telescope.builtin").find_files({
