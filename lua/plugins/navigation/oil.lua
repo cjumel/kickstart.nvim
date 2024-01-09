@@ -32,77 +32,61 @@ custom_actions.preview = {
 custom_actions.telescope_find_files = {
   desc = "[F]ind: [F]iles",
   callback = function()
-    require("telescope.builtin").find_files({
-      cwd = require("oil").get_current_dir(),
-      find_command = {
-        -- Default command for fd in telescope implementation
-        "fd",
-        "--type",
-        "f",
-        "--color",
-        "never",
-      },
-      preview = { hide_on_startup = true },
-    })
+    local commands_utils = require("plugins.navigation.telescope.utils.commands")
+    require("telescope.builtin").find_files(
+      commands_utils.concatenate_opts(
+        { cwd = require("oil").get_current_dir() },
+        commands_utils.find_files_opts
+      )
+    )
   end,
 }
 custom_actions.telescope_find_files_hidden = {
   desc = "[F]ind: files including [H]idden",
   callback = function()
-    require("telescope.builtin").find_files({
-      cwd = require("oil").get_current_dir(),
-      find_command = {
-        -- Default command for fd in telescope implementation
-        "fd",
-        "--type",
-        "f",
-        "--color",
-        "never",
-        -- Additional arguments
-        "--hidden",
-        "--exclude",
-        ".git",
-      },
-      preview = { hide_on_startup = true },
-    })
+    local commands_utils = require("plugins.navigation.telescope.utils.commands")
+    require("telescope.builtin").find_files(
+      commands_utils.concatenate_opts(
+        { cwd = require("oil").get_current_dir() },
+        commands_utils.find_files_hidden_opts
+      )
+    )
   end,
 }
 custom_actions.telescope_find_files_all = {
   desc = "[F]ind: [A]ll files",
   callback = function()
-    require("telescope.builtin").find_files({
-      cwd = require("oil").get_current_dir(),
-      find_command = {
-        -- Default command for fd in telescope implementation
-        "fd",
-        "--type",
-        "f",
-        "--color",
-        "never",
-        -- Additional arguments
-        "--hidden",
-        "--no-ignore",
-        "--exclude",
-        ".git",
-      },
-      preview = { hide_on_startup = true },
-    })
+    local commands_utils = require("plugins.navigation.telescope.utils.commands")
+    require("telescope.builtin").find_files(
+      commands_utils.concatenate_opts(
+        { cwd = require("oil").get_current_dir() },
+        commands_utils.find_files_all_opts
+      )
+    )
   end,
 }
 custom_actions.telescope_live_grep = {
   desc = "[F]ind: by [G]rep",
   callback = function()
-    require("telescope.builtin").live_grep({
-      cwd = require("oil").get_current_dir(),
-    })
+    local commands_utils = require("plugins.navigation.telescope.utils.commands")
+    require("telescope.builtin").live_grep(
+      commands_utils.concatenate_opts(
+        { cwd = require("oil").get_current_dir() },
+        commands_utils.live_grep_opts
+      )
+    )
   end,
 }
 custom_actions.telescope_grep_string = {
   desc = "[F]ind: [W]ord under the cursor",
   callback = function()
-    require("telescope.builtin").grep_string({
-      cwd = require("oil").get_current_dir(),
-    })
+    local commands_utils = require("plugins.navigation.telescope.utils.commands")
+    require("telescope.builtin").grep_string(
+      commands_utils.concatenate_opts(
+        { cwd = require("oil").get_current_dir() },
+        commands_utils.grep_string_opts
+      )
+    )
   end,
 }
 

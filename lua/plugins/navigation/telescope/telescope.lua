@@ -74,60 +74,24 @@ return {
     {
       "<leader>ff",
       function()
-        require("telescope.builtin").find_files({
-          find_command = {
-            -- Default command for fd in telescope implementation
-            "fd",
-            "--type",
-            "f",
-            "--color",
-            "never",
-          },
-          preview = { hide_on_startup = true },
-        })
+        local commands_utils = require("plugins.navigation.telescope.utils.commands")
+        require("telescope.builtin").find_files(commands_utils.find_files_opts)
       end,
       desc = "[F]ind: [F]iles",
     },
     {
       "<leader>fh",
       function()
-        require("telescope.builtin").find_files({
-          find_command = {
-            -- Default command for fd in telescope implementation
-            "fd",
-            "--type",
-            "f",
-            "--color",
-            "never",
-            -- Additional arguments
-            "--hidden",
-            "--exclude",
-            ".git",
-          },
-          preview = { hide_on_startup = true },
-        })
+        local commands_utils = require("plugins.navigation.telescope.utils.commands")
+        require("telescope.builtin").find_files(commands_utils.find_files_hidden_opts)
       end,
       desc = "[F]ind: files including [H]idden",
     },
     {
       "<leader>fa",
       function()
-        require("telescope.builtin").find_files({
-          find_command = {
-            -- Default command for fd in telescope implementation
-            "fd",
-            "--type",
-            "f",
-            "--color",
-            "never",
-            -- Additional arguments
-            "--hidden",
-            "--no-ignore",
-            "--exclude",
-            ".git",
-          },
-          preview = { hide_on_startup = true },
-        })
+        local commands_utils = require("plugins.navigation.telescope.utils.commands")
+        require("telescope.builtin").find_files(commands_utils.find_files_all_opts)
       end,
       desc = "[F]ind: [A]ll files",
     },
@@ -152,14 +116,16 @@ return {
     {
       "<leader>fg",
       function()
-        require("telescope.builtin").live_grep()
+        local commands_utils = require("plugins.navigation.telescope.utils.commands")
+        require("telescope.builtin").live_grep(commands_utils.live_grep_opts)
       end,
       desc = "[F]ind: by [G]rep",
     },
     {
       "<leader>fw",
       function()
-        require("telescope.builtin").grep_string()
+        local commands_utils = require("plugins.navigation.telescope.utils.commands")
+        require("telescope.builtin").grep_string(commands_utils.grep_string_opts)
       end,
       mode = { "n", "v" },
       desc = "[F]ind: [W]ord under the cursor",
