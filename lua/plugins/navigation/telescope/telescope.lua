@@ -135,8 +135,16 @@ return {
         local commands_utils = require("plugins.navigation.telescope.utils.commands")
         require("telescope.builtin").grep_string(commands_utils.grep_string_opts)
       end,
-      mode = { "n", "v" },
-      desc = "[F]ind: [W]ord or selection",
+      desc = "[F]ind: [W]ord",
+    },
+    {
+      "<leader>f",
+      function()
+        local commands_utils = require("plugins.navigation.telescope.utils.commands")
+        require("telescope.builtin").grep_string(commands_utils.grep_string_opts)
+      end,
+      mode = { "v" },
+      desc = "[F]ind selection",
     },
     {
       "<leader>fW",
@@ -144,8 +152,16 @@ return {
         local commands_utils = require("plugins.navigation.telescope.utils.commands")
         require("telescope.builtin").grep_string(commands_utils.grep_string_unrestricted_opts)
       end,
-      mode = { "n", "v" },
-      desc = "[F]ind: [W]ord or selection (unrestricted)",
+      desc = "[F]ind: [W]ord (unrestricted)",
+    },
+    {
+      "<leader>F",
+      function()
+        local commands_utils = require("plugins.navigation.telescope.utils.commands")
+        require("telescope.builtin").grep_string(commands_utils.grep_string_unrestricted_opts)
+      end,
+      mode = { "v" },
+      desc = "[F]ind selection (unrestricted)",
     },
 
     -- Vim- or Neovim-related

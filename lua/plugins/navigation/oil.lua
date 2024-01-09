@@ -31,6 +31,7 @@ custom_actions.preview = {
 -- Overwrite Telescope keymaps to search in the current directory when in Oil buffer
 custom_actions.telescope_find_files = {
   desc = "[F]ind: [F]iles",
+  mode = "n",
   callback = function()
     local commands_utils = require("plugins.navigation.telescope.utils.commands")
     require("telescope.builtin").find_files(
@@ -43,6 +44,7 @@ custom_actions.telescope_find_files = {
 }
 custom_actions.telescope_find_files_hidden = {
   desc = "[F]ind: files including [H]idden",
+  mode = "n",
   callback = function()
     local commands_utils = require("plugins.navigation.telescope.utils.commands")
     require("telescope.builtin").find_files(
@@ -55,6 +57,7 @@ custom_actions.telescope_find_files_hidden = {
 }
 custom_actions.telescope_find_files_all = {
   desc = "[F]ind: [A]ll files",
+  mode = "n",
   callback = function()
     local commands_utils = require("plugins.navigation.telescope.utils.commands")
     require("telescope.builtin").find_files(
@@ -67,6 +70,7 @@ custom_actions.telescope_find_files_all = {
 }
 custom_actions.telescope_live_grep = {
   desc = "[F]ind: by [G]rep",
+  mode = "n",
   callback = function()
     local commands_utils = require("plugins.navigation.telescope.utils.commands")
     require("telescope.builtin").live_grep(
@@ -79,6 +83,7 @@ custom_actions.telescope_live_grep = {
 }
 custom_actions.telescope_live_grep_unrestricted = {
   desc = "[F]ind: by [G]rep (unrestricted)",
+  mode = "n",
   callback = function()
     local commands_utils = require("plugins.navigation.telescope.utils.commands")
     require("telescope.builtin").live_grep(
@@ -89,29 +94,43 @@ custom_actions.telescope_live_grep_unrestricted = {
     )
   end,
 }
+local function telescope_grep_string_callback()
+  local commands_utils = require("plugins.navigation.telescope.utils.commands")
+  require("telescope.builtin").grep_string(
+    commands_utils.concatenate_opts(
+      { cwd = require("oil").get_current_dir() },
+      commands_utils.grep_string_opts
+    )
+  )
+end
 custom_actions.telescope_grep_string = {
-  desc = "[F]ind: [W]ord or selection",
-  callback = function()
-    local commands_utils = require("plugins.navigation.telescope.utils.commands")
-    require("telescope.builtin").grep_string(
-      commands_utils.concatenate_opts(
-        { cwd = require("oil").get_current_dir() },
-        commands_utils.grep_string_opts
-      )
-    )
-  end,
+  desc = "[F]ind: [W]ord",
+  mode = "n",
+  callback = telescope_grep_string_callback,
 }
-custom_actions.telescope_grep_string_unrestricted = {
-  desc = "[F]ind: [W]ord or selection (unrestricted)",
-  callback = function()
-    local commands_utils = require("plugins.navigation.telescope.utils.commands")
-    require("telescope.builtin").grep_string(
-      commands_utils.concatenate_opts(
-        { cwd = require("oil").get_current_dir() },
-        commands_utils.grep_string_unrestricted_opts
-      )
+custom_actions.telescope_grep_string_visual = {
+  desc = "[F]ind selection",
+  mode = "v",
+  callback = telescope_grep_string_callback,
+}
+local function telescope_grep_string_unrestricted_callback()
+  local commands_utils = require("plugins.navigation.telescope.utils.commands")
+  require("telescope.builtin").grep_string(
+    commands_utils.concatenate_opts(
+      { cwd = require("oil").get_current_dir() },
+      commands_utils.grep_string_unrestricted_opts
     )
-  end,
+  )
+end
+custom_actions.telescope_grep_string_unrestricted = {
+  desc = "[F]ind: [W]ord (unrestricted)",
+  mode = "n",
+  callback = telescope_grep_string_unrestricted_callback,
+}
+custom_actions.telescope_grep_string_unrestricted_visual = {
+  desc = "[F]ind selection (unrestricted)",
+  mode = "v",
+  callback = telescope_grep_string_unrestricted_callback,
 }
 
 -- Overwrite Harpoon keymaps to add the file under the cursor in Oil buffer instead
@@ -204,7 +223,9 @@ return {
       ["<leader>fg"] = custom_actions.telescope_live_grep,
       ["<leader>fG"] = custom_actions.telescope_live_grep_unrestricted,
       ["<leader>fw"] = custom_actions.telescope_grep_string,
+      ["<leader>f"] = custom_actions.telescope_grep_string_visual,
       ["<leader>fW"] = custom_actions.telescope_grep_string_unrestricted,
+      ["<leader>F"] = custom_actions.telescope_grep_string_unrestricted_visual,
 
       ["<leader>h"] = custom_actions.add_harpoon_mark,
       ["<leader>H"] = custom_actions.add_harpoon_mark_clear_all,
