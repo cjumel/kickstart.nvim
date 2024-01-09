@@ -5,6 +5,16 @@
 
 local custom_actions = {}
 
+-- Define custom actions for Trouble to make it lazy-loaded
+custom_actions.open_with_trouble = function(prompt_bufnr, _mode)
+  local trouble_actions = require("trouble.providers.telescope")
+  trouble_actions.open_with_trouble(prompt_bufnr, _mode)
+end
+custom_actions.open_selected_with_trouble = function(prompt_bufnr, _mode)
+  local trouble_actions = require("trouble.providers.telescope")
+  trouble_actions.open_selected_with_trouble(prompt_bufnr, _mode)
+end
+
 -- Overwrite Harpoon keymap to add the Telescope entry
 -- Code taken from https://gist.github.com/benlubas/09254459af633cce1b5ac12d16640f0e
 local function add_harpoon_mark(tb, opts)
@@ -49,7 +59,6 @@ return {
     "nvim-tree/nvim-web-devicons",
     "nvim-telescope/telescope-fzf-native.nvim",
     "nvim-treesitter/nvim-treesitter",
-    "folke/trouble.nvim",
   },
   keys = {
     -- General
@@ -217,7 +226,6 @@ return {
   config = function()
     local actions = require("telescope.actions")
     local layout_actions = require("telescope.actions.layout")
-    local trouble_actions = require("trouble.providers.telescope")
 
     require("telescope").setup({
       defaults = {
@@ -231,7 +239,8 @@ return {
 
             ["<C-x>"] = actions.select_horizontal,
             ["<C-v>"] = actions.select_vertical,
-            ["<C-t>"] = trouble_actions.open_with_trouble,
+
+            ["<C-t>"] = custom_actions.open_with_trouble,
 
             ["<C-\\>"] = actions.which_key, -- Actually <C-m> on my setup, like "mappings"
 
@@ -255,9 +264,12 @@ return {
 
             ["<C-x>"] = actions.select_horizontal,
             ["<C-v>"] = actions.select_vertical,
-            ["<C-t>"] = trouble_actions.open_with_trouble,
+
             ["v"] = actions.toggle_selection,
-            ["t"] = trouble_actions.open_selected_with_trouble,
+
+            ["<C-t>"] = custom_actions.open_with_trouble,
+            ["t"] = custom_actions.open_selected_with_trouble,
+
             ["<leader>h"] = custom_actions.add_harpoon_mark,
             ["<leader>H"] = custom_actions.add_harpoon_mark_clear_all,
 
