@@ -25,6 +25,7 @@ return {
       topdelete = { text = "‾" },
       changedelete = { text = "~" },
     },
+    sign_priority = 6, -- Default value
     on_attach = function(bufnr)
       local gs = package.loaded.gitsigns
       local function map(mode, l, r, opts)

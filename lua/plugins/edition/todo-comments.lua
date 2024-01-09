@@ -21,7 +21,7 @@ return {
     },
   },
   opts = {
-    sign_priority = 1, -- Low sign priority to not override other signs
+    sign_priority = 7, -- Just above gitsigns
     keywords = {
       TODO = { icon = " ", color = "info" },
       NOTE = { icon = " ", color = "hint" },
