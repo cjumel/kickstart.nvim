@@ -18,7 +18,7 @@ return {
 
         require("zen-mode").toggle()
       end,
-      desc = "[Z]en mode",
+      desc = "[Z]en mode: toggle",
     },
   },
   opts = {
@@ -32,7 +32,8 @@ return {
       },
     },
     plugins = {
-      tmux = { enabled = true }, -- Disable Tmux status line
+      twilight = { enabled = false }, -- Don't enable Twilight when entering zen mode
+      tmux = { enabled = true }, -- Disable Tmux status line when entering zen mode
     },
   },
 }
