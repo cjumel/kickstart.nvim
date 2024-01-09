@@ -10,6 +10,16 @@ return {
     "nvim-treesitter/nvim-treesitter",
   },
   event = { "BufNewFile", "BufReadPre" },
+  keys = {
+    {
+      "<leader>xt",
+      function()
+        -- Todo-comments adds a "todo" source to trouble
+        require("trouble").toggle("todo")
+      end,
+      desc = "Trouble: [T]odo list",
+    },
+  },
   opts = {
     sign_priority = 1, -- Low sign priority to not override other signs
     keywords = {
