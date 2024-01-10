@@ -9,7 +9,7 @@ local t = ls.text_node
 local fmt = require("luasnip.extras.fmt").fmt
 
 local show_conds = require("luasnip.extras.conditions.show")
-local custom_show_conds = require("plugins.code.luasnip.utils.show_conds")
+local custom_show_conds = require("plugins.code.luasnip.show_conds")
 
 return {
   s({
