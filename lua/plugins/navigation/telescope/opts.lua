@@ -1,26 +1,6 @@
+local utils = require("utils")
+
 local M = {}
-
-M.concatenate_opts = function(opts_1, opts_2)
-  local result = {}
-  for k, v in pairs(opts_1) do
-    result[k] = v
-  end
-  for k, v in pairs(opts_2) do
-    result[k] = v
-  end
-  return result
-end
-
-local function concatenate_arrays(table_1, table_2)
-  local result = {}
-  for _, value in ipairs(table_1) do
-    table.insert(result, value)
-  end
-  for _, value in ipairs(table_2) do
-    table.insert(result, value)
-  end
-  return result
-end
 
 M.dropdown = {
   previewer = false,
@@ -42,7 +22,7 @@ M.find_files = {
   preview = { hide_on_startup = true },
 }
 M.find_files_hidden = {
-  find_command = concatenate_arrays(default_find_command, {
+  find_command = utils.table.concat_arrays(default_find_command, {
     "--hidden",
     "--exclude",
     ".git",
@@ -50,7 +30,7 @@ M.find_files_hidden = {
   preview = { hide_on_startup = true },
 }
 M.find_files_all = {
-  find_command = concatenate_arrays(default_find_command, {
+  find_command = utils.table.concat_arrays(default_find_command, {
     "--hidden",
     "--exclude",
     ".git",

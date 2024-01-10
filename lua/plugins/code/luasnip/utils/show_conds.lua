@@ -3,6 +3,8 @@
 
 local cond_obj = require("luasnip.extras.conditions")
 
+local utils = require("utils")
+
 local M = {}
 
 -- A matched trigger is considered to be everything after the last white space or punctuation mark
@@ -24,17 +26,6 @@ local function get_treesitter_node(line_to_cursor)
   return vim.treesitter.get_node({
     pos = { row - 1, col - #matched_trigger - 1 },
   })
-end
-
-local function concatenate_tables(table_1, table_2)
-  local result = {}
-  for _, value in ipairs(table_1) do
-    table.insert(result, value)
-  end
-  for _, value in ipairs(table_2) do
-    table.insert(result, value)
-  end
-  return result
 end
 
 local treesitter_node_type_class = {
@@ -95,7 +86,7 @@ M.is_in_string = cond_obj.make_condition(is_in_string)
 -- Condition determining wether a snippet is in actual code or not, using treesitter.
 local function is_in_code(line_to_cursor)
   local treesitter_node_types_comment_and_string =
-    concatenate_tables(treesitter_node_types_comment, treesitter_node_types_string)
+    utils.table.concat_arrays(treesitter_node_types_comment, treesitter_node_types_string)
   return tresitter_check_node_type(line_to_cursor, false, treesitter_node_types_comment_and_string)
 end
 M.is_in_code = cond_obj.make_condition(is_in_code)
