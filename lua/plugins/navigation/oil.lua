@@ -4,6 +4,7 @@
 -- Additionally, this plugin supports editing files like editing a buffer (renaming, writing, etc.)
 
 local harpoon_mark = require("plugins.navigation.harpoon.mark")
+local telescope_opts = require("plugins.navigation.telescope.opts")
 
 local custom_actions = {}
 
@@ -35,11 +36,10 @@ custom_actions.telescope_find_files = {
   desc = "[F]ind: [F]iles",
   mode = "n",
   callback = function()
-    local commands_utils = require("plugins.navigation.telescope.utils.commands")
     require("telescope.builtin").find_files(
-      commands_utils.concatenate_opts(
+      telescope_opts.concatenate_opts(
         { cwd = require("oil").get_current_dir() },
-        commands_utils.find_files_opts
+        telescope_opts.find_files
       )
     )
   end,
@@ -48,11 +48,10 @@ custom_actions.telescope_find_files_hidden = {
   desc = "[F]ind: files including [H]idden",
   mode = "n",
   callback = function()
-    local commands_utils = require("plugins.navigation.telescope.utils.commands")
     require("telescope.builtin").find_files(
-      commands_utils.concatenate_opts(
+      telescope_opts.concatenate_opts(
         { cwd = require("oil").get_current_dir() },
-        commands_utils.find_files_hidden_opts
+        telescope_opts.find_files_hidden
       )
     )
   end,
@@ -61,11 +60,10 @@ custom_actions.telescope_find_files_all = {
   desc = "[F]ind: [A]ll files",
   mode = "n",
   callback = function()
-    local commands_utils = require("plugins.navigation.telescope.utils.commands")
     require("telescope.builtin").find_files(
-      commands_utils.concatenate_opts(
+      telescope_opts.concatenate_opts(
         { cwd = require("oil").get_current_dir() },
-        commands_utils.find_files_all_opts
+        telescope_opts.find_files_all
       )
     )
   end,
@@ -74,11 +72,10 @@ custom_actions.telescope_live_grep = {
   desc = "[F]ind: by [G]rep",
   mode = "n",
   callback = function()
-    local commands_utils = require("plugins.navigation.telescope.utils.commands")
     require("telescope.builtin").live_grep(
-      commands_utils.concatenate_opts(
+      telescope_opts.concatenate_opts(
         { cwd = require("oil").get_current_dir() },
-        commands_utils.live_grep_opts
+        telescope_opts.live_grep
       )
     )
   end,
@@ -87,21 +84,19 @@ custom_actions.telescope_live_grep_unrestricted = {
   desc = "[F]ind: by [G]rep (unrestricted)",
   mode = "n",
   callback = function()
-    local commands_utils = require("plugins.navigation.telescope.utils.commands")
     require("telescope.builtin").live_grep(
-      commands_utils.concatenate_opts(
+      telescope_opts.concatenate_opts(
         { cwd = require("oil").get_current_dir() },
-        commands_utils.live_grep_unrestricted_opts
+        telescope_opts.live_grep_unrestricted
       )
     )
   end,
 }
 local function telescope_grep_string_callback()
-  local commands_utils = require("plugins.navigation.telescope.utils.commands")
   require("telescope.builtin").grep_string(
-    commands_utils.concatenate_opts(
+    telescope_opts.concatenate_opts(
       { cwd = require("oil").get_current_dir() },
-      commands_utils.grep_string_opts
+      telescope_opts.grep_string
     )
   )
 end
@@ -116,11 +111,10 @@ custom_actions.telescope_grep_string_visual = {
   callback = telescope_grep_string_callback,
 }
 local function telescope_grep_string_unrestricted_callback()
-  local commands_utils = require("plugins.navigation.telescope.utils.commands")
   require("telescope.builtin").grep_string(
-    commands_utils.concatenate_opts(
+    telescope_opts.concatenate_opts(
       { cwd = require("oil").get_current_dir() },
-      commands_utils.grep_string_unrestricted_opts
+      telescope_opts.grep_string_unrestricted
     )
   )
 end

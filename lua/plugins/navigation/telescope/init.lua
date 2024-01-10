@@ -4,6 +4,7 @@
 -- tools.
 
 local harpoon_mark = require("plugins.navigation.harpoon.mark")
+local telescope_opts = require("plugins.navigation.telescope.opts")
 
 local custom_actions = {}
 
@@ -85,24 +86,21 @@ return {
     {
       "<leader>ff",
       function()
-        local commands_utils = require("plugins.navigation.telescope.utils.commands")
-        require("telescope.builtin").find_files(commands_utils.find_files_opts)
+        require("telescope.builtin").find_files(telescope_opts.find_files)
       end,
       desc = "[F]ind: [F]iles",
     },
     {
       "<leader>fh",
       function()
-        local commands_utils = require("plugins.navigation.telescope.utils.commands")
-        require("telescope.builtin").find_files(commands_utils.find_files_hidden_opts)
+        require("telescope.builtin").find_files(telescope_opts.find_files_hidden)
       end,
       desc = "[F]ind: files including [H]idden",
     },
     {
       "<leader>fa",
       function()
-        local commands_utils = require("plugins.navigation.telescope.utils.commands")
-        require("telescope.builtin").find_files(commands_utils.find_files_all_opts)
+        require("telescope.builtin").find_files(telescope_opts.find_files_all)
       end,
       desc = "[F]ind: [A]ll files",
     },
@@ -127,32 +125,28 @@ return {
     {
       "<leader>fg",
       function()
-        local commands_utils = require("plugins.navigation.telescope.utils.commands")
-        require("telescope.builtin").live_grep(commands_utils.live_grep_opts)
+        require("telescope.builtin").live_grep(telescope_opts.live_grep)
       end,
       desc = "[F]ind: by [G]rep",
     },
     {
       "<leader>fG",
       function()
-        local commands_utils = require("plugins.navigation.telescope.utils.commands")
-        require("telescope.builtin").live_grep(commands_utils.live_grep_unrestricted_opts)
+        require("telescope.builtin").live_grep(telescope_opts.live_grep_unrestricted)
       end,
       desc = "[F]ind: by [G]rep (unrestricted)",
     },
     {
       "<leader>fw",
       function()
-        local commands_utils = require("plugins.navigation.telescope.utils.commands")
-        require("telescope.builtin").grep_string(commands_utils.grep_string_opts)
+        require("telescope.builtin").grep_string(telescope_opts.grep_string)
       end,
       desc = "[F]ind: [W]ord",
     },
     {
       "<leader>f",
       function()
-        local commands_utils = require("plugins.navigation.telescope.utils.commands")
-        require("telescope.builtin").grep_string(commands_utils.grep_string_opts)
+        require("telescope.builtin").grep_string(telescope_opts.grep_string)
       end,
       mode = { "v" },
       desc = "[F]ind selection",
@@ -160,16 +154,14 @@ return {
     {
       "<leader>fW",
       function()
-        local commands_utils = require("plugins.navigation.telescope.utils.commands")
-        require("telescope.builtin").grep_string(commands_utils.grep_string_unrestricted_opts)
+        require("telescope.builtin").grep_string(telescope_opts.grep_string_unrestricted)
       end,
       desc = "[F]ind: [W]ord (unrestricted)",
     },
     {
       "<leader>F",
       function()
-        local commands_utils = require("plugins.navigation.telescope.utils.commands")
-        require("telescope.builtin").grep_string(commands_utils.grep_string_unrestricted_opts)
+        require("telescope.builtin").grep_string(telescope_opts.grep_string_unrestricted)
       end,
       mode = { "v" },
       desc = "[F]ind selection (unrestricted)",
@@ -179,7 +171,7 @@ return {
     {
       "<leader>:",
       function()
-        local opts = require("plugins.navigation.telescope.utils.themes").get_dropdown()
+        local opts = require("telescope.themes").get_dropdown(telescope_opts.dropdown)
         opts.filter_fn = command_history_filter_fn
         require("telescope.builtin").command_history(opts)
       end,
@@ -188,7 +180,7 @@ return {
     {
       "<leader>/",
       function()
-        local opts = require("plugins.navigation.telescope.utils.themes").get_dropdown()
+        local opts = require("telescope.themes").get_dropdown(telescope_opts.dropdown)
         require("telescope.builtin").search_history(opts)
       end,
       desc = "Search history",
