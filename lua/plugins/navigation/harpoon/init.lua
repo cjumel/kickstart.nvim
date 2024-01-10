@@ -3,6 +3,8 @@
 -- Enable harpooning files. Harpooned files can be accessed from anywhere and at all time
 -- with a simple command.
 
+local harpoon_mark = require("plugins.navigation.harpoon.mark")
+
 return {
   "ThePrimeagen/harpoon",
   dependencies = {
@@ -13,17 +15,14 @@ return {
     {
       "<leader>h",
       function()
-        require("plugins.navigation.harpoon.mark").add_mark(nil, { verbose = true })
+        harpoon_mark.add(nil, { verbose = true })
       end,
       desc = "[H]ook with Harpoon",
     },
     {
       "<leader>H",
       function()
-        require("plugins.navigation.harpoon.mark").add_mark(
-          nil,
-          { verbose = true, clear_all = true }
-        )
+        harpoon_mark.add(nil, { verbose = true, clear_all = true })
       end,
       desc = "[H]ook with Harpoon (overwrite)",
     },
@@ -39,35 +38,35 @@ return {
     {
       "gh",
       function()
-        require("plugins.navigation.harpoon.mark").go_to_mark(1)
+        harpoon_mark.go_to(1)
       end,
       desc = "Go to Harpoon file 1",
     },
     {
       "gj",
       function()
-        require("plugins.navigation.harpoon.mark").go_to_mark(2)
+        harpoon_mark.go_to(2)
       end,
       desc = "Go to Harpoon file 2",
     },
     {
       "gk",
       function()
-        require("plugins.navigation.harpoon.mark").go_to_mark(3)
+        harpoon_mark.go_to(3)
       end,
       desc = "Go to Harpoon file 3",
     },
     {
       "gl",
       function()
-        require("plugins.navigation.harpoon.mark").go_to_mark(4)
+        harpoon_mark.go_to(4)
       end,
       desc = "Go to Harpoon file 4",
     },
     {
       "gm",
       function()
-        require("plugins.navigation.harpoon.mark").go_to_mark(5)
+        harpoon_mark.go_to(5)
       end,
       desc = "Go to Harpoon file 5",
     },

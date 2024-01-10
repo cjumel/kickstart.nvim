@@ -7,7 +7,7 @@ local get_index = function(item)
   return require("harpoon.mark").get_index_of(item)
 end
 
-M.add_mark = function(item, opts)
+M.add = function(item, opts)
   opts = opts or {}
   local verbose = opts.verbose or false
   local clear_all = opts.clear_all or false
@@ -34,7 +34,7 @@ M.add_mark = function(item, opts)
   end
 end
 
-M.go_to_mark = function(item)
+M.go_to = function(item)
   local idx = require("harpoon.mark").get_index_of(item)
 
   if idx == nil then

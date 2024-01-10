@@ -3,6 +3,8 @@
 -- Gaze deeply into unknwn regions of your code with powerful and blazing fast fuzzy finding
 -- tools.
 
+local harpoon_mark = require("plugins.navigation.harpoon.mark")
+
 local custom_actions = {}
 
 -- Define custom actions for Trouble to make it lazy-loaded
@@ -33,7 +35,7 @@ local function add_harpoon_mark(tb, opts)
       file = selection.value
     end
 
-    require("plugins.navigation.harpoon.mark").add_mark(file, opts)
+    harpoon_mark.add(file, opts)
   end)
   actions.remove_selection(tb)
 end

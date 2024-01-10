@@ -3,6 +3,8 @@
 -- Enable netwrc-style file navigation in buffers.
 -- Additionally, this plugin supports editing files like editing a buffer (renaming, writing, etc.)
 
+local harpoon_mark = require("plugins.navigation.harpoon.mark")
+
 local custom_actions = {}
 
 -- Overwrite the default preview action to open the preview window on the right hand side
@@ -142,7 +144,7 @@ local function add_harpoon_mark(opts)
   end
   local dir = require("oil").get_current_dir()
   local path = dir .. entry.name
-  require("plugins.navigation.harpoon.mark").add_mark(path, opts)
+  harpoon_mark.add(path, opts)
 end
 custom_actions.add_harpoon_mark = {
   desc = "Hook with Harpoon",
