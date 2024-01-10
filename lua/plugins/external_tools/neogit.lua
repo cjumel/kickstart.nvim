@@ -9,11 +9,11 @@ return {
   },
   keys = {
     {
-      "<leader>gg",
+      "=",
       function()
         require("neogit").open()
       end,
-      desc = "[G]it: Neo[G]it buffer",
+      desc = "Open Neogit buffer",
     },
   },
   opts = {
