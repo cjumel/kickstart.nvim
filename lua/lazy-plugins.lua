@@ -28,8 +28,7 @@ local plugins = {
   { import = "plugins.external_tools" },
 
   -- Plugins related to code navigation (fuzzy finding, file tree navigation, etc.)
-  { import = "plugins.navigation.harpoon" },
-  { import = "plugins.navigation.telescope" },
+  { import = "plugins.navigation.telescope" }, -- Telescope-based plugins (including Telescope)
   { import = "plugins.navigation" },
 
   -- Plugins related to the user interface (color scheme, visual elements, etc.)

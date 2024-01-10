@@ -33,7 +33,7 @@ local function add_harpoon_mark(tb, opts)
       file = selection.value
     end
 
-    require("plugins.navigation.harpoon.utils.actions").add_mark(file, opts)
+    require("plugins.navigation.harpoon.mark").add_mark(file, opts)
   end)
   actions.remove_selection(tb)
 end

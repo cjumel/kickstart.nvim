@@ -142,7 +142,7 @@ local function add_harpoon_mark(opts)
   end
   local dir = require("oil").get_current_dir()
   local path = dir .. entry.name
-  require("plugins.navigation.harpoon.utils.actions").add_mark(path, opts)
+  require("plugins.navigation.harpoon.mark").add_mark(path, opts)
 end
 custom_actions.add_harpoon_mark = {
   desc = "Hook with Harpoon",
