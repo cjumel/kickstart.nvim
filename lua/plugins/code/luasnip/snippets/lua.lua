@@ -12,14 +12,23 @@ local show_conds = require("luasnip.extras.conditions.show")
 local custom_show_conds = require("plugins.code.luasnip.show_conds")
 
 return {
-  s({
-    trig = "local",
-    show_condition = (
-      custom_show_conds.is_in_code
-      * custom_show_conds.line_begin
-      * show_conds.line_end
-    ),
-  }, fmt("local {} = {}", { i(1, "var"), i(2, "value") })),
+  s(
+    {
+      trig = "local",
+      show_condition = (
+        custom_show_conds.is_in_code
+        * custom_show_conds.line_begin
+        * show_conds.line_end
+      ),
+    },
+    fmt("local {} = {}", {
+      i(1, "var"),
+      c(2, {
+        i(nil, "{}"),
+        i(nil, "nil"),
+      }),
+    })
+  ),
   s(
     {
       trig = "local-function",
@@ -126,6 +135,7 @@ return {
       {
         c(1, {
           i(1, "loop"),
+          sn(nil, { i(1, "k"), t(", "), i(2, "v"), t(" in pairs("), i(3, "table"), t(")") }),
           sn(nil, { i(1, "_"), t(", "), i(2, "var"), t(" in ipairs("), i(3, "table"), t(")") }),
         }),
         i(2),
