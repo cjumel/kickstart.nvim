@@ -46,7 +46,7 @@ custom_actions.telescope_find_files = {
   end,
 }
 custom_actions.telescope_find_files_hidden = {
-  desc = "[F]ind: files including [H]idden",
+  desc = "[F]ind: files includ. [H]idden",
   mode = "n",
   callback = function()
     require("telescope.builtin").find_files(

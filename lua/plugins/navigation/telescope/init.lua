@@ -95,7 +95,7 @@ return {
       function()
         require("telescope.builtin").find_files(telescope_opts.find_files_hidden)
       end,
-      desc = "[F]ind: files including [H]idden",
+      desc = "[F]ind: files incl. [H]idden",
     },
     {
       "<leader>fa",
@@ -120,7 +120,7 @@ return {
       function()
         require("telescope.builtin").current_buffer_fuzzy_find()
       end,
-      desc = "[F]ind: fu[Z]zily in current buffer",
+      desc = "[F]ind: fu[Z]zily in buffer",
     },
     {
       "<leader>fg",
