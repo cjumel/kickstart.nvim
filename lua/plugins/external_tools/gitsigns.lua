@@ -55,11 +55,23 @@ return {
         gs.stage_hunk({ vim.fn.line("."), vim.fn.line("v") })
       end, { desc = "[A]dd Git lines" })
       map("n", "<leader>A", gs.undo_stage_hunk, { desc = "[A]dd-Git-hunk undo" })
+      map("n", "<leader>ga", gs.stage_buffer, { desc = "[G]it: [A]dd buffer" })
 
       map("n", "<leader>r", gs.reset_hunk, { desc = "[R]eset Git hunk" })
       map("v", "<leader>r", function()
         gs.reset_hunk({ vim.fn.line("."), vim.fn.line("v") })
       end, { desc = "[R]eset Git lines" })
+      map("n", "<leader>gr", gs.reset_buffer, { desc = "[G]it: [R]eset buffer" })
+
+      map("n", "<leader>gd", function()
+        gs.diffthis("~")
+      end, { desc = "[G]it: [D]iff" })
+
+      map("n", "<leader>gB", function()
+        gs.blame_line({ full = true })
+      end, { desc = "[G]it: [B]lame" })
+
+      map("n", "<leader>,d", gs.toggle_deleted, { desc = "Settings: toggle [D]eleted lines" })
 
       -- Text object
       map({ "o", "x" }, "ih", ":<C-U>Gitsigns select_hunk<CR>", { desc = "inner Git hunk" })
