@@ -122,4 +122,12 @@ vim.keymap.set("n", "<leader>,c", function()
   end
 end, { desc = "Settings: switch sign [C]olumn mode" })
 
+vim.keymap.set("n", "<leader>,r", function()
+  if vim.o.colorcolumn == "101" then
+    vim.o.colorcolumn = ""
+  else
+    vim.o.colorcolumn = "101"
+  end
+end, { desc = "Settings: toggle [R]uler column" })
+
 -- vim: ts=2 sts=2 sw=2 et
