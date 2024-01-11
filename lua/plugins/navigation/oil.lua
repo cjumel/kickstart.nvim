@@ -149,29 +149,26 @@ custom_actions.add_harpoon_mark_clear_all = {
 }
 
 local is_hidden_file = function(name, _)
-  return (name ~= "..") and vim.startswith(name, ".")
+  -- Add some stuff globally git-ignored but not hidden
+  if name == "__pycache__" then -- Python cache files
+    return true
+  end
+
+  return vim.startswith(name, ".")
 end
 
 local is_always_hidden = function(name, _)
-  local always_hidden_names = {
-    ".git",
-    ".DS_Store",
-    "__pycache__",
-  }
-  for _, always_hidden_name in ipairs(always_hidden_names) do
-    if name == always_hidden_name then
-      return true
-    end
+  -- Displaying ".." doesn't bring neither new information nor features
+  if name == ".." then
+    return true
   end
 
-  local always_hidden_name_starts = {
-    ".null-ls_",
-  }
-  for _, always_hidden_name_start in ipairs(always_hidden_name_starts) do
-    if vim.startswith(name, always_hidden_name_start) then
-      return true
-    end
+  -- Don't display Neovim-related files
+  if vim.startswith(name, ".null-ls_") then -- Null-ls temporary files
+    return true
   end
+
+  return false
 end
 
 return {
