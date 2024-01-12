@@ -1,6 +1,3 @@
--- BUG:
--- The todo-comment snippet isn't suggested when at the top of a file
-
 local ls = require("luasnip")
 
 local c = ls.choice_node

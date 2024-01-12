@@ -98,6 +98,7 @@ local function is_in_code(line_to_cursor)
     utils.table.concat_arrays(treesitter_node_types_comment, treesitter_node_types_string)
   return tresitter_check_node_type(line_to_cursor, treesitter_node_types_comment_and_string, {
     check_exclusion = true,
+    not_node_return = true, -- Return true at the very beginning of the buffer
   })
 end
 M.is_in_code = cond_obj.make_condition(is_in_code)
