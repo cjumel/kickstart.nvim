@@ -39,6 +39,7 @@ return {
       builder = function()
         return {
           cmd = { "pytest" },
+          name = "Pytest all",
         }
       end,
     },
@@ -47,6 +48,7 @@ return {
       builder = function()
         return {
           cmd = { "pytest", vim.fn.expand("%:p") },
+          name = "Pytest file",
         }
       end,
       condition = {
@@ -59,6 +61,7 @@ return {
       builder = function()
         return {
           cmd = { "pytest", "-m", "not slow" },
+          name = "Pytest fast",
         }
       end,
     },
@@ -67,6 +70,7 @@ return {
       builder = function()
         return {
           cmd = { "pytest", "-m", "slow" },
+          name = "Pytest slow",
         }
       end,
     },

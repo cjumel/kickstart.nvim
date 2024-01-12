@@ -5,6 +5,13 @@ return {
   },
   keymaps = {
     {
+      "<leader>opci",
+      function()
+        require("overseer").run_template({ name = "Pre-commit install" })
+      end,
+      desc = "[O]verseer: [P]re-[C]ommit [I]nstall",
+    },
+    {
       "<leader>opcra",
       function()
         require("overseer").run_template({ name = "Pre-commit run all files" })
@@ -28,11 +35,22 @@ return {
   },
   templates = {
     {
+      name = "Pre-commit install",
+      tags = { "pre-commit" },
+      builder = function()
+        return {
+          cmd = { "pre-commit", "install" },
+          name = "Pre-commit install",
+        }
+      end,
+    },
+    {
       name = "Pre-commit run all files",
       tags = { "pre-commit" },
       builder = function()
         return {
           cmd = { "pre-commit", "run", "--all-files" },
+          name = "Pre-commit run all files",
         }
       end,
     },
@@ -44,6 +62,7 @@ return {
           -- vim.fn.expandcmd is taken from the "shell" builtin template; without it pre-commit
           -- skips all the files in the directory
           cmd = vim.fn.expandcmd("pre-commit run --files **/*"),
+          name = "Pre-commit run directory",
         }
       end,
     },
@@ -53,6 +72,7 @@ return {
       builder = function()
         return {
           cmd = { "pre-commit", "run", "--file", vim.fn.expand("%:p") },
+          name = "Pre-commit run file",
         }
       end,
       condition = {
