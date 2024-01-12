@@ -2,6 +2,9 @@
 --
 -- A task runner and job management plugin for Neovim.
 
+-- ISSUE: the shell template doesn't respect transparency, see
+-- https://github.com/stevearc/overseer.nvim/issues/255
+
 local utils = require("utils")
 
 local keymaps = require("plugins.external_tools.overseer.keymaps")
