@@ -5,45 +5,41 @@
 -- ISSUE: the shell template doesn't respect transparency, see
 -- https://github.com/stevearc/overseer.nvim/issues/255
 
-local utils = require("utils")
-
-local keymaps = require("plugins.external_tools.overseer.keymaps")
+local commands = require("plugins.external_tools.overseer.commands")
 local templates = require("plugins.external_tools.overseer.templates")
 
 return {
   "stevearc/overseer.nvim",
-  keys = utils.table.concat_arrays({
+  cmd = commands,
+  keys = {
     {
-      {
-        "<leader>oo",
-        function()
-          require("overseer").toggle()
-        end,
-        desc = "[O]verseer: Toggle",
-      },
-      {
-        "<leader>os",
-        function()
-          require("overseer").run_template({ name = "shell" })
-        end,
-        desc = "[O]verseer: [S]hell",
-      },
-      {
-        "<leader>ol",
-        function()
-          local overseer = require("overseer")
-          local tasks = overseer.list_tasks({ recent_first = true })
-          if vim.tbl_isempty(tasks) then
-            vim.notify("No tasks found", vim.log.levels.WARN)
-          else
-            overseer.run_action(tasks[1], "restart")
-          end
-        end,
-        desc = "[O]verseer: run [L]ast task",
-      },
+      "<leader>oo",
+      function()
+        require("overseer").toggle()
+      end,
+      desc = "[O]verseer: Toggle",
     },
-    keymaps,
-  }),
+    {
+      "<leader>os",
+      function()
+        require("overseer").run_template({ name = "shell" })
+      end,
+      desc = "[O]verseer: [S]hell",
+    },
+    {
+      "<leader>ol",
+      function()
+        local overseer = require("overseer")
+        local tasks = overseer.list_tasks({ recent_first = true })
+        if vim.tbl_isempty(tasks) then
+          vim.notify("No tasks found", vim.log.levels.WARN)
+        else
+          overseer.run_action(tasks[1], "restart")
+        end
+      end,
+      desc = "[O]verseer: run [L]ast task",
+    },
+  },
   opts = {
     templates = { "shell" },
     task_list = {
@@ -81,9 +77,12 @@ return {
 
     overseer.setup(opts)
 
-    -- Register Overseer templates
     for _, template in ipairs(templates) do
       overseer.register_template(template)
+
+      vim.api.nvim_create_user_command(template.custom_user_command, function()
+        overseer.run_template({ name = template.name })
+      end, { desc = template.desc or template.name })
     end
   end,
 }
