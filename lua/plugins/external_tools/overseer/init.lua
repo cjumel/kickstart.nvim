@@ -2,6 +2,8 @@
 --
 -- A task runner and job management plugin for Neovim.
 
+local templates = require("plugins.external_tools.overseer.templates")
+
 return {
   "stevearc/overseer.nvim",
   keys = {
@@ -70,7 +72,9 @@ return {
 
     overseer.setup(opts)
 
-    overseer.register_template(require("plugins.external_tools.overseer.templates.pre_commit_run"))
-    overseer.register_template(require("plugins.external_tools.overseer.templates.poetry_update"))
+    -- Register templates defined in the corresponding directory
+    for _, template in ipairs(templates) do
+      overseer.register_template(template)
+    end
   end,
 }
