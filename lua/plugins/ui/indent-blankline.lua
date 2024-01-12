@@ -31,7 +31,7 @@ return {
       },
       exclude = {
         language = {
-          "toml", -- There is very few indent levels so not very readable or useful
+          "toml", -- Works not great & very few indent levels so not very useful
           "yaml", -- Works very poorly, add more noise than value
         },
       },
