@@ -211,6 +211,13 @@ return {
 
     -- Help related
     {
+      "<leader>?c",
+      function()
+        require("telescope.builtin").commands()
+      end,
+      desc = "Help: [C]ommands",
+    },
+    {
       "<leader>?k",
       function()
         require("telescope.builtin").keymaps()

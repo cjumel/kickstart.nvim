@@ -35,7 +35,7 @@ return {
     -- Custom command to install all Mason packages (taken from NvChad)
     vim.api.nvim_create_user_command("MasonInstallAll", function()
       vim.cmd("MasonInstall " .. table.concat(opts.ensure_installed, " "))
-    end, {})
+    end, { desc = "Install all Mason packages." })
 
     vim.g.mason_binaries_list = opts.ensure_installed
   end,
