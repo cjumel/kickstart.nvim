@@ -22,19 +22,25 @@ M.find_files = {
   preview = { hide_on_startup = true },
 }
 M.find_files_hidden = {
-  find_command = utils.table.concat_arrays(default_find_command, {
-    "--hidden",
-    "--exclude",
-    ".git",
+  find_command = utils.table.concat_arrays({
+    default_find_command,
+    {
+      "--hidden",
+      "--exclude",
+      ".git",
+    },
   }),
   preview = { hide_on_startup = true },
 }
 M.find_files_all = {
-  find_command = utils.table.concat_arrays(default_find_command, {
-    "--hidden",
-    "--exclude",
-    ".git",
-    "--no-ignore",
+  find_command = utils.table.concat_arrays({
+    default_find_command,
+    {
+      "--hidden",
+      "--exclude",
+      ".git",
+      "--no-ignore",
+    },
   }),
   preview = { hide_on_startup = true },
 }

@@ -95,7 +95,7 @@ M.is_in_string = cond_obj.make_condition(is_in_string)
 -- Condition determining wether a snippet is in actual code or not, using treesitter.
 local function is_in_code(line_to_cursor)
   local treesitter_node_types_comment_and_string =
-    utils.table.concat_arrays(treesitter_node_types_comment, treesitter_node_types_string)
+    utils.table.concat_arrays({ treesitter_node_types_comment, treesitter_node_types_string })
   return tresitter_check_node_type(line_to_cursor, treesitter_node_types_comment_and_string, {
     check_exclusion = true,
     not_node_return = true, -- Return true at the very beginning of the buffer

@@ -41,63 +41,57 @@ custom_actions.telescope_find_files = {
   desc = "[F]ind: [F]iles",
   mode = "n",
   callback = function()
-    require("telescope.builtin").find_files(
-      utils.table.concat_dicts(
-        { cwd = require("oil").get_current_dir() },
-        telescope_opts.find_files
-      )
-    )
+    require("telescope.builtin").find_files(utils.table.concat_dicts({
+      { cwd = require("oil").get_current_dir() },
+      telescope_opts.find_files,
+    }))
   end,
 }
 custom_actions.telescope_find_files_hidden = {
   desc = "[F]ind: files includ. [H]idden",
   mode = "n",
   callback = function()
-    require("telescope.builtin").find_files(
-      utils.table.concat_dicts(
-        { cwd = require("oil").get_current_dir() },
-        telescope_opts.find_files_hidden
-      )
-    )
+    require("telescope.builtin").find_files(utils.table.concat_dicts({
+      { cwd = require("oil").get_current_dir() },
+      telescope_opts.find_files_hidden,
+    }))
   end,
 }
 custom_actions.telescope_find_files_all = {
   desc = "[F]ind: [A]ll files",
   mode = "n",
   callback = function()
-    require("telescope.builtin").find_files(
-      utils.table.concat_dicts(
-        { cwd = require("oil").get_current_dir() },
-        telescope_opts.find_files_all
-      )
-    )
+    require("telescope.builtin").find_files(utils.table.concat_dicts({
+      { cwd = require("oil").get_current_dir() },
+      telescope_opts.find_files_all,
+    }))
   end,
 }
 custom_actions.telescope_live_grep = {
   desc = "[F]ind: by [G]rep",
   mode = "n",
   callback = function()
-    require("telescope.builtin").live_grep(
-      utils.table.concat_dicts({ cwd = require("oil").get_current_dir() }, telescope_opts.live_grep)
-    )
+    require("telescope.builtin").live_grep(utils.table.concat_dicts({
+      { cwd = require("oil").get_current_dir() },
+      telescope_opts.live_grep,
+    }))
   end,
 }
 custom_actions.telescope_live_grep_unrestricted = {
   desc = "[F]ind: by [G]rep (unrestricted)",
   mode = "n",
   callback = function()
-    require("telescope.builtin").live_grep(
-      utils.table.concat_dicts(
-        { cwd = require("oil").get_current_dir() },
-        telescope_opts.live_grep_unrestricted
-      )
-    )
+    require("telescope.builtin").live_grep(utils.table.concat_dicts({
+      { cwd = require("oil").get_current_dir() },
+      telescope_opts.live_grep_unrestricted,
+    }))
   end,
 }
 local function telescope_grep_string_callback()
-  require("telescope.builtin").grep_string(
-    utils.table.concat_dicts({ cwd = require("oil").get_current_dir() }, telescope_opts.grep_string)
-  )
+  require("telescope.builtin").grep_string(utils.table.concat_dicts({
+    { cwd = require("oil").get_current_dir() },
+    telescope_opts.grep_string,
+  }))
 end
 custom_actions.telescope_grep_string = {
   desc = "[F]ind: [W]ord",
@@ -110,12 +104,10 @@ custom_actions.telescope_grep_string_visual = {
   callback = telescope_grep_string_callback,
 }
 local function telescope_grep_string_unrestricted_callback()
-  require("telescope.builtin").grep_string(
-    utils.table.concat_dicts(
-      { cwd = require("oil").get_current_dir() },
-      telescope_opts.grep_string_unrestricted
-    )
-  )
+  require("telescope.builtin").grep_string(utils.table.concat_dicts({
+    { cwd = require("oil").get_current_dir() },
+    telescope_opts.grep_string_unrestricted,
+  }))
 end
 custom_actions.telescope_grep_string_unrestricted = {
   desc = "[F]ind: [W]ord (unrestricted)",

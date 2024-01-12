@@ -1,29 +1,29 @@
 local M = {}
 
--- Concatenate two arrays.
-M.concat_arrays = function(table_1, table_2)
+-- Concatenate any number of arrays together.
+---@param arrays table An array of arrays.
+M.concat_arrays = function(arrays)
   local result = {}
 
-  for _, value in ipairs(table_1) do
-    table.insert(result, value)
-  end
-  for _, value in ipairs(table_2) do
-    table.insert(result, value)
+  for _, array in ipairs(arrays) do
+    for _, value in ipairs(array) do
+      table.insert(result, value)
+    end
   end
 
   return result
 end
 
--- Concatenate two dictionaries. If some keys are in common, table_1's values will take precedence.
-M.concat_dicts = function(table_1, table_2)
+-- Concatenate any number of dictionaries together. Dictionaries are processed in order, so if
+-- some keys are shared, the latest value encountered will take precedence.
+---@param dictionaries table An array of dictionaries.
+M.concat_dicts = function(dictionaries)
   local result = {}
 
-  -- Let's do table_2 first so that table_1's values overwrites table_2 if some keys are in common
-  for k, v in pairs(table_2) do
-    result[k] = v
-  end
-  for k, v in pairs(table_1) do
-    result[k] = v
+  for _, dictionary in ipairs(dictionaries) do
+    for key, value in pairs(dictionary) do
+      result[key] = value
+    end
   end
 
   return result
