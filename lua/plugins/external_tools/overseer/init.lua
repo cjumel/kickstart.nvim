@@ -2,39 +2,45 @@
 --
 -- A task runner and job management plugin for Neovim.
 
+local utils = require("utils")
+
+local keymaps = require("plugins.external_tools.overseer.keymaps")
 local templates = require("plugins.external_tools.overseer.templates")
 
 return {
   "stevearc/overseer.nvim",
-  keys = {
+  keys = utils.table.concat_arrays({
     {
-      "<leader>oo",
-      function()
-        vim.cmd("OverseerToggle")
-      end,
-      desc = "[O]verseer: Toggle",
+      {
+        "<leader>oo",
+        function()
+          require("overseer").toggle()
+        end,
+        desc = "[O]verseer: Toggle",
+      },
+      {
+        "<leader>os",
+        function()
+          require("overseer").run_template({ name = "shell" })
+        end,
+        desc = "[O]verseer: [S]hell",
+      },
+      {
+        "<leader>ol",
+        function()
+          local overseer = require("overseer")
+          local tasks = overseer.list_tasks({ recent_first = true })
+          if vim.tbl_isempty(tasks) then
+            vim.notify("No tasks found", vim.log.levels.WARN)
+          else
+            overseer.run_action(tasks[1], "restart")
+          end
+        end,
+        desc = "[O]verseer: run [L]ast task",
+      },
     },
-    {
-      "<leader>or",
-      function()
-        vim.cmd("OverseerRun")
-      end,
-      desc = "[O]verseer: [R]un",
-    },
-    {
-      "<leader>ol",
-      function()
-        local overseer = require("overseer")
-        local tasks = overseer.list_tasks({ recent_first = true })
-        if vim.tbl_isempty(tasks) then
-          vim.notify("No tasks found", vim.log.levels.WARN)
-        else
-          overseer.run_action(tasks[1], "restart")
-        end
-      end,
-      desc = "[O]verseer: run [L]ast task",
-    },
-  },
+    keymaps,
+  }),
   opts = {
     templates = { "shell" },
     task_list = {
@@ -72,7 +78,7 @@ return {
 
     overseer.setup(opts)
 
-    -- Register templates defined in the corresponding directory
+    -- Register Overseer templates
     for _, template in ipairs(templates) do
       overseer.register_template(template)
     end
