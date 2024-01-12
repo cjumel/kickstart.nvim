@@ -2,6 +2,10 @@
 --
 -- Define the LSP configurations. This is where the plugins related to LSP should be installed.
 
+-- ISSUE:
+-- The "go to references" action often gives many duplicates in Python, see
+-- https://github.com/microsoft/pylance-release/issues/5220
+
 return {
   -- LSP Configuration & Plugins
   "neovim/nvim-lspconfig",

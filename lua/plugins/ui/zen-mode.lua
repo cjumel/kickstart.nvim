@@ -2,6 +2,10 @@
 --
 -- Zen mode, striped out of distractions, for Neovim.
 
+-- ISSUE:
+-- When in zen-mode, switching file sometimes messes with the zen-mode options, see
+-- https://github.com/folke/zen-mode.nvim/issues/95
+
 return {
   "folke/zen-mode.nvim",
   keys = {

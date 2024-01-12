@@ -3,6 +3,10 @@
 -- Enable netwrc-style file navigation in buffers.
 -- Additionally, this plugin supports editing files like editing a buffer (renaming, writing, etc.)
 
+-- ISSUE:
+-- It would be nice to have git status icons in Oil buffer, see
+-- https://github.com/stevearc/oil.nvim/issues/85
+
 local utils = require("utils")
 local harpoon_mark = require("plugins.navigation.harpoon.mark")
 local telescope_opts = require("plugins.navigation.telescope.opts")
