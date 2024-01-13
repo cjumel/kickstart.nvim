@@ -80,7 +80,7 @@ return {
     for _, template in ipairs(templates) do
       overseer.register_template(template)
 
-      vim.api.nvim_create_user_command(template.custom_user_command, function()
+      vim.api.nvim_create_user_command(template._user_command, function()
         overseer.run_template({ name = template.name })
       end, { desc = template.desc or template.name })
     end
