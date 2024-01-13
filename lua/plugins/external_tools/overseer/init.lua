@@ -80,9 +80,20 @@ return {
     for _, template in ipairs(templates) do
       overseer.register_template(template)
 
-      vim.api.nvim_create_user_command(template._user_command, function()
-        overseer.run_template({ name = template.name })
-      end, { desc = template.desc or template.name })
+      vim.api.nvim_create_user_command(template._user_command, function(args)
+        overseer.run_template({
+          name = template.name,
+          -- Pass the optional command arguments contained in args.args to the builder function
+          -- as params.args
+          -- If nargs == 0, args.args is the empty string
+          -- If nargs == "?" (0 or 1 possible argument), args.args is an empty string or a string
+          -- possibly containing white spaces
+          params = { args = args.args },
+        })
+      end, {
+        desc = template.desc or template.name,
+        nargs = template._user_command_nargs, -- 0 if _user_command_nargs is not defined
+      })
     end
   end,
 }
