@@ -1,42 +1,111 @@
+local utils = require("utils")
+
 return {
   {
-    name = "Pytest all",
-    builder = function()
+    name = "Pytest file",
+    tags = { "python", "pytest" },
+    builder = function(params)
+      local file_path = vim.fn.expand("%:p") -- Current file
+      if params.args ~= "" then
+        file_path = params.args
+      end
+      if not utils.path.is_file(file_path) then
+        print("Not a file: " .. file_path)
+        return {}
+      end
+
+      local cmd = { "pytest", file_path }
+      local name = "Pytest file"
+      local name_suffix = ""
+      if params.args ~= "" then
+        name_suffix = " (" .. file_path .. ")"
+      end
+
       return {
-        cmd = { "pytest" },
-        name = "Pytest all",
+        cmd = cmd,
+        name = name .. name_suffix,
       }
     end,
   },
   {
-    name = "Pytest file",
-    builder = function()
+    name = "Pytest",
+    tags = { "python", "pytest" },
+    builder = function(params)
+      local dir_path = "."
+      if params.args ~= "" then
+        dir_path = params.args
+      end
+      if not utils.path.is_directory(dir_path) then
+        print("Not a directory: " .. dir_path)
+        return {}
+      end
+
+      local cmd = { "pytest", dir_path }
+      local name = "Pytest"
+      local name_suffix = ""
+      if params.args ~= "" then
+        name_suffix = " (" .. dir_path .. ")"
+      end
+
       return {
-        cmd = { "pytest", vim.fn.expand("%:p") },
-        name = "Pytest file",
+        cmd = cmd,
+        name = name .. name_suffix,
       }
     end,
-    condition = {
-      dir = vim.fn.getcwd() .. "/tests", -- Only run if we're in the tests directory
-      filetype = { "python" },
-    },
+    _user_command_nargs = "?",
   },
   {
     name = "Pytest fast",
-    builder = function()
+    tags = { "python", "pytest" },
+    builder = function(params)
+      local dir_path = "."
+      if params.args ~= "" then
+        dir_path = params.args
+      end
+      if not utils.path.is_directory(dir_path) then
+        print("Not a directory: " .. dir_path)
+        return {}
+      end
+
+      local cmd = { "pytest", "-m", "not slow", dir_path }
+      local name = "Pytest fast"
+      local name_suffix = ""
+      if params.args ~= "" then
+        name_suffix = " (" .. dir_path .. ")"
+      end
+
       return {
-        cmd = { "pytest", "-m", "not slow" },
-        name = "Pytest fast",
+        cmd = cmd,
+        name = name .. name_suffix,
       }
     end,
+    _user_command_nargs = "?",
   },
   {
     name = "Pytest slow",
-    builder = function()
+    tags = { "python", "pytest" },
+    builder = function(params)
+      local dir_path = "."
+      if params.args ~= "" then
+        dir_path = params.args
+      end
+      if not utils.path.is_directory(dir_path) then
+        print("Not a directory: " .. dir_path)
+        return {}
+      end
+
+      local cmd = { "pytest", "-m", "slow", dir_path }
+      local name = "Pytest slow"
+      local name_suffix = ""
+      if params.args ~= "" then
+        name_suffix = " (" .. dir_path .. ")"
+      end
+
       return {
-        cmd = { "pytest", "-m", "slow" },
-        name = "Pytest slow",
+        cmd = cmd,
+        name = name .. name_suffix,
       }
     end,
+    _user_command_nargs = "?",
   },
 }

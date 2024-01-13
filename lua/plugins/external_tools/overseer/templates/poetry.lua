@@ -1,7 +1,7 @@
 return {
   {
     name = "Poetry install",
-    tags = { "poetry" },
+    tags = { "python", "poetry" },
     builder = function()
       return {
         cmd = { "poetry", "install" },
@@ -11,7 +11,7 @@ return {
   },
   {
     name = "Poetry update",
-    tags = { "poetry" },
+    tags = { "python", "poetry" },
     builder = function()
       return {
         cmd = { "poetry", "update" },
