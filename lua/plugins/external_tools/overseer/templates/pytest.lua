@@ -1,5 +1,3 @@
-local utils = require("utils")
-
 return {
   {
     name = "Pytest file",
@@ -9,8 +7,8 @@ return {
       if params.args ~= "" then
         file_path = params.args
       end
-      if not utils.path.is_file(file_path) then
-        print("Not a file: " .. file_path)
+      if vim.fn.filereadable(file_path) == 0 then
+        print("Not a readable file: " .. file_path)
         return {}
       end
 
@@ -35,7 +33,7 @@ return {
       if params.args ~= "" then
         dir_path = params.args
       end
-      if not utils.path.is_directory(dir_path) then
+      if vim.fn.isdirectory(dir_path) == 0 then
         print("Not a directory: " .. dir_path)
         return {}
       end
@@ -62,7 +60,7 @@ return {
       if params.args ~= "" then
         dir_path = params.args
       end
-      if not utils.path.is_directory(dir_path) then
+      if vim.fn.isdirectory(dir_path) == 0 then
         print("Not a directory: " .. dir_path)
         return {}
       end
@@ -89,7 +87,7 @@ return {
       if params.args ~= "" then
         dir_path = params.args
       end
-      if not utils.path.is_directory(dir_path) then
+      if vim.fn.isdirectory(dir_path) == 0 then
         print("Not a directory: " .. dir_path)
         return {}
       end
