@@ -4,6 +4,7 @@ local templates = utils.table.concat_arrays({
   require("plugins.external_tools.overseer.templates.poetry"),
   require("plugins.external_tools.overseer.templates.pre-commit"),
   require("plugins.external_tools.overseer.templates.pytest"),
+  require("plugins.external_tools.overseer.templates.python"),
 })
 
 -- Add a field defining the user command for each template
