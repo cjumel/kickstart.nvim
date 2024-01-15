@@ -13,7 +13,7 @@ M.get_path = function(params)
     return "."
   end
 
-  if string.sub(file_path, 1, 4) == "oil:" then -- Oil buffer open
+  if vim.bo.filetype == "oil" then -- Oil buffer open
     local ok, oil = pcall(require, "oil")
     if ok then
       return vim.fn.fnamemodify(oil.get_current_dir(), mods)
