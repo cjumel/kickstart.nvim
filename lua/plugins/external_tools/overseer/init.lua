@@ -2,9 +2,6 @@
 --
 -- A task runner and job management plugin for Neovim.
 
--- ISSUE: the shell template doesn't respect transparency, see
--- https://github.com/stevearc/overseer.nvim/issues/255
-
 local commands = require("plugins.external_tools.overseer.commands")
 local templates = require("plugins.external_tools.overseer.templates")
 
@@ -18,6 +15,13 @@ return {
         require("overseer").toggle()
       end,
       desc = "[O]verseer: Toggle",
+    },
+    {
+      "<leader>or",
+      function()
+        require("overseer").run_template()
+      end,
+      desc = "[O]verseer: [R]un",
     },
     {
       "<leader>os",
@@ -41,6 +45,11 @@ return {
     },
   },
   opts = {
+    form = {
+      win_opts = {
+        winblend = 0, -- Disable winbled as it messes with the shell float window colors
+      },
+    },
     templates = { "shell" },
     task_list = {
       direction = "bottom",
