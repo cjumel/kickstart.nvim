@@ -30,13 +30,13 @@ return {
   {
     name = "Pytest fast",
     tags = { "python", "pytest" },
-    builder = get_pytest_builder({ extra_args = { "-m", "'not slow'" } }),
+    builder = get_pytest_builder({ extra_args = { "-m", "not slow" } }),
     _user_command_nargs = "?",
   },
   {
     name = "Pytest slow",
     tags = { "python", "pytest" },
-    builder = get_pytest_builder({ extra_args = { "-m", "'slow'" } }),
+    builder = get_pytest_builder({ extra_args = { "-m", "slow" } }),
     _user_command_nargs = "?",
   },
 }
