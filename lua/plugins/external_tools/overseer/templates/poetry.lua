@@ -1,20 +1,22 @@
+local tags = { "python", "poetry" }
+
 return {
   {
     name = "Poetry install",
-    tags = { "python", "poetry" },
     builder = function()
       return {
         cmd = { "poetry", "install" },
       }
     end,
+    tags = tags,
   },
   {
     name = "Poetry update",
-    tags = { "python", "poetry" },
     builder = function()
       return {
         cmd = { "poetry", "update" },
       }
     end,
+    tags = tags,
   },
 }

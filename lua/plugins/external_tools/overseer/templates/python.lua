@@ -1,23 +1,27 @@
 local arguments = require("plugins.external_tools.overseer.arguments")
 
+local tags = { "python" }
+
 return {
   {
     name = "Python run file",
-    tags = { "python" },
     builder = function(params)
-      local arguments_path = arguments.get_path(params)
+      local arguments_path = arguments.get_path(params, { mode = "file" })
 
-      local is_readable_file = vim.fn.filereadable(arguments_path) == 1
-      local is_python_file = vim.bo.filetype == "python"
-      if is_readable_file and is_python_file then
+      if vim.fn.filereadable(arguments_path) == 1 and vim.bo.filetype == "python" then
         return {
           cmd = { "python", arguments_path },
         }
+      elseif arguments_path == nil then
+        print("No path was provided")
+        return {}
       else
         print("Not a readable Python file: " .. arguments_path)
         return {}
       end
     end,
+    desc = "Run a Python file passed as argument or the current buffer",
+    tags = tags,
     _user_command_nargs = "?",
   },
 }
