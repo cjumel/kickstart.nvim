@@ -109,6 +109,10 @@ return {
       function()
         require("telescope.builtin").oldfiles({
           preview = { hide_on_startup = true },
+          -- Ensure that when filtering, entries stay sorted by recency
+          tiebreak = function(current_entry, existing_entry, _)
+            return current_entry.index < existing_entry.index
+          end,
         })
       end,
       desc = "[F]ind: [O]ld files",
