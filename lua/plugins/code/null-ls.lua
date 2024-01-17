@@ -37,9 +37,9 @@ return {
         -- Lua
         null_ls.builtins.formatting.stylua,
         -- Python
-        null_ls.builtins.formatting.black,
-        null_ls.builtins.formatting.ruff,
+        null_ls.builtins.formatting.ruff_format,
         null_ls.builtins.diagnostics.ruff,
+        null_ls.builtins.formatting.ruff, -- diagnostic fixes
         -- Other
         null_ls.builtins.formatting.prettier,
       },

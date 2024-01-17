@@ -18,15 +18,14 @@ return {
     },
     ensure_installed = {
       -- Lua
-      "lua-language-server", -- "lua_ls"
-      "stylua",
+      "lua-language-server", -- LSP
+      "stylua", -- Formatter
       -- Python
-      "pyright",
-      "black",
-      "ruff",
-      "debugpy",
+      "pyright", -- LSP
+      "ruff", -- Formatter & linter
+      "debugpy", -- DAP
       -- Other
-      "prettier",
+      "prettier", -- Formatter
     },
   },
   config = function(_, opts)
