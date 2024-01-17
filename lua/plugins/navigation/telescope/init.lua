@@ -229,11 +229,11 @@ return {
       desc = "Help: [K]eymaps",
     },
     {
-      "<leader>?t",
+      "<leader>?h",
       function()
         require("telescope.builtin").help_tags()
       end,
-      desc = "Help: [T]ags",
+      desc = "Help: [H]elp tags",
     },
   },
   config = function()
