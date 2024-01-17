@@ -4,7 +4,7 @@
 -- null-ls.nvim relies on packages installed by mason.nvim and defined in the file `mason.lua`.
 
 return {
-  "jose-elias-alvarez/null-ls.nvim",
+  "nvimtools/none-ls.nvim", -- Since null-ls has been archived, use community fork
   dependencies = {
     "williamboman/mason.nvim",
   },
