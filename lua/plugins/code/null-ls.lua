@@ -44,13 +44,18 @@ return {
         null_ls.builtins.formatting.prettier,
       },
       should_attach = function(bufnr)
-        -- Don't attach null-ls to files in /usr/local
-        if vim.startswith(vim.api.nvim_buf_get_name(bufnr), "/usr/local") then
+        local name = vim.api.nvim_buf_get_name(bufnr)
+
+        local relative_name = vim.fn.fnamemodify(name, ":p:~:.")
+        -- Don't attach to files outside of the workspace
+        if vim.startswith(relative_name, "/") or vim.startswith(relative_name, "~") then
+          return false
+        -- Don't attach to files inside Python virtual environments
+        elseif vim.startswith(relative_name, ".venv/") then
           return false
         end
 
-        -- Don't attach null-ls to git-ignored files (this check could be time-consuming)
-        local name = vim.api.nvim_buf_get_name(bufnr)
+        -- Don't attach to git-ignored files (this check could be time-consuming)
         local dir = vim.fs.dirname(name)
         local filename = vim.fs.basename(name)
         local command = string.format("git -C %s check-ignore %s", dir, filename)
