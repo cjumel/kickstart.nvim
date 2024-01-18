@@ -17,7 +17,7 @@ return {
         -- Todo-comments adds a "todo" source to trouble
         require("trouble").toggle("todo")
       end,
-      desc = "Trouble: [T]odo list",
+      desc = "Trouble: [T]odo-comments",
     },
   },
   opts = {

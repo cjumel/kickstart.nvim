@@ -34,14 +34,14 @@ return {
       function()
         require("trouble").toggle("document_diagnostics")
       end,
-      desc = "Trouble: [D]ocument diagnostics",
+      desc = "Trouble: [D]iagnostics",
     },
     {
-      "<leader>xw",
+      "<leader>xr",
       function()
-        require("trouble").toggle("workspace_diagnostics")
+        require("trouble").toggle("lsp_references")
       end,
-      desc = "Trouble: [W]orkspace diagnostics",
+      desc = "Trouble: [R]eferences",
     },
     {
       "[x",
