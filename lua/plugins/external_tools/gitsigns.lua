@@ -34,20 +34,18 @@ return {
         vim.keymap.set(mode, l, r, opts)
       end
 
-      -- Make navigation functions repeatable
+      -- Navigation
       local ts_repeat_move = require("nvim-treesitter.textobjects.repeatable_move")
       local next_hunk_repeat, prev_hunk_repeat =
         ts_repeat_move.make_repeatable_move_pair(gs.next_hunk, gs.prev_hunk)
       local next_conflict_repeat, prev_conflict_repeat =
         ts_repeat_move.make_repeatable_move_pair(next_conflict, prev_conflict)
-
-      -- Navigation keymaps
       map({ "n", "x", "o" }, "[h", next_hunk_repeat, { desc = "Next Git hunk" })
       map({ "n", "x", "o" }, "]h", prev_hunk_repeat, { desc = "Previous Git hunk" })
       map({ "n", "x", "o" }, "[H", next_conflict_repeat, { desc = "Next Git conflict hunk" })
       map({ "n", "x", "o" }, "]H", prev_conflict_repeat, { desc = "Previous Git conflict hunk" })
 
-      -- Action keymaps
+      -- Action
       map({ "n", "v" }, "<leader><TAB>", gs.preview_hunk, { desc = "Expand Git hunk" })
 
       map("n", "<leader>a", gs.stage_hunk, { desc = "[A]dd Git hunk" })
@@ -71,9 +69,10 @@ return {
         gs.blame_line({ full = true })
       end, { desc = "[G]it: [B]lame" })
 
+      -- Settings
       map("n", "<leader>,d", gs.toggle_deleted, { desc = "Settings: toggle [D]eleted lines" })
 
-      -- Text object
+      -- Text objects
       map({ "o", "x" }, "ih", ":<C-U>Gitsigns select_hunk<CR>", { desc = "inner Git hunk" })
       map({ "o", "x" }, "ah", ":<C-U>Gitsigns select_hunk<CR>", { desc = "a Git hunk" })
     end,

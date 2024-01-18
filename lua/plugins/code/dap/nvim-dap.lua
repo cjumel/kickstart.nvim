@@ -37,11 +37,11 @@ return {
       desc = "[D]ebug: [T]erminate",
     },
     {
-      "<leader>dh",
+      "<leader>dK",
       function()
         require("dap.ui.widgets").hover()
       end,
-      desc = "[D]ebug: [H]over",
+      desc = "[D]ebug: Hover",
     },
   },
 }

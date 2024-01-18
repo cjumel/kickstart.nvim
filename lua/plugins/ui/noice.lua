@@ -3,6 +3,17 @@
 -- Highly experimental plugin that completely replaces the UI for messages, cmdline and the
 -- popupmenu.
 
+local function dismiss()
+  vim.cmd("Noice dismiss")
+
+  -- Clear remaining relative windows (e.g. preview or hover floating windows)
+  for _, id in ipairs(vim.api.nvim_list_wins()) do
+    if vim.api.nvim_win_get_config(id).relative ~= "" then
+      vim.api.nvim_win_close(id, false)
+    end
+  end
+end
+
 return {
   "folke/noice.nvim",
   event = "VeryLazy",
@@ -15,17 +26,17 @@ return {
     {
       "<ESC>",
       function()
-        vim.cmd("Noice dismiss")
+        dismiss()
       end,
-      desc = "Clear Noice elements",
+      desc = "Dismiss messages & floating windows",
     },
     {
       "<C-c>",
       function()
-        vim.cmd("Noice dismiss")
+        dismiss()
       end,
       mode = { "n", "i", "v" },
-      desc = "Clear Noice elements",
+      desc = "Dismiss messages & floating windows",
     },
     {
       "<leader>n",

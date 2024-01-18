@@ -39,9 +39,15 @@ return {
         -- If the cursor is on a folded line, peek the lines under the cursor
         local winid
         if require("ufo.preview.floatwin").winid ~= nil then -- Peek window is already opened
-          winid = require("ufo").peekFoldedLinesUnderCursor(true) -- Enter in peek window
+          winid = require("ufo").peekFoldedLinesUnderCursor(
+            true, -- Enter in peek window
+            false -- Don't show line after peek
+          )
         else
-          winid = require("ufo").peekFoldedLinesUnderCursor() -- Don't enter in peek window
+          winid = require("ufo").peekFoldedLinesUnderCursor(
+            false, -- Don't enter in peek window
+            false -- Don't show line after peek
+          )
         end
 
         -- Otherwise, show the hover documentation

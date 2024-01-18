@@ -22,6 +22,14 @@ return {
       mode = { "i" },
       desc = "Which key",
     },
+    {
+      "<C-\\>", -- Actually <C-m> on my setup, like "mappings"
+      function()
+        vim.cmd("WhichKey '' v")
+      end,
+      mode = { "v" },
+      desc = "Which key",
+    },
   },
   opts = {
     window = {
