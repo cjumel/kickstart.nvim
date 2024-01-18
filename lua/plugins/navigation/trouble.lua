@@ -3,6 +3,12 @@
 -- Trouble provides a pretty list for showing diagnostics, references, telescope results,
 -- quickfix and location lists to help you solve all the trouble your code is causing.
 
+-- ISSUE:
+-- - When closing a window with Trouble opened, Neovim will crash, see:
+-- https://github.com/folke/trouble.nvim/issues/253
+-- - When closing a buffer with Trouble opened, NeoVim will crash, see:
+-- https://github.com/folke/trouble.nvim/issues/134
+
 local ts_repeat_move = require("nvim-treesitter.textobjects.repeatable_move")
 local next_trouble_item, previous_trouble_item = ts_repeat_move.make_repeatable_move_pair(function()
   require("trouble").next({ skip_groups = true, jump = true })
