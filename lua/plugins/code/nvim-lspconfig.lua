@@ -7,25 +7,18 @@
 -- https://github.com/microsoft/pylance-release/issues/5220
 
 return {
-  -- LSP Configuration & Plugins
   "neovim/nvim-lspconfig",
   dependencies = {
     -- Automatically install LSPs to stdpath for neovim
     "williamboman/mason.nvim",
     "williamboman/mason-lspconfig.nvim",
-
     -- Additional lua configuration, makes nvim stuff amazing!
     "folke/neodev.nvim",
-
     -- nvim-cmp supports additional completion capabilities
     "hrsh7th/nvim-cmp",
     "hrsh7th/cmp-nvim-lsp",
-
     -- Illuminates references to the symbol under the cursor
     "RRethy/vim-illuminate",
-
-    -- The following dependencies are needed but don't need to be loaded when the plugin is loaded
-    -- "nvim-telescope/telescope.nvim",
   },
   ft = {
     "lua",
@@ -49,12 +42,11 @@ return {
             false -- Don't show line after peek
           )
         end
-
         -- Otherwise, show the hover documentation
         if not winid then
           vim.lsp.buf.hover()
         end
-      end, { buffer = bufnr, desc = "Hover documentation or fold" })
+      end, { buffer = bufnr, desc = "Hover" })
       vim.keymap.set(
         { "n", "i" },
         "<C-s>",
@@ -63,7 +55,7 @@ return {
       )
 
       -- Code edition
-      local lsp_formatting = function()
+      vim.keymap.set("n", "<leader>lf", function()
         vim.lsp.buf.format({
           filter = function(client)
             -- Enable only null-ls formatting, not other LSPs
@@ -71,21 +63,27 @@ return {
           end,
           bufnr = bufnr,
         })
-      end
-      vim.keymap.set("n", "<leader>lf", lsp_formatting, { buffer = bufnr, desc = "[F]ormat" })
-      vim.keymap.set("n", "<leader>lr", vim.lsp.buf.rename, { buffer = bufnr, desc = "[R]ename" })
+      end, { buffer = bufnr, desc = "[L]SP: [F]ormat" })
+      vim.keymap.set(
+        "n",
+        "<leader>lr",
+        vim.lsp.buf.rename,
+        { buffer = bufnr, desc = "[L]SP: [R]ename" }
+      )
       vim.keymap.set(
         "n",
         "<leader>la",
         vim.lsp.buf.code_action,
-        { buffer = bufnr, desc = "[A]ction" }
+        { buffer = bufnr, desc = "[L]SP: [A]ction" }
       )
+
+      -- Code search
       vim.keymap.set("n", "<leader>ld", function()
         require("telescope.builtin").lsp_document_symbols()
-      end, { buffer = bufnr, desc = "[D]ocument symbols" })
+      end, { buffer = bufnr, desc = "[L]SP: [D]ocument symbols" })
       vim.keymap.set("n", "<leader>lw", function()
         require("telescope.builtin").lsp_dynamic_workspace_symbols()
-      end, { buffer = bufnr, desc = "[W]orkspace symbols" })
+      end, { buffer = bufnr, desc = "[L]SP: [W]orkspace symbols" })
 
       -- Go to actions
       local telescope_opts = {
