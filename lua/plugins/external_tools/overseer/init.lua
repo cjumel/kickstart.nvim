@@ -47,7 +47,7 @@ return {
   opts = {
     form = {
       win_opts = {
-        winblend = 0, -- Disable winbled as it messes with the shell float window colors
+        winblend = 0, -- Shell float window colors are messed up with transparency
       },
     },
     templates = { "shell" },
