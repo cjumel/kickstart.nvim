@@ -54,13 +54,15 @@ return {
       function()
         dismiss()
       end,
-      mode = { "n", "i", "v" },
+      mode = { "i", "v" },
       desc = "Dismiss messages & floating windows",
     },
     {
       "<leader>n",
-      "<cmd> Noice <CR>",
-      desc = "[N]otification history",
+      function()
+        require("noice").cmd("history")
+      end,
+      desc = "[N]oice history",
     },
   },
   opts = {
