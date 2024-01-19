@@ -70,6 +70,9 @@ return {
               lsp_formatting(bufnr)
             end,
           })
+          vim.keymap.set("n", "<leader>lf", function()
+            lsp_formatting(bufnr)
+          end, { buffer = bufnr, desc = "[L]SP: [F]ormat" })
         end
       end,
     }

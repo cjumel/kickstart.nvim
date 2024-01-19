@@ -55,15 +55,6 @@ return {
       )
 
       -- Code edition
-      vim.keymap.set("n", "<leader>lf", function()
-        vim.lsp.buf.format({
-          filter = function(client)
-            -- Enable only null-ls formatting, not other LSPs
-            return client.name == "null-ls"
-          end,
-          bufnr = bufnr,
-        })
-      end, { buffer = bufnr, desc = "[L]SP: [F]ormat" })
       vim.keymap.set(
         "n",
         "<leader>lr",
