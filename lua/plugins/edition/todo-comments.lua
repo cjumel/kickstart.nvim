@@ -12,10 +12,18 @@ return {
   event = { "BufNewFile", "BufReadPre" },
   keys = {
     {
+      "<leader>ft",
+      function()
+        require("telescope") -- Lazy load module if necessary
+        vim.cmd("TodoTelescope")
+      end,
+      desc = "[F]ind: [T]odo-comments",
+    },
+    {
       "<leader>xt",
       function()
-        -- Todo-comments adds a "todo" source to trouble
-        require("trouble").toggle("todo")
+        require("trouble") -- Lazy load module if necessary
+        vim.cmd("TodoTrouble")
       end,
       desc = "Trouble: [T]odo-comments",
     },
