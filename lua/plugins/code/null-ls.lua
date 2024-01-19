@@ -32,7 +32,31 @@ return {
         null_ls.builtins.diagnostics.ruff,
         null_ls.builtins.formatting.ruff, -- diagnostic fixes
         -- Other
-        null_ls.builtins.formatting.prettier,
+        null_ls.builtins.formatting.prettier.with({
+          filetypes = {
+            "json",
+            "markdown",
+            "yaml",
+          },
+        }),
+        null_ls.builtins.formatting.trim_whitespace.with({
+          disabled_filetypes = { -- Disable for files that have their own formatting
+            "json",
+            "lua",
+            "markdown",
+            "python",
+            "yaml",
+          },
+        }),
+        null_ls.builtins.formatting.trim_newlines.with({
+          disabled_filetypes = { -- Disable for files that have their own formatting
+            "json",
+            "lua",
+            "markdown",
+            "python",
+            "yaml",
+          },
+        }),
       },
       should_attach = function(bufnr)
         local name = vim.api.nvim_buf_get_name(bufnr)
