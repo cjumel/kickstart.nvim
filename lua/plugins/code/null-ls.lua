@@ -8,16 +8,7 @@ return {
   dependencies = {
     "williamboman/mason.nvim",
   },
-  ft = {
-    -- Lua
-    "lua",
-    -- Python
-    "python",
-    -- Other
-    "json",
-    "markdown",
-    "yaml",
-  },
+  event = { "BufNewFile", "BufReadPre" },
   opts = function()
     local lsp_formatting = function(bufnr)
       vim.lsp.buf.format({
