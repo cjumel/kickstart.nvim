@@ -37,13 +37,6 @@ return {
       desc = "Trouble: [D]iagnostics",
     },
     {
-      "<leader>xr",
-      function()
-        require("trouble").toggle("lsp_references")
-      end,
-      desc = "Trouble: [R]eferences",
-    },
-    {
       "[x",
       next_trouble_item,
       desc = "Next Trouble item",
