@@ -2,10 +2,6 @@
 --
 -- A Magit clone for Neovim. This plugins provides a modern UI to interact with Git.
 
--- ISSUE:
--- When Neogit is opened with kind="replace" in a split window and exited, the split window
--- is exited as well, see https://github.com/NeogitOrg/neogit/issues/402
-
 return {
   "NeogitOrg/neogit",
   dependencies = {
@@ -22,7 +18,7 @@ return {
   },
   opts = {
     disable_hint = true,
-    kind = "replace",
+    kind = "auto",
   },
   config = function(_, opts)
     require("neogit").setup(opts)
