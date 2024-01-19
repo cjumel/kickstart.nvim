@@ -28,25 +28,6 @@ return {
     --  This function gets run when an LSP connects to a particular buffer.
     local on_attach = function(_, bufnr)
       -- Documentation
-      vim.keymap.set("n", "K", function()
-        -- If the cursor is on a folded line, peek the lines under the cursor
-        local winid
-        if require("ufo.preview.floatwin").winid ~= nil then -- Peek window is already opened
-          winid = require("ufo").peekFoldedLinesUnderCursor(
-            true, -- Enter in peek window
-            false -- Don't show line after peek
-          )
-        else
-          winid = require("ufo").peekFoldedLinesUnderCursor(
-            false, -- Don't enter in peek window
-            false -- Don't show line after peek
-          )
-        end
-        -- Otherwise, show the hover documentation
-        if not winid then
-          vim.lsp.buf.hover()
-        end
-      end, { buffer = bufnr, desc = "Hover" })
       vim.keymap.set(
         { "n", "i" },
         "<C-s>",

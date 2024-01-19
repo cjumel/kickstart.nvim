@@ -169,4 +169,24 @@ local clear_window_desc = "Dismiss messages & floating windows"
 vim.keymap.set("n", "<ESC>", clear_window, { desc = clear_window_desc })
 vim.keymap.set({ "i", "v" }, "<C-c>", clear_window, { desc = clear_window_desc })
 
+vim.keymap.set("n", "K", function()
+  -- If nvim-ufo is loaded and the cursor is on a folded line, peek the lines under the cursor
+  if package.loaded.ufo ~= nil then
+    local winid = nil
+    if require("ufo.preview.floatwin").winid == nil then -- Peek window is not already opened
+      -- Open peek window
+      winid = require("ufo").peekFoldedLinesUnderCursor(false, false)
+    else
+      -- Enter in peek window
+      winid = require("ufo").peekFoldedLinesUnderCursor(true, false)
+    end
+    if winid then -- Cursor was indeed on a folded line
+      return
+    end
+  end
+
+  -- Otherwise, hover with the LSP
+  vim.lsp.buf.hover()
+end, { desc = "Hover" })
+
 -- vim: ts=2 sts=2 sw=2 et
