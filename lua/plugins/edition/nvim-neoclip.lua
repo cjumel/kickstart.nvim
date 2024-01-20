@@ -25,8 +25,6 @@ return {
   "AckslD/nvim-neoclip.lua",
   dependencies = {
     { "kkharji/sqlite.lua", module = "sqlite" }, -- For persistent history
-    -- The following dependencies are needed but don't need to be loaded when the plugin is loaded
-    -- "nvim-telescope/telescope.nvim",
   },
   event = { "BufNewFile", "BufReadPre" },
   keys = {

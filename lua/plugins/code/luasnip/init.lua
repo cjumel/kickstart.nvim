@@ -4,11 +4,6 @@
 
 return {
   "L3MON4D3/LuaSnip",
-  dependencies = {
-    -- The following dependencies are needed but don't need to be loaded when the plugin is loaded
-    -- "nvim-treesitter/nvim-treesitter",
-    -- "numToStr/Comment.nvim",
-  },
   version = "v2.*",
   keys = {
     {
