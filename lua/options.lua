@@ -39,6 +39,7 @@ vim.wo.signcolumn = "number"
 
 -- Decrease update time
 vim.o.updatetime = 250
+vim.o.timeout = true
 vim.o.timeoutlen = 300
 
 -- Disable builtin auto-completion (replaced by nvim-cmp)

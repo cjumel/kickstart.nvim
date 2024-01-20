@@ -5,32 +5,6 @@
 return {
   "folke/which-key.nvim",
   event = "VeryLazy",
-  keys = {
-    {
-      "<C-\\>", -- Actually <C-m> on my setup, like "mappings"
-      function()
-        vim.cmd("WhichKey '' n")
-      end,
-      mode = { "n" },
-      desc = "Which key",
-    },
-    {
-      "<C-\\>", -- Actually <C-m> on my setup, like "mappings"
-      function()
-        vim.cmd("WhichKey '' i")
-      end,
-      mode = { "i" },
-      desc = "Which key",
-    },
-    {
-      "<C-\\>", -- Actually <C-m> on my setup, like "mappings"
-      function()
-        vim.cmd("WhichKey '' v")
-      end,
-      mode = { "v" },
-      desc = "Which key",
-    },
-  },
   opts = {
     window = {
       border = "rounded", -- Adding a border is lot better for transparent background
@@ -41,11 +15,6 @@ return {
 
     -- document existing key chains
     require("which-key").register({
-      ["["] = { name = "Next", _ = "which_key_ignore" },
-      ["]"] = { name = "Previous", _ = "which_key_ignore" },
-      ["<C-w>"] = { name = "Window", _ = "which_key_ignore" },
-      ["<leader>"] = { name = "Leader", _ = "which_key_ignore" },
-
       ["<leader>,"] = { name = "Settings", _ = "which_key_ignore" },
       ["<leader>?"] = { name = "Help", _ = "which_key_ignore" },
       ["<leader>d"] = { name = "[D]ebug", _ = "which_key_ignore" },
