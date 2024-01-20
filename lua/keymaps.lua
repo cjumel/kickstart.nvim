@@ -32,7 +32,12 @@ vim.keymap.set({ "n", "v" }, "_", '"_', { desc = "Black hole copy register" })
 vim.keymap.set({ "n", "v" }, "Q", "@q", { desc = "Default macro register" })
 
 -- Expand a diagnostic message
-vim.keymap.set("n", "<leader><CR>", vim.diagnostic.open_float, { desc = "Expand diagnostic" })
+vim.keymap.set(
+  { "n", "i" },
+  "<C-\\>", -- Actually <C-m> on my setup
+  vim.diagnostic.open_float,
+  { desc = "More diagnostic" }
+)
 
 -- Manual fold keymap in visual mode
 vim.keymap.set("v", "z", "zf", { desc = "Create fold" })
