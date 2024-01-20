@@ -74,7 +74,7 @@ return {
       end, { buffer = bufnr, desc = "Go to references" })
       vim.keymap.set("n", "<leader>xr", function()
         require("trouble").toggle("lsp_references")
-      end, { desc = "Trouble: [R]eferences" })
+      end, { buffer = bufnr, desc = "Trouble: [R]eferences" })
     end
 
     -- mason-lspconfig requires that these setup functions are called in this order
