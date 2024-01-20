@@ -61,6 +61,10 @@ return {
       },
       should_attach = function(bufnr)
         local name = vim.api.nvim_buf_get_name(bufnr)
+        -- Don't attach to Oil buffers
+        if vim.startswith(name, "oil://") then
+          return false
+        end
 
         local relative_name = vim.fn.fnamemodify(name, ":p:~:.")
         -- Don't attach to files outside of the workspace
