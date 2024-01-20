@@ -69,9 +69,6 @@ return {
         gs.blame_line({ full = true })
       end, { desc = "[G]it: [B]lame" })
 
-      -- Settings
-      map("n", "<leader>,d", gs.toggle_deleted, { desc = "Settings: toggle [D]eleted lines" })
-
       -- Text objects
       map({ "o", "x" }, "ih", ":<C-U>Gitsigns select_hunk<CR>", { desc = "inner Git hunk" })
       map({ "o", "x" }, "ah", ":<C-U>Gitsigns select_hunk<CR>", { desc = "a Git hunk" })
