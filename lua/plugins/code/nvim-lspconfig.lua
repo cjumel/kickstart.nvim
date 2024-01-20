@@ -75,6 +75,26 @@ return {
       vim.keymap.set("n", "<leader>xr", function()
         require("trouble").toggle("lsp_references")
       end, { buffer = bufnr, desc = "Trouble: [R]eferences" })
+
+      -- Navigation
+      -- Define illuminate keymaps here to benefit from the "on_attach" behavior
+      local ts_repeat_move = require("nvim-treesitter.textobjects.repeatable_move")
+      local next_reference, prev_reference = ts_repeat_move.make_repeatable_move_pair(
+        require("illuminate").goto_next_reference,
+        require("illuminate").goto_prev_reference
+      )
+      vim.keymap.set(
+        { "n", "x", "o" },
+        "[r",
+        next_reference,
+        { buffer = bufnr, desc = "Next reference" }
+      )
+      vim.keymap.set(
+        { "n", "x", "o" },
+        "]r",
+        prev_reference,
+        { buffer = bufnr, desc = "Previous reference" }
+      )
     end
 
     -- mason-lspconfig requires that these setup functions are called in this order
