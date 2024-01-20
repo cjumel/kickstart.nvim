@@ -22,6 +22,7 @@ return {
       ["<leader>f"] = { name = "[F]ind", _ = "which_key_ignore" },
       ["<leader>g"] = { name = "[G]it", _ = "which_key_ignore" },
       ["<leader>l"] = { name = "[L]SP", _ = "which_key_ignore" },
+      ["<leader>n"] = { name = "[N]oice", _ = "which_key_ignore" },
       ["<leader>o"] = { name = "[O]verseer", _ = "which_key_ignore" },
       ["<leader>x"] = { name = "Trouble", _ = "which_key_ignore" },
     })

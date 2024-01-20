@@ -13,11 +13,25 @@ return {
   event = "VeryLazy",
   keys = {
     {
-      "<leader>n",
+      "<leader>nh",
       function()
         require("noice").cmd("history")
       end,
-      desc = "[N]oice history",
+      desc = "[N]oice: [H]istory",
+    },
+    {
+      "<leader>nl",
+      function()
+        require("noice").cmd("last")
+      end,
+      desc = "[N]oice: [L]ast",
+    },
+    {
+      "<leader>ne",
+      function()
+        require("noice").cmd("errors")
+      end,
+      desc = "[N]oice: [E]rrors",
     },
   },
   opts = {
@@ -41,6 +55,17 @@ return {
           find = "written",
         },
         opts = { skip = true },
+      },
+    },
+    commands = {
+      history = {
+        filter_opts = { reverse = true }, -- Last items first
+      },
+      last = {
+        view = "split", -- Force split view because popup view doesn't work well the custom <ESC>
+      },
+      errors = {
+        view = "split", -- Force split view because popup view doesn't work well the custom <ESC>
       },
     },
   },
