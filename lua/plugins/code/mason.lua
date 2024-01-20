@@ -14,7 +14,7 @@ return {
   },
   opts = {
     ui = {
-      border = "single",
+      border = "rounded", -- Adding a border is lot better for transparent background
     },
     ensure_installed = {
       -- Lua

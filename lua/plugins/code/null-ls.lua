@@ -24,6 +24,7 @@ return {
     local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
 
     return {
+      border = "rounded", -- Adding a border is lot better for transparent background
       sources = {
         -- Lua
         null_ls.builtins.formatting.stylua,

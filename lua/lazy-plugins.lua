@@ -4,7 +4,7 @@
 
 local opts = {
   ui = {
-    border = "single", -- A lot better for transparent background
+    border = "rounded", -- Adding a border is lot better for transparent background
   },
   change_detection = {
     enabled = false,

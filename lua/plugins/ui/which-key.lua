@@ -33,7 +33,7 @@ return {
   },
   opts = {
     window = {
-      border = "single",
+      border = "rounded", -- Adding a border is lot better for transparent background
     },
   },
   config = function(_, opts)
