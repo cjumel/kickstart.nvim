@@ -34,13 +34,6 @@ return {
         desc = "Trouble: toggle",
       },
       {
-        "<leader>xd",
-        function()
-          require("trouble").toggle("document_diagnostics")
-        end,
-        desc = "Trouble: [D]iagnostics",
-      },
-      {
         "[x",
         next_trouble_item,
         desc = "Next Trouble item",
