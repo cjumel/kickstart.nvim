@@ -36,6 +36,7 @@ return {
         })
       end,
       desc = "[P]aste candidates history",
+      ft = "*",
     },
     {
       "<leader>q",
@@ -44,6 +45,7 @@ return {
         require("telescope").extensions.macroscope.default(opts)
       end,
       desc = "[Q]-register macro history",
+      ft = "*",
     },
   },
   opts = {

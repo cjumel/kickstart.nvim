@@ -13,16 +13,16 @@ return {
       function()
         require("dapui").toggle()
       end,
-      ft = "python",
       desc = "[D]ebug: toggle UI",
+      ft = "python",
     },
     {
       "<leader>dr",
       function()
         require("dapui").open({ reset = true })
       end,
-      ft = "python",
       desc = "[D]ebug: [R]eset UI",
+      ft = "python",
     },
   },
   config = function()

@@ -14,6 +14,7 @@ return {
         require("telescope").extensions.undo.undo()
       end,
       desc = "[U]ndo tree search",
+      ft = "*",
     },
   },
   config = function()

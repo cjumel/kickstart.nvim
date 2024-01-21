@@ -21,8 +21,8 @@ return {
           console = "integratedTerminal",
         })
       end,
-      ft = "python",
       desc = "[D]ebug [P]ython: [R]un",
+      ft = "python",
     },
 
     -- Test with Pytest
@@ -31,8 +31,8 @@ return {
       function()
         require("dap-python").test_method({ test_runner = "pytest" })
       end,
-      ft = "python",
       desc = "[D]ebug [P]ython: [T]est method",
+      ft = "python",
     },
     {
       "<leader>dpT",
@@ -46,8 +46,8 @@ return {
           console = "integratedTerminal",
         })
       end,
-      ft = "python",
       desc = "[D]ebug [P]ython: [T]est file",
+      ft = "python",
     },
   },
   config = function()

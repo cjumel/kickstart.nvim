@@ -23,6 +23,7 @@ return {
         require("zen-mode").toggle()
       end,
       desc = "[Z]en mode",
+      ft = "*",
     },
   },
   opts = {

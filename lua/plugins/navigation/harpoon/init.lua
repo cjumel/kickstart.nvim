@@ -21,6 +21,7 @@ return {
         harpoon_mark.add(nil, { verbose = true })
       end,
       desc = "[H]ook with Harpoon",
+      ft = "*",
     },
     {
       "<leader>H",
@@ -28,6 +29,7 @@ return {
         harpoon_mark.add(nil, { verbose = true, clear_all = true })
       end,
       desc = "[H]ook with Harpoon (overwrite)",
+      ft = "*",
     },
     {
       "<leader>m",
