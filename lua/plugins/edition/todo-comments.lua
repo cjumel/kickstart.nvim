@@ -19,14 +19,6 @@ return {
       end,
       desc = "[F]ind: [T]odo-comments",
     },
-    {
-      "<leader>xt",
-      function()
-        require("trouble") -- Lazy load module if necessary
-        vim.cmd("TodoTrouble")
-      end,
-      desc = "Trouble: [T]odo-comments",
-    },
   },
   opts = {
     sign_priority = 7, -- Just above gitsigns
