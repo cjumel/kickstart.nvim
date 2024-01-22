@@ -27,8 +27,6 @@ return {
   config = function()
     --  This function gets run when an LSP connects to a particular buffer.
     local on_attach = function(_, bufnr)
-      local ts_repeat_move = require("nvim-treesitter.textobjects.repeatable_move")
-
       -- Documentation
       vim.keymap.set(
         { "n", "i" },
@@ -80,6 +78,7 @@ return {
 
       -- Navigation
       -- Define illuminate keymaps here to benefit from the "on_attach" behavior
+      local ts_repeat_move = require("nvim-treesitter.textobjects.repeatable_move")
       local next_reference, prev_reference = ts_repeat_move.make_repeatable_move_pair(
         require("illuminate").goto_next_reference,
         require("illuminate").goto_prev_reference
@@ -95,46 +94,6 @@ return {
         "]r",
         prev_reference,
         { buffer = bufnr, desc = "Previous reference" }
-      )
-
-      -- Diagnostics
-      -- They are not bound to LSPs, but in practice they are only sent by LSPs & null-ls linters,
-      -- so defining them here is a convenient way to make them only available for the relevant
-      -- buffers
-      vim.keymap.set(
-        "n",
-        "<leader><CR>",
-        vim.diagnostic.open_float,
-        { buffer = bufnr, desc = "Expand diagnostic" }
-      )
-      vim.keymap.set("n", "<leader>xd", function()
-        require("trouble").toggle("document_diagnostics")
-      end, { buffer = bufnr, desc = "Trouble: [D]iagnostics" })
-      local next_diagnostic, prev_diagnostic =
-        ts_repeat_move.make_repeatable_move_pair(vim.diagnostic.goto_next, vim.diagnostic.goto_prev)
-      vim.keymap.set(
-        { "n", "x", "o" },
-        "[d",
-        next_diagnostic,
-        { buffer = bufnr, desc = "Next diagnostic" }
-      )
-      vim.keymap.set(
-        { "n", "x", "o" },
-        "]d",
-        prev_diagnostic,
-        { buffer = bufnr, desc = "Previous diagnostic" }
-      )
-      local next_error, prev_error = ts_repeat_move.make_repeatable_move_pair(function()
-        vim.diagnostic.goto_next({ severity = vim.diagnostic.severity.ERROR })
-      end, function()
-        vim.diagnostic.goto_prev({ severity = vim.diagnostic.severity.ERROR })
-      end)
-      vim.keymap.set({ "n", "x", "o" }, "[e", next_error, { buffer = bufnr, desc = "Next error" })
-      vim.keymap.set(
-        { "n", "x", "o" },
-        "]e",
-        prev_error,
-        { buffer = bufnr, desc = "Previous error" }
       )
     end
 
