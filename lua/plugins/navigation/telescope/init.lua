@@ -73,15 +73,6 @@ return {
     },
   },
   keys = {
-    -- General
-    {
-      "<leader><leader>",
-      function()
-        require("telescope.builtin").resume()
-      end,
-      desc = "Resume Telescope",
-    },
-
     -- Find files by name
     {
       "<leader>ff",
@@ -362,5 +353,14 @@ return {
 
     -- Enable telescope fzf native, if installed
     pcall(require("telescope").load_extension, "fzf")
+
+    -- "Resume Telescope" keymap shouldn't be Lazy key since it needs Telescope to have been used
+    -- previously
+    vim.keymap.set(
+      "n",
+      "<leader><leader>",
+      require("telescope.builtin").resume,
+      { desc = "Resume Telescope" }
+    )
   end,
 }
