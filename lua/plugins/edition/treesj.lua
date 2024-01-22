@@ -14,10 +14,11 @@ return {
         require("treesj").toggle()
       end,
       desc = "[S]plit/join node",
+      ft = "*",
     },
   },
   opts = {
     use_default_keymaps = false,
-    max_join_length = 1000,
+    max_join_length = 100,
   },
 }

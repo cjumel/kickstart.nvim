@@ -9,17 +9,16 @@ return {
   keys = {
     {
       "<C-a>",
+      "<cmd>Boole increment<CR>",
       desc = "Increment",
+      ft = "*",
     },
     {
       "<C-x>",
+      "<cmd>Boole decrement<CR>",
       desc = "Decrement",
+      ft = "*",
     },
   },
-  opts = {
-    mappings = {
-      increment = "<C-a>",
-      decrement = "<C-x>",
-    },
-  },
+  opts = {},
 }

@@ -14,7 +14,23 @@ return {
   dependencies = {
     "nvim-tree/nvim-web-devicons",
   },
-  keys = function()
+  keys = {
+    {
+      "<leader>xd",
+      function()
+        require("trouble").toggle("document_diagnostics")
+      end,
+      desc = "Trouble: [D]iagnostics",
+      ft = "*",
+    },
+  },
+  opts = {},
+  config = function(_, opts)
+    require("trouble").setup(opts)
+
+    -- The following keymaps shouldn't be used as lazy keys as they require Trouble to be used
+    -- already
+    vim.keymap.set("n", "<leader>xx", require("trouble").toggle, { desc = "Trouble: toggle" })
     local ts_repeat_move = require("nvim-treesitter.textobjects.repeatable_move")
     local next_trouble_item, previous_trouble_item = ts_repeat_move.make_repeatable_move_pair(
       function()
@@ -24,33 +40,7 @@ return {
         require("trouble").previous({ skip_groups = true, jump = true })
       end
     )
-
-    return {
-      {
-        "<leader>xx",
-        function()
-          require("trouble").toggle()
-        end,
-        desc = "Trouble: toggle",
-      },
-      {
-        "<leader>xd",
-        function()
-          require("trouble").toggle("document_diagnostics")
-        end,
-        desc = "Trouble: [D]iagnostics",
-        ft = "*",
-      },
-      {
-        "[x",
-        next_trouble_item,
-        desc = "Next Trouble item",
-      },
-      {
-        "]x",
-        previous_trouble_item,
-        desc = "Previous Trouble item",
-      },
-    }
+    vim.keymap.set("n", "[x", next_trouble_item, { desc = "Next Trouble item" })
+    vim.keymap.set("n", "]x", previous_trouble_item, { desc = "Previous Trouble item" })
   end,
 }
