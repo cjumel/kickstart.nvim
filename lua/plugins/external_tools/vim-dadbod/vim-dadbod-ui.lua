@@ -15,7 +15,7 @@ return {
       function()
         vim.cmd("DBUIToggle")
       end,
-      desc = "[D]atabase explorer toggle",
+      desc = "[D]atabase explorer",
     },
   },
   config = function()
