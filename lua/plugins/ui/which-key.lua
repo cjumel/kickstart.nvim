@@ -9,6 +9,10 @@ return {
   "folke/which-key.nvim",
   event = "VeryLazy",
   opts = {
+    operators = { -- Trigger which key when an operator is called
+      gc = "Comments",
+      ys = "Surround",
+    },
     window = {
       border = "rounded", -- Adding a border is lot better for transparent background
     },
