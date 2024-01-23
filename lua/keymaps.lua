@@ -6,6 +6,22 @@ vim.keymap.set({ "n", "v" }, "<Space>", "<Nop>", { silent = true })
 vim.keymap.set("i", "<C-n>", "<Nop>", { silent = true })
 vim.keymap.set("i", "<C-p>", "<Nop>", { silent = true })
 
+-- Disable builtin navigation keymaps and don't show them in Which Key
+vim.keymap.set("n", "[%", function() end, { desc = "which_key_ignore" })
+vim.keymap.set("n", "]%", function() end, { desc = "which_key_ignore" })
+vim.keymap.set("n", "[(", function() end, { desc = "which_key_ignore" })
+vim.keymap.set("n", "](", function() end, { desc = "which_key_ignore" })
+vim.keymap.set("n", "[<", function() end, { desc = "which_key_ignore" })
+vim.keymap.set("n", "]<", function() end, { desc = "which_key_ignore" })
+vim.keymap.set("n", "[{", function() end, { desc = "which_key_ignore" })
+vim.keymap.set("n", "]{", function() end, { desc = "which_key_ignore" })
+vim.keymap.set("n", "[m", function() end, { desc = "which_key_ignore" })
+vim.keymap.set("n", "]m", function() end, { desc = "which_key_ignore" })
+vim.keymap.set("n", "[M", function() end, { desc = "which_key_ignore" })
+vim.keymap.set("n", "]M", function() end, { desc = "which_key_ignore" })
+vim.keymap.set("n", "[s", function() end, { desc = "which_key_ignore" })
+vim.keymap.set("n", "]s", function() end, { desc = "which_key_ignore" })
+
 -- [[ Remap builtin keymaps ]]
 
 local actions = require("actions")
