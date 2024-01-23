@@ -13,7 +13,7 @@ return {
       function()
         require("treesj").toggle()
       end,
-      desc = "[S]plit/join node",
+      desc = "Split node toggle",
       ft = "*",
     },
   },

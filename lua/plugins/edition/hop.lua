@@ -11,9 +11,10 @@ return {
         require("hop").hint_char2({})
       end,
       mode = { "n", "x", "o" },
-      desc = "[S]earch 2 characters & jump",
+      desc = "Search 2 characters hop",
       ft = "*",
     },
+    -- For f, F, t & T, don't specify a filetype to completly override the builtin keymaps
     {
       "f",
       function()
@@ -23,8 +24,7 @@ return {
         })
       end,
       mode = { "n", "x", "o" },
-      desc = "[F]ind 1 character & jump",
-      ft = "*",
+      desc = "Find character hop",
     },
     {
       "F",
@@ -35,8 +35,7 @@ return {
         })
       end,
       mode = { "n", "x", "o" },
-      desc = "[F]ind 1 character backward & jump",
-      ft = "*",
+      desc = "Find character hop backward",
     },
     {
       "t",
@@ -48,8 +47,7 @@ return {
         })
       end,
       mode = { "n", "x", "o" },
-      desc = "[T]ill 1 character jump",
-      ft = "*",
+      desc = "Till character hop",
     },
     {
       "T",
@@ -61,8 +59,7 @@ return {
         })
       end,
       mode = { "n", "x", "o" },
-      desc = "[T]ill 1 character backward jump",
-      ft = "*",
+      desc = "Till character hop backward",
     },
     {
       "<leader>w",
@@ -73,7 +70,7 @@ return {
         })
       end,
       mode = { "n", "x", "o" },
-      desc = "[W]ord jump",
+      desc = "[W]ord hop",
       ft = "*",
     },
     {
@@ -85,7 +82,7 @@ return {
         })
       end,
       mode = { "n", "x", "o" },
-      desc = "[B]ackward word jump",
+      desc = "[B]ackward word hop",
       ft = "*",
     },
     {
@@ -98,7 +95,7 @@ return {
         })
       end,
       mode = { "n", "x", "o" },
-      desc = "[E]nd of word jump",
+      desc = "[E]nd of word hop",
       ft = "*",
     },
     {
@@ -111,63 +108,63 @@ return {
         })
       end,
       mode = { "n", "x", "o" },
-      desc = "[E]nd of word backward jump",
+      desc = "[E]nd of word hop backward",
       ft = "*",
     },
     {
       "<leader>j",
       "<cmd> HopLineStartAC <cr>",
       mode = { "n", "x" },
-      desc = "Downward line start jump",
+      desc = "Downward line start hop",
       ft = "*",
     },
     { -- linewise in operator pending mode
       "<leader>j",
       "V<cmd> HopLineStartAC <cr>",
       mode = { "o" },
-      desc = "Downward line start jump",
+      desc = "Downward line start hop",
       ft = "*",
     },
     {
       "<leader>J",
       "<cmd> HopVerticalAC <cr>",
       mode = { "n", "x" },
-      desc = "Downward vertical jump",
+      desc = "Downward vertical hop",
       ft = "*",
     },
     { -- linewise in operator pending mode
       "<leader>J",
       "V<cmd> HopVerticalAC <cr>",
       mode = { "o" },
-      desc = "Downward vertical jump",
+      desc = "Downward vertical hop",
       ft = "*",
     },
     {
       "<leader>k",
       "<cmd> HopLineStartBC <cr>",
       mode = { "n", "x" },
-      desc = "Upward line start jump",
+      desc = "Upward line start hop",
       ft = "*",
     },
     { -- linewise in operator pending mode
       "<leader>k",
       "V<cmd> HopLineStartBC <cr>",
       mode = { "o" },
-      desc = "Upward line start jump",
+      desc = "Upward line start hop",
       ft = "*",
     },
     {
       "<leader>K",
       "<cmd> HopVerticalBC <cr>",
       mode = { "n", "x" },
-      desc = "Upward vertical jump",
+      desc = "Upward vertical hop",
       ft = "*",
     },
     { -- linewise in operator pending mode
       "<leader>K",
       "V<cmd> HopVerticalBC <cr>",
       mode = { "o" },
-      desc = "Upward vertical jump",
+      desc = "Upward vertical hop",
       ft = "*",
     },
   },
