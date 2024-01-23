@@ -27,15 +27,6 @@ vim.keymap.set("v", "zf", "zf", { desc = "Create fold" })
 
 -- [[ General keymaps ]]
 
-vim.keymap.set("v", "<TAB>", ">gv", { desc = "Indent selection" })
-vim.keymap.set("v", "<S-TAB>", "<gv", { desc = "Unindent selection" })
-
-vim.keymap.set({ "n", "v" }, "+", '"+', { desc = "System clipboard register" })
-vim.keymap.set({ "n", "v" }, "_", '"_', { desc = "Black hole register" })
-vim.keymap.set({ "n", "v" }, "Q", "@q", { desc = "Default macro register" })
-
-vim.keymap.set("n", "<leader><CR>", vim.diagnostic.open_float, { desc = "Expand diagnostic" })
-
 vim.keymap.set("n", "<ESC>", actions.clear_window, { desc = "Dismiss messages & floating windows" })
 vim.keymap.set(
   { "i", "v" },
@@ -44,16 +35,37 @@ vim.keymap.set(
   { desc = "Dismiss messages & floating windows" }
 )
 
-vim.keymap.set("n", "K", actions.hover, { desc = "Hover" })
+-- Make mappings local to buffer
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "*",
+  callback = function(event)
+    local function map(mode, l, r, opts)
+      opts = opts or {}
+      opts.buffer = event.buf
+      vim.keymap.set(mode, l, r, opts)
+    end
 
-vim.keymap.set({ "n", "x", "o" }, "[p", actions.next_paragraph, { desc = "Next paragraph" })
-vim.keymap.set({ "n", "x", "o" }, "]p", actions.prev_paragraph, { desc = "Previous paragraph" })
+    map("v", "<TAB>", ">gv", { desc = "Indent selection" })
+    map("v", "<S-TAB>", "<gv", { desc = "Unindent selection" })
 
--- Dianostics can be errors, warnings, information messages or hints
-vim.keymap.set({ "n", "x", "o" }, "[d", actions.next_diagnostic, { desc = "Next diagnostic" })
-vim.keymap.set({ "n", "x", "o" }, "]d", actions.prev_diagnostic, { desc = "Previous diagnostic" })
-vim.keymap.set({ "n", "x", "o" }, "[e", actions.next_error, { desc = "Next error" })
-vim.keymap.set({ "n", "x", "o" }, "]e", actions.prev_error, { desc = "Previous error" })
+    map({ "n", "v" }, "+", '"+', { desc = "System clipboard register" })
+    map({ "n", "v" }, "_", '"_', { desc = "Black hole register" })
+    map({ "n", "v" }, "Q", "@q", { desc = "Default macro register" })
+
+    map("n", "<leader><CR>", vim.diagnostic.open_float, { desc = "Expand diagnostic" })
+
+    map("n", "K", actions.hover, { desc = "Hover" })
+
+    map({ "n", "x", "o" }, "[p", actions.next_paragraph, { desc = "Next paragraph" })
+    map({ "n", "x", "o" }, "]p", actions.prev_paragraph, { desc = "Previous paragraph" })
+
+    -- Dianostics can be errors, warnings, information messages or hints
+    map({ "n", "x", "o" }, "[d", actions.next_diagnostic, { desc = "Next diagnostic" })
+    map({ "n", "x", "o" }, "]d", actions.prev_diagnostic, { desc = "Previous diagnostic" })
+    map({ "n", "x", "o" }, "[e", actions.next_error, { desc = "Next error" })
+    map({ "n", "x", "o" }, "]e", actions.prev_error, { desc = "Previous error" })
+  end,
+})
 
 -- [[ Terminal-like keymaps ]]
 -- Keymaps for insert & command-line modes to reproduce shell keymaps
