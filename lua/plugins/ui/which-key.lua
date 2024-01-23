@@ -22,6 +22,10 @@ return {
 
     -- document existing key chains
     require("which-key").register({
+      ["["] = { name = "Next", _ = "which_key_ignore" },
+      ["]"] = { name = "Previous", _ = "which_key_ignore" },
+
+      ["<leader>"] = { name = "Leader", _ = "which_key_ignore" },
       ["<leader>,"] = { name = "Settings", _ = "which_key_ignore" },
       ["<leader>?"] = { name = "Help", _ = "which_key_ignore" },
       ["<leader>d"] = { name = "[D]ebug", _ = "which_key_ignore" },
