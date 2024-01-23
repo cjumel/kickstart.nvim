@@ -34,8 +34,8 @@ vim.keymap.set({ "n", "v" }, "Q", "@q", { desc = "Default macro register" })
 -- Expand a diagnostic message
 vim.keymap.set("n", "<leader><CR>", vim.diagnostic.open_float, { desc = "Expand diagnostic" })
 
--- Manual fold keymap in visual mode
-vim.keymap.set("v", "z", "zf", { desc = "Create fold" })
+-- Make zf detected by Which Key in visual mode
+vim.keymap.set("v", "zf", "zf", { desc = "Create fold" })
 
 -- [[ Navigation keymaps ]]
 
