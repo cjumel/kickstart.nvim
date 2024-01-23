@@ -38,12 +38,52 @@ return {
       desc = "Next quotation mark",
     },
     {
-      "A",
+      "aG",
+      function()
+        require("various-textobjs").multiCommentedLines()
+      end,
+      mode = { "x", "o" },
+      desc = "a multi-line comment",
+    },
+    {
+      "iG",
+      function()
+        require("various-textobjs").multiCommentedLines()
+      end,
+      mode = { "x", "o" },
+      desc = "inner multi-line comment",
+    },
+    {
+      "aA",
       function()
         require("various-textobjs").entireBuffer()
       end,
       mode = { "x", "o" },
-      desc = "All buffer",
+      desc = "an entire buffer",
+    },
+    {
+      "iA",
+      function()
+        require("various-textobjs").entireBuffer()
+      end,
+      mode = { "x", "o" },
+      desc = "inner entire buffer",
+    },
+    {
+      "a-",
+      function()
+        require("various-textobjs").lineCharacterwise("outer")
+      end,
+      mode = { "x", "o" },
+      desc = "a line characterwise",
+    },
+    {
+      "i-",
+      function()
+        require("various-textobjs").lineCharacterwise("inner")
+      end,
+      mode = { "x", "o" },
+      desc = "inner line characterwise",
     },
     {
       "av",
