@@ -27,35 +27,26 @@ return {
   config = function()
     --  This function gets run when an LSP connects to a particular buffer.
     local on_attach = function(_, bufnr)
+      local function map(mode, l, r, opts)
+        opts = opts or {}
+        opts.buffer = bufnr
+        vim.keymap.set(mode, l, r, opts)
+      end
+
       -- Documentation
-      vim.keymap.set(
-        { "n", "i" },
-        "<C-s>",
-        vim.lsp.buf.signature_help,
-        { buffer = bufnr, desc = "Signature help" }
-      )
+      map({ "n", "i" }, "<C-s>", vim.lsp.buf.signature_help, { desc = "Signature help" })
 
       -- Code edition
-      vim.keymap.set(
-        "n",
-        "<leader>lr",
-        vim.lsp.buf.rename,
-        { buffer = bufnr, desc = "[L]SP: [R]ename" }
-      )
-      vim.keymap.set(
-        "n",
-        "<leader>la",
-        vim.lsp.buf.code_action,
-        { buffer = bufnr, desc = "[L]SP: [A]ction" }
-      )
+      map("n", "<leader>lr", vim.lsp.buf.rename, { desc = "[L]SP: [R]ename" })
+      map("n", "<leader>la", vim.lsp.buf.code_action, { desc = "[L]SP: [A]ction" })
 
       -- Code search
-      vim.keymap.set("n", "<leader>ld", function()
+      map("n", "<leader>ld", function()
         require("telescope.builtin").lsp_document_symbols()
-      end, { buffer = bufnr, desc = "[L]SP: [D]ocument symbols" })
-      vim.keymap.set("n", "<leader>lw", function()
+      end, { desc = "[L]SP: [D]ocument symbols" })
+      map("n", "<leader>lw", function()
         require("telescope.builtin").lsp_dynamic_workspace_symbols()
-      end, { buffer = bufnr, desc = "[L]SP: [W]orkspace symbols" })
+      end, { desc = "[L]SP: [W]orkspace symbols" })
 
       -- Go to actions
       local telescope_opts = {
@@ -63,18 +54,18 @@ return {
         initial_mode = "normal",
         show_line = false, -- Don't show the whole line in the picker next to the file path
       }
-      vim.keymap.set("n", "gd", function()
+      map("n", "gd", function()
         require("telescope.builtin").lsp_definitions(telescope_opts)
-      end, { buffer = bufnr, desc = "Go to definition" })
-      vim.keymap.set("n", "gD", function()
+      end, { desc = "Go to definition" })
+      map("n", "gD", function()
         require("telescope.builtin").lsp_type_definitions(telescope_opts)
-      end, { buffer = bufnr, desc = "Go to type definition" })
-      vim.keymap.set("n", "gr", function()
+      end, { desc = "Go to type definition" })
+      map("n", "gr", function()
         require("telescope.builtin").lsp_references(telescope_opts)
-      end, { buffer = bufnr, desc = "Go to references" })
-      vim.keymap.set("n", "<leader>xr", function()
+      end, { desc = "Go to references" })
+      map("n", "<leader>xr", function()
         require("trouble").toggle("lsp_references")
-      end, { buffer = bufnr, desc = "Trouble: [R]eferences" })
+      end, { desc = "Trouble: [R]eferences" })
 
       -- Navigation
       -- Define illuminate keymaps here to benefit from the "on_attach" behavior
@@ -83,18 +74,8 @@ return {
         require("illuminate").goto_next_reference,
         require("illuminate").goto_prev_reference
       )
-      vim.keymap.set(
-        { "n", "x", "o" },
-        "[r",
-        next_reference,
-        { buffer = bufnr, desc = "Next reference" }
-      )
-      vim.keymap.set(
-        { "n", "x", "o" },
-        "]r",
-        prev_reference,
-        { buffer = bufnr, desc = "Previous reference" }
-      )
+      map({ "n", "x", "o" }, "[r", next_reference, { desc = "Next reference" })
+      map({ "n", "x", "o" }, "]r", prev_reference, { desc = "Previous reference" })
     end
 
     -- mason-lspconfig requires that these setup functions are called in this order
