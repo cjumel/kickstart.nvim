@@ -14,23 +14,7 @@ return {
   dependencies = {
     "nvim-tree/nvim-web-devicons",
   },
-  keys = {
-    {
-      "<leader>xd",
-      function()
-        require("trouble").toggle("document_diagnostics")
-      end,
-      desc = "Trouble: [D]iagnostics",
-      ft = "*",
-    },
-  },
-  opts = {},
-  config = function(_, opts)
-    require("trouble").setup(opts)
-
-    -- The following keymaps shouldn't be used as lazy keys as they require Trouble to be used
-    -- already
-    vim.keymap.set("n", "<leader>xx", require("trouble").toggle, { desc = "Trouble: toggle" })
+  keys = function()
     local ts_repeat_move = require("nvim-treesitter.textobjects.repeatable_move")
     local next_trouble_item, previous_trouble_item = ts_repeat_move.make_repeatable_move_pair(
       function()
@@ -40,7 +24,39 @@ return {
         require("trouble").previous({ skip_groups = true, jump = true })
       end
     )
-    vim.keymap.set("n", "[x", next_trouble_item, { desc = "Next Trouble item" })
-    vim.keymap.set("n", "]x", previous_trouble_item, { desc = "Previous Trouble item" })
+
+    return {
+      {
+        "<leader>xd",
+        function()
+          require("trouble").toggle("document_diagnostics")
+        end,
+        desc = "Trouble: [D]iagnostics",
+        ft = "*",
+      },
+      -- Next/prev Trouble items need to be lazy keys to be available directly in a buffer when
+      -- Trouble is lazy-loaded with the buffer already opened
+      {
+        "[x",
+        next_trouble_item,
+        desc = "Next Trouble item",
+        ft = "*",
+      },
+      {
+        "]x",
+        previous_trouble_item,
+        desc = "Previous Trouble item",
+        ft = "*",
+      },
+    }
+  end,
+  opts = {},
+  config = function(_, opts)
+    require("trouble").setup(opts)
+
+    -- The following keymap require Trouble to be used already so no need to put it in lazy keys
+    -- Defining this keymap here avoids having it shown alone when no buffer is opened and Trouble
+    -- is not loaded
+    vim.keymap.set("n", "<leader>xx", require("trouble").toggle, { desc = "Trouble: toggle" })
   end,
 }

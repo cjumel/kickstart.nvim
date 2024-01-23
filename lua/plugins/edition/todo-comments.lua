@@ -10,16 +10,37 @@ return {
     "nvim-treesitter/nvim-treesitter",
   },
   event = { "BufNewFile", "BufReadPre" },
-  keys = {
-    {
-      "<leader>ft",
-      function()
-        require("telescope") -- Lazy load module if necessary
-        vim.cmd("TodoTelescope")
-      end,
-      desc = "[F]ind: [T]odo-comments",
-    },
-  },
+  keys = function()
+    local tdc = require("todo-comments")
+    local ts_repeat_move = require("nvim-treesitter.textobjects.repeatable_move")
+    local next_todo_comment, prev_todo_comment =
+      ts_repeat_move.make_repeatable_move_pair(tdc.jump_next, tdc.jump_prev)
+
+    return {
+      {
+        "<leader>ft",
+        function()
+          require("telescope") -- Lazy load module if necessary
+          vim.cmd("TodoTelescope")
+        end,
+        desc = "[F]ind: [T]odo-comments",
+      },
+      {
+        "[t",
+        next_todo_comment,
+        mode = { "n", "x", "o" },
+        desc = "Next todo comment",
+        ft = "*",
+      },
+      {
+        "]t",
+        prev_todo_comment,
+        mode = { "n", "x", "o" },
+        desc = "Previous todo comment",
+        ft = "*",
+      },
+    }
+  end,
   opts = {
     sign_priority = 7, -- Just above gitsigns
     keywords = {
@@ -40,14 +61,4 @@ return {
       },
     },
   },
-  config = function(_, opts)
-    local tdc = require("todo-comments")
-    tdc.setup(opts)
-
-    local ts_repeat_move = require("nvim-treesitter.textobjects.repeatable_move")
-    local next_todo_comment, prev_todo_comment =
-      ts_repeat_move.make_repeatable_move_pair(tdc.jump_next, tdc.jump_prev)
-    vim.keymap.set({ "n", "x", "o" }, "[t", next_todo_comment, { desc = "Next todo comment" })
-    vim.keymap.set({ "n", "x", "o" }, "]t", prev_todo_comment, { desc = "Previous todo comment" })
-  end,
 }
