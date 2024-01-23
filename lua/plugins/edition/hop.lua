@@ -14,7 +14,8 @@ return {
       desc = "Search 2 characters hop",
       ft = "*",
     },
-    -- For f, F, t & T, don't specify a filetype to completly override the builtin keymaps
+    -- For f, F, t & T, don't specify a filetype to completly override the corresponding builtin
+    -- keymaps
     {
       "f",
       function()

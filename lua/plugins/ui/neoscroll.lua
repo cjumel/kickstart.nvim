@@ -56,13 +56,14 @@ return {
       desc = "Scroll down 10% of a window height",
       ft = "*",
     },
+    -- For the fold keymaps don't specify a filetype to completly override the corresponding
+    -- builtin keymaps
     {
       "zt",
       function()
         require("neoscroll").zt(200)
       end,
       desc = "Top this line",
-      ft = "*",
     },
     {
       "zz",
@@ -70,7 +71,6 @@ return {
         require("neoscroll").zz(200)
       end,
       desc = "Center this line",
-      ft = "*",
     },
     {
       "zb",
@@ -78,7 +78,6 @@ return {
         require("neoscroll").zb(200)
       end,
       desc = "Bottom this line",
-      ft = "*",
     },
   },
   opts = {

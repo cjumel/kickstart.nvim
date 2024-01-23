@@ -14,6 +14,7 @@ return {
       end,
       mode = { "i", "s" },
       desc = "Move to next snippet node",
+      ft = "*",
     },
     {
       "<C-h>",
@@ -23,6 +24,7 @@ return {
       end,
       mode = { "i", "s" },
       desc = "Move to previous snippet node",
+      ft = "*",
     },
     {
       "<C-j>",
@@ -34,6 +36,7 @@ return {
       end,
       mode = { "i", "s" },
       desc = "Next snippet choice option",
+      ft = "*",
     },
     {
       "<C-k>",
@@ -45,6 +48,7 @@ return {
       end,
       mode = { "i", "s" },
       desc = "Previous snippet choice option",
+      ft = "*",
     },
   },
   opts = {},

@@ -15,7 +15,8 @@ return {
     vim.o.foldlevelstart = 99
   end,
   keys = {
-    -- Overwrite some builtin fold keymaps
+    -- Overwrite some builtin fold keymaps; don't specify a filetype to completly override the
+    -- corresponding builtin keymaps
     {
       "zR",
       function()
