@@ -26,6 +26,13 @@ return {
     )
 
     return {
+      { -- Should be available outside of buffers for uses with Telescope's output for instance
+        "<leader>xx",
+        function()
+          require("trouble").toggle()
+        end,
+        desc = "Trouble: toggle",
+      },
       {
         "<leader>xd",
         function()
@@ -35,7 +42,8 @@ return {
         ft = "*",
       },
       -- Next/prev Trouble items need to be lazy keys to be available directly in a buffer when
-      -- Trouble is lazy-loaded with the buffer already opened
+      -- Trouble is lazy-loaded with the buffer already opened; besides, they do not need to be
+      -- available outside of buffers, as in this case the focus should be on Trouble's window
       {
         "[x",
         next_trouble_item,
@@ -51,12 +59,4 @@ return {
     }
   end,
   opts = {},
-  config = function(_, opts)
-    require("trouble").setup(opts)
-
-    -- The following keymap require Trouble to be used already so no need to put it in lazy keys
-    -- Defining this keymap here avoids having it shown alone when no buffer is opened and Trouble
-    -- is not loaded
-    vim.keymap.set("n", "<leader>xx", require("trouble").toggle, { desc = "Trouble: toggle" })
-  end,
 }
