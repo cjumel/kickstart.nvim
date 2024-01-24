@@ -3,12 +3,6 @@
 -- Trouble provides a pretty list for showing diagnostics, references, telescope results,
 -- quickfix and location lists to help you solve all the trouble your code is causing.
 
--- ISSUE:
--- - When closing a window with Trouble opened, Neovim will crash, see:
--- https://github.com/folke/trouble.nvim/issues/253
--- - When closing a buffer with Trouble opened, NeoVim will crash, see:
--- https://github.com/folke/trouble.nvim/issues/134
-
 return {
   "folke/trouble.nvim",
   dependencies = {

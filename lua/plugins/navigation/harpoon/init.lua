@@ -3,9 +3,6 @@
 -- Enable harpooning files. Harpooned files can be accessed from anywhere and at all time
 -- with a simple command.
 
--- TODO:
--- - switch to Harpoon 2
-
 local harpoon_mark = require("plugins.navigation.harpoon.mark")
 
 return {

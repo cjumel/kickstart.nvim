@@ -2,9 +2,6 @@
 --
 -- Show the available keymaps once you start writink a few keys, the marks and registers.
 
--- TODO:
--- - make which-key groups not appear if they are empty (relevant for dap, lsp & trouble)
-
 return {
   "folke/which-key.nvim",
   event = "VeryLazy",
