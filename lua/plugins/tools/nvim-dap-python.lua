@@ -47,16 +47,16 @@ return {
       desc = "[D]ebug [P]ython: [T]est file",
     },
   },
-  config = function()
-    local dap = require("dap")
+  opts = {
+    include_configs = false,
+    console = "integratedTerminal",
+  },
+  config = function(_, opts)
     local dap_python = require("dap-python")
-
-    dap_python.setup(
-      "~/.local/share/nvim/mason/packages/debugpy/venv/bin/python",
-      { include_configs = false, console = "integratedTerminal" }
-    )
+    dap_python.setup("~/.local/share/nvim/mason/packages/debugpy/venv/bin/python", opts)
 
     -- Enable debugpy to detect errors caught by pytest and break
+    local dap = require("dap")
     dap.listeners.after.event_initialized["dap_exception_breakpoint"] = function()
       dap.set_exception_breakpoints({ "userUnhandled" })
     end
