@@ -4,83 +4,22 @@
 
 return {
   "karb94/neoscroll.nvim",
-  -- Use neoscroll's default mappings as lazy keys; using a "BufNewFile" or "BufReadPre" lazy
-  -- event doesn't work well for some buffers like with Neogit
-  -- Redefine the default mappings' functions to use `ft = "*"`, otherwise it makes Lazy crash
+  -- Using `event = { "BufNewFile", "BufReadPre" }` makes Neoscroll not activated in some buffers
+  -- like Neogit's status
   keys = {
-    {
-      "<C-u>",
-      function()
-        require("neoscroll").scroll(-vim.wo.scroll, true, 350)
-      end,
-      desc = "Scroll up half of a window height",
-      ft = "*",
-    },
-    {
-      "<C-d>",
-      function()
-        require("neoscroll").scroll(vim.wo.scroll, true, 350)
-      end,
-      desc = "Scroll down half of a window height",
-      ft = "*",
-    },
-    {
-      "<C-b>",
-      function()
-        require("neoscroll").scroll(-vim.api.nvim_win_get_height(0), true, 550)
-      end,
-      desc = "Scroll up a window height",
-      ft = "*",
-    },
-    {
-      "<C-f>",
-      function()
-        require("neoscroll").scroll(vim.api.nvim_win_get_height(0), true, 550)
-      end,
-      desc = "Scroll down a window height",
-      ft = "*",
-    },
-    {
-      "<C-y>",
-      function()
-        require("neoscroll").scroll(-0.10, false, 100)
-      end,
-      desc = "Scroll up 10% of a window height",
-      ft = "*",
-    },
-    {
-      "<C-e>",
-      function()
-        require("neoscroll").scroll(0.10, false, 100)
-      end,
-      desc = "Scroll down 10% of a window height",
-      ft = "*",
-    },
-    -- For the fold keymaps don't specify a filetype to completly override the corresponding
-    -- builtin keymaps
-    {
-      "zt",
-      function()
-        require("neoscroll").zt(200)
-      end,
-      desc = "Top this line",
-    },
-    {
-      "zz",
-      function()
-        require("neoscroll").zz(200)
-      end,
-      desc = "Center this line",
-    },
-    {
-      "zb",
-      function()
-        require("neoscroll").zb(200)
-      end,
-      desc = "Bottom this line",
-    },
+    -- Don't specify a filetype in the keys, it breaks the lazy loading (when lazy-loaded, only
+    -- the trigger keymap works until the buffer is reloaded) and Neoscroll is not activated in
+    -- some floating windows, like Gitsign's hunk preview
+    -- Redefine the builtin keymaps description to make them displayed by Which Key
+    { "<C-u>", desc = "Scroll up half of a window height" },
+    { "<C-d>", desc = "Scroll down half of a window height" },
+    { "<C-b>", desc = "Scroll up a window height" },
+    { "<C-f>", desc = "Scroll down a window height" },
+    { "<C-y>", desc = "Scroll up 10% of a window height" },
+    { "<C-e>", desc = "Scroll down 10% of a window height" },
+    { "zt", desc = "Top this line" },
+    { "zz", desc = "Center this line" },
+    { "zb", desc = "Bottom this line" },
   },
-  opts = {
-    mappings = {}, -- Disable all default mappings as they are redefined above with keys
-  },
+  opts = {},
 }
