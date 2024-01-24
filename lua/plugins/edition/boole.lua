@@ -11,13 +11,11 @@ return {
       "<C-a>",
       "<cmd>Boole increment<CR>",
       desc = "Increment",
-      ft = "*",
     },
     {
       "<C-x>",
       "<cmd>Boole decrement<CR>",
       desc = "Decrement",
-      ft = "*",
     },
   },
   opts = {

@@ -12,10 +12,7 @@ return {
       end,
       mode = { "n", "x", "o" },
       desc = "Search 2 characters hop",
-      ft = "*",
     },
-    -- For f, F, t & T, don't specify a filetype to completly override the corresponding builtin
-    -- keymaps
     {
       "f",
       function()
@@ -72,7 +69,6 @@ return {
       end,
       mode = { "n", "x", "o" },
       desc = "[W]ord hop",
-      ft = "*",
     },
     {
       "<leader>b",
@@ -84,7 +80,6 @@ return {
       end,
       mode = { "n", "x", "o" },
       desc = "[B]ackward word hop",
-      ft = "*",
     },
     {
       "<leader>e",
@@ -97,7 +92,6 @@ return {
       end,
       mode = { "n", "x", "o" },
       desc = "[E]nd of word hop",
-      ft = "*",
     },
     {
       "<leader>E",
@@ -110,63 +104,54 @@ return {
       end,
       mode = { "n", "x", "o" },
       desc = "[E]nd of word hop backward",
-      ft = "*",
     },
     {
       "<leader>j",
       "<cmd> HopLineStartAC <cr>",
       mode = { "n", "x" },
       desc = "Downward line start hop",
-      ft = "*",
     },
     { -- linewise in operator pending mode
       "<leader>j",
       "V<cmd> HopLineStartAC <cr>",
       mode = { "o" },
       desc = "Downward line start hop",
-      ft = "*",
     },
     {
       "<leader>J",
       "<cmd> HopVerticalAC <cr>",
       mode = { "n", "x" },
       desc = "Downward vertical hop",
-      ft = "*",
     },
     { -- linewise in operator pending mode
       "<leader>J",
       "V<cmd> HopVerticalAC <cr>",
       mode = { "o" },
       desc = "Downward vertical hop",
-      ft = "*",
     },
     {
       "<leader>k",
       "<cmd> HopLineStartBC <cr>",
       mode = { "n", "x" },
       desc = "Upward line start hop",
-      ft = "*",
     },
     { -- linewise in operator pending mode
       "<leader>k",
       "V<cmd> HopLineStartBC <cr>",
       mode = { "o" },
       desc = "Upward line start hop",
-      ft = "*",
     },
     {
       "<leader>K",
       "<cmd> HopVerticalBC <cr>",
       mode = { "n", "x" },
       desc = "Upward vertical hop",
-      ft = "*",
     },
     { -- linewise in operator pending mode
       "<leader>K",
       "V<cmd> HopVerticalBC <cr>",
       mode = { "o" },
       desc = "Upward vertical hop",
-      ft = "*",
     },
   },
   opts = {

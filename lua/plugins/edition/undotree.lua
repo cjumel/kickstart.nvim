@@ -11,7 +11,6 @@ return {
         vim.cmd("UndotreeToggle")
       end,
       desc = "[U]ndo tree",
-      ft = "*",
     },
   },
   config = function()

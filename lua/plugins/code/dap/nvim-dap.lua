@@ -14,7 +14,6 @@ return {
         require("dap").toggle_breakpoint()
       end,
       desc = "[D]ebug: [B]reakpoint",
-      ft = "*",
     },
     {
       "<leader>dc",
@@ -22,7 +21,6 @@ return {
         require("dap").continue()
       end,
       desc = "[D]ebug: [C]ontinue",
-      ft = "*",
     },
     {
       "<leader>dl",
@@ -30,7 +28,6 @@ return {
         require("dap").run_last()
       end,
       desc = "[D]ebug: run [L]ast",
-      ft = "*",
     },
     {
       "<leader>dt",
@@ -38,7 +35,6 @@ return {
         require("dap").terminate()
       end,
       desc = "[D]ebug: [T]erminate",
-      ft = "*",
     },
     {
       "<leader>dK",
@@ -46,7 +42,6 @@ return {
         require("dap.ui.widgets").hover()
       end,
       desc = "[D]ebug: Hover",
-      ft = "*",
     },
   },
 }

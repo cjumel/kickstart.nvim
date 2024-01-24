@@ -12,7 +12,6 @@ return {
       end,
       mode = { "x", "o" },
       desc = "a subword",
-      ft = "*",
     },
     {
       "is",
@@ -21,7 +20,6 @@ return {
       end,
       mode = { "x", "o" },
       desc = "inner subword",
-      ft = "*",
     },
     {
       "C",
@@ -30,7 +28,6 @@ return {
       end,
       mode = { "x", "o" },
       desc = "Next closing bracket",
-      ft = "*",
     },
     {
       "Q",
@@ -39,7 +36,6 @@ return {
       end,
       mode = { "x", "o" },
       desc = "Next quotation mark",
-      ft = "*",
     },
     {
       "aG",
@@ -48,7 +44,6 @@ return {
       end,
       mode = { "x", "o" },
       desc = "a multi-line comment",
-      ft = "*",
     },
     {
       "iG",
@@ -57,7 +52,6 @@ return {
       end,
       mode = { "x", "o" },
       desc = "inner multi-line comment",
-      ft = "*",
     },
     {
       "aA",
@@ -66,7 +60,6 @@ return {
       end,
       mode = { "x", "o" },
       desc = "an entire buffer",
-      ft = "*",
     },
     {
       "iA",
@@ -75,7 +68,6 @@ return {
       end,
       mode = { "x", "o" },
       desc = "inner entire buffer",
-      ft = "*",
     },
     {
       "a-",
@@ -84,7 +76,6 @@ return {
       end,
       mode = { "x", "o" },
       desc = "a line characterwise",
-      ft = "*",
     },
     {
       "i-",
@@ -93,7 +84,6 @@ return {
       end,
       mode = { "x", "o" },
       desc = "inner line characterwise",
-      ft = "*",
     },
     {
       "av",
@@ -102,7 +92,6 @@ return {
       end,
       mode = { "x", "o" },
       desc = "a key-value pair value",
-      ft = "*",
     },
     {
       "iv",
@@ -111,7 +100,6 @@ return {
       end,
       mode = { "x", "o" },
       desc = "inner key-value pair value",
-      ft = "*",
     },
     {
       "ak",
@@ -120,7 +108,6 @@ return {
       end,
       mode = { "x", "o" },
       desc = "a key-value pair key",
-      ft = "*",
     },
     {
       "ik",
@@ -129,7 +116,6 @@ return {
       end,
       mode = { "x", "o" },
       desc = "inner key-value pair key",
-      ft = "*",
     },
   },
 }

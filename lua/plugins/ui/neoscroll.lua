@@ -7,10 +7,6 @@ return {
   -- Using `event = { "BufNewFile", "BufReadPre" }` makes Neoscroll not activated in some buffers
   -- like Neogit's status
   keys = {
-    -- Don't specify a filetype in the keys, it breaks the lazy loading (when lazy-loaded, only
-    -- the trigger keymap works until the buffer is reloaded) and Neoscroll is not activated in
-    -- some floating windows, like Gitsign's hunk preview
-    -- Redefine the builtin keymaps description to make them displayed by Which Key
     { "<C-u>", desc = "Scroll up half of a window height" },
     { "<C-d>", desc = "Scroll down half of a window height" },
     { "<C-b>", desc = "Scroll up a window height" },

@@ -26,7 +26,7 @@ return {
     )
 
     return {
-      { -- Should be available outside of buffers for uses with Telescope's output for instance
+      {
         "<leader>xx",
         function()
           require("trouble").toggle()
@@ -39,22 +39,16 @@ return {
           require("trouble").toggle("document_diagnostics")
         end,
         desc = "Trouble: [D]iagnostics",
-        ft = "*",
       },
-      -- Next/prev Trouble items need to be lazy keys to be available directly in a buffer when
-      -- Trouble is lazy-loaded with the buffer already opened; besides, they do not need to be
-      -- available outside of buffers, as in this case the focus should be on Trouble's window
       {
         "[x",
         next_trouble_item,
         desc = "Next Trouble item",
-        ft = "*",
       },
       {
         "]x",
         previous_trouble_item,
         desc = "Previous Trouble item",
-        ft = "*",
       },
     }
   end,

@@ -124,7 +124,6 @@ return {
         require("telescope.builtin").current_buffer_fuzzy_find()
       end,
       desc = "[F]ind: fu[Z]zily in buffer",
-      ft = "*",
     },
     {
       "<leader>fg",
@@ -146,7 +145,6 @@ return {
         require("telescope.builtin").grep_string(telescope_opts.grep_string)
       end,
       desc = "[F]ind: [W]ord",
-      ft = "*",
     },
     {
       "<leader>f",
@@ -162,7 +160,6 @@ return {
         require("telescope.builtin").grep_string(telescope_opts.grep_string_unrestricted)
       end,
       desc = "[F]ind: [W]ord (unrestricted)",
-      ft = "*",
     },
     {
       "<leader>F",

@@ -14,7 +14,6 @@ return {
         require("treesj").toggle()
       end,
       desc = "Split node toggle",
-      ft = "*",
     },
   },
   opts = {

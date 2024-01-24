@@ -30,14 +30,12 @@ return {
         next_todo_comment,
         mode = { "n", "x", "o" },
         desc = "Next todo comment",
-        ft = "*",
       },
       {
         "]t",
         prev_todo_comment,
         mode = { "n", "x", "o" },
         desc = "Previous todo comment",
-        ft = "*",
       },
     }
   end,
