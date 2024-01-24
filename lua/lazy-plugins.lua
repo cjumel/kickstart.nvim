@@ -25,23 +25,19 @@ local opts = {
 }
 
 local plugins = {
+  -- Core plugins bring features to edit buffers efficiently (text objects, motions, LSP,
+  -- formatters, etc.)
+  { import = "plugins.core" },
 
-  -- Plugins related to code (LSP, completion, debugging, etc.)
-  { import = "plugins.code.dap" },
-  { import = "plugins.code" },
-
-  -- Plugins related to simple editions (highlighting, motions, text objects, etc.)
-  { import = "plugins.edition.treesitter" },
-  { import = "plugins.edition" },
-
-  -- Plugins related to external tools (VCS, pre-commit, external package manager, etc.)
-  { import = "plugins.external_tools.vim-dadbod" },
-  { import = "plugins.external_tools" },
-
-  -- Plugins related to code navigation (fuzzy finding, file tree navigation, etc.)
+  -- Navigation plugins enable fast navigation and exploration between files (file fuzzy finding,
+  -- file explorer, etc.) but also various navigation interfaces
   { import = "plugins.navigation" },
 
-  -- Plugins related to the user interface (color scheme, visual elements, etc.)
+  -- Tools plugins bring extra features not related directly to editing buffer (DAP, database
+  -- explorer, etc.)
+  { import = "plugins.tools" },
+
+  -- User interface plugins bring various visual improvements (colorscheme, statusline, etc.)
   { import = "plugins.ui" },
 }
 

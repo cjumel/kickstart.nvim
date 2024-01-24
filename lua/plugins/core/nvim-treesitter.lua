@@ -9,6 +9,24 @@ return {
   },
   build = ":TSUpdate",
   event = { "BufNewFile", "BufReadPre" },
+  keys = {
+    {
+      ",",
+      function()
+        require("nvim-treesitter.textobjects.repeatable_move").repeat_last_move_next()
+      end,
+      mode = { "n", "x", "o" },
+      desc = "Repeat last move next",
+    },
+    {
+      ";",
+      function()
+        require("nvim-treesitter.textobjects.repeatable_move").repeat_last_move_previous()
+      end,
+      mode = { "n", "x", "o" },
+      desc = "Repeat last move previous",
+    },
+  },
   config = function()
     require("nvim-treesitter.configs").setup({
       ensure_installed = { -- Languages treesitter must install

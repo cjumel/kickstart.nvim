@@ -51,7 +51,7 @@ return {
   config = function(_, opts)
     require("luasnip").setup(opts)
 
-    local ft_to_snippets = require("plugins.code.luasnip.snippets")
+    local ft_to_snippets = require("plugins.core.luasnip.snippets")
     for ft, snippets in pairs(ft_to_snippets) do
       require("luasnip").add_snippets(ft, snippets)
     end

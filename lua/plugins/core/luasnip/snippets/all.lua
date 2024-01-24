@@ -7,7 +7,7 @@ local s = ls.snippet
 local sn = ls.snippet_node
 local t = ls.text_node
 
-local custom_show_conds = require("plugins.code.luasnip.show_conds")
+local custom_show_conds = require("plugins.core.luasnip.show_conds")
 
 local calculate_comment_string = require("Comment.ft").calculate
 local utils = require("Comment.utils")

@@ -2,8 +2,8 @@
 --
 -- A task runner and job management plugin for Neovim.
 
-local commands = require("plugins.external_tools.overseer.commands")
-local templates = require("plugins.external_tools.overseer.templates")
+local commands = require("plugins.tools.overseer.commands")
+local templates = require("plugins.tools.overseer.templates")
 
 return {
   "stevearc/overseer.nvim",

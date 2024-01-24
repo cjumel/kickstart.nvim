@@ -1,4 +1,4 @@
-local templates = require("plugins.external_tools.overseer.templates")
+local templates = require("plugins.tools.overseer.templates")
 
 local commands = {}
 for _, template in ipairs(templates) do

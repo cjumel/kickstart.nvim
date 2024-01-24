@@ -1,6 +1,6 @@
 local utils = require("utils")
 
-local arguments = require("plugins.external_tools.overseer.arguments")
+local arguments = require("plugins.tools.overseer.arguments")
 
 local tags = { "python", "pytest" }
 
