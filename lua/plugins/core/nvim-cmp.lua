@@ -5,20 +5,14 @@
 return {
   "hrsh7th/nvim-cmp",
   dependencies = {
-    -- LSP completion source
     "hrsh7th/cmp-nvim-lsp",
-    -- Snippets completion source
-    "saadparwaiz1/cmp_luasnip",
-    "L3MON4D3/LuaSnip",
-    -- Other completion sources
     "hrsh7th/cmp-buffer",
     "hrsh7th/cmp-cmdline",
     "hrsh7th/cmp-path",
+    "saadparwaiz1/cmp_luasnip",
     "clementjumel/cmp-gitmoji",
-    -- Other
-    "windwp/nvim-autopairs",
   },
-  event = "VeryLazy",
+  event = { "InsertEnter", "CmdlineEnter" },
   config = function()
     local cmp = require("cmp")
 
