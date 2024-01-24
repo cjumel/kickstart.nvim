@@ -20,5 +20,7 @@ return {
       ft = "*",
     },
   },
-  opts = {},
+  opts = {
+    mappings = {}, -- Can't be removed otherwise the setup fails
+  },
 }
