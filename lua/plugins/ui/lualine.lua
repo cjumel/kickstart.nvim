@@ -83,7 +83,6 @@ return {
   "nvim-lualine/lualine.nvim",
   dependencies = {
     "nvim-tree/nvim-web-devicons",
-    "folke/noice.nvim",
   },
   priority = 100, -- Main UI stuff should be loaded first
   opts = {
@@ -92,8 +91,6 @@ return {
       component_separators = "|",
       section_separators = "",
     },
-    -- Add a message in the status line when recording a macro
-    -- This means that noice needs to pass the message to the statusline (see noice's wiki)
     sections = {
       lualine_c = {
         {
@@ -105,6 +102,8 @@ return {
         },
       },
       lualine_x = {
+        -- Add a message in the status line when recording a macro
+        -- This means that noice needs to pass the message to the statusline (see noice's wiki)
         {
           function()
             return require("noice").api.statusline.mode.get()
