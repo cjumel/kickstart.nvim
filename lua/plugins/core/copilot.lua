@@ -5,7 +5,7 @@
 
 return {
   "github/copilot.vim",
-  event = { "BufNewFile", "BufReadPre" },
+  event = "InsertEnter",
   config = function()
     vim.g.copilot_filetypes = { -- Enable or disable on some file types
       markdown = true,
