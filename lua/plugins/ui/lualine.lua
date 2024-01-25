@@ -15,13 +15,6 @@ local custom_extensions = {
       lualine_z = { "location" },
     },
     filetypes = {
-      -- DAP
-      "dap-repl",
-      "dapui_console",
-      "dapui_watches",
-      "dapui_stacks",
-      "dapui_breakpoints",
-      "dapui_scopes",
       -- DB-UI
       "dbui",
       -- Neogit
