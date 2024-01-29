@@ -9,21 +9,25 @@ return {
     {
       "<C-h>",
       "<cmd> TmuxNavigateLeft <CR>",
+      mode = { "n", "t" },
       desc = "Window left",
     },
     {
       "<C-l>",
       "<cmd> TmuxNavigateRight <CR>",
+      mode = { "n", "t" },
       desc = "Window right",
     },
     {
       "<C-j>",
       "<cmd> TmuxNavigateDown <CR>",
+      mode = { "n", "t" },
       desc = "Window down",
     },
     {
       "<C-k>",
       "<cmd> TmuxNavigateUp <CR>",
+      mode = { "n", "t" },
       desc = "Window up",
     },
   },
