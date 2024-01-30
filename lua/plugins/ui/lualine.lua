@@ -13,54 +13,6 @@ local default_lualine_sections = {
   lualine_z = { "location" },
 }
 
--- Redefine some extensions to customize them (see lualine/extensions/ for the initial
--- implementations)
-local custom_extensions = {
-  oil = {
-    sections = utils.table.concat_dicts({
-      default_lualine_sections,
-      {
-        lualine_c = {
-          function()
-            local ok, oil = pcall(require, "oil")
-            if not ok then
-              return ""
-            end
-
-            local current_dir = oil.get_current_dir()
-            -- Truncate relative to cwd or home with "~" when possible
-            local short_path = vim.fn.fnamemodify(current_dir, ":p:~:.")
-            -- If path is cwd (relative path is empty), don't show path relative to project
-            if short_path == "" then
-              short_path = vim.fn.fnamemodify(current_dir, ":p:~")
-            end
-            return short_path
-          end,
-        },
-      },
-    }),
-    filetypes = { "oil" },
-  },
-  trouble = {
-    sections = utils.table.concat_dicts({
-      default_lualine_sections,
-      {
-        lualine_c = {
-          function()
-            local opts = require("trouble.config").options
-            local words = vim.split(opts.mode, "[%W]")
-            for i, word in ipairs(words) do
-              words[i] = word:sub(1, 1):upper() .. word:sub(2)
-            end
-            return table.concat(words, " ")
-          end,
-        },
-      },
-    }),
-    filetypes = { "Trouble" },
-  },
-}
-
 return {
   "nvim-lualine/lualine.nvim",
   dependencies = {
@@ -102,8 +54,51 @@ return {
       },
     },
     extensions = {
-      custom_extensions.oil,
-      custom_extensions.trouble,
+      -- Redefine some extensions to customize them (see lualine/extensions/ for the initial
+      -- implementations)
+      {
+        sections = utils.table.concat_dicts({
+          default_lualine_sections,
+          {
+            lualine_c = {
+              function()
+                local ok, oil = pcall(require, "oil")
+                if not ok then
+                  return ""
+                end
+
+                local current_dir = oil.get_current_dir()
+                -- Truncate relative to cwd or home with "~" when possible
+                local short_path = vim.fn.fnamemodify(current_dir, ":p:~:.")
+                -- If path is cwd (relative path is empty), don't show path relative to project
+                if short_path == "" then
+                  short_path = vim.fn.fnamemodify(current_dir, ":p:~")
+                end
+                return short_path
+              end,
+            },
+          },
+        }),
+        filetypes = { "oil" },
+      },
+      {
+        sections = utils.table.concat_dicts({
+          default_lualine_sections,
+          {
+            lualine_c = {
+              function()
+                local opts = require("trouble.config").options
+                local words = vim.split(opts.mode, "[%W]")
+                for i, word in ipairs(words) do
+                  words[i] = word:sub(1, 1):upper() .. word:sub(2)
+                end
+                return table.concat(words, " ")
+              end,
+            },
+          },
+        }),
+        filetypes = { "Trouble" },
+      },
     },
   },
 }
