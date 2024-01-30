@@ -16,11 +16,11 @@ return {
       desc = "[D]ebug: toggle UI",
     },
     {
-      "<leader>dD",
+      "<leader>dr",
       function()
         require("dapui").open({ reset = true })
       end,
-      desc = "[D]ebug: reset UI",
+      desc = "[D]ebug: [R]eset UI",
     },
   },
   opts = {
