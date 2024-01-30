@@ -8,44 +8,10 @@ return {
   dependencies = {
     "mfussenegger/nvim-dap",
   },
-  keys = {
-    -- Run Python
-    {
-      "<leader>dpr",
-      function()
-        require("dap").run({
-          type = "python",
-          request = "launch",
-          name = "Run file",
-          program = "${file}",
-          console = "integratedTerminal",
-        })
-      end,
-      desc = "[D]ebug [P]ython: [R]un",
-    },
-
-    -- Test with Pytest
-    {
-      "<leader>dpt",
-      function()
-        require("dap-python").test_method({ test_runner = "pytest" })
-      end,
-      desc = "[D]ebug [P]ython: [T]est method",
-    },
-    {
-      "<leader>dpT",
-      function()
-        require("dap").run({
-          type = "python",
-          request = "launch",
-          name = "Test file",
-          module = "pytest",
-          args = { "${file}" },
-          console = "integratedTerminal",
-        })
-      end,
-      desc = "[D]ebug [P]ython: [T]est file",
-    },
+  cmd = {
+    "DapPythonFile",
+    "DapPytestFunction",
+    "DapPytestFile",
   },
   opts = {
     include_configs = false,
@@ -60,5 +26,28 @@ return {
     dap.listeners.after.event_initialized["dap_exception_breakpoint"] = function()
       dap.set_exception_breakpoints({ "userUnhandled" })
     end
+
+    vim.api.nvim_create_user_command("DapPythonFile", function()
+      require("dap").run({
+        type = "python",
+        request = "launch",
+        name = "Run file",
+        program = "${file}",
+        console = "integratedTerminal",
+      })
+    end, { desc = "Run Python on file with DAP." })
+    vim.api.nvim_create_user_command("DapPytestFunction", function()
+      require("dap-python").test_method({ test_runner = "pytest" })
+    end, { desc = "Run Pytest on function with DAP." })
+    vim.api.nvim_create_user_command("DapPytestFile", function()
+      require("dap").run({
+        type = "python",
+        request = "launch",
+        name = "Test file",
+        module = "pytest",
+        args = { "${file}" },
+        console = "integratedTerminal",
+      })
+    end, { desc = "Run Pytest on file with DAP." })
   end,
 }

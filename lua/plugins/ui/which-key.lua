@@ -26,7 +26,6 @@ return {
       ["<leader>,"] = { name = "Settings", _ = "which_key_ignore" },
       ["<leader>?"] = { name = "Help", _ = "which_key_ignore" },
       ["<leader>d"] = { name = "[D]ebug", _ = "which_key_ignore" },
-      ["<leader>dp"] = { name = "[D]ebug [P]ython", _ = "which_key_ignore" },
       ["<leader>f"] = { name = "[F]ind", _ = "which_key_ignore" },
       ["<leader>g"] = { name = "[G]it", _ = "which_key_ignore" },
       ["<leader>l"] = { name = "[L]SP", _ = "which_key_ignore" },
