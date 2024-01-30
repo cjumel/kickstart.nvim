@@ -21,6 +21,7 @@ local custom_extensions = {
       "NeogitStatus",
       "NeogitPopup",
       "NeogitCommitMessage",
+      "NeogitCommitView",
       -- Noice
       "noice",
       -- Overseer
