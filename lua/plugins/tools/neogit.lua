@@ -11,7 +11,16 @@ return {
     {
       "=",
       function()
-        require("neogit").open()
+        -- Determine kind option depending on the number of opened windows (e.g. number of splits)
+        -- This fixes the bad behavior when closing Neogit with split windows
+        require("actions").clear_window() -- Remove relative windows to avoid counting them
+        local n_windows = #vim.api.nvim_tabpage_list_wins(0)
+
+        if n_windows == 1 then
+          require("neogit").open({ kind = "replace" })
+        else
+          require("neogit").open({ kind = "split_above" })
+        end
       end,
       desc = "Open Neogit buffer",
     },
