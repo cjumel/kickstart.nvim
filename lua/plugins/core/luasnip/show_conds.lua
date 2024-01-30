@@ -7,6 +7,12 @@ local utils = require("utils")
 
 local M = {}
 
+local function is_treesitter_parsable()
+  local is_treesitter_parsable_, _ = pcall(vim.treesitter.get_node)
+  return is_treesitter_parsable_
+end
+M.is_treesitter_parsable = cond_obj.make_condition(is_treesitter_parsable)
+
 -- A matched trigger is considered to be everything after the last white space or punctuation mark
 -- in the line before cursor (this is true as long as the matched trigger doesn't have white spaces
 -- or punctuation marks itself, which is a good assumption as `nvim-cmp` doesn't take them into
@@ -50,8 +56,8 @@ local function tresitter_check_node_type(line_to_cursor, treesitter_node_types, 
   local not_parsable_return = opts.not_parsable_return or false
   local not_node_return = opts.not_node_return or false
 
-  local is_treesitter_parsable, node = pcall(get_treesitter_node, line_to_cursor)
-  if not is_treesitter_parsable then
+  local is_treesitter_parsable_, node = pcall(get_treesitter_node, line_to_cursor)
+  if not is_treesitter_parsable_ then
     return not_parsable_return
   end
 

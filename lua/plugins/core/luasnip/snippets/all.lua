@@ -46,7 +46,7 @@ end
 return {
   s({
     trig = "todo-comment", -- In-code version
-    show_condition = custom_show_conds.is_in_code,
+    show_condition = -custom_show_conds.is_treesitter_parsable + custom_show_conds.is_in_code,
   }, {
     -- Adapted from
     -- https://github.com/L3MON4D3/LuaSnip/wiki/Cool-Snippets#all---todo-commentsnvim-snippets
