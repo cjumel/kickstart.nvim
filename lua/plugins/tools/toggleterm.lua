@@ -21,6 +21,8 @@ end
 return {
   "akinsho/toggleterm.nvim",
   cmd = {
+    "ToggleTermLuajit",
+    "ToggleTermLuajitVertical",
     "ToggleTermPython",
     "ToggleTermPythonVertical",
   },
@@ -79,11 +81,17 @@ return {
     local toggleterm = require("toggleterm")
     toggleterm.setup(opts)
 
+    vim.api.nvim_create_user_command("ToggleTermLuajit", function()
+      vim.cmd(next_id() .. "TermExec cmd=luajit direction=horizontal")
+    end, { desc = "ToggleTerm LuaJIT console" })
+    vim.api.nvim_create_user_command("ToggleTermLuajitVertical", function()
+      vim.cmd(next_id() .. "TermExec cmd=luajit direction=vertical")
+    end, { desc = "ToggleTerm LuaJIT vertical console" })
     vim.api.nvim_create_user_command("ToggleTermPython", function()
       vim.cmd(next_id() .. "TermExec cmd=python direction=horizontal")
-    end, { desc = "ToggleTerm Python terminal" })
+    end, { desc = "ToggleTerm Python console" })
     vim.api.nvim_create_user_command("ToggleTermPythonVertical", function()
       vim.cmd(next_id() .. "TermExec cmd=python direction=vertical")
-    end, { desc = "ToggleTerm Python vertical terminal" })
+    end, { desc = "ToggleTerm Python vertical console" })
   end,
 }
