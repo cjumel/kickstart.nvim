@@ -37,12 +37,18 @@ local custom_extensions = {
       lualine_c = {
         function()
           local ok, oil = pcall(require, "oil")
-          if ok then
-            -- Show relative path if in directory, or truncate with "~" if possible
-            return vim.fn.fnamemodify(oil.get_current_dir(), ":p:~:.")
-          else
+          if not ok then
             return ""
           end
+
+          local current_dir = oil.get_current_dir()
+          -- Truncate relative to cwd or home with "~" when possible
+          local short_path = vim.fn.fnamemodify(current_dir, ":p:~:.")
+          -- If path is cwd (relative path is empty), don't show path relative to project
+          if short_path == "" then
+            short_path = vim.fn.fnamemodify(current_dir, ":p:~")
+          end
+          return short_path
         end,
       },
       lualine_x = { "filetype" },
