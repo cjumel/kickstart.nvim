@@ -9,18 +9,18 @@ return {
   },
   keys = {
     {
-      "<leader>du",
+      "<leader>dd",
       function()
         require("dapui").toggle()
       end,
-      desc = "[D]ebug: toggle [U]I",
+      desc = "[D]ebug: toggle UI",
     },
     {
-      "<leader>dU",
+      "<leader>dD",
       function()
         require("dapui").open({ reset = true })
       end,
-      desc = "[D]ebug: reset [U]I",
+      desc = "[D]ebug: reset UI",
     },
   },
   opts = {

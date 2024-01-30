@@ -48,7 +48,7 @@ return {
       function()
         require("dap").repl.toggle()
       end,
-      desc = "[D]ebug: toggle [R]epl",
+      desc = "[D]ebug: [R]epl",
     },
   },
 }
