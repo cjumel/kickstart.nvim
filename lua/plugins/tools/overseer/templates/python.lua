@@ -4,7 +4,7 @@ local tags = { "python" }
 
 return {
   {
-    name = "Python run file",
+    name = "Python file",
     builder = function(params)
       local arguments_path = arguments.get_path(params, { mode = "file" })
 
