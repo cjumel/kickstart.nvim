@@ -43,5 +43,12 @@ return {
       end,
       desc = "[D]ebug: Hover",
     },
+    {
+      "<leader>dr",
+      function()
+        require("dap").repl.toggle()
+      end,
+      desc = "[D]ebug: toggle [R]epl",
+    },
   },
 }
