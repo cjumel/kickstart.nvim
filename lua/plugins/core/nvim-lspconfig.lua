@@ -47,7 +47,6 @@ return {
       -- Go to actions
       local telescope_opts = {
         layout_strategy = "vertical",
-        initial_mode = "normal",
         show_line = false, -- Don't show the whole line in the picker next to the file path
       }
       map("n", "gd", function()
