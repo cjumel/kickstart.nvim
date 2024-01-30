@@ -9,14 +9,8 @@ return {
     "tpope/vim-dadbod",
     "kristijanhusak/vim-dadbod-completion",
   },
-  keys = {
-    {
-      "<leader>D",
-      function()
-        vim.cmd("DBUIToggle")
-      end,
-      desc = "[D]atabase explorer",
-    },
+  cmd = {
+    "DBUIToggle",
   },
   config = function()
     vim.g.db_ui_use_nvim_notify = 1
