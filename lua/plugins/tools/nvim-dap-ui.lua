@@ -13,14 +13,14 @@ return {
       function()
         require("dapui").toggle()
       end,
-      desc = "[D]ebug: toggle UI",
+      desc = "[D]AP: toggle UI",
     },
     {
       "<leader>dr",
       function()
         require("dapui").open({ reset = true })
       end,
-      desc = "[D]ebug: [R]eset UI",
+      desc = "[D]AP: [R]eset UI",
     },
   },
   opts = {

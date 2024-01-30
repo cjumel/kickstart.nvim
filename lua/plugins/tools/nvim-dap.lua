@@ -13,35 +13,35 @@ return {
       function()
         require("dap").toggle_breakpoint()
       end,
-      desc = "[D]ebug: [B]reakpoint",
+      desc = "[D]AP: [B]reakpoint",
     },
     {
       "<leader>dc",
       function()
         require("dap").continue()
       end,
-      desc = "[D]ebug: [C]ontinue",
+      desc = "[D]AP: [C]ontinue",
     },
     {
       "<leader>dl",
       function()
         require("dap").run_last()
       end,
-      desc = "[D]ebug: run [L]ast",
+      desc = "[D]AP: run [L]ast",
     },
     {
       "<leader>dt",
       function()
         require("dap").terminate()
       end,
-      desc = "[D]ebug: [T]erminate",
+      desc = "[D]AP: [T]erminate",
     },
     {
       "<leader>dK",
       function()
         require("dap.ui.widgets").hover()
       end,
-      desc = "[D]ebug: Hover",
+      desc = "[D]AP: Hover",
     },
   },
 }
