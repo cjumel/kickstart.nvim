@@ -99,6 +99,19 @@ return {
         }),
         filetypes = { "Trouble" },
       },
+      {
+        sections = utils.table.concat_dicts({
+          default_lualine_sections,
+          {
+            lualine_c = {
+              function()
+                return "ToggleTerm #" .. vim.b.toggle_number
+              end,
+            },
+          },
+        }),
+        filetypes = { "toggleterm" },
+      },
     },
   },
 }
