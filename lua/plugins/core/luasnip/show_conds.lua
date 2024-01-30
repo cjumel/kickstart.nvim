@@ -86,12 +86,6 @@ local function is_in_function(line_to_cursor)
 end
 M.is_in_function = cond_obj.make_condition(is_in_function)
 
--- Condition determining wether a snippet is in a string or not, using treesitter.
-local function is_in_string(line_to_cursor)
-  return tresitter_check_node_type(line_to_cursor, treesitter_node_types_string)
-end
-M.is_in_string = cond_obj.make_condition(is_in_string)
-
 -- Condition determining wether a snippet is in actual code or not, using treesitter.
 local function is_in_code(line_to_cursor)
   local treesitter_node_types_comment_and_string =

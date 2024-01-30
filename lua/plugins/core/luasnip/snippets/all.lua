@@ -46,7 +46,7 @@ end
 return {
   s({
     trig = "todo-comment", -- In-code version
-    show_condition = custom_show_conds.is_in_code * -custom_show_conds.is_in_string,
+    show_condition = custom_show_conds.is_in_code,
   }, {
     -- Adapted from
     -- https://github.com/L3MON4D3/LuaSnip/wiki/Cool-Snippets#all---todo-commentsnvim-snippets
@@ -62,7 +62,7 @@ return {
   }),
   s({
     trig = "todo-comment", -- In-comment version (don't add comment strings)
-    show_condition = custom_show_conds.is_in_comment * -custom_show_conds.is_in_string,
+    show_condition = custom_show_conds.is_in_comment,
   }, {
     c(1, { -- Snippet nodes below are weirdly defined to avoid being recognized as a todo-comment
       sn(nil, { t("TODO"), t(": "), i(1) }),
