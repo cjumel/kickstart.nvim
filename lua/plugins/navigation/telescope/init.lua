@@ -47,8 +47,14 @@ custom_actions.add_harpoon_mark_clear_all = function(tb)
   add_harpoon_mark(tb, { clear_all = true })
 end
 
+-- Tiebreak function determining how to sort Telescope entries with equal match with the prompt
+-- by recency. Using this makes sure entries stay sorted by recency when entering a prompt.
+local function recency_tiebreak(current_entry, existing_entry, _)
+  return current_entry.index < existing_entry.index
+end
+
+-- Filter function for command history to discard short commands like "w", "q", "wq", "wqa", etc.
 local command_history_filter_fn = function(cmd)
-  -- Discard commands like "w", "q", "wq", "wqa", etc.
   if string.len(cmd) < 4 then
     return false
   end
@@ -108,10 +114,7 @@ return {
       function()
         require("telescope.builtin").oldfiles({
           preview = { hide_on_startup = true },
-          -- Ensure that when filtering, entries stay sorted by recency
-          tiebreak = function(current_entry, existing_entry, _)
-            return current_entry.index < existing_entry.index
-          end,
+          tiebreak = recency_tiebreak,
         })
       end,
       desc = "[F]ind: [O]ld files",
@@ -176,6 +179,7 @@ return {
       function()
         local opts = require("telescope.themes").get_dropdown(telescope_opts.dropdown)
         opts.filter_fn = command_history_filter_fn
+        opts.tiebreak = recency_tiebreak
         require("telescope.builtin").command_history(opts)
       end,
       desc = "Command history",
@@ -184,6 +188,7 @@ return {
       "<leader>/",
       function()
         local opts = require("telescope.themes").get_dropdown(telescope_opts.dropdown)
+        opts.tiebreak = recency_tiebreak
         require("telescope.builtin").search_history(opts)
       end,
       desc = "Search history",
