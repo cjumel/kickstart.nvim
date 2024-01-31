@@ -21,6 +21,10 @@ end
 return {
   "akinsho/toggleterm.nvim",
   cmd = {
+    -- Builtin commands
+    "ToggleTerm",
+    "TermExec",
+    -- Custom commands
     "ToggleTermLuajit",
     "ToggleTermLuajitVertical",
     "ToggleTermPythonPoetry",
