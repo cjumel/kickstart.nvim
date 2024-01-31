@@ -87,11 +87,12 @@ return {
     vim.api.nvim_create_user_command("ToggleTermLuajitVertical", function()
       vim.cmd(next_id() .. "TermExec cmd=luajit direction=vertical")
     end, { desc = "ToggleTerm LuaJIT vertical console" })
-    vim.api.nvim_create_user_command("ToggleTermPython", function()
-      vim.cmd(next_id() .. "TermExec cmd=python direction=horizontal")
-    end, { desc = "ToggleTerm Python console" })
-    vim.api.nvim_create_user_command("ToggleTermPythonVertical", function()
-      vim.cmd(next_id() .. "TermExec cmd=python direction=vertical")
-    end, { desc = "ToggleTerm Python vertical console" })
+
+    vim.api.nvim_create_user_command("ToggleTermPythonPoetry", function()
+      vim.cmd(next_id() .. "TermExec cmd='poetry run python' direction=horizontal")
+    end, { desc = "ToggleTerm Python console with Poetry environment" })
+    vim.api.nvim_create_user_command("ToggleTermPythonPoetryVertical", function()
+      vim.cmd(next_id() .. "TermExec cmd='poetry run python' direction=vertical")
+    end, { desc = "ToggleTerm Python vertical console with Poetry environment" })
   end,
 }
