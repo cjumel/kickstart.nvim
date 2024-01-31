@@ -38,52 +38,28 @@ return {
       desc = "Next quotation mark",
     },
     {
-      "aG",
+      "gm",
       function()
         require("various-textobjs").multiCommentedLines()
       end,
       mode = { "x", "o" },
-      desc = "a multi-line comment",
+      desc = "Multi-line comment",
     },
     {
-      "iG",
-      function()
-        require("various-textobjs").multiCommentedLines()
-      end,
-      mode = { "x", "o" },
-      desc = "inner multi-line comment",
-    },
-    {
-      "aA",
+      "gG", -- Combine gg and G
       function()
         require("various-textobjs").entireBuffer()
       end,
       mode = { "x", "o" },
-      desc = "an entire buffer",
+      desc = "Entire buffer",
     },
     {
-      "iA",
+      "-",
       function()
-        require("various-textobjs").entireBuffer()
+        require("various-textobjs").lineCharacterwise("inner") -- "outer" is useless
       end,
       mode = { "x", "o" },
-      desc = "inner entire buffer",
-    },
-    {
-      "a-",
-      function()
-        require("various-textobjs").lineCharacterwise("outer")
-      end,
-      mode = { "x", "o" },
-      desc = "a line characterwise",
-    },
-    {
-      "i-",
-      function()
-        require("various-textobjs").lineCharacterwise("inner")
-      end,
-      mode = { "x", "o" },
-      desc = "inner line characterwise",
+      desc = "Line characterwise",
     },
     {
       "av",
