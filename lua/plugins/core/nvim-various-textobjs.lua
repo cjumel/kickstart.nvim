@@ -117,21 +117,5 @@ return {
       mode = { "x", "o" },
       desc = "inner key-value pair key",
     },
-    {
-      "aQ",
-      function()
-        require("various-textobjs").pyTripleQuotes("outer")
-      end,
-      mode = { "x", "o" },
-      desc = "a Python triple quote",
-    },
-    {
-      "iQ",
-      function()
-        require("various-textobjs").pyTripleQuotes("inner")
-      end,
-      mode = { "x", "o" },
-      desc = "inner Python triple quote",
-    },
   },
 }
