@@ -5,7 +5,10 @@
 
 return {
   "github/copilot.vim",
-  event = "InsertEnter",
+  -- For some reason, with `event = InsertEnter`, when entering insert mode for the first time
+  -- directly in a buffer (e.g. not in Telescope), an event `github_copilot` takes around 900 ms
+  -- and causes a significant latency
+  event = { "BufNewFile", "BufReadPre" },
   config = function()
     vim.g.copilot_filetypes = { -- Enable or disable on some file types
       markdown = true,
