@@ -23,8 +23,8 @@ return {
   cmd = {
     "ToggleTermLuajit",
     "ToggleTermLuajitVertical",
-    "ToggleTermPython",
-    "ToggleTermPythonVertical",
+    "ToggleTermPythonPoetry",
+    "ToggleTermPythonPoetryVertical",
   },
   keys = {
     {
