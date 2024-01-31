@@ -6,6 +6,9 @@ return {
   "NeogitOrg/neogit",
   dependencies = {
     "nvim-lua/plenary.nvim",
+    -- Neogit buffers are not detected by "BufNewFile" or "BufReadPre" event, so to enable
+    -- completion (essential for gitmojis), let's add nvim-cmp as a dependency
+    "hrsh7th/nvim-cmp",
   },
   keys = {
     {

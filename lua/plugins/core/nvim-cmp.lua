@@ -12,7 +12,11 @@ return {
     "saadparwaiz1/cmp_luasnip",
     "clementjumel/cmp-gitmoji",
   },
-  event = { "InsertEnter", "CmdlineEnter" },
+  event = {
+    "BufNewFile",
+    "BufReadPre",
+    "CmdlineEnter", -- For command line completion
+  },
   config = function()
     local cmp = require("cmp")
 
