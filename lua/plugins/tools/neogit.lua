@@ -25,7 +25,7 @@ return {
         require("actions").clear_window() -- Remove relative windows to avoid counting them
         local n_windows = #vim.api.nvim_tabpage_list_wins(0)
         if n_windows > 1 then
-          require("neogit").open({ kind = "split_above" })
+          require("neogit").open({ kind = "vsplit" })
           return
         end
 
@@ -37,6 +37,15 @@ return {
   opts = {
     disable_hint = true,
     kind = "replace",
+    commit_editor = {
+      kind = "split",
+    },
+    commit_view = {
+      kind = "split",
+    },
+    rebase_editor = {
+      kind = "split",
+    },
   },
   config = function(_, opts)
     require("neogit").setup(opts)
