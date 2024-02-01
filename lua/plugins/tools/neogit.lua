@@ -15,13 +15,8 @@ return {
     {
       "=",
       function()
-        -- If zen-mode is loaded, close it before counting windows as it will be closed anyway
-        if package.loaded["zen-mode"] ~= nil then
-          require("zen-mode").close()
-        end
-
-        -- Open in split window (above) if there are more than one window (i.e. in case of splits)
-        -- This fixes the bad behavior when closing Neogit with split windows
+        -- Open in split window if there are more than one window (i.e. in case of splits)
+        -- This fixes the bad behavior when closing Neogit while in a split window
         require("actions").clear_window() -- Remove relative windows to avoid counting them
         local n_windows = #vim.api.nvim_tabpage_list_wins(0)
         if n_windows > 1 then
