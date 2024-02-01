@@ -1,12 +1,13 @@
 -- nvim-various-textobjs
 --
--- Bundle of more than two dozen new textobjects for Neovim.
+-- Provide a bundle of convenient rule-based textobjects to complete the builtin and treesitter
+-- ones.
 
 return {
   "chrisgrieser/nvim-various-textobjs",
   keys = {
     {
-      "as",
+      "as", -- Overwrite outer sentence builtin text object (useless when writing code)
       function()
         require("various-textobjs").subword("outer")
       end,
@@ -14,7 +15,7 @@ return {
       desc = "a subword",
     },
     {
-      "is",
+      "is", -- Overwrite inner sentence builtin text object (useless when writing code)
       function()
         require("various-textobjs").subword("inner")
       end,
@@ -38,7 +39,7 @@ return {
       desc = "Next quotation mark",
     },
     {
-      "aq",
+      "aq", -- Simpler altenative to a"/'/` with increased lookahead
       function()
         require("various-textobjs").anyQuote("outer")
       end,
@@ -46,7 +47,7 @@ return {
       desc = "a quote",
     },
     {
-      "iq",
+      "iq", -- Simpler altenative to i"/'/` with increased lookahead
       function()
         require("various-textobjs").anyQuote("inner")
       end,
@@ -54,7 +55,7 @@ return {
       desc = "inner quote",
     },
     {
-      "gm",
+      "gm", -- Similar to ag/ig in multi-line mode
       function()
         require("various-textobjs").multiCommentedLines()
       end,
@@ -70,7 +71,7 @@ return {
       desc = "Entire buffer",
     },
     {
-      "`", -- Just below $
+      "`", -- Builtin is a register key useless in visual/object modes; just below $ (EOL)
       function()
         require("various-textobjs").nearEoL()
       end,
@@ -78,7 +79,7 @@ return {
       desc = "Near end of line",
     },
     {
-      "-",
+      "-", -- Builtin is quivalent to j in visual/object modes
       function()
         require("various-textobjs").lineCharacterwise("inner") -- "outer" is useless
       end,
