@@ -50,10 +50,6 @@ return {
   opts = {},
   config = function(_, opts)
     require("luasnip").setup(opts)
-
-    local ft_to_snippets = require("plugins.core.luasnip.snippets")
-    for ft, snippets in pairs(ft_to_snippets) do
-      require("luasnip").add_snippets(ft, snippets)
-    end
+    require("luasnip.loaders.from_lua").load({ paths = { "./lua/plugins/core/luasnip/snippets" } })
   end,
 }
