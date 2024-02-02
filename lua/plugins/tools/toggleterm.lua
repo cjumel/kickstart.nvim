@@ -1,6 +1,7 @@
 -- toggleterm.nvim
 --
--- A neovim plugin to persist and toggle multiple terminals during an editing session.
+-- A neovim plugin to persist and interact with (hide, send code, etc.) multiple terminals during
+-- an editing session.
 
 -- Following function is taken from toggleterm/terminal.lua
 
@@ -21,16 +22,8 @@ end
 return {
   "akinsho/toggleterm.nvim",
   cmd = {
-    -- Builtin commands
     "ToggleTerm",
     "TermExec",
-    -- Custom commands
-    "ToggleTermLuajit",
-    "ToggleTermLuajitVertical",
-    "ToggleTermPython",
-    "ToggleTermPythonVertical",
-    "ToggleTermPythonPoetry",
-    "ToggleTermPythonPoetryVertical",
   },
   keys = {
     {
@@ -83,29 +76,4 @@ return {
     end,
     persist_size = false,
   },
-  config = function(_, opts)
-    local toggleterm = require("toggleterm")
-    toggleterm.setup(opts)
-
-    vim.api.nvim_create_user_command("ToggleTermLuajit", function()
-      vim.cmd(next_id() .. "TermExec cmd=luajit direction=horizontal")
-    end, { desc = "ToggleTerm LuaJIT console" })
-    vim.api.nvim_create_user_command("ToggleTermLuajitVertical", function()
-      vim.cmd(next_id() .. "TermExec cmd=luajit direction=vertical")
-    end, { desc = "ToggleTerm LuaJIT vertical console" })
-
-    vim.api.nvim_create_user_command("ToggleTermPython", function()
-      vim.cmd(next_id() .. "TermExec cmd=python direction=horizontal")
-    end, { desc = "ToggleTerm Python console" })
-    vim.api.nvim_create_user_command("ToggleTermPythonVertical", function()
-      vim.cmd(next_id() .. "TermExec cmd=python direction=vertical")
-    end, { desc = "ToggleTerm Python vertical console" })
-
-    vim.api.nvim_create_user_command("ToggleTermPythonPoetry", function()
-      vim.cmd(next_id() .. "TermExec cmd='poetry run python' direction=horizontal")
-    end, { desc = "ToggleTerm Python console with Poetry environment" })
-    vim.api.nvim_create_user_command("ToggleTermPythonPoetryVertical", function()
-      vim.cmd(next_id() .. "TermExec cmd='poetry run python' direction=vertical")
-    end, { desc = "ToggleTerm Python vertical console with Poetry environment" })
-  end,
 }
