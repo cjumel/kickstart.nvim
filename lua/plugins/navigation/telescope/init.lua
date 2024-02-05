@@ -3,7 +3,7 @@
 -- Gaze deeply into unknwn regions of your code with powerful and blazing fast fuzzy finding
 -- tools.
 
-local telescope_opts = require("plugins.navigation.telescope.opts")
+local custom_opts = require("plugins.navigation.telescope.opts")
 
 local custom_actions = {}
 
@@ -15,20 +15,6 @@ end
 custom_actions.open_selected_with_trouble = function(prompt_bufnr, _mode)
   local trouble_actions = require("trouble.providers.telescope")
   trouble_actions.open_selected_with_trouble(prompt_bufnr, _mode)
-end
-
--- Tiebreak function determining how to sort Telescope entries with equal match with the prompt
--- by recency. Using this makes sure entries stay sorted by recency when entering a prompt.
-local function recency_tiebreak(current_entry, existing_entry, _)
-  return current_entry.index < existing_entry.index
-end
-
--- Filter function for command history to discard short commands like "w", "q", "wq", "wqa", etc.
-local command_history_filter_fn = function(cmd)
-  if string.len(cmd) < 4 then
-    return false
-  end
-  return true
 end
 
 return {
@@ -61,21 +47,21 @@ return {
     {
       "<leader>ff",
       function()
-        require("telescope.builtin").find_files(telescope_opts.find_files)
+        require("telescope.builtin").find_files(custom_opts.find_files)
       end,
       desc = "[F]ind: [F]iles",
     },
     {
       "<leader>fh",
       function()
-        require("telescope.builtin").find_files(telescope_opts.find_files_hidden)
+        require("telescope.builtin").find_files(custom_opts.find_files_hidden)
       end,
       desc = "[F]ind: files incl. [H]idden",
     },
     {
       "<leader>fa",
       function()
-        require("telescope.builtin").find_files(telescope_opts.find_files_all)
+        require("telescope.builtin").find_files(custom_opts.find_files_all)
       end,
       desc = "[F]ind: [A]ll files",
     },
@@ -84,7 +70,7 @@ return {
       function()
         require("telescope.builtin").oldfiles({
           preview = { hide_on_startup = true },
-          tiebreak = recency_tiebreak,
+          tiebreak = custom_opts.recency_tiebreak,
         })
       end,
       desc = "[F]ind: [O]ld files",
@@ -101,28 +87,28 @@ return {
     {
       "<leader>fg",
       function()
-        require("telescope.builtin").live_grep(telescope_opts.live_grep)
+        require("telescope.builtin").live_grep(custom_opts.live_grep)
       end,
       desc = "[F]ind: by [G]rep",
     },
     {
       "<leader>fG",
       function()
-        require("telescope.builtin").live_grep(telescope_opts.live_grep_unrestricted)
+        require("telescope.builtin").live_grep(custom_opts.live_grep_unrestricted)
       end,
       desc = "[F]ind: by [G]rep (unrestricted)",
     },
     {
       "<leader>fw",
       function()
-        require("telescope.builtin").grep_string(telescope_opts.grep_string)
+        require("telescope.builtin").grep_string(custom_opts.grep_string)
       end,
       desc = "[F]ind: [W]ord",
     },
     {
       "<leader>f",
       function()
-        require("telescope.builtin").grep_string(telescope_opts.grep_string)
+        require("telescope.builtin").grep_string(custom_opts.grep_string)
       end,
       mode = { "v" },
       desc = "[F]ind selection",
@@ -130,14 +116,14 @@ return {
     {
       "<leader>fW",
       function()
-        require("telescope.builtin").grep_string(telescope_opts.grep_string_unrestricted)
+        require("telescope.builtin").grep_string(custom_opts.grep_string_unrestricted)
       end,
       desc = "[F]ind: [W]ord (unrestricted)",
     },
     {
       "<leader>F",
       function()
-        require("telescope.builtin").grep_string(telescope_opts.grep_string_unrestricted)
+        require("telescope.builtin").grep_string(custom_opts.grep_string_unrestricted)
       end,
       mode = { "v" },
       desc = "[F]ind selection (unrestricted)",
@@ -147,9 +133,9 @@ return {
     {
       "<leader>:",
       function()
-        local opts = require("telescope.themes").get_dropdown(telescope_opts.dropdown)
-        opts.filter_fn = command_history_filter_fn
-        opts.tiebreak = recency_tiebreak
+        local opts = require("telescope.themes").get_dropdown(custom_opts.dropdown)
+        opts.filter_fn = custom_opts.command_history_filter_fn
+        opts.tiebreak = custom_opts.recency_tiebreak
         require("telescope.builtin").command_history(opts)
       end,
       desc = "Command history",
@@ -157,8 +143,8 @@ return {
     {
       "<leader>/",
       function()
-        local opts = require("telescope.themes").get_dropdown(telescope_opts.dropdown)
-        opts.tiebreak = recency_tiebreak
+        local opts = require("telescope.themes").get_dropdown(custom_opts.dropdown)
+        opts.tiebreak = custom_opts.recency_tiebreak
         require("telescope.builtin").search_history(opts)
       end,
       desc = "Search history",
