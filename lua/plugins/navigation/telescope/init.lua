@@ -3,19 +3,8 @@
 -- Gaze deeply into unknwn regions of your code with powerful and blazing fast fuzzy finding
 -- tools.
 
+local custom_actions = require("plugins.navigation.telescope.actions")
 local custom_opts = require("plugins.navigation.telescope.opts")
-
-local custom_actions = {}
-
--- Define custom actions for Trouble to make it lazy-loaded
-custom_actions.open_with_trouble = function(prompt_bufnr, _mode)
-  local trouble_actions = require("trouble.providers.telescope")
-  trouble_actions.open_with_trouble(prompt_bufnr, _mode)
-end
-custom_actions.open_selected_with_trouble = function(prompt_bufnr, _mode)
-  local trouble_actions = require("trouble.providers.telescope")
-  trouble_actions.open_selected_with_trouble(prompt_bufnr, _mode)
-end
 
 return {
   "nvim-telescope/telescope.nvim",
@@ -213,13 +202,15 @@ return {
             ["<C-x>"] = actions.select_horizontal,
             ["<C-v>"] = actions.select_vertical,
 
-            ["<C-t>"] = custom_actions.open_with_trouble,
+            ["<C-r>"] = actions.toggle_selection + actions.move_selection_next, -- Also <C-CR> on my setup
+            ["<C-q>"] = custom_actions.smart_send_to_qflist,
+            ["<C-l>"] = custom_actions.smart_send_to_loclist,
+            ["<C-t>"] = custom_actions.smart_open_with_trouble,
 
             ["<C-\\>"] = actions.which_key, -- Actually <C-m> on my setup, like "mappings"
 
             ["<C-c>"] = actions.close,
           },
-
           n = {
             ["<CR>"] = actions.select_default,
             ["<C-n>"] = actions.move_selection_next,
@@ -237,11 +228,17 @@ return {
 
             ["<C-x>"] = actions.select_horizontal,
             ["<C-v>"] = actions.select_vertical,
+            ["x"] = actions.select_horizontal,
+            ["v"] = actions.select_vertical,
 
-            ["v"] = actions.toggle_selection,
-
-            ["<C-t>"] = custom_actions.open_with_trouble,
-            ["t"] = custom_actions.open_selected_with_trouble,
+            ["<C-r>"] = actions.toggle_selection + actions.move_selection_next, -- Also <C-CR> on my setup
+            ["<C-q>"] = custom_actions.smart_send_to_qflist,
+            ["<C-l>"] = custom_actions.smart_send_to_loclist,
+            ["<C-t>"] = custom_actions.smart_open_with_trouble,
+            ["s"] = actions.toggle_selection + actions.move_selection_next,
+            ["q"] = custom_actions.smart_send_to_qflist,
+            ["l"] = custom_actions.smart_send_to_loclist,
+            ["t"] = custom_actions.smart_open_with_trouble,
 
             ["<C-\\>"] = actions.which_key, -- Actually <C-m> on my setup, like "mappings"
             ["?"] = actions.which_key,
