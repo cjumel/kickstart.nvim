@@ -58,9 +58,6 @@ return {
       map("n", "gr", function()
         require("telescope.builtin").lsp_references(telescope_opts)
       end, { desc = "Go to references" })
-      map("n", "<leader>xr", function()
-        require("trouble").toggle("lsp_references")
-      end, { desc = "Trouble: [R]eferences" })
 
       -- Navigation
       -- Define illuminate keymaps here to benefit from the "on_attach" behavior
