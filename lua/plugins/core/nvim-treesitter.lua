@@ -41,6 +41,9 @@ return {
         "gitignore",
         "json",
         "lua",
+        "luadoc", -- lua docstrings
+        "luap", -- lua patterns
+        "make",
         "markdown",
         "markdown_inline",
         "norg",
@@ -48,6 +51,7 @@ return {
         "regex",
         "requirements",
         "sql",
+        "ssh_config",
         "toml",
         "vim",
         "yaml",
