@@ -3,7 +3,6 @@
 -- Gaze deeply into unknwn regions of your code with powerful and blazing fast fuzzy finding
 -- tools.
 
-local harpoon_mark = require("plugins.navigation.harpoon.mark")
 local telescope_opts = require("plugins.navigation.telescope.opts")
 
 local custom_actions = {}
@@ -16,35 +15,6 @@ end
 custom_actions.open_selected_with_trouble = function(prompt_bufnr, _mode)
   local trouble_actions = require("trouble.providers.telescope")
   trouble_actions.open_selected_with_trouble(prompt_bufnr, _mode)
-end
-
--- Overwrite Harpoon keymap to add the Telescope entry
--- Code taken from https://gist.github.com/benlubas/09254459af633cce1b5ac12d16640f0e
-local function add_harpoon_mark(tb, opts)
-  local telescope_utils = require("telescope.actions.utils")
-  local actions = require("telescope.actions")
-
-  actions.drop_all(tb)
-  actions.add_selection(tb)
-  telescope_utils.map_selections(tb, function(selection)
-    local file = selection[1]
-
-    -- Handle special pickers
-    if selection.filename then -- For live_grep picker
-      file = selection.filename
-    elseif selection.value then -- For git_status picker
-      file = selection.value
-    end
-
-    harpoon_mark.add(file, opts)
-  end)
-  actions.remove_selection(tb)
-end
-custom_actions.add_harpoon_mark = function(tb)
-  add_harpoon_mark(tb)
-end
-custom_actions.add_harpoon_mark_clear_all = function(tb)
-  add_harpoon_mark(tb, { clear_all = true })
 end
 
 -- Tiebreak function determining how to sort Telescope entries with equal match with the prompt
@@ -286,9 +256,6 @@ return {
 
             ["<C-t>"] = custom_actions.open_with_trouble,
             ["t"] = custom_actions.open_selected_with_trouble,
-
-            ["<leader>h"] = custom_actions.add_harpoon_mark,
-            ["<leader>H"] = custom_actions.add_harpoon_mark_clear_all,
 
             ["<C-\\>"] = actions.which_key, -- Actually <C-m> on my setup, like "mappings"
             ["?"] = actions.which_key,
