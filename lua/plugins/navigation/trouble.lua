@@ -32,7 +32,28 @@ return {
         function()
           require("trouble").toggle("document_diagnostics")
         end,
-        desc = "Trouble: [D]iagnostics",
+        desc = "Trouble: [D]ocument diagnostics",
+      },
+      {
+        "<leader>xw",
+        function()
+          require("trouble").toggle("workspace_diagnostics")
+        end,
+        desc = "Trouble: [W]orkspace diagnostics",
+      },
+      {
+        "<leader>xq",
+        function()
+          require("trouble").toggle("quickfix")
+        end,
+        desc = "Trouble: [Q]uickfix",
+      },
+      {
+        "<leader>xl",
+        function()
+          require("trouble").toggle("loclist")
+        end,
+        desc = "Trouble: [L]oclist",
       },
       {
         "[x",
@@ -46,5 +67,7 @@ return {
       },
     }
   end,
-  opts = {},
+  opts = {
+    mode = "document_diagnostics", -- Default mode for toggle
+  },
 }
