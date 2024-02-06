@@ -1,4 +1,3 @@
-local harpoon_mark = require("plugins.navigation.harpoon.mark")
 local telescope_opts = require("plugins.navigation.telescope.opts")
 local utils = require("utils")
 
@@ -109,30 +108,6 @@ M.telescope_grep_string_unrestricted_visual = {
   desc = "[F]ind selection (unrestricted)",
   mode = "v",
   callback = telescope_grep_string_unrestricted_callback,
-}
-
--- Overwrite Harpoon keymaps to add the file under the cursor in Oil buffer instead
--- of Oil buffer itself
-local function add_harpoon_mark(opts)
-  local entry = require("oil").get_cursor_entry()
-  if entry == nil then
-    return
-  end
-  local dir = require("oil").get_current_dir()
-  local path = dir .. entry.name
-  harpoon_mark.add(path, opts)
-end
-M.add_harpoon_mark = {
-  desc = "Hook with Harpoon",
-  callback = function()
-    add_harpoon_mark({ verbose = true })
-  end,
-}
-M.add_harpoon_mark_clear_all = {
-  desc = "Hook with Harpoon (overwrite)",
-  callback = function()
-    add_harpoon_mark({ verbose = true, clear_all = true })
-  end,
 }
 
 return M

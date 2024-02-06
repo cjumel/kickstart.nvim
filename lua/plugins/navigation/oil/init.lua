@@ -49,9 +49,6 @@ return {
       ["<leader>f"] = custom_actions.telescope_grep_string_visual,
       ["<leader>fW"] = custom_actions.telescope_grep_string_unrestricted,
       ["<leader>F"] = custom_actions.telescope_grep_string_unrestricted_visual,
-
-      ["<leader>h"] = custom_actions.add_harpoon_mark,
-      ["<leader>H"] = custom_actions.add_harpoon_mark_clear_all,
     },
     use_default_keymaps = false,
     view_options = {
