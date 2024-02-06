@@ -6,27 +6,7 @@
 return {
   "catppuccin/nvim",
   name = "catppuccin",
-  lazy = false,
   priority = 1000, -- Main UI stuff should be loaded first
-  keys = {
-    {
-      "<leader>,t",
-      function()
-        local opts = require("catppuccin").options
-        opts.transparent_background = not opts.transparent_background
-        if vim.o.background == "dark" then
-          opts.flavour = "mocha"
-        else
-          opts.flavour = "latte"
-        end
-        require("catppuccin").setup(opts)
-        vim.cmd.colorscheme("catppuccin")
-        -- For an unknown reason, this function changes the status line, so we need to reset it
-        vim.o.laststatus = 3 -- Use a global status line & a thin line to separate splits
-      end,
-      desc = "Settings: toggle [T]ransparency",
-    },
-  },
   opts = {
     flavour = "mocha", -- latte, frappe, macchiato, mocha
     background = {
