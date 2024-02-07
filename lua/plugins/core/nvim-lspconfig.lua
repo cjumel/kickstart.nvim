@@ -46,6 +46,7 @@ return {
 
       -- Go to actions
       local telescope_opts = {
+        initial_mode = "normal",
         layout_strategy = "vertical",
         show_line = false, -- Don't show the whole line in the picker next to the file path
       }

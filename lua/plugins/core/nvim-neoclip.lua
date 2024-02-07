@@ -33,6 +33,7 @@ return {
       function()
         require("telescope").extensions.neoclip.default({
           layout_strategy = "vertical",
+          initial_mode = "normal",
         })
       end,
       desc = "[P]aste candidates history",
@@ -41,6 +42,7 @@ return {
       "<leader>q",
       function()
         local opts = require("telescope.themes").get_dropdown(telescope_opts.dropdown)
+        opts.initial_mode = "normal"
         require("telescope").extensions.macroscope.default(opts)
       end,
       desc = "[Q]-register macro history",

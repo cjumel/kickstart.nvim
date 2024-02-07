@@ -60,8 +60,18 @@ M.find_files_all = {
 }
 
 M.live_grep = {}
-M.live_grep_unrestricted = { additional_args = { "-uu" } }
-M.grep_string = {}
-M.grep_string_unrestricted = { additional_args = { "-uu" } }
+M.live_grep_unrestricted = {
+  additional_args = { "-uu" },
+}
+
+M.grep_string = {
+  -- The string has already been searched so it makes more sens to start in normal mode
+  initial_mode = "normal",
+}
+M.grep_string_unrestricted = {
+  -- The string has already been searched so it makes more sens to start in normal mode
+  initial_mode = "normal",
+  additional_args = { "-uu" },
+}
 
 return M

@@ -27,7 +27,12 @@ return {
     {
       "<leader><leader>",
       function()
-        require("telescope.builtin").resume()
+        require("telescope.builtin").resume({
+          -- When resuming Telescope, a search has already been done, so it makes more sens to
+          -- resume in normal mode (it's also easier to resume navigation in previous searches
+          -- that way)
+          initial_mode = "normal",
+        })
       end,
       desc = "Resume Telescope",
     },
@@ -143,21 +148,21 @@ return {
     {
       "<leader>gs",
       function()
-        require("telescope.builtin").git_status()
+        require("telescope.builtin").git_status({ initial_mode = "normal" })
       end,
       desc = "[G]it: [S]tatus",
     },
     {
       "<leader>gb",
       function()
-        require("telescope.builtin").git_branches()
+        require("telescope.builtin").git_branches({ initial_mode = "normal" })
       end,
       desc = "[G]it: [B]ranches",
     },
     {
       "<leader>gl",
       function()
-        require("telescope.builtin").git_commits()
+        require("telescope.builtin").git_commits({ initial_mode = "normal" })
       end,
       desc = "[G]it: [L]og",
     },
