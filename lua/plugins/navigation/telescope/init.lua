@@ -143,6 +143,16 @@ return {
       end,
       desc = "Search history",
     },
+    {
+      "<leader>;",
+      function()
+        require("telescope.builtin").jumplist({
+          initial_mode = "normal",
+          tiebreak = custom_opts.recency_tiebreak,
+        })
+      end,
+      desc = "Jump list",
+    },
 
     -- Git related
     {
@@ -165,6 +175,21 @@ return {
         require("telescope.builtin").git_commits({ initial_mode = "normal" })
       end,
       desc = "[G]it: [L]og",
+    },
+    {
+      "<leader>gL",
+      function()
+        require("telescope.builtin").git_bcommits({ initial_mode = "normal" })
+      end,
+      desc = "[G]it: buffer [L]og",
+    },
+    {
+      "<leader>g",
+      function()
+        require("telescope.builtin").git_bcommits_range({ initial_mode = "normal" })
+      end,
+      mode = "v",
+      desc = "[G]it: log for selection",
     },
 
     -- Help related
