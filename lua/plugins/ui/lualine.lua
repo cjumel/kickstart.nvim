@@ -40,10 +40,14 @@ return {
         -- This means that noice needs to pass the message to the statusline (see noice's wiki)
         {
           function()
-            return require("noice").api.statusline.mode.get()
+            if package.loaded.noice ~= nil then -- Don't fail if Noice is not setup
+              return require("noice").api.statusline.mode.get()
+            end
           end,
           cond = function()
-            return require("noice").api.statusline.mode.has()
+            if package.loaded.noice ~= nil then -- Don't fail if Noice is not setup
+              return require("noice").api.statusline.mode.has()
+            end
           end,
           color = { fg = "#ff9e64" },
         },
