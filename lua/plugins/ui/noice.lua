@@ -3,8 +3,21 @@
 -- Highly experimental plugin that completely replaces the UI for messages, cmdline and the
 -- popupmenu.
 
+-- Handle the case the theme file is missing
+local ok, theme = pcall(require, "theme")
+if not ok then
+  theme = {}
+end
+
+-- By default we want to enable Noice but we can't use `theme.noice_enabled or true` (always true)
+local noice_enabled = true
+if theme.noice_enabled == false then
+  noice_enabled = false
+end
+
 return {
   "folke/noice.nvim",
+  enabled = noice_enabled,
   dependencies = {
     "MunifTanjim/nui.nvim",
     "rcarriga/nvim-notify",

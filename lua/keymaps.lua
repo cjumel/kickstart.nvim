@@ -101,12 +101,6 @@ vim.keymap.set({ "i", "c" }, "<C-a>", "<Home>", { desc = "Move cursor to beginni
 
 vim.keymap.set(
   "n",
-  "<leader>,l",
-  actions.toggle_light_theme,
-  { desc = "Settings: toggle [L]ight theme" }
-)
-vim.keymap.set(
-  "n",
   "<leader>,n",
   actions.switch_line_numbering,
   { desc = "Settings: switch line [N]umbering mode" }
