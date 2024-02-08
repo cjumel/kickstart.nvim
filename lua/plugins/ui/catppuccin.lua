@@ -16,8 +16,8 @@ end
 
 return {
   "catppuccin/nvim",
-  enabled = theme.catppuccin_enabled or false, -- By default, don't enable color schemes
   name = "catppuccin",
+  enabled = theme.catppuccin_enabled or false, -- By default, don't enable color schemes
   priority = 1000, -- Main UI stuff should be loaded first
   opts = utils.table.concat_dicts({
     {
@@ -39,14 +39,5 @@ return {
   config = function(_, opts)
     require("catppuccin").setup(opts) -- setup must be called before loading
     vim.cmd.colorscheme("catppuccin")
-
-    -- Integration for nvim-dap
-    local sign = vim.fn.sign_define
-    sign("DapBreakpoint", { text = "●", texthl = "DapBreakpoint", linehl = "", numhl = "" })
-    sign(
-      "DapBreakpointCondition",
-      { text = "●", texthl = "DapBreakpointCondition", linehl = "", numhl = "" }
-    )
-    sign("DapLogPoint", { text = "◆", texthl = "DapLogPoint", linehl = "", numhl = "" })
   end,
 }
