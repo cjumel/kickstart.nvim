@@ -17,6 +17,7 @@ end
 
 return {
   "j-hui/fidget.nvim",
-  enabled = not noice_enabled,
+  -- If plugin is not enabled, just make it lazy to avoid changing the lazy lock file
+  lazy = noice_enabled,
   opts = {},
 }

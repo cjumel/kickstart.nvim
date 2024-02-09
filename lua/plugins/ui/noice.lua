@@ -17,7 +17,8 @@ end
 
 return {
   "folke/noice.nvim",
-  enabled = noice_enabled,
+  -- If plugin is not enabled, just make it lazy to avoid changing the lazy lock file
+  lazy = not noice_enabled,
   dependencies = {
     "MunifTanjim/nui.nvim",
     "rcarriga/nvim-notify",

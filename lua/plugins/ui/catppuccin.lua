@@ -17,7 +17,8 @@ end
 return {
   "catppuccin/nvim",
   name = "catppuccin",
-  enabled = theme.catppuccin_enabled or false, -- By default, don't enable color schemes
+  -- If plugin is not enabled, just make it lazy to avoid changing the lazy lock file
+  lazy = not (theme.catppuccin_enabled or false), -- By default, don't enable color schemes
   priority = 1000, -- Main UI stuff should be loaded first
   opts = utils.table.concat_dicts({
     {

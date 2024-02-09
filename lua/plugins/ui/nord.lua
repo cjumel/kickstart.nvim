@@ -10,7 +10,8 @@ end
 
 return {
   "shaunsingh/nord.nvim",
-  enabled = theme.nord_enabled or false, -- By default, don't enable color schemes
+  -- If plugin is not enabled, just make it lazy to avoid changing the lazy lock file
+  lazy = not (theme.nord_enabled or false), -- By default, don't enable color schemes
   priority = 1000, -- Main UI stuff should be loaded first
   config = function()
     vim.g.nord_disable_background = true -- Enable transparent background
