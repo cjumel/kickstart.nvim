@@ -21,7 +21,13 @@ return {
   lazy = not noice_enabled,
   dependencies = {
     "MunifTanjim/nui.nvim",
-    "rcarriga/nvim-notify",
+    {
+      "rcarriga/nvim-notify",
+      opts = {
+        -- Disable warnings with some color schemes when lacking this option
+        background_colour = "#000000",
+      },
+    },
     "nvim-treesitter/nvim-treesitter",
   },
   event = "VeryLazy",
