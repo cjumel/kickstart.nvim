@@ -2,13 +2,13 @@ local M = {}
 
 -- [[ Redefine builtin actions ]]
 
--- Disable automatic indent for a & i in some filetypes
 local no_indent_filetype_prefixes = {
   "dap-", -- In dap & dapui, it doesn't work well with sidebar windows (e.g. break the repl)
   "dapui_",
 }
 
-M.a_indent = function()
+--- Smart version of `a` action to automatically indent when used in empty line.
+M.smart_a = function()
   for _, prefix in ipairs(no_indent_filetype_prefixes) do
     if vim.bo.filetype:sub(1, #prefix) == prefix then
       return "a"
@@ -17,13 +17,23 @@ M.a_indent = function()
   return string.match(vim.api.nvim_get_current_line(), "%g") == nil and "cc" or "a"
 end
 
-M.i_indent = function()
+--- Smart version of `i` action to automatically indent when used in empty line.
+M.smart_i = function()
   for _, prefix in ipairs(no_indent_filetype_prefixes) do
     if vim.bo.filetype:sub(1, #prefix) == prefix then
       return "a"
     end
   end
   return string.match(vim.api.nvim_get_current_line(), "%g") == nil and "cc" or "i"
+end
+
+--- Smart version of `dd` action to avoid saving deleted empty lines in register.
+M.smart_dd = function()
+  if vim.api.nvim_get_current_line():match("^%s*$") then
+    return '"_dd'
+  else
+    return "dd"
+  end
 end
 
 -- [[ General actions ]]

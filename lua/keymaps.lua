@@ -27,8 +27,11 @@ vim.keymap.set("n", "]s", function() end, { desc = "which_key_ignore" })
 local actions = require("actions")
 
 -- Remap a/i to automatically indent on empty line
-vim.keymap.set("n", "a", actions.a_indent, { desc = "Neovim builtin", expr = true, noremap = true })
-vim.keymap.set("n", "i", actions.i_indent, { desc = "Neovim builtin", expr = true, noremap = true })
+vim.keymap.set("n", "a", actions.smart_a, { desc = "Neovim builtin", expr = true, noremap = true })
+vim.keymap.set("n", "i", actions.smart_i, { desc = "Neovim builtin", expr = true, noremap = true })
+
+-- Remap dd to avoid saving empty lines in register
+vim.keymap.set("n", "dd", actions.smart_dd, { desc = "Line", expr = true, noremap = true })
 
 -- Remap j/k to deal with word wrap
 vim.keymap.set("n", "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
