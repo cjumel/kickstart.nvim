@@ -21,9 +21,17 @@ return {
         "<leader>ft",
         function()
           require("telescope") -- Lazy load module if necessary
-          vim.cmd("TodoTelescope")
+          vim.cmd("TodoTelescope initial_mode=normal keywords=TODO,BUG,FIXME,ISSUE")
         end,
         desc = "[F]ind: [T]odo-comments",
+      },
+      {
+        "<leader>fn",
+        function()
+          require("telescope") -- Lazy load module if necessary
+          vim.cmd("TodoTelescope initial_mode=normal keywords=NOTE")
+        end,
+        desc = "[F]ind: [N]ote-comments",
       },
       {
         "[t",
