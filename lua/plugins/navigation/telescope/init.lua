@@ -258,17 +258,12 @@ return {
 
             ["<C-x>"] = actions.select_horizontal,
             ["<C-v>"] = actions.select_vertical,
-            ["x"] = actions.select_horizontal,
-            ["v"] = actions.select_vertical,
 
             ["<C-r>"] = actions.toggle_selection + actions.move_selection_next, -- Also <C-CR> on my setup
             ["<C-q>"] = custom_actions.smart_send_to_qflist,
             ["<C-l>"] = custom_actions.smart_send_to_loclist,
             ["<C-t>"] = custom_actions.smart_open_with_trouble,
             ["s"] = actions.toggle_selection + actions.move_selection_next,
-            ["q"] = custom_actions.smart_send_to_qflist,
-            ["l"] = custom_actions.smart_send_to_loclist,
-            ["t"] = custom_actions.smart_open_with_trouble,
 
             ["<C-\\>"] = actions.which_key, -- Actually <C-m> on my setup, like "mappings"
             ["?"] = actions.which_key,
