@@ -37,6 +37,7 @@ return {
 	<summary>{}</summary>
 
 	{}
+
 	</details>
       ]],
       { i(1, "Summary"), i(2, "Content") }
