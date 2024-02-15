@@ -30,9 +30,12 @@ return {
       show_condition = custom_show_conds.line_begin * show_conds.line_end,
     },
     fmt(
+      -- Line break after the summary is important (some blocks like code-blocks don't work without
+      -- it)
       [[
 	<details>
 	    <summary>{}</summary>
+
 	    {}
 	</details>
       ]],
