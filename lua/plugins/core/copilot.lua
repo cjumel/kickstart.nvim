@@ -14,7 +14,8 @@ return {
       markdown = true,
     }
 
-    -- The plugin sets <Tab> as the regular completion key in insert mode
+    -- The plugin sets <Tab> as the regular completion key and <C-]> to dismiss the completion
+    -- text in insert mode
     vim.keymap.set("i", "<S-Tab>", "<Plug>(copilot-accept-word)")
   end,
 }
