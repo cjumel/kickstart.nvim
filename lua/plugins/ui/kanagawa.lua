@@ -14,6 +14,7 @@ return {
   lazy = not (theme.kanagawa_enabled or false), -- By default, don't enable color schemes
   priority = 1000,
   opts = {
+    keywordStyle = { italic = false },
     transparent = true,
   },
   config = function(_, opts)
