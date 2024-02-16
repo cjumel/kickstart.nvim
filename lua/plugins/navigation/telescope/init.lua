@@ -224,6 +224,9 @@ return {
         default_mappings = {
           i = {
             ["<CR>"] = actions.select_default,
+            -- <C-r> is actually <C-CR> on my setup
+            -- Rationale for this keymap is I sometimes press <C-CR> instead of <CR>
+            ["<C-r>"] = actions.select_default,
             ["<C-n>"] = actions.move_selection_next,
             ["<C-p>"] = actions.move_selection_previous,
 
@@ -232,7 +235,6 @@ return {
             ["<C-x>"] = actions.select_horizontal,
             ["<C-v>"] = actions.select_vertical,
 
-            ["<C-r>"] = actions.toggle_selection + actions.move_selection_next, -- Also <C-CR> on my setup
             ["<C-q>"] = custom_actions.smart_send_to_qflist,
             ["<C-l>"] = custom_actions.smart_send_to_loclist,
             ["<C-t>"] = custom_actions.smart_open_with_trouble,
@@ -243,12 +245,16 @@ return {
           },
           n = {
             ["<CR>"] = actions.select_default,
+            -- <C-r> is actually <C-CR> on my setup
+            -- Rationale for this keymap is I sometimes press <C-CR> instead of <CR>
+            ["<C-r>"] = actions.select_default,
             ["<C-n>"] = actions.move_selection_next,
             ["<C-p>"] = actions.move_selection_previous,
             ["j"] = actions.move_selection_next,
             ["k"] = actions.move_selection_previous,
             ["G"] = actions.move_to_bottom,
             ["gg"] = actions.move_to_top,
+            ["s"] = actions.toggle_selection + actions.move_selection_next,
 
             ["<TAB>"] = layout_actions.toggle_preview,
             ["<C-u>"] = actions.preview_scrolling_up,
@@ -259,11 +265,9 @@ return {
             ["<C-x>"] = actions.select_horizontal,
             ["<C-v>"] = actions.select_vertical,
 
-            ["<C-r>"] = actions.toggle_selection + actions.move_selection_next, -- Also <C-CR> on my setup
             ["<C-q>"] = custom_actions.smart_send_to_qflist,
             ["<C-l>"] = custom_actions.smart_send_to_loclist,
             ["<C-t>"] = custom_actions.smart_open_with_trouble,
-            ["s"] = actions.toggle_selection + actions.move_selection_next,
 
             ["<C-\\>"] = actions.which_key, -- Actually <C-m> on my setup, like "mappings"
             ["?"] = actions.which_key,
