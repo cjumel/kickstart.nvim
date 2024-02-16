@@ -39,6 +39,26 @@ M.lualine_opts = {
         end,
         color = { fg = "#ff9e64" },
       },
+      -- If file is in Harpoon list, show its index
+      -- This loads Harpoon so it's not lazy-loaded anymore
+      {
+        function()
+          local harpoon = require("harpoon")
+
+          local harpoon_list_length = harpoon:list():length()
+          local current_file_path = vim.fn.fnamemodify(vim.fn.expand("%:p"), ":.")
+
+          for index = 1, harpoon_list_length do
+            local harpoon_file_path = harpoon:list():get(index).value
+            if current_file_path == harpoon_file_path then
+              return "H" .. index
+            end
+          end
+
+          return ""
+        end,
+      },
+      -- Default content
       "location",
       "progress",
     },
