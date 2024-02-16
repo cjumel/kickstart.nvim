@@ -217,6 +217,7 @@ return {
   },
   config = function()
     local actions = require("telescope.actions")
+    local actions_generate = require("telescope.actions.generate")
     local layout_actions = require("telescope.actions.layout")
 
     require("telescope").setup({
@@ -238,8 +239,6 @@ return {
             ["<C-q>"] = custom_actions.smart_send_to_qflist,
             ["<C-l>"] = custom_actions.smart_send_to_loclist,
             ["<C-t>"] = custom_actions.smart_open_with_trouble,
-
-            ["<C-\\>"] = actions.which_key, -- Actually <C-m> on my setup, like "mappings"
 
             ["<C-c>"] = actions.close,
           },
@@ -269,8 +268,9 @@ return {
             ["<C-l>"] = custom_actions.smart_send_to_loclist,
             ["<C-t>"] = custom_actions.smart_open_with_trouble,
 
-            ["<C-\\>"] = actions.which_key, -- Actually <C-m> on my setup, like "mappings"
-            ["?"] = actions.which_key,
+            ["?"] = actions_generate.which_key({
+              only_show_current_mode = false,
+            }),
 
             ["<C-c>"] = actions.close,
             ["<ESC>"] = actions.close,
