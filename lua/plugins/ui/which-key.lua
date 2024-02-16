@@ -6,6 +6,9 @@ return {
   "folke/which-key.nvim",
   event = "VeryLazy",
   opts = {
+    plugins = {
+      registers = false, -- I don't use them and sometimes trigger them by mistake
+    },
     operators = { -- Trigger which key when an operator is called
       gc = "Comments",
       ys = "Surround",
