@@ -14,7 +14,11 @@ M.smart_a = function()
       return "a"
     end
   end
-  return string.match(vim.api.nvim_get_current_line(), "%g") == nil and "cc" or "a"
+
+  if string.match(vim.api.nvim_get_current_line(), "%g") == nil then
+    return '"_cc' -- Save to black hole register to avoid polluting the default register
+  end
+  return "a"
 end
 
 --- Smart version of `i` action to automatically indent when used in empty line.
@@ -24,7 +28,11 @@ M.smart_i = function()
       return "a"
     end
   end
-  return string.match(vim.api.nvim_get_current_line(), "%g") == nil and "cc" or "i"
+
+  if string.match(vim.api.nvim_get_current_line(), "%g") == nil then
+    return '"_cc' -- Save to black hole register to avoid polluting the default register
+  end
+  return "i"
 end
 
 --- Smart version of `dd` action to avoid saving deleted empty lines in register.
