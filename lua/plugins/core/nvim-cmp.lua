@@ -47,6 +47,9 @@ return {
       },
       mapping = { -- By default, mappings are in insert mode
         ["<CR>"] = cmp.mapping.confirm(),
+        -- <C-r> is actually <C-CR> on my setup
+        -- Rationale for this keymap is I sometimes press <C-CR> instead of <CR>
+        ["<C-r>"] = cmp.mapping.confirm(),
         ["<C-n>"] = select_next_item_or_complete,
         ["<C-p>"] = select_prev_item_or_complete,
         ["<C-c>"] = cmp.mapping.abort(),
@@ -85,6 +88,9 @@ return {
 
     local cmdline_mapping = { -- "c =" means command line mode
       ["<CR>"] = { c = cmp.mapping.confirm() },
+      -- <C-r> is actually <C-CR> on my setup
+      -- Rationale for this keymap is I sometimes press <C-CR> instead of <CR>
+      ["<C-r>"] = { c = cmp.mapping.confirm() },
       ["<C-n>"] = { c = select_next_item_or_complete },
       ["<C-p>"] = { c = select_prev_item_or_complete },
       ["<C-c>"] = { c = cmp.mapping.abort() },
