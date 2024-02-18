@@ -11,32 +11,31 @@ return {
   },
   keys = {
     {
-      "<leader>h",
+      "<M-CR>",
       function()
         local harpoon = require("harpoon")
         harpoon:list():append()
       end,
-      desc = "[H]arpoon file",
+      desc = "Harpoon file",
     },
     {
-      "<leader>H",
+      "<M-BS>",
       function()
         local harpoon = require("harpoon")
         harpoon:list():clear()
-        harpoon:list():append()
       end,
-      desc = "[H]arpoon file and overwrite",
+      desc = "Clear Harpoon list",
     },
     {
-      "<leader>m",
+      "Ì", -- <M-h>
       function()
         local harpoon = require("harpoon")
         harpoon.ui:toggle_quick_menu(harpoon:list())
       end,
-      desc = "[M]enu with Harpoon",
+      desc = "Harpoon menu",
     },
     {
-      "gh",
+      "Ï", -- <M-j>
       function()
         local harpoon = require("harpoon")
         harpoon:list():select(1)
@@ -44,7 +43,7 @@ return {
       desc = "Go to Harpoon file 1",
     },
     {
-      "gj",
+      "È", -- <M-k>
       function()
         local harpoon = require("harpoon")
         harpoon:list():select(2)
@@ -52,7 +51,7 @@ return {
       desc = "Go to Harpoon file 2",
     },
     {
-      "gk",
+      "|", -- <M-l>
       function()
         local harpoon = require("harpoon")
         harpoon:list():select(3)
@@ -60,20 +59,12 @@ return {
       desc = "Go to Harpoon file 3",
     },
     {
-      "gl",
+      "µ", -- <M-m>
       function()
         local harpoon = require("harpoon")
         harpoon:list():select(4)
       end,
       desc = "Go to Harpoon file 4",
-    },
-    {
-      "gm",
-      function()
-        local harpoon = require("harpoon")
-        harpoon:list():select(5)
-      end,
-      desc = "Go to Harpoon file 5",
     },
   },
   opts = {
