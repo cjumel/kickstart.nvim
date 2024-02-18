@@ -81,6 +81,8 @@ vim.keymap.set({ "n", "x", "o" }, "]e", actions.prev_error, { desc = "Previous e
 -- [[ Terminal-like keymaps ]]
 -- Keymaps for insert & command-line modes to reproduce shell keymaps
 
+vim.keymap.set("i", "<M-BS>", "<C-w>", { desc = "Delete word" })
+
 vim.keymap.set({ "i", "c" }, "<C-b>", "<Left>", { desc = "Move cursor one character left" })
 vim.keymap.set({ "i", "c" }, "<C-f>", "<Right>", { desc = "Move cursor one character right" })
 
