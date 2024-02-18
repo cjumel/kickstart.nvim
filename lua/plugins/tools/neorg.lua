@@ -12,6 +12,15 @@ return {
   opts = {
     load = {
       ["core.defaults"] = {}, -- Loads default behaviour
+      ["core.keybinds"] = { -- Loads default behaviour
+        config = {
+          hook = function(keybinds)
+            -- Unmaps any Neorg key from the `norg` mode
+            keybinds.unmap("norg", "n", "<M-CR>") -- Prefer Harpoon keymap
+            keybinds.unmap("norg", "n", keybinds.leader .. "th") -- Prefer ToggleTerm keymap
+          end,
+        },
+      },
       ["core.concealer"] = {}, -- Adds pretty icons to your documents
     },
   },
