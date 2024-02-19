@@ -57,8 +57,18 @@ vim.keymap.set(
   { desc = "Dismiss messages & floating windows" }
 )
 
-vim.keymap.set("v", "<TAB>", ">gv", { desc = "Indent selection" })
-vim.keymap.set("v", "<S-TAB>", "<gv", { desc = "Unindent selection" })
+vim.keymap.set(
+  "v",
+  "<C-i>", -- or <Tab>
+  ">gv",
+  { desc = "Indent selection" }
+)
+vim.keymap.set(
+  "v",
+  "<C-o>", -- because it's next to <C-i> & does nothing in visual mode
+  "<gv",
+  { desc = "Unindent selection" }
+)
 
 vim.keymap.set({ "n", "v" }, "+", '"+', { desc = "System clipboard register" })
 vim.keymap.set({ "n", "v" }, "_", '"_', { desc = "Black hole register" })

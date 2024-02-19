@@ -14,8 +14,7 @@ return {
       markdown = true,
     }
 
-    -- The plugin sets <Tab>/<C-i> as the regular completion key
-    vim.keymap.set("i", "<S-Tab>", "<Plug>(copilot-accept-word)")
+    -- The plugin sets <C-i> (or <Tab>) as the regular completion key
     vim.keymap.set(
       "i",
       "<C-]>", -- Actually <C-$> on my setup
