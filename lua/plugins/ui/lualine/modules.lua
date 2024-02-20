@@ -28,7 +28,7 @@ M.harpoon = {
     for index = 1, harpoon_list_length do
       local harpoon_file_path = harpoon:list():get(index).value
       if current_file_path == harpoon_file_path then
-        return "H" .. index
+        return "H-" .. index .. "/" .. harpoon_list_length
       end
     end
 
