@@ -3,6 +3,23 @@
 -- Enable harpooning files. Harpooned files can be accessed from anywhere and at all time
 -- with a simple command.
 
+-- Output true if the current file is in the Harpoon list, false otherwise
+local function is_in_harpoon_list()
+  local harpoon = require("harpoon")
+
+  local harpoon_list_length = harpoon:list():length()
+  local current_file_path = vim.fn.fnamemodify(vim.fn.expand("%:p"), ":.")
+
+  for index = 1, harpoon_list_length do
+    local harpoon_file_path = harpoon:list():get(index).value
+    if current_file_path == harpoon_file_path then
+      return true
+    end
+  end
+
+  return false
+end
+
 return {
   "ThePrimeagen/harpoon",
   branch = "harpoon2",
@@ -14,17 +31,35 @@ return {
       "<M-CR>",
       function()
         local harpoon = require("harpoon")
-        harpoon:list():append()
+
+        if is_in_harpoon_list() then
+          harpoon:list():remove()
+        else
+          harpoon:list():append()
+        end
       end,
-      desc = "Harpoon file",
+      desc = "Append to Harpoon",
     },
     {
       "<M-BS>",
       function()
         local harpoon = require("harpoon")
+
+        if is_in_harpoon_list() then
+          harpoon:list():remove()
+        else
+          harpoon:list():prepend()
+        end
+      end,
+      desc = "Prepend to Harpoon",
+    },
+    {
+      "<M-Esc>",
+      function()
+        local harpoon = require("harpoon")
         harpoon:list():clear()
       end,
-      desc = "Clear Harpoon list",
+      desc = "Clear Harpoon",
     },
     {
       "Ì", -- <M-h>
