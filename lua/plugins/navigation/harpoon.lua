@@ -66,6 +66,38 @@ return {
       end,
       desc = "Go to Harpoon file 4",
     },
+    {
+      "∞", -- <M-,>
+      function()
+        local harpoon = require("harpoon")
+        harpoon:list():select(5)
+      end,
+      desc = "Go to Harpoon file 5",
+    },
+    {
+      "…", -- <M-;>
+      function()
+        local harpoon = require("harpoon")
+        harpoon:list():select(6)
+      end,
+      desc = "Go to Harpoon file 6",
+    },
+    {
+      "\\", -- <M-\>
+      function()
+        local harpoon = require("harpoon")
+        harpoon:list():select(7)
+      end,
+      desc = "Go to Harpoon file 7",
+    },
+    {
+      "≠", -- <M-≠>
+      function()
+        local harpoon = require("harpoon")
+        harpoon:list():select(8)
+      end,
+      desc = "Go to Harpoon file 8",
+    },
   },
   opts = {
     settings = {
