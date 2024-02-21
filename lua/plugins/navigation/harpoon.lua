@@ -28,7 +28,7 @@ return {
   },
   keys = {
     {
-      "<M-CR>",
+      "î", -- <M-i>
       function()
         local harpoon = require("harpoon")
 
@@ -41,7 +41,7 @@ return {
       desc = "Append to Harpoon",
     },
     {
-      "<M-BS>",
+      "œ", -- <M-o>
       function()
         local harpoon = require("harpoon")
 
@@ -54,7 +54,7 @@ return {
       desc = "Prepend to Harpoon",
     },
     {
-      "<M-Esc>",
+      "©", -- <M-c>
       function()
         local harpoon = require("harpoon")
         harpoon:list():clear()
