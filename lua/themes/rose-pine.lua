@@ -16,6 +16,9 @@ M.lualine_opts = {
     theme = "auto",
     component_separators = "|",
     section_separators = "",
+    refresh = {
+      statusline = 50, -- Decrease refresh rate to make modules more responsive (e.g. Harpoon's)
+    },
   },
   sections = utils.table.concat_dicts({
     sections.empty,
