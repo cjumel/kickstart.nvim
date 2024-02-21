@@ -75,7 +75,7 @@ vim.keymap.set({ "n", "v" }, "_", '"_', { desc = "Black hole register" })
 vim.keymap.set({ "n", "v" }, "Q", "@q", { desc = "Default macro register" })
 vim.keymap.set("i", "<C-r>", '<C-r>"', { desc = "Paste from default register" })
 
-vim.keymap.set("n", "<leader><CR>", vim.diagnostic.open_float, { desc = "Expand diagnostic" })
+vim.keymap.set("n", "<leader>v", vim.diagnostic.open_float, { desc = "[V]iew diagnostic" })
 
 vim.keymap.set("n", "K", actions.hover, { desc = "Hover" })
 
