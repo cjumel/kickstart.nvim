@@ -225,9 +225,6 @@ return {
         default_mappings = {
           i = {
             ["<CR>"] = actions.select_default,
-            -- <C-r> is actually <C-CR> on my setup
-            -- Rationale for this keymap is I sometimes press <C-CR> instead of <CR>
-            ["<C-r>"] = actions.select_default,
             ["<C-n>"] = actions.move_selection_next,
             ["<C-p>"] = actions.move_selection_previous,
 
@@ -244,9 +241,6 @@ return {
           },
           n = {
             ["<CR>"] = actions.select_default,
-            -- <C-r> is actually <C-CR> on my setup
-            -- Rationale for this keymap is I sometimes press <C-CR> instead of <CR>
-            ["<C-r>"] = actions.select_default,
             ["<C-n>"] = actions.move_selection_next,
             ["<C-p>"] = actions.move_selection_previous,
             ["j"] = actions.move_selection_next,

@@ -65,7 +65,7 @@ return {
     },
     mappings = {
       edit = "e",
-      expand = { "<CR>", "<2-LeftMouse>", "<tab>" },
+      expand = "<CR>",
       open = "o",
       remove = "d",
       repl = "r",
