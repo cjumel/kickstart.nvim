@@ -21,10 +21,6 @@ end
 
 return {
   "akinsho/toggleterm.nvim",
-  cmd = {
-    "ToggleTerm",
-    "TermExec",
-  },
   keys = {
     {
       "<leader>tt",
@@ -34,34 +30,79 @@ return {
       desc = "[T]oggleTerm: [T]oggle",
     },
     {
-      "<leader>th",
+      "<leader>tn",
       function()
         require("toggleterm").toggle(next_id(), nil, nil, "horizontal")
       end,
-      desc = "[T]oggleTerm: new [H]orizontal terminal",
+      desc = "[T]oggleTerm: [N]ew terminal",
     },
     {
       "<leader>tv",
       function()
         require("toggleterm").toggle(next_id(), nil, nil, "vertical")
       end,
-      desc = "[T]oggleTerm: new [V]ertical terminal",
+      desc = "[T]oggleTerm: new terminal in [V]ertical split",
     },
     {
-      "<leader>t",
+      "<leader>tl",
       function()
-        require("toggleterm").send_lines_to_terminal("visual_selection", false, {})
+        require("toggleterm").send_lines_to_terminal(
+          "single_line",
+          true, -- wether to trim spaces or not
+          { args = vim.v.count }
+        )
+      end,
+      desc = "[T]oggleTerm: send [L]ine (trimmed)",
+    },
+    -- Send lines with "visual_selection" mode doesn't work in visual line mode so we need to
+    -- define keymaps with "visual_lines" mode as well
+    {
+      "<leader>ts",
+      function()
+        require("toggleterm").send_lines_to_terminal(
+          "visual_selection",
+          true, -- wether to trim spaces or not
+          { args = vim.v.count }
+        )
       end,
       mode = "v",
-      desc = "[T]oggleTerm: send visual selection",
+      desc = "[T]oggleTerm: send [S]election (trimmed)",
     },
     {
-      "<leader>T",
+      "<leader>tS",
       function()
-        require("toggleterm").send_lines_to_terminal("visual_lines", false, {})
+        require("toggleterm").send_lines_to_terminal(
+          "visual_selection",
+          false, -- wether to trim spaces or not
+          { args = vim.v.count }
+        )
       end,
       mode = "v",
-      desc = "[T]oggleTerm: send visual lines",
+      desc = "[T]oggleTerm: send [S]election (not trimmed)",
+    },
+    {
+      "<leader>tl",
+      function()
+        require("toggleterm").send_lines_to_terminal(
+          "visual_lines",
+          true, -- wether to trim spaces or not
+          { args = vim.v.count }
+        )
+      end,
+      mode = "v",
+      desc = "[T]oggleTerm: send [L]ines (trimmed)",
+    },
+    {
+      "<leader>tL",
+      function()
+        require("toggleterm").send_lines_to_terminal(
+          "visual_lines",
+          false, -- wether to trim spaces or not
+          { args = vim.v.count }
+        )
+      end,
+      mode = "v",
+      desc = "[T]oggleTerm: send [L]ines (not trimmed)",
     },
   },
   opts = {
