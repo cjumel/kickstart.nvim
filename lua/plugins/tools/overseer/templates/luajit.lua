@@ -1,4 +1,4 @@
-local arguments = require("plugins.tools.overseer.arguments")
+local utils = require("utils")
 
 local tags = { "luajit" }
 
@@ -6,24 +6,24 @@ return {
   {
     name = "LuaJIT file",
     builder = function(params)
-      local arguments_path = arguments.get_path(params, { mode = "file" })
+      local path = utils.path.get_current_file_path()
 
-      if arguments_path == nil then
-        print("No path was provided")
+      if path == nil then
+        print("No file is opened")
         return {}
-      elseif vim.fn.filereadable(arguments_path) ~= 1 then
-        print("Not a readable file: " .. arguments_path)
+      elseif vim.fn.filereadable(path) ~= 1 then
+        print("Not a readable file: " .. path)
         return {}
-      elseif string.sub(arguments_path, -4) ~= ".lua" then
-        print("Not a Lua file: " .. arguments_path)
+      elseif string.sub(path, -4) ~= ".lua" then
+        print("Not a Lua file: " .. path)
         return {}
       end
 
       return {
-        cmd = { "luajit", arguments_path },
+        cmd = { "luajit", path, params.args },
       }
     end,
-    desc = "Run a Lua file passed as argument or the current buffer",
+    desc = "Run the Lua file opened in the current buffer",
     tags = tags,
     _user_command_nargs = "?",
   },

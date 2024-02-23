@@ -1,65 +1,54 @@
-local arguments = require("plugins.tools.overseer.arguments")
+local utils = require("utils")
 
 local tags = { "pre-commit" }
 
 return {
   {
-    name = "Pre-commit run",
-    builder = function(params)
-      return {
-        cmd = vim.fn.expandcmd("pre-commit run " .. params.args),
-      }
-    end,
-    desc = "Run pre-commit with arbitrary arguments",
-    tags = tags,
-    _user_command_nargs = "*",
-  },
-  {
     name = "Pre-commit run file",
     builder = function(params)
-      local arguments_path = arguments.get_path(params, { mode = "file" })
+      local path = utils.path.get_current_file_path()
 
-      if vim.fn.filewritable(arguments_path) == 1 then
-        return {
-          cmd = { "pre-commit", "run", "--file", arguments_path },
-        }
-      elseif arguments_path == nil then
-        print("No path was provided")
+      if path == nil then
+        print("No file is opened")
         return {}
-      else
-        print("Not a writable file: " .. arguments_path)
+      elseif vim.fn.filewritable(path) ~= 1 then
+        print("Not a readable file: " .. path)
         return {}
       end
+
+      return {
+        cmd = { "pre-commit", "run", "--file", path, params.args },
+      }
     end,
-    desc = "Run pre-commit on a file passed as argument or on the current buffer",
+    desc = "Run pre-commit on the file opened in the current buffer",
     tags = tags,
     _user_command_nargs = "?",
   },
   {
     name = "Pre-commit run directory",
     builder = function(params)
-      local arguments_path = arguments.get_path(params, { mode = "dir" })
-      if arguments_path == nil then -- No path was provided
-        arguments_path = "."
+      local path = utils.path.get_current_oil_directory()
+      if path == nil then -- No path was provided
+        path = "."
       end
 
-      if vim.fn.isdirectory(arguments_path) == 1 then
-        local pattern = ""
-        if string.sub(arguments_path, -1) ~= "/" then
-          pattern = pattern .. "/"
-        end
-        pattern = pattern .. "**/*"
-        return {
-          -- vim.fn.expandcmd is taken from the "shell" builtin template; without it pre-commit
-          -- skips all the files in the directory
-          cmd = vim.fn.expandcmd("pre-commit run --files " .. arguments_path .. pattern),
-        }
-      else
-        print("Not a directory: " .. arguments_path)
+      if vim.fn.isdirectory(path) ~= 1 then
+        print("Not a directory: " .. path)
         return {}
       end
+
+      local pattern = ""
+      if string.sub(path, -1) ~= "/" then
+        pattern = pattern .. "/"
+      end
+      pattern = pattern .. "**/*"
+      return {
+        -- vim.fn.expandcmd is taken from the "shell" builtin template; without it pre-commit
+        -- skips all the files in the directory
+        cmd = vim.fn.expandcmd("pre-commit run --files " .. path .. pattern),
+      }
     end,
-    desc = "Run pre-commit on a directory passed as argument, or on the current directory if in an Oil buffer, or on the current working directory",
+    desc = "Run pre-commit on the directory opened in Oil buffer or the current working directory",
     tags = tags,
     _user_command_nargs = "?",
   },
