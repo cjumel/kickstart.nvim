@@ -3,7 +3,7 @@ exclude: .github/|README.md
 repos:
   # Base pre-commit hook for simple checks & fixes
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.4.0
+    rev: v4.5.0
     hooks:
       - id: check-added-large-files # Prevent giant files from being committed
       - id: check-docstring-first # Checks a common error of defining a docstring after code
@@ -17,6 +17,6 @@ repos:
 
   # StyLua is an opinionated Lua formatter
   - repo: https://github.com/JohnnyMorganz/StyLua
-    rev: v0.18.1
+    rev: v0.20.0
     hooks:
       - id: stylua
