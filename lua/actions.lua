@@ -47,6 +47,9 @@ end
 -- [[ General actions ]]
 
 M.clear_window = function()
+  -- Clear search highlights in case `vim.o.hlsearch` is true
+  vim.cmd("nohlsearch")
+
   -- Dismiss Noice messages if Noice is loaded
   if package.loaded.noice ~= nil then
     require("noice").cmd("dismiss")

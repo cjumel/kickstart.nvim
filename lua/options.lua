@@ -15,8 +15,8 @@ vim.o.colorcolumn = "101"
 -- Support additional pairs of characters
 vim.o.matchpairs = vim.o.matchpairs .. ",<:>"
 
--- Set highlight on search
-vim.o.hlsearch = false
+-- Set highlight on search; use `:nohlsearch` to remove the search highlight
+vim.o.hlsearch = true
 
 -- Make line numbers default
 vim.wo.number = true
