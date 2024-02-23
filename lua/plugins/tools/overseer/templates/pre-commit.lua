@@ -27,12 +27,12 @@ return {
   {
     name = "Pre-commit run directory",
     builder = function(params)
-      local path = utils.path.get_current_oil_directory()
-      if path == nil then -- No path was provided
-        path = "."
-      end
+      local path = utils.path.get_current_oil_directory({ fallback = "cwd" })
 
-      if vim.fn.isdirectory(path) ~= 1 then
+      if path == nil then
+        print("Something went wrong")
+        return {}
+      elseif vim.fn.isdirectory(path) ~= 1 then
         print("Not a directory: " .. path)
         return {}
       end
@@ -45,7 +45,7 @@ return {
       return {
         -- vim.fn.expandcmd is taken from the "shell" builtin template; without it pre-commit
         -- skips all the files in the directory
-        cmd = vim.fn.expandcmd("pre-commit run --files " .. path .. pattern),
+        cmd = vim.fn.expandcmd("pre-commit run --files " .. path .. pattern, params.args),
       }
     end,
     desc = "Run pre-commit on the directory opened in Oil buffer or the current working directory",

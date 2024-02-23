@@ -26,12 +26,12 @@ local function get_pytest_directory_builder(args)
   args = args or {}
 
   return function(params)
-    local path = utils.path.get_current_oil_directory()
-    if path == nil then -- No path was provided
-      path = "."
-    end
+    local path = utils.path.get_current_oil_directory({ fallback = "cwd" })
 
-    if vim.fn.isdirectory(path) ~= 1 then
+    if path == nil then
+      print("Something went wrong")
+      return {}
+    elseif vim.fn.isdirectory(path) ~= 1 then
       print("Not a directory: " .. path)
       return {}
     end

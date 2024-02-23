@@ -1,3 +1,5 @@
+local utils = require("utils")
+
 local M = {}
 
 -- Add a message in the status line when recording a macro
@@ -39,19 +41,7 @@ M.harpoon = {
 -- Show the path of the directory opened with Oil (instead of Oil's buffer path)
 M.oil = {
   function()
-    local ok, oil = pcall(require, "oil")
-    if not ok then
-      return ""
-    end
-
-    local current_dir = oil.get_current_dir()
-    -- Truncate relative to cwd or home with "~" when possible
-    local short_path = vim.fn.fnamemodify(current_dir, ":p:~:.")
-    -- If path is cwd (relative path is empty), don't show path relative to project
-    if short_path == "" then
-      short_path = vim.fn.fnamemodify(current_dir, ":p:~")
-    end
-    return short_path
+    return utils.path.get_current_oil_directory({ cwd_strategy = "absolute" })
   end,
 }
 
