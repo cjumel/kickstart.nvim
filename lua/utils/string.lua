@@ -1,7 +1,8 @@
 local M = {}
 
--- Convert a regular text with white spaces and hyphens to a single camelcase word.
---- @param text string The text to convert.
+--- Convert a regular text with white spaces and hyphens to a single camelcase word.
+---@param text string The text to convert.
+---@return string
 M.text_to_camelcase = function(text)
   -- Split the text into sub-words using spaces and hyphens as separators
   local sub_words = {}

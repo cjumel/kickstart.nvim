@@ -1,7 +1,8 @@
 local M = {}
 
--- Concatenate any number of arrays together.
----@param arrays table An array of arrays.
+--- Concatenate any number of arrays together.
+---@param arrays table<table> An array containing the arrays to concatenate.
+---@return table
 M.concat_arrays = function(arrays)
   local result = {}
 
@@ -14,9 +15,11 @@ M.concat_arrays = function(arrays)
   return result
 end
 
--- Concatenate any number of dictionaries together. Dictionaries are processed in order, so if
--- some keys are shared, the latest value encountered will take precedence.
----@param dictionaries table An array of dictionaries.
+--- Concatenate any number of dictionaries together.
+--- Dictionaries are processed in order, so if some keys are shared, the latest value encountered
+--- will take precedence.
+---@param dictionaries table<table<string, any>> An array containing the dictionaries to concatenate.
+---@return table<string, any>
 M.concat_dicts = function(dictionaries)
   local result = {}
 

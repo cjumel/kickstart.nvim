@@ -1,9 +1,9 @@
 local M = {}
 
--- Normalize an input path, that is make it relative to the working directory or $HOME if possible,
--- and standardize its format.
+--- Normalize an input path, by making it relative to the working directory or $HOME when possible.
 ---@param path string The path to normalize.
----@param opts table? Options to customize the normalization.
+---@param opts table<string, any>|nil Options to customize the normalization.
+---@return string
 local normalize = function(path, opts)
   opts = opts or {}
 
@@ -26,7 +26,8 @@ local normalize = function(path, opts)
   return path
 end
 
--- Output the normalized path of the current file, or nil if no file is opened.
+--- Output the normalized path of the current file, or nil if no file is opened.
+---@return string|nil
 M.get_current_file_path = function()
   local path = vim.fn.expand("%:p")
   if path == "" then -- No file is opened
@@ -36,9 +37,10 @@ M.get_current_file_path = function()
   return normalize(path)
 end
 
--- Output the normalized path of the current working directory when in Oil buffer, or a fallback
--- value if no Oil buffer is opened.
----@param opts table? Options to customize the output path.
+--- Output the normalized path of the current working directory when in Oil buffer, or a fallback
+--- value if no Oil buffer is opened.
+---@param opts table<string, any>|nil Options to customize the output path.
+---@return string|nil
 M.get_current_oil_directory = function(opts)
   opts = opts or {}
 
