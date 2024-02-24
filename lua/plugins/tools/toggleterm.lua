@@ -3,11 +3,12 @@
 -- A neovim plugin to persist and interact with (hide, send code, etc.) multiple terminals during
 -- an editing session.
 
--- Following function is taken from toggleterm/terminal.lua
+local utils = require("utils")
 
---- Get the next available id based on the next number in the sequence that
+--- Get the next available terminal id based on the next number in the sequence that
 --- hasn't already been allocated e.g. in a list of {1,2,5,6} the next id should
 --- be 3 then 4 then 7
+--- This function is taken from the `toggleterm.terminal` module.
 ---@return integer
 local function next_id()
   local all = require("toggleterm.terminal").get_all(true)
@@ -17,6 +18,87 @@ local function next_id()
     end
   end
   return #all + 1
+end
+
+--- Send buffer lines to terminal, depending on the current mode.
+--- This function is based on the `toggleterm.send_lines_to_terminal` function, with some new
+--- features and some simplifications.
+---@param opts table<string, any>
+---@param cmd_data table<string, any>
+local function send_lines_to_terminal(opts, cmd_data)
+  local api = vim.api
+  local fn = vim.fn
+
+  local toggleterm = require("toggleterm")
+  local toggleterm_utils = require("toggleterm.utils")
+
+  opts = opts or {}
+  local trim_spaces = opts.trim_spaces or false
+  local trim_empty_lines = opts.trim_empty_lines or false
+  local add_trailing_empty_line = opts.add_trailing_empty_line or false
+
+  local id = tonumber(cmd_data.args) or 1
+
+  -- Detect the selection type depending on the current mode
+  local mode = vim.api.nvim_get_mode()["mode"]
+  local selection_type
+  if mode == "v" then
+    selection_type = "visual_selection"
+  elseif mode == "V" then
+    selection_type = "visual_lines"
+  else
+    selection_type = "single_line"
+  end
+
+  vim.validate({
+    selection_type = { selection_type, "string" },
+    trim_spaces = { trim_spaces, "boolean" },
+    trim_empty_lines = { trim_empty_lines, "boolean" },
+    add_trailing_empty_line = { add_trailing_empty_line, "boolean" },
+    terminal_id = { id, "number" },
+  })
+
+  local current_window = api.nvim_get_current_win() -- save current window
+
+  local lines = {}
+  -- Beginning of the selection: line number, column number
+  local start_line, start_col
+  if selection_type == "single_line" then
+    start_line, start_col = unpack(api.nvim_win_get_cursor(0))
+    table.insert(lines, fn.getline(start_line))
+  else
+    local res = toggleterm_utils.get_line_selection("visual")
+    start_line, start_col = unpack(res.start_pos)
+    if selection_type == "visual_lines" then
+      lines = res.selected_lines
+    elseif selection_type == "visual_selection" then
+      lines = toggleterm_utils.get_visual_selection(res, true)
+    end
+  end
+
+  if not lines or not next(lines) then
+    return
+  end
+
+  if trim_empty_lines then
+    lines = utils.table.filter_out_array(lines, { "" })
+  end
+  if add_trailing_empty_line then
+    lines = utils.table.concat_arrays({ lines, { "" } })
+  end
+
+  if not trim_spaces then
+    toggleterm.exec(table.concat(lines, "\n"))
+  else
+    for _, line in ipairs(lines) do
+      local l = trim_spaces and line:gsub("^%s+", ""):gsub("%s+$", "") or line
+      toggleterm.exec(l, id)
+    end
+  end
+
+  -- Jump back with the cursor where we were at the beginning of the selection
+  api.nvim_set_current_win(current_window)
+  api.nvim_win_set_cursor(current_window, { start_line, start_col })
 end
 
 return {
@@ -49,65 +131,34 @@ return {
       desc = "[T]oggleTerm: new terminal in [V]ertical split",
     },
     {
-      "<leader>tl",
-      function()
-        require("toggleterm").send_lines_to_terminal(
-          "single_line",
-          true, -- wether to trim spaces or not
-          { args = vim.v.count }
-        )
-      end,
-      desc = "[T]oggleTerm: send [L]ine (trimmed)",
-    },
-    -- Send lines with "visual_selection" mode doesn't work in visual line mode so we need to
-    -- define keymaps with "visual_lines" mode as well
-    {
       "<leader>ts",
       function()
-        require("toggleterm").send_lines_to_terminal(
-          "visual_selection",
-          true, -- wether to trim spaces or not
-          { args = vim.v.count }
-        )
+        send_lines_to_terminal({ trim_spaces = true }, { args = vim.v.count })
       end,
-      mode = "v",
-      desc = "[T]oggleTerm: send [S]election (trimmed)",
+      desc = "[T]oggleTerm: [S]end line (trimmed)",
     },
     {
-      "<leader>tS",
+      "<leader>t",
       function()
-        require("toggleterm").send_lines_to_terminal(
-          "visual_selection",
-          false, -- wether to trim spaces or not
-          { args = vim.v.count }
-        )
+        send_lines_to_terminal({
+          trim_empty_lines = true,
+          add_trailing_empty_line = true,
+        }, { args = vim.v.count })
       end,
       mode = "v",
-      desc = "[T]oggleTerm: send [S]election (not trimmed)",
+      desc = "[T]oggleTerm: send selection",
     },
     {
-      "<leader>tl",
+      "<leader>T",
       function()
-        require("toggleterm").send_lines_to_terminal(
-          "visual_lines",
-          true, -- wether to trim spaces or not
-          { args = vim.v.count }
-        )
+        send_lines_to_terminal({
+          trim_spaces = true,
+          trim_empty_lines = true,
+          add_trailing_empty_line = true,
+        }, { args = vim.v.count })
       end,
       mode = "v",
-      desc = "[T]oggleTerm: send [L]ines (trimmed)",
-    },
-    {
-      "<leader>tL",
-      function()
-        require("toggleterm").send_lines_to_terminal(
-          "visual_lines",
-          false, -- wether to trim spaces or not
-          { args = vim.v.count }
-        )
-      end,
-      mode = "v",
-      desc = "[T]oggleTerm: send [L]ines (not trimmed)",
+      desc = "[T]oggleTerm: send selection (trimmed)",
     },
   },
   opts = {

@@ -32,4 +32,34 @@ M.concat_dicts = function(dictionaries)
   return result
 end
 
+--- Check if a value is in an array.
+---@param value any The value to check for.
+---@param array table The array to check in.
+---@return boolean
+M.is_in_array = function(value, array)
+  for _, target_value in ipairs(array) do
+    if value == target_value then
+      return true
+    end
+  end
+
+  return false
+end
+
+--- Filter out target values from an input array.
+---@param array table An array to filter.
+---@param targets table The target values to filter out from the array.
+---@return table
+M.filter_out_array = function(array, targets)
+  local result = {}
+
+  for _, value in ipairs(array) do
+    if not M.is_in_array(value, targets) then
+      table.insert(result, value)
+    end
+  end
+
+  return result
+end
+
 return M
