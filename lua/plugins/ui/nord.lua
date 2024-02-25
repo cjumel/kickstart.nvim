@@ -17,16 +17,20 @@ return {
     vim.g.nord_disable_background = true -- Enable transparent background
     vim.cmd.colorscheme("nord")
 
-    -- Fix unreadable Neogit highlight groups with this color scheme
-    -- Default highlight groups with this color scheme are:
+    -- Fix unreadable highlight groups for Neogit (background & foreground are the same)
+    -- Default highlight groups for Neogit with this color scheme are:
     --   NeogitDiffAdd guifg=#a3be8c guibg=#a3be8c
     --   NeogitDiffAddHighlight gui=reverse guifg=#a3be8c
     --   NeogitDiffDelete guifg=#bf616a
     --   NeogitDiffDeleteHighlight gui=reverse guifg=#bf616a
-    -- Let's use the same colors with a black foreground
-    vim.api.nvim_command("hi NeogitDiffAdd guifg=#000000 guibg=#a3be8c")
-    vim.api.nvim_command("hi NeogitDiffAddHighlight guibg=#000000 guifg=#a3be8c") -- reversed
-    vim.api.nvim_command("hi NeogitDiffDelete guifg=#000000 guibg=#bf616a")
-    vim.api.nvim_command("hi NeogitDiffDeleteHighlight guibg=#000000 guifg=#bf616a") -- reversed
+    -- Let's take some colors from the Gruvbox color scheme (dark):
+    --   DiffAddxxx guibg=#62693e (linked to NeogitDiffAdd)
+    --   NeogitDiffAddHighlight cterm= gui= guifg=#b8bb26 guibg=#62693e
+    --   DiffDelete guibg=#722529 (linked to NeogitDiffDelete)
+    --   NeogitDiffDeleteHighlight cterm= gui= guifg=#fb4934 guibg=#722529
+    vim.api.nvim_command("hi NeogitDiffAdd guifg=#b8bb26 guibg=#62693e")
+    vim.api.nvim_command("hi NeogitDiffAddHighlight guibg=#b8bb26 guifg=#62693e") -- reversed
+    vim.api.nvim_command("hi NeogitDiffDelete guifg=#fb4934 guibg=#722529")
+    vim.api.nvim_command("hi NeogitDiffDeleteHighlight guibg=#fb4934 guifg=#722529") -- reversed
   end,
 }
