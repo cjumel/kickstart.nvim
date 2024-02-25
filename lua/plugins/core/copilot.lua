@@ -14,26 +14,32 @@ return {
       markdown = true,
     }
 
-    -- The plugin sets <C-i> (or <Tab>) as the regular completion key
+    -- The plugin sets:
+    --   <C-i> (or <Tab>) as the regular completion key
+    --   <C-]> (<C-$> for me) to discard the suggestion
     vim.keymap.set(
       "i",
-      "<C-]>", -- Actually <C-$> on my setup
-      "<Plug>(copilot-accept-word)"
+      "î", -- <M-i>
+      "<Plug>(copilot-accept-word)",
+      { desc = "Copilot: accept one word" }
     )
     vim.keymap.set(
       "i",
-      "<C-\\>", -- Actually <C-`> on my setup
-      "<Plug>(copilot-accept-line)"
+      "œ", -- <M-o>
+      "<Plug>(copilot-accept-line)",
+      { desc = "Copilot: accept one line" }
     )
     vim.keymap.set(
       "i",
-      "£", -- Actually <M-`> on my setup
-      "<Plug>(copilot-next)"
+      "Ï", -- <M-j>
+      "<Plug>(copilot-next)",
+      { desc = "Copilot: next suggestion" }
     )
     vim.keymap.set(
       "i",
-      "€", -- Actually <M-$> on my setup
-      "<Plug>(copilot-previous)"
+      "È", -- <M-k>
+      "<Plug>(copilot-previous)",
+      { desc = "Copilot: previous suggestion" }
     )
   end,
 }
