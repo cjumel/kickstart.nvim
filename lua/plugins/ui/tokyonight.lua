@@ -20,5 +20,16 @@ return {
   config = function(_, opts)
     require("tokyonight").setup(opts) -- setup must be called before loading
     vim.cmd.colorscheme("tokyonight")
+
+    -- Improve highlight groups for Neogit (focused blocks have less intense colors as unfocused
+    -- ones)
+    -- Default highlight groups for Neogit with this color scheme are:
+    --   NeogitDiffAddxxx cterm= gui= guifg=#82a957 guibg=#20303b
+    --   NeogitDiffAddHighlightxxx guifg=#449dab guibg=#20303b
+    --   NeogitDiffDeletexxx cterm= gui= guifg=#b43e3e guibg=#37222c
+    --   NeogitDiffDeleteHighlightxxx guifg=#914c54 guibg=#37222c
+    -- Let's make the focused blocks the same as the unfocused ones:
+    vim.api.nvim_command("hi NeogitDiffAddHighlight guifg=#82a957 guibg=#20303b")
+    vim.api.nvim_command("hi NeogitDiffDeleteHighlight guifg=#b43e3e guibg=#37222c")
   end,
 }
