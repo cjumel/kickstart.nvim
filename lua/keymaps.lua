@@ -112,6 +112,12 @@ vim.keymap.set(
 vim.keymap.set({ "i", "c" }, "<C-e>", "<End>", { desc = "Move cursor to end of line" })
 vim.keymap.set({ "i", "c" }, "<C-a>", "<Home>", { desc = "Move cursor to beginning of line" })
 
+-- [[ Terminal emulator keymaps ]]
+-- Keymaps for Terminal mode, when in builtin terminal emulator or in ToggleTerm
+
+-- Builtin keymap to exit terminal mode is <C-\\><C-n>, let's simplify it
+vim.keymap.set({ "t" }, "<C-\\>", "<C-\\><C-n>", { desc = "Exit terminal mode" })
+
 -- [[ Settings keymaps ]]
 -- Keymaps to dynamically change some settings in Neovim
 
