@@ -2,12 +2,8 @@
 --
 -- A task runner and job management plugin for Neovim.
 
-local commands = require("plugins.tools.overseer.commands")
-local templates = require("plugins.tools.overseer.templates")
-
 return {
   "stevearc/overseer.nvim",
-  cmd = commands,
   keys = {
     {
       "<leader>or",
@@ -86,23 +82,9 @@ return {
 
     overseer.setup(opts)
 
+    local templates = require("plugins.tools.overseer.templates")
     for _, template in ipairs(templates) do
       overseer.register_template(template)
-
-      vim.api.nvim_create_user_command(template._user_command, function(args)
-        overseer.run_template({
-          name = template.name,
-          -- Pass the optional command arguments contained in `args.args` to the builder function
-          -- as `params.args`. The arguments are passed as a string, which can be empty or contain
-          -- white spaces to separate different arguments or trailing white spaces.
-          params = { args = args.args },
-        })
-      end, {
-        desc = template.desc or template.name,
-        -- Specify the number of arguments the command accepts. The default is 0.
-        -- See `:h command-nargs` for more information.
-        nargs = template._user_command_nargs,
-      })
     end
   end,
 }

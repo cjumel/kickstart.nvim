@@ -25,6 +25,5 @@ return {
     end,
     desc = "Run the Python file opened in the current buffer",
     tags = tags,
-    _user_command_nargs = "?",
   },
 }

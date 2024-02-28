@@ -22,7 +22,6 @@ return {
     end,
     desc = "Run pre-commit on the file opened in the current buffer",
     tags = tags,
-    _user_command_nargs = "?",
   },
   {
     name = "Pre-commit run directory",
@@ -50,7 +49,6 @@ return {
     end,
     desc = "Run pre-commit on the directory opened in Oil buffer or the current working directory",
     tags = tags,
-    _user_command_nargs = "?",
   },
   {
     name = "Pre-commit run all files",

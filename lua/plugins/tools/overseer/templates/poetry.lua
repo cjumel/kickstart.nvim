@@ -30,6 +30,5 @@ return {
     end,
     desc = "Add a package to the Poetry environment",
     tags = tags,
-    _user_command_nargs = 1,
   },
 }
