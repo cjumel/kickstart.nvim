@@ -8,9 +8,20 @@ return {
     {
       "<leader>or",
       function()
-        require("overseer").run_template()
+        require("overseer").run_template({
+          prompt = "allow", -- Only ask for parameters when some are required
+        })
       end,
       desc = "[O]verseer: [R]un",
+    },
+    {
+      "<leader>op",
+      function()
+        require("overseer").run_template({
+          prompt = "always", -- Always ask for parameters when some are available
+        })
+      end,
+      desc = "[O]verseer: run with [P]rompt",
     },
     {
       "<leader>os",
