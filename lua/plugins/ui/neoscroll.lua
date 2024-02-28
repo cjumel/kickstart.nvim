@@ -6,6 +6,7 @@ return {
   "karb94/neoscroll.nvim",
   -- Using `event = { "BufNewFile", "BufReadPre" }` makes Neoscroll not activated in some buffers
   -- like Neogit's status
+  event = "VeryLazy",
   keys = {
     { "<C-u>", mode = { "n", "v" }, desc = "Scroll up half of a window height" },
     { "<C-d>", mode = { "n", "v" }, desc = "Scroll down half of a window height" },
