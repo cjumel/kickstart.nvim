@@ -4,7 +4,7 @@ local M = {}
 ---@param path string The path to normalize.
 ---@param opts table<string, any>|nil Options to customize the normalization.
 ---@return string
-local normalize = function(path, opts)
+M.normalize = function(path, opts)
   opts = opts or {}
 
   -- If the path is in the working directory, return a path relative to it without prefix
@@ -34,7 +34,7 @@ M.get_current_file_path = function()
     return nil
   end
 
-  return normalize(path)
+  return M.normalize(path)
 end
 
 --- Output the normalized path of the current working directory when in Oil buffer, or a fallback
@@ -47,13 +47,13 @@ M.get_current_oil_directory = function(opts)
   if vim.bo.filetype == "oil" then -- An Oil buffer is opened
     local oil = package.loaded.oil
     if oil ~= nil then -- Oil is loaded
-      return normalize(oil.get_current_dir(), opts)
+      return M.normalize(oil.get_current_dir(), opts)
     end
   end
 
   local fallback = opts.fallback or nil
   if fallback == "cwd" then
-    return normalize(vim.fn.getcwd(), opts)
+    return M.normalize(vim.fn.getcwd(), opts)
   else
     return nil
   end
