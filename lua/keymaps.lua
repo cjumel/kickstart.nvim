@@ -129,9 +129,9 @@ vim.keymap.set(
 )
 vim.keymap.set(
   "n",
-  "<leader>,c",
+  "<leader>,s",
   actions.switch_sign_column,
-  { desc = "Settings: switch sign [C]olumn mode" }
+  { desc = "Settings: switch [S]ign column mode" }
 )
 vim.keymap.set(
   "n",
