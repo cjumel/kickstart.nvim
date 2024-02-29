@@ -6,6 +6,13 @@ return {
   "stevearc/overseer.nvim",
   keys = {
     {
+      "<leader>oo",
+      function()
+        require("overseer").toggle()
+      end,
+      desc = "[O]verseer: toggle",
+    },
+    {
       "<leader>or",
       function()
         require("overseer").run_template({
@@ -21,21 +28,7 @@ return {
           prompt = "always", -- Always ask for parameters when some are available
         })
       end,
-      desc = "[O]verseer: run with [P]rompt",
-    },
-    {
-      "<leader>os",
-      function()
-        require("overseer").run_template({ name = "shell" })
-      end,
-      desc = "[O]verseer: [S]hell",
-    },
-    {
-      "<leader>oo",
-      function()
-        require("overseer").toggle()
-      end,
-      desc = "[O]verseer: toggle",
+      desc = "[O]verseer: run with [P]arameter",
     },
     {
       "<leader>ol",
@@ -61,7 +54,7 @@ return {
     task_list = {
       direction = "bottom",
       bindings = {
-        -- Disable bindings conflicting with window navigation keymaps
+        -- Disable bindings conflicting with window navigation
         ["<C-h>"] = false,
         ["<C-j>"] = false,
         ["<C-k>"] = false,
@@ -72,18 +65,19 @@ return {
       bindings = {
         i = {
           ["<CR>"] = "Submit",
+          ["<C-j>"] = "Next",
+          ["<C-k>"] = "Prev",
+          -- Disable bindings conflicting with copilot
           ["<Tab>"] = false,
           ["<S-Tab>"] = false,
-          ["<C-n>"] = "Next",
-          ["<C-p>"] = "Prev",
         },
         n = {
           ["<CR>"] = "Submit",
-          ["<Tab>"] = false,
-          ["<S-Tab>"] = false,
-          ["q"] = "Cancel",
           ["<ESC>"] = "Cancel",
           ["?"] = "ShowHelp",
+          -- Disable bindings conflicting with copilot
+          ["<Tab>"] = false,
+          ["<S-Tab>"] = false,
         },
       },
     },
