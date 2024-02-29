@@ -5,59 +5,100 @@ local tags = { "pre-commit" }
 return {
   {
     name = "Pre-commit run file",
+    params = {
+      path = {
+        type = "string",
+        desc = "Path of the file (default to the currently opened one)",
+        optional = true,
+        order = 1,
+      },
+      args = {
+        type = "string",
+        desc = "The additional arguments to pass to the command",
+        optional = true,
+        order = 2,
+      },
+    },
     builder = function(params)
-      local path = utils.path.get_current_file_path()
+      if params.path == nil then
+        params.path = utils.path.get_current_file_path()
+      else
+        params.path = utils.path.normalize(params.path)
+      end
 
-      if path == nil then
-        print("No file is opened")
+      if params.path == nil then
+        print("No file provided or found")
         return {}
-      elseif vim.fn.filewritable(path) ~= 1 then
-        print("Not a readable file: " .. path)
+      elseif vim.fn.filewritable(params.path) ~= 1 then
+        print("Not a readable file: " .. params.path)
         return {}
       end
 
       return {
-        cmd = { "pre-commit", "run", "--file", path, params.args },
+        cmd = { "pre-commit", "run", "--file", params.path, params.args },
       }
     end,
-    desc = "Run pre-commit on the file opened in the current buffer",
     tags = tags,
   },
   {
     name = "Pre-commit run directory",
+    params = {
+      path = {
+        type = "string",
+        desc = "Path of the directory (default to the currently opened one if in Oil buffer or to the current working directory",
+        optional = true,
+        order = 1,
+      },
+      args = {
+        type = "string",
+        desc = "The additional arguments to pass to the command",
+        optional = true,
+        order = 2,
+      },
+    },
     builder = function(params)
-      local path = utils.path.get_current_oil_directory({ fallback = "cwd" })
+      if params.path == nil then
+        params.path = utils.path.get_current_oil_directory({ fallback = "cwd" })
+      else
+        params.path = utils.path.normalize(params.path)
+      end
 
-      if path == nil then
-        print("Something went wrong")
+      if params.path == nil then
+        print("No directory provided or found")
         return {}
-      elseif vim.fn.isdirectory(path) ~= 1 then
-        print("Not a directory: " .. path)
+      elseif vim.fn.isdirectory(params.path) ~= 1 then
+        print("Not a directory: " .. params.path)
         return {}
       end
 
       local pattern = ""
-      if string.sub(path, -1) ~= "/" then
+      if string.sub(params.path, -1) ~= "/" then
         pattern = pattern .. "/"
       end
       pattern = pattern .. "**/*"
       return {
         -- vim.fn.expandcmd is taken from the "shell" builtin template; without it pre-commit
         -- skips all the files in the directory
-        cmd = vim.fn.expandcmd("pre-commit run --files " .. path .. pattern, params.args),
+        cmd = vim.fn.expandcmd("pre-commit run --files " .. params.path .. pattern, params.args),
       }
     end,
-    desc = "Run pre-commit on the directory opened in Oil buffer or the current working directory",
     tags = tags,
   },
   {
     name = "Pre-commit run all files",
-    builder = function()
+    params = {
+      args = {
+        type = "string",
+        desc = "The additional arguments to pass to the command",
+        optional = true,
+        order = 1,
+      },
+    },
+    builder = function(params)
       return {
-        cmd = { "pre-commit", "run", "--all-files" },
+        cmd = { "pre-commit", "run", "--all-files", params.args },
       }
     end,
-    desc = "Run pre-commit on all repository files",
     tags = tags,
   },
 }

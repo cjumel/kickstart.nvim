@@ -3,32 +3,59 @@ local tags = { "python", "poetry" }
 return {
   {
     name = "Poetry install",
-    builder = function()
+    params = {
+      args = {
+        type = "string",
+        desc = "The additional arguments to pass to the command",
+        optional = true,
+        order = 1,
+      },
+    },
+    builder = function(params)
       return {
-        cmd = { "poetry", "install" },
+        cmd = { "poetry", "install", params.args },
       }
     end,
-    desc = "Install the Poetry environment",
     tags = tags,
   },
   {
     name = "Poetry update",
-    builder = function()
+    params = {
+      args = {
+        type = "string",
+        desc = "The additional arguments to pass to the command",
+        optional = true,
+        order = 1,
+      },
+    },
+    builder = function(params)
       return {
-        cmd = { "poetry", "update" },
+        cmd = { "poetry", "update", params.args },
       }
     end,
-    desc = "Update the Poetry environment",
     tags = tags,
   },
   {
     name = "Poetry add",
+    params = {
+      package = {
+        type = "string",
+        desc = "Name of the package to add",
+        optional = false,
+        order = 1,
+      },
+      args = {
+        type = "string",
+        desc = "The additional arguments to pass to the command",
+        optional = true,
+        order = 2,
+      },
+    },
     builder = function(params)
       return {
-        cmd = { "poetry", "add", params.args },
+        cmd = { "poetry", "add", params.package, params.args },
       }
     end,
-    desc = "Add a package to the Poetry environment",
     tags = tags,
   },
 }

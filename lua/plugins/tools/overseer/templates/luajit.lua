@@ -5,25 +5,42 @@ local tags = { "luajit" }
 return {
   {
     name = "LuaJIT file",
+    params = {
+      path = {
+        type = "string",
+        desc = "Path of the file (default to the currently opened one)",
+        optional = true,
+        order = 1,
+      },
+      args = {
+        type = "string",
+        desc = "The additional arguments to pass to the command",
+        optional = true,
+        order = 2,
+      },
+    },
     builder = function(params)
-      local path = utils.path.get_current_file_path()
+      if params.path == nil then
+        params.path = utils.path.get_current_file_path()
+      else
+        params.path = utils.path.normalize(params.path)
+      end
 
-      if path == nil then
-        print("No file is opened")
+      if params.path == nil then
+        print("No file provided or found")
         return {}
-      elseif vim.fn.filereadable(path) ~= 1 then
-        print("Not a readable file: " .. path)
+      elseif vim.fn.filereadable(params.path) ~= 1 then
+        print("Not a readable file: " .. params.path)
         return {}
-      elseif string.sub(path, -4) ~= ".lua" then
-        print("Not a Lua file: " .. path)
+      elseif string.sub(params.path, -4) ~= ".lua" then
+        print("Not a Lua file: " .. params.path)
         return {}
       end
 
       return {
-        cmd = { "luajit", path, params.args },
+        cmd = { "luajit", params.path, params.args },
       }
     end,
-    desc = "Run the Lua file opened in the current buffer",
     tags = tags,
   },
 }

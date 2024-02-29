@@ -2,81 +2,82 @@ local utils = require("utils")
 
 local tags = { "python", "pytest" }
 
-local function get_pytest_file_builder(args)
-  args = args or {}
-
-  return function(params)
-    local path = utils.path.get_currrent_file_path()
-
-    if path == nil then
-      print("No file is opened")
-      return {}
-    elseif vim.fn.filereadable(path) ~= 1 then
-      print("Not a readable file: " .. path)
-      return {}
-    end
-
-    return {
-      cmd = utils.table.concat_arrays({ { "pytest" }, args, { path, params.args } }),
-    }
-  end
-end
-
-local function get_pytest_directory_builder(args)
-  args = args or {}
-
-  return function(params)
-    local path = utils.path.get_current_oil_directory({ fallback = "cwd" })
-
-    if path == nil then
-      print("Something went wrong")
-      return {}
-    elseif vim.fn.isdirectory(path) ~= 1 then
-      print("Not a directory: " .. path)
-      return {}
-    end
-
-    return {
-      cmd = utils.table.concat_arrays({ { "pytest" }, args, { path, params.args } }),
-    }
-  end
-end
-
 return {
   {
     name = "Pytest file",
-    builder = get_pytest_file_builder(),
-    desc = "Run pytest on the file opened in the current buffer",
+    params = {
+      path = {
+        type = "string",
+        desc = "Path of the file (default to the currently opened one)",
+        optional = true,
+        order = 1,
+      },
+      args = {
+        type = "string",
+        desc = "The additional arguments to pass to the command",
+        optional = true,
+        order = 2,
+      },
+    },
+    builder = function(params)
+      if params.path == nil then
+        params.path = utils.path.get_current_file_path()
+      else
+        params.path = utils.path.normalize(params.path)
+      end
+
+      if params.path == nil then
+        print("No file provided or found")
+        return {}
+      elseif vim.fn.filereadable(params.path) ~= 1 then
+        print("Not a readable file: " .. params.path)
+        return {}
+      elseif string.sub(params.path, -3) ~= ".py" then
+        print("Not a Python file: " .. params.path)
+        return {}
+      end
+
+      return {
+        cmd = { "pytest", params.path, params.args },
+      }
+    end,
     tags = tags,
-  },
-  {
-    name = "Pytest file fast",
-    builder = get_pytest_file_builder({ "-m", "not slow" }),
-    desc = "Run pytest fast tests on the opened in the current buffer",
-    tags = tags,
-  },
-  {
-    name = "Pytest file slow",
-    builder = get_pytest_file_builder({ "-m", "slow" }),
-    tags = tags,
-    desc = "Run pytest slow tests on the file openedd in the current buffer",
   },
   {
     name = "Pytest directory",
-    builder = get_pytest_directory_builder(),
-    desc = "Run pytest on the directory opened in Oil buffer or the current working directory",
-    tags = tags,
-  },
-  {
-    name = "Pytest directory fast",
-    builder = get_pytest_directory_builder({ "-m", "not slow" }),
-    desc = "Run pytest fast tests on the directory opened in Oil buffer or the current working directory",
-    tags = tags,
-  },
-  {
-    name = "Pytest directory slow",
-    builder = get_pytest_directory_builder({ "-m", "slow" }),
-    desc = "Run pytest slow tests on the directory opened in Oil buffer or the current working directory",
+    params = {
+      path = {
+        type = "string",
+        desc = "Path of the directory (default to the currently opened one if in Oil buffer or to the current working directory",
+        optional = true,
+        order = 1,
+      },
+      args = {
+        type = "string",
+        desc = "The additional arguments to pass to the command",
+        optional = true,
+        order = 2,
+      },
+    },
+    builder = function(params)
+      if params.path == nil then
+        params.path = utils.path.get_current_oil_directory({ fallback = "cwd" })
+      else
+        params.path = utils.path.normalize(params.path)
+      end
+
+      if params.path == nil then
+        print("No directory provided or found")
+        return {}
+      elseif vim.fn.isdirectory(params.path) ~= 1 then
+        print("Not a directory: " .. params.path)
+        return {}
+      end
+
+      return {
+        cmd = { "pytest", params.path, params.args },
+      }
+    end,
     tags = tags,
   },
 }
