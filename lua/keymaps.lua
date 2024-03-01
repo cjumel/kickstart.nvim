@@ -19,8 +19,6 @@ vim.keymap.set("n", "[m", function() end, { desc = "which_key_ignore" })
 vim.keymap.set("n", "]m", function() end, { desc = "which_key_ignore" })
 vim.keymap.set("n", "[M", function() end, { desc = "which_key_ignore" })
 vim.keymap.set("n", "]M", function() end, { desc = "which_key_ignore" })
-vim.keymap.set("n", "[s", function() end, { desc = "which_key_ignore" })
-vim.keymap.set("n", "]s", function() end, { desc = "which_key_ignore" })
 
 -- [[ Remap builtin keymaps ]]
 
