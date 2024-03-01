@@ -182,5 +182,62 @@ return {
   },
   config = function(_, opts)
     require("nvim-treesitter.configs").setup(opts)
+
+    local ts_utils = require("nvim-treesitter.ts_utils")
+    local ts_repeat_move = require("nvim-treesitter.textobjects.repeatable_move")
+
+    --- Output the current node's master, that is the top-level ancestor from the same line.
+    --- This function is taken from:
+    --- https://www.reddit.com/r/neovim/comments/rmgxkf/better_treesitter_way_to_jump_to_parentsibling/
+    ---@return TSNode
+    local get_master_node = function()
+      local node = ts_utils.get_node_at_cursor()
+      if node == nil then
+        error("No Treesitter parser found.")
+      end
+
+      local start_row = node:start()
+      local parent = node:parent()
+
+      while parent ~= nil and parent:start() == start_row do
+        node = parent
+        parent = node:parent()
+      end
+
+      return node
+    end
+
+    local parent_node = function()
+      local node = get_master_node()
+      local parent = node:parent()
+
+      while parent ~= nil and parent:type() == "block" do
+        node = parent
+        parent = node:parent()
+      end
+
+      ts_utils.goto_node(parent)
+    end
+
+    local next_sibling_node = function()
+      local node = get_master_node()
+      local next_sibling = node:next_sibling()
+
+      ts_utils.goto_node(next_sibling)
+    end
+
+    local prev_sibling = function()
+      local node = get_master_node()
+      local prev_sibling = node:prev_sibling()
+
+      ts_utils.goto_node(prev_sibling)
+    end
+
+    local next_sibling_node, prev_sibling =
+      ts_repeat_move.make_repeatable_move_pair(next_sibling_node, prev_sibling)
+
+    vim.keymap.set("n", "[[", parent_node, { desc = "Go to Treesitter node parent" })
+    vim.keymap.set("n", "[]", next_sibling_node, { desc = "Go to Treesitter node parent" })
+    vim.keymap.set("n", "]]", prev_sibling, { desc = "Go to Treesitter node parent" })
   end,
 }
