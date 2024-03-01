@@ -221,19 +221,19 @@ return {
 
     local next_sibling_node = function()
       local node = get_master_node()
-      local next_sibling = node:next_sibling()
+      local next_sibling = node:next_named_sibling()
 
       ts_utils.goto_node(next_sibling)
     end
 
     local prev_sibling = function()
       local node = get_master_node()
-      local prev_sibling = node:prev_sibling()
+      local prev_sibling = node:prev_named_sibling()
 
       ts_utils.goto_node(prev_sibling)
     end
 
-    local next_sibling_node, prev_sibling =
+    next_sibling_node, prev_sibling =
       ts_repeat_move.make_repeatable_move_pair(next_sibling_node, prev_sibling)
 
     vim.keymap.set("n", "[[", parent_node, { desc = "Go to Treesitter node parent" })
