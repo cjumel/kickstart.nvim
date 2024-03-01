@@ -236,8 +236,8 @@ return {
     next_sibling_node, prev_sibling =
       ts_repeat_move.make_repeatable_move_pair(next_sibling_node, prev_sibling)
 
-    vim.keymap.set("n", "[[", parent_node, { desc = "Go to Treesitter node parent" })
-    vim.keymap.set("n", "[]", next_sibling_node, { desc = "Go to Treesitter node parent" })
-    vim.keymap.set("n", "]]", prev_sibling, { desc = "Go to Treesitter node parent" })
+    vim.keymap.set("n", "[[", parent_node, { desc = "Treesitter parent node" })
+    vim.keymap.set("n", "[]", next_sibling_node, { desc = "Next Treesitter sibling node" })
+    vim.keymap.set("n", "]]", prev_sibling, { desc = "Previous Treesitter sibling node" })
   end,
 }
