@@ -118,22 +118,6 @@ return {
 
     local utils = require("utils")
 
-    --- Output wether a Treesitter node is considered as interesting or not. This helps defining
-    --- if we want to a particular node or not.
-    ---@param node TSNode The node to check.
-    ---@return boolean
-    local is_insteresting_node = function(node)
-      local uninsteresting_node_types = {
-        "block", -- Typically the inner part of a function or class
-        "comment",
-      }
-      if utils.table.is_in_array(node:type(), uninsteresting_node_types) then
-        return false
-      end
-
-      return true
-    end
-
     --- Output the current line main node, that is the top-level ancestor from the node under the
     --- cursor within the same line.
     ---@return TSNode
@@ -149,9 +133,9 @@ return {
       while
         parent ~= nil
         and parent:start() == start_row
-        -- Checking a node is interesting solves issues like not being able to navigate siblings
-        -- because main node is a block
-        and is_insteresting_node(parent)
+        -- A "block" is typically the inner part of a function or class
+        -- Excluding it makes possible to navigate to a sibling within a block from the first line
+        and parent:type() ~= "block"
       do
         node = parent
         parent = node:parent()
