@@ -101,14 +101,6 @@ end
 
 local ts_repeat_move = require("nvim-treesitter.textobjects.repeatable_move")
 
-local next_paragraph, prev_paragraph = ts_repeat_move.make_repeatable_move_pair(function()
-  vim.cmd("normal! }")
-end, function()
-  vim.cmd("normal! {")
-end)
-M.next_paragraph = next_paragraph
-M.prev_paragraph = prev_paragraph
-
 local next_diagnostic, prev_diagnostic =
   ts_repeat_move.make_repeatable_move_pair(vim.diagnostic.goto_next, vim.diagnostic.goto_prev)
 M.next_diagnostic = next_diagnostic

@@ -77,9 +77,6 @@ vim.keymap.set("n", "<leader>v", vim.diagnostic.open_float, { desc = "[V]iew dia
 
 vim.keymap.set("n", "K", actions.hover, { desc = "Hover" })
 
-vim.keymap.set({ "n", "x", "o" }, "[p", actions.next_paragraph, { desc = "Next paragraph" })
-vim.keymap.set({ "n", "x", "o" }, "]p", actions.prev_paragraph, { desc = "Previous paragraph" })
-
 -- Dianostics can be errors, warnings, information messages or hints
 vim.keymap.set({ "n", "x", "o" }, "[d", actions.next_diagnostic, { desc = "Next diagnostic" })
 vim.keymap.set({ "n", "x", "o" }, "]d", actions.prev_diagnostic, { desc = "Previous diagnostic" })
