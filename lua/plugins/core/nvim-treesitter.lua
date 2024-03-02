@@ -186,6 +186,24 @@ return {
     local ts_utils = require("nvim-treesitter.ts_utils")
     local ts_repeat_move = require("nvim-treesitter.textobjects.repeatable_move")
 
+    local utils = require("utils")
+
+    --- Output wether a Treesitter node is considered as interesting or not. This helps defining
+    --- if we want to a particular node or not.
+    ---@param node TSNode The node to check.
+    ---@return boolean
+    local is_insteresting_node = function(node)
+      local uninsteresting_node_types = {
+        "block", -- Typically the inner part of a function or class
+        "comment",
+      }
+      if utils.table.is_in_array(node:type(), uninsteresting_node_types) then
+        return false
+      end
+
+      return true
+    end
+
     --- Output the current line main node, that is the top-level ancestor from the node under the
     --- cursor within the same line.
     ---@return TSNode
@@ -198,7 +216,13 @@ return {
       local start_row = node:start()
       local parent = node:parent()
 
-      while parent ~= nil and parent:start() == start_row do
+      while
+        parent ~= nil
+        and parent:start() == start_row
+        -- Checking a node is interesting solves issues like not being able to navigate siblings
+        -- because main node is a block
+        and is_insteresting_node(parent)
+      do
         node = parent
         parent = node:parent()
       end
@@ -211,8 +235,8 @@ return {
       local node = get_main_node()
       local parent = node:parent()
 
-      -- Skip some not interesting node types (e.g. block which are inside functions or classes)
-      while parent ~= nil and parent:type() == "block" do
+      -- Skip not interesting nodes to avoid jumping to them
+      while parent ~= nil and not is_insteresting_node(parent) do
         node = parent
         parent = node:parent()
       end
@@ -224,6 +248,12 @@ return {
     local next_sibling_node = function()
       local node = get_main_node()
       local sibling = node:next_named_sibling()
+
+      -- Skip not interesting nodes to avoid jumping to them
+      while sibling ~= nil and not is_insteresting_node(sibling) do
+        sibling = sibling:next_named_sibling()
+      end
+
       ts_utils.goto_node(sibling)
     end
 
@@ -231,6 +261,12 @@ return {
     local prev_sibling_node = function()
       local node = get_main_node()
       local sibling = node:prev_named_sibling()
+
+      -- Skip not interesting nodes to avoid jumping to them
+      while sibling ~= nil and not is_insteresting_node(sibling) do
+        sibling = sibling:prev_named_sibling()
+      end
+
       ts_utils.goto_node(sibling)
     end
 
