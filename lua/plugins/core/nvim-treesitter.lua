@@ -150,7 +150,12 @@ return {
       local parent = node:parent()
 
       -- Skip not interesting nodes to avoid jumping to them
-      while parent ~= nil and not is_insteresting_node(parent) do
+      while
+        parent ~= nil
+        -- Jumping to a "block" is quite useless; besides, since it's excluded in `get_main_node`,
+        -- if we leave it we can't jump to its parent once we're on it
+        and parent:type() == "block"
+      do
         node = parent
         parent = node:parent()
       end
@@ -164,7 +169,7 @@ return {
       local sibling = node:next_named_sibling()
 
       -- Skip not interesting nodes to avoid jumping to them
-      while sibling ~= nil and not is_insteresting_node(sibling) do
+      while sibling ~= nil and sibling:type() == "comment" do
         sibling = sibling:next_named_sibling()
       end
 
@@ -177,7 +182,7 @@ return {
       local sibling = node:prev_named_sibling()
 
       -- Skip not interesting nodes to avoid jumping to them
-      while sibling ~= nil and not is_insteresting_node(sibling) do
+      while sibling ~= nil and sibling:type() == "comment" do
         sibling = sibling:prev_named_sibling()
       end
 
