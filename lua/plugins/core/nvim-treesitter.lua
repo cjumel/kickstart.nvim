@@ -186,11 +186,10 @@ return {
     local ts_utils = require("nvim-treesitter.ts_utils")
     local ts_repeat_move = require("nvim-treesitter.textobjects.repeatable_move")
 
-    --- Output the current node's master, that is the top-level ancestor from the same line.
-    --- This function is taken from:
-    --- https://www.reddit.com/r/neovim/comments/rmgxkf/better_treesitter_way_to_jump_to_parentsibling/
+    --- Output the current line main node, that is the top-level ancestor from the node under the
+    --- cursor within the same line.
     ---@return TSNode
-    local get_master_node = function()
+    local get_main_node = function()
       local node = ts_utils.get_node_at_cursor()
       if node == nil then
         error("No Treesitter parser found.")
@@ -207,10 +206,12 @@ return {
       return node
     end
 
-    local parent_node = function()
-      local node = get_master_node()
+    --- Move the cursor to the parent of the current line main node.
+    local go_to_parent_node = function()
+      local node = get_main_node()
       local parent = node:parent()
 
+      -- Skip some not interesting node types (e.g. block which are inside functions or classes)
       while parent ~= nil and parent:type() == "block" do
         node = parent
         parent = node:parent()
@@ -219,25 +220,25 @@ return {
       ts_utils.goto_node(parent)
     end
 
+    --- Move the cursor to the next sibling of the current line main node.
     local next_sibling_node = function()
-      local node = get_master_node()
-      local next_sibling = node:next_named_sibling()
-
-      ts_utils.goto_node(next_sibling)
+      local node = get_main_node()
+      local sibling = node:next_named_sibling()
+      ts_utils.goto_node(sibling)
     end
 
-    local prev_sibling = function()
-      local node = get_master_node()
-      local prev_sibling = node:prev_named_sibling()
-
-      ts_utils.goto_node(prev_sibling)
+    --- Move the cursor to the previous sibling of the current line main node.
+    local prev_sibling_node = function()
+      local node = get_main_node()
+      local sibling = node:prev_named_sibling()
+      ts_utils.goto_node(sibling)
     end
 
-    next_sibling_node, prev_sibling =
-      ts_repeat_move.make_repeatable_move_pair(next_sibling_node, prev_sibling)
+    next_sibling_node, prev_sibling_node =
+      ts_repeat_move.make_repeatable_move_pair(next_sibling_node, prev_sibling_node)
 
-    vim.keymap.set("n", "gp", parent_node, { desc = "Go to parent node" })
+    vim.keymap.set("n", "gp", go_to_parent_node, { desc = "Go to parent node" })
     vim.keymap.set("n", "[s", next_sibling_node, { desc = "Next sibling node" })
-    vim.keymap.set("n", "]s", prev_sibling, { desc = "Previous sibling node" })
+    vim.keymap.set("n", "]s", prev_sibling_node, { desc = "Previous sibling node" })
   end,
 }
