@@ -48,7 +48,6 @@ return {
       keymaps = {
         init_selection = "<CR>",
         node_incremental = "<CR>",
-        scope_incremental = "<S-CR>",
         node_decremental = "<BS>",
       },
     },
@@ -81,14 +80,11 @@ return {
         enable = true,
         set_jumps = true, -- whether to set jumps in the jumplist
         goto_next_start = {
-          ["[a"] = { query = "@parameter.outer", desc = "Next parameter" },
           ["[c"] = { query = "@class.outer", desc = "Next class start" },
           ["[f"] = { query = "@call.outer", desc = "Next function call start" },
           ["[i"] = { query = "@conditional.outer", desc = "Next conditional start" },
           ["[l"] = { query = "@loop.outer", desc = "Next loop start" },
           ["[m"] = { query = "@function.outer", desc = "Next function definition start" },
-          ["[="] = { query = "@assignment.outer", desc = "Next assignment" },
-          ["[g"] = { query = "@comment.outer", desc = "Next comment" },
         },
         goto_next_end = {
           ["[C"] = { query = "@class.outer", desc = "Next class end" },
@@ -98,14 +94,11 @@ return {
           ["[M"] = { query = "@function.outer", desc = "Next function definition end" },
         },
         goto_previous_start = {
-          ["]a"] = { query = "@parameter.outer", desc = "Previous parameter" },
           ["]c"] = { query = "@class.outer", desc = "Previous class start" },
           ["]f"] = { query = "@call.outer", desc = "Previous function call start" },
           ["]i"] = { query = "@conditional.outer", desc = "Previous conditional start" },
           ["]l"] = { query = "@loop.outer", desc = "Previous loop start" },
           ["]m"] = { query = "@function.outer", desc = "Previous function definition start" },
-          ["]="] = { query = "@assignment.outer", desc = "Previous assignment" },
-          ["]g"] = { query = "@comment.outer", desc = "Previous comment" },
         },
         goto_previous_end = {
           ["]C"] = { query = "@class.outer", desc = "Previous class end" },
