@@ -3,16 +3,6 @@
 -- Super fast git decorations and utilities implemented purely in Lua. This plugin brings
 -- buffer-centric features, like signs to mark git hunks, or functions to stage them.
 
-local conflict_marker = "<<<<<<< \\|=======\\|>>>>>>> "
-local next_conflict = function()
-  vim.cmd("silent!/" .. conflict_marker)
-  vim.cmd("nohlsearch") -- Clear optional search highlights on the conflict marker
-end
-local prev_conflict = function()
-  vim.cmd("silent!?" .. conflict_marker)
-  vim.cmd("nohlsearch") -- Clear optional search highlights on the conflict marker
-end
-
 return {
   "lewis6991/gitsigns.nvim",
   dependencies = {
@@ -39,14 +29,30 @@ return {
 
       -- Navigation
       local ts_repeat_move = require("nvim-treesitter.textobjects.repeatable_move")
-      local next_hunk_repeat, prev_hunk_repeat =
-        ts_repeat_move.make_repeatable_move_pair(gs.next_hunk, gs.prev_hunk)
-      local next_conflict_repeat, prev_conflict_repeat =
+
+      local next_hunk = function()
+        gs.next_hunk()
+      end
+      local prev_hunk = function()
+        gs.prev_hunk()
+      end
+      next_hunk, prev_hunk = ts_repeat_move.make_repeatable_move_pair(next_hunk, prev_hunk)
+      map({ "n", "x", "o" }, "[h", next_hunk, { desc = "Next hunk" })
+      map({ "n", "x", "o" }, "]h", prev_hunk, { desc = "Previous hunk" })
+
+      local conflict_marker = "<<<<<<< \\|=======\\|>>>>>>> "
+      local next_conflict = function()
+        vim.cmd("silent!/" .. conflict_marker)
+        vim.cmd("nohlsearch") -- Clear optional search highlights on the conflict marker
+      end
+      local prev_conflict = function()
+        vim.cmd("silent!?" .. conflict_marker)
+        vim.cmd("nohlsearch") -- Clear optional search highlights on the conflict marker
+      end
+      next_conflict, prev_conflict =
         ts_repeat_move.make_repeatable_move_pair(next_conflict, prev_conflict)
-      map({ "n", "x", "o" }, "[h", next_hunk_repeat, { desc = "Next hunk" })
-      map({ "n", "x", "o" }, "]h", prev_hunk_repeat, { desc = "Previous hunk" })
-      map({ "n", "x", "o" }, "[H", next_conflict_repeat, { desc = "Next conflict hunk" })
-      map({ "n", "x", "o" }, "]H", prev_conflict_repeat, { desc = "Previous conflict hunk" })
+      map({ "n", "x", "o" }, "[H", next_conflict, { desc = "Next conflict hunk" })
+      map({ "n", "x", "o" }, "]H", prev_conflict, { desc = "Previous conflict hunk" })
 
       -- Action
       map({ "n", "v" }, "<leader>h", gs.preview_hunk, { desc = "[H]unk" })
