@@ -6,9 +6,11 @@
 local conflict_marker = "<<<<<<< \\|=======\\|>>>>>>> "
 local next_conflict = function()
   vim.cmd("silent!/" .. conflict_marker)
+  vim.cmd("nohlsearch") -- Clear optional search highlights on the conflict marker
 end
 local prev_conflict = function()
   vim.cmd("silent!?" .. conflict_marker)
+  vim.cmd("nohlsearch") -- Clear optional search highlights on the conflict marker
 end
 
 return {
