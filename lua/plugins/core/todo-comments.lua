@@ -40,13 +40,6 @@ return {
     }
   end,
   opts = {
-    sign_priority = 7, -- Just above gitsigns
-    keywords = {
-      TODO = { icon = " ", color = "info" },
-      NOTE = { icon = " ", color = "hint" },
-      BUG = { icon = " ", color = "error", alt = { "FIXME", "ISSUE" } },
-    },
-    merge_keywords = false,
     search = {
       args = {
         "--color=never",
