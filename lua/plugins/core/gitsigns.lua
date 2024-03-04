@@ -31,10 +31,18 @@ return {
       local ts_repeat_move = require("nvim-treesitter.textobjects.repeatable_move")
 
       local next_hunk = function()
-        gs.next_hunk()
+        gs.next_hunk({
+          -- Navigation message is inconsistent with other movements & is displayed far away from
+          -- the hunk itself so it's more distracting than helpful
+          navigation_message = false,
+        })
       end
       local prev_hunk = function()
-        gs.prev_hunk()
+        gs.prev_hunk({
+          -- Navigation message is inconsistent with other movements & is displayed far away from
+          -- the hunk itself so it's more distracting than helpful
+          navigation_message = false,
+        })
       end
       next_hunk, prev_hunk = ts_repeat_move.make_repeatable_move_pair(next_hunk, prev_hunk)
       map({ "n", "x", "o" }, "[h", next_hunk, { desc = "Next hunk" })
