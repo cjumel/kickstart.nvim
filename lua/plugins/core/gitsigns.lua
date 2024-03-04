@@ -17,8 +17,9 @@ return {
       topdelete = { text = "‾" },
       changedelete = { text = "~" },
     },
+    -- Enable gitsigns on untracked files to avoid mistaking it with a tracked file without any
+    -- changes and to enable gitsigns keymaps (like add buffer)
     attach_to_untracked = true,
-    sign_priority = 6, -- Default value
     on_attach = function(bufnr)
       local gs = package.loaded.gitsigns
       local function map(mode, l, r, opts)
