@@ -42,11 +42,13 @@ return {
   opts = {
     search = {
       args = {
+        -- Default args
         "--color=never",
         "--no-heading",
         "--with-filename",
         "--line-number",
         "--column",
+        -- Custom args to include hidden files but not the .git directory
         "--hidden",
         "--glob=!.git/",
       },
