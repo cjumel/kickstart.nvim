@@ -39,22 +39,6 @@ return {
       desc = "Next quotation mark",
     },
     {
-      "aq", -- Simpler altenative to a"/'/` with increased lookahead
-      function()
-        require("various-textobjs").anyQuote("outer")
-      end,
-      mode = { "x", "o" },
-      desc = "a quote",
-    },
-    {
-      "iq", -- Simpler altenative to i"/'/` with increased lookahead
-      function()
-        require("various-textobjs").anyQuote("inner")
-      end,
-      mode = { "x", "o" },
-      desc = "inner quote",
-    },
-    {
       "gm", -- Similar to ag/ig in multi-line mode
       function()
         require("various-textobjs").multiCommentedLines()
