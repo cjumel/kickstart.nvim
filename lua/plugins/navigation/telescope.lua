@@ -3,9 +3,6 @@
 -- Gaze deeply into unknwn regions of your code with powerful and blazing fast fuzzy finding
 -- tools.
 
-local custom_actions = require("plugins.navigation.telescope.actions")
-local custom_opts = require("plugins.navigation.telescope.opts")
-
 return {
   "nvim-telescope/telescope.nvim",
   dependencies = {
@@ -104,7 +101,10 @@ return {
       function()
         require("telescope.builtin").oldfiles({
           preview = { hide_on_startup = true },
-          tiebreak = custom_opts.recency_tiebreak,
+          -- Keep entries sorted by recency when typing the prompt
+          tiebreak = function(current_entry, existing_entry, _)
+            return current_entry.index < existing_entry.index
+          end,
         })
       end,
       desc = "[F]ind: [O]ld files",
@@ -207,9 +207,18 @@ return {
     {
       "<leader>:",
       function()
-        local opts = require("telescope.themes").get_dropdown(custom_opts.dropdown)
-        opts.filter_fn = custom_opts.command_history_filter_fn
-        opts.tiebreak = custom_opts.recency_tiebreak
+        local opts = require("telescope.themes").get_dropdown({
+          previewer = false,
+          layout_config = { width = 0.7 },
+        })
+        -- Keep entries sorted by recency when typing the prompt
+        opts.tiebreak = function(current_entry, existing_entry, _)
+          return current_entry.index < existing_entry.index
+        end
+        -- Filter out short commands like "w", "q", "wq", "wqa"
+        opts.filter_fn = function(cmd)
+          return string.len(cmd) >= 4
+        end
         require("telescope.builtin").command_history(opts)
       end,
       desc = "Command history",
@@ -217,8 +226,14 @@ return {
     {
       "<leader>/",
       function()
-        local opts = require("telescope.themes").get_dropdown(custom_opts.dropdown)
-        opts.tiebreak = custom_opts.recency_tiebreak
+        local opts = require("telescope.themes").get_dropdown({
+          previewer = false,
+          layout_config = { width = 0.7 },
+        })
+        -- Keep entries sorted by recency when typing the prompt
+        opts.tiebreak = function(current_entry, existing_entry, _)
+          return current_entry.index < existing_entry.index
+        end
         require("telescope.builtin").search_history(opts)
       end,
       desc = "Search history",
@@ -228,7 +243,10 @@ return {
       function()
         require("telescope.builtin").jumplist({
           initial_mode = "normal",
-          tiebreak = custom_opts.recency_tiebreak,
+          -- Keep entries sorted by recency when typing the prompt
+          tiebreak = function(current_entry, existing_entry, _)
+            return current_entry.index < existing_entry.index
+          end,
         })
       end,
       desc = "Jump list",
@@ -313,9 +331,21 @@ return {
             ["<C-x>"] = actions.select_horizontal,
             ["<C-v>"] = actions.select_vertical,
 
-            ["<C-q>"] = custom_actions.smart_send_to_qflist,
-            ["<C-l>"] = custom_actions.smart_send_to_loclist,
-            ["<C-t>"] = custom_actions.smart_open_with_trouble,
+            -- Define custom actions to open output list with Trouble while keeping it lazy-loaded
+            ["<C-q>"] = function(prompt_bufnr, _mode)
+              local trouble = require("trouble")
+              actions.smart_send_to_qflist(prompt_bufnr, _mode)
+              trouble.open("quickfix")
+            end,
+            ["<C-l>"] = function(prompt_bufnr, _mode)
+              local trouble = require("trouble")
+              actions.smart_send_to_loclist(prompt_bufnr, _mode)
+              trouble.open("loclist")
+            end,
+            ["<C-t>"] = function(prompt_bufnr, _mode)
+              local trouble_actions = require("trouble.providers.telescope")
+              trouble_actions.smart_open_with_trouble(prompt_bufnr, _mode)
+            end,
 
             ["<C-c>"] = actions.close,
           },
@@ -338,9 +368,21 @@ return {
             ["<C-x>"] = actions.select_horizontal,
             ["<C-v>"] = actions.select_vertical,
 
-            ["<C-q>"] = custom_actions.smart_send_to_qflist,
-            ["<C-l>"] = custom_actions.smart_send_to_loclist,
-            ["<C-t>"] = custom_actions.smart_open_with_trouble,
+            -- Define custom actions to open output list with Trouble while keeping it lazy-loaded
+            ["<C-q>"] = function(prompt_bufnr, _mode)
+              local trouble = require("trouble")
+              actions.smart_send_to_qflist(prompt_bufnr, _mode)
+              trouble.open("quickfix")
+            end,
+            ["<C-l>"] = function(prompt_bufnr, _mode)
+              local trouble = require("trouble")
+              actions.smart_send_to_loclist(prompt_bufnr, _mode)
+              trouble.open("loclist")
+            end,
+            ["<C-t>"] = function(prompt_bufnr, _mode)
+              local trouble_actions = require("trouble.providers.telescope")
+              trouble_actions.smart_open_with_trouble(prompt_bufnr, _mode)
+            end,
 
             ["?"] = actions_generate.which_key({
               only_show_current_mode = false,

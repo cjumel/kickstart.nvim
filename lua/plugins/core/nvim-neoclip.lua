@@ -2,8 +2,6 @@
 --
 -- neoclip is a clipboard manager for neovim inspired for example by clipmenu.
 
-local telescope_opts = require("plugins.navigation.telescope.opts")
-
 local function is_whitespace(line)
   return vim.fn.match(line, [[^\s*$]]) ~= -1
 end
@@ -41,7 +39,10 @@ return {
     {
       "<leader>q",
       function()
-        local opts = require("telescope.themes").get_dropdown(telescope_opts.dropdown)
+        local opts = require("telescope.themes").get_dropdown({
+          previewer = false,
+          layout_config = { width = 0.7 },
+        })
         opts.initial_mode = "normal"
         require("telescope").extensions.macroscope.default(opts)
       end,
