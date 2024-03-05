@@ -3,8 +3,8 @@ local ls = require("luasnip")
 local s = ls.snippet
 local t = ls.text_node
 
-local show_conds = require("luasnip.extras.conditions.show")
 local custom_show_conds = require("plugins.core.luasnip.show_conds")
+local show_conds = require("luasnip.extras.conditions.show")
 
 return {
   -- Lua

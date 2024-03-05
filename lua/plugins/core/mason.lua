@@ -18,7 +18,7 @@ return {
     },
     ensure_installed = {
       -- Lua
-      "lua-language-server", -- LSP
+      "lua-language-server", -- LSP with good diagnostics, make a linter not needed
       "stylua", -- Formatter
       -- Python
       "pyright", -- LSP

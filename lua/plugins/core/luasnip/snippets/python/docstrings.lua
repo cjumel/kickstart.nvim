@@ -6,8 +6,8 @@ local s = ls.snippet
 local sn = ls.snippet_node
 local t = ls.text_node
 
-local show_conds = require("luasnip.extras.conditions.show")
 local custom_show_conds = require("plugins.core.luasnip.show_conds")
+local show_conds = require("luasnip.extras.conditions.show")
 
 return {
   s({

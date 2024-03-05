@@ -116,8 +116,6 @@ return {
     local ts_utils = require("nvim-treesitter.ts_utils")
     local ts_repeat_move = require("nvim-treesitter.textobjects.repeatable_move")
 
-    local utils = require("utils")
-
     --- Output the current line main node, that is the top-level ancestor from the node under the
     --- cursor within the same line.
     ---@return TSNode
