@@ -41,21 +41,61 @@ return {
     {
       "<leader>ff",
       function()
-        require("telescope.builtin").find_files(custom_opts.find_files)
+        local opts = {
+          find_command = { "fd", "--type", "f", "--color", "never" }, -- Default fd command
+          preview = { hide_on_startup = true },
+        }
+        if vim.bo.filetype == "oil" then
+          opts.cwd = require("oil").get_current_dir()
+        end
+        require("telescope.builtin").find_files(opts)
       end,
       desc = "[F]ind: [F]iles",
     },
     {
       "<leader>fh",
       function()
-        require("telescope.builtin").find_files(custom_opts.find_files_hidden)
+        local opts = {
+          find_command = { -- Default fd command with hidden files
+            "fd",
+            "--type",
+            "f",
+            "--color",
+            "never",
+            "--hidden",
+            "--exclude",
+            ".git",
+          },
+          preview = { hide_on_startup = true },
+        }
+        if vim.bo.filetype == "oil" then
+          opts.cwd = require("oil").get_current_dir()
+        end
+        require("telescope.builtin").find_files(opts)
       end,
       desc = "[F]ind: files incl. [H]idden",
     },
     {
       "<leader>fa",
       function()
-        require("telescope.builtin").find_files(custom_opts.find_files_all)
+        local opts = {
+          find_command = { -- Default fd command with hidden & ignored files
+            "fd",
+            "--type",
+            "f",
+            "--color",
+            "never",
+            "--hidden",
+            "--exclude",
+            ".git",
+            "--no-ignore",
+          },
+          preview = { hide_on_startup = true },
+        }
+        if vim.bo.filetype == "oil" then
+          opts.cwd = require("oil").get_current_dir()
+        end
+        require("telescope.builtin").find_files(opts)
       end,
       desc = "[F]ind: [A]ll files",
     },
@@ -81,28 +121,52 @@ return {
     {
       "<leader>fg",
       function()
-        require("telescope.builtin").live_grep(custom_opts.live_grep)
+        local opts = {}
+        if vim.bo.filetype == "oil" then
+          opts.cwd = require("oil").get_current_dir()
+        end
+        require("telescope.builtin").live_grep(opts)
       end,
       desc = "[F]ind: by [G]rep",
     },
     {
       "<leader>fG",
       function()
-        require("telescope.builtin").live_grep(custom_opts.live_grep_unrestricted)
+        local opts = {
+          additional_args = { "-uu" },
+        }
+        if vim.bo.filetype == "oil" then
+          opts.cwd = require("oil").get_current_dir()
+        end
+        require("telescope.builtin").live_grep(opts)
       end,
       desc = "[F]ind: by [G]rep (unrestricted)",
     },
     {
       "<leader>fw",
       function()
-        require("telescope.builtin").grep_string(custom_opts.grep_string)
+        local opts = {
+          -- The string has already been searched so it makes more sens to start in normal mode
+          initial_mode = "normal",
+        }
+        if vim.bo.filetype == "oil" then
+          opts.cwd = require("oil").get_current_dir()
+        end
+        require("telescope.builtin").grep_string(opts)
       end,
       desc = "[F]ind: [W]ord",
     },
     {
       "<leader>f",
       function()
-        require("telescope.builtin").grep_string(custom_opts.grep_string)
+        local opts = {
+          -- The string has already been searched so it makes more sens to start in normal mode
+          initial_mode = "normal",
+        }
+        if vim.bo.filetype == "oil" then
+          opts.cwd = require("oil").get_current_dir()
+        end
+        require("telescope.builtin").grep_string(opts)
       end,
       mode = { "v" },
       desc = "[F]ind selection",
@@ -110,14 +174,30 @@ return {
     {
       "<leader>fW",
       function()
-        require("telescope.builtin").grep_string(custom_opts.grep_string_unrestricted)
+        local opts = {
+          -- The string has already been searched so it makes more sens to start in normal mode
+          initial_mode = "normal",
+          additional_args = { "-uu" },
+        }
+        if vim.bo.filetype == "oil" then
+          opts.cwd = require("oil").get_current_dir()
+        end
+        require("telescope.builtin").grep_string(opts)
       end,
       desc = "[F]ind: [W]ord (unrestricted)",
     },
     {
       "<leader>F",
       function()
-        require("telescope.builtin").grep_string(custom_opts.grep_string_unrestricted)
+        local opts = {
+          -- The string has already been searched so it makes more sens to start in normal mode
+          initial_mode = "normal",
+          additional_args = { "-uu" },
+        }
+        if vim.bo.filetype == "oil" then
+          opts.cwd = require("oil").get_current_dir()
+        end
+        require("telescope.builtin").grep_string(opts)
       end,
       mode = { "v" },
       desc = "[F]ind selection (unrestricted)",

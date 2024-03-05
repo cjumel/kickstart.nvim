@@ -39,16 +39,6 @@ return {
       ["H"] = "actions.toggle_hidden",
       ["R"] = "actions.refresh",
       ["?"] = "actions.show_help",
-
-      ["<leader>ff"] = custom_actions.telescope_find_files,
-      ["<leader>fh"] = custom_actions.telescope_find_files_hidden,
-      ["<leader>fa"] = custom_actions.telescope_find_files_all,
-      ["<leader>fg"] = custom_actions.telescope_live_grep,
-      ["<leader>fG"] = custom_actions.telescope_live_grep_unrestricted,
-      ["<leader>fw"] = custom_actions.telescope_grep_string,
-      ["<leader>f"] = custom_actions.telescope_grep_string_visual,
-      ["<leader>fW"] = custom_actions.telescope_grep_string_unrestricted,
-      ["<leader>F"] = custom_actions.telescope_grep_string_unrestricted_visual,
     },
     use_default_keymaps = false,
     view_options = {
