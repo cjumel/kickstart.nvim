@@ -28,10 +28,16 @@ return {
   },
   opts = {
     mason_ensure_installed = { -- Custom option to automatically install missing Mason packages
+      "jsonlint",
+      "markdownlint",
       "ruff",
+      "yamllint",
     },
     linters_by_ft = {
+      json = { "jsonlint" },
+      markdown = { "markdownlint" },
       python = { "ruff" },
+      yaml = { "yamllint" },
     },
     should_lint = function() -- Custom option to enable/disable linting
       if vim.g.disable_lint then
