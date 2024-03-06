@@ -69,21 +69,9 @@ return {
     end,
   },
   config = function(_, opts)
-    require("conform").setup(opts)
+    local ensure_installed = require("plugins.core.mason.ensure_installed")
+    ensure_installed(opts.mason_ensure_installed)
 
-    -- Automatically install missing Mason packages similarly to mason-lspconfig
-    local registry = require("mason-registry")
-    local log_level = vim.log.levels.INFO
-    local notify_opts = { title = "mason.nvim" }
-    registry.refresh(function()
-      for _, pkg_name in ipairs(opts.mason_ensure_installed) do
-        local pkg = registry.get_package(pkg_name)
-        if not pkg:is_installed() then
-          vim.notify(('Installing "%s"'):format(pkg_name), log_level, notify_opts)
-          pkg:install()
-          vim.notify(('"%s" was successfully installed'):format(pkg_name), log_level, notify_opts)
-        end
-      end
-    end)
+    require("conform").setup(opts)
   end,
 }
