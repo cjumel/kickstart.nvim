@@ -19,13 +19,10 @@ return {
     ensure_installed = {
       -- Lua
       "lua-language-server", -- LSP with good diagnostics, make a linter not needed
-      "stylua", -- Formatter
       -- Python
       "pyright", -- LSP
       "ruff", -- Formatter & linter
       "debugpy", -- DAP
-      -- Other
-      "prettier", -- Formatter
     },
   },
   config = function(_, opts)

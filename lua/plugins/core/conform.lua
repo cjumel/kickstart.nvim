@@ -29,6 +29,11 @@ return {
     },
   },
   opts = {
+    mason_ensure_installed = { -- Custom option to automatically install missing Mason packages
+      "prettier",
+      "ruff",
+      "stylua",
+    },
     formatters_by_ft = {
       json = { "prettier" },
       lua = { "stylua" },
@@ -61,4 +66,22 @@ return {
       }
     end,
   },
+  config = function(_, opts)
+    require("conform").setup(opts)
+
+    -- Automatically install missing Mason packages similarly to mason-lspconfig
+    local registry = require("mason-registry")
+    local log_level = vim.log.levels.INFO
+    local notify_opts = { title = "mason.nvim" }
+    registry.refresh(function()
+      for _, pkg_name in ipairs(opts.mason_ensure_installed) do
+        local pkg = registry.get_package(pkg_name)
+        if not pkg:is_installed() then
+          vim.notify(('Installing "%s"'):format(pkg_name), log_level, notify_opts)
+          pkg:install()
+          vim.notify(('"%s" was successfully installed'):format(pkg_name), log_level, notify_opts)
+        end
+      end
+    end)
+  end,
 }
