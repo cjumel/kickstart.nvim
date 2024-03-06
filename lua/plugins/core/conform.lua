@@ -29,7 +29,20 @@ return {
     },
   },
   opts = {
-    formatters_by_ft = {},
+    formatters_by_ft = {
+      json = { "prettier" },
+      lua = { "stylua" },
+      markdown = { "prettier" },
+      python = {
+        "ruff_fix", -- Fix lint diagnostics
+        "ruff_format", -- Regular formatting
+      },
+      yaml = { "prettier" },
+      ["_"] = { -- Files with no other formatter configured
+        "trim_newlines",
+        "trim_whitespace",
+      },
+    },
     format_on_save = function(bufnr)
       -- Disable autoformat on certain filetypes
       local ignore_filetypes = { "oil" }
