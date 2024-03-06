@@ -1,42 +1,54 @@
 -- nvim-lspconfig
 --
--- Define the LSP configurations. This is where the plugins related to LSP should be installed.
+-- Configuration for the Neovim LSP client.
 
 return {
   "neovim/nvim-lspconfig",
   dependencies = {
-    -- Automatically install LSPs to stdpath for neovim
     "williamboman/mason.nvim",
     "williamboman/mason-lspconfig.nvim",
-    -- Additional lua configuration, makes nvim stuff amazing!
     "folke/neodev.nvim",
-    -- nvim-cmp supports additional completion capabilities
     "hrsh7th/nvim-cmp",
     "hrsh7th/cmp-nvim-lsp",
-    -- Illuminates references to the symbol under the cursor
     "RRethy/vim-illuminate",
   },
-  ft = {
+  ft = { -- Only trigger the setup for the few file types which support a language server
     "lua",
     "python",
   },
-  config = function()
-    --  This function gets run when an LSP connects to a particular buffer.
-    local on_attach = function(_, bufnr)
-      local function map(mode, l, r, opts)
-        opts = opts or {}
-        opts.buffer = bufnr
-        vim.keymap.set(mode, l, r, opts)
+  opts = {
+    -- Define which language servers to automatically install and setup (keys), and any
+    -- configuration overrides (values), which will be passed to the `settings` field of the
+    -- server config
+    servers = {
+      lua_ls = {
+        Lua = {
+          workspace = { checkThirdParty = false },
+          telemetry = { enable = false },
+          -- Ignore noisy `missing-fields` warnings
+          diagnostics = { disable = { "missing-fields" } },
+          -- Disable LSP snippets as they are redundant with custom ones
+          completion = { keywordSnippet = "Disable" },
+        },
+      },
+      pyright = {},
+    },
+
+    -- Function run when a language server is attached to a particular buffer
+    -- Here we can define buffer-local keymaps which will not be enabled in buffers where no
+    -- language server is attached
+    on_attach = function(_, bufnr)
+      local function map(mode, l, r, buffer_opts)
+        buffer_opts = buffer_opts or {}
+        buffer_opts.buffer = bufnr
+        vim.keymap.set(mode, l, r, buffer_opts)
       end
 
-      -- Documentation
       map({ "n", "i" }, "<C-s>", vim.lsp.buf.signature_help, { desc = "Signature help" })
-
-      -- Code edition
       map("n", "<leader>lr", vim.lsp.buf.rename, { desc = "[L]SP: [R]ename" })
       map("n", "<leader>la", vim.lsp.buf.code_action, { desc = "[L]SP: [A]ction" })
 
-      -- Code search
+      -- LSP symbol (variables, function, classes, etc.) search
       map("n", "<leader>ld", function()
         require("telescope.builtin").lsp_document_symbols()
       end, { desc = "[L]SP: [D]ocument symbols" })
@@ -44,7 +56,7 @@ return {
         require("telescope.builtin").lsp_dynamic_workspace_symbols()
       end, { desc = "[L]SP: [W]orkspace symbols" })
 
-      -- Go to actions
+      -- Go to navigation
       local telescope_opts = {
         initial_mode = "normal",
         layout_strategy = "vertical",
@@ -60,8 +72,8 @@ return {
         require("telescope.builtin").lsp_references(telescope_opts)
       end, { desc = "Go to references" })
 
-      -- Navigation
-      -- Define illuminate keymaps here to benefit from the "on_attach" behavior
+      -- Next/previous reference navigation
+      -- Define illuminate keymaps here to benefit from the on_attach function behavior
       local ts_repeat_move = require("nvim-treesitter.textobjects.repeatable_move")
       local next_reference, prev_reference = ts_repeat_move.make_repeatable_move_pair(
         require("illuminate").goto_next_reference,
@@ -69,57 +81,40 @@ return {
       )
       map({ "n", "x", "o" }, "[r", next_reference, { desc = "Next reference" })
       map({ "n", "x", "o" }, "]r", prev_reference, { desc = "Previous reference" })
-    end
+    end,
+  },
+  config = function(_, opts)
+    -- Mason is responsible for installing and managing language servers
+    -- Language servers will be automatically installed if they are missing
+    require("mason").setup() -- Needs to be called before mason-lspconfig setup
+    local ensure_installed = vim.tbl_keys(opts.servers or {})
+    require("mason-lspconfig").setup({ ensure_installed = ensure_installed })
 
-    -- mason-lspconfig requires that these setup functions are called in this order
-    -- before setting up the servers.
-    require("mason").setup()
-    require("mason-lspconfig").setup()
-
-    -- Enable the following language servers. They will automatically be installed.
-    -- Add any additional override configuration in the following tables. They will be passed to
-    -- the `settings` field of the server config. If you want to override the default filetypes that
-    -- your language server will attach to you can define the property 'filetypes' to the map in
-    -- question.
-    local servers = {
-      lua_ls = { -- Called lua-language-server in Mason
-        Lua = {
-          workspace = { checkThirdParty = false },
-          telemetry = { enable = false },
-          -- Ignore noisy `missing-fields` warnings
-          diagnostics = { disable = { "missing-fields" } },
-          -- Disable LSP snippets as they are redundant with custom ones
-          completion = { keywordSnippet = "Disable" },
-        },
-      },
-      pyright = {},
-    }
-
-    -- Setup neovim lua configuration
+    -- Neodev does a bunch of configuration to improve Neovim development, by setting up
+    -- the relevant global variables (like `vim`) and making Neovim plugin's code available
+    -- to lua_ls
     require("neodev").setup()
 
-    -- nvim-cmp supports additional completion capabilities, so broadcast that to servers
+    -- LSP servers & clients are able to communicate to each other what features they support.
+    -- By default, Neovim doesn't support everything that is in the LSP Specification. With
+    -- nvim-cmp, Neovim has more capabilities, so we create these new capabilities to broadcast
+    -- them to the servers.
     local capabilities = vim.lsp.protocol.make_client_capabilities()
-    capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
+    local cmp_capabilities = require("cmp_nvim_lsp").default_capabilities()
+    capabilities = vim.tbl_deep_extend("force", capabilities, cmp_capabilities)
 
     -- Fix pyright irrelevant diagnostics when something is not used
     -- See: https://github.com/neovim/nvim-lspconfig/issues/726#issuecomment-1439132189
     capabilities.textDocument.publishDiagnostics = { tagSupport = { valueSet = { 2 } } }
 
-    -- Ensure the servers above are installed
-    local mason_lspconfig = require("mason-lspconfig")
-
-    mason_lspconfig.setup({
-      ensure_installed = vim.tbl_keys(servers),
-    })
-
-    mason_lspconfig.setup_handlers({
+    -- Setup the language servers
+    require("mason-lspconfig").setup_handlers({
       function(server_name)
         require("lspconfig")[server_name].setup({
           capabilities = capabilities,
-          on_attach = on_attach,
-          settings = servers[server_name],
-          filetypes = (servers[server_name] or {}).filetypes,
+          on_attach = opts.on_attach,
+          settings = opts.servers[server_name],
+          filetypes = (opts.servers[server_name] or {}).filetypes,
         })
       end,
     })
