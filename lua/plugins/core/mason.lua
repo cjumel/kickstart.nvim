@@ -17,10 +17,7 @@ return {
       border = "rounded", -- Adding a border is lot better for transparent background
     },
     ensure_installed = {
-      -- Lua
-      "lua-language-server", -- LSP with good diagnostics, make a linter not needed
       -- Python
-      "pyright", -- LSP
       "ruff", -- Formatter & linter
       "debugpy", -- DAP
     },
