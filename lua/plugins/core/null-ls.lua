@@ -10,54 +10,13 @@ return {
   },
   event = { "BufNewFile", "BufReadPre" },
   opts = function()
-    local lsp_formatting = function(bufnr)
-      vim.lsp.buf.format({
-        filter = function(client)
-          -- Enable only null-ls formatting, not other LSPs
-          return client.name == "null-ls"
-        end,
-        bufnr = bufnr,
-      })
-    end
-
     local null_ls = require("null-ls")
-    local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
 
     return {
       border = "rounded", -- Adding a border is lot better for transparent background
       sources = {
-        -- Lua
-        null_ls.builtins.formatting.stylua,
         -- Python
-        null_ls.builtins.formatting.ruff_format,
         null_ls.builtins.diagnostics.ruff,
-        null_ls.builtins.formatting.ruff, -- diagnostic fixes
-        -- Other
-        null_ls.builtins.formatting.prettier.with({
-          filetypes = {
-            "json",
-            "markdown",
-            "yaml",
-          },
-        }),
-        null_ls.builtins.formatting.trim_whitespace.with({
-          disabled_filetypes = { -- Disable for files that have their own formatting
-            "json",
-            "lua",
-            "markdown",
-            "python",
-            "yaml",
-          },
-        }),
-        null_ls.builtins.formatting.trim_newlines.with({
-          disabled_filetypes = { -- Disable for files that have their own formatting
-            "json",
-            "lua",
-            "markdown",
-            "python",
-            "yaml",
-          },
-        }),
       },
       should_attach = function(bufnr)
         local name = vim.api.nvim_buf_get_name(bufnr)
@@ -85,24 +44,6 @@ return {
         end
 
         return true
-      end,
-      on_attach = function(client, bufnr)
-        if client.supports_method("textDocument/formatting") then
-          vim.api.nvim_clear_autocmds({
-            group = augroup,
-            buffer = bufnr,
-          })
-          vim.api.nvim_create_autocmd("BufWritePre", {
-            group = augroup,
-            buffer = bufnr,
-            callback = function()
-              lsp_formatting(bufnr)
-            end,
-          })
-          vim.keymap.set("n", "<leader>lf", function()
-            lsp_formatting(bufnr)
-          end, { buffer = bufnr, desc = "[L]SP: [F]ormat" })
-        end
       end,
     }
   end,
