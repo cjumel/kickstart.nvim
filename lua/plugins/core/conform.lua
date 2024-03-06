@@ -33,6 +33,7 @@ return {
       "prettier",
       "ruff",
       "stylua",
+      "taplo",
     },
     formatters_by_ft = {
       json = { "prettier" },
@@ -42,6 +43,7 @@ return {
         "ruff_fix", -- Fix lint diagnostics
         "ruff_format", -- Regular formatting
       },
+      toml = { "taplo" },
       yaml = { "prettier" },
       ["_"] = { -- Files with no other formatter configured
         "trim_newlines",
