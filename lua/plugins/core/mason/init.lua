@@ -19,7 +19,6 @@ return {
     ensure_installed = {
       -- Python
       "ruff", -- Formatter & linter
-      "debugpy", -- DAP
     },
   },
   config = function(_, opts)

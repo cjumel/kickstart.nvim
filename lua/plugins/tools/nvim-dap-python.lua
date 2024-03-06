@@ -14,10 +14,16 @@ return {
     "DapPytestFile",
   },
   opts = {
+    mason_ensure_installed = { -- Custom option to automatically install missing Mason packages
+      "debugpy",
+    },
     include_configs = false,
     console = "integratedTerminal",
   },
   config = function(_, opts)
+    local ensure_installed = require("plugins.core.mason.ensure_installed")
+    ensure_installed(opts.mason_ensure_installed)
+
     local dap_python = require("dap-python")
     dap_python.setup("~/.local/share/nvim/mason/packages/debugpy/venv/bin/python", opts)
 
