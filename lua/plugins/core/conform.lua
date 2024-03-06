@@ -13,8 +13,10 @@ return {
       "<leader>,f",
       function()
         if not vim.g.disable_autoformat then
+          vim.notify("Autoformat on save disabled.")
           vim.g.disable_autoformat = true
         else
+          vim.notify("Autoformat on save enabled.")
           vim.g.disable_autoformat = false
         end
       end,
