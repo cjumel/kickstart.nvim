@@ -121,6 +121,59 @@ return {
       desc = "[F]ind: [O]ld files",
     },
 
+    -- Find directories
+    {
+      "<leader>fd",
+      function()
+        local opts = {
+          find_command = { -- Default fd command with directory type & hidden files
+            "fd",
+            "--type",
+            "d",
+            "--color",
+            "never",
+            "--hidden",
+            "--exclude",
+            ".git",
+          },
+          prompt_title = "Find Directories",
+        }
+        if vim.bo.filetype == "oil" then
+          opts.cwd = require("oil").get_current_dir()
+        end
+        -- Use same previewer as in telescope-file-browser
+        opts.previewer = require("telescope.previewers").vim_buffer_cat.new(opts)
+        require("telescope.builtin").find_files(opts)
+      end,
+      desc = "[F]ind: [D]irectories",
+    },
+    {
+      "<leader>fD",
+      function()
+        local opts = {
+          find_command = { -- Default fd command with directory type, hidden & ignored files
+            "fd",
+            "--type",
+            "d",
+            "--color",
+            "never",
+            "--hidden",
+            "--exclude",
+            ".git",
+            "--no-ignore",
+          },
+          prompt_title = "Find Directories",
+        }
+        if vim.bo.filetype == "oil" then
+          opts.cwd = require("oil").get_current_dir()
+        end
+        -- Use same previewer as in telescope-file-browser
+        opts.previewer = require("telescope.previewers").vim_buffer_cat.new(opts)
+        require("telescope.builtin").find_files(opts)
+      end,
+      desc = "[F]ind: [D]irectories (unrestricted)",
+    },
+
     -- Find with grep
     {
       "<leader>fg",
