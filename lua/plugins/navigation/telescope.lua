@@ -9,9 +9,9 @@ return {
     "nvim-lua/plenary.nvim",
     "nvim-tree/nvim-web-devicons",
     "nvim-treesitter/nvim-treesitter",
+
     -- Fuzzy Finder Algorithm which requires local dependencies to be built.
-    -- Only load if `make` is available. Make sure you have the system
-    -- requirements installed.
+    -- Only load if `make` is available.
     {
       "nvim-telescope/telescope-fzf-native.nvim",
       build = "make",
@@ -21,26 +21,34 @@ return {
     },
   },
   keys = {
+    -- General keymaps
     {
       "<leader><leader>",
       function()
         require("telescope.builtin").resume({
-          -- When resuming Telescope, a search has already been done, so it makes more sens to
-          -- resume in normal mode (it's also easier to resume navigation in previous searches
-          -- that way)
+          -- When resuming Telescope, a search has already been done, so it makes more sens
+          -- and is more user-friendly to resume in normal mode
           initial_mode = "normal",
         })
       end,
       desc = "Resume Telescope",
     },
+    {
+      "<leader>s",
+      function()
+        require("telescope.builtin").current_buffer_fuzzy_find()
+      end,
+      desc = "[S]earch fuzzily in buffer",
+    },
 
-    -- Find files by name
+    -- Find files
     {
       "<leader>ff",
       function()
         local opts = {
           find_command = { "fd", "--type", "f", "--color", "never" }, -- Default fd command
           preview = { hide_on_startup = true },
+          prompt_title = "Find Files",
         }
         if vim.bo.filetype == "oil" then
           opts.cwd = require("oil").get_current_dir()
@@ -64,6 +72,7 @@ return {
             ".git",
           },
           preview = { hide_on_startup = true },
+          prompt_title = "Find Files incl. Hidden",
         }
         if vim.bo.filetype == "oil" then
           opts.cwd = require("oil").get_current_dir()
@@ -88,6 +97,7 @@ return {
             "--no-ignore",
           },
           preview = { hide_on_startup = true },
+          prompt_title = "Find All Files",
         }
         if vim.bo.filetype == "oil" then
           opts.cwd = require("oil").get_current_dir()
@@ -105,42 +115,39 @@ return {
           tiebreak = function(current_entry, existing_entry, _)
             return current_entry.index < existing_entry.index
           end,
+          prompt_title = "Find Old Files",
         })
       end,
       desc = "[F]ind: [O]ld files",
     },
 
-    -- Find by content
-    {
-      "<leader>fz",
-      function()
-        require("telescope.builtin").current_buffer_fuzzy_find()
-      end,
-      desc = "[F]ind: fu[Z]zily in buffer",
-    },
+    -- Find with grep
     {
       "<leader>fg",
       function()
-        local opts = {}
-        if vim.bo.filetype == "oil" then
-          opts.cwd = require("oil").get_current_dir()
-        end
-        require("telescope.builtin").live_grep(opts)
-      end,
-      desc = "[F]ind: by [G]rep",
-    },
-    {
-      "<leader>fG",
-      function()
         local opts = {
-          additional_args = { "-uu" },
+          prompt_title = "Find by Live Grep",
         }
         if vim.bo.filetype == "oil" then
           opts.cwd = require("oil").get_current_dir()
         end
         require("telescope.builtin").live_grep(opts)
       end,
-      desc = "[F]ind: by [G]rep (unrestricted)",
+      desc = "[F]ind: by live [G]rep",
+    },
+    {
+      "<leader>fG",
+      function()
+        local opts = {
+          additional_args = { "-uu" },
+          prompt_title = "Find by Live Grep",
+        }
+        if vim.bo.filetype == "oil" then
+          opts.cwd = require("oil").get_current_dir()
+        end
+        require("telescope.builtin").live_grep(opts)
+      end,
+      desc = "[F]ind: by live [G]rep (unrestricted)",
     },
     {
       "<leader>fw",
@@ -169,7 +176,7 @@ return {
         require("telescope.builtin").grep_string(opts)
       end,
       mode = { "v" },
-      desc = "[F]ind selection",
+      desc = "[F]ind word",
     },
     {
       "<leader>fW",
@@ -200,7 +207,7 @@ return {
         require("telescope.builtin").grep_string(opts)
       end,
       mode = { "v" },
-      desc = "[F]ind selection (unrestricted)",
+      desc = "[F]ind word (unrestricted)",
     },
 
     -- Vim- or Neovim-related
@@ -242,11 +249,11 @@ return {
       "<leader>;",
       function()
         require("telescope.builtin").jumplist({
-          initial_mode = "normal",
           -- Keep entries sorted by recency when typing the prompt
           tiebreak = function(current_entry, existing_entry, _)
             return current_entry.index < existing_entry.index
           end,
+          prompt_title = "Jump List",
         })
       end,
       desc = "Jump list",
@@ -270,24 +277,33 @@ return {
     {
       "<leader>gl",
       function()
-        require("telescope.builtin").git_commits({ initial_mode = "normal" })
+        require("telescope.builtin").git_commits({
+          initial_mode = "normal",
+          prompt_title = "Git Log",
+        })
       end,
       desc = "[G]it: [L]og",
     },
     {
       "<leader>gL",
       function()
-        require("telescope.builtin").git_bcommits({ initial_mode = "normal" })
+        require("telescope.builtin").git_bcommits({
+          initial_mode = "normal",
+          prompt_title = "Git Buffer Log",
+        })
       end,
       desc = "[G]it: buffer [L]og",
     },
     {
       "<leader>g",
       function()
-        require("telescope.builtin").git_bcommits_range({ initial_mode = "normal" })
+        require("telescope.builtin").git_bcommits_range({
+          initial_mode = "normal",
+          prompt_title = "Git Selection Log",
+        })
       end,
       mode = "v",
-      desc = "[G]it: log for selection",
+      desc = "[G]it: selection log",
     },
 
     -- Help related
@@ -301,14 +317,18 @@ return {
     {
       "<leader>?k",
       function()
-        require("telescope.builtin").keymaps()
+        require("telescope.builtin").keymaps({
+          prompt_title = "Keymaps",
+        })
       end,
       desc = "Help: [K]eymaps",
     },
     {
       "<leader>?h",
       function()
-        require("telescope.builtin").help_tags()
+        require("telescope.builtin").help_tags({
+          prompt_title = "Help Tags",
+        })
       end,
       desc = "Help: [H]elp tags",
     },
@@ -428,20 +448,14 @@ return {
           local transform_path = require("telescope.utils").transform_path
           path = transform_path({ path_display = path_display_opts }, path)
 
-          -- Replace home directory with ~
-          path = string.gsub(path, "/Users/clement", "~")
+          -- Normalize and shorten the path
+          local utils = require("utils")
+          path = utils.path.normalize(path)
 
           return path
         end,
       },
       pickers = {
-        buffers = {
-          mappings = {
-            n = {
-              ["d"] = actions.delete_buffer + actions.move_to_top,
-            },
-          },
-        },
         -- Override the <tab> key in git_status for the preview instead of staging the file
         git_status = {
           mappings = {
