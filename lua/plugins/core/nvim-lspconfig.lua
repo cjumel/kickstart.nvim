@@ -50,23 +50,21 @@ return {
     -- Here we can define buffer-local keymaps which will not be enabled in buffers where no
     -- language server is attached
     on_attach = function(_, bufnr)
-      local function map(mode, l, r, buffer_opts)
-        buffer_opts = buffer_opts or {}
-        buffer_opts.buffer = bufnr
-        vim.keymap.set(mode, l, r, buffer_opts)
+      local function map(mode, keys, func, desc)
+        vim.keymap.set(mode, keys, func, { desc = desc, buffer = bufnr })
       end
 
-      map({ "n", "i" }, "<C-s>", vim.lsp.buf.signature_help, { desc = "Signature help" })
-      map("n", "<leader>lr", vim.lsp.buf.rename, { desc = "[L]SP: [R]ename" })
-      map("n", "<leader>la", vim.lsp.buf.code_action, { desc = "[L]SP: [A]ction" })
+      map({ "n", "i" }, "<C-s>", vim.lsp.buf.signature_help, "Signature help")
+      map("n", "<leader>lr", vim.lsp.buf.rename, "[L]SP: [R]ename")
+      map("n", "<leader>la", vim.lsp.buf.code_action, "[L]SP: [A]ction")
 
       -- LSP symbol (variables, function, classes, etc.) search
       map("n", "<leader>ld", function()
         require("telescope.builtin").lsp_document_symbols()
-      end, { desc = "[L]SP: [D]ocument symbols" })
+      end, "[L]SP: [D]ocument symbols")
       map("n", "<leader>lw", function()
         require("telescope.builtin").lsp_dynamic_workspace_symbols()
-      end, { desc = "[L]SP: [W]orkspace symbols" })
+      end, "[L]SP: [W]orkspace symbols")
 
       -- Go to navigation
       local telescope_opts = {
@@ -76,13 +74,13 @@ return {
       }
       map("n", "gd", function()
         require("telescope.builtin").lsp_definitions(telescope_opts)
-      end, { desc = "Go to definition" })
+      end, "Go to definition")
       map("n", "gD", function()
         require("telescope.builtin").lsp_type_definitions(telescope_opts)
-      end, { desc = "Go to type definition" })
+      end, "Go to type definition")
       map("n", "gr", function()
         require("telescope.builtin").lsp_references(telescope_opts)
-      end, { desc = "Go to references" })
+      end, "Go to references")
 
       -- Next/previous reference navigation
       -- Define illuminate keymaps here to benefit from the on_attach function behavior
@@ -91,17 +89,11 @@ return {
         require("illuminate").goto_next_reference,
         require("illuminate").goto_prev_reference
       )
-      map({ "n", "x", "o" }, "[r", next_reference, { desc = "Next reference" })
-      map({ "n", "x", "o" }, "]r", prev_reference, { desc = "Previous reference" })
+      map({ "n", "x", "o" }, "[r", next_reference, "Next reference")
+      map({ "n", "x", "o" }, "]r", prev_reference, "Previous reference")
     end,
   },
   config = function(_, opts)
-    -- Mason is responsible for installing and managing language servers
-    -- Language servers will be automatically installed if they are missing
-    require("mason").setup() -- Needs to be called before mason-lspconfig setup
-    local ensure_installed = vim.tbl_keys(opts.servers or {})
-    require("mason-lspconfig").setup({ ensure_installed = ensure_installed })
-
     -- Neodev does a bunch of configuration to improve Neovim development, by setting up
     -- the relevant global variables (like `vim`) and making Neovim plugin's code available
     -- to lua_ls
@@ -115,17 +107,23 @@ return {
     local cmp_capabilities = require("cmp_nvim_lsp").default_capabilities()
     capabilities = vim.tbl_deep_extend("force", capabilities, cmp_capabilities)
 
-    -- Setup the language servers
-    require("mason-lspconfig").setup_handlers({
-      function(server_name)
-        local server = opts.servers[server_name] or {}
-        -- This handles overriding only values explicitly passed by the server configuration above
-        -- Useful when disabling certain features of a language server
-        server.capabilities =
-          vim.tbl_deep_extend("force", {}, capabilities, server.capabilities or {})
-        server.on_attach = opts.on_attach
-        require("lspconfig")[server_name].setup(server)
-      end,
+    -- Make sure the language servers are installed and set them up
+    -- Mason is responsible for installing and managing language servers and it must be setup
+    -- before mason-lspconfig. In practice, in my configuration it is without the need to enforce
+    -- it manually, and mason-lspconfig will send a notification otherwise
+    require("mason-lspconfig").setup({
+      ensure_installed = vim.tbl_keys(opts.servers or {}),
+      handlers = {
+        function(server_name)
+          local server = opts.servers[server_name] or {}
+          -- This handles overriding only values explicitly passed by the server configuration above
+          -- Useful when disabling certain features of a language server
+          server.capabilities =
+            vim.tbl_deep_extend("force", {}, capabilities, server.capabilities or {})
+          server.on_attach = opts.on_attach
+          require("lspconfig")[server_name].setup(server)
+        end,
+      },
     })
   end,
 }
