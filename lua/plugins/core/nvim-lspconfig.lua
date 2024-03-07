@@ -32,12 +32,18 @@ return {
             telemetry = { enable = false },
             -- Ignore noisy `missing-fields` warnings
             diagnostics = { disable = { "missing-fields" } },
-            -- Disable LSP snippets as they are redundant with custom ones
+            -- Disable LSP snippets (redundant with LuaSnip)
             completion = { keywordSnippet = "Disable" },
           },
         },
       },
-      pyright = {},
+      pyright = {
+        capabilities = {
+          -- Disable Pyright diagnostics when something is not used
+          -- See https://github.com/neovim/nvim-lspconfig/issues/726#issuecomment-1700845901
+          textDocument = { publishDiagnostics = { tagSupport = { valueSet = { 2 } } } },
+        },
+      },
     },
 
     -- Function run when a language server is attached to a particular buffer
@@ -108,10 +114,6 @@ return {
     local capabilities = vim.lsp.protocol.make_client_capabilities()
     local cmp_capabilities = require("cmp_nvim_lsp").default_capabilities()
     capabilities = vim.tbl_deep_extend("force", capabilities, cmp_capabilities)
-
-    -- Fix pyright irrelevant diagnostics when something is not used
-    -- See: https://github.com/neovim/nvim-lspconfig/issues/726#issuecomment-1439132189
-    capabilities.textDocument.publishDiagnostics = { tagSupport = { valueSet = { 2 } } }
 
     -- Setup the language servers
     require("mason-lspconfig").setup_handlers({
