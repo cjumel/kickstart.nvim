@@ -17,18 +17,24 @@ return {
     "python",
   },
   opts = {
-    -- Define which language servers to automatically install and setup (keys), and any
-    -- configuration overrides (values), which will be passed to the `settings` field of the
-    -- server config
+    -- Define the language servers and their configuration overrides
+    -- Available keys for overrides are:
+    --  - cmd (table): Override the default command used to start the server
+    --  - filetypes (table): Override the default list of associated filetypes for the server
+    --  - capabilities (table): Override fields in capabilities. Can be used to disable certain LSP
+    --    features.
+    --  - settings (table): Override the default settings passed when initializing the server.
     servers = {
       lua_ls = {
-        Lua = {
-          workspace = { checkThirdParty = false },
-          telemetry = { enable = false },
-          -- Ignore noisy `missing-fields` warnings
-          diagnostics = { disable = { "missing-fields" } },
-          -- Disable LSP snippets as they are redundant with custom ones
-          completion = { keywordSnippet = "Disable" },
+        settings = {
+          Lua = {
+            workspace = { checkThirdParty = false },
+            telemetry = { enable = false },
+            -- Ignore noisy `missing-fields` warnings
+            diagnostics = { disable = { "missing-fields" } },
+            -- Disable LSP snippets as they are redundant with custom ones
+            completion = { keywordSnippet = "Disable" },
+          },
         },
       },
       pyright = {},
@@ -110,12 +116,13 @@ return {
     -- Setup the language servers
     require("mason-lspconfig").setup_handlers({
       function(server_name)
-        require("lspconfig")[server_name].setup({
-          capabilities = capabilities,
-          on_attach = opts.on_attach,
-          settings = opts.servers[server_name],
-          filetypes = (opts.servers[server_name] or {}).filetypes,
-        })
+        local server = opts.servers[server_name] or {}
+        -- This handles overriding only values explicitly passed by the server configuration above
+        -- Useful when disabling certain features of a language server
+        server.capabilities =
+          vim.tbl_deep_extend("force", {}, capabilities, server.capabilities or {})
+        server.on_attach = opts.on_attach
+        require("lspconfig")[server_name].setup(server)
       end,
     })
   end,
