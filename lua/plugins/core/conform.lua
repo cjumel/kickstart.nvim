@@ -22,13 +22,6 @@ return {
       end,
       desc = "Settings: toggle [F]ormat on save",
     },
-    {
-      "<leader>cf",
-      function()
-        require("conform").format()
-      end,
-      desc = "[C]ode: [F]ormat",
-    },
   },
   opts = {
     mason_ensure_installed = { -- Custom option to automatically install missing Mason packages
