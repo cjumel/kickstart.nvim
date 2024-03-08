@@ -5,81 +5,93 @@ local tags = { "pre-commit" }
 return {
   {
     name = "Pre-commit run file",
+    condition = {
+      callback = function()
+        if vim.bo.filetype == "" then -- No file opened
+          return false
+        elseif vim.bo.filetype == "oil" then
+          return false
+        end
+        return true
+      end,
+    },
     params = {
-      path = {
-        type = "string",
-        desc = "Path of the file (default to the currently opened one)",
-        optional = true,
-        order = 1,
-      },
       args = {
         type = "string",
-        desc = "The additional arguments to pass to the command",
+        desc = "Additional arguments",
         optional = true,
-        order = 2,
       },
     },
     builder = function(params)
-      if params.path == nil then
-        params.path = utils.path.get_current_file_path()
-      else
-        params.path = utils.path.normalize(params.path)
-      end
-
-      if params.path == nil then
-        print("No file provided or found")
-        return {}
-      elseif vim.fn.filewritable(params.path) ~= 1 then
-        print("Not a readable file: " .. params.path)
+      local path = utils.path.get_current_file_path()
+      if path == nil then
+        vim.notify("No file found")
         return {}
       end
 
       return {
-        cmd = { "pre-commit", "run", "--file", params.path, params.args },
+        cmd = { "pre-commit", "run", "--file", path, params.args },
       }
     end,
     tags = tags,
   },
   {
     name = "Pre-commit run directory",
+    condition = {
+      filetype = "oil",
+    },
     params = {
-      path = {
-        type = "string",
-        desc = "Path of the directory (default to the currently opened one if in Oil buffer or to the current working directory",
-        optional = true,
-        order = 1,
-      },
       args = {
         type = "string",
-        desc = "The additional arguments to pass to the command",
+        desc = "Additional arguments",
         optional = true,
-        order = 2,
       },
     },
     builder = function(params)
-      if params.path == nil then
-        params.path = utils.path.get_current_oil_directory({ fallback = "cwd" })
-      else
-        params.path = utils.path.normalize(params.path)
-      end
-
-      if params.path == nil then
-        print("No directory provided or found")
-        return {}
-      elseif vim.fn.isdirectory(params.path) ~= 1 then
-        print("Not a directory: " .. params.path)
+      local path = utils.path.get_current_oil_directory()
+      if path == nil then
+        vim.notify("No directory found")
         return {}
       end
 
       local pattern = ""
-      if string.sub(params.path, -1) ~= "/" then
+      if string.sub(path, -1) ~= "/" then
         pattern = pattern .. "/"
       end
       pattern = pattern .. "**/*"
       return {
         -- vim.fn.expandcmd is taken from the "shell" builtin template; without it pre-commit
         -- skips all the files in the directory
-        cmd = vim.fn.expandcmd("pre-commit run --files " .. params.path .. pattern, params.args),
+        cmd = vim.fn.expandcmd("pre-commit run --files " .. path .. pattern, params.args),
+      }
+    end,
+    tags = tags,
+  },
+  {
+    name = "Pre-commit run cwd",
+    params = {
+      args = {
+        type = "string",
+        desc = "Additional arguments",
+        optional = true,
+      },
+    },
+    builder = function(params)
+      local path = utils.path.normalize(vim.fn.getcwd())
+      if path == nil then
+        vim.notify("No directory found")
+        return {}
+      end
+
+      local pattern = ""
+      if string.sub(path, -1) ~= "/" then
+        pattern = pattern .. "/"
+      end
+      pattern = pattern .. "**/*"
+      return {
+        -- vim.fn.expandcmd is taken from the "shell" builtin template; without it pre-commit
+        -- skips all the files in the directory
+        cmd = vim.fn.expandcmd("pre-commit run --files " .. path .. pattern, params.args),
       }
     end,
     tags = tags,
@@ -89,9 +101,8 @@ return {
     params = {
       args = {
         type = "string",
-        desc = "The additional arguments to pass to the command",
+        desc = "Additional arguments",
         optional = true,
-        order = 1,
       },
     },
     builder = function(params)

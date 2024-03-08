@@ -1,14 +1,27 @@
+local callback = function(_)
+  local cwd = vim.fn.getcwd()
+  local file_names = { "poetry.lock", "pyproject.toml" }
+  for _, file_name in ipairs(file_names) do
+    local file_path = cwd .. "/" .. file_name
+    if vim.fn.filereadable(file_path) == 1 then
+      return true
+    end
+  end
+  return false
+end
 local tags = { "python", "poetry" }
 
 return {
   {
     name = "Poetry install",
+    condition = {
+      callback = callback,
+    },
     params = {
       args = {
         type = "string",
-        desc = "The additional arguments to pass to the command",
+        desc = "Additional arguments",
         optional = true,
-        order = 1,
       },
     },
     builder = function(params)
@@ -20,12 +33,14 @@ return {
   },
   {
     name = "Poetry update",
+    condition = {
+      callback = callback,
+    },
     params = {
       args = {
         type = "string",
-        desc = "The additional arguments to pass to the command",
+        desc = "Additional arguments",
         optional = true,
-        order = 1,
       },
     },
     builder = function(params)
@@ -37,6 +52,9 @@ return {
   },
   {
     name = "Poetry add",
+    condition = {
+      callback = callback,
+    },
     params = {
       package = {
         type = "string",
@@ -46,7 +64,7 @@ return {
       },
       args = {
         type = "string",
-        desc = "The additional arguments to pass to the command",
+        desc = "Additional arguments",
         optional = true,
         order = 2,
       },
