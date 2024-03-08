@@ -18,18 +18,30 @@ M.macro = {
   color = { fg = "#ff9e64" },
 }
 
--- If file is in Harpoon list, show its index
--- This loads Harpoon so it's not lazy-loaded anymore
+-- If file or directory (for Oil buffers) is in Harpoon list, show its index
+-- This loads Harpoon so it's not lazy-loaded anymore (it's also true for Oil but it's already
+-- not lazy loaded)
 M.harpoon = {
   function()
     local harpoon = require("harpoon")
+    local oil = require("oil")
+
+    -- Compute the path of the file or directory and format it like in Harpoon
+    local path
+    if vim.bo.filetype == "oil" then
+      path = oil.get_current_dir()
+      if path == nil then
+        return
+      end
+    else
+      path = vim.fn.expand("%:p")
+    end
+    path = vim.fn.fnamemodify(path, ":.")
 
     local harpoon_list_length = harpoon:list():length()
-    local current_file_path = vim.fn.fnamemodify(vim.fn.expand("%:p"), ":.")
-
     for index = 1, harpoon_list_length do
       local harpoon_file_path = harpoon:list():get(index).value
-      if current_file_path == harpoon_file_path then
+      if path == harpoon_file_path then
         return "H-" .. index .. "/" .. harpoon_list_length
       end
     end
@@ -61,6 +73,14 @@ M.trouble = {
 M.toggleterm = {
   function()
     return "ToggleTerm #" .. vim.b.toggle_number
+  end,
+}
+
+-- Output a fake "utf-8" encoding for a consistent display between some special buffers (like Oil)
+-- and regular ones
+M.fake_encoding = {
+  function()
+    return "utf-8"
   end,
 }
 

@@ -48,7 +48,16 @@ return {
         {
           sections = utils.table.concat_dicts({
             sections.default,
-            { lualine_c = modules.oil },
+            {
+              lualine_c = modules.oil,
+              lualine_x = utils.table.concat_arrays({
+                {
+                  modules.harpoon,
+                  modules.fake_encoding, -- Add a fake encoding for consistency with regular buffers
+                },
+                sections.default.lualine_x,
+              }),
+            },
           }),
           filetypes = { "oil" },
         },

@@ -43,7 +43,13 @@ M.lualine_opts = {
     {
       sections = utils.table.concat_dicts({
         sections.empty,
-        { lualine_c = modules.oil },
+        {
+          lualine_c = modules.oil,
+          lualine_x = utils.table.concat_arrays({
+            { modules.harpoon },
+            { "location", "progress" },
+          }),
+        },
       }),
       filetypes = { "oil" },
     },

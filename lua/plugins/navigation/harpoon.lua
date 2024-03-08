@@ -6,13 +6,24 @@
 -- Output true if the current file is in the Harpoon list, false otherwise
 local function is_in_harpoon_list()
   local harpoon = require("harpoon")
+  local oil = require("oil")
+
+  -- Compute the path of the file or directory and format it like in Harpoon
+  local path
+  if vim.bo.filetype == "oil" then
+    path = oil.get_current_dir()
+    if path == nil then
+      return
+    end
+  else
+    path = vim.fn.expand("%:p")
+  end
+  path = vim.fn.fnamemodify(path, ":.")
 
   local harpoon_list_length = harpoon:list():length()
-  local current_file_path = vim.fn.fnamemodify(vim.fn.expand("%:p"), ":.")
-
   for index = 1, harpoon_list_length do
     local harpoon_file_path = harpoon:list():get(index).value
-    if current_file_path == harpoon_file_path then
+    if path == harpoon_file_path then
       return true
     end
   end
@@ -138,24 +149,28 @@ return {
     settings = {
       save_on_toggle = true,
     },
-    default = { -- Config for default Harpoon list (for files)
-      -- Overwrite action when item is added to the list, in order to handle the special case
-      -- where we want to add the file under the cursor when in Oil buffer
+
+    -- Config for default Harpoon list (for files)
+    -- The following functions relies a lot on the original implementation, in harpoon.config
+    default = {
+
+      -- Overwrite action when item is added to the list, in order to handle both adding
+      -- a regular buffer and a directory when in an Oil buffer
       create_list_item = function(config, name)
         if name == nil then
-          local absolute_path
+          -- Fetch the raw path depending on whether the current buffer is an Oil buffer or not
           if vim.bo.filetype == "oil" then
-            local entry = require("oil").get_cursor_entry()
-            if entry == nil or entry.type == "directory" then
-              return
-            end
-            local dir = require("oil").get_current_dir()
-            absolute_path = dir .. entry.name
+            name = require("oil").get_current_dir()
           else
-            absolute_path = vim.api.nvim_buf_get_name(vim.api.nvim_get_current_buf())
+            name = vim.api.nvim_buf_get_name(vim.api.nvim_get_current_buf())
           end
-          -- Re-implement the normalize_path function from harpoon.config
-          name = require("plenary.path"):new(absolute_path):make_relative(config.get_root_dir())
+
+          name = require("plenary.path"):new(name):make_relative(config.get_root_dir())
+
+          -- Append a slash to directory names for consistency with Oil
+          if vim.bo.filetype == "oil" then
+            name = name .. "/"
+          end
         end
 
         local bufnr = vim.fn.bufnr(name, false)
@@ -171,6 +186,43 @@ return {
             col = pos[2],
           },
         }
+      end,
+
+      -- Overwrite action when selecting an item from the list, in order to handle both regular
+      -- buffers and directories (opened with Oil)
+      select = function(list_item, _, _)
+        if list_item == nil then
+          return
+        end
+
+        -- Since Oil buffers might be cleaned up, we need to re-open one
+        -- We don't care about retrieving the right position as Oil buffers are often short
+        if vim.fn.isdirectory(list_item.value) == 1 then
+          require("oil").open(list_item.value)
+          return
+        end
+
+        local bufnr = vim.fn.bufnr(list_item.value)
+        local set_position = false
+        if bufnr == -1 then
+          set_position = true
+          bufnr = vim.fn.bufnr(list_item.value, true)
+        end
+        if not vim.api.nvim_buf_is_loaded(bufnr) then
+          vim.fn.bufload(bufnr)
+          vim.api.nvim_set_option_value("buflisted", true, {
+            buf = bufnr,
+          })
+        end
+
+        vim.api.nvim_set_current_buf(bufnr)
+
+        if set_position then
+          vim.api.nvim_win_set_cursor(0, {
+            list_item.context.row or 1,
+            list_item.context.col or 0,
+          })
+        end
       end,
     },
   },
