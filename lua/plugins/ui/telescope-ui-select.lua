@@ -15,7 +15,7 @@ return {
     telescope.setup({
       extensions = {
         ["ui-select"] = {
-          layout_strategy = "vertical",
+          require("telescope.themes").get_dropdown(),
         },
       },
     })
