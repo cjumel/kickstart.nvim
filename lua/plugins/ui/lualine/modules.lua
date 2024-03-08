@@ -24,19 +24,11 @@ M.macro = {
 M.harpoon = {
   function()
     local harpoon = require("harpoon")
-    local oil = require("oil")
 
-    -- Compute the path of the file or directory and format it like in Harpoon
-    local path
-    if vim.bo.filetype == "oil" then
-      path = oil.get_current_dir()
-      if path == nil then
-        return
-      end
-    else
-      path = vim.fn.expand("%:p")
+    local path = utils.path.get_current_buffer_path()
+    if path == nil then
+      return ""
     end
-    path = vim.fn.fnamemodify(path, ":.")
 
     local harpoon_list_length = harpoon:list():length()
     for index = 1, harpoon_list_length do

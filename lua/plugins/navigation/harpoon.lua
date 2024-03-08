@@ -3,27 +3,21 @@
 -- Enable harpooning files. Harpooned files can be accessed from anywhere and at all time
 -- with a simple command.
 
--- Output true if the current file is in the Harpoon list, false otherwise
+--- Output true if the current file is in the Harpoon list, false otherwise
+---@return boolean
 local function is_in_harpoon_list()
   local harpoon = require("harpoon")
-  local oil = require("oil")
+  local utils = require("utils")
 
-  -- Compute the path of the file or directory and format it like in Harpoon
-  local path
-  if vim.bo.filetype == "oil" then
-    path = oil.get_current_dir()
-    if path == nil then
-      return
-    end
-  else
-    path = vim.fn.expand("%:p")
+  local path = utils.path.get_current_buffer_path()
+  if path == nil then
+    return false
   end
-  path = vim.fn.fnamemodify(path, ":.")
 
   local harpoon_list_length = harpoon:list():length()
   for index = 1, harpoon_list_length do
-    local harpoon_file_path = harpoon:list():get(index).value
-    if path == harpoon_file_path then
+    local harpoon_item_value = harpoon:list():get(index).value
+    if path == harpoon_item_value then
       return true
     end
   end
@@ -156,20 +150,11 @@ return {
 
       -- Overwrite action when item is added to the list, in order to handle both adding
       -- a regular buffer and a directory when in an Oil buffer
-      create_list_item = function(config, name)
+      create_list_item = function(_, name)
         if name == nil then
-          -- Fetch the raw path depending on whether the current buffer is an Oil buffer or not
-          if vim.bo.filetype == "oil" then
-            name = require("oil").get_current_dir()
-          else
-            name = vim.api.nvim_buf_get_name(vim.api.nvim_get_current_buf())
-          end
-
-          name = require("plenary.path"):new(name):make_relative(config.get_root_dir())
-
-          -- Append a slash to directory names for consistency with Oil
-          if vim.bo.filetype == "oil" then
-            name = name .. "/"
+          name = require("utils").path.get_current_buffer_path()
+          if name == nil then
+            return
           end
         end
 
@@ -181,10 +166,7 @@ return {
 
         return {
           value = name,
-          context = {
-            row = pos[1],
-            col = pos[2],
-          },
+          context = { row = pos[1], col = pos[2] },
         }
       end,
 
@@ -197,7 +179,8 @@ return {
 
         -- Since Oil buffers might be cleaned up, we need to re-open one
         -- We don't care about retrieving the right position as Oil buffers are often short
-        if vim.fn.isdirectory(list_item.value) == 1 then
+        -- vim.fn.isdirectory doesn't work for directories outside cwd
+        if vim.fn.filereadable(list_item.value) ~= 1 then
           require("oil").open(list_item.value)
           return
         end

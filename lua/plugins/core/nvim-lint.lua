@@ -44,16 +44,17 @@ return {
         return false
       end
 
-      local bufnr = vim.api.nvim_get_current_buf()
-      local bufname = vim.api.nvim_buf_get_name(bufnr)
-      local relative_bufname = vim.fn.fnamemodify(bufname, ":p:~:.")
+      local path = require("utils").path.get_current_file_path()
+      if path == nil then
+        return false
+      end
 
       -- Files outside of the current working directory
-      if vim.startswith(relative_bufname, "/") or vim.startswith(relative_bufname, "~") then
+      if vim.startswith(path, "/") or vim.startswith(path, "~") then
         return false
 
       -- Files inside Python virtual environments
-      elseif vim.startswith(relative_bufname, ".venv/") then
+      elseif vim.startswith(path, ".venv/") then
         return false
       end
 

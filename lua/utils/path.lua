@@ -27,14 +27,15 @@ M.normalize = function(path, opts)
 end
 
 --- Output the normalized path of the current file, or nil if no file is opened.
+---@param opts table<string, any>|nil Options to customize the output path.
 ---@return string|nil
-M.get_current_file_path = function()
+M.get_current_file_path = function(opts)
   local path = vim.fn.expand("%:p")
   if path == "" then -- No file is opened
     return nil
   end
 
-  return M.normalize(path)
+  return M.normalize(path, opts)
 end
 
 --- Output the normalized path of the current working directory when in Oil buffer, or a fallback
@@ -57,6 +58,18 @@ M.get_current_oil_directory = function(opts)
   else
     return nil
   end
+end
+
+--- Output the normalized path of the current buffer, or nil if no buffer is opened. Supported
+--- buffer types are: Oil (output corresponding directory), and file.
+---@param opts table<string, any>|nil Options to customize the output path.
+---@return string|nil
+M.get_current_buffer_path = function(opts)
+  if vim.bo.filetype == "oil" then
+    return M.get_current_oil_directory(opts)
+  end
+
+  return M.get_current_file_path(opts)
 end
 
 return M
