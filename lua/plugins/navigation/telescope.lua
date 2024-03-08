@@ -3,6 +3,120 @@
 -- Gaze deeply into unknwn regions of your code with powerful and blazing fast fuzzy finding
 -- tools.
 
+--- Telescope picker for finding directories. This function is directly adapted from the
+--- `find_files` picker of Telescope.
+---@param opts table<string,any>|nil Options for the picker
+local find_directories = function(opts)
+  local conf = require("telescope.config").values
+  local finders = require("telescope.finders")
+  local pickers = require("telescope.pickers")
+  local previewers = require("telescope.previewers")
+  local utils = require("telescope.utils")
+
+  local Path = require("plenary.path")
+
+  opts = opts or {}
+  if not opts.find_command then
+    return
+  end
+  if opts.cwd then
+    opts.cwd = vim.fn.expand(opts.cwd)
+  end
+
+  local lookup_keys = {
+    ordinal = 1,
+    value = 1,
+    filename = 1,
+    cwd = 2,
+  }
+
+  local handle_entry_index = function(opts_, t, k)
+    local override = ((opts_ or {}).entry_index or {})[k]
+    if not override then
+      return
+    end
+
+    local val, save = override(t, opts_)
+    if save then
+      rawset(t, k, val)
+    end
+    return val
+  end
+
+  local gen_from_directory = function(opts_)
+    opts_ = opts_ or {}
+
+    local cwd = opts_.cwd or vim.loop.cwd()
+    if cwd == nil then
+      return
+    end
+    cwd = vim.fn.expand(cwd)
+
+    local disable_devicons = opts_.disable_devicons
+
+    local mt_file_entry = {}
+
+    mt_file_entry.cwd = cwd
+    mt_file_entry.display = function(entry)
+      local hl_group, icon
+      local display = utils.transform_path(opts_, entry.value)
+
+      display, hl_group, icon = utils.transform_devicons(entry.value, display, disable_devicons)
+
+      -- Custom part: replace the icon at the beginning of the display by a directory icon
+      local new_icon = ""
+      display = string.sub(display, #icon + 1)
+      display = new_icon .. display
+      hl_group = "Directory"
+
+      if hl_group then
+        return display, { { { 0, #icon }, hl_group } }
+      else
+        return display
+      end
+    end
+
+    mt_file_entry.__index = function(t, k)
+      local override = handle_entry_index(opts_, t, k)
+      if override then
+        return override
+      end
+
+      local raw = rawget(mt_file_entry, k)
+      if raw then
+        return raw
+      end
+
+      if k == "path" then
+        local retpath = Path:new({ t.cwd, t.value }):absolute()
+        if not vim.loop.fs_access(retpath, "R") then
+          retpath = t.value
+        end
+        return retpath
+      end
+
+      return rawget(t, rawget(lookup_keys, k))
+    end
+
+    return function(line)
+      return setmetatable({ line }, mt_file_entry)
+    end
+  end
+
+  opts.entry_maker = gen_from_directory(opts)
+
+  pickers
+    .new(opts, {
+      prompt_title = "Find Directories",
+      __locations_input = true,
+      finder = finders.new_oneshot_job(opts.find_command, opts),
+      -- Custom part: change the previwer for one more adapted to directories
+      previewer = previewers.vim_buffer_cat.new(opts),
+      sorter = conf.file_sorter(opts),
+    })
+    :find()
+end
+
 return {
   "nvim-telescope/telescope.nvim",
   dependencies = {
@@ -136,14 +250,11 @@ return {
             "--exclude",
             ".git",
           },
-          prompt_title = "Find Directories",
         }
         if vim.bo.filetype == "oil" then
           opts.cwd = require("oil").get_current_dir()
         end
-        -- Use same previewer as in telescope-file-browser
-        opts.previewer = require("telescope.previewers").vim_buffer_cat.new(opts)
-        require("telescope.builtin").find_files(opts)
+        find_directories(opts)
       end,
       desc = "[F]ind: [D]irectories",
     },
@@ -162,14 +273,11 @@ return {
             ".git",
             "--no-ignore",
           },
-          prompt_title = "Find Directories",
         }
         if vim.bo.filetype == "oil" then
           opts.cwd = require("oil").get_current_dir()
         end
-        -- Use same previewer as in telescope-file-browser
-        opts.previewer = require("telescope.previewers").vim_buffer_cat.new(opts)
-        require("telescope.builtin").find_files(opts)
+        find_directories(opts)
       end,
       desc = "[F]ind: [D]irectories (unrestricted)",
     },
