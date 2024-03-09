@@ -43,10 +43,15 @@ local servers = {
     },
   },
 
-  -- Taplo is not an actual language server, but it provides linting, formatting and schema
-  -- validation (based on SchemaStore)
+  -- Taplo provides linting, formatting and some features based on schemas from SchemaStore like
+  -- validation or hovering
   taplo = {
     filetypes = { "toml" },
+  },
+
+  -- yamlls provides some features based on schemas from SchemaStore like completion or hovering
+  yamlls = {
+    filetypes = { "yaml" },
   },
 }
 
