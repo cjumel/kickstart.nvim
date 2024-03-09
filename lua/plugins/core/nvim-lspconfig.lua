@@ -15,6 +15,7 @@ return {
   ft = { -- Only trigger the setup for the few file types which support a language server
     "lua",
     "python",
+    "toml",
   },
   opts = {
     -- Define the language servers and their configuration overrides
@@ -44,6 +45,7 @@ return {
           textDocument = { publishDiagnostics = { tagSupport = { valueSet = { 2 } } } },
         },
       },
+      taplo = {},
     },
 
     -- Function run when a language server is attached to a particular buffer
