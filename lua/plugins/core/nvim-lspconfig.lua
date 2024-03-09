@@ -2,6 +2,54 @@
 --
 -- Configuration for the Neovim LSP client.
 
+-- Define the language servers and their configuration overrides
+-- Available keys for overrides are:
+--  - cmd (table): Override the default command used to start the server
+--  - filetypes (table): Override the default list of associated filetypes for the server
+--  - capabilities (table): Override fields in capabilities. Can be used to disable certain LSP
+--    features.
+--  - settings (table): Override the default settings passed when initializing the server.
+-- In this implementation, filetypes must be defined for each server as it is used to setup Lazy,
+-- and it must be a table of strings
+local servers = {
+
+  -- Besides regular LSP features, lua_ls provides very cool diagnostics making a linter (like
+  -- Selene) redundant, as well as some static type checking
+  lua_ls = {
+    filetypes = { "lua" },
+    settings = {
+      Lua = {
+        workspace = { checkThirdParty = false },
+        telemetry = { enable = false },
+        -- Ignore noisy `missing-fields` warnings
+        diagnostics = { disable = { "missing-fields" } },
+        -- Disable LSP snippets (redundant with LuaSnip)
+        completion = { keywordSnippet = "Disable" },
+      },
+    },
+  },
+
+  -- Besides regular LSP features, pyright provides static type checking making another
+  -- static type checker (like mypy) redundant
+  -- Ruff-lsp can be implemented as additional language server to Pyright to provide
+  -- formatting, linting and contextual code actions, but I was not able to make it work like
+  -- the currrent setup through nvim-lint and conform.nvim
+  pyright = {
+    filetypes = { "python" },
+    capabilities = {
+      -- Disable Pyright diagnostics when something is not used
+      -- See https://github.com/neovim/nvim-lspconfig/issues/726#issuecomment-1700845901
+      textDocument = { publishDiagnostics = { tagSupport = { valueSet = { 2 } } } },
+    },
+  },
+
+  -- Taplo is not an actual language server, but it provides linting, formatting and schema
+  -- validation (based on SchemaStore)
+  taplo = {
+    filetypes = { "toml" },
+  },
+}
+
 return {
   "neovim/nvim-lspconfig",
   dependencies = {
@@ -12,53 +60,17 @@ return {
     "hrsh7th/cmp-nvim-lsp",
     "RRethy/vim-illuminate",
   },
-  ft = { -- Only trigger the setup for the few file types which support a language server
-    "lua",
-    "python",
-    "toml",
-  },
+  ft = function()
+    local filetypes = {}
+    for _, server in pairs(servers) do
+      for _, filetype in ipairs(server.filetypes) do
+        table.insert(filetypes, filetype)
+      end
+    end
+    return filetypes
+  end,
   opts = {
-    -- Define the language servers and their configuration overrides
-    -- Available keys for overrides are:
-    --  - cmd (table): Override the default command used to start the server
-    --  - filetypes (table): Override the default list of associated filetypes for the server
-    --  - capabilities (table): Override fields in capabilities. Can be used to disable certain LSP
-    --    features.
-    --  - settings (table): Override the default settings passed when initializing the server.
-    servers = {
-
-      -- Besides regular LSP features, lua_ls provides very cool diagnostics making a linter (like
-      -- Selene) redundant, as well as some static type checking
-      lua_ls = {
-        settings = {
-          Lua = {
-            workspace = { checkThirdParty = false },
-            telemetry = { enable = false },
-            -- Ignore noisy `missing-fields` warnings
-            diagnostics = { disable = { "missing-fields" } },
-            -- Disable LSP snippets (redundant with LuaSnip)
-            completion = { keywordSnippet = "Disable" },
-          },
-        },
-      },
-
-      -- Besides regular LSP features, pyright provides static type checking making another
-      -- static type checker (like mypy) redundant
-      -- Ruff-lsp can be implemented as additional language server to Pyright to provide
-      -- formatting, linting and contextual code actions, but I was not able to make it work like
-      -- the currrent setup through nvim-lint and conform.nvim
-      pyright = {
-        capabilities = {
-          -- Disable Pyright diagnostics when something is not used
-          -- See https://github.com/neovim/nvim-lspconfig/issues/726#issuecomment-1700845901
-          textDocument = { publishDiagnostics = { tagSupport = { valueSet = { 2 } } } },
-        },
-      },
-
-      -- Taplo is not an actual language server, but it provides linting, formatting and schema
-      -- validation (based on SchemaStore) for TOML files
-      taplo = {},
-    },
+    servers = servers,
 
     -- Function run when a language server is attached to a particular buffer
     -- Here we can define buffer-local keymaps which will not be enabled in buffers where no
