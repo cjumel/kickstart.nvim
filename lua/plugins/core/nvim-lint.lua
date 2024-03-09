@@ -90,7 +90,12 @@ return {
     ensure_installed(opts.mason_ensure_installed)
 
     require("lint").linters_by_ft = opts.linters_by_ft
-    vim.api.nvim_create_autocmd({ "BufReadPost", "InsertLeave", "TextChanged" }, {
+    vim.api.nvim_create_autocmd({
+      "BufEnter",
+      "BufReadPost",
+      "InsertLeave",
+      "TextChanged",
+    }, {
       callback = function()
         if opts.should_lint() then
           require("lint").try_lint()
