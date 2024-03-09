@@ -2,6 +2,9 @@
 --
 -- Lightweight yet powerful formatter plugin for Neovim
 
+-- Some file types have already a formatter integrated in lspconfig:
+-- - toml: taplo
+
 -- Define here which formatter to use for each file type
 -- Keys must be simple file types, and values arrays of formatters
 local formatters_by_ft = {

@@ -3,6 +3,10 @@
 -- An asynchronous linter plugin for Neovim complementary to the built-in Language Server Protocol
 -- support.
 
+-- Some file types have already a linter integrated in lspconfig:
+-- - lua: lua_ls
+-- - toml: taplo
+
 -- Define here which linter to use for each file type
 -- Keys must be simple file types, and values arrays of linters
 local linters_by_ft = {

@@ -26,6 +26,9 @@ return {
     --    features.
     --  - settings (table): Override the default settings passed when initializing the server.
     servers = {
+
+      -- Besides regular LSP features, lua_ls provides very cool diagnostics making a linter (like
+      -- Selene) redundant, as well as some static type checking
       lua_ls = {
         settings = {
           Lua = {
@@ -38,6 +41,12 @@ return {
           },
         },
       },
+
+      -- Besides regular LSP features, pyright provides static type checking making another
+      -- static type checker (like mypy) redundant
+      -- Ruff-lsp can be implemented as additional language server to Pyright to provide
+      -- formatting, linting and contextual code actions, but I was not able to make it work like
+      -- the currrent setup through nvim-lint and conform.nvim
       pyright = {
         capabilities = {
           -- Disable Pyright diagnostics when something is not used
@@ -45,6 +54,9 @@ return {
           textDocument = { publishDiagnostics = { tagSupport = { valueSet = { 2 } } } },
         },
       },
+
+      -- Taplo is not an actual language server, but it provides linting, formatting and schema
+      -- validation (based on SchemaStore) for TOML files
       taplo = {},
     },
 
