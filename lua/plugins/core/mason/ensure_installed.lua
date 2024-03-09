@@ -1,4 +1,4 @@
--- Module directly adapted from mason-lspconfig.notify
+-- Module directly adapted from mason-lspconfig.ensure_installed
 
 local notify = require("plugins.core.mason.notify")
 

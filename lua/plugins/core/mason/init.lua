@@ -15,6 +15,9 @@ return {
   opts = {
     ui = {
       border = "rounded", -- A border is better for transparent backgrounds
+      keymaps = {
+        toggle_help = "?",
+      },
     },
   },
 }
