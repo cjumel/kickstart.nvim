@@ -13,10 +13,10 @@ return {
       "<leader>,f",
       function()
         if not vim.g.disable_autoformat then
-          vim.notify("Autoformat on save disabled.")
+          vim.notify("Format on save disabled.")
           vim.g.disable_autoformat = true
         else
-          vim.notify("Autoformat on save enabled.")
+          vim.notify("Format on save enabled.")
           vim.g.disable_autoformat = false
         end
       end,
@@ -58,7 +58,7 @@ return {
       end
 
       return {
-        lsp_fallback = false,
+        lsp_fallback = true, -- Some formatters (like taplo) are setup with lspconfig
         timeout_ms = 500,
       }
     end,
