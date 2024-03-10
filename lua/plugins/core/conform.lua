@@ -10,10 +10,10 @@
 local formatters_by_ft = {
   gitconfig = { "trim_newlines", "trim_whitespace" },
   gitignore = { "trim_newlines", "trim_whitespace" },
-  json = { "prettier" },
+  json = { "trim_newlines", "trim_whitespace" },
   lua = { "stylua" },
   make = { "trim_newlines", "trim_whitespace" },
-  markdown = { "prettier" },
+  markdown = { "mdformat" },
   norg = { "trim_newlines", "trim_whitespace" },
   python = {
     "ruff_fix", -- Fix lint diagnostics
@@ -21,7 +21,7 @@ local formatters_by_ft = {
   },
   text = { "trim_newlines", "trim_whitespace" },
   tmux = { "trim_newlines", "trim_whitespace" },
-  yaml = { "prettier" },
+  yaml = { "yamlfmt" },
   zsh = { "trim_newlines", "trim_whitespace" },
 }
 
