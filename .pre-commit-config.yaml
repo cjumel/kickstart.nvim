@@ -1,5 +1,3 @@
-exclude: README.md
-
 repos:
 
   # Base pre-commit hook for simple checks & fixes
