@@ -19,10 +19,11 @@ local formatters_by_ft = {
     "ruff_fix", -- Fix lint diagnostics
     "ruff_format", -- Regular formatting
   },
+  sh = { "shfmt" },
   text = { "trim_newlines", "trim_whitespace" },
   tmux = { "trim_newlines", "trim_whitespace" },
   yaml = { "yamlfmt" },
-  zsh = { "trim_newlines", "trim_whitespace" },
+  zsh = { "shfmt" }, -- Not actually for zsh, but in my use case it seems to work fine
 }
 
 -- Specify the formatters which have no Mason package
