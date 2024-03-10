@@ -8,9 +8,11 @@
 -- Define here which formatter to use for each file type
 -- Keys must be simple file types, and values arrays of formatters
 local formatters_by_ft = {
+  gitconfig = { "trim_newlines", "trim_whitespace" },
   gitignore = { "trim_newlines", "trim_whitespace" },
   json = { "prettier" },
   lua = { "stylua" },
+  make = { "trim_newlines", "trim_whitespace" },
   markdown = { "prettier" },
   norg = { "trim_newlines", "trim_whitespace" },
   python = {
@@ -18,6 +20,7 @@ local formatters_by_ft = {
     "ruff_format", -- Regular formatting
   },
   text = { "trim_newlines", "trim_whitespace" },
+  tmux = { "trim_newlines", "trim_whitespace" },
   yaml = { "prettier" },
   zsh = { "trim_newlines", "trim_whitespace" },
 }
