@@ -1,9 +1,2 @@
-# Custom .gitignore
-# Ignore theme file as it can is automatically created and updated
+# Ignore activated theme file, a simple copy automatically created
 lua/theme.lua
-
-# Origianal .gitignore
-tags
-test.sh
-.luarc.json
-nvim
