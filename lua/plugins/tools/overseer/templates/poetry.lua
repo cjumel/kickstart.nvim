@@ -1,21 +1,14 @@
-local callback = function(_)
-  local cwd = vim.fn.getcwd()
-  local file_names = { "poetry.lock", "pyproject.toml" }
-  for _, file_name in ipairs(file_names) do
-    local file_path = cwd .. "/" .. file_name
-    if vim.fn.filereadable(file_path) == 1 then
-      return true
-    end
-  end
-  return false
-end
+local utils = require("utils")
+
 local tags = { "python", "poetry" }
 
 return {
   {
     name = "Poetry install",
     condition = {
-      callback = callback,
+      callback = function(_)
+        return utils.dir.contain_files({ "pyproject.toml", "poetry.lock" })
+      end,
     },
     params = {
       args = {
@@ -34,7 +27,9 @@ return {
   {
     name = "Poetry update",
     condition = {
-      callback = callback,
+      callback = function(_)
+        return utils.dir.contain_files({ "pyproject.toml", "poetry.lock" })
+      end,
     },
     params = {
       args = {
@@ -53,7 +48,9 @@ return {
   {
     name = "Poetry add",
     condition = {
-      callback = callback,
+      callback = function(_)
+        return utils.dir.contain_files({ "pyproject.toml", "poetry.lock" })
+      end,
     },
     params = {
       package = {

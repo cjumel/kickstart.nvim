@@ -7,23 +7,9 @@ return {
     name = "Pytest file",
     condition = {
       callback = function(_)
-        if vim.bo.filetype ~= "python" then
-          return false
-        end
-
-        local cwd = vim.fn.getcwd()
-
-        local pyproject_path = cwd .. "/pyproject.toml"
-        if vim.fn.filereadable(pyproject_path) ~= 1 then
-          return false
-        end
-
-        local tests_path = cwd .. "/tests"
-        if vim.fn.isdirectory(tests_path) ~= 1 then
-          return false
-        end
-
-        return true
+        return vim.bo.filetype == "python"
+          and utils.project.is_python()
+          and utils.dir.contain_dirs({ "tests" })
       end,
     },
     params = {
@@ -50,23 +36,9 @@ return {
     name = "Pytest directory",
     condition = {
       callback = function(_)
-        if vim.bo.filetype ~= "oil" then
-          return false
-        end
-
-        local cwd = vim.fn.getcwd()
-
-        local pyproject_path = cwd .. "/pyproject.toml"
-        if vim.fn.filereadable(pyproject_path) ~= 1 then
-          return false
-        end
-
-        local tests_path = cwd .. "/tests"
-        if vim.fn.isdirectory(tests_path) ~= 1 then
-          return false
-        end
-
-        return true
+        return vim.bo.filetype == "oil"
+          and utils.project.is_python()
+          and utils.dir.contain_dirs({ "tests" })
       end,
     },
     params = {
@@ -93,19 +65,7 @@ return {
     name = "Pytest",
     condition = {
       callback = function(_)
-        local cwd = vim.fn.getcwd()
-
-        local pyproject_path = cwd .. "/pyproject.toml"
-        if vim.fn.filereadable(pyproject_path) ~= 1 then
-          return false
-        end
-
-        local tests_path = cwd .. "/tests"
-        if vim.fn.isdirectory(tests_path) ~= 1 then
-          return false
-        end
-
-        return true
+        return utils.project.is_python() and utils.dir.contain_dirs({ "tests" })
       end,
     },
     params = {
