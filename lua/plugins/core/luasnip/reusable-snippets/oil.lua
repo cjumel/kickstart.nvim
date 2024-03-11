@@ -3,6 +3,7 @@ local show_conds = require("luasnip.extras.conditions.show")
 
 local custom_show_conds = require("plugins.core.luasnip.show_conds")
 
+local i = ls.insert_node
 local s = ls.snippet
 local t = ls.text_node
 
@@ -35,6 +36,26 @@ M.get_simple_file_snippets = function(file_names, opts)
   end
 
   return snippets
+end
+
+--- Create & output a snippet for a given file type in Oil buffers.
+---@param filetype string File type to create a snippet for.
+---@param extension string|nil File extension to use for the snippet. Defaults to the file type.
+---@return table
+M.get_filetype_snippet = function(filetype, extension)
+  extension = extension or filetype
+
+  local show_condition = custom_show_conds.ts.line_begin * show_conds.line_end
+  if filetype == "python" then
+    show_condition = show_condition * custom_show_conds.project.is_python
+  elseif filetype == "lua" then
+    show_condition = show_condition * custom_show_conds.project.is_lua
+  end
+
+  return s({
+    trig = filetype .. "-file",
+    show_condition = show_condition,
+  }, { i(1, "name"), t("." .. extension) })
 end
 
 return M
