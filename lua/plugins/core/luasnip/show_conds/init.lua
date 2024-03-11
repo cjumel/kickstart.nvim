@@ -108,4 +108,6 @@ local function line_begin(line_to_cursor)
 end
 M.line_begin = cond_obj.make_condition(line_begin)
 
+M.oil = require("plugins.core.luasnip.show_conds.oil")
+
 return M

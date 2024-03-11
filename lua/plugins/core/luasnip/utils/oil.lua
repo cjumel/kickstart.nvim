@@ -19,7 +19,9 @@ M.make_oil_file_snippets = function(file_names)
       snippets,
       s({
         trig = file_name,
-        show_condition = custom_show_conds.line_begin * show_conds.line_end,
+        show_condition = custom_show_conds.line_begin
+          * show_conds.line_end
+          * custom_show_conds.oil.file_not_exists(file_name),
       }, { t(file_name) })
     )
   end
