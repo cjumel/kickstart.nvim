@@ -4,6 +4,7 @@
 
 -- Some file types have already a formatter integrated in lspconfig:
 -- - toml: taplo
+-- We need to add those file types as keys in `formatters_by_ft` to trigger formatting on save
 
 -- Define here which formatter to use for each file type
 -- Keys must be simple file types, and values arrays of formatters
@@ -22,6 +23,7 @@ local formatters_by_ft = {
   sh = { "shfmt" },
   text = { "trim_newlines", "trim_whitespace" },
   tmux = { "trim_newlines", "trim_whitespace" },
+  toml = {}, -- taplo in lspconfig
   yaml = { "yamlfmt" },
   zsh = { "shfmt" }, -- Not actually for zsh, but in my use case it seems to work fine
 }

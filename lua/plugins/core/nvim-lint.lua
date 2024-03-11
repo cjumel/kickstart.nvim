@@ -10,9 +10,9 @@
 -- Define here which linter to use for each file type
 -- Keys must be simple file types, and values arrays of linters
 local linters_by_ft = {
-  json = { "jsonlint" },
-  python = { "ruff" },
-  yaml = { "yamllint" },
+  json = { "jsonlint" }, -- Diagnostics for parsing errors
+  python = { "ruff" }, -- Completement Pyright with style-related & various issue diagnostics
+  yaml = { "yamllint" }, -- Complement yamlls with style-related diagnostics
 }
 
 -- Specify the linters which have no Mason package
@@ -20,6 +20,13 @@ local linters_without_mason_package = {}
 
 -- Specify the name of the Mason package for linters where they differ
 local linter_to_mason_name = {}
+
+-- Some linters were explored but not implemented:
+-- - luacheck: require an additional dependency (luarocks) and is not maintained anymore
+-- - mdarkdownlint: not responsive when updating a document, and linting for Markdown, a very free
+--   format, is not very relevant
+-- - selene: many diagnostics are already provided by lua_ls, require several additional not-hidden
+--   configuration files, and don't implement some basic features like line-length
 
 return {
   "mfussenegger/nvim-lint",
