@@ -11,7 +11,6 @@
 -- Keys must be simple file types, and values arrays of linters
 local linters_by_ft = {
   json = { "jsonlint" },
-  markdown = { "markdownlint" },
   python = { "ruff" },
   yaml = { "yamllint" },
 }
