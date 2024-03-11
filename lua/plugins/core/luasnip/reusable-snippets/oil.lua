@@ -16,11 +16,11 @@ M.get_simple_file_snippets = function(file_names, opts)
   opts = opts or {}
   local project_type = opts.project_type
 
-  local show_condition = custom_show_conds.line_begin * show_conds.line_end
+  local show_condition = custom_show_conds.ts.line_begin * show_conds.line_end
   if project_type == "python" then
-    show_condition = show_condition * custom_show_conds.oil.is_in_python_project
+    show_condition = show_condition * custom_show_conds.project.is_python
   elseif project_type == "lua" then
-    show_condition = show_condition * custom_show_conds.oil.is_in_lua_project
+    show_condition = show_condition * custom_show_conds.project.is_lua
   end
 
   local snippets = {}

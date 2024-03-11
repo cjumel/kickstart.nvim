@@ -16,8 +16,8 @@ return {
     {
       trig = "local",
       show_condition = (
-        custom_show_conds.is_in_code
-        * custom_show_conds.line_begin
+        custom_show_conds.ts.is_in_code
+        * custom_show_conds.ts.line_begin
         * show_conds.line_end
       ),
     },
@@ -33,8 +33,8 @@ return {
     {
       trig = "local-function",
       show_condition = (
-        custom_show_conds.is_in_code
-        * custom_show_conds.line_begin
+        custom_show_conds.ts.is_in_code
+        * custom_show_conds.ts.line_begin
         * show_conds.line_end
       ),
     },
@@ -49,12 +49,12 @@ return {
   ),
   s({
     trig = "require",
-    show_condition = custom_show_conds.is_in_code,
+    show_condition = custom_show_conds.ts.is_in_code,
   }, fmt([[require("{}")]], { i(1, "module") })),
   s(
     {
       trig = "function",
-      show_condition = custom_show_conds.is_in_code,
+      show_condition = custom_show_conds.ts.is_in_code,
     },
     fmt(
       [[
@@ -69,8 +69,8 @@ return {
     {
       trig = "if",
       show_condition = (
-        custom_show_conds.is_in_code
-        * custom_show_conds.line_begin
+        custom_show_conds.ts.is_in_code
+        * custom_show_conds.ts.line_begin
         * show_conds.line_end
       ),
     },
@@ -87,8 +87,8 @@ return {
     {
       trig = "elseif",
       show_condition = (
-        custom_show_conds.is_in_code
-        * custom_show_conds.line_begin
+        custom_show_conds.ts.is_in_code
+        * custom_show_conds.ts.line_begin
         * show_conds.line_end
       ),
     },
@@ -104,8 +104,8 @@ return {
     {
       trig = "else",
       show_condition = (
-        custom_show_conds.is_in_code
-        * custom_show_conds.line_begin
+        custom_show_conds.ts.is_in_code
+        * custom_show_conds.ts.line_begin
         * show_conds.line_end
       ),
     },
@@ -121,8 +121,8 @@ return {
     {
       trig = "for",
       show_condition = (
-        custom_show_conds.is_in_code
-        * custom_show_conds.line_begin
+        custom_show_conds.ts.is_in_code
+        * custom_show_conds.ts.line_begin
         * show_conds.line_end
       ),
     },

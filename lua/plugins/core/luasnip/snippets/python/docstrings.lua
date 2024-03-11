@@ -13,8 +13,8 @@ return {
   s({
     trig = "docstring", -- Function version
     show_condition = (
-      custom_show_conds.is_in_function
-      * custom_show_conds.line_begin
+      custom_show_conds.ts.is_in_function
+      * custom_show_conds.ts.line_begin
       * show_conds.line_end
     ),
   }, {
@@ -125,8 +125,8 @@ return {
   s({
     trig = "docstring", -- Class version
     show_condition = (
-      custom_show_conds.is_in_class
-      * custom_show_conds.line_begin
+      custom_show_conds.ts.is_in_class
+      * custom_show_conds.ts.line_begin
       * show_conds.line_end
     ),
   }, {

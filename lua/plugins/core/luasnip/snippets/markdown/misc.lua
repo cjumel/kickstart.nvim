@@ -13,7 +13,7 @@ return {
   s(
     {
       trig = "code-block",
-      show_condition = custom_show_conds.line_begin * show_conds.line_end,
+      show_condition = custom_show_conds.ts.line_begin * show_conds.line_end,
     },
     fmt(
       [[
@@ -27,7 +27,7 @@ return {
   s(
     {
       trig = "toggle-block",
-      show_condition = custom_show_conds.line_begin * show_conds.line_end,
+      show_condition = custom_show_conds.ts.line_begin * show_conds.line_end,
     },
     fmt(
       -- Line break after the summary is important (some blocks like code-blocks don't work without
