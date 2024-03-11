@@ -539,6 +539,7 @@ return {
             ["G"] = actions.move_to_bottom,
             ["gg"] = actions.move_to_top,
             ["s"] = actions.toggle_selection + actions.move_selection_next,
+            ["S"] = actions.toggle_selection + actions.move_selection_previous,
 
             ["<TAB>"] = layout_actions.toggle_preview,
             ["<C-u>"] = actions.preview_scrolling_up,
