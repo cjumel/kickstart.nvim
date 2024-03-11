@@ -97,10 +97,10 @@ return {
 
     require("lint").linters_by_ft = opts.linters_by_ft
     vim.api.nvim_create_autocmd({
-      "BufEnter",
-      "BufReadPost",
-      "InsertLeave",
-      "TextChanged",
+      "BufEnter", -- Entering a buffer
+      "InsertLeave", -- Leaving insert mode
+      "TextChanged", -- Text is changed by pasting, deleting, etc. but not by insert mode
+      "BufWritePost", -- After writing the buffer; required for some linters relying on file on disk
     }, {
       callback = function()
         if opts.should_lint() then
