@@ -11,8 +11,12 @@
 -- Keys must be simple file types, and values arrays of linters
 local linters_by_ft = {
   json = { "jsonlint" }, -- Diagnostics for parsing errors
+  markdown = { "markdownlint" }, -- Diagnostics for style-related issues
   python = { "ruff" }, -- Completement Pyright with style-related & various issue diagnostics
   yaml = { "yamllint" }, -- Complement yamlls with style-related diagnostics
+  -- ShellCheck provides diagnostics for parsing errors & style-related issues
+  -- It is not made for zsh, but it works fine when disabling a few rules
+  zsh = { "shellcheck" },
 }
 
 -- Specify the linters which have no Mason package

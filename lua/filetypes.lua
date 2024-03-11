@@ -2,6 +2,7 @@
 
 local filename_to_filetype = {
   [".ideavimrc"] = "vim",
+  [".markdownlintrc"] = "json",
   [".vimiumrc"] = "vim",
   [".yamlfmt"] = "yaml",
 }
