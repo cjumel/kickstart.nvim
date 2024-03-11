@@ -3,6 +3,7 @@ local dir_utils = require("utils.dir")
 local M = {}
 
 local python_project_files = {
+  ".ruff.toml",
   "__init__.py",
   "conftest.py",
   "pyproject.toml",
