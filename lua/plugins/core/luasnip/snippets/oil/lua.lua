@@ -1,18 +1,6 @@
-local ls = require("luasnip")
+local ls_utils = require("plugins.core.luasnip.utils")
 
-local s = ls.snippet
-local t = ls.text_node
-
-local custom_show_conds = require("plugins.core.luasnip.show_conds")
-local show_conds = require("luasnip.extras.conditions.show")
-
-return {
-  s({
-    trig = "init.lua",
-    show_condition = custom_show_conds.line_begin * show_conds.line_end,
-  }, { t("init.lua") }),
-  s({
-    trig = "scratch.lua",
-    show_condition = custom_show_conds.line_begin * show_conds.line_end,
-  }, { t("scratch.lua") }),
-}
+return ls_utils.oil.make_oil_file_snippets({
+  "init.lua",
+  "scratch.lua",
+})
