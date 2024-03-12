@@ -29,10 +29,12 @@ return {
     {
       "<leader>p",
       function()
-        require("telescope").extensions.neoclip.default({
-          layout_strategy = "vertical",
-          initial_mode = "normal",
+        local opts = require("telescope.themes").get_dropdown({
+          previewer = false,
+          layout_config = { width = 0.7 },
         })
+        opts.initial_mode = "normal"
+        require("telescope").extensions.neoclip.default(opts)
       end,
       desc = "[P]aste candidates history",
     },

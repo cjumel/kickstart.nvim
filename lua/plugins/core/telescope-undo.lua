@@ -23,8 +23,7 @@ return {
     telescope.setup({
       extensions = {
         undo = {
-          diff_context_lines = 3,
-          layout_strategy = "vertical",
+          diff_context_lines = 5,
           mappings = {
             i = {
               ["<CR>"] = undo_actions.restore,
