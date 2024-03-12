@@ -409,19 +409,6 @@ return {
 
     -- Git related
     {
-      "<leader>;",
-      function()
-        local opts = require("telescope.themes").get_dropdown({
-          initial_mode = "normal", -- Mapping below provides an alternative with insert mode
-          previewer = false,
-          layout_config = { width = 0.7 },
-          prompt_title = "Changed files",
-        })
-        require("telescope.builtin").git_status(opts)
-      end,
-      desc = "Changed files",
-    },
-    {
       "<leader>gs",
       function()
         require("telescope.builtin").git_status()
