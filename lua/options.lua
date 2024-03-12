@@ -81,4 +81,12 @@ vim.api.nvim_create_autocmd("TextYankPost", {
   pattern = "*",
 })
 
+-- [[ Custom file types ]]
+
+local filetypes = require("filetypes")
+
+vim.filetype.add({
+  filename = filetypes.by_filename,
+})
+
 -- vim: ts=2 sts=2 sw=2 et
