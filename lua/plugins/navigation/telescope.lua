@@ -139,11 +139,7 @@ return {
     {
       "<leader><leader>",
       function()
-        require("telescope.builtin").resume({
-          -- When resuming Telescope, a search has already been done, so it makes more sens
-          -- and is more user-friendly to resume in normal mode
-          initial_mode = "normal",
-        })
+        require("telescope.builtin").resume()
       end,
       desc = "Resume Telescope",
     },
@@ -313,10 +309,7 @@ return {
     {
       "<leader>fw",
       function()
-        local opts = {
-          -- The string has already been searched so it makes more sens to start in normal mode
-          initial_mode = "normal",
-        }
+        local opts = {}
         if vim.bo.filetype == "oil" then
           opts.cwd = require("oil").get_current_dir()
         end
@@ -327,10 +320,7 @@ return {
     {
       "<leader>f",
       function()
-        local opts = {
-          -- The string has already been searched so it makes more sens to start in normal mode
-          initial_mode = "normal",
-        }
+        local opts = {}
         if vim.bo.filetype == "oil" then
           opts.cwd = require("oil").get_current_dir()
         end
@@ -342,11 +332,7 @@ return {
     {
       "<leader>fW",
       function()
-        local opts = {
-          -- The string has already been searched so it makes more sens to start in normal mode
-          initial_mode = "normal",
-          additional_args = { "-uu" },
-        }
+        local opts = { additional_args = { "-uu" } }
         if vim.bo.filetype == "oil" then
           opts.cwd = require("oil").get_current_dir()
         end
@@ -357,11 +343,7 @@ return {
     {
       "<leader>F",
       function()
-        local opts = {
-          -- The string has already been searched so it makes more sens to start in normal mode
-          initial_mode = "normal",
-          additional_args = { "-uu" },
-        }
+        local opts = { additional_args = { "-uu" } }
         if vim.bo.filetype == "oil" then
           opts.cwd = require("oil").get_current_dir()
         end
