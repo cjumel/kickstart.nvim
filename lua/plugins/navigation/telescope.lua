@@ -406,21 +406,21 @@ return {
       end,
       desc = "Search history",
     },
+
+    -- Git related
     {
       "<leader>;",
       function()
-        require("telescope.builtin").jumplist({
-          -- Keep entries sorted by recency when typing the prompt
-          tiebreak = function(current_entry, existing_entry, _)
-            return current_entry.index < existing_entry.index
-          end,
-          prompt_title = "Jump List",
+        local opts = require("telescope.themes").get_dropdown({
+          initial_mode = "normal", -- Mapping below provides an alternative with insert mode
+          previewer = false,
+          layout_config = { width = 0.7 },
+          prompt_title = "Changed files",
         })
+        require("telescope.builtin").git_status(opts)
       end,
-      desc = "Jump list",
+      desc = "Changed files",
     },
-
-    -- Git related
     {
       "<leader>gs",
       function()
