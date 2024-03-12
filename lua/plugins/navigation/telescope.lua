@@ -424,44 +424,35 @@ return {
     {
       "<leader>gs",
       function()
-        require("telescope.builtin").git_status({ initial_mode = "normal" })
+        require("telescope.builtin").git_status()
       end,
       desc = "[G]it: [S]tatus",
     },
     {
       "<leader>gb",
       function()
-        require("telescope.builtin").git_branches({ initial_mode = "normal" })
+        require("telescope.builtin").git_branches()
       end,
       desc = "[G]it: [B]ranches",
     },
     {
       "<leader>gl",
       function()
-        require("telescope.builtin").git_commits({
-          initial_mode = "normal",
-          prompt_title = "Git Log",
-        })
+        require("telescope.builtin").git_commits({ prompt_title = "Git Log" })
       end,
       desc = "[G]it: [L]og",
     },
     {
       "<leader>gL",
       function()
-        require("telescope.builtin").git_bcommits({
-          initial_mode = "normal",
-          prompt_title = "Git Buffer Log",
-        })
+        require("telescope.builtin").git_bcommits({ prompt_title = "Git Buffer Log" })
       end,
       desc = "[G]it: buffer [L]og",
     },
     {
       "<leader>g",
       function()
-        require("telescope.builtin").git_bcommits_range({
-          initial_mode = "normal",
-          prompt_title = "Git Selection Log",
-        })
+        require("telescope.builtin").git_bcommits_range({ prompt_title = "Git Selection Log" })
       end,
       mode = "v",
       desc = "[G]it: selection log",
