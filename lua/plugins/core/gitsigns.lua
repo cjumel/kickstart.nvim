@@ -5,9 +5,6 @@
 
 return {
   "lewis6991/gitsigns.nvim",
-  dependencies = {
-    "nvim-treesitter/nvim-treesitter-textobjects",
-  },
   event = { "BufNewFile", "BufReadPre" },
   opts = {
     signs = {
@@ -16,9 +13,10 @@ return {
       delete = { text = "_" },
       topdelete = { text = "‾" },
       changedelete = { text = "~" },
+      untracked = { text = "+" },
     },
-    -- Enable gitsigns on untracked files to avoid mistaking it with a tracked file without any
-    -- changes and to enable gitsigns keymaps (like add buffer)
+    -- Enable Gitsigns on untracked files to avoid mistaking them with tracked ones without change
+    -- and enable keymaps to stage them
     attach_to_untracked = true,
     on_attach = function(bufnr)
       local gs = package.loaded.gitsigns
