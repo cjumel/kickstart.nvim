@@ -9,39 +9,39 @@ local t = ls.text_node
 
 local fmt = require("luasnip.extras.fmt").fmt
 
-local custom_show_conds = require("plugins.core.luasnip.show_conds")
+local custom_conds = require("plugins.core.luasnip.conditions")
 local show_conds = require("luasnip.extras.conditions.show")
 
 return {
   s({
     trig = "import",
     show_condition = (
-      custom_show_conds.ts.is_in_code
-      * custom_show_conds.ts.line_begin
+      custom_conds.ts.is_in_code
+      * custom_conds.ts.line_begin
       * show_conds.line_end
     ),
   }, fmt("import {}", { i(1, "module") })),
   s({
     trig = "import-as",
     show_condition = (
-      custom_show_conds.ts.is_in_code
-      * custom_show_conds.ts.line_begin
+      custom_conds.ts.is_in_code
+      * custom_conds.ts.line_begin
       * show_conds.line_end
     ),
   }, fmt("import {} as {}", { i(1, "module"), i(2, "name") })),
   s({
     trig = "from-import",
     show_condition = (
-      custom_show_conds.ts.is_in_code
-      * custom_show_conds.ts.line_begin
+      custom_conds.ts.is_in_code
+      * custom_conds.ts.line_begin
       * show_conds.line_end
     ),
   }, fmt("from {} import {}", { i(1, "module"), i(2, "var") })),
   s({
     trig = "from-import-as",
     show_condition = (
-      custom_show_conds.ts.is_in_code
-      * custom_show_conds.ts.line_begin
+      custom_conds.ts.is_in_code
+      * custom_conds.ts.line_begin
       * show_conds.line_end
     ),
   }, fmt("from {} import {} as {}", { i(1, "module"), i(2, "var"), i(3, "name") })),
@@ -49,8 +49,8 @@ return {
     {
       trig = "if",
       show_condition = (
-        custom_show_conds.ts.is_in_code
-        * custom_show_conds.ts.line_begin
+        custom_conds.ts.is_in_code
+        * custom_conds.ts.line_begin
         * show_conds.line_end
       ),
     },
@@ -64,14 +64,14 @@ return {
   ),
   s({
     trig = "if", -- Inline version
-    show_condition = custom_show_conds.ts.is_in_code * -custom_show_conds.ts.line_begin,
+    show_condition = custom_conds.ts.is_in_code * -custom_conds.ts.line_begin,
   }, fmt("if {} else {}", { i(1, "cond"), i(2, "None") })),
   s(
     {
       trig = "elif",
       show_condition = (
-        custom_show_conds.ts.is_in_code
-        * custom_show_conds.ts.line_begin
+        custom_conds.ts.is_in_code
+        * custom_conds.ts.line_begin
         * show_conds.line_end
       ),
     },
@@ -87,8 +87,8 @@ return {
     {
       trig = "else",
       show_condition = (
-        custom_show_conds.ts.is_in_code
-        * custom_show_conds.ts.line_begin
+        custom_conds.ts.is_in_code
+        * custom_conds.ts.line_begin
         * show_conds.line_end
       ),
     },
@@ -104,8 +104,8 @@ return {
     {
       trig = "for",
       show_condition = (
-        custom_show_conds.ts.is_in_code
-        * custom_show_conds.ts.line_begin
+        custom_conds.ts.is_in_code
+        * custom_conds.ts.line_begin
         * show_conds.line_end
       ),
     },
@@ -129,7 +129,7 @@ return {
   s(
     {
       trig = "for", -- Inline version
-      show_condition = custom_show_conds.ts.is_in_code * -custom_show_conds.ts.line_begin,
+      show_condition = custom_conds.ts.is_in_code * -custom_conds.ts.line_begin,
     },
     fmt("for {} in {}", {
       i(1, "var"),
@@ -145,8 +145,8 @@ return {
     {
       trig = "while",
       show_condition = (
-        custom_show_conds.ts.is_in_code
-        * custom_show_conds.ts.line_begin
+        custom_conds.ts.is_in_code
+        * custom_conds.ts.line_begin
         * show_conds.line_end
       ),
     },
@@ -162,8 +162,8 @@ return {
     {
       trig = "def",
       show_condition = (
-        custom_show_conds.ts.is_in_code
-        * custom_show_conds.ts.line_begin
+        custom_conds.ts.is_in_code
+        * custom_conds.ts.line_begin
         * show_conds.line_end
       ),
     },
@@ -210,7 +210,7 @@ return {
   s(
     {
       trig = "lambda",
-      show_condition = custom_show_conds.ts.is_in_code * -custom_show_conds.ts.line_begin,
+      show_condition = custom_conds.ts.is_in_code * -custom_conds.ts.line_begin,
     },
     fmt(
       [[
@@ -226,8 +226,8 @@ return {
     {
       trig = "class",
       show_condition = (
-        custom_show_conds.ts.is_in_code
-        * custom_show_conds.ts.line_begin
+        custom_conds.ts.is_in_code
+        * custom_conds.ts.line_begin
         * show_conds.line_end
       ),
     },
@@ -243,8 +243,8 @@ return {
     {
       trig = "__main__",
       show_condition = (
-        custom_show_conds.ts.is_in_code
-        * custom_show_conds.ts.line_begin
+        custom_conds.ts.is_in_code
+        * custom_conds.ts.line_begin
         * show_conds.line_end
       ),
     },

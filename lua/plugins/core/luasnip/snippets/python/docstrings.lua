@@ -6,15 +6,15 @@ local s = ls.snippet
 local sn = ls.snippet_node
 local t = ls.text_node
 
-local custom_show_conds = require("plugins.core.luasnip.show_conds")
+local custom_conds = require("plugins.core.luasnip.conditions")
 local show_conds = require("luasnip.extras.conditions.show")
 
 return {
   s({
     trig = "docstring", -- Function version
     show_condition = (
-      custom_show_conds.ts.is_in_function
-      * custom_show_conds.ts.line_begin
+      custom_conds.ts.is_in_function
+      * custom_conds.ts.line_begin
       * show_conds.line_end
     ),
   }, {
@@ -125,8 +125,8 @@ return {
   s({
     trig = "docstring", -- Class version
     show_condition = (
-      custom_show_conds.ts.is_in_class
-      * custom_show_conds.ts.line_begin
+      custom_conds.ts.is_in_class
+      * custom_conds.ts.line_begin
       * show_conds.line_end
     ),
   }, {

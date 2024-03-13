@@ -1,7 +1,7 @@
 local ls = require("luasnip")
 local show_conds = require("luasnip.extras.conditions.show")
 
-local custom_show_conds = require("plugins.core.luasnip.show_conds")
+local custom_conds = require("plugins.core.luasnip.conditions")
 
 local i = ls.insert_node
 local s = ls.snippet
@@ -17,11 +17,11 @@ M.get_simple_file_snippets = function(file_names, opts)
   opts = opts or {}
   local project_type = opts.project_type
 
-  local show_condition = custom_show_conds.ts.line_begin * show_conds.line_end
+  local show_condition = custom_conds.ts.line_begin * show_conds.line_end
   if project_type == "python" then
-    show_condition = show_condition * custom_show_conds.project.is_python
+    show_condition = show_condition * custom_conds.project.is_python
   elseif project_type == "lua" then
-    show_condition = show_condition * custom_show_conds.project.is_lua
+    show_condition = show_condition * custom_conds.project.is_lua
   end
 
   local snippets = {}
@@ -30,7 +30,7 @@ M.get_simple_file_snippets = function(file_names, opts)
       snippets,
       s({
         trig = file_name,
-        show_condition = show_condition * custom_show_conds.oil.file_not_exists(file_name),
+        show_condition = show_condition * custom_conds.oil.file_not_exists(file_name),
       }, { t(file_name) })
     )
   end
@@ -45,11 +45,11 @@ end
 M.get_filetype_snippet = function(filetype, extension)
   extension = extension or filetype
 
-  local show_condition = custom_show_conds.ts.line_begin * show_conds.line_end
+  local show_condition = custom_conds.ts.line_begin * show_conds.line_end
   if filetype == "python" then
-    show_condition = show_condition * custom_show_conds.project.is_python
+    show_condition = show_condition * custom_conds.project.is_python
   elseif filetype == "lua" then
-    show_condition = show_condition * custom_show_conds.project.is_lua
+    show_condition = show_condition * custom_conds.project.is_lua
   end
 
   return s({
