@@ -109,5 +109,11 @@ return {
         { name = "cmdline" },
       }),
     })
+
+    -- Insert brackets & place the cursor between them when selecting a function or method item
+    -- This feature creates some noise, but it's useful most often than not and it's easier to
+    -- remove the brackets than to add them manually with my keybindings
+    local cmp_autopairs = require("nvim-autopairs.completion.cmp")
+    cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
   end,
 }
