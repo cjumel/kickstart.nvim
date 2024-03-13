@@ -115,10 +115,11 @@ return {
       -- Next/previous reference navigation
       -- Define illuminate keymaps here to benefit from the on_attach function behavior
       local ts_repeat_move = require("nvim-treesitter.textobjects.repeatable_move")
-      local next_reference, prev_reference = ts_repeat_move.make_repeatable_move_pair(
-        require("illuminate").goto_next_reference,
-        require("illuminate").goto_prev_reference
-      )
+      local next_reference, prev_reference = ts_repeat_move.make_repeatable_move_pair(function()
+        require("illuminate").goto_next_reference()
+      end, function()
+        require("illuminate").goto_prev_reference()
+      end)
       map({ "n", "x", "o" }, "[r", next_reference, "Next reference")
       map({ "n", "x", "o" }, "]r", prev_reference, "Previous reference")
     end,
@@ -139,8 +140,9 @@ return {
 
     -- Make sure the language servers are installed and set them up
     -- Mason is responsible for installing and managing language servers and it must be setup
-    -- before mason-lspconfig. In practice, in my configuration it is without the need to enforce
-    -- it manually, and mason-lspconfig will send a notification otherwise
+    -- before mason-lspconfig
+    -- In my configuration, this is ensured by the fact that mason is in the dependencies and
+    -- mason's setup is called in the plugin configuration
     require("mason-lspconfig").setup({
       ensure_installed = vim.tbl_keys(opts.servers or {}),
       handlers = {
