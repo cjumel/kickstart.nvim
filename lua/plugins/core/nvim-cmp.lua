@@ -117,5 +117,19 @@ return {
     -- remove the brackets than to add them manually with my keybindings
     local cmp_autopairs = require("nvim-autopairs.completion.cmp")
     cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
+
+    -- Dirty fix to prevent nvim-autopairs from adding brackets when importing functions in Python
+    -- This only works on the first line of an import statement
+    -- Source: https://github.com/windwp/nvim-autopairs/issues/206#issuecomment-1916003469
+    local autopairs_utils = require("nvim-autopairs.utils")
+    local python_handler = cmp_autopairs.filetypes["python"]["("].handler
+    local custom_python_handler = function(char, item, bufnr, rules, commit_character)
+      local line = autopairs_utils.text_get_current_line(bufnr)
+      if line:match("^(from.*import.*)$") then
+        return
+      end
+      python_handler(char, item, bufnr, rules, commit_character)
+    end
+    cmp_autopairs.filetypes["python"]["("].handler = custom_python_handler
   end,
 }
