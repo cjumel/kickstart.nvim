@@ -13,18 +13,24 @@
 -- and it must be a table of strings
 local servers = {
 
+  -- A lot of lua_ls's configuration is handled through neodev's setup (see below)
+  -- For lua_ls detailed documentation, see: https://luals.github.io/wiki/settings/
   -- Besides regular LSP features, lua_ls provides very cool diagnostics making a linter (like
   -- Selene) redundant, as well as some static type checking
   lua_ls = {
     filetypes = { "lua" },
     settings = {
       Lua = {
-        workspace = { checkThirdParty = false },
-        telemetry = { enable = false },
-        -- Ignore noisy `missing-fields` warnings
-        diagnostics = { disable = { "missing-fields" } },
-        -- Disable LSP snippets (redundant with LuaSnip)
-        completion = { keywordSnippet = "Disable" },
+        completion = {
+          -- For a function `func` taking `a` and `b` as arguments, a call snippet is `func(a, b)`
+          -- where `a` and `b` are placeholders to fill
+          callSnippet = "Disable", -- Complete with function names, not call snippets (default)
+          -- Keyword snippets are snippets for keywords like `if`, `for`, `while`, etc.
+          keywordSnippet = "Replace", -- Complete with keyword snippets, not keywords (default)
+        },
+        diagnostics = {
+          disable = { "missing-fields" }, -- Ignore noisy `missing-fields` warnings
+        },
       },
     },
   },
@@ -37,8 +43,7 @@ local servers = {
   pyright = {
     filetypes = { "python" },
     capabilities = {
-      -- Disable Pyright diagnostics when something is not used
-      -- See https://github.com/neovim/nvim-lspconfig/issues/726#issuecomment-1700845901
+      -- Disable noisy `variable not accessed` diagnostics
       textDocument = { publishDiagnostics = { tagSupport = { valueSet = { 2 } } } },
     },
   },
