@@ -10,7 +10,9 @@ return {
     "hrsh7th/cmp-cmdline",
     "hrsh7th/cmp-path",
     "saadparwaiz1/cmp_luasnip",
+    "L3MON4D3/LuaSnip",
     "clementjumel/cmp-gitmoji",
+    "windwp/nvim-autopairs",
   },
   event = {
     "BufNewFile",
