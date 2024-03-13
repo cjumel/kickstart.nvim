@@ -26,7 +26,9 @@ local servers = {
           -- where `a` and `b` are placeholders to fill
           callSnippet = "Disable", -- Complete with function names, not call snippets (default)
           -- Keyword snippets are snippets for keywords like `if`, `for`, `while`, etc.
-          keywordSnippet = "Replace", -- Complete with keyword snippets, not keywords (default)
+          -- Custom snippets implemented with Luasnip are noticably faster, and they don't
+          -- require for the LSP workspace to be loaded
+          keywordSnippet = "Disable", -- Complete with regular keyword, not keyword snippets
         },
         diagnostics = {
           disable = { "missing-fields" }, -- Ignore noisy `missing-fields` warnings
