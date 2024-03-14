@@ -40,10 +40,10 @@ return {
         if is_in_harpoon_list() then
           harpoon:list():remove()
         else
-          harpoon:list():append()
+          harpoon:list():prepend()
         end
       end,
-      desc = "Append to Harpoon",
+      desc = "Insert in Harpoon list",
     },
     {
       "œ", -- <M-o>
@@ -53,10 +53,10 @@ return {
         if is_in_harpoon_list() then
           harpoon:list():remove()
         else
-          harpoon:list():prepend()
+          harpoon:list():append()
         end
       end,
-      desc = "Prepend to Harpoon",
+      desc = "Outsert in Harpoon list",
     },
     {
       "©", -- <M-c>
