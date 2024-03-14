@@ -10,6 +10,7 @@ local custom_conds = require("plugins.core.luasnip.conditions")
 local c = ls.choice_node
 local i = ls.insert_node
 local s = ls.snippet
+local sn = ls.snippet_node
 local t = ls.text_node
 
 local is_in_code_inline = custom_conds.ts.is_in_code * -custom_conds.ts.line_begin
@@ -17,26 +18,30 @@ local is_in_code_inline = custom_conds.ts.is_in_code * -custom_conds.ts.line_beg
 return {
   s({ trig = "list[..]", show_condition = is_in_code_inline }, {
     t("list["),
-    i(1),
+    c(1, { i(nil), t("str"), t("bool"), t("float"), t("int") }),
     t("]"),
+    c(2, { i(nil), sn(nil, { t(" | "), c(1, { i(1), t("None") }) }) }),
   }),
   s({ trig = "set[..]", show_condition = is_in_code_inline }, {
     t("set["),
-    i(1),
+    c(1, { i(nil), t("str"), t("bool"), t("float"), t("int") }),
     t("]"),
+    c(2, { i(nil), sn(nil, { t(" | "), c(1, { i(1), t("None") }) }) }),
   }),
   s({ trig = "tuple[..]", show_condition = is_in_code_inline }, {
     t("tuple["),
-    i(1),
+    c(1, { i(nil), t("str"), t("bool"), t("float"), t("int") }),
     t(", "),
-    c(2, { i(1), t("...") }),
+    c(2, { i(nil), t("..."), t("str"), t("bool"), t("float"), t("int") }),
     t("]"),
+    c(3, { i(nil), sn(nil, { t(" | "), c(1, { i(1), t("None") }) }) }),
   }),
   s({ trig = "dict[..]", show_condition = is_in_code_inline }, {
     t("dict["),
-    i(1),
+    c(1, { i(nil), t("str"), t("bool"), t("float"), t("int") }),
     t(", "),
-    i(2),
+    c(2, { i(nil), t("str"), t("bool"), t("float"), t("int") }),
     t("]"),
+    c(3, { i(nil), sn(nil, { t(" | "), c(1, { i(1), t("None") }) }) }),
   }),
 }
