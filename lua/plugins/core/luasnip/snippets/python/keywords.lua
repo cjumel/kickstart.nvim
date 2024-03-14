@@ -1,0 +1,231 @@
+-- Snippets for Python keywords involving multiple words (simple one-word keyword completion is
+-- directly handled by the LSP)
+
+local ls = require("luasnip")
+local show_conds = require("luasnip.extras.conditions.show")
+
+local custom_conds = require("plugins.core.luasnip.conditions")
+
+local c = ls.choice_node
+local d = ls.dynamic_node
+local i = ls.insert_node
+local s = ls.snippet
+local sn = ls.snippet_node
+local t = ls.text_node
+
+local is_in_code_empty_line = custom_conds.ts.is_in_code
+  * custom_conds.ts.line_begin
+  * show_conds.line_end
+local is_in_code_inline = custom_conds.ts.is_in_code * -custom_conds.ts.line_begin
+
+local todo = "raise NotImplementedError  # TO" .. "DO: implement" -- not recognized by todo-comments
+
+local function is_function_in_class()
+  local node = vim.treesitter.get_node()
+
+  if node == nil then
+    return false
+  elseif node:type() == "class_definition" then
+    return true
+  elseif node:parent() ~= nil and node:parent():type() == "class_definition" then
+    return true
+  else
+    return false
+  end
+end
+
+return {
+
+  -- Import
+  s({ trig = "import ..", show_condition = is_in_code_empty_line }, {
+    t("import "),
+    i(1),
+  }),
+  s({ trig = "import .. as ..", show_condition = is_in_code_empty_line }, {
+    t("import "),
+    i(1),
+    t(" as "),
+    i(2),
+  }),
+  s({ trig = "from .. import ..", show_condition = is_in_code_empty_line }, {
+    t("from "),
+    i(1),
+    t(" import "),
+    i(2),
+  }),
+  s({ trig = "from .. import .. as ..", show_condition = is_in_code_empty_line }, {
+    t("from "),
+    i(1),
+    t(" import "),
+    i(2),
+    t(" as "),
+    i(3),
+  }),
+
+  -- Conditions
+  s({ trig = "if ..", show_condition = is_in_code_empty_line }, {
+    t("if "),
+    i(1),
+    t({ ":", "\t" }),
+    c(2, { i(1), t(todo), t("pass") }),
+  }),
+  s({ trig = "elif ..", show_condition = is_in_code_empty_line }, {
+    t("elif "),
+    i(1),
+    t({ ":", "\t" }),
+    c(2, { i(1), t(todo), t("pass") }),
+  }),
+  s({ trig = "else", show_condition = is_in_code_empty_line }, {
+    t("else:"),
+    t("\t"),
+    c(2, { i(1), t(todo), t("pass") }),
+  }),
+  -- Inline version
+  s({ trig = "if .. else ..", show_condition = is_in_code_inline }, {
+    t("if "),
+    i(1),
+    t(" else "),
+    c(2, { i(1), t("True"), t("False"), t("None") }),
+  }),
+
+  -- For
+  s({ trig = "for .. in ..", show_condition = is_in_code_empty_line }, {
+    t("for "),
+    i(1),
+    t(" in "),
+    i(2),
+    t({ ":", "\t" }),
+    c(3, { i(1), t(todo), t("pass") }),
+  }),
+  s({ trig = "for .. enumerate ..", show_condition = is_in_code_empty_line }, {
+    t("for "),
+    i(1, "i"),
+    t(", "),
+    i(2, "x"),
+    t(" in enumerate("),
+    i(3),
+    t({ "):", "\t" }),
+    c(4, { i(1), t(todo), t("pass") }),
+  }),
+  s({ trig = "for .. range ..", show_condition = is_in_code_empty_line }, {
+    t("for "),
+    i(1, "i"),
+    t(" in range("),
+    i(2),
+    t({ "):", "\t" }),
+    c(3, { i(1), t(todo), t("pass") }),
+  }),
+  s({ trig = "for .. zip ..", show_condition = is_in_code_empty_line }, {
+    t("for "),
+    i(1, "x"),
+    t(", "),
+    i(2, "y"),
+    t(" in zip("),
+    i(3),
+    t({ "):", "\t" }),
+    c(4, { i(1), t(todo), t("pass") }),
+  }),
+
+  -- For inline
+  s({ trig = "for .. in", show_condition = is_in_code_inline }, {
+    t("for "),
+    i(1),
+    t(" in "),
+    i(2),
+  }),
+  s({ trig = "for .. enumerate", show_condition = is_in_code_inline }, {
+    t("for "),
+    i(1, "i"),
+    t(", "),
+    i(2, "x"),
+    t(" in enumerate("),
+    i(3),
+    t(")"),
+  }),
+  s({ trig = "for .. range", show_condition = is_in_code_inline }, {
+    t("for "),
+    i(1, "i"),
+    t(" in range("),
+    i(2),
+    t(")"),
+  }),
+  s({ trig = "for .. zip", show_condition = is_in_code_inline }, {
+    t("for "),
+    i(1, "x"),
+    t(", "),
+    i(2, "y"),
+    t(" in zip("),
+    i(3),
+    t(")"),
+  }),
+
+  -- While
+  s({ trig = "while", show_condition = is_in_code_empty_line }, {
+    t("while "),
+    c(1, { i(1), t("true") }),
+    t({ ":", "\t" }),
+    c(2, { i(1), t(todo), t("pass") }),
+  }),
+
+  -- Raise
+  s({ trig = "raise", show_condition = is_in_code_empty_line }, {
+    t("raise "),
+    c(1, { i(1), t("ValueError"), t("TypeError"), t("Exception"), t("NotImplementedError") }),
+  }),
+
+  -- Function
+  s({ trig = "def", show_condition = is_in_code_empty_line }, {
+    t("def "),
+    d(1, function(_)
+      if is_function_in_class() then
+        return sn(nil, {
+          c(1, {
+            i(1, "function"),
+            t("__init__"),
+            t("__call__"),
+          }),
+        })
+      else
+        return sn(nil, { i(1, "function") })
+      end
+    end),
+    t("("),
+    d(2, function(_)
+      if is_function_in_class() then
+        return sn(nil, {
+          c(1, {
+            sn(nil, { t("self"), i(1) }),
+            sn(nil, { t("cls"), i(1) }),
+            sn(nil, { i(1) }),
+          }),
+        })
+      else
+        return sn(nil, { i(1) })
+      end
+    end),
+    t(") -> "),
+    c(3, { i(1), t("None") }),
+    t({ ":", "\t" }),
+    c(4, { i(1), t(todo), t("pass") }),
+  }),
+  s({ trig = "lambda", show_condition = is_in_code_inline }, {
+    t("lambda "),
+    i(1, "x"),
+    t(": "),
+    i(2, "pass"),
+  }),
+
+  -- Class
+  s({ trig = "class", show_condition = is_in_code_empty_line }, {
+    t("class "),
+    c(1, { i(1, "Name"), sn(nil, { i(1, "Name"), t("("), i(2, "Parent"), t(")") }) }),
+    t({ ":", "\t" }),
+    c(2, { i(1), t(todo), t("pass") }),
+  }),
+
+  -- Main
+  s({ trig = "__main__", show_condition = is_in_code_empty_line }, {
+    t({ "if __name__ == '__main__':", "\t" }),
+    c(1, { i(1), t(todo), t("pass") }),
+  }),
+}

@@ -1,4 +1,10 @@
+-- Smart docstring snippets for Python, using treesitter to detect arguments or attributes
+-- and automatically insert them in the docstring.
+
 local ls = require("luasnip")
+
+local custom_conds = require("plugins.core.luasnip.conditions")
+local show_conds = require("luasnip.extras.conditions.show")
 
 local d = ls.dynamic_node
 local i = ls.insert_node
@@ -6,18 +12,17 @@ local s = ls.snippet
 local sn = ls.snippet_node
 local t = ls.text_node
 
-local custom_conds = require("plugins.core.luasnip.conditions")
-local show_conds = require("luasnip.extras.conditions.show")
+local is_in_function_empty_line = custom_conds.ts.is_in_function
+  * custom_conds.ts.line_begin
+  * show_conds.line_end
+local is_in_class_empty_line = custom_conds.ts.is_in_class
+  * custom_conds.ts.line_begin
+  * show_conds.line_end
 
 return {
-  s({
-    trig = "docstring", -- Function version
-    show_condition = (
-      custom_conds.ts.is_in_function
-      * custom_conds.ts.line_begin
-      * show_conds.line_end
-    ),
-  }, {
+
+  -- Function version
+  s({ trig = "docstring", show_condition = is_in_function_empty_line }, {
     t('"""'),
     i(1),
     d(2, function(_)
@@ -122,14 +127,9 @@ return {
     end),
     t('"""'),
   }),
-  s({
-    trig = "docstring", -- Class version
-    show_condition = (
-      custom_conds.ts.is_in_class
-      * custom_conds.ts.line_begin
-      * show_conds.line_end
-    ),
-  }, {
+
+  -- Class version
+  s({ trig = "docstring", show_condition = is_in_class_empty_line }, {
     t('"""'),
     i(1),
     d(2, function(_)
