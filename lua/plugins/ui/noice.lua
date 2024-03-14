@@ -51,6 +51,7 @@ return {
     },
     presets = {
       lsp_doc_border = true, -- add a border to hover docs and signature help
+      bottom_search = true, -- decreases the clutter on the screen during incremental search
     },
     routes = {
       -- hide written messages
