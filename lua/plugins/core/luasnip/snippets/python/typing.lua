@@ -20,13 +20,13 @@ return {
     t("list["),
     c(1, { i(nil), t("str"), t("bool"), t("float"), t("int") }),
     t("]"),
-    c(2, { i(nil), sn(nil, { t(" | "), c(1, { i(1), t("None") }) }) }),
+    c(2, { i(nil), sn(nil, { t(" | "), i(1) }), t(" | None") }),
   }),
   s({ trig = "set[..]", show_condition = is_in_code_inline }, {
     t("set["),
     c(1, { i(nil), t("str"), t("bool"), t("float"), t("int") }),
     t("]"),
-    c(2, { i(nil), sn(nil, { t(" | "), c(1, { i(1), t("None") }) }) }),
+    c(2, { i(nil), sn(nil, { t(" | "), i(1) }), t(" | None") }),
   }),
   s({ trig = "tuple[..]", show_condition = is_in_code_inline }, {
     t("tuple["),
@@ -34,7 +34,7 @@ return {
     t(", "),
     c(2, { i(nil), t("..."), t("str"), t("bool"), t("float"), t("int") }),
     t("]"),
-    c(3, { i(nil), sn(nil, { t(" | "), c(1, { i(1), t("None") }) }) }),
+    c(3, { i(nil), sn(nil, { t(" | "), i(1) }), t(" | None") }),
   }),
   s({ trig = "dict[..]", show_condition = is_in_code_inline }, {
     t("dict["),
@@ -42,6 +42,6 @@ return {
     t(", "),
     c(2, { i(nil), t("str"), t("bool"), t("float"), t("int") }),
     t("]"),
-    c(3, { i(nil), sn(nil, { t(" | "), c(1, { i(1), t("None") }) }) }),
+    c(3, { i(nil), sn(nil, { t(" | "), i(1) }), t(" | None") }),
   }),
 }
