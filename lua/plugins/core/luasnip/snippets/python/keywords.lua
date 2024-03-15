@@ -1,6 +1,7 @@
 -- Snippets for Python keywords involving multiple words (simple one-word keyword completion is
 -- directly handled by the LSP)
 
+local extras = require("luasnip.extras")
 local ls = require("luasnip")
 local show_conds = require("luasnip.extras.conditions.show")
 
@@ -9,6 +10,7 @@ local custom_conds = require("plugins.core.luasnip.conditions")
 local c = ls.choice_node
 local d = ls.dynamic_node
 local i = ls.insert_node
+local rep = extras.rep
 local s = ls.snippet
 local sn = ls.snippet_node
 local t = ls.text_node
@@ -63,6 +65,7 @@ return {
   }),
 
   -- [[ if, else & elif ]]
+
   -- Block version
   s({ trig = "if ..", show_condition = is_in_code_empty_line }, {
     t("if "),
@@ -81,10 +84,39 @@ return {
     t("\t"),
     c(2, { i(1), t(todo), t("pass") }),
   }),
+
+  -- Special cases in block version
+  s({ trig = "if .. None .. raise ..", show_condition = is_in_code_empty_line }, {
+    t("if "),
+    i(1),
+    t({ " is None:", "\t" }),
+    t([[raise ValueError("Expected ']]),
+    rep(1),
+    t([[' to be not None")]]),
+  }),
+  s({ trig = "if not isinstance .. raise ..", show_condition = is_in_code_empty_line }, {
+    t("if not isinstance("),
+    i(1),
+    t(", "),
+    c(2, {
+      i(1),
+      sn(nil, { i(1), t(" | "), i(2) }), -- support union of types
+      sn(nil, { t("("), i(1), t(", "), i(2), t(")") }), -- support tuple of types
+    }),
+    t({ "):", "\t" }),
+    t([[raise TypeError(f"Expected ']]),
+    rep(1),
+    t([[' to be of type ']]),
+    rep(2),
+    t([[' but got '{type(]]),
+    rep(1),
+    t([[)}'")]]),
+  }),
   s({ trig = 'if .. "__main__"', show_condition = is_in_code_empty_line }, {
     t({ 'if __name__ == "__main__":', "\t" }),
     c(1, { i(1), t(todo), t("pass") }),
   }),
+
   -- Inline version
   s({ trig = "if .. else ..", show_condition = is_in_code_inline }, {
     t("if "),
@@ -176,6 +208,20 @@ return {
   s({ trig = "raise ..", show_condition = is_in_code_empty_line }, {
     t("raise "),
     c(1, { i(1), t("ValueError"), t("TypeError"), t("Exception"), t("NotImplementedError") }),
+    c(2, {
+      i(1),
+      sn(nil, { t('(f"'), i(1), t('")') }), -- f-string can converted back to normal string by ruff
+    }),
+  }),
+
+  -- [[ try ]]
+  s({ trig = "try ..", show_condition = is_in_code_empty_line }, {
+    t({ "try:", "\t" }),
+    c(1, { i(1), t(todo), t("pass") }),
+    t({ "", "except " }),
+    c(2, { i(1), sn(nil, { i(1), t(" as "), i(2) }) }),
+    t({ ":", "\t" }),
+    c(3, { i(1), t(todo), t("pass") }),
   }),
 
   -- [[ def ]]
