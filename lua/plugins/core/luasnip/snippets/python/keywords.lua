@@ -86,35 +86,35 @@ return {
   }),
 
   -- Special cases in block version
-  s({ trig = "if .. None .. raise ..", show_condition = is_in_code_empty_line }, {
-    t("if "),
-    i(1),
-    t({ " is None:", "\t" }),
-    t([[raise ValueError("Expected ']]),
-    rep(1),
-    t([[' to be not None")]]),
-  }),
-  s({ trig = "if not isinstance .. raise ..", show_condition = is_in_code_empty_line }, {
-    t("if not isinstance("),
-    i(1),
-    t(", "),
-    c(2, {
-      i(1),
-      sn(nil, { i(1), t(" | "), i(2) }), -- support union of types
-      sn(nil, { t("("), i(1), t(", "), i(2), t(")") }), -- support tuple of types
+  s({ trig = "if .. raise ..", show_condition = is_in_code_empty_line }, {
+    c(1, {
+      sn(nil, {
+        t("if not isinstance("),
+        i(1),
+        t(", "),
+        i(2), -- support union & or tuple for multiple types
+        t({ "):", "\t" }),
+        t([[raise TypeError(f"Expected ']]),
+        rep(1),
+        t([[' to be of type ']]),
+        rep(2),
+        t([[' but got '{type(]]),
+        rep(1),
+        t([[)}'")]]),
+      }),
+      sn(nil, {
+        t("if "),
+        i(1),
+        t({ " is None:", "\t" }),
+        t([[raise ValueError("Expected ']]),
+        rep(1),
+        t([[' to be not None")]]),
+      }),
     }),
-    t({ "):", "\t" }),
-    t([[raise TypeError(f"Expected ']]),
-    rep(1),
-    t([[' to be of type ']]),
-    rep(2),
-    t([[' but got '{type(]]),
-    rep(1),
-    t([[)}'")]]),
   }),
   s({ trig = 'if .. "__main__"', show_condition = is_in_code_empty_line }, {
     t({ 'if __name__ == "__main__":', "\t" }),
-    c(1, { i(1), t(todo), t("pass") }),
+    c(1, { i(1), sn(nil, { t("main("), i(1), t(")") }), t(todo), t("pass") }),
   }),
 
   -- Inline version
