@@ -237,7 +237,10 @@ return {
           }),
         })
       else
-        return sn(nil, { i(1, "function") })
+        return sn(nil, { c(1, {
+          i(1, "function"),
+          t("main"),
+        }) })
       end
     end),
     t("("),
