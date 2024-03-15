@@ -36,7 +36,7 @@ end
 
 return {
 
-  -- Import
+  -- [[ import ]]
   s({ trig = "import ..", show_condition = is_in_code_empty_line }, {
     t("import "),
     i(1),
@@ -62,7 +62,8 @@ return {
     i(3),
   }),
 
-  -- Conditions
+  -- [[ if, else & elif ]]
+  -- Block version
   s({ trig = "if ..", show_condition = is_in_code_empty_line }, {
     t("if "),
     i(1),
@@ -75,10 +76,14 @@ return {
     t({ ":", "\t" }),
     c(2, { i(1), t(todo), t("pass") }),
   }),
-  s({ trig = "else", show_condition = is_in_code_empty_line }, {
+  s({ trig = "else ..", show_condition = is_in_code_empty_line }, {
     t("else:"),
     t("\t"),
     c(2, { i(1), t(todo), t("pass") }),
+  }),
+  s({ trig = 'if .. "__main__"', show_condition = is_in_code_empty_line }, {
+    t({ 'if __name__ == "__main__":', "\t" }),
+    c(1, { i(1), t(todo), t("pass") }),
   }),
   -- Inline version
   s({ trig = "if .. else ..", show_condition = is_in_code_inline }, {
@@ -88,7 +93,8 @@ return {
     c(2, { i(1), t("True"), t("False"), t("None") }),
   }),
 
-  -- For
+  -- [[ for ]]
+  -- Block version
   s({ trig = "for .. in ..", show_condition = is_in_code_empty_line }, {
     t("for "),
     i(1),
@@ -125,15 +131,14 @@ return {
     t({ "):", "\t" }),
     c(4, { i(1), t(todo), t("pass") }),
   }),
-
-  -- For inline
-  s({ trig = "for .. in", show_condition = is_in_code_inline }, {
+  -- Inline version
+  s({ trig = "for .. in ..", show_condition = is_in_code_inline }, {
     t("for "),
     i(1),
     t(" in "),
     i(2),
   }),
-  s({ trig = "for .. enumerate", show_condition = is_in_code_inline }, {
+  s({ trig = "for .. enumerate ..", show_condition = is_in_code_inline }, {
     t("for "),
     i(1, "i"),
     t(", "),
@@ -142,14 +147,14 @@ return {
     i(3),
     t(")"),
   }),
-  s({ trig = "for .. range", show_condition = is_in_code_inline }, {
+  s({ trig = "for .. range ..", show_condition = is_in_code_inline }, {
     t("for "),
     i(1, "i"),
     t(" in range("),
     i(2),
     t(")"),
   }),
-  s({ trig = "for .. zip", show_condition = is_in_code_inline }, {
+  s({ trig = "for .. zip ..", show_condition = is_in_code_inline }, {
     t("for "),
     i(1, "x"),
     t(", "),
@@ -159,22 +164,22 @@ return {
     t(")"),
   }),
 
-  -- While
-  s({ trig = "while", show_condition = is_in_code_empty_line }, {
+  -- [[ while ]]
+  s({ trig = "while ..", show_condition = is_in_code_empty_line }, {
     t("while "),
     c(1, { i(1), t("true") }),
     t({ ":", "\t" }),
     c(2, { i(1), t(todo), t("pass") }),
   }),
 
-  -- Raise
-  s({ trig = "raise", show_condition = is_in_code_empty_line }, {
+  -- [[ raise ]]
+  s({ trig = "raise ..", show_condition = is_in_code_empty_line }, {
     t("raise "),
     c(1, { i(1), t("ValueError"), t("TypeError"), t("Exception"), t("NotImplementedError") }),
   }),
 
-  -- Function
-  s({ trig = "def", show_condition = is_in_code_empty_line }, {
+  -- [[ def ]]
+  s({ trig = "def ..", show_condition = is_in_code_empty_line }, {
     t("def "),
     d(1, function(_)
       if is_function_in_class() then
@@ -208,24 +213,20 @@ return {
     t({ ":", "\t" }),
     c(4, { i(1), t(todo), t("pass") }),
   }),
-  s({ trig = "lambda", show_condition = is_in_code_inline }, {
+
+  -- [[ lambda ]]
+  s({ trig = "lambda ..", show_condition = is_in_code_inline }, {
     t("lambda "),
     i(1, "x"),
     t(": "),
     i(2, "pass"),
   }),
 
-  -- Class
-  s({ trig = "class", show_condition = is_in_code_empty_line }, {
+  -- [[ class ]]
+  s({ trig = "class ..", show_condition = is_in_code_empty_line }, {
     t("class "),
     c(1, { i(1, "Name"), sn(nil, { i(1, "Name"), t("("), i(2, "Parent"), t(")") }) }),
     t({ ":", "\t" }),
     c(2, { i(1), t(todo), t("pass") }),
-  }),
-
-  -- Main
-  s({ trig = "__main__", show_condition = is_in_code_empty_line }, {
-    t({ "if __name__ == '__main__':", "\t" }),
-    c(1, { i(1), t(todo), t("pass") }),
   }),
 }
