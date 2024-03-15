@@ -115,8 +115,14 @@ return {
     -- Insert brackets & place the cursor between them when selecting a function or method item
     -- This feature creates some noise, but it's useful most often than not and it's easier to
     -- remove the brackets than to add them manually with my keybindings
+    local autopairs = require("nvim-autopairs")
     local cmp_autopairs = require("nvim-autopairs.completion.cmp")
-    cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
+    local function custom_callback(evt)
+      if not autopairs.state.disabled then
+        cmp_autopairs.on_confirm_done()(evt)
+      end
+    end
+    cmp.event:on("confirm_done", custom_callback)
 
     -- Dirty fix to prevent nvim-autopairs from adding brackets when importing functions in Python
     -- This only works on the first line of an import statement
