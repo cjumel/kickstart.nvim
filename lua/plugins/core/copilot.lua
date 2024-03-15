@@ -9,6 +9,23 @@ return {
   -- directly in a buffer (e.g. not in Telescope), an event `github_copilot` takes around 900 ms
   -- and causes a significant latency
   event = { "BufNewFile", "BufReadPre" },
+  keys = {
+    {
+      "<leader>,g",
+      function()
+        if not vim.g.disable_copilot then
+          vim.cmd("Copilot disable")
+          vim.g.disable_copilot = true
+          vim.notify("GitHub copilot disabled.")
+        else
+          vim.cmd("Copilot enable")
+          vim.g.disable_copilot = false
+          vim.notify("GitHub copilot enabled.")
+        end
+      end,
+      desc = "Settings: toggle [G]itHub Copilot",
+    },
+  },
   config = function()
     vim.g.copilot_filetypes = { -- Enable or disable on some file types
       markdown = true,
