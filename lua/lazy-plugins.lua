@@ -17,7 +17,7 @@ vim.opt.rtp:prepend(lazypath)
 
 local opts = {
   ui = {
-    border = "rounded", -- Adding a border is lot better for transparent background
+    border = "rounded", -- Improve visibility with transparent background
   },
   change_detection = {
     enabled = false,
