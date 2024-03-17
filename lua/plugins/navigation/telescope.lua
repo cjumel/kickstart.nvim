@@ -301,21 +301,6 @@ return {
       end,
       desc = "[G]it: [L]og",
     },
-    {
-      "<leader>gL",
-      function()
-        require("telescope.builtin").git_bcommits({ prompt_title = "Git Buffer Log" })
-      end,
-      desc = "[G]it: buffer [L]og",
-    },
-    {
-      "<leader>g",
-      function()
-        require("telescope.builtin").git_bcommits_range({ prompt_title = "Git Selection Log" })
-      end,
-      mode = "v",
-      desc = "[G]it: selection log",
-    },
 
     -- Help related
     {
