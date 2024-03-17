@@ -1,3 +1,4 @@
+local events = require("luasnip.util.events")
 local ls = require("luasnip")
 local show_conds = require("luasnip.extras.conditions.show")
 
@@ -33,7 +34,17 @@ for _, filetype_and_extension in ipairs(filetypes_and_extensions) do
 
   local snippet = s(
     { trig = filetype .. "-file", show_condition = show_condition },
-    { i(1, "name"), t("." .. extension) }
+    { i(1, "name"), t("." .. extension) },
+    {
+      callbacks = {
+        [-1] = { -- -1 is for the whole snippet
+          [events.leave] = function(_, _)
+            vim.cmd("stopinsert")
+            require("oil").save()
+          end,
+        },
+      },
+    }
   )
 
   table.insert(snippets, snippet)
