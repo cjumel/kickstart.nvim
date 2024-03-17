@@ -74,7 +74,7 @@ return {
         mode = { "n", "v" },
         hint = [[
    Hunk manager
-   _,_ ➜ Next hunk                _K_ ➜ Hover hunk                  _U_ ➜ [U]ndo hunk stage   
+   _,_ ➜ Next hunk                _p_ ➜ [P]review hunk              _u_ ➜ [U]ndo stage   
    _;_ ➜ Previous hunk            _s_ ➜ [S]tage hunk or selection   _x_ ➜ Discard hunk or selection   
    _d_ ➜ Toggle [D]eleted hunks   
 ]],
@@ -82,7 +82,7 @@ return {
           { ",", next_hunk },
           { ";", next_hunk },
           { "d", gs.toggle_deleted },
-          { "K", gs.preview_hunk }, -- Leave "v" (view) for visual mode and "p" (preview) for paste
+          { "p", gs.preview_hunk },
           {
             "s",
             function()
@@ -93,7 +93,7 @@ return {
               end
             end,
           },
-          { "U", gs.undo_stage_hunk }, -- Leave "u" for undo
+          { "u", gs.undo_stage_hunk },
           {
             "x",
             function()
