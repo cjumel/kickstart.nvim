@@ -23,17 +23,17 @@ return {
     -- Window manager
     -- This Hydra uses the builtin prefix (body) and keymaps (heads), as describded by WhichKey
     Hydra({
+      body = "<C-w>",
       config = {
         desc = "Window manager",
       },
       hint = [[
-   _+_ ➜ Increase height         _h_ ➜ Go to the left window     _q_ ➜ Quit a window             
-   _-_ ➜ Decrease height         _j_ ➜ Go to the down window     _s_ ➜ Split window              
-   _<_ ➜ Decrease width          _k_ ➜ Go to the up window       _v_ ➜ Split window vertically   
-   _=_ ➜ Equally high and wide   _l_ ➜ Go to the right window    _w_ ➜ Switch windows            
-   _>_ ➜ Increase width          _o_ ➜ Close all other windows   _x_ ➜ Swap current with nex     
+   _+_ ➜ Increase height         _h_ ➜ Go to the left window    _q_ ➜ [Q]uit window                   
+   _-_ ➜ Decrease height         _j_ ➜ Go to the down window    _s_ ➜ [S]plit window                  
+   _>_ ➜ Increase width          _k_ ➜ Go to the up window      _v_ ➜ [V]ertically split window       
+   _<_ ➜ Decrease width          _l_ ➜ Go to the right window   _w_ ➜ Switch windows                  
+   _=_ ➜ Equally high and wide   _o_ ➜ Close [O]ther windows    _x_ ➜ Swap current window with next   
 ]],
-      body = "<C-w>",
       heads = {
         { "+", "<C-w>+" },
         { "-", "<C-w>-" },
