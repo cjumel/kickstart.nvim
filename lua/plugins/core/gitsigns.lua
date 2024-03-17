@@ -58,29 +58,67 @@ return {
       map({ "n", "x", "o" }, "[H", next_conflict, "Next conflict hunk")
       map({ "n", "x", "o" }, "]H", prev_conflict, "Previous conflict hunk")
 
-      -- Actions
-      map({ "n", "v" }, "<leader>h", gs.preview_hunk, "[H]unk")
+      -- Hunk actions
+      -- These actions are implemented with Hydra to avoid the need to type the leader key between
+      -- each hunk action
+      local Hydra = require("hydra")
+      local actions = require("actions")
+      Hydra({
+        body = "<leader>h",
+        config = {
+          desc = "[H]unk manager",
+          color = "pink", -- For synchron buffer actions
+          on_exit = actions.clear_window, -- Leave hunk preview when leaving the hunk manager
+          buffer = bufnr,
+        },
+        mode = { "n", "v" },
+        hint = [[
+   Hunk manager
+   _,_ ➜ Next hunk                _p_ ➜ [P]review hunk              _U_ ➜ [U]ndo hunk stage   
+   _;_ ➜ Previous hunk            _s_ ➜ [S]tage hunk or selection   _x_ ➜ Discard hunk or selection   
+   _d_ ➜ Toggle [D]eleted hunks   
+]],
+        heads = {
+          { ",", next_hunk },
+          { ";", next_hunk },
+          { "d", gs.toggle_deleted },
+          { "p", gs.preview_hunk },
+          {
+            "s",
+            function()
+              if vim.fn.mode() == "n" then
+                gs.stage_hunk()
+              else
+                gs.stage_hunk({ vim.fn.line("."), vim.fn.line("v") })
+              end
+            end,
+          },
+          { "U", gs.undo_stage_hunk }, -- Leave "u" for undo
+          {
+            "x",
+            function()
+              if vim.fn.mode() == "n" then
+                gs.reset_hunk()
+              else
+                gs.reset_hunk({ vim.fn.line("."), vim.fn.line("v") })
+              end
+            end,
+          },
+          -- Exist must be with <Esc> for compatibility with clear window action
+          { "<Esc>", nil, { exit = true, desc = false } },
+        },
+      })
 
-      map("n", "<leader>a", gs.stage_hunk, "[A]dd hunk")
-      map("v", "<leader>a", function()
-        gs.stage_hunk({ vim.fn.line("."), vim.fn.line("v") })
-      end, "[A]dd lines")
-      map("n", "<leader>A", gs.undo_stage_hunk, "[A]dd-hunk undo")
+      -- General git actions
       map("n", "<leader>ga", gs.stage_buffer, "[G]it: [A]dd buffer")
-
-      map("n", "<leader>r", gs.reset_hunk, "[R]eset hunk")
-      map("v", "<leader>r", function()
-        gs.reset_hunk({ vim.fn.line("."), vim.fn.line("v") })
-      end, "[R]eset lines")
-      map("n", "<leader>gr", gs.reset_buffer, "[G]it: [R]eset buffer")
-
+      map("n", "<leader>gu", gs.reset_buffer_index, "[G]it: [U]nstage buffer")
+      map("n", "<leader>gx", gs.reset_buffer, "[G]it: discard buffer changes")
       map("n", "<leader>gd", function()
         gs.diffthis("~")
-      end, "[G]it: [D]iff")
-
+      end, "[G]it: [D]iff buffer")
       map("n", "<leader>gB", function()
         gs.blame_line({ full = true })
-      end, "[G]it: [B]lame")
+      end, "[G]it: [B]lame line")
 
       -- Text objects
       map({ "o", "x" }, "ih", ":<C-U>Gitsigns select_hunk<CR>", "inner hunk")

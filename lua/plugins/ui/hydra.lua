@@ -28,10 +28,11 @@ return {
         desc = "Window manager",
       },
       hint = [[
-   _+_ ➜ Increase height         _h_ ➜ Go to the left window    _q_ ➜ [Q]uit window                   
-   _-_ ➜ Decrease height         _j_ ➜ Go to the down window    _s_ ➜ [S]plit window                  
-   _>_ ➜ Increase width          _k_ ➜ Go to the up window      _v_ ➜ [V]ertically split window       
-   _<_ ➜ Decrease width          _l_ ➜ Go to the right window   _w_ ➜ Switch windows                  
+   Window manager
+   _+_ ➜ Increase height         _h_ ➜ Go to the left window    _q_ ➜ [Q]uit window   
+   _-_ ➜ Decrease height         _j_ ➜ Go to the down window    _s_ ➜ [S]plit window   
+   _>_ ➜ Increase width          _k_ ➜ Go to the up window      _v_ ➜ [V]ertically split window   
+   _<_ ➜ Decrease width          _l_ ➜ Go to the right window   _w_ ➜ Switch windows   
    _=_ ➜ Equally high and wide   _o_ ➜ Close [O]ther windows    _x_ ➜ Swap current window with next   
 ]],
       heads = {
