@@ -80,7 +80,7 @@ return {
 ]],
         heads = {
           { ",", next_hunk },
-          { ";", next_hunk },
+          { ";", prev_hunk },
           { "d", gs.toggle_deleted },
           { "p", gs.preview_hunk },
           {
