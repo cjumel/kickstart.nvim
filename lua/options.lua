@@ -18,8 +18,9 @@ vim.o.matchpairs = vim.o.matchpairs .. ",<:>"
 -- Set highlight on search; use `:nohlsearch` to remove the search highlight
 vim.o.hlsearch = true
 
--- Make line numbers default
+-- Line numbering
 vim.wo.number = true
+vim.wo.relativenumber = false
 
 -- Enable mouse mode
 vim.o.mouse = "a"

@@ -26,7 +26,6 @@ return {
       ["]"] = { name = "Previous", _ = "which_key_ignore" },
 
       ["<leader>"] = { name = "Leader", _ = "which_key_ignore" },
-      ["<leader>,"] = { name = "Settings", _ = "which_key_ignore" },
       ["<leader>?"] = { name = "Help", _ = "which_key_ignore" },
       ["<leader>d"] = { name = "[D]AP", _ = "which_key_ignore" },
       ["<leader>f"] = { name = "[F]ind", _ = "which_key_ignore" },

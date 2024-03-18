@@ -15,12 +15,6 @@ return {
 
     vim.keymap.set(
       "n",
-      "<leader>,c",
-      treesitter_context.toggle,
-      { desc = "Settings: toggle [C]ontext" }
-    )
-    vim.keymap.set(
-      "n",
       "gP", -- gp is used to go to treesitter parent node
       function()
         if not treesitter_context.enabled() then

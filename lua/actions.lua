@@ -114,36 +114,4 @@ end)
 M.next_error = next_error
 M.prev_error = prev_error
 
--- [[ Settings actions ]]
-
-M.switch_line_numbering = function()
-  if vim.wo.number and not vim.wo.relativenumber then
-    vim.wo.relativenumber = true
-  elseif vim.wo.number and vim.wo.relativenumber then
-    vim.wo.number = false
-    vim.wo.relativenumber = false
-  else
-    vim.wo.number = true
-    vim.wo.relativenumber = false
-  end
-end
-
-M.switch_sign_column = function()
-  if vim.wo.signcolumn == "number" then
-    vim.wo.signcolumn = "yes"
-  elseif vim.wo.signcolumn == "yes" then
-    vim.wo.signcolumn = "no"
-  else
-    vim.wo.signcolumn = "number"
-  end
-end
-
-M.toggle_ruler_column = function()
-  if vim.o.colorcolumn == "101" then
-    vim.o.colorcolumn = ""
-  else
-    vim.o.colorcolumn = "101"
-  end
-end
-
 return M

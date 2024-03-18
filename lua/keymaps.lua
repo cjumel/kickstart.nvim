@@ -119,26 +119,4 @@ vim.keymap.set({ "i", "c" }, "<C-a>", "<Home>", { desc = "Move cursor to beginni
 -- Builtin keymap to exit terminal mode is <C-\\><C-n>, let's simplify it
 vim.keymap.set({ "t" }, "<C-\\>", "<C-\\><C-n>", { desc = "Exit terminal mode" })
 
--- [[ Settings keymaps ]]
--- Keymaps to dynamically change some settings in Neovim
-
-vim.keymap.set(
-  "n",
-  "<leader>,n",
-  actions.switch_line_numbering,
-  { desc = "Settings: switch line [N]umbering mode" }
-)
-vim.keymap.set(
-  "n",
-  "<leader>,s",
-  actions.switch_sign_column,
-  { desc = "Settings: switch [S]ign column mode" }
-)
-vim.keymap.set(
-  "n",
-  "<leader>,r",
-  actions.toggle_ruler_column,
-  { desc = "Settings: toggle [R]uler column" }
-)
-
 -- vim: ts=2 sts=2 sw=2 et

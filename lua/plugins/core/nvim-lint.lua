@@ -38,23 +38,6 @@ return {
     "williamboman/mason.nvim",
   },
   ft = vim.tbl_keys(linters_by_ft),
-  keys = {
-    {
-      "<leader>,l",
-      function()
-        if not vim.g.disable_lint then
-          vim.g.disable_lint = true
-          vim.diagnostic.reset() -- Remove existing diagnostics
-          vim.notify("Lint disabled.")
-        else
-          vim.g.disable_lint = false
-          require("lint").try_lint() -- Manually trigger linting
-          vim.notify("Lint enabled.")
-        end
-      end,
-      desc = "Settings: toggle [L]int",
-    },
-  },
   opts = function()
     local mason_ensure_installed = {}
     for _, linters in pairs(linters_by_ft) do
