@@ -85,11 +85,11 @@ return {
             end,
             sign_column = function()
               if vim.wo.signcolumn == "number" then
-                return "[mix] /  on  /  off "
+                return " on  / [num] /  off "
               elseif vim.wo.signcolumn == "yes" then
-                return " mix  / [on] /  off "
+                return "[on] /  num  /  off "
               else
-                return " mix  /  on  / [off]"
+                return " on  /  num  / [off]"
               end
             end,
             treesitter_context = function()
@@ -105,7 +105,7 @@ return {
               end
             end,
 
-            -- External tools
+            -- Plugin options
             autopairs = function()
               local autopairs = package.loaded["nvim-autopairs"]
               if autopairs == nil then
@@ -166,11 +166,11 @@ return {
    _s_/_S_ ➜ Sign column:           %{sign_column}   
    _t_ ^ ^ ➜ Treesitterr context:   %{treesitter_context}   
 
-   External tools   
-   _a_ ➜ Auto-pairs:       %{autopairs}   
-   _c_ ➜ Copilot:          %{copilot}   
-   _f_ ➜ Format on save:   %{format_on_save}   
-   _l_ ➜ Lint:             %{lint}   
+   Plugin options   
+   _a_ ^ ^ ➜ Auto-pairs:            %{autopairs}   
+   _c_ ^ ^ ➜ Copilot:               %{copilot}   
+   _f_ ^ ^ ➜ Format on save:        %{format_on_save}   
+   _l_ ^ ^ ➜ Lint:                  %{lint}   
 
 ]],
       heads = {
@@ -256,7 +256,7 @@ return {
           end,
         },
 
-        -- External tools
+        -- Plugin options
         {
           "a",
           function()
