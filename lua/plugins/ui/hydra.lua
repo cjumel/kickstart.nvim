@@ -93,7 +93,11 @@ return {
               end
             end,
             treesitter_context = function()
-              local treesitter_context = require("treesitter-context")
+              local treesitter_context = package.loaded["treesitter-context"]
+              if treesitter_context == nil then
+                return " not loaded "
+              end
+
               if treesitter_context.enabled() then
                 return "[on] /  off "
               else
@@ -103,7 +107,11 @@ return {
 
             -- External tools
             autopairs = function()
-              local autopairs = require("nvim-autopairs")
+              local autopairs = package.loaded["nvim-autopairs"]
+              if autopairs == nil then
+                return " not loaded "
+              end
+
               if autopairs.state.disabled then
                 return " on  / [off]"
               else
@@ -111,6 +119,11 @@ return {
               end
             end,
             copilot = function()
+              local copilot = package.loaded._copilot
+              if copilot == nil then
+                return " not loaded "
+              end
+
               if vim.g.disable_copilot then
                 return " on  / [off]"
               else
@@ -118,6 +131,11 @@ return {
               end
             end,
             format_on_save = function()
+              local conform = package.loaded.conform
+              if conform == nil then
+                return " not loaded "
+              end
+
               if vim.g.disable_autoformat then
                 return " on  / [off]"
               else
@@ -125,6 +143,11 @@ return {
               end
             end,
             lint = function()
+              local lint = package.loaded.lint
+              if lint == nil then
+                return " not loaded "
+              end
+
               if vim.g.disable_lint then
                 return " on  / [off]"
               else
@@ -220,7 +243,11 @@ return {
         {
           "t",
           function()
-            local treesitter_context = require("treesitter-context")
+            local treesitter_context = package.loaded["treesitter-context"]
+            if treesitter_context == nil then
+              return
+            end
+
             if treesitter_context.enabled() then
               treesitter_context.disable()
             else
@@ -233,7 +260,11 @@ return {
         {
           "a",
           function()
-            local autopairs = require("nvim-autopairs")
+            local autopairs = package.loaded["nvim-autopairs"]
+            if autopairs == nil then
+              return
+            end
+
             if autopairs.state.disabled then
               autopairs.enable()
             else
@@ -244,6 +275,11 @@ return {
         {
           "c",
           function()
+            local copilot = package.loaded._copilot
+            if copilot == nil then
+              return
+            end
+
             if not vim.g.disable_copilot then
               vim.cmd("Copilot disable")
               vim.g.disable_copilot = true
@@ -256,6 +292,11 @@ return {
         {
           "f",
           function()
+            local conform = package.loaded.conform
+            if conform == nil then
+              return
+            end
+
             if not vim.g.disable_autoformat then
               vim.g.disable_autoformat = true
             else
@@ -266,6 +307,11 @@ return {
         {
           "l",
           function()
+            local lint = package.loaded.lint
+            if lint == nil then
+              return
+            end
+
             if not vim.g.disable_lint then
               vim.g.disable_lint = true
               vim.diagnostic.reset() -- Remove existing diagnostics
