@@ -28,7 +28,7 @@ return {
         desc = "Window manager",
       },
       hint = [[
-   Window manager
+                                         Window manager                                         
    _+_ ➜ Increase height         _h_ ➜ Go to the left window    _q_ ➜ [Q]uit window   
    _-_ ➜ Decrease height         _j_ ➜ Go to the down window    _s_ ➜ [S]plit window   
    _>_ ➜ Increase width          _k_ ➜ Go to the up window      _v_ ➜ [V]ertically split window   
