@@ -19,8 +19,25 @@ local filetypes_and_extensions = {
   { "python", "py" },
 }
 
--- Build the snippets
-local snippets = {}
+local callbacks = {
+  [-1] = { -- -1 is for the whole snippet
+    [events.leave] = function(_, _)
+      vim.cmd("stopinsert")
+      require("oil").save()
+    end,
+  },
+}
+
+-- Directory snippet
+local snippets = {
+  s(
+    { trig = "directory", show_condition = custom_conds.ts.line_begin * show_conds.line_end },
+    { i(1, "name"), t("/") },
+    { callbacks = callbacks }
+  ),
+}
+
+-- File type snippets
 for _, filetype_and_extension in ipairs(filetypes_and_extensions) do
   local filetype = filetype_and_extension[1]
   local extension = filetype_and_extension[2] or filetype
@@ -35,16 +52,7 @@ for _, filetype_and_extension in ipairs(filetypes_and_extensions) do
   local snippet = s(
     { trig = filetype .. "-file", show_condition = show_condition },
     { i(1, "name"), t("." .. extension) },
-    {
-      callbacks = {
-        [-1] = { -- -1 is for the whole snippet
-          [events.leave] = function(_, _)
-            vim.cmd("stopinsert")
-            require("oil").save()
-          end,
-        },
-      },
-    }
+    { callbacks = callbacks }
   )
 
   table.insert(snippets, snippet)
