@@ -51,6 +51,12 @@ vim.keymap.set("v", "$", "$h", { desc = "End of line" })
 -- Make zf detected by Which Key in visual mode
 vim.keymap.set("v", "zf", "zf", { desc = "Create fold" })
 
+-- Fix gx keymap
+-- `gx` actually open both paths & URLs with the system's default application (typically the Finder
+-- or a web broser, for MacOS), but I prefer to use `gf` to open paths with Neovim and keep `gx`
+-- only to open URLs in a web browser
+vim.api.nvim_set_keymap("n", "gx", actions.fixed_gx, { desc = "Open URL under cursor in browser" })
+
 -- [[ General keymaps ]]
 
 vim.keymap.set("n", "<ESC>", actions.clear_window, { desc = "Dismiss messages & floating windows" })

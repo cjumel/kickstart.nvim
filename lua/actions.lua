@@ -44,6 +44,10 @@ M.smart_dd = function()
   end
 end
 
+-- Fix gx keymap to open a link, as it needs netwrc which is disabled on my setup
+-- See https://www.reddit.com/r/neovim/comments/ro6oye/open_link_from_neovim/
+M.fixed_gx = [[:silent execute '!open ' . shellescape(expand('<cfile>'), 1)<CR>]]
+
 -- [[ General actions ]]
 
 M.clear_window = function()
