@@ -213,11 +213,11 @@ return {
           "s",
           function()
             if vim.wo.signcolumn == "number" then
-              vim.wo.signcolumn = "yes"
-            elseif vim.wo.signcolumn == "yes" then
               vim.wo.signcolumn = "no"
-            else
+            elseif vim.wo.signcolumn == "yes" then
               vim.wo.signcolumn = "number"
+            else
+              vim.wo.signcolumn = "yes"
             end
           end,
         },
@@ -225,11 +225,11 @@ return {
           "S",
           function()
             if vim.wo.signcolumn == "number" then
-              vim.wo.signcolumn = "no"
-            elseif vim.wo.signcolumn == "yes" then
-              vim.wo.signcolumn = "number"
-            else
               vim.wo.signcolumn = "yes"
+            elseif vim.wo.signcolumn == "yes" then
+              vim.wo.signcolumn = "no"
+            else
+              vim.wo.signcolumn = "number"
             end
           end,
         },
