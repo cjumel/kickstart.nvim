@@ -1,4 +1,3 @@
-local events = require("luasnip.util.events")
 local ls = require("luasnip")
 local show_conds = require("luasnip.extras.conditions.show")
 
@@ -41,7 +40,7 @@ for filetype, preset_files in pairs(filetype_to_preset_files) do
     local snippet = s({
       trig = file_name,
       show_condition = show_condition * custom_conds.oil.file_not_exists(file_name),
-    }, { t({ file_name, "" }) })
+    }, { t(file_name) })
     table.insert(snippets, snippet)
   end
 end
