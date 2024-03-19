@@ -89,11 +89,16 @@ vim.keymap.set("n", "<leader>v", vim.diagnostic.open_float, { desc = "[V]iew dia
 
 vim.keymap.set("n", "K", actions.hover, { desc = "Hover" })
 
+-- [[ Go-to keymaps ]]
+
 -- Dianostics can be errors, warnings, information messages or hints
 vim.keymap.set({ "n", "x", "o" }, "[d", actions.next_diagnostic, { desc = "Next diagnostic" })
 vim.keymap.set({ "n", "x", "o" }, "]d", actions.prev_diagnostic, { desc = "Previous diagnostic" })
 vim.keymap.set({ "n", "x", "o" }, "[e", actions.next_error, { desc = "Next error" })
 vim.keymap.set({ "n", "x", "o" }, "]e", actions.prev_error, { desc = "Previous error" })
+
+vim.keymap.set({ "n", "x", "o" }, "[u", actions.next_url, { desc = "Next URL" })
+vim.keymap.set({ "n", "x", "o" }, "]u", actions.prev_url, { desc = "Previous URL" })
 
 -- [[ Terminal-like keymaps ]]
 -- Keymaps for insert & command-line modes to reproduce shell keymaps

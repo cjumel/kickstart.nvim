@@ -103,6 +103,8 @@ M.hover = function()
   vim.lsp.buf.hover()
 end
 
+-- [[ Go-to actions ]]
+
 local ts_repeat_move = require("nvim-treesitter.textobjects.repeatable_move")
 
 local next_diagnostic, prev_diagnostic =
@@ -117,5 +119,14 @@ end, function()
 end)
 M.next_error = next_error
 M.prev_error = prev_error
+
+local url_pattern = "http:\\/\\/\\|https:\\/\\/"
+local next_url, prev_url = ts_repeat_move.make_repeatable_move_pair(function()
+  vim.fn.search(url_pattern)
+end, function()
+  vim.fn.search(url_pattern, "b")
+end)
+M.next_url = next_url
+M.prev_url = prev_url
 
 return M
