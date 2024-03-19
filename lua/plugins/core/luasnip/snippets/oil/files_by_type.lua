@@ -1,4 +1,3 @@
-local events = require("luasnip.util.events")
 local ls = require("luasnip")
 local show_conds = require("luasnip.extras.conditions.show")
 
@@ -19,21 +18,11 @@ local filetypes_and_extensions = {
   { "python", "py" },
 }
 
-local callbacks = {
-  [-1] = { -- -1 is for the whole snippet
-    [events.leave] = function(_, _)
-      vim.cmd("stopinsert")
-      require("oil").save()
-    end,
-  },
-}
-
 -- Directory snippet
 local snippets = {
   s(
     { trig = "directory", show_condition = custom_conds.ts.line_begin * show_conds.line_end },
-    { i(1, "name"), t("/") },
-    { callbacks = callbacks }
+    { i(1, "name"), t({ "/", "" }) }
   ),
 }
 
@@ -51,8 +40,7 @@ for _, filetype_and_extension in ipairs(filetypes_and_extensions) do
 
   local snippet = s(
     { trig = filetype .. "-file", show_condition = show_condition },
-    { i(1, "name"), t("." .. extension) },
-    { callbacks = callbacks }
+    { i(1, "name"), t({ "." .. extension, "" }) }
   )
 
   table.insert(snippets, snippet)
