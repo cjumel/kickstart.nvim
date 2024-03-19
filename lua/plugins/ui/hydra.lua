@@ -66,6 +66,10 @@ return {
           position = "middle",
           funcs = {
 
+            -- In the following, when the setting depends on a plugin which is not loaded, let's
+            -- try to display the setting without loading the plugin when possible, or display
+            -- the default setting value without loading the plugin
+
             -- Window option
             line_numbering = function()
               if vim.wo.number and not vim.wo.relativenumber then
@@ -95,7 +99,7 @@ return {
             treesitter_context = function()
               local treesitter_context = package.loaded["treesitter-context"]
               if treesitter_context == nil then
-                return " not loaded "
+                return " on  / [off]" -- default value
               end
 
               if treesitter_context.enabled() then
@@ -109,7 +113,7 @@ return {
             autopairs = function()
               local autopairs = package.loaded["nvim-autopairs"]
               if autopairs == nil then
-                return " not loaded "
+                return "[on] /  off " -- default value
               end
 
               if autopairs.state.disabled then
@@ -119,11 +123,6 @@ return {
               end
             end,
             copilot = function()
-              local copilot = package.loaded._copilot
-              if copilot == nil then
-                return " not loaded "
-              end
-
               if vim.g.disable_copilot then
                 return " on  / [off]"
               else
@@ -131,11 +130,6 @@ return {
               end
             end,
             format_on_save = function()
-              local conform = package.loaded.conform
-              if conform == nil then
-                return " not loaded "
-              end
-
               if vim.g.disable_autoformat then
                 return " on  / [off]"
               else
@@ -143,11 +137,6 @@ return {
               end
             end,
             lint = function()
-              local lint = package.loaded.lint
-              if lint == nil then
-                return " not loaded "
-              end
-
               if vim.g.disable_lint then
                 return " on  / [off]"
               else
@@ -174,6 +163,10 @@ return {
 
 ]],
       heads = {
+
+        -- In the following, when the setting depends on a plugin which is not loaded, let's
+        -- try to change the setting without loading the plugin when possible, otherwise load the
+        -- plugin and change the setting afterwards
 
         -- Window options
         {
@@ -243,10 +236,7 @@ return {
         {
           "t",
           function()
-            local treesitter_context = package.loaded["treesitter-context"]
-            if treesitter_context == nil then
-              return
-            end
+            local treesitter_context = require("treesitter-context") -- Load the plugin if necessary
 
             if treesitter_context.enabled() then
               treesitter_context.disable()
@@ -260,10 +250,7 @@ return {
         {
           "a",
           function()
-            local autopairs = package.loaded["nvim-autopairs"]
-            if autopairs == nil then
-              return
-            end
+            local autopairs = require("nvim-autopairs") -- Load the plugin if necessary
 
             if autopairs.state.disabled then
               autopairs.enable()
@@ -275,16 +262,11 @@ return {
         {
           "c",
           function()
-            local copilot = package.loaded._copilot
-            if copilot == nil then
-              return
-            end
-
             if not vim.g.disable_copilot then
-              vim.cmd("Copilot disable")
+              vim.cmd("Copilot disable") -- Load the plugin if necessary
               vim.g.disable_copilot = true
             else
-              vim.cmd("Copilot enable")
+              vim.cmd("Copilot enable") -- Load the plugin if necessary
               vim.g.disable_copilot = false
             end
           end,
@@ -292,11 +274,7 @@ return {
         {
           "f",
           function()
-            local conform = package.loaded.conform
-            if conform == nil then
-              return
-            end
-
+            -- Plugin doesn't need to be loaded
             if not vim.g.disable_autoformat then
               vim.g.disable_autoformat = true
             else
@@ -307,17 +285,14 @@ return {
         {
           "l",
           function()
-            local lint = package.loaded.lint
-            if lint == nil then
-              return
-            end
-
             if not vim.g.disable_lint then
+              -- Plugin doesn't need to be loaded
               vim.g.disable_lint = true
               vim.diagnostic.reset() -- Remove existing diagnostics
             else
+              -- Load the plugin if necessary
               vim.g.disable_lint = false
-              require("lint").try_lint() -- Manually trigger linting
+              require("lint").try_lint() -- Manually trigger linting right away
             end
           end,
         },
