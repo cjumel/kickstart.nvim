@@ -69,7 +69,11 @@ return {
           desc = "[H]unk manager",
           color = "pink", -- For synchron buffer actions
           on_exit = actions.clear_window, -- Leave hunk preview when leaving the hunk manager
-          buffer = bufnr,
+          -- Setting `buffer=true` or `buffer=bufnr` makes the hunk manager keymaps only work in a
+          -- single buffer, while still being able to switch buffer (as `foreign_keys="run"` can't
+          -- be overriden for pink Hydra). In that case, the Hydra is still opened but the keymaps
+          -- don't work in the new buffer, which is quite confusing.
+          buffer = nil,
         },
         mode = { "n", "v" },
         hint = [[
