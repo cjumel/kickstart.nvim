@@ -14,7 +14,7 @@ local s = ls.snippet
 local sn = ls.snippet_node
 local t = ls.text_node
 
-local is_in_empty_line = custom_conds.ts.line_begin * show_conds.line_end
+local is_in_empty_line = custom_conds.line_begin * show_conds.line_end
 
 return {
   s({ trig = "directory", show_condition = is_in_empty_line }, { i(1, "name"), t("/") }),

@@ -14,7 +14,7 @@ local t = ls.text_node
 
 local is_in_code = custom_conds.ts.is_in_code
 local is_in_code_empty_line = custom_conds.ts.is_in_code
-  * custom_conds.ts.line_begin
+  * custom_conds.line_begin
   * show_conds.line_end
 
 local todo = "-- TO" .. "DO: implement" -- not recognized by todo-comments

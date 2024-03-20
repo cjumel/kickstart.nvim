@@ -9,7 +9,7 @@ local sn = ls.snippet_node
 local t = ls.text_node
 
 return {
-  s({ trig = "todo-item", show_condition = custom_conds.ts.line_begin }, {
+  s({ trig = "todo-item", show_condition = custom_conds.line_begin }, {
     c(1, {
       sn(nil, { t("- ( ) "), i(1) }),
       sn(nil, { t("-- ( ) "), i(1) }),
