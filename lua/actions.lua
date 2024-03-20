@@ -139,14 +139,16 @@ end)
 M.next_hunk = next_hunk
 M.prev_hunk = prev_hunk
 
-local conflict_marker = "<<<<<<< \\|=======\\|>>>>>>> "
--- "nohlsearch" clears optional search highlights on the conflict marker
+-- Conflict markers follow one of the 3 following forms at the start of a line:
+-- <<<<<<< <some text>
+-- =======
+-- >>>>>>> <some text>
+-- "^" forces the search pattern matches to be at the start of a line
+local conflict_pattern = "^<<<<<<< \\|^=======\\|^>>>>>>> "
 local next_conflict, prev_conflict = ts_repeat_move.make_repeatable_move_pair(function()
-  vim.cmd("silent!/" .. conflict_marker)
-  vim.cmd("nohlsearch")
+  vim.fn.search(conflict_pattern)
 end, function()
-  vim.cmd("silent!?" .. conflict_marker)
-  vim.cmd("nohlsearch")
+  vim.fn.search(conflict_pattern, "b")
 end)
 M.next_conflict = next_conflict
 M.prev_conflict = prev_conflict
