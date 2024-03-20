@@ -36,59 +36,8 @@ return {
       map({ "n", "x", "o" }, "[H", actions.next_conflict, "Next conflict hunk")
       map({ "n", "x", "o" }, "]H", actions.prev_conflict, "Previous conflict hunk")
 
-      -- Hunk actions
-      -- These actions are implemented with Hydra to avoid the need to type the leader key between
-      -- each hunk action
-      local Hydra = require("hydra")
-      Hydra({
-        body = "<leader>h",
-        config = {
-          desc = "[H]unk manager",
-          color = "pink", -- For synchron buffer actions
-          on_exit = actions.clear_window, -- Leave hunk preview when leaving the hunk manager
-          -- Setting `buffer=true` or `buffer=bufnr` makes the hunk manager keymaps only work in a
-          -- single buffer, while still being able to switch buffer (as `foreign_keys="run"` can't
-          -- be overriden for pink Hydra). In that case, the Hydra is still opened but the keymaps
-          -- don't work in the new buffer, which is quite confusing.
-          buffer = nil,
-        },
-        mode = { "n", "v" },
-        hint = [[
-                                          Hunk manager                                          
-   _,_ ➜ Next hunk                _p_ ➜ [P]review hunk              _u_ ➜ [U]ndo stage   
-   _;_ ➜ Previous hunk            _s_ ➜ [S]tage hunk or selection   _x_ ➜ Discard hunk or selection   
-   _d_ ➜ Toggle [D]eleted hunks   
-]],
-        heads = {
-          { ",", actions.next_hunk },
-          { ";", actions.prev_hunk },
-          { "d", gs.toggle_deleted },
-          { "p", gs.preview_hunk },
-          {
-            "s",
-            function()
-              if vim.fn.mode() == "n" then
-                gs.stage_hunk()
-              else
-                gs.stage_hunk({ vim.fn.line("."), vim.fn.line("v") })
-              end
-            end,
-          },
-          { "u", gs.undo_stage_hunk },
-          {
-            "x",
-            function()
-              if vim.fn.mode() == "n" then
-                gs.reset_hunk()
-              else
-                gs.reset_hunk({ vim.fn.line("."), vim.fn.line("v") })
-              end
-            end,
-          },
-          -- Exist must be with <Esc> for compatibility with clear window action
-          { "<Esc>", nil, { exit = true, desc = false } },
-        },
-      })
+      -- Hunk actions are implemented with Hydra to avoid the need to type the leader key between
+      -- each hunk action. See the `hydra.nvim` plugin configuration for more details.
 
       -- General git actions
       map("n", "<leader>ga", gs.stage_buffer, "[G]it: [A]dd buffer")
