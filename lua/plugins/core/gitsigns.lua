@@ -20,7 +20,6 @@ return {
     attach_to_untracked = true,
     on_attach = function(bufnr)
       local gs = package.loaded.gitsigns
-      local ts_repeat_move = require("nvim-treesitter.textobjects.repeatable_move")
 
       ---@param mode string|table<string>
       ---@param lhs string
@@ -31,38 +30,16 @@ return {
       end
 
       -- Navigation
-      -- Navigation messages are inconsistent with other movements & are displayed far away from
-      -- the hunk itself so it's more distracting than helpful
-      local next_hunk = function()
-        gs.next_hunk({ navigation_message = false })
-      end
-      local prev_hunk = function()
-        gs.prev_hunk({ navigation_message = false })
-      end
-      next_hunk, prev_hunk = ts_repeat_move.make_repeatable_move_pair(next_hunk, prev_hunk)
-      map({ "n", "x", "o" }, "[h", next_hunk, "Next hunk")
-      map({ "n", "x", "o" }, "]h", prev_hunk, "Previous hunk")
-
-      local conflict_marker = "<<<<<<< \\|=======\\|>>>>>>> "
-      -- "nohlsearch" clears optional search highlights on the conflict marker
-      local next_conflict = function()
-        vim.cmd("silent!/" .. conflict_marker)
-        vim.cmd("nohlsearch")
-      end
-      local prev_conflict = function()
-        vim.cmd("silent!?" .. conflict_marker)
-        vim.cmd("nohlsearch")
-      end
-      next_conflict, prev_conflict =
-        ts_repeat_move.make_repeatable_move_pair(next_conflict, prev_conflict)
-      map({ "n", "x", "o" }, "[H", next_conflict, "Next conflict hunk")
-      map({ "n", "x", "o" }, "]H", prev_conflict, "Previous conflict hunk")
+      local actions = require("actions")
+      map({ "n", "x", "o" }, "[h", actions.next_hunk, "Next hunk")
+      map({ "n", "x", "o" }, "]h", actions.prev_hunk, "Previous hunk")
+      map({ "n", "x", "o" }, "[H", actions.next_conflict, "Next conflict hunk")
+      map({ "n", "x", "o" }, "]H", actions.prev_conflict, "Previous conflict hunk")
 
       -- Hunk actions
       -- These actions are implemented with Hydra to avoid the need to type the leader key between
       -- each hunk action
       local Hydra = require("hydra")
-      local actions = require("actions")
       Hydra({
         body = "<leader>h",
         config = {
@@ -83,8 +60,8 @@ return {
    _d_ ➜ Toggle [D]eleted hunks   
 ]],
         heads = {
-          { ",", next_hunk },
-          { ";", prev_hunk },
+          { ",", actions.next_hunk },
+          { ";", actions.prev_hunk },
           { "d", gs.toggle_deleted },
           { "p", gs.preview_hunk },
           {
