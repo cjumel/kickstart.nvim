@@ -55,7 +55,7 @@ return {
       desc = "Entire buffer",
     },
     {
-      "`", -- Builtin is a register key useless in visual/object modes; just below $ (EOL)
+      "<C-]>", -- <C-$> (variation of $ without the last character)
       function()
         require("various-textobjs").nearEoL()
       end,
