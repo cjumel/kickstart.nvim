@@ -2,6 +2,7 @@
 
 local filetypes_by_filename = {
   [".ideavimrc"] = "vim",
+  [".fdignore"] = "conf", -- auto-detected by nvim
   [".markdownlintrc"] = "json", -- or ini
   [".prettierignore"] = "conf", -- auto-detected by nvim
   [".prettierrc"] = "yaml", -- or json
