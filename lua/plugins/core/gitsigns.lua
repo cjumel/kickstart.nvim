@@ -50,11 +50,10 @@ return {
         gs.blame_line({ full = true })
       end, "[G]it: [B]lame line")
       map({ "n", "v" }, "<leader>gL", function()
-        local mode = vim.api.nvim_get_mode()["mode"]
-        if mode == "v" or mode == "V" then
-          require("telescope.builtin").git_bcommits_range({ prompt_title = "Git Selection Log" })
-        else
+        if vim.fn.mode() == "n" then
           require("telescope.builtin").git_bcommits({ prompt_title = "Git Buffer Log" })
+        else
+          require("telescope.builtin").git_bcommits_range({ prompt_title = "Git Selection Log" })
         end
       end, "[G]it: buffer/selection [L]og")
 

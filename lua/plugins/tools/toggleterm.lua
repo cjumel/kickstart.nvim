@@ -40,7 +40,7 @@ local function send_lines_to_terminal(opts, cmd_data)
   local id = tonumber(cmd_data.args) or 1
 
   -- Detect the selection type depending on the current mode
-  local mode = vim.api.nvim_get_mode()["mode"]
+  local mode = vim.fn.mode()
   local selection_type
   if mode == "v" then
     selection_type = "visual_selection"
@@ -131,34 +131,30 @@ return {
       desc = "[T]oggleTerm: new terminal in [V]ertical split",
     },
     {
-      "<leader>ts",
+      "<leader>ti",
       function()
-        send_lines_to_terminal({ trim_spaces = true }, { args = vim.v.count })
+        local opts = {}
+        if vim.fn.mode() ~= "n" then
+          opts.trim_empty_lines = true
+          opts.add_trailing_empty_line = true
+        end
+        send_lines_to_terminal(opts, { args = vim.v.count })
       end,
-      desc = "[T]oggleTerm: [S]end line (trimmed)",
+      mode = { "n", "v" },
+      desc = "[T]oggleTerm: send [I]ndented line/selection",
     },
     {
-      "<leader>t",
+      "<leader>tu",
       function()
-        send_lines_to_terminal({
-          trim_empty_lines = true,
-          add_trailing_empty_line = true,
-        }, { args = vim.v.count })
+        local opts = { trim_spaces = true }
+        if vim.fn.mode() ~= "n" then
+          opts.trim_empty_lines = true
+          opts.add_trailing_empty_line = true
+        end
+        send_lines_to_terminal(opts, { args = vim.v.count })
       end,
-      mode = "v",
-      desc = "[T]oggleTerm: send selection",
-    },
-    {
-      "<leader>T",
-      function()
-        send_lines_to_terminal({
-          trim_spaces = true,
-          trim_empty_lines = true,
-          add_trailing_empty_line = true,
-        }, { args = vim.v.count })
-      end,
-      mode = "v",
-      desc = "[T]oggleTerm: send selection (trimmed)",
+      mode = { "n", "v" },
+      desc = "[T]oggleTerm: send [U]nindented line/selection",
     },
   },
   opts = {
