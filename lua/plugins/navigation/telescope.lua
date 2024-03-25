@@ -61,7 +61,7 @@ return {
           -- Use fd default command with hidden & ignored files
           find_command = { "fd", "--type", "f", "--color", "never", "--hidden", "--no-ignore" },
           preview = { hide_on_startup = true },
-          prompt_title = "Find All Files",
+          prompt_title = "Find Files (unrestricted)",
         }
         if vim.bo.filetype == "oil" then
           opts.cwd = require("oil").get_current_dir()
@@ -92,6 +92,7 @@ return {
         local opts = {
           -- Use fd default command with directory type & hidden files
           find_command = { "fd", "--type", "d", "--color", "never", "--hidden" },
+          prompt_title = "Find Directories",
         }
         if vim.bo.filetype == "oil" then
           opts.cwd = require("oil").get_current_dir()
@@ -108,6 +109,7 @@ return {
         local opts = {
           -- Use fd default command with directory type, hidden & ignored files
           find_command = { "fd", "--type", "d", "--color", "never", "--hidden", "--no-ignore" },
+          prompt_title = "Find Directories (unrestricted)",
         }
         if vim.bo.filetype == "oil" then
           opts.cwd = require("oil").get_current_dir()
@@ -138,7 +140,7 @@ return {
       function()
         local opts = {
           additional_args = { "-uu" },
-          prompt_title = "Find by Live Grep",
+          prompt_title = "Find by Live Grep (unrestricted)",
         }
         if vim.bo.filetype == "oil" then
           opts.cwd = require("oil").get_current_dir()
