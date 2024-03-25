@@ -39,5 +39,16 @@ return {
       },
     }
   end,
-  opts = {},
+  opts = {
+    search = {
+      args = { -- Default rg command with hidden files
+        "--color=never",
+        "--no-heading",
+        "--with-filename",
+        "--line-number",
+        "--column",
+        "--hidden",
+      },
+    },
+  },
 }
