@@ -318,9 +318,9 @@ return {
       },
       mode = { "n", "v" },
       hint = [[
-                                          Hunk manager                                          
+   ^ ^                            ^ ^        Hunk manager           ^ ^                            
    _,_ ➜ Next hunk                _p_ ➜ [P]review hunk              _u_ ➜ [U]ndo stage   
-   _;_ ➜ Previous hunk            _s_ ➜ [S]tage hunk or selection   _x_ ➜ Discard hunk or selection   
+   _;_ ➜ Previous hunk            _s_ ➜ [S]tage hunk/selection      _x_ ➜ Discard hunk/selection   
    _d_ ➜ Toggle [D]eleted hunks   
 ]],
       heads = {
