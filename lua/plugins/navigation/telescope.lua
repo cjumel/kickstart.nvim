@@ -64,8 +64,6 @@ return {
             "--color",
             "never",
             "--hidden",
-            "--exclude",
-            ".git",
           },
           preview = { hide_on_startup = true },
           prompt_title = "Find Files incl. Hidden",
@@ -88,8 +86,6 @@ return {
             "--color",
             "never",
             "--hidden",
-            "--exclude",
-            ".git",
             "--no-ignore",
           },
           preview = { hide_on_startup = true },
@@ -129,8 +125,6 @@ return {
             "--color",
             "never",
             "--hidden",
-            "--exclude",
-            ".git",
           },
         }
         if vim.bo.filetype == "oil" then
@@ -153,8 +147,6 @@ return {
             "--color",
             "never",
             "--hidden",
-            "--exclude",
-            ".git",
             "--no-ignore",
           },
         }
@@ -409,18 +401,7 @@ return {
             ["<ESC>"] = actions.close,
           },
         },
-        vimgrep_arguments = { -- for live_grep and grep_string pickers
-          -- mandatory arguments
-          "rg",
-          "--color=never",
-          "--no-heading",
-          "--with-filename",
-          "--line-number",
-          "--column",
-          -- optional arguments
-          "--smart-case",
-          "--hidden",
-        },
+        -- Exclude some directories in all searches, even when hidden & ignored files are included
         file_ignore_patterns = {
           ".git/",
         },
