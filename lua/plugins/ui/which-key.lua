@@ -21,22 +21,23 @@ return {
     require("which-key").setup(opts)
 
     -- document existing key chains
+    local _ = "which_key_ignore"
     require("which-key").register({
-      ["["] = { name = "Next", _ = "which_key_ignore" },
-      ["]"] = { name = "Previous", _ = "which_key_ignore" },
+      ["["] = { name = "Next", _ = _ },
+      ["]"] = { name = "Previous", _ = _ },
 
-      ["<leader>"] = { name = "Leader", _ = "which_key_ignore" },
-      ["<leader>?"] = { name = "Help", _ = "which_key_ignore" },
-      ["<leader>d"] = { name = "[D]AP", _ = "which_key_ignore" },
-      ["<leader>f"] = { name = "[F]ind", _ = "which_key_ignore" },
-      ["<leader>fa"] = { name = "[F]ind (w. all files/dirs)", _ = "which_key_ignore" },
-      ["<leader>fh"] = { name = "[F]ind (w. hidden files/dirs)", _ = "which_key_ignore" },
-      ["<leader>g"] = { name = "[G]it", _ = "which_key_ignore" },
-      ["<leader>l"] = { name = "[L]SP", _ = "which_key_ignore" },
-      ["<leader>n"] = { name = "[N]oice", _ = "which_key_ignore" },
-      ["<leader>o"] = { name = "[O]verseer", _ = "which_key_ignore" },
-      ["<leader>t"] = { name = "[T]oggleTerm", _ = "which_key_ignore", mode = { "n", "v" } },
-      ["<leader>x"] = { name = "Trouble", _ = "which_key_ignore" },
+      ["<leader>"] = { name = "Leader", _ = _ },
+      ["<leader>?"] = { name = "Help", _ = _ },
+      ["<leader>d"] = { name = "[D]AP", _ = _ },
+      ["<leader>f"] = { name = "[F]ind", _ = _ },
+      ["<leader>fa"] = { name = "[F]ind (w. all files/dirs)", _ = _ },
+      ["<leader>fh"] = { name = "[F]ind (w. hidden files/dirs)", _ = _ },
+      ["<leader>g"] = { name = "[G]it", _ = _ },
+      ["<leader>l"] = { name = "[L]SP", _ = _ },
+      ["<leader>n"] = { name = "[N]oice", _ = _ },
+      ["<leader>o"] = { name = "[O]verseer", _ = _ },
+      ["<leader>t"] = { name = "[T]oggleTerm", mode = { "n", "v" }, _ = _ },
+      ["<leader>x"] = { name = "Trouble", _ = _ },
     })
   end,
 }
