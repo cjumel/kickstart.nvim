@@ -32,7 +32,7 @@ return {
       ["<leader>f"] = { name = "[F]ind", mode = { "n", "v" }, _ = _ },
       ["<leader>fa"] = { name = "[F]ind (w. all files/dirs)", mode = { "n", "v" }, _ = _ },
       ["<leader>fh"] = { name = "[F]ind (w. hidden files/dirs)", mode = { "n", "v" }, _ = _ },
-      ["<leader>g"] = { name = "[G]it", _ = _ },
+      ["<leader>g"] = { name = "[G]it", mode = { "n", "v" }, _ = _ },
       ["<leader>l"] = { name = "[L]SP", _ = _ },
       ["<leader>n"] = { name = "[N]oice", _ = _ },
       ["<leader>o"] = { name = "[O]verseer", _ = _ },

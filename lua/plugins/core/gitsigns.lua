@@ -49,12 +49,14 @@ return {
       map("n", "<leader>gB", function()
         gs.blame_line({ full = true })
       end, "[G]it: [B]lame line")
-      map("n", "<leader>gL", function()
-        require("telescope.builtin").git_bcommits({ prompt_title = "Git Buffer Log" })
-      end, "[G]it: buffer [L]og")
-      map("v", "<leader>g", function()
-        require("telescope.builtin").git_bcommits_range({ prompt_title = "Git Selection Log" })
-      end, "[G]it: selection log")
+      map({ "n", "v" }, "<leader>gL", function()
+        local mode = vim.api.nvim_get_mode()["mode"]
+        if mode == "v" or mode == "V" then
+          require("telescope.builtin").git_bcommits_range({ prompt_title = "Git Selection Log" })
+        else
+          require("telescope.builtin").git_bcommits({ prompt_title = "Git Buffer Log" })
+        end
+      end, "[G]it: buffer/selection [L]og")
 
       -- Text objects
       map({ "o", "x" }, "ih", ":<C-U>Gitsigns select_hunk<CR>", "inner hunk")
