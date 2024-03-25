@@ -325,6 +325,9 @@ return {
     local actions = require("telescope.actions")
     local actions_generate = require("telescope.actions.generate")
     local layout_actions = require("telescope.actions.layout")
+    local utils = require("telescope.utils")
+
+    local custom_utils = require("utils")
 
     require("telescope").setup({
       defaults = {
@@ -419,18 +422,11 @@ return {
           },
         },
         path_display = function(_, path)
-          -- Apply builtin path display options
-          local path_display_opts = {
-            truncate = 1, -- truncate and leave some space with the border
-          }
-          local transform_path = require("telescope.utils").transform_path
-          path = transform_path({ path_display = path_display_opts }, path)
-
           -- Normalize and shorten the path
-          local utils = require("utils")
-          path = utils.path.normalize(path)
+          path = custom_utils.path.normalize(path)
 
-          return path
+          -- Apply Telescope builtin path display options (must be done after other normalizations)
+          return utils.transform_path({ path_display = { truncate = true } }, path)
         end,
       },
       pickers = {
