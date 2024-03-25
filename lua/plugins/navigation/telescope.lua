@@ -42,7 +42,8 @@ return {
       "<leader>ff",
       function()
         local opts = {
-          find_command = { "fd", "--type", "f", "--color", "never" }, -- Default fd command
+          -- Use fd default command
+          find_command = { "fd", "--type", "f", "--color", "never" },
           preview = { hide_on_startup = true },
           prompt_title = "Find Files",
         }
@@ -57,14 +58,8 @@ return {
       "<leader>fh",
       function()
         local opts = {
-          find_command = { -- Default fd command with hidden files
-            "fd",
-            "--type",
-            "f",
-            "--color",
-            "never",
-            "--hidden",
-          },
+          -- Use fd default command with hidden files
+          find_command = { "fd", "--type", "f", "--color", "never", "--hidden" },
           preview = { hide_on_startup = true },
           prompt_title = "Find Files incl. Hidden",
         }
@@ -79,15 +74,8 @@ return {
       "<leader>fa",
       function()
         local opts = {
-          find_command = { -- Default fd command with hidden & ignored files
-            "fd",
-            "--type",
-            "f",
-            "--color",
-            "never",
-            "--hidden",
-            "--no-ignore",
-          },
+          -- Use fd default command with hidden & ignored files
+          find_command = { "fd", "--type", "f", "--color", "never", "--hidden", "--no-ignore" },
           preview = { hide_on_startup = true },
           prompt_title = "Find All Files",
         }
@@ -118,14 +106,8 @@ return {
       "<leader>fd",
       function()
         local opts = {
-          find_command = { -- Default fd command with directory type & hidden files
-            "fd",
-            "--type",
-            "d",
-            "--color",
-            "never",
-            "--hidden",
-          },
+          -- Use fd default command with directory type & hidden files
+          find_command = { "fd", "--type", "d", "--color", "never", "--hidden" },
         }
         if vim.bo.filetype == "oil" then
           opts.cwd = require("oil").get_current_dir()
@@ -140,15 +122,8 @@ return {
       "<leader>fD",
       function()
         local opts = {
-          find_command = { -- Default fd command with directory type, hidden & ignored files
-            "fd",
-            "--type",
-            "d",
-            "--color",
-            "never",
-            "--hidden",
-            "--no-ignore",
-          },
+          -- Use fd default command with directory type, hidden & ignored files
+          find_command = { "fd", "--type", "d", "--color", "never", "--hidden", "--no-ignore" },
         }
         if vim.bo.filetype == "oil" then
           opts.cwd = require("oil").get_current_dir()
