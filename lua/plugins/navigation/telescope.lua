@@ -42,8 +42,8 @@ return {
       "<leader>ff",
       function()
         local opts = {
-          -- Use fd default command with hidden files
-          find_command = { "fd", "--type", "f", "--color", "never", "--hidden" },
+          -- Use fd default command
+          find_command = { "fd", "--type", "f", "--color", "never" },
           preview = { hide_on_startup = true },
           prompt_title = "Find Files",
         }
@@ -55,20 +55,36 @@ return {
       desc = "[F]ind: [F]iles",
     },
     {
-      "<leader>fF",
+      "<leader>fhf",
       function()
         local opts = {
-          -- Use fd default command with hidden & ignored files
-          find_command = { "fd", "--type", "f", "--color", "never", "--hidden", "--no-ignore" },
+          -- Use fd default command with hidden flag
+          find_command = { "fd", "--type", "f", "--color", "never", "--hidden" },
           preview = { hide_on_startup = true },
-          prompt_title = "Find Files (unrestricted)",
+          prompt_title = "Find Files (w. hidden files)",
         }
         if vim.bo.filetype == "oil" then
           opts.cwd = require("oil").get_current_dir()
         end
         require("telescope.builtin").find_files(opts)
       end,
-      desc = "[F]ind: [F]iles (unrestricted)",
+      desc = "[F]ind: [F]iles (w. hidden files)",
+    },
+    {
+      "<leader>faf",
+      function()
+        local opts = {
+          -- Use fd default command with hidden & no-ignore flags
+          find_command = { "fd", "--type", "f", "--color", "never", "--hidden", "--no-ignore" },
+          preview = { hide_on_startup = true },
+          prompt_title = "Find Files (w. all files)",
+        }
+        if vim.bo.filetype == "oil" then
+          opts.cwd = require("oil").get_current_dir()
+        end
+        require("telescope.builtin").find_files(opts)
+      end,
+      desc = "[F]ind: [F]iles (w. all files)",
     },
     {
       "<leader>fo",
@@ -90,8 +106,8 @@ return {
       "<leader>fd",
       function()
         local opts = {
-          -- Use fd default command with directory type & hidden files
-          find_command = { "fd", "--type", "d", "--color", "never", "--hidden" },
+          -- Use fd default command with directory type
+          find_command = { "fd", "--type", "d", "--color", "never" },
           prompt_title = "Find Directories",
         }
         if vim.bo.filetype == "oil" then
@@ -104,12 +120,12 @@ return {
       desc = "[F]ind: [D]irectories",
     },
     {
-      "<leader>fD",
+      "<leader>fhd",
       function()
         local opts = {
-          -- Use fd default command with directory type, hidden & ignored files
-          find_command = { "fd", "--type", "d", "--color", "never", "--hidden", "--no-ignore" },
-          prompt_title = "Find Directories (unrestricted)",
+          -- Use fd default command with directory type & hidden flag
+          find_command = { "fd", "--type", "d", "--color", "never", "--hidden" },
+          prompt_title = "Find Directories (w. hidden dirs)",
         }
         if vim.bo.filetype == "oil" then
           opts.cwd = require("oil").get_current_dir()
@@ -118,7 +134,24 @@ return {
         opts.previewer = require("telescope.previewers").vim_buffer_cat.new(opts)
         require("telescope.builtin").find_files(opts)
       end,
-      desc = "[F]ind: [D]irectories (unrestricted)",
+      desc = "[F]ind: [D]irectories (w. hidden dirs)",
+    },
+    {
+      "<leader>fad",
+      function()
+        local opts = {
+          -- Use fd default command with directory type, hidden & no-ignore flags
+          find_command = { "fd", "--type", "d", "--color", "never", "--hidden", "--no-ignore" },
+          prompt_title = "Find Directories (w. all dirs)",
+        }
+        if vim.bo.filetype == "oil" then
+          opts.cwd = require("oil").get_current_dir()
+        end
+        -- Use a previwer with colors for directories
+        opts.previewer = require("telescope.previewers").vim_buffer_cat.new(opts)
+        require("telescope.builtin").find_files(opts)
+      end,
+      desc = "[F]ind: [D]irectories (w. all dirs)",
     },
 
     -- Find with grep
@@ -136,18 +169,32 @@ return {
       desc = "[F]ind: by live [G]rep",
     },
     {
-      "<leader>fG",
+      "<leader>fhg",
       function()
         local opts = {
-          additional_args = { "-uu" },
-          prompt_title = "Find by Live Grep (unrestricted)",
+          additional_args = { "--hidden" },
+          prompt_title = "Find by Live Grep (w. hidden files)",
         }
         if vim.bo.filetype == "oil" then
           opts.cwd = require("oil").get_current_dir()
         end
         require("telescope.builtin").live_grep(opts)
       end,
-      desc = "[F]ind: by live [G]rep (unrestricted)",
+      desc = "[F]ind: by live [G]rep (w. hidden files)",
+    },
+    {
+      "<leader>fag",
+      function()
+        local opts = {
+          additional_args = { "--hidden", "--no-ignore" },
+          prompt_title = "Find by Live Grep (w. all files)",
+        }
+        if vim.bo.filetype == "oil" then
+          opts.cwd = require("oil").get_current_dir()
+        end
+        require("telescope.builtin").live_grep(opts)
+      end,
+      desc = "[F]ind: by live [G]rep (w. all files)",
     },
     {
       "<leader>fw",
@@ -158,42 +205,32 @@ return {
         end
         require("telescope.builtin").grep_string(opts)
       end,
+      mode = { "n", "v" },
       desc = "[F]ind: [W]ord",
     },
     {
-      "<leader>f",
+      "<leader>fhw",
       function()
-        local opts = {}
+        local opts = { additional_args = { "--hidden" } }
         if vim.bo.filetype == "oil" then
           opts.cwd = require("oil").get_current_dir()
         end
         require("telescope.builtin").grep_string(opts)
       end,
-      mode = { "v" },
-      desc = "[F]ind word",
+      mode = { "n", "v" },
+      desc = "[F]ind: [W]ord (w. hidden files)",
     },
     {
-      "<leader>fW",
+      "<leader>faw",
       function()
-        local opts = { additional_args = { "-uu" } }
+        local opts = { additional_args = { "--hidden", "--no-ignore" } }
         if vim.bo.filetype == "oil" then
           opts.cwd = require("oil").get_current_dir()
         end
         require("telescope.builtin").grep_string(opts)
       end,
-      desc = "[F]ind: [W]ord (unrestricted)",
-    },
-    {
-      "<leader>F",
-      function()
-        local opts = { additional_args = { "-uu" } }
-        if vim.bo.filetype == "oil" then
-          opts.cwd = require("oil").get_current_dir()
-        end
-        require("telescope.builtin").grep_string(opts)
-      end,
-      mode = { "v" },
-      desc = "[F]ind word (unrestricted)",
+      mode = { "n", "v" },
+      desc = "[F]ind: [W]ord (w. all files)",
     },
 
     -- Vim- or Neovim-related

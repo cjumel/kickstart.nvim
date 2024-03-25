@@ -29,6 +29,8 @@ return {
       ["<leader>?"] = { name = "Help", _ = "which_key_ignore" },
       ["<leader>d"] = { name = "[D]AP", _ = "which_key_ignore" },
       ["<leader>f"] = { name = "[F]ind", _ = "which_key_ignore" },
+      ["<leader>fa"] = { name = "[F]ind (w. all files/dirs)", _ = "which_key_ignore" },
+      ["<leader>fh"] = { name = "[F]ind (w. hidden files/dirs)", _ = "which_key_ignore" },
       ["<leader>g"] = { name = "[G]it", _ = "which_key_ignore" },
       ["<leader>l"] = { name = "[L]SP", _ = "which_key_ignore" },
       ["<leader>n"] = { name = "[N]oice", _ = "which_key_ignore" },
