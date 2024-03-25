@@ -1,8 +1,9 @@
 -- [[ Define additional filetype mappings
 
 local filetypes_by_filename = {
-  [".ideavimrc"] = "vim",
   [".fdignore"] = "conf", -- auto-detected by nvim
+  [".ideavimrc"] = "vim",
+  [".ignore"] = "conf", -- auto-detected by nvim
   [".markdownlintrc"] = "json", -- or ini
   [".prettierignore"] = "conf", -- auto-detected by nvim
   [".prettierrc"] = "yaml", -- or json
@@ -12,6 +13,8 @@ local filetypes_by_filename = {
   [".vimiumrc"] = "vim",
   [".yamlfmt"] = "yaml",
   [".yamllint"] = "yaml",
+  ["ignore"] = "conf", -- auto-detected by nvim
+  ["ripgreprc"] = "conf", -- auto-detected by nvim
 }
 
 return {
