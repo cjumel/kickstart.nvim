@@ -63,14 +63,7 @@ return {
       -- Custom option to automatically install missing Mason packages
       mason_ensure_installed = mason_ensure_installed,
       formatters_by_ft = formatters_by_ft,
-      format_on_save = function(bufnr)
-        -- Disable autoformat on certain filetypes
-        local ignore_filetypes = { "oil" }
-        if vim.tbl_contains(ignore_filetypes, vim.bo[bufnr].filetype) then
-          return
-        end
-
-        -- Disable with a global variable
+      format_on_save = function(_)
         if vim.g.disable_autoformat then
           return
         end
