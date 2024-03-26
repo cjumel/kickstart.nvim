@@ -234,12 +234,20 @@ return {
     require("telescope").setup({
       defaults = {
         default_mappings = {
+
+          -- Insert mode is useful for any complex search, typically the ones that output files
+          -- It is not in cases where Telescope is just used as a user-friendly interface
           i = {
             ["<CR>"] = actions.select_default,
+            ["<C-c>"] = actions.close,
             ["<C-n>"] = actions.move_selection_next,
             ["<C-p>"] = actions.move_selection_previous,
+            ["<C-h>"] = actions.move_to_top, -- Go to highest match
 
-            ["<TAB>"] = layout_actions.toggle_preview,
+            ["<C-]>"] = layout_actions.toggle_preview, -- Actually <C-$> on my keyboard
+
+            ["<C-i>"] = actions.toggle_selection + actions.move_selection_next,
+            ["<C-o>"] = actions.toggle_selection + actions.move_selection_previous,
 
             ["<C-x>"] = actions.select_horizontal,
             ["<C-v>"] = actions.select_vertical,
@@ -259,51 +267,28 @@ return {
               local trouble_actions = require("trouble.providers.telescope")
               trouble_actions.smart_open_with_trouble(prompt_bufnr, _mode)
             end,
-
-            ["<C-c>"] = actions.close,
           },
+
+          -- Normal mode is useful when Telescope is only used as a user-friendly interface or
+          -- when accessing features not implemented in insert mode, like preview scrolling
+          -- or the help
           n = {
             ["<CR>"] = actions.select_default,
-            ["<C-n>"] = actions.move_selection_next,
-            ["<C-p>"] = actions.move_selection_previous,
+            ["<ESC>"] = actions.close,
             ["j"] = actions.move_selection_next,
             ["k"] = actions.move_selection_previous,
             ["G"] = actions.move_to_bottom,
             ["gg"] = actions.move_to_top,
-            ["s"] = actions.toggle_selection + actions.move_selection_next,
-            ["S"] = actions.toggle_selection + actions.move_selection_previous,
 
-            ["<TAB>"] = layout_actions.toggle_preview,
-            ["<C-u>"] = actions.preview_scrolling_up,
-            ["<C-d>"] = actions.preview_scrolling_down,
-            ["<C-f>"] = actions.preview_scrolling_right,
-            ["<C-b>"] = actions.preview_scrolling_left,
-
-            ["<C-x>"] = actions.select_horizontal,
-            ["<C-v>"] = actions.select_vertical,
-
-            -- Define custom actions to open output list with Trouble while keeping it lazy-loaded
-            ["<C-q>"] = function(prompt_bufnr, _mode)
-              local trouble = require("trouble")
-              actions.smart_send_to_qflist(prompt_bufnr, _mode)
-              trouble.open("quickfix")
-            end,
-            ["<C-l>"] = function(prompt_bufnr, _mode)
-              local trouble = require("trouble")
-              actions.smart_send_to_loclist(prompt_bufnr, _mode)
-              trouble.open("loclist")
-            end,
-            ["<C-t>"] = function(prompt_bufnr, _mode)
-              local trouble_actions = require("trouble.providers.telescope")
-              trouble_actions.smart_open_with_trouble(prompt_bufnr, _mode)
-            end,
+            ["p"] = layout_actions.toggle_preview,
+            ["u"] = actions.preview_scrolling_up,
+            ["d"] = actions.preview_scrolling_down,
+            ["f"] = actions.preview_scrolling_right,
+            ["b"] = actions.preview_scrolling_left,
 
             ["?"] = actions_generate.which_key({
               only_show_current_mode = false,
             }),
-
-            ["<C-c>"] = actions.close,
-            ["<ESC>"] = actions.close,
           },
         },
         -- Exclude some directories in all searches, even when hidden & ignored files are included
@@ -451,17 +436,6 @@ return {
                 actions.close(prompt_bufnr)
                 builtin.grep_string(opts)
               end,
-            },
-          },
-        },
-        -- Override the <tab> key in git_status for the preview instead of staging the file
-        git_status = {
-          mappings = {
-            i = {
-              ["<tab>"] = layout_actions.toggle_preview,
-            },
-            n = {
-              ["<tab>"] = layout_actions.toggle_preview,
             },
           },
         },
