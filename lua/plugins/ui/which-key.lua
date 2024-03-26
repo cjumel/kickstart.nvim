@@ -36,7 +36,7 @@ return {
       ["<leader>l"] = { name = "[L]SP", _ = _ },
       ["<leader>n"] = { name = "[N]oice", _ = _ },
       ["<leader>o"] = { name = "[O]verseer", _ = _ },
-      ["<leader>t"] = { name = "[T]oggleTerm", mode = { "n", "v" }, _ = _ },
+      ["<leader>t"] = { name = "[T]erm", mode = { "n", "v" }, _ = _ },
       ["<leader>x"] = { name = "Trouble", _ = _ },
     })
   end,

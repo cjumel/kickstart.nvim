@@ -114,24 +114,24 @@ return {
       function()
         require("toggleterm").toggle_all()
       end,
-      desc = "[T]oggleTerm: [T]oggle",
+      desc = "[T]erm: toggle",
     },
     {
       "<leader>tn",
       function()
         require("toggleterm").toggle(next_id(), nil, nil, "horizontal")
       end,
-      desc = "[T]oggleTerm: [N]ew terminal",
+      desc = "[T]erm: [N]ew term",
     },
     {
       "<leader>tv",
       function()
         require("toggleterm").toggle(next_id(), nil, nil, "vertical")
       end,
-      desc = "[T]oggleTerm: new terminal in [V]ertical split",
+      desc = "[T]erm: new term in [V]split",
     },
     {
-      "<leader>ti",
+      "<leader>ts",
       function()
         local opts = {}
         if vim.fn.mode() ~= "n" then
@@ -141,10 +141,10 @@ return {
         send_lines_to_terminal(opts, { args = vim.v.count })
       end,
       mode = { "n", "v" },
-      desc = "[T]oggleTerm: send [I]ndented line/selection",
+      desc = "[T]erm: [S]end line/selection",
     },
     {
-      "<leader>tu",
+      "<leader>td",
       function()
         local opts = { trim_spaces = true }
         if vim.fn.mode() ~= "n" then
@@ -154,7 +154,7 @@ return {
         send_lines_to_terminal(opts, { args = vim.v.count })
       end,
       mode = { "n", "v" },
-      desc = "[T]oggleTerm: send [U]nindented line/selection",
+      desc = "[T]erm: send [D]eindented line/selection",
     },
   },
   opts = {
