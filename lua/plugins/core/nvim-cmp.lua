@@ -35,7 +35,20 @@ return {
       mapping = {
         -- By default, mappings are in insert mode
         -- Using `cmp.mapping(..., { "i", "c" })` makes them available in command mode for instance
-        ["<CR>"] = cmp.mapping(cmp.mapping.confirm(), { "i", "c" }),
+        ["<CR>"] = cmp.mapping(
+          cmp.mapping.confirm({
+            -- Don't automatically select an item when confirming
+            -- This is really annoying in command mode (requires to press enter twice to enter a
+            -- command), & I simply prefer not to use it in insert mode as well, to only trigger
+            -- completion willingly
+            select = false,
+            -- If a completion is inserted in the middle of a word, replace the whole word with it
+            -- This causes the need to enter a white space before a word when we want to insert a
+            -- completion before it, but it's convenient to directly update a word with a completion
+            behavior = cmp.ConfirmBehavior.Replace,
+          }),
+          { "i", "c" }
+        ),
         ["<C-n>"] = cmp.mapping(function()
           if cmp.visible() then
             cmp.select_next_item()
