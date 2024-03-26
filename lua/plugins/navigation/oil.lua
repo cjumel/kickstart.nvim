@@ -37,7 +37,7 @@ return {
       ["?"] = "actions.show_help",
       -- Custom actions
       -- Overwrite the default preview action to open the preview window on the right hand side
-      ["<tab>"] = {
+      ["<C-]>"] = { -- Actually <C-]> on my keyboard
         desc = "Open the entry under the cursor in a preview window, or close the preview window if already open",
         callback = function()
           local oil = require("oil")
