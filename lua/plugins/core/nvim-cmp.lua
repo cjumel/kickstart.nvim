@@ -22,21 +22,6 @@ return {
   config = function()
     local cmp = require("cmp")
 
-    local select_next_item_or_complete = function()
-      if cmp.visible() then
-        cmp.select_next_item()
-      else
-        cmp.complete()
-      end
-    end
-    local select_prev_item_or_complete = function()
-      if cmp.visible() then
-        cmp.select_prev_item()
-      else
-        cmp.complete()
-      end
-    end
-
     cmp.setup({
       snippet = {
         expand = function(args)
@@ -47,11 +32,25 @@ return {
         completion = cmp.config.window.bordered(),
         documentation = cmp.config.window.bordered(),
       },
-      mapping = { -- By default, mappings are in insert mode
-        ["<CR>"] = cmp.mapping.confirm(),
-        ["<C-n>"] = select_next_item_or_complete,
-        ["<C-p>"] = select_prev_item_or_complete,
-        ["<C-c>"] = cmp.mapping.abort(),
+      mapping = {
+        -- By default, mappings are in insert mode
+        -- Using `cmp.mapping(..., { "i", "c" })` makes them available in command mode for instance
+        ["<CR>"] = cmp.mapping(cmp.mapping.confirm(), { "i", "c" }),
+        ["<C-n>"] = cmp.mapping(function()
+          if cmp.visible() then
+            cmp.select_next_item()
+          else
+            cmp.complete()
+          end
+        end, { "i", "c" }),
+        ["<C-p>"] = cmp.mapping(function()
+          if cmp.visible() then
+            cmp.select_prev_item()
+          else
+            cmp.complete()
+          end
+        end, { "i", "c" }),
+        ["<C-c>"] = cmp.mapping(cmp.mapping.abort(), { "i", "c" }),
         ["<C-d>"] = cmp.mapping.scroll_docs(5),
         ["<C-u>"] = cmp.mapping.scroll_docs(-5),
       },
@@ -91,25 +90,11 @@ return {
     })
 
     -- Set configuration for command line
-    local cmdline_mapping = { -- "c =" means command line mode
-      ["<CR>"] = { c = cmp.mapping.confirm() },
-      ["<C-n>"] = { c = select_next_item_or_complete },
-      ["<C-p>"] = { c = select_prev_item_or_complete },
-      ["<C-c>"] = { c = cmp.mapping.abort() },
-    }
     cmp.setup.cmdline({ "/", "?" }, {
-      mapping = cmdline_mapping,
-      sources = {
-        { name = "buffer" },
-      },
+      sources = { { name = "buffer" } },
     })
     cmp.setup.cmdline(":", {
-      mapping = cmdline_mapping,
-      sources = cmp.config.sources({
-        { name = "path" },
-      }, {
-        { name = "cmdline" },
-      }),
+      sources = cmp.config.sources({ { name = "path" } }, { { name = "cmdline" } }),
     })
 
     -- Insert brackets & place the cursor between them when selecting a function or method item
