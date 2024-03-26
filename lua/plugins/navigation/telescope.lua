@@ -108,6 +108,7 @@ return {
         local opts = {
           -- Use fd default command with directory type
           find_command = { "fd", "--type", "d", "--color", "never" },
+          preview = { hide_on_startup = true },
           prompt_title = "Find Directories",
         }
         if vim.bo.filetype == "oil" then
@@ -125,6 +126,7 @@ return {
         local opts = {
           -- Use fd default command with directory type & hidden flag
           find_command = { "fd", "--type", "d", "--color", "never", "--hidden" },
+          preview = { hide_on_startup = true },
           prompt_title = "Find Directories (w. hidden dirs)",
         }
         if vim.bo.filetype == "oil" then
@@ -142,6 +144,7 @@ return {
         local opts = {
           -- Use fd default command with directory type, hidden & no-ignore flags
           find_command = { "fd", "--type", "d", "--color", "never", "--hidden", "--no-ignore" },
+          preview = { hide_on_startup = true },
           prompt_title = "Find Directories (w. all dirs)",
         }
         if vim.bo.filetype == "oil" then
