@@ -26,30 +26,32 @@ return {
       desc = "[F]ind: [U]ndo tree",
     },
   },
-  config = function()
-    local telescope = require("telescope")
-    local undo_actions = require("telescope-undo.actions")
-
-    telescope.setup({
-      extensions = {
-        undo = {
-          diff_context_lines = 5,
-          mappings = {
-            i = {
-              ["<CR>"] = undo_actions.restore,
-              ["<C-a>"] = undo_actions.yank_additions,
-              ["<C-d>"] = undo_actions.yank_deletions,
-            },
-            n = {
-              ["<CR>"] = undo_actions.restore,
-              ["<C-a>"] = undo_actions.yank_additions,
-              ["<C-d>"] = undo_actions.yank_deletions,
-            },
-          },
-        },
+  opts = {
+    diff_context_lines = 5,
+    mappings = {
+      i = { -- Let's not overwrite potentially useful keymaps like <C-a>, <C-d>, <C-r> or <C-u>
+        ["<CR>"] = function(bufnr)
+          require("telescope-undo.actions").yank_additions(bufnr)
+        end,
+        ["<C-y>"] = function(bufnr)
+          require("telescope-undo.actions").yank_deletions(bufnr)
+        end,
+        -- Disable default keymaps
+        ["<S-cr>"] = false,
+        ["<C-cr>"] = false,
+        ["<C-r>"] = false,
       },
-    })
+      n = { -- Let's just disable default keymaps as I simply don't use this mode
+        ["y"] = false,
+        ["Y"] = false,
+        ["u"] = false,
+      },
+    },
+  },
+  config = function(_, opts)
+    local telescope = require("telescope")
 
+    telescope.setup({ extensions = { undo = opts } })
     telescope.load_extension("undo")
   end,
 }
