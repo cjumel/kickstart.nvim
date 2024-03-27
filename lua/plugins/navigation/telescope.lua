@@ -251,7 +251,6 @@ return {
   },
   config = function()
     local actions = require("telescope.actions")
-    local actions_generate = require("telescope.actions.generate")
     local action_state = require("telescope.actions.state")
     local builtin = require("telescope.builtin")
     local layout_actions = require("telescope.actions.layout")
@@ -266,61 +265,68 @@ return {
       defaults = {
         default_mappings = {
 
-          -- Insert mode is useful for any complex search, typically the ones that output files
-          -- It is not in cases where Telescope is just used as a user-friendly interface
           i = {
+            -- General actions (shared between both modes)
             ["<CR>"] = actions.select_default,
-            ["<C-c>"] = actions.close,
-            ["<C-d>"] = actions.close,
             ["<C-n>"] = actions.move_selection_next,
             ["<C-p>"] = actions.move_selection_previous,
-            ["<C-h>"] = actions.move_to_top, -- Go to highest match
+            ["<C-c>"] = actions.close,
+            ["<C-d>"] = actions.close, -- More convenient way to directly exit Telescope
 
+            -- Preview actions (shared between both modes)
             ["<C-]>"] = layout_actions.toggle_preview, -- Actually <C-$> on my keyboard
+            ["<C-h>"] = actions.preview_scrolling_left,
+            ["<C-j>"] = actions.preview_scrolling_down,
+            ["<C-k>"] = actions.preview_scrolling_up,
+            ["<C-l>"] = actions.preview_scrolling_right,
 
-            ["<C-i>"] = actions.toggle_selection + actions.move_selection_next,
-            ["<C-o>"] = actions.toggle_selection + actions.move_selection_previous,
-
+            -- Insert mode specific actions
+            ["<C-g>"] = actions.move_to_top, -- Go to top
+            ["<C-w>"] = actions.which_key,
             ["<C-x>"] = actions.select_horizontal,
             ["<C-v>"] = actions.select_vertical,
-
-            -- Define custom actions to open output list with Trouble while keeping it lazy-loaded
-            ["<C-q>"] = function(prompt_bufnr, _mode)
-              local trouble = require("trouble")
-              actions.smart_send_to_qflist(prompt_bufnr, _mode)
-              trouble.open("quickfix")
-            end,
-            ["<C-l>"] = function(prompt_bufnr, _mode)
-              local trouble = require("trouble")
-              actions.smart_send_to_loclist(prompt_bufnr, _mode)
-              trouble.open("loclist")
-            end,
-            ["<C-t>"] = function(prompt_bufnr, _mode)
-              local trouble_actions = require("trouble.providers.telescope")
-              trouble_actions.smart_open_with_trouble(prompt_bufnr, _mode)
-            end,
           },
 
-          -- Normal mode is useful when Telescope is only used as a user-friendly interface or
-          -- when accessing features not implemented in insert mode, like preview scrolling
-          -- or the help
           n = {
+            -- General actions (shared between both modes)
             ["<CR>"] = actions.select_default,
-            ["<ESC>"] = actions.close,
+            ["<C-n>"] = actions.move_selection_next,
+            ["<C-p>"] = actions.move_selection_previous,
+            ["<C-c>"] = actions.close,
+            ["<C-d>"] = actions.close, -- More convenient way to directly exit Telescope
+
+            -- Preview actions (shared between both modes)
+            ["<C-]>"] = layout_actions.toggle_preview, -- Actually <C-$> on my keyboard
+            ["<C-h>"] = actions.preview_scrolling_left,
+            ["<C-j>"] = actions.preview_scrolling_down,
+            ["<C-k>"] = actions.preview_scrolling_up,
+            ["<C-l>"] = actions.preview_scrolling_right,
+
+            -- Normal mode specific actions
             ["j"] = actions.move_selection_next,
             ["k"] = actions.move_selection_previous,
             ["G"] = actions.move_to_bottom,
             ["gg"] = actions.move_to_top,
+            ["<ESC>"] = actions.close,
+            ["?"] = actions.which_key,
 
-            ["p"] = layout_actions.toggle_preview,
-            ["u"] = actions.preview_scrolling_up,
-            ["d"] = actions.preview_scrolling_down,
-            ["f"] = actions.preview_scrolling_right,
-            ["b"] = actions.preview_scrolling_left,
-
-            ["?"] = actions_generate.which_key({
-              only_show_current_mode = false,
-            }),
+            -- Selection-related actions
+            ["s"] = actions.toggle_selection + actions.move_selection_next,
+            ["S"] = actions.toggle_selection + actions.move_selection_previous,
+            ["Q"] = function(prompt_bufnr, _mode)
+              local trouble = require("trouble") -- Lazy loaded thanks to function wrapping
+              actions.smart_send_to_qflist(prompt_bufnr, _mode)
+              trouble.open("quickfix")
+            end,
+            ["L"] = function(prompt_bufnr, _mode)
+              local trouble = require("trouble") -- Lazy loaded thanks to function wrapping
+              actions.smart_send_to_loclist(prompt_bufnr, _mode)
+              trouble.open("loclist")
+            end,
+            ["T"] = function(prompt_bufnr, _mode)
+              local trouble_actions = require("trouble.providers.telescope")
+              trouble_actions.smart_open_with_trouble(prompt_bufnr, _mode)
+            end,
           },
         },
         -- Exclude some directories in all searches, even when hidden & ignored files are included
