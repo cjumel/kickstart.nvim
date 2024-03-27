@@ -240,6 +240,7 @@ return {
           i = {
             ["<CR>"] = actions.select_default,
             ["<C-c>"] = actions.close,
+            ["<C-d>"] = actions.close,
             ["<C-n>"] = actions.move_selection_next,
             ["<C-p>"] = actions.move_selection_previous,
             ["<C-h>"] = actions.move_to_top, -- Go to highest match

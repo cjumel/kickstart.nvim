@@ -128,6 +128,10 @@ vim.keymap.set(
 vim.keymap.set({ "i", "c" }, "<C-e>", "<End>", { desc = "Move cursor to end of line" })
 vim.keymap.set({ "i", "c" }, "<C-a>", "<Home>", { desc = "Move cursor to beginning of line" })
 
+-- Use <C-d> in cmdline mode to exit it like in the shell
+-- In insert mode, the builtin <C-d> deindents the line so let's not override it
+vim.keymap.set("c", "<C-d>", "<Esc>", { desc = "Exit cmdline" })
+
 -- [[ Terminal emulator keymaps ]]
 -- Keymaps for Terminal mode, when in builtin terminal emulator or in ToggleTerm
 
