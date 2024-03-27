@@ -28,7 +28,22 @@ return {
 
         telescope.extensions.neoclip.default(opts)
       end,
-      desc = "[Y]ank history",
+      desc = "[Y]ank history: open",
+    },
+    {
+      "<leader>Y",
+      function()
+        local neoclip = require("neoclip")
+
+        if neoclip.stopped then
+          neoclip.start()
+          vim.notify("Yank history resumed")
+        else
+          neoclip.stop()
+          vim.notify("Yank history stopped")
+        end
+      end,
+      desc = "[Y]ank history: toggle",
     },
   },
   opts = {
@@ -74,7 +89,7 @@ return {
           paste = "p",
           paste_behind = "P",
           replay = false,
-          delete = false,
+          delete = "d",
           edit = "e",
         },
       },
