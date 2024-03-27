@@ -41,6 +41,11 @@ return {
     {
       "<leader>ff",
       function()
+        local builtin = require("telescope.builtin")
+        local oil = require("oil")
+
+        local custom_utils = require("utils")
+
         local opts = {
           -- Use fd default command
           find_command = { "fd", "--type", "f", "--color", "never" },
@@ -48,14 +53,18 @@ return {
           prompt_title = "Find Files",
         }
         if vim.bo.filetype == "oil" then
-          opts.cwd = require("oil").get_current_dir()
+          opts.cwd = oil.get_current_dir()
+        end
+        if custom_utils.visual.is_visual_mode() then
+          opts.default_text = custom_utils.visual.get_text()
         end
 
         -- Hacky trick to be able to live-change the current picker
         vim.g.telescope_find_files_opts = opts
 
-        require("telescope.builtin").find_files(opts)
+        builtin.find_files(opts)
       end,
+      mode = { "n", "v" },
       desc = "[F]ind: [F]iles",
     },
     {
@@ -75,6 +84,12 @@ return {
     {
       "<leader>fd",
       function()
+        local builtin = require("telescope.builtin")
+        local oil = require("oil")
+        local previewers = require("telescope.previewers")
+
+        local custom_utils = require("utils")
+
         local opts = {
           -- Use fd default command with directory type
           find_command = { "fd", "--type", "d", "--color", "never" },
@@ -82,7 +97,10 @@ return {
           prompt_title = "Find Directories",
         }
         if vim.bo.filetype == "oil" then
-          opts.cwd = require("oil").get_current_dir()
+          opts.cwd = oil.get_current_dir()
+        end
+        if custom_utils.visual.is_visual_mode() then
+          opts.default_text = custom_utils.visual.get_text()
         end
 
         -- Hacky trick to be able to live-change the current picker
@@ -91,46 +109,38 @@ return {
         -- Use a previwer with colors for directories
         -- This must be done after saving the options in the global variable as the previewer
         -- option can't be saved (it causes an error when re-creating the picker)
-        opts.previewer = require("telescope.previewers").vim_buffer_cat.new(opts)
+        opts.previewer = previewers.vim_buffer_cat.new(opts)
 
-        require("telescope.builtin").find_files(opts)
+        builtin.find_files(opts)
       end,
+      mode = { "n", "v" },
       desc = "[F]ind: [D]irectories",
     },
     {
       "<leader>fg",
       function()
+        local builtin = require("telescope.builtin")
+        local oil = require("oil")
+
+        local custom_utils = require("utils")
+
         local opts = {
-          prompt_title = "Find by Live Grep",
+          prompt_title = "Find by Grep",
         }
         if vim.bo.filetype == "oil" then
-          opts.cwd = require("oil").get_current_dir()
+          opts.cwd = oil.get_current_dir()
+        end
+        if custom_utils.visual.is_visual_mode() then
+          opts.default_text = custom_utils.visual.get_text()
         end
 
         -- Hacky trick to be able to live-change the current picker
         vim.g.telescope_live_grep_opts = opts
 
-        require("telescope.builtin").live_grep(opts)
+        builtin.live_grep(opts)
       end,
-      desc = "[F]ind: by live [G]rep",
-    },
-    {
-      -- With the live search change implementation, the visual mode feature is not supported for
-      -- In practice, I don't use it much so I don't mind, and to work around it, one can yank the
-      -- target text and paste it in the prompt with <C-r>
-      "<leader>fw",
-      function()
-        local opts = {}
-        if vim.bo.filetype == "oil" then
-          opts.cwd = require("oil").get_current_dir()
-        end
-
-        -- Hacky trick to be able to live-change the current picker
-        vim.g.telescope_grep_string_opts = opts
-
-        require("telescope.builtin").grep_string(opts)
-      end,
-      desc = "[F]ind: [W]ord",
+      mode = { "n", "v" },
+      desc = "[F]ind: by [G]rep",
     },
 
     -- Vim- or Neovim-related
@@ -225,6 +235,7 @@ return {
     local action_state = require("telescope.actions.state")
     local builtin = require("telescope.builtin")
     local layout_actions = require("telescope.actions.layout")
+    local previewers = require("telescope.previewers")
     local utils = require("telescope.utils")
 
     local custom_utils = require("utils")
@@ -318,9 +329,9 @@ return {
         end,
       },
       pickers = {
-        -- Implement live-change of pickers for `find_files`, `live_grep` and `grep_string`, to be
-        -- able to search in hidden & ignored files & directories with <C-^> and <C-_>, and revert
-        -- back to the default behavior with <C-z>
+        -- Implement live-change of pickers for `find_files` & `live_grep`, to be able to search
+        -- in hidden & ignored files & directories with <C-^> and <C-_>, and revert back to the
+        -- default behavior with <C-z>
         find_files = {
           mappings = {
             i = {
@@ -329,7 +340,7 @@ return {
 
                 local opts = vim.g.telescope_find_files_opts
                 if opts.prompt_title == "Find Directories" then
-                  opts.previewer = require("telescope.previewers").vim_buffer_cat.new(opts)
+                  opts.previewer = previewers.vim_buffer_cat.new(opts)
                 end
                 opts.default_text = current_picker:_get_prompt()
 
@@ -341,7 +352,7 @@ return {
 
                 local opts = vim.g.telescope_find_files_opts
                 if opts.prompt_title == "Find Directories" then
-                  opts.previewer = require("telescope.previewers").vim_buffer_cat.new(opts)
+                  opts.previewer = previewers.vim_buffer_cat.new(opts)
                 end
                 opts.find_command = concat_arrays({ opts.find_command, { "--hidden" } })
                 opts.prompt_title = opts.prompt_title .. " (include hidden)"
@@ -355,7 +366,7 @@ return {
 
                 local opts = vim.g.telescope_find_files_opts
                 if opts.prompt_title == "Find Directories" then
-                  opts.previewer = require("telescope.previewers").vim_buffer_cat.new(opts)
+                  opts.previewer = previewers.vim_buffer_cat.new(opts)
                 end
                 opts.find_command =
                   concat_arrays({ opts.find_command, { "--hidden", "--no-ignore" } })
@@ -401,41 +412,6 @@ return {
 
                 actions.close(prompt_bufnr)
                 builtin.live_grep(opts)
-              end,
-            },
-          },
-        },
-        grep_string = {
-          mappings = {
-            i = {
-              ["<C-z>"] = function(prompt_bufnr, _)
-                local current_picker = action_state.get_current_picker(prompt_bufnr)
-
-                local opts = vim.g.telescope_grep_string_opts
-                opts.default_text = current_picker:_get_prompt()
-
-                actions.close(prompt_bufnr)
-                builtin.grep_string(opts)
-              end,
-              ["<C-^>"] = function(prompt_bufnr, _)
-                local current_picker = action_state.get_current_picker(prompt_bufnr)
-
-                local opts = vim.g.telescope_grep_string_opts
-                opts.additional_args = { "--hidden" }
-                opts.default_text = current_picker:_get_prompt()
-
-                actions.close(prompt_bufnr)
-                builtin.grep_string(opts)
-              end,
-              ["<C-_>"] = function(prompt_bufnr, _)
-                local current_picker = action_state.get_current_picker(prompt_bufnr)
-
-                local opts = vim.g.telescope_grep_string_opts
-                opts.additional_args = { "--hidden", "--no-ignore" }
-                opts.default_text = current_picker:_get_prompt()
-
-                actions.close(prompt_bufnr)
-                builtin.grep_string(opts)
               end,
             },
           },

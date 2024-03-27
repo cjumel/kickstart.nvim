@@ -29,7 +29,7 @@ return {
       ["<leader>"] = { name = "Leader", _ = _ },
       ["<leader>?"] = { name = "Help", _ = _ },
       ["<leader>d"] = { name = "[D]AP", _ = _ },
-      ["<leader>f"] = { name = "[F]ind", _ = _ },
+      ["<leader>f"] = { name = "[F]ind", mode = { "n", "v" }, _ = _ },
       ["<leader>g"] = { name = "[G]it", mode = { "n", "v" }, _ = _ },
       ["<leader>l"] = { name = "[L]SP", _ = _ },
       ["<leader>n"] = { name = "[N]oice", _ = _ },
