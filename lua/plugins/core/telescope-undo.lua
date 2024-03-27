@@ -11,8 +11,18 @@ return {
     {
       "<leader>fu",
       function()
-        require("telescope").extensions.undo.undo()
+        local telescope = require("telescope")
+
+        local custom_utils = require("utils")
+
+        local opts = {}
+        if custom_utils.visual.is_visual_mode() then
+          opts.default_text = custom_utils.visual.get_text()
+        end
+
+        telescope.extensions.undo.undo(opts)
       end,
+      mode = { "n", "v" },
       desc = "[F]ind: [U]ndo tree",
     },
   },

@@ -32,8 +32,18 @@ return {
     {
       "<leader>s",
       function()
-        require("telescope.builtin").current_buffer_fuzzy_find()
+        local builtin = require("telescope.builtin")
+
+        local custom_utils = require("utils")
+
+        local opts = {}
+        if custom_utils.visual.is_visual_mode() then
+          opts.default_text = custom_utils.visual.get_text()
+        end
+
+        builtin.current_buffer_fuzzy_find(opts)
       end,
+      mode = { "n", "v" },
       desc = "[S]earch fuzzily in buffer",
     },
 
@@ -70,15 +80,25 @@ return {
     {
       "<leader>fo",
       function()
-        require("telescope.builtin").oldfiles({
+        local builtin = require("telescope.builtin")
+
+        local custom_utils = require("utils")
+
+        local opts = {
           preview = { hide_on_startup = true },
           -- Keep entries sorted by recency when typing the prompt
           tiebreak = function(current_entry, existing_entry, _)
             return current_entry.index < existing_entry.index
           end,
           prompt_title = "Find Old Files",
-        })
+        }
+        if custom_utils.visual.is_visual_mode() then
+          opts.default_text = custom_utils.visual.get_text()
+        end
+
+        builtin.oldfiles(opts)
       end,
+      mode = { "n", "v" },
       desc = "[F]ind: [O]ld files",
     },
     {
