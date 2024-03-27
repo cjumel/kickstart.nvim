@@ -7,7 +7,7 @@ return {
   keys = {
     { "<C-w>", desc = "Window manager" },
     { "<leader>,", desc = "Option manager" },
-    { "<leader>h", desc = "Hunk manager" },
+    { "<leader>h", desc = "[H]unk manager" },
   },
   opts = {
     invoke_on_body = true,
