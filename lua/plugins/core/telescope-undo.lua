@@ -31,10 +31,10 @@ return {
     mappings = {
       i = { -- Let's not overwrite potentially useful keymaps like <C-a>, <C-d>, <C-r> or <C-u>
         ["<CR>"] = function(bufnr)
-          require("telescope-undo.actions").yank_additions(bufnr)
+          return require("telescope-undo.actions").yank_additions(bufnr)
         end,
         ["<C-y>"] = function(bufnr)
-          require("telescope-undo.actions").yank_deletions(bufnr)
+          return require("telescope-undo.actions").yank_deletions(bufnr)
         end,
         -- Disable default keymaps
         ["<S-cr>"] = false,
