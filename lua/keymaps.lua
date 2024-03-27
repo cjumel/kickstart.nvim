@@ -87,7 +87,7 @@ vim.keymap.set({ "n", "v" }, "Q", "@q", { desc = "Default macro register" })
 -- same line (<C-o> skips this jump), and when pressing it again, it jumps back to the original
 -- position (<C-o> jumps further back in the jump list)
 vim.keymap.set({ "n", "v" }, "`", "``", { desc = "Jump back to last cursor position" })
-vim.keymap.set("i", "<C-r>", '<C-r>"', { desc = "Paste from default register" })
+vim.keymap.set({ "i", "c" }, "<C-r>", '<C-r>"', { desc = "Paste from default register" })
 
 vim.keymap.set("n", "<leader>v", vim.diagnostic.open_float, { desc = "[V]iew diagnostic" })
 
