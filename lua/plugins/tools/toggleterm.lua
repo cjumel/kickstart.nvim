@@ -104,6 +104,7 @@ end
 return {
   "akinsho/toggleterm.nvim",
   cmd = {
+    "ToggleTermLuajit",
     "ToggleTermPython",
     "ToggleTermPoetryPython",
     "ToggleTermIPython",
@@ -171,6 +172,10 @@ return {
   },
   config = function(_, opts)
     require("toggleterm").setup(opts)
+
+    vim.api.nvim_create_user_command("ToggleTermLuajit", function()
+      vim.cmd("TermExec cmd='luajit'")
+    end, { desc = "Launch a LuaJIT console in ToggleTerm" })
 
     -- Start a Python console without any virtual environment (even if one is activated when
     -- starting Neovim)
