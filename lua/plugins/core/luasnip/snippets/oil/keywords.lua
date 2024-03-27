@@ -45,4 +45,6 @@ return {
       t("temp.py"),
     }),
   }),
+  s({ trig = "sh file", show_condition = is_in_empty_line }, { i(1, "name"), t(".sh") }),
+  s({ trig = "zsh file", show_condition = is_in_empty_line }, { i(1, "name"), t(".zsh") }),
 }
