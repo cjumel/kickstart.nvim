@@ -10,6 +10,7 @@ local show_conds = require("luasnip.extras.conditions.show")
 local c = ls.choice_node
 local i = ls.insert_node
 local s = ls.snippet
+local sn = ls.snippet_node
 local t = ls.text_node
 
 local is_in_code = custom_conds.ts.is_in_code
@@ -23,10 +24,18 @@ return {
 
   -- Local
   s({ trig = "local .. = ..", show_condition = is_in_code_empty_line }, {
-    t("local "),
-    i(1),
-    t(" = "),
-    c(2, { i(2), t("{}"), t("nil"), t("false"), t("true") }),
+    c(1, {
+      sn(nil, {
+        t("local "),
+        i(1),
+        t(" = "),
+        c(2, { i(2), t("{}"), t("nil"), t("false"), t("true") }),
+      }),
+      sn(nil, {
+        t("local "),
+        i(1),
+      }),
+    }),
   }),
 
   -- Function
