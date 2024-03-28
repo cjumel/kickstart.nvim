@@ -30,21 +30,6 @@ return {
       end,
       desc = "[Y]ank history: open",
     },
-    {
-      "<leader>Y",
-      function()
-        local neoclip = require("neoclip")
-
-        if neoclip.stopped then
-          neoclip.start()
-          vim.notify("Yank history resumed")
-        else
-          neoclip.stop()
-          vim.notify("Yank history stopped")
-        end
-      end,
-      desc = "[Y]ank history: toggle",
-    },
   },
   opts = {
     enable_persistent_history = true,
