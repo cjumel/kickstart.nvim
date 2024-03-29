@@ -6,23 +6,22 @@ return {
   "folke/which-key.nvim",
   event = "VeryLazy",
   opts = {
-    plugins = {
-      registers = false, -- I don't use them and sometimes trigger them by mistake
-    },
-    operators = { -- Trigger which key when an operator is called
+    operators = { -- Add non-native operators that will trigger motion and text object completion
       gc = "Comments",
       ys = "Surround",
     },
     window = {
-      border = "rounded", -- Adding a border is lot better for transparent background
+      border = "rounded", -- Improve visibility with transparent background
     },
   },
   config = function(_, opts)
-    require("which-key").setup(opts)
+    local which_key = require("which-key")
+
+    which_key.setup(opts)
 
     -- document existing key chains
     local _ = "which_key_ignore"
-    require("which-key").register({
+    which_key.register({
       ["["] = { name = "Next", _ = _ },
       ["]"] = { name = "Previous", _ = _ },
 
