@@ -102,5 +102,13 @@ return {
       mode = { "x", "o" },
       desc = "inner key-value pair key",
     },
+    {
+      "u",
+      function()
+        require("various-textobjs").url()
+      end,
+      mode = { "x", "o" },
+      desc = "URL",
+    },
   },
 }
