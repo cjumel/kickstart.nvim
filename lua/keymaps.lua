@@ -67,18 +67,9 @@ vim.keymap.set(
   { desc = "Dismiss messages & floating windows" }
 )
 
-vim.keymap.set(
-  "v",
-  "<C-i>", -- or <Tab>
-  ">gv",
-  { desc = "Indent selection" }
-)
-vim.keymap.set(
-  "v",
-  "<C-o>", -- because it's next to <C-i> & does nothing in visual mode
-  "<gv",
-  { desc = "Unindent selection" }
-)
+-- Naturally use <C-i> (or <Tab>), & <C-o> because it's next to <C-i> & does nothing in visual mode
+vim.keymap.set("v", "<C-i>", ">gv", { desc = "Indent selection" })
+vim.keymap.set("v", "<C-o>", "<gv", { desc = "Unindent selection" })
 
 -- Shortcuts for quicker access to some of the main registers
 -- "+" register is only used for yanking (pasting from it can be done with Cmd-v)
