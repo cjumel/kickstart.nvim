@@ -57,9 +57,42 @@ return {
         end
       end, "[G]it: buffer/selection [L]og")
 
-      -- Text objects
-      map({ "o", "x" }, "ih", ":<C-U>Gitsigns select_hunk<CR>", "inner hunk")
-      map({ "o", "x" }, "ah", ":<C-U>Gitsigns select_hunk<CR>", "a hunk")
+      -- Text object with custom look ahead feature
+      local gs_cache = require("gitsigns.cache")
+      local Hunks = require("gitsigns.hunks")
+
+      local api = vim.api
+      local cache = gs_cache.cache
+
+      --- Get the hunk under the cursor or nil if there is none.
+      --- Function is directly adapted from `gitsigns.actions`.
+      --- @return Gitsigns.Hunk.Hunk? hunk
+      --- @return integer? index
+      local function get_cursor_hunk()
+        if not cache[bufnr] then
+          return
+        end
+        local hunks = {}
+        vim.list_extend(hunks, cache[bufnr].hunks or {})
+        vim.list_extend(hunks, cache[bufnr].hunks_staged or {})
+
+        local lnum = api.nvim_win_get_cursor(0)[1]
+        return Hunks.find_hunk(lnum, hunks)
+      end
+
+      local function select_hunk()
+        -- Adapt the "<C-U>" from the original command ":<C-U>Gitsigns select_hunk<CR>"
+        -- Taken from https://github.com/neovim/neovim/discussions/24055
+        vim.cmd('execute "normal \\<ESC>"')
+
+        if get_cursor_hunk() == nil then
+          gs.next_hunk({ wrap = false, navigation_message = false })
+        end
+
+        gs.select_hunk()
+      end
+
+      map({ "x", "o" }, "gh", select_hunk, "Hunk")
     end,
   },
 }
