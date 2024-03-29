@@ -23,7 +23,7 @@ return {
       desc = "inner subword",
     },
     {
-      "C",
+      "C", -- Using "c" would make the object conflict with keymaps like `cc`
       function()
         require("various-textobjs").toNextClosingBracket()
       end,
@@ -31,7 +31,7 @@ return {
       desc = "Next closing bracket",
     },
     {
-      "Q",
+      "q",
       function()
         require("various-textobjs").toNextQuotationMark()
       end,
