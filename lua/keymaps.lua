@@ -66,10 +66,8 @@ vim.keymap.set("v", "<C-i>", ">gv", { desc = "Indent selection" })
 vim.keymap.set("v", "<C-o>", "<gv", { desc = "Unindent selection" })
 
 -- Shortcuts for quicker access to some of the main registers
--- "+" register is only used for yanking (pasting from it can be done with Cmd-v)
-vim.keymap.set({ "n", "v" }, "+", '"+y', { desc = "Yank to system clipboard" })
--- "_" register is only used for deleting
-vim.keymap.set({ "n", "v" }, "_", '"_d', { desc = "Delete to black hole register" })
+vim.keymap.set({ "n", "v" }, "+", '"+', { desc = "System clipboard register" })
+vim.keymap.set({ "n", "v" }, "_", '"_', { desc = "Black hole register" })
 vim.keymap.set({ "n", "v" }, "Q", "@q", { desc = "Run macro from default register" })
 
 vim.keymap.set("n", "<leader>v", vim.diagnostic.open_float, { desc = "[V]iew diagnostic" })
