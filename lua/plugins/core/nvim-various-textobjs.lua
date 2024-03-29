@@ -64,9 +64,7 @@ return {
       desc = "Near end of line",
     },
     {
-      -- Only exception to the "g" prefix convention, because "-" is very convenient (accessible
-      -- & only one key stroke), and `gl` would conflict with other keymaps
-      "-",
+      "gl",
       function()
         require("various-textobjs").lineCharacterwise("inner") -- "outer" is useless
       end,
