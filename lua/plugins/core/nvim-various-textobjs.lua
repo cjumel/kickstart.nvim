@@ -6,8 +6,9 @@
 return {
   "chrisgrieser/nvim-various-textobjs",
   keys = {
+    -- as/is overwrite the builtin outer/inner sentence text objects (useless when writing code)
     {
-      "as", -- Overwrite outer sentence builtin text object (useless when writing code)
+      "as",
       function()
         require("various-textobjs").subword("outer")
       end,
@@ -15,7 +16,7 @@ return {
       desc = "a subword",
     },
     {
-      "is", -- Overwrite inner sentence builtin text object (useless when writing code)
+      "is",
       function()
         require("various-textobjs").subword("inner")
       end,
@@ -23,15 +24,15 @@ return {
       desc = "inner subword",
     },
     {
-      "C", -- Using "c" would make the object conflict with keymaps like `cc`
+      "gr", -- gb & gc are taken by comments.nvim
       function()
         require("various-textobjs").toNextClosingBracket()
       end,
       mode = { "x", "o" },
-      desc = "Next closing bracket",
+      desc = "Next right bracket",
     },
     {
-      "q",
+      "gq",
       function()
         require("various-textobjs").toNextQuotationMark()
       end,
@@ -55,7 +56,7 @@ return {
       desc = "Entire buffer",
     },
     {
-      "<C-]>", -- <C-$> (variation of $ without the last character)
+      "gn",
       function()
         require("various-textobjs").nearEoL()
       end,
@@ -63,7 +64,9 @@ return {
       desc = "Near end of line",
     },
     {
-      "-", -- Builtin is quivalent to j in visual/object modes
+      -- Only exception to the "g" prefix convention, because "-" is very convenient (accessible
+      -- & only one key stroke), and `gl` would conflict with other keymaps
+      "-",
       function()
         require("various-textobjs").lineCharacterwise("inner") -- "outer" is useless
       end,
@@ -103,7 +106,7 @@ return {
       desc = "inner key-value pair key",
     },
     {
-      "u",
+      "gu",
       function()
         require("various-textobjs").url()
       end,
