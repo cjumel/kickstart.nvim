@@ -48,6 +48,7 @@ return {
       keymaps = {
         init_selection = "<CR>",
         node_incremental = "<CR>",
+        scope_incremental = false,
         node_decremental = "<BS>",
       },
     },
