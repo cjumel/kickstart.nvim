@@ -7,7 +7,6 @@ return {
   keys = {
     { "<C-w>", desc = "Window manager" },
     { "<leader>,", desc = "Option manager" },
-    { "<leader>h", desc = "[H]unk manager" },
   },
   opts = {
     invoke_on_body = true,
@@ -21,8 +20,6 @@ return {
     local Hydra = require("hydra")
 
     Hydra.setup(opts)
-
-    local actions = require("actions")
 
     -- The window manager uses builtin keymaps and the descriptions provided by WhichKey
     Hydra({
@@ -300,73 +297,6 @@ return {
           end,
         },
 
-        { "<Esc>", nil, { exit = true, desc = false } },
-      },
-    })
-
-    Hydra({
-      body = "<leader>h",
-      config = {
-        desc = "[H]unk manager",
-        color = "pink", -- For synchron buffer actions
-        on_exit = actions.clear_window, -- Leave hunk preview when leaving the hunk manager
-        -- Setting `buffer=true` or `buffer=bufnr` makes the hunk manager keymaps only work in a
-        -- single buffer, while still being able to switch buffer (as `foreign_keys="run"` can't
-        -- be overriden for pink Hydra). In that case, the Hydra is still opened but the keymaps
-        -- don't work in the new buffer, which is quite confusing.
-        buffer = nil,
-      },
-      mode = { "n", "v" },
-      hint = [[
-   ^ ^                            ^ ^        Hunk manager           ^ ^                            
-   _,_ ➜ Next hunk                _p_ ➜ [P]review hunk              _u_ ➜ [U]ndo stage   
-   _;_ ➜ Previous hunk            _s_ ➜ [S]tage hunk/selection      _x_ ➜ Discard hunk/selection   
-   _d_ ➜ Toggle [D]eleted hunks   
-]],
-      heads = {
-        -- "," & ";" are not repeatable on purpose, to be able to resume the previous movement
-        -- actions after leaving the hydra
-        {
-          ",",
-          function() require("gitsigns").next_hunk({ navigation_message = false }) end,
-        },
-        {
-          ";",
-          function() require("gitsigns").prev_hunk({ navigation_message = false }) end,
-        },
-        {
-          "d",
-          function() require("gitsigns").toggle_deleted() end,
-        },
-        {
-          "p",
-          function() require("gitsigns").preview_hunk() end,
-        },
-        {
-          "s",
-          function()
-            if vim.fn.mode() == "n" then
-              require("gitsigns").stage_hunk()
-            else
-              require("gitsigns").stage_hunk({ vim.fn.line("."), vim.fn.line("v") })
-            end
-          end,
-        },
-        {
-          "u",
-          function() require("gitsigns").undo_stage_hunk() end,
-        },
-        {
-          "x",
-          function()
-            if vim.fn.mode() == "n" then
-              require("gitsigns").reset_hunk()
-            else
-              require("gitsigns").reset_hunk({ vim.fn.line("."), vim.fn.line("v") })
-            end
-          end,
-        },
-        -- Exist must be with <Esc> for compatibility with clear window action
         { "<Esc>", nil, { exit = true, desc = false } },
       },
     })
