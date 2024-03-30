@@ -31,8 +31,14 @@ return {
 
       -- Navigation
       local actions = require("actions")
-      map({ "n", "x", "o" }, "[h", actions.next_hunk, "Next hunk")
-      map({ "n", "x", "o" }, "]h", actions.prev_hunk, "Previous hunk")
+      local ts_repeat_move = require("nvim-treesitter.textobjects.repeatable_move")
+      local next_hunk, prev_hunk = ts_repeat_move.make_repeatable_move_pair(function()
+        require("gitsigns").next_hunk({ navigation_message = false })
+      end, function()
+        require("gitsigns").prev_hunk({ navigation_message = false })
+      end)
+      map({ "n", "x", "o" }, "[h", next_hunk, "Next hunk")
+      map({ "n", "x", "o" }, "]h", prev_hunk, "Previous hunk")
       map({ "n", "x", "o" }, "[H", actions.next_conflict, "Next conflict hunk")
       map({ "n", "x", "o" }, "]H", actions.prev_conflict, "Previous conflict hunk")
 

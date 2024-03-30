@@ -129,16 +129,6 @@ end)
 M.next_url = next_url
 M.prev_url = prev_url
 
--- Navigation messages are inconsistent with other movements & are displayed far away from
--- the hunk itself so it's more distracting than helpful
-local next_hunk, prev_hunk = ts_repeat_move.make_repeatable_move_pair(function()
-  require("gitsigns").next_hunk({ navigation_message = false })
-end, function()
-  require("gitsigns").prev_hunk({ navigation_message = false })
-end)
-M.next_hunk = next_hunk
-M.prev_hunk = prev_hunk
-
 -- Conflict markers follow one of the 3 following forms at the start of a line:
 -- <<<<<<< <some text>
 -- =======

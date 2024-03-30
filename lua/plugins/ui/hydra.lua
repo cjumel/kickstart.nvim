@@ -324,8 +324,20 @@ return {
    _d_ ➜ Toggle [D]eleted hunks   
 ]],
       heads = {
-        { ",", actions.next_hunk },
-        { ";", actions.prev_hunk },
+        -- "," & ";" are not repeatable on purpose, to be able to resume the previous movement
+        -- actions after leaving the hydra
+        {
+          ",",
+          function()
+            require("gitsigns").next_hunk({ navigation_message = false })
+          end,
+        },
+        {
+          ";",
+          function()
+            require("gitsigns").prev_hunk({ navigation_message = false })
+          end,
+        },
         {
           "d",
           function()
