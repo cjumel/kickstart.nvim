@@ -20,23 +20,17 @@ return {
   keys = {
     {
       "<leader>nh",
-      function()
-        require("noice").cmd("history")
-      end,
+      function() require("noice").cmd("history") end,
       desc = "[N]oice: [H]istory",
     },
     {
       "<leader>nl",
-      function()
-        require("noice").cmd("last")
-      end,
+      function() require("noice").cmd("last") end,
       desc = "[N]oice: [L]ast",
     },
     {
       "<leader>ne",
-      function()
-        require("noice").cmd("errors")
-      end,
+      function() require("noice").cmd("errors") end,
       desc = "[N]oice: [E]rrors",
     },
   },

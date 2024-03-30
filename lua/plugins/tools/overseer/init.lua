@@ -7,9 +7,7 @@ return {
   keys = {
     {
       "<leader>oo",
-      function()
-        require("overseer").toggle()
-      end,
+      function() require("overseer").toggle() end,
       desc = "[O]verseer: toggle",
     },
     {

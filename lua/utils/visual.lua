@@ -4,21 +4,15 @@ local M = {}
 
 --- Check if the current mode is the regular visual mode (not line or block visual modes).
 ---@return boolean output True iff the current mode is the regular visual mode.
-function M.is_visual_simple_mode()
-  return vim.fn.mode() == "v"
-end
+function M.is_visual_simple_mode() return vim.fn.mode() == "v" end
 
 --- Check if the current mode is the visual line mode.
 ---@return boolean output True iff the current mode is the visual line mode.
-function M.is_visual_line_mode()
-  return vim.fn.mode() == "V"
-end
+function M.is_visual_line_mode() return vim.fn.mode() == "V" end
 
 --- Check if the current mode is the visual block mode.
 ---@return boolean output True iff the current mode is the visual block mode.
-function M.is_visual_block_mode()
-  return vim.fn.mode() == "\22"
-end
+function M.is_visual_block_mode() return vim.fn.mode() == "\22" end
 
 --- Check if the current mode is any visual mode (regular, line, or block).
 ---@return boolean output True iff the current mode is any visual mode.

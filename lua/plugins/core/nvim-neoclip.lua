@@ -42,9 +42,10 @@ return {
         end
         return true
       end
-      return not all(data.event.regcontents, function(line)
-        return vim.fn.match(line, [[^\s*$]]) ~= -1
-      end)
+      return not all(
+        data.event.regcontents,
+        function(line) return vim.fn.match(line, [[^\s*$]]) ~= -1 end
+      )
     end,
     -- Macros saved in history are super hard to read (unlike in the yank history), and they are
     -- very specific to a given situation, so in practice I'm never using the macro history

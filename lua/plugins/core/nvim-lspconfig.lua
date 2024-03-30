@@ -97,36 +97,50 @@ return {
       map("n", "<leader>la", vim.lsp.buf.code_action, "[L]SP: [A]ction")
 
       -- LSP symbol (variables, function, classes, etc.) search
-      map("n", "<leader>ld", function()
-        require("telescope.builtin").lsp_document_symbols()
-      end, "[L]SP: [D]ocument symbols")
-      map("n", "<leader>lw", function()
-        require("telescope.builtin").lsp_dynamic_workspace_symbols()
-      end, "[L]SP: [W]orkspace symbols")
+      map(
+        "n",
+        "<leader>ld",
+        function() require("telescope.builtin").lsp_document_symbols() end,
+        "[L]SP: [D]ocument symbols"
+      )
+      map(
+        "n",
+        "<leader>lw",
+        function() require("telescope.builtin").lsp_dynamic_workspace_symbols() end,
+        "[L]SP: [W]orkspace symbols"
+      )
 
       -- Go to navigation
       local telescope_opts = {
         initial_mode = "normal",
         show_line = false, -- Don't show the whole line in the picker next to the file path
       }
-      map("n", "gd", function()
-        require("telescope.builtin").lsp_definitions(telescope_opts)
-      end, "Go to definition")
-      map("n", "gD", function()
-        require("telescope.builtin").lsp_type_definitions(telescope_opts)
-      end, "Go to type definition")
-      map("n", "gr", function()
-        require("telescope.builtin").lsp_references(telescope_opts)
-      end, "Go to references")
+      map(
+        "n",
+        "gd",
+        function() require("telescope.builtin").lsp_definitions(telescope_opts) end,
+        "Go to definition"
+      )
+      map(
+        "n",
+        "gD",
+        function() require("telescope.builtin").lsp_type_definitions(telescope_opts) end,
+        "Go to type definition"
+      )
+      map(
+        "n",
+        "gr",
+        function() require("telescope.builtin").lsp_references(telescope_opts) end,
+        "Go to references"
+      )
 
       -- Next/previous reference navigation
       -- Define illuminate keymaps here to benefit from the on_attach function behavior
       local ts_repeat_move = require("nvim-treesitter.textobjects.repeatable_move")
-      local next_reference, prev_reference = ts_repeat_move.make_repeatable_move_pair(function()
-        require("illuminate").goto_next_reference()
-      end, function()
-        require("illuminate").goto_prev_reference()
-      end)
+      local next_reference, prev_reference = ts_repeat_move.make_repeatable_move_pair(
+        function() require("illuminate").goto_next_reference() end,
+        function() require("illuminate").goto_prev_reference() end
+      )
       map({ "n", "x", "o" }, "[r", next_reference, "Next reference")
       map({ "n", "x", "o" }, "]r", prev_reference, "Previous reference")
     end,

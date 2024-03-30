@@ -44,9 +44,7 @@ M.harpoon = {
 
 -- Show the path of the directory opened with Oil (instead of Oil's buffer path)
 M.oil = {
-  function()
-    return utils.path.get_current_oil_directory({ cwd_strategy = "absolute" })
-  end,
+  function() return utils.path.get_current_oil_directory({ cwd_strategy = "absolute" }) end,
 }
 
 -- Show the name of the Trouble window
@@ -63,17 +61,13 @@ M.trouble = {
 
 -- Show the index of the ToggleTerm
 M.toggleterm = {
-  function()
-    return "ToggleTerm #" .. vim.b.toggle_number
-  end,
+  function() return "ToggleTerm #" .. vim.b.toggle_number end,
 }
 
 -- Output a fake "utf-8" encoding for a consistent display between some special buffers (like Oil)
 -- and regular ones
 M.fake_encoding = {
-  function()
-    return "utf-8"
-  end,
+  function() return "utf-8" end,
 }
 
 return M

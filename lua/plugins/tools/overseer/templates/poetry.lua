@@ -6,9 +6,7 @@ return {
   {
     name = "Poetry install",
     condition = {
-      callback = function(_)
-        return utils.dir.contain_files({ "pyproject.toml", "poetry.lock" })
-      end,
+      callback = function(_) return utils.dir.contain_files({ "pyproject.toml", "poetry.lock" }) end,
     },
     params = {
       args = {
@@ -27,9 +25,7 @@ return {
   {
     name = "Poetry update",
     condition = {
-      callback = function(_)
-        return utils.dir.contain_files({ "pyproject.toml", "poetry.lock" })
-      end,
+      callback = function(_) return utils.dir.contain_files({ "pyproject.toml", "poetry.lock" }) end,
     },
     params = {
       args = {
@@ -48,9 +44,7 @@ return {
   {
     name = "Poetry add",
     condition = {
-      callback = function(_)
-        return utils.dir.contain_files({ "pyproject.toml", "poetry.lock" })
-      end,
+      callback = function(_) return utils.dir.contain_files({ "pyproject.toml", "poetry.lock" }) end,
     },
     params = {
       package = {

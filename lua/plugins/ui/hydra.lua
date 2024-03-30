@@ -328,27 +328,19 @@ return {
         -- actions after leaving the hydra
         {
           ",",
-          function()
-            require("gitsigns").next_hunk({ navigation_message = false })
-          end,
+          function() require("gitsigns").next_hunk({ navigation_message = false }) end,
         },
         {
           ";",
-          function()
-            require("gitsigns").prev_hunk({ navigation_message = false })
-          end,
+          function() require("gitsigns").prev_hunk({ navigation_message = false }) end,
         },
         {
           "d",
-          function()
-            require("gitsigns").toggle_deleted()
-          end,
+          function() require("gitsigns").toggle_deleted() end,
         },
         {
           "p",
-          function()
-            require("gitsigns").preview_hunk()
-          end,
+          function() require("gitsigns").preview_hunk() end,
         },
         {
           "s",
@@ -362,9 +354,7 @@ return {
         },
         {
           "u",
-          function()
-            require("gitsigns").undo_stage_hunk()
-          end,
+          function() require("gitsigns").undo_stage_hunk() end,
         },
         {
           "x",

@@ -11,7 +11,5 @@ return {
     min_count_to_highlight = 2, -- Don't highlight singles (which include all literals)
   },
   -- There's no setup function so we need to re-define the config function
-  config = function(_, opts)
-    require("illuminate").configure(opts)
-  end,
+  config = function(_, opts) require("illuminate").configure(opts) end,
 }

@@ -13,9 +13,7 @@ return {
   keys = {
     {
       "-",
-      function()
-        require("oil").open()
-      end,
+      function() require("oil").open() end,
       desc = "Open Oil buffer",
     },
   },

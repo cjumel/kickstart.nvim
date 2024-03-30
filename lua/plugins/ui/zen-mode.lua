@@ -7,9 +7,7 @@ return {
   keys = {
     {
       "<leader>z",
-      function()
-        require("zen-mode").toggle()
-      end,
+      function() require("zen-mode").toggle() end,
       desc = "[Z]en mode",
     },
   },

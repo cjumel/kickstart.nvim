@@ -10,9 +10,7 @@ return {
   keys = {
     {
       "S",
-      function()
-        require("treesj").toggle()
-      end,
+      function() require("treesj").toggle() end,
       desc = "Split node toggle",
     },
   },

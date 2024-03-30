@@ -112,23 +112,17 @@ return {
   keys = {
     {
       "<leader>tt",
-      function()
-        require("toggleterm").toggle_all()
-      end,
+      function() require("toggleterm").toggle_all() end,
       desc = "[T]erm: toggle",
     },
     {
       "<leader>tn",
-      function()
-        require("toggleterm").toggle(next_id(), nil, nil, "horizontal")
-      end,
+      function() require("toggleterm").toggle(next_id(), nil, nil, "horizontal") end,
       desc = "[T]erm: [N]ew term",
     },
     {
       "<leader>tv",
-      function()
-        require("toggleterm").toggle(next_id(), nil, nil, "vertical")
-      end,
+      function() require("toggleterm").toggle(next_id(), nil, nil, "vertical") end,
       desc = "[T]erm: new term in [V]split",
     },
     {
@@ -173,19 +167,25 @@ return {
   config = function(_, opts)
     require("toggleterm").setup(opts)
 
-    vim.api.nvim_create_user_command("ToggleTermLuajit", function()
-      vim.cmd("TermExec cmd='luajit'")
-    end, { desc = "Launch a LuaJIT console in ToggleTerm" })
+    vim.api.nvim_create_user_command(
+      "ToggleTermLuajit",
+      function() vim.cmd("TermExec cmd='luajit'") end,
+      { desc = "Launch a LuaJIT console in ToggleTerm" }
+    )
 
     -- Start a Python console without any virtual environment (even if one is activated when
     -- starting Neovim)
-    vim.api.nvim_create_user_command("ToggleTermPython", function()
-      vim.cmd("TermExec cmd='python'")
-    end, { desc = "Launch a Python console in ToggleTerm" })
+    vim.api.nvim_create_user_command(
+      "ToggleTermPython",
+      function() vim.cmd("TermExec cmd='python'") end,
+      { desc = "Launch a Python console in ToggleTerm" }
+    )
     -- Start a Python console with a Poetry environment (requires a Poetry environment to be set up)
-    vim.api.nvim_create_user_command("ToggleTermPoetryPython", function()
-      vim.cmd("TermExec cmd='poetry run python'")
-    end, { desc = "Launch a Python console with the Poetry environment in ToggleTerm" })
+    vim.api.nvim_create_user_command(
+      "ToggleTermPoetryPython",
+      function() vim.cmd("TermExec cmd='poetry run python'") end,
+      { desc = "Launch a Python console with the Poetry environment in ToggleTerm" }
+    )
     -- Start an IPython console; if Neovim is started with a virtual environment activated & IPython
     -- is installed in it, use this IPython, otherwise use the system-wide IPython with no virtual
     -- environment

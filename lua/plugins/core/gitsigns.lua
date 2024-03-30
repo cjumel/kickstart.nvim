@@ -31,11 +31,10 @@ return {
 
       -- Navigation
       local ts_repeat_move = require("nvim-treesitter.textobjects.repeatable_move")
-      local next_hunk, prev_hunk = ts_repeat_move.make_repeatable_move_pair(function()
-        require("gitsigns").next_hunk({ navigation_message = false })
-      end, function()
-        require("gitsigns").prev_hunk({ navigation_message = false })
-      end)
+      local next_hunk, prev_hunk = ts_repeat_move.make_repeatable_move_pair(
+        function() gs.next_hunk({ navigation_message = false }) end,
+        function() gs.prev_hunk({ navigation_message = false }) end
+      )
       map({ "n", "x", "o" }, "[h", next_hunk, "Next hunk")
       map({ "n", "x", "o" }, "]h", prev_hunk, "Previous hunk")
 
@@ -46,12 +45,8 @@ return {
       map("n", "<leader>ga", gs.stage_buffer, "[G]it: [A]dd buffer")
       map("n", "<leader>gu", gs.reset_buffer_index, "[G]it: [U]nstage buffer")
       map("n", "<leader>gx", gs.reset_buffer, "[G]it: discard buffer changes")
-      map("n", "<leader>gd", function()
-        gs.diffthis("~")
-      end, "[G]it: [D]iff buffer")
-      map("n", "<leader>gB", function()
-        gs.blame_line({ full = true })
-      end, "[G]it: [B]lame line")
+      map("n", "<leader>gd", function() gs.diffthis("~") end, "[G]it: [D]iff buffer")
+      map("n", "<leader>gB", function() gs.blame_line({ full = true }) end, "[G]it: [B]lame line")
       map({ "n", "v" }, "<leader>gL", function()
         if vim.fn.mode() == "n" then
           require("telescope.builtin").git_bcommits({ prompt_title = "Git Buffer Log" })

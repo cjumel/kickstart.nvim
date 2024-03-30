@@ -10,9 +10,7 @@ local python_project_files = {
   "setup.py",
 }
 
-M.is_python = function()
-  return dir_utils.contain_files(python_project_files)
-end
+M.is_python = function() return dir_utils.contain_files(python_project_files) end
 
 local lua_project_files = {
   ".stylua.toml",

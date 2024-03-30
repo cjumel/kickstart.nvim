@@ -15,18 +15,14 @@ return {
     {
       "nvim-telescope/telescope-fzf-native.nvim",
       build = "make",
-      cond = function()
-        return vim.fn.executable("make") == 1
-      end,
+      cond = function() return vim.fn.executable("make") == 1 end,
     },
   },
   keys = {
     -- General keymaps
     {
       "<leader><leader>",
-      function()
-        require("telescope.builtin").resume()
-      end,
+      function() require("telescope.builtin").resume() end,
       desc = "Resume Telescope",
     },
     {
@@ -176,9 +172,7 @@ return {
           return current_entry.index < existing_entry.index
         end
         -- Filter out short commands like "w", "q", "wq", "wqa"
-        opts.filter_fn = function(cmd)
-          return string.len(cmd) >= 4
-        end
+        opts.filter_fn = function(cmd) return string.len(cmd) >= 4 end
         require("telescope.builtin").command_history(opts)
       end,
       desc = "Command history",
@@ -202,32 +196,24 @@ return {
     -- Git related
     {
       "<leader>gs",
-      function()
-        require("telescope.builtin").git_status()
-      end,
+      function() require("telescope.builtin").git_status() end,
       desc = "[G]it: [S]tatus",
     },
     {
       "<leader>gb",
-      function()
-        require("telescope.builtin").git_branches()
-      end,
+      function() require("telescope.builtin").git_branches() end,
       desc = "[G]it: [B]ranches",
     },
     {
       "<leader>gl",
-      function()
-        require("telescope.builtin").git_commits({ prompt_title = "Git Log" })
-      end,
+      function() require("telescope.builtin").git_commits({ prompt_title = "Git Log" }) end,
       desc = "[G]it: [L]og",
     },
 
     -- Help related
     {
       "<leader>?c",
-      function()
-        require("telescope.builtin").commands()
-      end,
+      function() require("telescope.builtin").commands() end,
       desc = "Help: [C]ommands",
     },
     {

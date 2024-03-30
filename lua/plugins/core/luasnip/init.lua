@@ -15,17 +15,11 @@ return {
     ---@param lhs string
     ---@param rhs fun()
     ---@param desc string
-    local map = function(lhs, rhs, desc)
-      vim.keymap.set({ "i", "s" }, lhs, rhs, { desc = desc })
-    end
+    local map = function(lhs, rhs, desc) vim.keymap.set({ "i", "s" }, lhs, rhs, { desc = desc }) end
 
     -- Define snippet navigation & choice keymaps
-    map("<C-l>", function()
-      ls.jump(1)
-    end, "Move to next snippet node")
-    map("<C-h>", function()
-      ls.jump(-1)
-    end, "Move to previous snippet node")
+    map("<C-l>", function() ls.jump(1) end, "Move to next snippet node")
+    map("<C-h>", function() ls.jump(-1) end, "Move to previous snippet node")
     map("<C-j>", function()
       if ls.choice_active() then
         ls.change_choice(1)

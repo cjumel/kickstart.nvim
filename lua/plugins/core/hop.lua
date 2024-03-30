@@ -7,9 +7,7 @@ return {
   keys = {
     {
       "s", -- Buitlin `s` is equivalent to `cl` & is pretty much useless
-      function()
-        require("hop").hint_char2({})
-      end,
+      function() require("hop").hint_char2({}) end,
       mode = { "n", "x", "o" },
       desc = "Search 2 characters hop",
     },

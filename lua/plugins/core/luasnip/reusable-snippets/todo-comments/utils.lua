@@ -32,12 +32,8 @@ local get_comment_strings = function(ctype)
   return { left, right }
 end
 
-M.get_comment_string_start = function()
-  return get_comment_strings(1)[1]
-end
-M.get_comment_string_end = function()
-  return get_comment_strings(1)[2]
-end
+M.get_comment_string_start = function() return get_comment_strings(1)[1] end
+M.get_comment_string_end = function() return get_comment_strings(1)[2] end
 
 local tdc_keywords = {
   "TODO",

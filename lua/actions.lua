@@ -112,20 +112,18 @@ local next_diagnostic, prev_diagnostic =
 M.next_diagnostic = next_diagnostic
 M.prev_diagnostic = prev_diagnostic
 
-local next_error, prev_error = ts_repeat_move.make_repeatable_move_pair(function()
-  vim.diagnostic.goto_next({ severity = vim.diagnostic.severity.ERROR })
-end, function()
-  vim.diagnostic.goto_prev({ severity = vim.diagnostic.severity.ERROR })
-end)
+local next_error, prev_error = ts_repeat_move.make_repeatable_move_pair(
+  function() vim.diagnostic.goto_next({ severity = vim.diagnostic.severity.ERROR }) end,
+  function() vim.diagnostic.goto_prev({ severity = vim.diagnostic.severity.ERROR }) end
+)
 M.next_error = next_error
 M.prev_error = prev_error
 
 local url_pattern = "http:\\/\\/\\|https:\\/\\/"
-local next_url, prev_url = ts_repeat_move.make_repeatable_move_pair(function()
-  vim.fn.search(url_pattern)
-end, function()
-  vim.fn.search(url_pattern, "b")
-end)
+local next_url, prev_url = ts_repeat_move.make_repeatable_move_pair(
+  function() vim.fn.search(url_pattern) end,
+  function() vim.fn.search(url_pattern, "b") end
+)
 M.next_url = next_url
 M.prev_url = prev_url
 
@@ -135,11 +133,10 @@ M.prev_url = prev_url
 -- >>>>>>> <some text>
 -- "^" forces the search pattern matches to be at the start of a line
 local conflict_pattern = "^<<<<<<< \\|^=======\\|^>>>>>>> "
-local next_conflict_mark, prev_conflict_mark = ts_repeat_move.make_repeatable_move_pair(function()
-  vim.fn.search(conflict_pattern)
-end, function()
-  vim.fn.search(conflict_pattern, "b")
-end)
+local next_conflict_mark, prev_conflict_mark = ts_repeat_move.make_repeatable_move_pair(
+  function() vim.fn.search(conflict_pattern) end,
+  function() vim.fn.search(conflict_pattern, "b") end
+)
 M.next_conflict_mark = next_conflict_mark
 M.prev_conflict_mark = prev_conflict_mark
 

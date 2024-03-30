@@ -10,16 +10,12 @@ return {
   keys = {
     {
       "<leader>dd",
-      function()
-        require("dapui").toggle()
-      end,
+      function() require("dapui").toggle() end,
       desc = "[D]AP: toggle UI",
     },
     {
       "<leader>dr",
-      function()
-        require("dapui").open({ reset = true })
-      end,
+      function() require("dapui").open({ reset = true }) end,
       desc = "[D]AP: [R]eset UI",
     },
   },
@@ -77,8 +73,6 @@ return {
     dapui.setup(opts)
 
     local dap = require("dap")
-    dap.listeners.after.event_initialized["dapui_config"] = function()
-      dapui.open()
-    end
+    dap.listeners.after.event_initialized["dapui_config"] = function() dapui.open() end
   end,
 }

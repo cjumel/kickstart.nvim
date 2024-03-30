@@ -33,27 +33,37 @@ return {
       dap.set_exception_breakpoints({ "userUnhandled" })
     end
 
-    vim.api.nvim_create_user_command("DapPythonFile", function()
-      require("dap").run({
-        type = "python",
-        request = "launch",
-        name = "Run file",
-        program = "${file}",
-        console = "integratedTerminal",
-      })
-    end, { desc = "Run Python on file with DAP." })
-    vim.api.nvim_create_user_command("DapPytestFunction", function()
-      require("dap-python").test_method({ test_runner = "pytest" })
-    end, { desc = "Run Pytest on function with DAP." })
-    vim.api.nvim_create_user_command("DapPytestFile", function()
-      require("dap").run({
-        type = "python",
-        request = "launch",
-        name = "Test file",
-        module = "pytest",
-        args = { "${file}" },
-        console = "integratedTerminal",
-      })
-    end, { desc = "Run Pytest on file with DAP." })
+    vim.api.nvim_create_user_command(
+      "DapPythonFile",
+      function()
+        require("dap").run({
+          type = "python",
+          request = "launch",
+          name = "Run file",
+          program = "${file}",
+          console = "integratedTerminal",
+        })
+      end,
+      { desc = "Run Python on file with DAP." }
+    )
+    vim.api.nvim_create_user_command(
+      "DapPytestFunction",
+      function() require("dap-python").test_method({ test_runner = "pytest" }) end,
+      { desc = "Run Pytest on function with DAP." }
+    )
+    vim.api.nvim_create_user_command(
+      "DapPytestFile",
+      function()
+        require("dap").run({
+          type = "python",
+          request = "launch",
+          name = "Test file",
+          module = "pytest",
+          args = { "${file}" },
+          console = "integratedTerminal",
+        })
+      end,
+      { desc = "Run Pytest on file with DAP." }
+    )
   end,
 }
