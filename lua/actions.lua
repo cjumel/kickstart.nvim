@@ -135,12 +135,12 @@ M.prev_url = prev_url
 -- >>>>>>> <some text>
 -- "^" forces the search pattern matches to be at the start of a line
 local conflict_pattern = "^<<<<<<< \\|^=======\\|^>>>>>>> "
-local next_conflict, prev_conflict = ts_repeat_move.make_repeatable_move_pair(function()
+local next_conflict_mark, prev_conflict_mark = ts_repeat_move.make_repeatable_move_pair(function()
   vim.fn.search(conflict_pattern)
 end, function()
   vim.fn.search(conflict_pattern, "b")
 end)
-M.next_conflict = next_conflict
-M.prev_conflict = prev_conflict
+M.next_conflict_mark = next_conflict_mark
+M.prev_conflict_mark = prev_conflict_mark
 
 return M
