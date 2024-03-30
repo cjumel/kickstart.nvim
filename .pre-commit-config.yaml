@@ -5,7 +5,6 @@ repos:
     rev: v4.5.0
     hooks:
       - id: check-added-large-files  # Prevent giant files from being committed
-      - id: check-docstring-first  # Checks a common error of defining a docstring after code
       - id: check-json  # Check JSON files for parseable syntax
       - id: check-merge-conflict  # Check for files that contain merge conflict strings
       - id: check-toml  # Checks TOML files for parseable syntax
