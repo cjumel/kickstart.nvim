@@ -209,6 +209,18 @@ return {
       function() require("telescope.builtin").git_commits({ prompt_title = "Git Log" }) end,
       desc = "[G]it: [L]og",
     },
+    {
+      "<leader>gL",
+      function()
+        if vim.fn.mode() == "n" then
+          require("telescope.builtin").git_bcommits({ prompt_title = "Git Buffer Log" })
+        else
+          require("telescope.builtin").git_bcommits_range({ prompt_title = "Git Selection Log" })
+        end
+      end,
+      mode = { "n", "v" },
+      desc = "[G]it: buffer/selection [L]og",
+    },
 
     -- Help related
     {

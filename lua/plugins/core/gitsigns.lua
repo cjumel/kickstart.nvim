@@ -47,13 +47,6 @@ return {
       map("n", "<leader>gx", gs.reset_buffer, "[G]it: discard buffer changes")
       map("n", "<leader>gd", function() gs.diffthis("~") end, "[G]it: [D]iff buffer")
       map("n", "<leader>gB", function() gs.blame_line({ full = true }) end, "[G]it: [B]lame line")
-      map({ "n", "v" }, "<leader>gL", function()
-        if vim.fn.mode() == "n" then
-          require("telescope.builtin").git_bcommits({ prompt_title = "Git Buffer Log" })
-        else
-          require("telescope.builtin").git_bcommits_range({ prompt_title = "Git Selection Log" })
-        end
-      end, "[G]it: buffer/selection [L]og")
 
       -- Text object with custom look ahead feature
       local gs_cache = require("gitsigns.cache")
