@@ -82,6 +82,14 @@ vim.keymap.set({ "n", "x", "o" }, "]d", actions.prev_diagnostic, { desc = "Previ
 vim.keymap.set({ "n", "x", "o" }, "[e", actions.next_error, { desc = "Next error" })
 vim.keymap.set({ "n", "x", "o" }, "]e", actions.prev_error, { desc = "Previous error" })
 
+vim.keymap.set({ "n", "x", "o" }, "[=", actions.next_conflict_mark, { desc = "Next conflict mark" })
+vim.keymap.set(
+  { "n", "x", "o" },
+  "]=",
+  actions.prev_conflict_mark,
+  { desc = "Previous conflict mark" }
+)
+
 vim.keymap.set({ "n", "x", "o" }, "[u", actions.next_url, { desc = "Next URL" })
 vim.keymap.set({ "n", "x", "o" }, "]u", actions.prev_url, { desc = "Previous URL" })
 
