@@ -76,22 +76,35 @@ vim.keymap.set("n", "K", actions.hover, { desc = "Hover" })
 
 -- [[ Go-to keymaps ]]
 
+local utils = require("utils")
+local mpmap = utils.keymap.mpmap
+
 -- Dianostics can be errors, warnings, information messages or hints
-vim.keymap.set({ "n", "x", "o" }, "[d", actions.next_diagnostic, { desc = "Next diagnostic" })
-vim.keymap.set({ "n", "x", "o" }, "]d", actions.prev_diagnostic, { desc = "Previous diagnostic" })
-vim.keymap.set({ "n", "x", "o" }, "[e", actions.next_error, { desc = "Next error" })
-vim.keymap.set({ "n", "x", "o" }, "]e", actions.prev_error, { desc = "Previous error" })
-
-vim.keymap.set({ "n", "x", "o" }, "[=", actions.next_conflict_mark, { desc = "Next conflict mark" })
-vim.keymap.set(
-  { "n", "x", "o" },
-  "]=",
-  actions.prev_conflict_mark,
-  { desc = "Previous conflict mark" }
+mpmap(
+  { "[d", "]d" },
+  { vim.diagnostic.goto_next, vim.diagnostic.goto_prev },
+  { "Next diagnostic", "Previous diagnostic" }
 )
+mpmap({ "[e", "]e" }, {
+  function() vim.diagnostic.goto_next({ severity = vim.diagnostic.severity.ERROR }) end,
+  function() vim.diagnostic.goto_prev({ severity = vim.diagnostic.severity.ERROR }) end,
+}, { "Next error", "Previous error" })
 
-vim.keymap.set({ "n", "x", "o" }, "[u", actions.next_url, { desc = "Next URL" })
-vim.keymap.set({ "n", "x", "o" }, "]u", actions.prev_url, { desc = "Previous URL" })
+-- Conflict markers follow one of the 3 following forms at the start of a line:
+-- `<<<<<<< <some text>`, ` =======` or ` >>>>>>> <some text>`
+-- "^" forces the search pattern matches to be at the start of a line
+local conflict_pattern = "^<<<<<<< \\|^=======\\|^>>>>>>> "
+mpmap({ "[=", "]=" }, {
+  function() vim.fn.search(conflict_pattern) end,
+  function() vim.fn.search(conflict_pattern, "b") end,
+}, { "Next conflict mark", "Previous conflict mark" })
+
+local url_pattern = "http:\\/\\/\\|https:\\/\\/"
+mpmap(
+  { "[u", "]u" },
+  { function() vim.fn.search(url_pattern) end, function() vim.fn.search(url_pattern, "b") end },
+  { "Next URL", "Previous URL" }
+)
 
 -- [[ Terminal-like keymaps ]]
 -- Keymaps for insert & command-line modes to reproduce shell keymaps
