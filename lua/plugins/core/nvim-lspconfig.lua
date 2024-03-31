@@ -70,6 +70,7 @@ return {
     "folke/neodev.nvim",
     "hrsh7th/nvim-cmp",
     "hrsh7th/cmp-nvim-lsp",
+    "nvim-telescope/telescope.nvim",
     "RRethy/vim-illuminate",
   },
   ft = function()
@@ -88,26 +89,27 @@ return {
     -- Here we can define buffer-local keymaps which will not be enabled in buffers where no
     -- language server is attached
     on_attach = function(_, bufnr)
-      local function map(mode, keys, func, desc)
-        vim.keymap.set(mode, keys, func, { desc = desc, buffer = bufnr })
-      end
+      local illuminate = require("illuminate")
+      local telescope = require("telescope.builtin")
 
-      map({ "n", "i" }, "<C-s>", vim.lsp.buf.signature_help, "Signature help")
-      map("n", "<leader>lr", vim.lsp.buf.rename, "[L]SP: [R]ename")
-      map("n", "<leader>la", vim.lsp.buf.code_action, "[L]SP: [A]ction")
+      local utils = require("utils")
+      local map = utils.keymap.map
+      local nmap = utils.keymap.nmap
+      local mpmap = utils.keymap.mpmap
+
+      local opts = { buffer = bufnr }
+
+      map({ "n", "i" }, "<C-s>", vim.lsp.buf.signature_help, "Signature help", opts)
+      nmap("<leader>lr", vim.lsp.buf.rename, "[L]SP: [R]ename", opts)
+      nmap("<leader>la", vim.lsp.buf.code_action, "[L]SP: [A]ction", opts)
 
       -- LSP symbol (variables, function, classes, etc.) search
-      map(
-        "n",
-        "<leader>ld",
-        function() require("telescope.builtin").lsp_document_symbols() end,
-        "[L]SP: [D]ocument symbols"
-      )
-      map(
-        "n",
+      nmap("<leader>ld", telescope.lsp_document_symbols, "[L]SP: [D]ocument symbols", opts)
+      nmap(
         "<leader>lw",
-        function() require("telescope.builtin").lsp_dynamic_workspace_symbols() end,
-        "[L]SP: [W]orkspace symbols"
+        telescope.lsp_dynamic_workspace_symbols,
+        "[L]SP: [W]orkspace symbols",
+        opts
       )
 
       -- Go to navigation
@@ -115,34 +117,21 @@ return {
         initial_mode = "normal",
         show_line = false, -- Don't show the whole line in the picker next to the file path
       }
-      map(
-        "n",
-        "gd",
-        function() require("telescope.builtin").lsp_definitions(telescope_opts) end,
-        "Go to definition"
-      )
-      map(
-        "n",
+      nmap("gd", function() telescope.lsp_definitions(telescope_opts) end, "Go to definition", opts)
+      nmap(
         "gD",
-        function() require("telescope.builtin").lsp_type_definitions(telescope_opts) end,
-        "Go to type definition"
+        function() telescope.lsp_type_definitions(telescope_opts) end,
+        "Go to type definition",
+        opts
       )
-      map(
-        "n",
-        "gr",
-        function() require("telescope.builtin").lsp_references(telescope_opts) end,
-        "Go to references"
-      )
+      nmap("gr", function() telescope.lsp_references(telescope_opts) end, "Go to references", opts)
 
       -- Next/previous reference navigation
       -- Define illuminate keymaps here to benefit from the on_attach function behavior
-      local ts_repeat_move = require("nvim-treesitter.textobjects.repeatable_move")
-      local next_reference, prev_reference = ts_repeat_move.make_repeatable_move_pair(
-        function() require("illuminate").goto_next_reference() end,
-        function() require("illuminate").goto_prev_reference() end
-      )
-      map({ "n", "x", "o" }, "[r", next_reference, "Next reference")
-      map({ "n", "x", "o" }, "]r", prev_reference, "Previous reference")
+      mpmap({ "[r", "]r" }, {
+        illuminate.goto_next_reference,
+        illuminate.goto_prev_reference,
+      }, { "Next reference", "Previous reference" }, opts)
     end,
   },
   config = function(_, opts)

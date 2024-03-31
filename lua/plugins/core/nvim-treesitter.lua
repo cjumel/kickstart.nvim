@@ -115,7 +115,10 @@ return {
     require("nvim-treesitter.configs").setup(opts)
 
     local ts_utils = require("nvim-treesitter.ts_utils")
-    local ts_repeat_move = require("nvim-treesitter.textobjects.repeatable_move")
+
+    local utils = require("utils")
+    local nmap = utils.keymap.nmap
+    local mpmap = utils.keymap.mpmap
 
     --- Output the current line main node, that is the top-level ancestor from the node under the
     --- cursor within the same line.
@@ -188,11 +191,10 @@ return {
       ts_utils.goto_node(sibling)
     end
 
-    next_sibling_node, prev_sibling_node =
-      ts_repeat_move.make_repeatable_move_pair(next_sibling_node, prev_sibling_node)
-
-    vim.keymap.set("n", "gp", go_to_parent_node, { desc = "Go to parent node" })
-    vim.keymap.set("n", "[s", next_sibling_node, { desc = "Next sibling node" })
-    vim.keymap.set("n", "]s", prev_sibling_node, { desc = "Previous sibling node" })
+    nmap("gp", go_to_parent_node, "Go to parent node")
+    mpmap({ "[s", "]s" }, {
+      next_sibling_node,
+      prev_sibling_node,
+    }, { "Next sibling node", "Previous sibling node" })
   end,
 }

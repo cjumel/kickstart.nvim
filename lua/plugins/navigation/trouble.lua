@@ -8,52 +8,47 @@ return {
   dependencies = {
     "nvim-tree/nvim-web-devicons",
   },
-  keys = function()
-    local ts_repeat_move = require("nvim-treesitter.textobjects.repeatable_move")
-    local next_trouble_item, previous_trouble_item = ts_repeat_move.make_repeatable_move_pair(
-      function() require("trouble").next({ skip_groups = true, jump = true }) end,
-      function() require("trouble").previous({ skip_groups = true, jump = true }) end
-    )
-
-    return {
-      {
-        "<leader>xx",
-        function() require("trouble").toggle() end,
-        desc = "Trouble: toggle",
-      },
-      {
-        "<leader>xd",
-        function() require("trouble").toggle("document_diagnostics") end,
-        desc = "Trouble: [D]ocument diagnostics",
-      },
-      {
-        "<leader>xw",
-        function() require("trouble").toggle("workspace_diagnostics") end,
-        desc = "Trouble: [W]orkspace diagnostics",
-      },
-      {
-        "<leader>xq",
-        function() require("trouble").toggle("quickfix") end,
-        desc = "Trouble: [Q]uickfix",
-      },
-      {
-        "<leader>xl",
-        function() require("trouble").toggle("loclist") end,
-        desc = "Trouble: [L]oclist",
-      },
-      {
-        "[x",
-        next_trouble_item,
-        desc = "Next Trouble item",
-      },
-      {
-        "]x",
-        previous_trouble_item,
-        desc = "Previous Trouble item",
-      },
-    }
-  end,
+  keys = {
+    {
+      "<leader>xx",
+      function() require("trouble").toggle() end,
+      desc = "Trouble: toggle",
+    },
+    {
+      "<leader>xd",
+      function() require("trouble").toggle("document_diagnostics") end,
+      desc = "Trouble: [D]ocument diagnostics",
+    },
+    {
+      "<leader>xw",
+      function() require("trouble").toggle("workspace_diagnostics") end,
+      desc = "Trouble: [W]orkspace diagnostics",
+    },
+    {
+      "<leader>xq",
+      function() require("trouble").toggle("quickfix") end,
+      desc = "Trouble: [Q]uickfix",
+    },
+    {
+      "<leader>xl",
+      function() require("trouble").toggle("loclist") end,
+      desc = "Trouble: [L]oclist",
+    },
+  },
   opts = {
     mode = "document_diagnostics", -- Default mode for toggle
   },
+  config = function(_, opts)
+    local trouble = require("trouble")
+
+    trouble.setup(opts)
+
+    local utils = require("utils")
+    local mpmap = utils.keymap.mpmap
+
+    mpmap({ "[x", "]x" }, {
+      function() require("trouble").next({ skip_groups = true, jump = true }) end,
+      function() require("trouble").previous({ skip_groups = true, jump = true }) end,
+    }, { "Next Trouble item", "Previous Trouble item" })
+  end,
 }
