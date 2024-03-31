@@ -92,6 +92,9 @@ return {
           opts.default_text = custom_utils.visual.get_text()
         end
 
+        -- Hacky trick to be able to live-change the current picker
+        vim.g.telescope_oldfiles_opts = opts
+
         builtin.oldfiles(opts)
       end,
       mode = { "n", "v" },
@@ -268,7 +271,6 @@ return {
             ["<CR>"] = actions.select_default,
             ["<C-n>"] = actions.move_selection_next,
             ["<C-p>"] = actions.move_selection_previous,
-            ["<C-c>"] = actions.close,
             ["<C-d>"] = actions.close, -- More convenient way to directly exit Telescope
 
             -- Preview actions (shared between both modes)
@@ -290,7 +292,6 @@ return {
             ["<CR>"] = actions.select_default,
             ["<C-n>"] = actions.move_selection_next,
             ["<C-p>"] = actions.move_selection_previous,
-            ["<C-c>"] = actions.close,
             ["<C-d>"] = actions.close, -- More convenient way to directly exit Telescope
 
             -- Preview actions (shared between both modes)
@@ -400,6 +401,19 @@ return {
                 actions.close(prompt_bufnr)
                 builtin.find_files(opts)
               end,
+              ["<C-c>"] = function(prompt_bufnr, _) -- Set cwd to project's root
+                local current_picker = action_state.get_current_picker(prompt_bufnr)
+
+                local opts = vim.g.telescope_find_files_opts
+                if opts.prompt_title == "Find Directories" then
+                  opts.previewer = previewers.vim_buffer_cat.new(opts)
+                end
+                opts.cwd = vim.fn.getcwd()
+                opts.default_text = current_picker:_get_prompt()
+
+                actions.close(prompt_bufnr)
+                builtin.find_files(opts)
+              end,
             },
           },
         },
@@ -436,6 +450,32 @@ return {
 
                 actions.close(prompt_bufnr)
                 builtin.live_grep(opts)
+              end,
+              ["<C-c>"] = function(prompt_bufnr, _) -- Set cwd to project's root
+                local current_picker = action_state.get_current_picker(prompt_bufnr)
+
+                local opts = vim.g.telescope_live_grep_opts
+                opts.cwd = vim.fn.getcwd()
+                opts.default_text = current_picker:_get_prompt()
+
+                actions.close(prompt_bufnr)
+                builtin.live_grep(opts)
+              end,
+            },
+          },
+        },
+        oldfiles = {
+          mappings = {
+            i = {
+              ["<C-c>"] = function(prompt_bufnr, _) -- Set cwd to project's root
+                local current_picker = action_state.get_current_picker(prompt_bufnr)
+
+                local opts = vim.g.telescope_oldfiles_opts
+                opts.cwd_only = true
+                opts.default_text = current_picker:_get_prompt()
+
+                actions.close(prompt_bufnr)
+                builtin.oldfiles(opts)
               end,
             },
           },
