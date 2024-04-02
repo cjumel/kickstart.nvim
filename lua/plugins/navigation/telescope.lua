@@ -42,6 +42,34 @@ return {
     local nmap = custom_utils.keymap.nmap
     local nvmap = custom_utils.keymap.nvmap
 
+    -- [[ Global utilities ]]
+    -- Utilities to manipulate the global state of Neovim, in order to be able to recreate
+    -- an existing Picker, for instance to change its parameters dynamically.
+
+    --- Save Picker options in the global state.
+    ---@param opts table The options to save.
+    ---@return nil
+    local function save_opts(opts) vim.g.telescope_last_opts = opts end
+
+    --- Load Picker options from the global state.
+    ---@return table
+    local function load_opts() return vim.g.telescope_last_opts end
+
+    --- Finalize options before passing them to Telescope. This is necessary to compute options
+    --- which can't or soulnd't be saved in the global state. Note that options which have been
+    --- finalized must not be saved afterwards.
+    ---@param opts table The options to finalize.
+    ---@return table
+    local function finalize_opts(opts)
+      -- `previwers.vim_buffer_cat` can't be saved to state for some reason, so let's work around
+      -- this by saving & loading the options instead
+      if opts._cat_previewer_opts ~= nil then
+        opts.previewer = previewers.vim_buffer_cat.new(opts._cat_previewer_opts)
+      end
+
+      return opts
+    end
+
     -- [[ Telescope setup ]]
 
     telescope.setup({
@@ -143,10 +171,7 @@ return {
               ["<C-z>"] = function(prompt_bufnr, _)
                 local current_picker = action_state.get_current_picker(prompt_bufnr)
 
-                local opts = vim.g.telescope_find_files_opts
-                if opts.prompt_title == "Find Directories" then
-                  opts.previewer = previewers.vim_buffer_cat.new(opts)
-                end
+                local opts = load_opts()
                 opts.default_text = current_picker:_get_prompt()
 
                 actions.close(prompt_bufnr)
@@ -155,10 +180,7 @@ return {
               ["<C-^>"] = function(prompt_bufnr, _)
                 local current_picker = action_state.get_current_picker(prompt_bufnr)
 
-                local opts = vim.g.telescope_find_files_opts
-                if opts.prompt_title == "Find Directories" then
-                  opts.previewer = previewers.vim_buffer_cat.new(opts)
-                end
+                local opts = load_opts()
                 opts.find_command = concat_arrays({ opts.find_command, { "--hidden" } })
                 opts.prompt_title = opts.prompt_title .. " (include hidden)"
                 opts.default_text = current_picker:_get_prompt()
@@ -169,10 +191,7 @@ return {
               ["<C-_>"] = function(prompt_bufnr, _)
                 local current_picker = action_state.get_current_picker(prompt_bufnr)
 
-                local opts = vim.g.telescope_find_files_opts
-                if opts.prompt_title == "Find Directories" then
-                  opts.previewer = previewers.vim_buffer_cat.new(opts)
-                end
+                local opts = load_opts()
                 opts.find_command =
                   concat_arrays({ opts.find_command, { "--hidden", "--no-ignore" } })
                 opts.prompt_title = opts.prompt_title .. " (include hidden & ignored)"
@@ -184,10 +203,7 @@ return {
               ["<C-c>"] = function(prompt_bufnr, _) -- Set cwd to project's root
                 local current_picker = action_state.get_current_picker(prompt_bufnr)
 
-                local opts = vim.g.telescope_find_files_opts
-                if opts.prompt_title == "Find Directories" then
-                  opts.previewer = previewers.vim_buffer_cat.new(opts)
-                end
+                local opts = load_opts()
                 opts.cwd = vim.fn.getcwd()
                 opts.default_text = current_picker:_get_prompt()
 
@@ -203,7 +219,7 @@ return {
               ["<C-z>"] = function(prompt_bufnr, _)
                 local current_picker = action_state.get_current_picker(prompt_bufnr)
 
-                local opts = vim.g.telescope_live_grep_opts
+                local opts = load_opts()
                 opts.default_text = current_picker:_get_prompt()
 
                 actions.close(prompt_bufnr)
@@ -212,7 +228,7 @@ return {
               ["<C-^>"] = function(prompt_bufnr, _)
                 local current_picker = action_state.get_current_picker(prompt_bufnr)
 
-                local opts = vim.g.telescope_live_grep_opts
+                local opts = load_opts()
                 opts.additional_args = { "--hidden" }
                 opts.prompt_title = opts.prompt_title .. " (include hidden)"
                 opts.default_text = current_picker:_get_prompt()
@@ -223,7 +239,7 @@ return {
               ["<C-_>"] = function(prompt_bufnr, _)
                 local current_picker = action_state.get_current_picker(prompt_bufnr)
 
-                local opts = vim.g.telescope_live_grep_opts
+                local opts = load_opts()
                 opts.additional_args = { "--hidden", "--no-ignore" }
                 opts.prompt_title = opts.prompt_title .. " (include hidden & ignored)"
                 opts.default_text = current_picker:_get_prompt()
@@ -234,7 +250,7 @@ return {
               ["<C-c>"] = function(prompt_bufnr, _) -- Set cwd to project's root
                 local current_picker = action_state.get_current_picker(prompt_bufnr)
 
-                local opts = vim.g.telescope_live_grep_opts
+                local opts = load_opts()
                 opts.cwd = vim.fn.getcwd()
                 opts.default_text = current_picker:_get_prompt()
 
@@ -257,31 +273,24 @@ return {
       return current_entry.index < existing_entry.index
     end
 
-    --- Make interactive options
+    --- Make options dynamically depend on the Picker context and add a persistence layer.
+    ---@param opts table Options to make.
+    ---@param meta_opts table Meta options establishing how to make the options.
+    ---@return table opts The final options.
     local function make_opts(opts, meta_opts)
       if meta_opts.oil_directory == true then
         if vim.bo.filetype == "oil" then
           opts.cwd = oil.get_current_dir()
         end
       end
-
       if meta_opts.visual_mode == true then
         if custom_utils.visual.is_visual_mode() then
           opts.default_text = custom_utils.visual.get_text()
         end
       end
 
-      -- Hacky trick to be able to perform live-changes in an opened picker
-      vim.g.telescope_last_opts = opts
-
-      -- Use a previwer with colors for directories
-      -- This must be done after saving the options in the global variable as the previewer
-      -- option can't be saved (it causes an error when re-creating the picker)
-      if meta_opts.cat_previwer == true then
-        opts.previewer = previewers.vim_buffer_cat.new(opts)
-      end
-
-      return opts
+      save_opts(opts)
+      return finalize_opts(opts)
     end
 
     -- [[ Keymaps ]]
@@ -318,6 +327,7 @@ return {
         -- Use fd default command with directory type
         find_command = { "fd", "--type", "d", "--color", "never" },
         preview = { hide_on_startup = true },
+        _cat_previewer_opts = {}, -- Use a previewer with colors for directories
         prompt_title = "Find Directories",
       }, { oil_directory = true, visual_mode = true, cat_previwer = true }))
     end, "[F]ind: [D]irectories")
