@@ -67,6 +67,18 @@ return {
         opts.previewer = previewers.vim_buffer_cat.new(opts._cat_previewer_opts)
       end
 
+      -- Add additional information in the prompt when relevant
+      local prompt_title_extras = {}
+      if opts.cwd ~= nil then
+        table.insert(prompt_title_extras, custom_utils.path.normalize(opts.cwd))
+      end
+      if #prompt_title_extras ~= 0 then
+        opts.prompt_title = opts.prompt_title
+          .. " ("
+          .. table.concat(prompt_title_extras, ", ")
+          .. ")"
+      end
+
       return opts
     end
 
@@ -309,6 +321,7 @@ return {
         -- Use fd default command
         find_command = { "fd", "--type", "f", "--color", "never" },
         preview = { hide_on_startup = true },
+        prompt_title = "Find Files", -- Necessary for dynamic picker changes
       }, { oil_directory = true, visual_mode = true }))
     end, "[F]ind: [F]iles")
     nvmap(
