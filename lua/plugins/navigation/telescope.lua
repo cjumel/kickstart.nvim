@@ -9,6 +9,7 @@ return {
     "nvim-lua/plenary.nvim",
     "nvim-tree/nvim-web-devicons",
     "nvim-treesitter/nvim-treesitter",
+    "stevearc/oil.nvim", -- Oil could be lazy-loaded by Telescope but it is already not
 
     -- Fuzzy Finder Algorithm which requires local dependencies to be built.
     -- Only load if `make` is available.
@@ -18,251 +19,29 @@ return {
       cond = function() return vim.fn.executable("make") == 1 end,
     },
   },
-  keys = {
-    -- General keymaps
-    {
-      "<leader><leader>",
-      function() require("telescope.builtin").resume() end,
-      desc = "Resume Telescope",
-    },
-    {
-      "<leader>s",
-      function()
-        local builtin = require("telescope.builtin")
-
-        local custom_utils = require("utils")
-
-        local opts = {}
-        if custom_utils.visual.is_visual_mode() then
-          opts.default_text = custom_utils.visual.get_text()
-        end
-
-        builtin.current_buffer_fuzzy_find(opts)
-      end,
-      mode = { "n", "v" },
-      desc = "[S]earch fuzzily in buffer",
-    },
-
-    -- Main finders
-    {
-      "<leader>ff",
-      function()
-        local builtin = require("telescope.builtin")
-        local oil = require("oil")
-
-        local custom_utils = require("utils")
-
-        local opts = {
-          -- Use fd default command
-          find_command = { "fd", "--type", "f", "--color", "never" },
-          preview = { hide_on_startup = true },
-          prompt_title = "Find Files",
-        }
-        if vim.bo.filetype == "oil" then
-          opts.cwd = oil.get_current_dir()
-        end
-        if custom_utils.visual.is_visual_mode() then
-          opts.default_text = custom_utils.visual.get_text()
-        end
-
-        -- Hacky trick to be able to live-change the current picker
-        vim.g.telescope_find_files_opts = opts
-
-        builtin.find_files(opts)
-      end,
-      mode = { "n", "v" },
-      desc = "[F]ind: [F]iles",
-    },
-    {
-      "<leader>fo",
-      function()
-        local builtin = require("telescope.builtin")
-
-        local custom_utils = require("utils")
-
-        local opts = {
-          preview = { hide_on_startup = true },
-          -- Keep entries sorted by recency when typing the prompt
-          tiebreak = function(current_entry, existing_entry, _)
-            return current_entry.index < existing_entry.index
-          end,
-          prompt_title = "Find Old Files",
-        }
-        if custom_utils.visual.is_visual_mode() then
-          opts.default_text = custom_utils.visual.get_text()
-        end
-
-        -- Hacky trick to be able to live-change the current picker
-        vim.g.telescope_oldfiles_opts = opts
-
-        builtin.oldfiles(opts)
-      end,
-      mode = { "n", "v" },
-      desc = "[F]ind: [O]ld files",
-    },
-    {
-      "<leader>fd",
-      function()
-        local builtin = require("telescope.builtin")
-        local oil = require("oil")
-        local previewers = require("telescope.previewers")
-
-        local custom_utils = require("utils")
-
-        local opts = {
-          -- Use fd default command with directory type
-          find_command = { "fd", "--type", "d", "--color", "never" },
-          preview = { hide_on_startup = true },
-          prompt_title = "Find Directories",
-        }
-        if vim.bo.filetype == "oil" then
-          opts.cwd = oil.get_current_dir()
-        end
-        if custom_utils.visual.is_visual_mode() then
-          opts.default_text = custom_utils.visual.get_text()
-        end
-
-        -- Hacky trick to be able to live-change the current picker
-        vim.g.telescope_find_files_opts = opts
-
-        -- Use a previwer with colors for directories
-        -- This must be done after saving the options in the global variable as the previewer
-        -- option can't be saved (it causes an error when re-creating the picker)
-        opts.previewer = previewers.vim_buffer_cat.new(opts)
-
-        builtin.find_files(opts)
-      end,
-      mode = { "n", "v" },
-      desc = "[F]ind: [D]irectories",
-    },
-    {
-      "<leader>fg",
-      function()
-        local builtin = require("telescope.builtin")
-        local oil = require("oil")
-
-        local custom_utils = require("utils")
-
-        local opts = {
-          prompt_title = "Find by Grep",
-        }
-        if vim.bo.filetype == "oil" then
-          opts.cwd = oil.get_current_dir()
-        end
-        if custom_utils.visual.is_visual_mode() then
-          opts.default_text = custom_utils.visual.get_text()
-        end
-
-        -- Hacky trick to be able to live-change the current picker
-        vim.g.telescope_live_grep_opts = opts
-
-        builtin.live_grep(opts)
-      end,
-      mode = { "n", "v" },
-      desc = "[F]ind: by [G]rep",
-    },
-
-    -- Vim- or Neovim-related
-    {
-      "<leader>:",
-      function()
-        local opts = require("telescope.themes").get_dropdown({
-          previewer = false,
-          layout_config = { width = 0.7 },
-        })
-        -- Keep entries sorted by recency when typing the prompt
-        opts.tiebreak = function(current_entry, existing_entry, _)
-          return current_entry.index < existing_entry.index
-        end
-        -- Filter out short commands like "w", "q", "wq", "wqa"
-        opts.filter_fn = function(cmd) return string.len(cmd) >= 4 end
-        require("telescope.builtin").command_history(opts)
-      end,
-      desc = "Command history",
-    },
-    {
-      "<leader>/",
-      function()
-        local opts = require("telescope.themes").get_dropdown({
-          previewer = false,
-          layout_config = { width = 0.7 },
-        })
-        -- Keep entries sorted by recency when typing the prompt
-        opts.tiebreak = function(current_entry, existing_entry, _)
-          return current_entry.index < existing_entry.index
-        end
-        require("telescope.builtin").search_history(opts)
-      end,
-      desc = "Search history",
-    },
-
-    -- Git related
-    {
-      "<leader>gs",
-      function() require("telescope.builtin").git_status() end,
-      desc = "[G]it: [S]tatus",
-    },
-    {
-      "<leader>gb",
-      function() require("telescope.builtin").git_branches() end,
-      desc = "[G]it: [B]ranches",
-    },
-    {
-      "<leader>gl",
-      function() require("telescope.builtin").git_commits({ prompt_title = "Git Log" }) end,
-      desc = "[G]it: [L]og",
-    },
-    {
-      "<leader>gL",
-      function()
-        if vim.fn.mode() == "n" then
-          require("telescope.builtin").git_bcommits({ prompt_title = "Git Buffer Log" })
-        else
-          require("telescope.builtin").git_bcommits_range({ prompt_title = "Git Selection Log" })
-        end
-      end,
-      mode = { "n", "v" },
-      desc = "[G]it: buffer/selection [L]og",
-    },
-
-    -- Help related
-    {
-      "<leader>?c",
-      function() require("telescope.builtin").commands() end,
-      desc = "Help: [C]ommands",
-    },
-    {
-      "<leader>?k",
-      function()
-        require("telescope.builtin").keymaps({
-          prompt_title = "Keymaps",
-        })
-      end,
-      desc = "Help: [K]eymaps",
-    },
-    {
-      "<leader>?h",
-      function()
-        require("telescope.builtin").help_tags({
-          prompt_title = "Help Tags",
-        })
-      end,
-      desc = "Help: [H]elp tags",
-    },
-  },
+  -- In practice, Telescope is always loaded on "VeryLazy" event, since it's a dependency of
+  -- Telescope-UI-select which itself is loaded on "VeryLazy" event, so let's not bother making
+  -- it lazy-loaded on keys
+  event = "VeryLazy",
   config = function()
+    local oil = require("oil")
+
     local actions = require("telescope.actions")
     local action_state = require("telescope.actions.state")
     local builtin = require("telescope.builtin")
     local layout_actions = require("telescope.actions.layout")
     local previewers = require("telescope.previewers")
+    local telescope = require("telescope")
     local utils = require("telescope.utils")
 
     local custom_utils = require("utils")
 
     local concat_arrays = custom_utils.table.concat_arrays
 
-    require("telescope").setup({
+    local nmap = custom_utils.keymap.nmap
+    local nvmap = custom_utils.keymap.nvmap
+
+    telescope.setup({
       defaults = {
         default_mappings = {
 
@@ -484,6 +263,150 @@ return {
     })
 
     -- Enable telescope fzf native, if installed
-    pcall(require("telescope").load_extension, "fzf")
+    pcall(telescope.load_extension, "fzf")
+
+    -- General keymaps
+    nmap("<leader><leader>", builtin.resume, "Resume Telescope")
+    nvmap("<leader>s", function()
+      local opts = {}
+      if custom_utils.visual.is_visual_mode() then
+        opts.default_text = custom_utils.visual.get_text()
+      end
+      builtin.current_buffer_fuzzy_find(opts)
+    end, "[S]earch fuzzily in buffer")
+
+    -- Main finders
+    nvmap("<leader>ff", function()
+      local opts = {
+        -- Use fd default command
+        find_command = { "fd", "--type", "f", "--color", "never" },
+        preview = { hide_on_startup = true },
+        prompt_title = "Find Files",
+      }
+      if vim.bo.filetype == "oil" then
+        opts.cwd = oil.get_current_dir()
+      end
+      if custom_utils.visual.is_visual_mode() then
+        opts.default_text = custom_utils.visual.get_text()
+      end
+
+      -- Hacky trick to be able to live-change the current picker
+      vim.g.telescope_find_files_opts = opts
+
+      builtin.find_files(opts)
+    end, "[F]ind: [F]iles")
+    nvmap("<leader>fo", function()
+      local opts = {
+        preview = { hide_on_startup = true },
+        -- Keep entries sorted by recency when typing the prompt
+        tiebreak = function(current_entry, existing_entry, _)
+          return current_entry.index < existing_entry.index
+        end,
+        prompt_title = "Find Old Files",
+      }
+      if custom_utils.visual.is_visual_mode() then
+        opts.default_text = custom_utils.visual.get_text()
+      end
+
+      -- Hacky trick to be able to live-change the current picker
+      vim.g.telescope_oldfiles_opts = opts
+
+      builtin.oldfiles(opts)
+    end, "[F]ind: [O]ld files")
+    nvmap("<leader>fd", function()
+      local opts = {
+        -- Use fd default command with directory type
+        find_command = { "fd", "--type", "d", "--color", "never" },
+        preview = { hide_on_startup = true },
+        prompt_title = "Find Directories",
+      }
+      if vim.bo.filetype == "oil" then
+        opts.cwd = oil.get_current_dir()
+      end
+      if custom_utils.visual.is_visual_mode() then
+        opts.default_text = custom_utils.visual.get_text()
+      end
+
+      -- Hacky trick to be able to live-change the current picker
+      vim.g.telescope_find_files_opts = opts
+
+      -- Use a previwer with colors for directories
+      -- This must be done after saving the options in the global variable as the previewer
+      -- option can't be saved (it causes an error when re-creating the picker)
+      opts.previewer = previewers.vim_buffer_cat.new(opts)
+
+      builtin.find_files(opts)
+    end, "[F]ind: [D]irectories")
+    nvmap("<leader>fg", function()
+      local opts = {
+        prompt_title = "Find by Grep",
+      }
+      if vim.bo.filetype == "oil" then
+        opts.cwd = oil.get_current_dir()
+      end
+      if custom_utils.visual.is_visual_mode() then
+        opts.default_text = custom_utils.visual.get_text()
+      end
+
+      -- Hacky trick to be able to live-change the current picker
+      vim.g.telescope_live_grep_opts = opts
+
+      builtin.live_grep(opts)
+    end, "[F]ind: by [G]rep")
+
+    -- Vim- or Neovim-related
+    nmap("<leader>:", function()
+      local opts = require("telescope.themes").get_dropdown({
+        previewer = false,
+        layout_config = { width = 0.7 },
+      })
+      -- Keep entries sorted by recency when typing the prompt
+      opts.tiebreak = function(current_entry, existing_entry, _)
+        return current_entry.index < existing_entry.index
+      end
+      -- Filter out short commands like "w", "q", "wq", "wqa"
+      opts.filter_fn = function(cmd) return string.len(cmd) >= 4 end
+      builtin.command_history(opts)
+    end, "Command history")
+    nmap("<leader>/", function()
+      local opts = require("telescope.themes").get_dropdown({
+        previewer = false,
+        layout_config = { width = 0.7 },
+      })
+      -- Keep entries sorted by recency when typing the prompt
+      opts.tiebreak = function(current_entry, existing_entry, _)
+        return current_entry.index < existing_entry.index
+      end
+      builtin.search_history(opts)
+    end, "Search history")
+
+    -- Git related
+    nmap("<leader>gs", builtin.git_status, "[G]it: [S]tatus")
+    nmap("<leader>gb", builtin.git_branches, "[G]it: [B]ranches")
+    nmap(
+      "<leader>gl",
+      function() builtin.git_commits({ prompt_title = "Git Log" }) end,
+      "[G]it: [L]og"
+    )
+    nvmap("<leader>gL", function()
+      if vim.fn.mode() == "n" then
+        builtin.git_bcommits({ prompt_title = "Git Buffer Log" })
+      else
+        builtin.git_bcommits_range({ prompt_title = "Git Selection Log" })
+      end
+    end, "[G]it: buffer/selection [L]og")
+
+    -- Help related
+    nmap("<leader>?c", builtin.commands, "Help: [C]ommands")
+    nmap(
+      "<leader>?k",
+      function() builtin.keymaps({ prompt_title = "Keymaps" }) end,
+      "Help: [K]eymaps"
+    )
+    nmap(
+      "<leader>?h",
+      function() builtin.help_tags({ prompt_title = "Help Tags" }) end,
+      "Help: [H]elp tags"
+    )
   end,
 }

@@ -85,6 +85,20 @@ function M.vmap(lhs, rhs, desc, opts)
   vim.keymap.set("v", lhs, rhs, opts)
 end
 
+--- Wrapper around `vim.keymap.set` for normal & visual mode keymaps.
+---@param lhs string Left-hand side of the keymap.
+---@param rhs string|function Right-hand side of the keymap.
+---@param desc string|nil Description of the keymap.
+---@param opts table|nil Remaining options passed to `vim.keymap.set`.
+---@return nil
+function M.nvmap(lhs, rhs, desc, opts)
+  opts = opts or {}
+  if desc ~= nil then
+    opts.desc = desc
+  end
+  vim.keymap.set({ "n", "v" }, lhs, rhs, opts)
+end
+
 --- Wrapper around `vim.keymap.set` for operator-pending mode keymaps.
 ---@param lhs string Left-hand side of the keymap.
 ---@param rhs string|function Right-hand side of the keymap.
