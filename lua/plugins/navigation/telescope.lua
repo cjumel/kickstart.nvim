@@ -32,6 +32,7 @@ return {
     local layout_actions = require("telescope.actions.layout")
     local previewers = require("telescope.previewers")
     local telescope = require("telescope")
+    local themes = require("telescope.themes")
     local utils = require("telescope.utils")
 
     local custom_utils = require("utils")
@@ -40,6 +41,8 @@ return {
 
     local nmap = custom_utils.keymap.nmap
     local nvmap = custom_utils.keymap.nvmap
+
+    -- [[ Telescope setup ]]
 
     telescope.setup({
       defaults = {
@@ -125,9 +128,7 @@ return {
           },
         },
         path_display = function(_, path)
-          -- Normalize and shorten the path
-          path = custom_utils.path.normalize(path)
-
+          path = custom_utils.path.normalize(path) -- Normalize and shorten the path
           -- Apply Telescope builtin path display options (must be done after other normalizations)
           return utils.transform_path({ path_display = { truncate = true } }, path)
         end,
@@ -265,120 +266,108 @@ return {
     -- Enable telescope fzf native, if installed
     pcall(telescope.load_extension, "fzf")
 
-    -- General keymaps
-    nmap("<leader><leader>", builtin.resume, "Resume Telescope")
-    nvmap("<leader>s", function()
-      local opts = {}
-      if custom_utils.visual.is_visual_mode() then
-        opts.default_text = custom_utils.visual.get_text()
-      end
-      builtin.current_buffer_fuzzy_find(opts)
-    end, "[S]earch fuzzily in buffer")
+    -- [[ Keymap utilities ]]
 
-    -- Main finders
-    nvmap("<leader>ff", function()
-      local opts = {
-        -- Use fd default command
-        find_command = { "fd", "--type", "f", "--color", "never" },
-        preview = { hide_on_startup = true },
-        prompt_title = "Find Files",
-      }
-      if vim.bo.filetype == "oil" then
-        opts.cwd = oil.get_current_dir()
-      end
-      if custom_utils.visual.is_visual_mode() then
-        opts.default_text = custom_utils.visual.get_text()
+    --- Keep entries sorted by recency when typing the prompt
+    local function recency_tiebreak(current_entry, existing_entry, _)
+      return current_entry.index < existing_entry.index
+    end
+
+    --- Make interactive options
+    local function make_opts(opts, meta_opts)
+      if meta_opts.oil_directory == true then
+        if vim.bo.filetype == "oil" then
+          opts.cwd = oil.get_current_dir()
+        end
       end
 
-      -- Hacky trick to be able to live-change the current picker
-      vim.g.telescope_find_files_opts = opts
-
-      builtin.find_files(opts)
-    end, "[F]ind: [F]iles")
-    nvmap("<leader>fo", function()
-      local opts = {
-        preview = { hide_on_startup = true },
-        -- Keep entries sorted by recency when typing the prompt
-        tiebreak = function(current_entry, existing_entry, _)
-          return current_entry.index < existing_entry.index
-        end,
-        prompt_title = "Find Old Files",
-      }
-      if custom_utils.visual.is_visual_mode() then
-        opts.default_text = custom_utils.visual.get_text()
+      if meta_opts.visual_mode == true then
+        if custom_utils.visual.is_visual_mode() then
+          opts.default_text = custom_utils.visual.get_text()
+        end
       end
 
-      -- Hacky trick to be able to live-change the current picker
-      vim.g.telescope_oldfiles_opts = opts
-
-      builtin.oldfiles(opts)
-    end, "[F]ind: [O]ld files")
-    nvmap("<leader>fd", function()
-      local opts = {
-        -- Use fd default command with directory type
-        find_command = { "fd", "--type", "d", "--color", "never" },
-        preview = { hide_on_startup = true },
-        prompt_title = "Find Directories",
-      }
-      if vim.bo.filetype == "oil" then
-        opts.cwd = oil.get_current_dir()
-      end
-      if custom_utils.visual.is_visual_mode() then
-        opts.default_text = custom_utils.visual.get_text()
-      end
-
-      -- Hacky trick to be able to live-change the current picker
-      vim.g.telescope_find_files_opts = opts
+      -- Hacky trick to be able to perform live-changes in an opened picker
+      vim.g.telescope_last_opts = opts
 
       -- Use a previwer with colors for directories
       -- This must be done after saving the options in the global variable as the previewer
       -- option can't be saved (it causes an error when re-creating the picker)
-      opts.previewer = previewers.vim_buffer_cat.new(opts)
+      if meta_opts.cat_previwer == true then
+        opts.previewer = previewers.vim_buffer_cat.new(opts)
+      end
 
-      builtin.find_files(opts)
+      return opts
+    end
+
+    -- [[ Keymaps ]]
+
+    -- General keymaps
+    nmap("<leader><leader>", builtin.resume, "Resume Telescope")
+    nvmap(
+      "<leader>s",
+      function() builtin.current_buffer_fuzzy_find(make_opts({}, { visual_mode = true })) end,
+      "[S]earch fuzzily in buffer"
+    )
+
+    -- Main finders
+    nvmap("<leader>ff", function()
+      builtin.find_files(make_opts({
+        -- Use fd default command
+        find_command = { "fd", "--type", "f", "--color", "never" },
+        preview = { hide_on_startup = true },
+      }, { oil_directory = true, visual_mode = true }))
+    end, "[F]ind: [F]iles")
+    nvmap(
+      "<leader>fo",
+      function()
+        builtin.oldfiles(make_opts({
+          preview = { hide_on_startup = true },
+          tiebreak = recency_tiebreak,
+          prompt_title = "Find Old Files",
+        }, { visual_mode = true }))
+      end,
+      "[F]ind: [O]ld files"
+    )
+    nvmap("<leader>fd", function()
+      builtin.find_files(make_opts({
+        -- Use fd default command with directory type
+        find_command = { "fd", "--type", "d", "--color", "never" },
+        preview = { hide_on_startup = true },
+        prompt_title = "Find Directories",
+      }, { oil_directory = true, visual_mode = true, cat_previwer = true }))
     end, "[F]ind: [D]irectories")
-    nvmap("<leader>fg", function()
-      local opts = {
-        prompt_title = "Find by Grep",
-      }
-      if vim.bo.filetype == "oil" then
-        opts.cwd = oil.get_current_dir()
-      end
-      if custom_utils.visual.is_visual_mode() then
-        opts.default_text = custom_utils.visual.get_text()
-      end
-
-      -- Hacky trick to be able to live-change the current picker
-      vim.g.telescope_live_grep_opts = opts
-
-      builtin.live_grep(opts)
-    end, "[F]ind: by [G]rep")
+    nvmap(
+      "<leader>fg",
+      function()
+        builtin.live_grep(make_opts({
+          prompt_title = "Find by Grep",
+        }, { oil_directory = true, visual_mode = true }))
+      end,
+      "[F]ind: by [G]rep"
+    )
 
     -- Vim- or Neovim-related
     nmap("<leader>:", function()
-      local opts = require("telescope.themes").get_dropdown({
+      builtin.command_history(themes.get_dropdown({
         previewer = false,
         layout_config = { width = 0.7 },
-      })
-      -- Keep entries sorted by recency when typing the prompt
-      opts.tiebreak = function(current_entry, existing_entry, _)
-        return current_entry.index < existing_entry.index
-      end
-      -- Filter out short commands like "w", "q", "wq", "wqa"
-      opts.filter_fn = function(cmd) return string.len(cmd) >= 4 end
-      builtin.command_history(opts)
+        tiebreak = recency_tiebreak,
+        -- Filter out short commands like "w", "q", "wq", "wqa"
+        filter_fn = function(cmd) return string.len(cmd) >= 4 end,
+      }))
     end, "Command history")
-    nmap("<leader>/", function()
-      local opts = require("telescope.themes").get_dropdown({
-        previewer = false,
-        layout_config = { width = 0.7 },
-      })
-      -- Keep entries sorted by recency when typing the prompt
-      opts.tiebreak = function(current_entry, existing_entry, _)
-        return current_entry.index < existing_entry.index
-      end
-      builtin.search_history(opts)
-    end, "Search history")
+    nmap(
+      "<leader>/",
+      function()
+        builtin.search_history(themes.get_dropdown({
+          previewer = false,
+          layout_config = { width = 0.7 },
+          tiebreak = recency_tiebreak,
+        }))
+      end,
+      "Search history"
+    )
 
     -- Git related
     nmap("<leader>gs", builtin.git_status, "[G]it: [S]tatus")
