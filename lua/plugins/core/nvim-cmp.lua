@@ -33,6 +33,7 @@ return {
       mapping = {
         -- By default, mappings are in insert mode
         -- Using `cmp.mapping(..., { "i", "c" })` makes them available in command mode for instance
+        -- <C-c> to abort completion is defined at the configuration-level
         ["<CR>"] = cmp.mapping(
           cmp.mapping.confirm({
             -- Don't automatically select an item when confirming
@@ -61,7 +62,6 @@ return {
             cmp.complete()
           end
         end, { "i", "c" }),
-        ["<C-c>"] = cmp.mapping(cmp.mapping.abort(), { "i", "c" }),
         ["<C-d>"] = cmp.mapping.scroll_docs(5),
         ["<C-u>"] = cmp.mapping.scroll_docs(-5),
       },

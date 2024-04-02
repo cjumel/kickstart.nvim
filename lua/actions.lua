@@ -50,7 +50,9 @@ M.fixed_gx = [[:silent execute '!open ' . shellescape(expand('<cfile>'), 1)<CR>]
 
 -- [[ General actions ]]
 
-M.clear_window = function()
+--- Clear window artifacts, like highlights or floating windows.
+---@return nil
+function M.clear_window()
   -- Clear search highlights in case `vim.o.hlsearch` is true
   vim.cmd("nohlsearch")
 
@@ -81,6 +83,28 @@ M.clear_window = function()
       vim.api.nvim_win_close(id, false)
     end
   end
+end
+
+--- Clear insert mode artifacts, like copilot suggestion.
+---@return nil
+function M.clear_insert_mode()
+  -- Dismiss Copilot suggestion
+  if package.loaded._copilot ~= nil then
+    vim.fn["copilot#Dismiss"]()
+  end
+
+  -- Dismiss nvim-cmp suggestion
+  local cmp = package.loaded.cmp
+  if cmp ~= nil then
+    cmp.abort()
+  end
+end
+
+--- Clear all artifacts.
+---@return nil
+function M.clear_all()
+  M.clear_window()
+  M.clear_insert_mode()
 end
 
 M.hover = function()

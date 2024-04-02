@@ -43,6 +43,34 @@ function M.imap(lhs, rhs, desc, opts)
   vim.keymap.set("i", lhs, rhs, opts)
 end
 
+--- Wrapper around `vim.keymap.set` for cmdline mode keymaps.
+---@param lhs string Left-hand side of the keymap.
+---@param rhs string|function Right-hand side of the keymap.
+---@param desc string|nil Description of the keymap.
+---@param opts table|nil Remaining options passed to `vim.keymap.set`.
+---@return nil
+function M.cmap(lhs, rhs, desc, opts)
+  opts = opts or {}
+  if desc ~= nil then
+    opts.desc = desc
+  end
+  vim.keymap.set("c", lhs, rhs, opts)
+end
+
+--- Wrapper around `vim.keymap.set` for insert & cmdline mode keymaps.
+---@param lhs string Left-hand side of the keymap.
+---@param rhs string|function Right-hand side of the keymap.
+---@param desc string|nil Description of the keymap.
+---@param opts table|nil Remaining options passed to `vim.keymap.set`.
+---@return nil
+function M.icmap(lhs, rhs, desc, opts)
+  opts = opts or {}
+  if desc ~= nil then
+    opts.desc = desc
+  end
+  vim.keymap.set({ "i", "c" }, lhs, rhs, opts)
+end
+
 --- Wrapper around `vim.keymap.set` for visual mode keymaps.
 ---@param lhs string Left-hand side of the keymap.
 ---@param rhs string|function Right-hand side of the keymap.

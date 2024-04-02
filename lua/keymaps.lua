@@ -1,3 +1,12 @@
+local actions = require("actions")
+local utils = require("utils")
+
+local cmap = utils.keymap.cmap
+local imap = utils.keymap.icmap
+local mpmap = utils.keymap.mpmap
+local nmap = utils.keymap.nmap
+local vmap = utils.keymap.vmap
+
 -- [[ Disable builtin keymaps ]]
 
 vim.keymap.set({ "n", "v" }, "<Space>", "<Nop>", { silent = true })
@@ -21,8 +30,6 @@ vim.keymap.set("n", "[M", function() end, { desc = "which_key_ignore" })
 vim.keymap.set("n", "]M", function() end, { desc = "which_key_ignore" })
 
 -- [[ Remap builtin keymaps ]]
-
-local actions = require("actions")
 
 -- Remap a/i to automatically indent on empty line
 vim.keymap.set("n", "a", actions.smart_a, { desc = "Neovim builtin", expr = true, noremap = true })
@@ -53,13 +60,11 @@ vim.api.nvim_set_keymap("n", "gx", actions.fixed_gx, { desc = "Open URL under cu
 
 -- [[ General keymaps ]]
 
-vim.keymap.set("n", "<ESC>", actions.clear_window, { desc = "Dismiss messages & floating windows" })
-vim.keymap.set(
-  { "i", "v" },
-  "<C-c>",
-  actions.clear_window,
-  { desc = "Dismiss messages & floating windows" }
-)
+nmap("<ESC>", actions.clear_window, "Clear window")
+-- In visual, insert & cmdline modes, <ESC> is already taken, so let's use <C-c> instead
+imap("<C-c>", actions.clear_all, "Clear window")
+vmap("<C-c>", actions.clear_window, "Clear window")
+cmap("<C-c>", actions.clear_insert_mode, "Clear window") -- Avoid closing the cmdline itself
 
 -- Naturally use <C-i> (or <Tab>), & <C-o> because it's next to <C-i> & does nothing in visual mode
 vim.keymap.set("v", "<C-i>", ">gv", { desc = "Indent selection" })
@@ -75,9 +80,6 @@ vim.keymap.set("n", "<leader>v", vim.diagnostic.open_float, { desc = "[V]iew dia
 vim.keymap.set("n", "K", actions.hover, { desc = "Hover" })
 
 -- [[ Go-to keymaps ]]
-
-local utils = require("utils")
-local mpmap = utils.keymap.mpmap
 
 -- Dianostics can be errors, warnings, information messages or hints
 mpmap(
@@ -132,7 +134,8 @@ vim.keymap.set({ "i", "c" }, "<C-a>", "<Home>", { desc = "Move cursor to beginni
 
 -- Use <C-d> in cmdline mode to exit it like in the shell
 -- In insert mode, the builtin <C-d> deindents the line so let's not override it
-vim.keymap.set("c", "<C-d>", "<Esc>", { desc = "Exit cmdline" })
+-- For some reason, using `<ESC>` as `rhs` runs the command instead of exiting the cmdline
+vim.keymap.set("c", "<C-d>", "<C-c>", { desc = "Exit cmdline" })
 
 -- [[ Terminal emulator keymaps ]]
 -- Keymaps for Terminal mode, when in builtin terminal emulator or in ToggleTerm
