@@ -244,22 +244,6 @@ return {
             },
           },
         },
-        oldfiles = {
-          mappings = {
-            i = {
-              ["<C-c>"] = function(prompt_bufnr, _) -- Set cwd to project's root
-                local current_picker = action_state.get_current_picker(prompt_bufnr)
-
-                local opts = vim.g.telescope_oldfiles_opts
-                opts.cwd_only = true
-                opts.default_text = current_picker:_get_prompt()
-
-                actions.close(prompt_bufnr)
-                builtin.oldfiles(opts)
-              end,
-            },
-          },
-        },
       },
     })
 
@@ -324,10 +308,10 @@ return {
         builtin.oldfiles(make_opts({
           preview = { hide_on_startup = true },
           tiebreak = recency_tiebreak,
-          prompt_title = "Find Old Files",
+          prompt_title = "Find OldFiles",
         }, { visual_mode = true }))
       end,
-      "[F]ind: [O]ld files"
+      "[F]ind: [O]ldfiles"
     )
     nvmap("<leader>fd", function()
       builtin.find_files(make_opts({
