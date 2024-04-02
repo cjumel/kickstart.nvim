@@ -81,10 +81,18 @@ return {
               end
             end,
             ruler_column = function()
-              if vim.o.colorcolumn == "101" then
-                return "[100] /  off "
+              if vim.o.colorcolumn == "" then
+                return "[off] /  80  /  100  /  120  /  140 "
+              elseif vim.o.colorcolumn == "81" then
+                return " off  / [80] /  100  /  120  /  140 "
+              elseif vim.o.colorcolumn == "101" then
+                return " off  /  80  / [100] /  120  /  140 "
+              elseif vim.o.colorcolumn == "121" then
+                return " off  /  80  /  100  / [120] /  140 "
+              elseif vim.o.colorcolumn == "141" then
+                return " off  /  80  /  100  /  120  / [140]"
               else
-                return " 100  / [off]"
+                return " off  /  80  /  100  /  120  /  140 "
               end
             end,
             sign_column = function()
@@ -151,7 +159,7 @@ return {
 
    Window options   
    _n_/_N_ ➜ Line numbring:         %{line_numbering}   
-   _r_ ^ ^ ➜ Ruler column:          %{ruler_column}   
+   _r_/_R_ ➜ Ruler column:          %{ruler_column}   
    _s_/_S_ ➜ Sign column:           %{sign_column}   
    _t_ ^ ^ ➜ Treesitterr context:   %{treesitter_context}   
 
@@ -202,10 +210,32 @@ return {
         {
           "r",
           function()
-            if vim.o.colorcolumn == "101" then
-              vim.o.colorcolumn = ""
-            else
+            if vim.o.colorcolumn == "" then
+              vim.o.colorcolumn = "81"
+            elseif vim.o.colorcolumn == "81" then
               vim.o.colorcolumn = "101"
+            elseif vim.o.colorcolumn == "101" then
+              vim.o.colorcolumn = "121"
+            elseif vim.o.colorcolumn == "121" then
+              vim.o.colorcolumn = "141"
+            else
+              vim.o.colorcolumn = ""
+            end
+          end,
+        },
+        {
+          "R",
+          function()
+            if vim.o.colorcolumn == "" then
+              vim.o.colorcolumn = "141"
+            elseif vim.o.colorcolumn == "141" then
+              vim.o.colorcolumn = "121"
+            elseif vim.o.colorcolumn == "121" then
+              vim.o.colorcolumn = "101"
+            elseif vim.o.colorcolumn == "101" then
+              vim.o.colorcolumn = "81"
+            else
+              vim.o.colorcolumn = ""
             end
           end,
         },
