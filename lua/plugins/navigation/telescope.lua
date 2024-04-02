@@ -84,7 +84,7 @@ return {
       end
 
       if opts._hidden and not opts._hidden_and_ignored then
-        table.insert(prompt_title_extras, "hidden")
+        table.insert(prompt_title_extras, "w/ hidden")
         if opts.prompt_title == "Find Files" or opts.prompt_title == "Find Directories" then
           opts.find_command = concat_arrays({ opts.find_command, { "--hidden" } })
         elseif opts.prompt_title == "Find by Grep" then
@@ -92,7 +92,7 @@ return {
         end
       end
       if not opts._hidden and opts._hidden_and_ignored then
-        table.insert(prompt_title_extras, "hidden & ignored")
+        table.insert(prompt_title_extras, "all")
         if opts.prompt_title == "Find Files" or opts.prompt_title == "Find Directories" then
           opts.find_command = concat_arrays({ opts.find_command, { "--hidden", "--no-ignore" } })
         elseif opts.prompt_title == "Find by Grep" then
