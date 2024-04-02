@@ -57,21 +57,49 @@ return {
 
     --- Finalize options before passing them to Telescope. This is necessary to compute options
     --- which can't or soulnd't be saved in the global state. Note that options which have been
-    --- finalized must not be saved afterwards.
+    --- finalized must not be saved afterwards. If a prompt buffer number is provided, the prompt
+    --- will be closed and the default text will be set to the prompt's text.
     ---@param opts table The options to finalize.
+    ---@param prompt_bufnr number|nil The prompt buffer number, if any.
     ---@return table
-    local function finalize_opts(opts)
+    local function finalize_opts(opts, prompt_bufnr)
+      -- Add additional information in the prompt when relevant
+      local prompt_title_extras = {}
+
+      if prompt_bufnr ~= nil then
+        local current_picker = action_state.get_current_picker(prompt_bufnr)
+        opts.default_text = current_picker:_get_prompt()
+        actions.close(prompt_bufnr)
+      end
+
       -- `previwers.vim_buffer_cat` can't be saved to state for some reason, so let's work around
       -- this by saving & loading the options instead
       if opts._cat_previewer_opts ~= nil then
         opts.previewer = previewers.vim_buffer_cat.new(opts._cat_previewer_opts)
       end
 
-      -- Add additional information in the prompt when relevant
-      local prompt_title_extras = {}
-      if opts.cwd ~= nil then
-        table.insert(prompt_title_extras, custom_utils.path.normalize(opts.cwd))
+      if opts._use_oil_directory and opts._oil_directory then
+        table.insert(prompt_title_extras, custom_utils.path.normalize(opts._oil_directory))
+        opts.cwd = opts._oil_directory
       end
+
+      if opts._hidden and not opts._hidden_and_ignored then
+        table.insert(prompt_title_extras, "hidden")
+        if opts.prompt_title == "Find Files" or opts.prompt_title == "Find Directories" then
+          opts.find_command = concat_arrays({ opts.find_command, { "--hidden" } })
+        elseif opts.prompt_title == "Find by Grep" then
+          opts.additional_args = { "--hidden" }
+        end
+      end
+      if not opts._hidden and opts._hidden_and_ignored then
+        table.insert(prompt_title_extras, "hidden & ignored")
+        if opts.prompt_title == "Find Files" or opts.prompt_title == "Find Directories" then
+          opts.find_command = concat_arrays({ opts.find_command, { "--hidden", "--no-ignore" } })
+        elseif opts.prompt_title == "Find by Grep" then
+          opts.additional_args = { "--hidden", "--no-ignore" }
+        end
+      end
+
       if #prompt_title_extras ~= 0 then
         opts.prompt_title = opts.prompt_title
           .. " ("
@@ -80,6 +108,47 @@ return {
       end
 
       return opts
+    end
+
+    --- Output a function to toggle the hidden files option in a Picker.
+    ---@param picker function The picker to toggle the hidden files option in.
+    ---@return function
+    local function live_set_hidden(picker)
+      return function(prompt_bufnr, _)
+        local opts = load_opts()
+        opts._hidden = not opts._hidden
+        opts._hidden_and_ignored = false
+
+        save_opts(opts)
+        picker(finalize_opts(opts, prompt_bufnr))
+      end
+    end
+
+    --- Output a function to toggle the hidden and ignored files option in a Picker.
+    ---@param picker function The picker to toggle the hidden and ignored files option in.
+    ---@return function
+    local function live_set_hidden_and_ignored(picker)
+      return function(prompt_bufnr, _)
+        local opts = load_opts()
+        opts._hidden = false
+        opts._hidden_and_ignored = not opts._hidden_and_ignored
+
+        save_opts(opts)
+        picker(finalize_opts(opts, prompt_bufnr))
+      end
+    end
+
+    --- Output a function to toggle the Oil directory option in a Picker.
+    ---@param picker function The picker to toggle the Oil directory option in.
+    ---@return function
+    local function live_set_cwd(picker)
+      return function(prompt_bufnr, _)
+        local opts = load_opts()
+        opts._use_oil_directory = not opts._use_oil_directory
+
+        save_opts(opts)
+        picker(finalize_opts(opts, prompt_bufnr))
+      end
     end
 
     -- [[ Telescope setup ]]
@@ -174,101 +243,21 @@ return {
         end,
       },
       pickers = {
-        -- Implement live-change of pickers for `find_files` & `live_grep`, to be able to search
-        -- in hidden & ignored files & directories with <C-^> and <C-_>, and revert back to the
-        -- default behavior with <C-z>
         find_files = {
           mappings = {
             i = {
-              ["<C-z>"] = function(prompt_bufnr, _)
-                local current_picker = action_state.get_current_picker(prompt_bufnr)
-
-                local opts = load_opts()
-                opts.default_text = current_picker:_get_prompt()
-
-                actions.close(prompt_bufnr)
-                builtin.find_files(opts)
-              end,
-              ["<C-^>"] = function(prompt_bufnr, _)
-                local current_picker = action_state.get_current_picker(prompt_bufnr)
-
-                local opts = load_opts()
-                opts.find_command = concat_arrays({ opts.find_command, { "--hidden" } })
-                opts.prompt_title = opts.prompt_title .. " (include hidden)"
-                opts.default_text = current_picker:_get_prompt()
-
-                actions.close(prompt_bufnr)
-                builtin.find_files(opts)
-              end,
-              ["<C-_>"] = function(prompt_bufnr, _)
-                local current_picker = action_state.get_current_picker(prompt_bufnr)
-
-                local opts = load_opts()
-                opts.find_command =
-                  concat_arrays({ opts.find_command, { "--hidden", "--no-ignore" } })
-                opts.prompt_title = opts.prompt_title .. " (include hidden & ignored)"
-                opts.default_text = current_picker:_get_prompt()
-
-                actions.close(prompt_bufnr)
-                builtin.find_files(opts)
-              end,
-              ["<C-c>"] = function(prompt_bufnr, _) -- Set cwd to project's root
-                local current_picker = action_state.get_current_picker(prompt_bufnr)
-
-                local opts = load_opts()
-                opts.cwd = vim.fn.getcwd()
-                opts.default_text = current_picker:_get_prompt()
-
-                actions.close(prompt_bufnr)
-                builtin.find_files(opts)
-              end,
+              ["<C-^>"] = live_set_hidden(builtin.find_files),
+              ["<C-_>"] = live_set_hidden_and_ignored(builtin.find_files),
+              ["<C-c>"] = live_set_cwd(builtin.find_files),
             },
           },
         },
         live_grep = {
           mappings = {
             i = {
-              ["<C-z>"] = function(prompt_bufnr, _)
-                local current_picker = action_state.get_current_picker(prompt_bufnr)
-
-                local opts = load_opts()
-                opts.default_text = current_picker:_get_prompt()
-
-                actions.close(prompt_bufnr)
-                builtin.live_grep(opts)
-              end,
-              ["<C-^>"] = function(prompt_bufnr, _)
-                local current_picker = action_state.get_current_picker(prompt_bufnr)
-
-                local opts = load_opts()
-                opts.additional_args = { "--hidden" }
-                opts.prompt_title = opts.prompt_title .. " (include hidden)"
-                opts.default_text = current_picker:_get_prompt()
-
-                actions.close(prompt_bufnr)
-                builtin.live_grep(opts)
-              end,
-              ["<C-_>"] = function(prompt_bufnr, _)
-                local current_picker = action_state.get_current_picker(prompt_bufnr)
-
-                local opts = load_opts()
-                opts.additional_args = { "--hidden", "--no-ignore" }
-                opts.prompt_title = opts.prompt_title .. " (include hidden & ignored)"
-                opts.default_text = current_picker:_get_prompt()
-
-                actions.close(prompt_bufnr)
-                builtin.live_grep(opts)
-              end,
-              ["<C-c>"] = function(prompt_bufnr, _) -- Set cwd to project's root
-                local current_picker = action_state.get_current_picker(prompt_bufnr)
-
-                local opts = load_opts()
-                opts.cwd = vim.fn.getcwd()
-                opts.default_text = current_picker:_get_prompt()
-
-                actions.close(prompt_bufnr)
-                builtin.live_grep(opts)
-              end,
+              ["<C-^>"] = live_set_hidden(builtin.live_grep),
+              ["<C-_>"] = live_set_hidden_and_ignored(builtin.live_grep),
+              ["<C-c>"] = live_set_cwd(builtin.live_grep),
             },
           },
         },
@@ -292,7 +281,8 @@ return {
     local function make_opts(opts, meta_opts)
       if meta_opts.oil_directory == true then
         if vim.bo.filetype == "oil" then
-          opts.cwd = oil.get_current_dir()
+          opts._oil_directory = oil.get_current_dir() -- To keep the Oil directory in memory
+          opts._use_oil_directory = true
         end
       end
       if meta_opts.visual_mode == true then
@@ -318,7 +308,6 @@ return {
     -- Main finders
     nvmap("<leader>ff", function()
       builtin.find_files(make_opts({
-        -- Use fd default command
         find_command = { "fd", "--type", "f", "--color", "never" },
         preview = { hide_on_startup = true },
         prompt_title = "Find Files", -- Necessary for dynamic picker changes
@@ -337,7 +326,6 @@ return {
     )
     nvmap("<leader>fd", function()
       builtin.find_files(make_opts({
-        -- Use fd default command with directory type
         find_command = { "fd", "--type", "d", "--color", "never" },
         preview = { hide_on_startup = true },
         _cat_previewer_opts = {}, -- Use a previewer with colors for directories
