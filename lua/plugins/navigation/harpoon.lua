@@ -40,10 +40,10 @@ return {
         if is_in_harpoon_list() then
           harpoon:list():remove()
         else
-          harpoon:list():prepend()
+          harpoon:list():append()
         end
       end,
-      desc = "Insert in Harpoon list",
+      desc = "Append to Harpoon",
     },
     {
       "œ", -- <M-o>
@@ -53,13 +53,13 @@ return {
         if is_in_harpoon_list() then
           harpoon:list():remove()
         else
-          harpoon:list():append()
+          harpoon:list():prepend()
         end
       end,
-      desc = "Outsert in Harpoon list",
+      desc = "Prepend to Harpoon",
     },
     {
-      "©", -- <M-c>
+      "π", -- <M-p>
       function()
         local harpoon = require("harpoon")
         harpoon:list():clear()
