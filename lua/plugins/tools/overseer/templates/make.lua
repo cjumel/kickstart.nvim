@@ -1,19 +1,21 @@
 local utils = require("utils")
 
+local function make_has_file() return utils.dir.contain_files({ "Makefile" }) end
+local args = {
+  type = "string",
+  desc = "Additional arguments",
+  optional = true,
+}
 local tags = { "make" }
 
 return {
   {
     name = "Make",
     condition = {
-      callback = function(_) return utils.dir.contain_files({ "Makefile" }) end,
+      callback = function(_) make_has_file() end,
     },
     params = {
-      args = {
-        type = "string",
-        desc = "Arguments",
-        optional = false,
-      },
+      args = args,
     },
     builder = function(params)
       return {

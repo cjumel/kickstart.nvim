@@ -1,27 +1,28 @@
 local utils = require("utils")
 
-local tags = { "python", "poetry" }
-
-local condition = {
-  callback = function(_)
-    return utils.dir.contain_files({
-      "pyproject.toml",
-      "poetry.lock",
-    })
-  end,
+local function poetry_has_lock_file(_) return utils.dir.contain_files({ "poetry.lock" }) end
+local package = {
+  type = "string",
+  desc = "Name of the package to add",
+  optional = false,
+  order = 1,
 }
-
-local args_param = {
+local args = {
   type = "string",
   desc = "Additional arguments",
   optional = true,
 }
+local tags = { "python", "poetry" }
 
 return {
   {
     name = "Poetry install",
-    condition = condition,
-    params = { args = args_param },
+    condition = {
+      callback = function(_) poetry_has_lock_file() end,
+    },
+    params = {
+      args = args,
+    },
     builder = function(params)
       return {
         cmd = { "poetry", "install", params.args },
@@ -31,8 +32,12 @@ return {
   },
   {
     name = "Poetry update",
-    condition = condition,
-    params = { args = args_param },
+    condition = {
+      callback = function(_) poetry_has_lock_file() end,
+    },
+    params = {
+      args = args,
+    },
     builder = function(params)
       return {
         cmd = { "poetry", "update", params.args },
@@ -42,15 +47,12 @@ return {
   },
   {
     name = "Poetry add",
-    condition = condition,
+    condition = {
+      callback = function(_) poetry_has_lock_file() end,
+    },
     params = {
-      package = {
-        type = "string",
-        desc = "Name of the package to add",
-        optional = false,
-        order = 1,
-      },
-      args = args_param,
+      package = package,
+      args = args,
     },
     builder = function(params)
       return {

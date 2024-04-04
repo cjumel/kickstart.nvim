@@ -1,5 +1,10 @@
 local utils = require("utils")
 
+local args = {
+  type = "string",
+  desc = "Additional arguments",
+  optional = true,
+}
 local tags = { "luajit" }
 
 return {
@@ -9,11 +14,7 @@ return {
       filetype = "lua",
     },
     params = {
-      args = {
-        type = "string",
-        desc = "Additional arguments",
-        optional = true,
-      },
+      args = args,
     },
     builder = function(params)
       local path = utils.path.get_current_file_path()

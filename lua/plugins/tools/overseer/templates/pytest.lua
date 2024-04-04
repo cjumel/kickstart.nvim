@@ -1,27 +1,25 @@
 local utils = require("utils")
 
-local tags = { "python", "pytest" }
-
-local pytest_params = {
-  args = {
-    type = "string",
-    desc = "Additional arguments",
-    optional = true,
-    default = [[-m "not slow"]],
-  },
+local function pytest_has_config()
+  return utils.dir.contain_files({ "pytest.ini", "pyproject.toml", "tox.ini", "setup.cfg" })
+end
+local args = {
+  type = "string",
+  desc = "Additional arguments",
+  optional = true,
+  default = [[-m "not slow"]],
 }
+local tags = { "python", "pytest" }
 
 return {
   {
     name = "Pytest file",
     condition = {
-      callback = function(_)
-        return vim.bo.filetype == "python"
-          and utils.project.is_python()
-          and utils.dir.contain_dirs({ "tests" })
-      end,
+      callback = function(_) return pytest_has_config() and vim.bo.filetype == "python" end,
     },
-    params = pytest_params,
+    params = {
+      args = args,
+    },
     builder = function(params)
       local path = utils.path.get_current_file_path()
       if path == nil then
@@ -38,13 +36,11 @@ return {
   {
     name = "Pytest directory",
     condition = {
-      callback = function(_)
-        return vim.bo.filetype == "oil"
-          and utils.project.is_python()
-          and utils.dir.contain_dirs({ "tests" })
-      end,
+      callback = function(_) return pytest_has_config() and vim.bo.filetype == "oil" end,
     },
-    params = pytest_params,
+    params = {
+      args = args,
+    },
     builder = function(params)
       local path = utils.path.get_current_oil_directory({ fallback = "cwd" })
       if path == nil then
@@ -61,11 +57,11 @@ return {
   {
     name = "Pytest",
     condition = {
-      callback = function(_)
-        return utils.project.is_python() and utils.dir.contain_dirs({ "tests" })
-      end,
+      callback = function(_) return pytest_has_config() end,
     },
-    params = pytest_params,
+    params = {
+      args = args,
+    },
     builder = function(params)
       return {
         cmd = { "pytest", params.args },
