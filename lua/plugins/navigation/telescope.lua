@@ -347,11 +347,11 @@ return {
         builtin.oldfiles(make_opts({
           preview = { hide_on_startup = true },
           tiebreak = recency_tiebreak,
-          prompt_title = "Find Recent Files",
+          prompt_title = "Find Files by Recency",
           cwd_only = true,
         }, { visual_mode = true }))
       end,
-      "[F]ind: [R]ecent files"
+      "[F]ind: files by [R]ecency"
     )
 
     -- Vim- or Neovim-related
