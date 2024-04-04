@@ -313,17 +313,6 @@ return {
         prompt_title = "Find Files", -- Necessary for dynamic picker changes
       }, { oil_directory = true, visual_mode = true }))
     end, "[F]ind: [F]iles")
-    nvmap(
-      "<leader>fo",
-      function()
-        builtin.oldfiles(make_opts({
-          preview = { hide_on_startup = true },
-          tiebreak = recency_tiebreak,
-          prompt_title = "Find OldFiles",
-        }, { visual_mode = true }))
-      end,
-      "[F]ind: [O]ldfiles"
-    )
     nvmap("<leader>fd", function()
       builtin.find_files(make_opts({
         find_command = { "fd", "--type", "d", "--color", "never" },
@@ -340,6 +329,29 @@ return {
         }, { oil_directory = true, visual_mode = true }))
       end,
       "[F]ind: by [G]rep"
+    )
+    nvmap(
+      "<leader>fo",
+      function()
+        builtin.oldfiles(make_opts({
+          preview = { hide_on_startup = true },
+          tiebreak = recency_tiebreak,
+          prompt_title = "Find OldFiles",
+        }, { visual_mode = true }))
+      end,
+      "[F]ind: [O]ldfiles"
+    )
+    nvmap( -- Alternative to oldfiles but only with files in cwd
+      "<leader>fr",
+      function()
+        builtin.oldfiles(make_opts({
+          preview = { hide_on_startup = true },
+          tiebreak = recency_tiebreak,
+          prompt_title = "Find Recent Files",
+          cwd_only = true,
+        }, { visual_mode = true }))
+      end,
+      "[F]ind: [R]ecent files"
     )
 
     -- Vim- or Neovim-related
