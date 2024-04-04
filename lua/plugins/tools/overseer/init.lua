@@ -13,20 +13,48 @@ return {
     {
       "<leader>or",
       function()
-        require("overseer").run_template({
-          prompt = "allow", -- Only ask for parameters when some are required
-        })
+        local overseer = require("overseer")
+        overseer.run_template(
+          {
+            prompt = "allow", -- Only ask for parameters when necessary
+          },
+          overseer.open -- Open Overseer afterwards
+        )
       end,
       desc = "[O]verseer: [R]un",
     },
     {
-      "<leader>op",
+      "<leader>oR",
       function()
-        require("overseer").run_template({
-          prompt = "always", -- Always ask for parameters when some are available
+        local overseer = require("overseer")
+        overseer.run_template(
+          {
+            prompt = "always", -- Always ask for parameters when possible
+          },
+          overseer.open -- Open Overseer afterwards
+        )
+      end,
+      desc = "[O]verseer: [R]un with prompt",
+    },
+    {
+      "<leader>ob",
+      function()
+        local overseer = require("overseer")
+        overseer.run_template({
+          prompt = "allow", -- Only ask for parameters when necessary
         })
       end,
-      desc = "[O]verseer: run with [P]arameter",
+      desc = "[O]verseer: [B]ackground run",
+    },
+    {
+      "<leader>oB",
+      function()
+        local overseer = require("overseer")
+        overseer.run_template({
+          prompt = "always", -- Always ask for parameters when possible
+        })
+      end,
+      desc = "[O]verseer: [B]ackground run with prompt",
     },
     {
       "<leader>ol",
