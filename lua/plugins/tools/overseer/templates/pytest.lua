@@ -2,6 +2,15 @@ local utils = require("utils")
 
 local tags = { "python", "pytest" }
 
+local pytest_params = {
+  args = {
+    type = "string",
+    desc = "Additional arguments",
+    optional = true,
+    default = [[-m "not slow"]],
+  },
+}
+
 return {
   {
     name = "Pytest file",
@@ -12,13 +21,7 @@ return {
           and utils.dir.contain_dirs({ "tests" })
       end,
     },
-    params = {
-      args = {
-        type = "string",
-        desc = "Additional arguments",
-        optional = true,
-      },
-    },
+    params = pytest_params,
     builder = function(params)
       local path = utils.path.get_current_file_path()
       if path == nil then
@@ -41,13 +44,7 @@ return {
           and utils.dir.contain_dirs({ "tests" })
       end,
     },
-    params = {
-      args = {
-        type = "string",
-        desc = "Additional arguments",
-        optional = true,
-      },
-    },
+    params = pytest_params,
     builder = function(params)
       local path = utils.path.get_current_oil_directory({ fallback = "cwd" })
       if path == nil then
@@ -68,13 +65,7 @@ return {
         return utils.project.is_python() and utils.dir.contain_dirs({ "tests" })
       end,
     },
-    params = {
-      args = {
-        type = "string",
-        desc = "Additional arguments",
-        optional = true,
-      },
-    },
+    params = pytest_params,
     builder = function(params)
       return {
         cmd = { "pytest", params.args },
