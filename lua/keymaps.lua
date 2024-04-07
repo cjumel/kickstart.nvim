@@ -116,18 +116,9 @@ vim.keymap.set({ "i", "c" }, "<M-BS>", "<C-w>", { desc = "Delete word" })
 vim.keymap.set({ "i", "c" }, "<C-b>", "<Left>", { desc = "Move cursor one character left" })
 vim.keymap.set({ "i", "c" }, "<C-f>", "<Right>", { desc = "Move cursor one character right" })
 
-vim.keymap.set(
-  { "i", "c" },
-  "<C-^>", -- Actually <C-%> on my keyboard
-  "<C-Left>",
-  { desc = "Move cursor one word left" }
-)
-vim.keymap.set(
-  { "i", "c" },
-  "<C-_>", -- Actually <C-`> on my keyboard
-  "<C-Right>",
-  { desc = "Move cursor one word right" }
-)
+-- <C-^> & <C-_> are actually <C-,> & <C-;> respectively on my keyboard
+vim.keymap.set({ "i", "c" }, "<C-^>", "<C-Right>", { desc = "Move cursor to next word" })
+vim.keymap.set({ "i", "c" }, "<C-_>", "<C-Left>", { desc = "Move cursor to previous word" })
 
 vim.keymap.set({ "i", "c" }, "<C-e>", "<End>", { desc = "Move cursor to end of line" })
 vim.keymap.set({ "i", "c" }, "<C-a>", "<Home>", { desc = "Move cursor to beginning of line" })
