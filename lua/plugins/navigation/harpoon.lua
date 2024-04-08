@@ -59,7 +59,7 @@ return {
       desc = "Prepend to Harpoon",
     },
     {
-      "π", -- <M-p>
+      "©", -- <M-c>
       function()
         local harpoon = require("harpoon")
         harpoon:list():clear()
