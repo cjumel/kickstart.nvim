@@ -165,7 +165,7 @@ return {
             ["<C-d>"] = actions.close, -- More convenient way to directly exit Telescope
 
             -- Preview actions (shared between both modes)
-            ["<C-]>"] = layout_actions.toggle_preview, -- Actually <C-$> on my keyboard
+            ["<C-i>"] = layout_actions.toggle_preview,
             ["<C-h>"] = actions.preview_scrolling_left,
             ["<C-j>"] = actions.preview_scrolling_down,
             ["<C-k>"] = actions.preview_scrolling_up,
@@ -186,7 +186,7 @@ return {
             ["<C-d>"] = actions.close, -- More convenient way to directly exit Telescope
 
             -- Preview actions (shared between both modes)
-            ["<C-]>"] = layout_actions.toggle_preview, -- Actually <C-$> on my keyboard
+            ["<C-i>"] = layout_actions.toggle_preview,
             ["<C-h>"] = actions.preview_scrolling_left,
             ["<C-j>"] = actions.preview_scrolling_down,
             ["<C-k>"] = actions.preview_scrolling_up,
