@@ -42,6 +42,25 @@ return {
     local nmap = custom_utils.keymap.nmap
     local nvmap = custom_utils.keymap.nvmap
 
+    -- [[ Custom actions ]]
+    local custom_actions = {}
+
+    -- Define custom actions for Trouble to make it lazy-loaded by wrapping its calls in functions
+    function custom_actions.smart_open_trouble(prompt_bufnr, _mode)
+      local trouble_actions = require("trouble.providers.telescope")
+      trouble_actions.smart_open_with_trouble(prompt_bufnr, _mode)
+    end
+    function custom_actions.smart_open_loclist(prompt_bufnr, _mode)
+      local trouble = require("trouble") -- Lazy loaded thanks to function wrapping
+      actions.smart_send_to_loclist(prompt_bufnr, _mode)
+      trouble.open("loclist")
+    end
+    function custom_actions.smart_open_quickfix(prompt_bufnr, _mode)
+      local trouble = require("trouble") -- Lazy loaded thanks to function wrapping
+      actions.smart_send_to_qflist(prompt_bufnr, _mode)
+      trouble.open("quickfix")
+    end
+
     -- [[ Global utilities ]]
     -- Utilities to manipulate the global state of Neovim, in order to be able to recreate
     -- an existing Picker, for instance to change its parameters dynamically.
@@ -173,9 +192,10 @@ return {
 
             -- Insert mode specific actions
             ["<C-g>"] = actions.move_to_top, -- Go to top
-            ["<C-w>"] = actions.which_key,
+            ["<C-t>"] = custom_actions.smart_open_trouble,
             ["<C-x>"] = actions.select_horizontal,
             ["<C-v>"] = actions.select_vertical,
+            ["<C-w>"] = actions.which_key,
           },
 
           n = {
@@ -197,26 +217,13 @@ return {
             ["k"] = actions.move_selection_previous,
             ["G"] = actions.move_to_bottom,
             ["gg"] = actions.move_to_top,
-            ["<ESC>"] = actions.close,
-            ["?"] = actions.which_key,
-
-            -- Selection-related actions
             ["s"] = actions.toggle_selection + actions.move_selection_next,
             ["S"] = actions.toggle_selection + actions.move_selection_previous,
-            ["Q"] = function(prompt_bufnr, _mode)
-              local trouble = require("trouble") -- Lazy loaded thanks to function wrapping
-              actions.smart_send_to_qflist(prompt_bufnr, _mode)
-              trouble.open("quickfix")
-            end,
-            ["L"] = function(prompt_bufnr, _mode)
-              local trouble = require("trouble") -- Lazy loaded thanks to function wrapping
-              actions.smart_send_to_loclist(prompt_bufnr, _mode)
-              trouble.open("loclist")
-            end,
-            ["T"] = function(prompt_bufnr, _mode)
-              local trouble_actions = require("trouble.providers.telescope")
-              trouble_actions.smart_open_with_trouble(prompt_bufnr, _mode)
-            end,
+            ["T"] = custom_actions.smart_open_trouble,
+            ["L"] = custom_actions.smart_open_loclist,
+            ["Q"] = custom_actions.smart_open_quickfix,
+            ["?"] = actions.which_key,
+            ["<ESC>"] = actions.close,
           },
         },
         -- Exclude some directories in all searches, even when hidden & ignored files are included
