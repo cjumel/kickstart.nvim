@@ -1,7 +1,15 @@
 local utils = require("utils")
 
-local function pytest_has_config()
-  return utils.dir.contain_files({ "pytest.ini", "pyproject.toml", "tox.ini", "setup.cfg" })
+local function pytest_is_setup()
+  if vim.fn.filereadable("pytest.ini") == 1 then
+    return true
+  elseif
+    vim.fn.filereadable("pyproject.toml") == 1 and utils.file.contain("pyproject.toml", "pytest =")
+  then
+    return true
+  else
+    return false
+  end
 end
 local args = {
   type = "string",
@@ -15,7 +23,7 @@ return {
   {
     name = "Pytest file",
     condition = {
-      callback = function(_) return pytest_has_config() and vim.bo.filetype == "python" end,
+      callback = function(_) return pytest_is_setup() and vim.bo.filetype == "python" end,
     },
     params = {
       args = args,
@@ -36,7 +44,7 @@ return {
   {
     name = "Pytest directory",
     condition = {
-      callback = function(_) return pytest_has_config() and vim.bo.filetype == "oil" end,
+      callback = function(_) return pytest_is_setup() and vim.bo.filetype == "oil" end,
     },
     params = {
       args = args,
@@ -57,7 +65,7 @@ return {
   {
     name = "Pytest",
     condition = {
-      callback = function(_) return pytest_has_config() end,
+      callback = function(_) return pytest_is_setup() end,
     },
     params = {
       args = args,

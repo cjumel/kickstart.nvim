@@ -1,6 +1,18 @@
 local utils = require("utils")
 
-local function poetry_has_lock_file() return utils.dir.contain_files({ "poetry.lock" }) end
+local function poetry_is_setup()
+  if vim.fn.filereadable("poetry.lock") == 1 then
+    return true
+  elseif
+    vim.fn.filereadable("pyproject.toml") == 1
+    and utils.file.contain("pyproject.toml", "[tool.poetry]")
+  then
+    return true
+  else
+    return false
+  end
+end
+
 local package = {
   type = "string",
   desc = "Name of the package to add",
@@ -18,7 +30,7 @@ return {
   {
     name = "Poetry install",
     condition = {
-      callback = function(_) return poetry_has_lock_file() end,
+      callback = function(_) return poetry_is_setup() end,
     },
     params = {
       args = args,
@@ -33,7 +45,7 @@ return {
   {
     name = "Poetry update",
     condition = {
-      callback = function(_) return poetry_has_lock_file() end,
+      callback = function(_) return poetry_is_setup() end,
     },
     params = {
       args = args,
@@ -48,7 +60,7 @@ return {
   {
     name = "Poetry add",
     condition = {
-      callback = function(_) return poetry_has_lock_file() end,
+      callback = function(_) return poetry_is_setup() end,
     },
     params = {
       package = package,
