@@ -57,7 +57,7 @@ return {
   {
     name = "Mypy cwd",
     condition = {
-      callback = function(_) mypy_has_config() end,
+      callback = function(_) return mypy_has_config() end,
     },
     params = {
       args = args,

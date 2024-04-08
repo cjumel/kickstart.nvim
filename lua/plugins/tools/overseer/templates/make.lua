@@ -12,7 +12,7 @@ return {
   {
     name = "Make",
     condition = {
-      callback = function(_) make_has_file() end,
+      callback = function(_) return make_has_file() end,
     },
     params = {
       args = args,
