@@ -5,40 +5,14 @@
 return {
   "nvim-tree/nvim-web-devicons",
   lazy = true,
-  opts = function()
-    local theme = require("theme")
-
-    -- Fetch the highlight group for Directory, which is the one used by Oil for directories
-    -- Some color schemes link the Directory highlight group to a different one, so we need to
-    -- fetch it in that case
-    local hl_name
-    if theme.gruvbox_enabled then
-      hl_name = "GruvboxBlueBold"
-    else
-      hl_name = "Directory"
-    end
-    local hl_id = vim.api.nvim_get_hl_id_by_name(hl_name)
-    local hl = vim.api.nvim_get_hl(0, { id = hl_id })
-    -- Convert the highlight group's foreground color to a hex color
-    local color = "#" .. string.format("%06x", hl.fg)
-
-    return {
-      override_by_filename = {
-        -- Fix Telescope not showing icons for directories
-        [""] = { -- Telescope uses get_icon with "" as argument for directories
-          icon = "",
-          color = color,
-          name = "Directory",
-        },
-      },
-    }
-  end,
+  opts = {},
   config = function(_, opts)
     local web_devicons = require("nvim-web-devicons")
 
     web_devicons.setup(opts)
 
     -- Attribute existing icons & colors to custom file types
+    -- This enables for instance Oil to use the right icons for the custom file types
     local filetypes = require("filetypes")
     local icon_data_by_filename = {}
     for filename, filetype in pairs(filetypes.by_filename) do
