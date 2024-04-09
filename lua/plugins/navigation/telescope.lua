@@ -91,10 +91,9 @@ return {
         actions.close(prompt_bufnr)
       end
 
-      -- `previwers.vim_buffer_cat` can't be saved to state for some reason, so let's work around
-      -- this by saving & loading the options instead
-      if opts._cat_previewer_opts ~= nil then
-        opts.previewer = previewers.vim_buffer_cat.new(opts._cat_previewer_opts)
+      -- previwers.vim_buffer_cat can't be saved to state for some reason, so let's work around this
+      if opts.prompt_title == "Find Directories" then
+        opts.previewer = previewers.vim_buffer_cat.new({})
       end
 
       if opts._use_oil_directory and opts._oil_directory then
@@ -320,14 +319,17 @@ return {
         prompt_title = "Find Files", -- Necessary for dynamic picker changes
       }, { oil_directory = true, visual_mode = true }))
     end, "[F]ind: [F]iles")
-    nvmap("<leader>fd", function()
-      builtin.find_files(make_opts({
-        find_command = { "fd", "--type", "d", "--color", "never" },
-        preview = { hide_on_startup = true },
-        _cat_previewer_opts = {}, -- Use a previewer with colors for directories
-        prompt_title = "Find Directories",
-      }, { oil_directory = true, visual_mode = true, cat_previwer = true }))
-    end, "[F]ind: [D]irectories")
+    nvmap(
+      "<leader>fd",
+      function()
+        builtin.find_files(make_opts({
+          find_command = { "fd", "--type", "d", "--color", "never" },
+          preview = { hide_on_startup = true },
+          prompt_title = "Find Directories",
+        }, { oil_directory = true, visual_mode = true, cat_previwer = true }))
+      end,
+      "[F]ind: [D]irectories"
+    )
     nvmap(
       "<leader>fg",
       function()
