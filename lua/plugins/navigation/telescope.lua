@@ -24,6 +24,7 @@ return {
   -- it lazy-loaded on keys
   event = "VeryLazy",
   config = function()
+    local Path = require("plenary.path")
     local oil = require("oil")
 
     local actions = require("telescope.actions")
@@ -61,6 +62,77 @@ return {
       trouble.open("quickfix")
     end
 
+    -- [[ Custom entry makers ]]
+
+    local custom_make_entry = {}
+
+    local handle_entry_index = function(opts, t, k) -- Directly taken from telescope.make_entry
+      local override = ((opts or {}).entry_index or {})[k]
+      if not override then
+        return
+      end
+
+      local val, save = override(t, opts)
+      if save then
+        rawset(t, k, val)
+      end
+      return val
+    end
+    local lookup_keys = { -- Directly taken from telescope.make_entry
+      ordinal = 1,
+      value = 1,
+      filename = 1,
+      cwd = 2,
+    }
+    function custom_make_entry.gen_from_dir(opts) -- Adapted from telescope.make_entry.gen_from_file
+      opts = opts or {}
+
+      local cwd = opts.cwd or vim.loop.cwd()
+      if cwd ~= nil then
+        cwd = utils.path_expand(cwd)
+      end
+
+      local mt_file_entry = {}
+
+      mt_file_entry.cwd = cwd
+
+      mt_file_entry.display = function(entry)
+        local hl_group, icon
+        local display = utils.transform_path(opts, entry.value)
+
+        -- Custom part: always use a directory icon & highlight group
+        icon = ""
+        display = icon .. " " .. display
+        hl_group = "Directory"
+
+        return display, { { { 0, #icon }, hl_group } }
+      end
+
+      mt_file_entry.__index = function(t, k)
+        local override = handle_entry_index(opts, t, k)
+        if override then
+          return override
+        end
+
+        local raw = rawget(mt_file_entry, k)
+        if raw then
+          return raw
+        end
+
+        if k == "path" then
+          local retpath = Path:new({ t.cwd, t.value }):absolute()
+          if not vim.loop.fs_access(retpath, "R", function() end) then
+            retpath = t.value
+          end
+          return retpath
+        end
+
+        return rawget(t, rawget(lookup_keys, k))
+      end
+
+      return function(line) return setmetatable({ line }, mt_file_entry) end
+    end
+
     -- [[ Global utilities ]]
     -- Utilities to manipulate the global state of Neovim, in order to be able to recreate
     -- an existing Picker, for instance to change its parameters dynamically.
@@ -91,11 +163,6 @@ return {
         actions.close(prompt_bufnr)
       end
 
-      -- previwers.vim_buffer_cat can't be saved to state for some reason, so let's work around this
-      if opts.prompt_title == "Find Directories" then
-        opts.previewer = previewers.vim_buffer_cat.new({})
-      end
-
       if opts._use_oil_directory and opts._oil_directory then
         table.insert(prompt_title_extras, custom_utils.path.normalize(opts._oil_directory))
         opts.cwd = opts._oil_directory
@@ -118,6 +185,16 @@ return {
         end
       end
 
+      -- Find directories customization
+      if opts.prompt_title == "Find Directories" then
+        -- previwers.vim_buffer_cat can't be saved to state so let's work around this
+        opts.previewer = previewers.vim_buffer_cat.new({})
+        -- To support directory icons, use a custom entry maker (which needs to have accessed
+        -- to the picker options)
+        opts.entry_maker = custom_make_entry.gen_from_dir(opts)
+      end
+
+      -- Customize the prompt title; this must be done after any logic relying on the prompt title
       if #prompt_title_extras ~= 0 then
         opts.prompt_title = opts.prompt_title
           .. " ("
