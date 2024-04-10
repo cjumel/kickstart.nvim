@@ -32,17 +32,42 @@ M.concat_dicts = function(dictionaries)
   return result
 end
 
---- Check if a value is in an array.
----@param value any The value to check for.
----@param array table The array to check in.
+--- Check if a target is in an array values.
+---@param target any The target to check.
+---@param array table The array to check.
 ---@return boolean
-M.is_in_array = function(value, array)
-  for _, target_value in ipairs(array) do
-    if value == target_value then
+M.is_in_array = function(target, array)
+  for _, value in ipairs(array) do
+    if target == value then
       return true
     end
   end
+  return false
+end
 
+--- Check if a target is in a dictionary keys.
+---@param target any The target to check.
+---@param dict table The dictionary to check.
+---@return boolean
+M.is_in_dict_keys = function(target, dict)
+  for key, _ in pairs(dict) do
+    if target == key then
+      return true
+    end
+  end
+  return false
+end
+
+--- Check if a target is in a dictionary values.
+---@param target any The target to check.
+---@param dict table The dictionary to check.
+---@return boolean
+M.is_in_dict_values = function(target, dict)
+  for _, value in pairs(dict) do
+    if target == value then
+      return true
+    end
+  end
   return false
 end
 

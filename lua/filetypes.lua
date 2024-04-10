@@ -1,6 +1,7 @@
 -- [[ Define additional filetype mappings
 
 local filetypes_by_filename = {
+  [".env.example"] = "sh", -- Same as `.env`
   [".fdignore"] = "conf", -- auto-detected by nvim
   [".ideavimrc"] = "vim",
   [".ignore"] = "conf", -- auto-detected by nvim
