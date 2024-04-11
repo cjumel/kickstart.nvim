@@ -101,7 +101,7 @@ return {
 
       map({ "n", "i" }, "<C-s>", vim.lsp.buf.signature_help, "Signature help", opts)
       nmap("<leader>lr", vim.lsp.buf.rename, "[L]SP: [R]ename", opts)
-      nmap("<leader>la", vim.lsp.buf.code_action, "[L]SP: [A]ction", opts)
+      nmap("<leader>ca", vim.lsp.buf.code_action, "[C]ode: [A]ction", opts)
 
       -- LSP symbol (variables, function, classes, etc.) search
       nmap("<leader>ld", telescope.lsp_document_symbols, "[L]SP: [D]ocument symbols", opts)
