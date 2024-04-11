@@ -79,6 +79,14 @@ return {
     local ensure_installed = require("plugins.core.mason.ensure_installed")
     ensure_installed(opts.mason_ensure_installed)
 
-    require("conform").setup(opts)
+    local conform = require("conform")
+    conform.setup(opts)
+
+    local utils = require("utils")
+    local nvmap = utils.keymap.nvmap
+
+    -- In visual mode, this keymap doesn't work well for all formatters (some natively support
+    -- range formatting, some other don't)
+    nvmap("<leader>cf", conform.format, "[C]ode: [F]ormat buffer/selection")
   end,
 }
