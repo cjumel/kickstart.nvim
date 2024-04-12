@@ -25,23 +25,27 @@ return {
       local gs = package.loaded.gitsigns
 
       local utils = require("utils")
-      local nmap = utils.keymap.nmap
-      local omap = utils.keymap.omap
 
-      local opts = { buffer = bufnr }
+      ---@param mode string|string[] The mode(s) of the keymap.
+      ---@param lhs string The left-hand side of the keymap.
+      ---@param rhs string|function The right-hand side of the keymap.
+      ---@param desc string The description of the keymap.
+      local function map(mode, lhs, rhs, desc)
+        vim.keymap.set(mode, lhs, rhs, { desc = desc, buffer = bufnr })
+      end
+
+      -- General git actions
+      map("n", "<leader>ga", gs.stage_buffer, "[G]it: [A]dd buffer")
+      map("n", "<leader>gu", gs.reset_buffer_index, "[G]it: [U]nstage buffer")
+      map("n", "<leader>gx", gs.reset_buffer, "[G]it: discard buffer changes")
+      map("n", "<leader>gd", function() gs.diffthis("~") end, "[G]it: [D]iff buffer")
+      map("n", "<leader>gB", function() gs.blame_line({ full = true }) end, "[G]it: [B]lame line")
 
       -- Navigation keymaps
       utils.keymap.set_move_pair({ "[h", "]h" }, {
         function() gs.next_hunk({ navigation_message = false }) end,
         function() gs.prev_hunk({ navigation_message = false }) end,
       }, { { desc = "Next hunk", buffer = bufnr }, { desc = "Previous hunk", buffer = bufnr } })
-
-      -- General git actions
-      nmap("<leader>ga", gs.stage_buffer, "[G]it: [A]dd buffer", opts)
-      nmap("<leader>gu", gs.reset_buffer_index, "[G]it: [U]nstage buffer", opts)
-      nmap("<leader>gx", gs.reset_buffer, "[G]it: discard buffer changes", opts)
-      nmap("<leader>gd", function() gs.diffthis("~") end, "[G]it: [D]iff buffer", opts)
-      nmap("<leader>gB", function() gs.blame_line({ full = true }) end, "[G]it: [B]lame line", opts)
 
       -- Text object with custom look ahead feature
       local gs_cache = require("gitsigns.cache")
@@ -60,7 +64,6 @@ return {
         local hunks = {}
         vim.list_extend(hunks, cache[bufnr].hunks or {})
         vim.list_extend(hunks, cache[bufnr].hunks_staged or {})
-
         local lnum = vim.api.nvim_win_get_cursor(0)[1]
         return Hunks.find_hunk(lnum, hunks)
       end
@@ -69,15 +72,13 @@ return {
         -- Adapt the "<C-U>" from the original command ":<C-U>Gitsigns select_hunk<CR>"
         -- Taken from https://github.com/neovim/neovim/discussions/24055
         vim.cmd('execute "normal \\<ESC>"')
-
         if get_cursor_hunk() == nil then
           gs.next_hunk({ wrap = false, navigation_message = false })
         end
-
         gs.select_hunk()
       end
 
-      omap("gh", select_hunk, "Hunk", opts)
+      map({ "x", "o" }, "gh", select_hunk, "Hunk")
     end,
   },
   config = function(_, opts)
