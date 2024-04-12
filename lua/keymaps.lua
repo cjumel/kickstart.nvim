@@ -1,11 +1,6 @@
 local actions = require("actions")
 local utils = require("utils")
 
-local cmap = utils.keymap.cmap
-local imap = utils.keymap.icmap
-local nmap = utils.keymap.nmap
-local vmap = utils.keymap.vmap
-
 -- [[ Disable builtin keymaps ]]
 
 vim.keymap.set({ "n", "v" }, "<Space>", "<Nop>", { silent = true })
@@ -59,11 +54,17 @@ vim.api.nvim_set_keymap("n", "gx", actions.fixed_gx, { desc = "Open URL under cu
 
 -- [[ General keymaps ]]
 
-nmap("<ESC>", actions.clear_window, "Clear window")
+vim.keymap.set("n", "<Esc>", actions.clear_window, { desc = "Clear window" })
 -- In visual, insert & cmdline modes, <ESC> is already taken, so let's use <C-c> instead
-imap("<C-c>", actions.clear_all, "Clear window")
-vmap("<C-c>", actions.clear_window, "Clear window")
-cmap("<C-c>", actions.clear_insert_mode, "Clear window") -- Avoid closing the cmdline itself
+vim.keymap.set({ "i", "v", "c" }, "<C-c>", function()
+  if vim.fn.mode() == "i" then
+    actions.clear_all()
+  elseif vim.fn.mode() == "v" then
+    actions.clear_window() -- Cleaning insert mode stuff is useless in visual mode
+  elseif vim.fn.mode() == "c" then
+    actions.clear_insert_mode() -- Don't clean window stuff to avoid closing the cmdline itself
+  end
+end, { desc = "Clear window" })
 
 -- Naturally use <C-i> (or <Tab>), & <C-o> because it's next to <C-i> & does nothing in visual mode
 vim.keymap.set("v", "<C-i>", ">gv", { desc = "Indent selection" })
