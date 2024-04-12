@@ -27,15 +27,14 @@ return {
       local utils = require("utils")
       local nmap = utils.keymap.nmap
       local omap = utils.keymap.omap
-      local mpmap = utils.keymap.mpmap
 
       local opts = { buffer = bufnr }
 
       -- Navigation keymaps
-      mpmap({ "[h", "]h" }, {
+      utils.keymap.set_move_pair({ "[h", "]h" }, {
         function() gs.next_hunk({ navigation_message = false }) end,
         function() gs.prev_hunk({ navigation_message = false }) end,
-      }, { "Next hunk", "Previous hunk" }, opts)
+      }, { { desc = "Next hunk", buffer = bufnr }, { desc = "Previous hunk", buffer = bufnr } })
 
       -- General git actions
       nmap("<leader>ga", gs.stage_buffer, "[G]it: [A]dd buffer", opts)

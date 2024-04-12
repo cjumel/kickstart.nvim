@@ -57,12 +57,11 @@ return {
     marks.setup(opts)
 
     local utils = require("utils")
-    local mpmap = utils.keymap.mpmap
 
-    mpmap({ "[`", "]`" }, {
+    utils.keymap.set_move_pair({ "[`", "]`" }, {
       -- marks.next & marks.prev throw errors when there are no marks, so we need to handle this
       function() pcall(require("marks").next) end,
       function() pcall(require("marks").prev) end,
-    }, { "Next mark", "Previous mark" })
+    }, { { desc = "Next mark" }, { desc = "Previous mark" } })
   end,
 }

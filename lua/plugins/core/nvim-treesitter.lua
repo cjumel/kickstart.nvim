@@ -118,7 +118,6 @@ return {
 
     local utils = require("utils")
     local nmap = utils.keymap.nmap
-    local mpmap = utils.keymap.mpmap
 
     --- Output the current line main node, that is the top-level ancestor from the node under the
     --- cursor within the same line.
@@ -192,9 +191,9 @@ return {
     end
 
     nmap("gp", go_to_parent_node, "Go to parent node")
-    mpmap({ "[s", "]s" }, {
+    utils.keymap.set_move_pair({ "[s", "]s" }, {
       next_sibling_node,
       prev_sibling_node,
-    }, { "Next sibling node", "Previous sibling node" })
+    }, { { desc = "Next sibling node" }, { desc = "Previous sibling node" } })
   end,
 }

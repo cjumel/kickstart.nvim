@@ -3,7 +3,6 @@ local utils = require("utils")
 
 local cmap = utils.keymap.cmap
 local imap = utils.keymap.icmap
-local mpmap = utils.keymap.mpmap
 local nmap = utils.keymap.nmap
 local vmap = utils.keymap.vmap
 
@@ -82,30 +81,30 @@ vim.keymap.set("n", "K", actions.hover, { desc = "Hover" })
 -- [[ Go-to keymaps ]]
 
 -- Dianostics can be errors, warnings, information messages or hints
-mpmap(
+utils.keymap.set_move_pair(
   { "[d", "]d" },
   { vim.diagnostic.goto_next, vim.diagnostic.goto_prev },
-  { "Next diagnostic", "Previous diagnostic" }
+  { { desc = "Next diagnostic" }, { desc = "Previous diagnostic" } }
 )
-mpmap({ "[e", "]e" }, {
+utils.keymap.set_move_pair({ "[e", "]e" }, {
   function() vim.diagnostic.goto_next({ severity = vim.diagnostic.severity.ERROR }) end,
   function() vim.diagnostic.goto_prev({ severity = vim.diagnostic.severity.ERROR }) end,
-}, { "Next error", "Previous error" })
+}, { { desc = "Next error" }, { desc = "Previous error" } })
 
 -- Conflict markers follow one of the 3 following forms at the start of a line:
 -- `<<<<<<< <some text>`, ` =======` or ` >>>>>>> <some text>`
 -- "^" forces the search pattern matches to be at the start of a line
 local conflict_pattern = "^<<<<<<< \\|^=======\\|^>>>>>>> "
-mpmap({ "[=", "]=" }, {
+utils.keymap.set_move_pair({ "[=", "]=" }, {
   function() vim.fn.search(conflict_pattern) end,
   function() vim.fn.search(conflict_pattern, "b") end,
-}, { "Next conflict mark", "Previous conflict mark" })
+}, { { desc = "Next conflict mark" }, { desc = "Previous conflict mark" } })
 
 local url_pattern = "http:\\/\\/\\|https:\\/\\/"
-mpmap(
+utils.keymap.set_move_pair(
   { "[u", "]u" },
   { function() vim.fn.search(url_pattern) end, function() vim.fn.search(url_pattern, "b") end },
-  { "Next URL", "Previous URL" }
+  { { desc = "Next URL" }, { desc = "Previous URL" } }
 )
 
 -- [[ Terminal-like keymaps ]]

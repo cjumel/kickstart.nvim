@@ -44,11 +44,10 @@ return {
     trouble.setup(opts)
 
     local utils = require("utils")
-    local mpmap = utils.keymap.mpmap
 
-    mpmap({ "[x", "]x" }, {
+    utils.keymap.set_move_pair({ "[x", "]x" }, {
       function() require("trouble").next({ skip_groups = true, jump = true }) end,
       function() require("trouble").previous({ skip_groups = true, jump = true }) end,
-    }, { "Next Trouble item", "Previous Trouble item" })
+    }, { { desc = "Next Trouble item" }, { desc = "Previous Trouble item" } })
   end,
 }

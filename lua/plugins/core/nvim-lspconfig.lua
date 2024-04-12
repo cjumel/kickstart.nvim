@@ -95,7 +95,6 @@ return {
       local utils = require("utils")
       local map = utils.keymap.map
       local nmap = utils.keymap.nmap
-      local mpmap = utils.keymap.mpmap
 
       local opts = { buffer = bufnr }
 
@@ -128,10 +127,13 @@ return {
 
       -- Next/previous reference navigation
       -- Define illuminate keymaps here to benefit from the on_attach function behavior
-      mpmap({ "[r", "]r" }, {
+      utils.keymap.set_move_pair({ "[r", "]r" }, {
         illuminate.goto_next_reference,
         illuminate.goto_prev_reference,
-      }, { "Next reference", "Previous reference" }, opts)
+      }, {
+        { desc = "Next reference", buffer = bufnr },
+        { desc = "Previous reference", buffer = bufnr },
+      })
     end,
   },
   config = function(_, opts)

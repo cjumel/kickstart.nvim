@@ -47,10 +47,9 @@ return {
     tdc.setup(opts)
 
     local utils = require("utils")
-    local mpmap = utils.keymap.mpmap
-    mpmap({ "[t", "]t" }, {
+    utils.keymap.set_move_pair({ "[t", "]t" }, {
       tdc.jump_next,
       tdc.jump_prev,
-    }, { "Next todo-comment", "Previous todo-comment" })
+    }, { { desc = "Next todo-comment" }, { desc = "Previous todo-comment" } })
   end,
 }
