@@ -93,37 +93,31 @@ return {
       local telescope = require("telescope.builtin")
 
       local utils = require("utils")
-      local map = utils.keymap.map
-      local nmap = utils.keymap.nmap
 
-      local opts = { buffer = bufnr }
+      ---@param mode string|string[] The mode(s) of the keymap.
+      ---@param lhs string The left-hand side of the keymap.
+      ---@param rhs string|function The right-hand side of the keymap.
+      ---@param desc string The description of the keymap.
+      local function map(mode, lhs, rhs, desc)
+        vim.keymap.set(mode, lhs, rhs, { desc = desc, buffer = bufnr })
+      end
 
-      map({ "n", "i" }, "<C-s>", vim.lsp.buf.signature_help, "Signature help", opts)
-      nmap("<leader>lr", vim.lsp.buf.rename, "[L]SP: [R]ename", opts)
-      nmap("<leader>ca", vim.lsp.buf.code_action, "[C]ode: [A]ction", opts)
+      map({ "n", "i" }, "<C-s>", vim.lsp.buf.signature_help, "Signature help")
+      map("n", "<leader>lr", vim.lsp.buf.rename, "[L]SP: [R]ename")
+      map("n", "<leader>ca", vim.lsp.buf.code_action, "[C]ode: [A]ction")
 
       -- LSP symbol (variables, function, classes, etc.) search
-      nmap("<leader>ld", telescope.lsp_document_symbols, "[L]SP: [D]ocument symbols", opts)
-      nmap(
-        "<leader>lw",
-        telescope.lsp_dynamic_workspace_symbols,
-        "[L]SP: [W]orkspace symbols",
-        opts
-      )
+      map("n", "<leader>ld", telescope.lsp_document_symbols, "[L]SP: [D]ocument symbols")
+      map("n", "<leader>lw", telescope.lsp_dynamic_workspace_symbols, "[L]SP: [W]orkspace symbols")
 
       -- Go to navigation
-      local telescope_opts = {
+      local opts = {
         initial_mode = "normal",
         show_line = false, -- Don't show the whole line in the picker next to the file path
       }
-      nmap("gd", function() telescope.lsp_definitions(telescope_opts) end, "Go to definition", opts)
-      nmap(
-        "gD",
-        function() telescope.lsp_type_definitions(telescope_opts) end,
-        "Go to type definition",
-        opts
-      )
-      nmap("gr", function() telescope.lsp_references(telescope_opts) end, "Go to references", opts)
+      map("n", "gd", function() telescope.lsp_definitions(opts) end, "Go to definition")
+      map("n", "gD", function() telescope.lsp_type_definitions(opts) end, "Go to type definition")
+      map("n", "gr", function() telescope.lsp_references(opts) end, "Go to references")
 
       -- Next/previous reference navigation
       -- Define illuminate keymaps here to benefit from the on_attach function behavior
