@@ -9,10 +9,10 @@ return {
   },
   event = { "BufNewFile", "BufReadPre" },
   keys = {
-    -- Search in yank history is not really convenient (often, older entries are shown before
-    -- the target I'm looking for). Besides, since the yank history is shared between all the
-    -- projects, it is really messy, unlike the undo tree for instance. For these reasons, let's
-    -- only implement simple normal mode interfaces.
+    -- Search in yank & macro history is not really convenient (often, older entries are shown
+    -- before the target I'm looking for). Besides, since they are shared between all the projects,
+    -- it is really messy, unlike the undo tree for instance. For these reasons, let's only
+    -- implement simple normal mode interfaces.
     {
       "<leader>y",
       function()
@@ -28,7 +28,24 @@ return {
 
         telescope.extensions.neoclip.default(opts)
       end,
-      desc = "[Y]ank history: open",
+      desc = "[Y]ank history",
+    },
+    {
+      "<leader>m",
+      function()
+        local telescope = require("telescope")
+        local themes = require("telescope.themes")
+
+        local opts = themes.get_dropdown({
+          previewer = false,
+          layout_config = { width = 0.7 },
+          initial_mode = "normal",
+          prompt_title = "Macro history",
+        })
+
+        telescope.extensions.macroscope.default(opts)
+      end,
+      desc = "[M]acro history",
     },
   },
   opts = {
@@ -47,9 +64,6 @@ return {
         function(line) return vim.fn.match(line, [[^\s*$]]) ~= -1 end
       )
     end,
-    -- Macros saved in history are super hard to read (unlike in the yank history), and they are
-    -- very specific to a given situation, so in practice I'm never using the macro history
-    enable_macro_history = false,
     content_spec_column = true,
     on_select = {
       move_to_front = true,
