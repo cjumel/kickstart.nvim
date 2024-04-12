@@ -40,6 +40,12 @@ return {
   opts = {
     disable_hint = true,
     kind = "replace",
+    mappings = {
+      status = {
+        [";"] = "GoToPreviousHunkHeader",
+        [","] = "GoToNextHunkHeader",
+      },
+    },
     commit_editor = {
       kind = "split",
     },
