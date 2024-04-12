@@ -103,8 +103,9 @@ return {
       end
 
       map({ "n", "i" }, "<C-s>", vim.lsp.buf.signature_help, "Signature help")
-      map("n", "<leader>lr", vim.lsp.buf.rename, "[L]SP: [R]ename")
       map("n", "<leader>ca", vim.lsp.buf.code_action, "[C]ode: [A]ction")
+      map("n", "<leader>lr", vim.lsp.buf.rename, "[L]SP: [R]ename")
+      map("n", "<leader>ls", function() vim.cmd("LspRestart") end, "[L]SP: [S]tart again")
 
       -- LSP symbol (variables, function, classes, etc.) search
       map("n", "<leader>ld", telescope.lsp_document_symbols, "[L]SP: [D]ocument symbols")
