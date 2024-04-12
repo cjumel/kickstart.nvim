@@ -427,18 +427,6 @@ return {
       end,
       "[F]ind: [O]ldfiles"
     )
-    nvmap( -- Alternative to oldfiles but only with files in cwd
-      "<leader>fr",
-      function()
-        builtin.oldfiles(make_opts({
-          preview = { hide_on_startup = true },
-          tiebreak = recency_tiebreak,
-          prompt_title = "Find Files by Recency",
-          cwd_only = true,
-        }, { visual_mode = true }))
-      end,
-      "[F]ind: files by [R]ecency"
-    )
 
     -- Vim- or Neovim-related
     nmap("<leader>:", function()
