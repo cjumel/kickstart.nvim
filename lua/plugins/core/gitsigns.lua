@@ -110,14 +110,12 @@ return {
    ^ ^                            ^ ^        Hunk manager           ^ ^                            
    _,_ ➜ Next hunk                _p_ ➜ [P]review hunk              _u_ ➜ [U]ndo stage   
    _;_ ➜ Previous hunk            _s_ ➜ [S]tage hunk/selection      _x_ ➜ Discard hunk/selection   
-   _d_ ➜ Toggle [D]eleted hunks   
 ]],
       heads = {
         -- "," & ";" are not repeatable on purpose, to be able to resume the previous movement
         -- actions after leaving the hydra
         { ",", function() gs.next_hunk({ navigation_message = false }) end },
         { ";", function() gs.prev_hunk({ navigation_message = false }) end },
-        { "d", function() gs.toggle_deleted() end },
         { "p", function() gs.preview_hunk() end },
         {
           "s",
