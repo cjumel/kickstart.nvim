@@ -75,7 +75,7 @@ vim.keymap.set({ "n", "v" }, "+", '"+', { desc = "System clipboard register" })
 vim.keymap.set({ "n", "v" }, "_", '"_', { desc = "Black hole register" })
 vim.keymap.set({ "n", "v" }, "Q", "@q", { desc = "Run macro from default register" })
 
-vim.keymap.set("n", "<leader>p", vim.diagnostic.open_float, { desc = "[P]review diagnostic" })
+vim.keymap.set("n", "<leader><CR>", vim.diagnostic.open_float, { desc = "Open diagnostics" })
 
 vim.keymap.set("n", "K", actions.hover, { desc = "Hover" })
 
