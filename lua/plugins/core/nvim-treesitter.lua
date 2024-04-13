@@ -117,7 +117,6 @@ return {
     local ts_utils = require("nvim-treesitter.ts_utils")
 
     local utils = require("utils")
-    local nmap = utils.keymap.nmap
 
     --- Output the current line main node, that is the top-level ancestor from the node under the
     --- cursor within the same line.
