@@ -21,4 +21,19 @@ function M.set_move_pair(lhs_pair, rhs_pair, opts_pair)
   vim.keymap.set({ "n", "x", "o" }, prev_lhs, prev_rhs, prev_opts)
 end
 
+--- Output a function which creates buffer-local keymaps.
+---@param bufnr number The buffer number to create keymaps for.
+---@return function
+function M.get_buffer_local_map(bufnr)
+  ---@param mode string|string[] The mode(s) of the keymap.
+  ---@param lhs string The left-hand side of the keymap.
+  ---@param rhs string|function The right-hand side of the keymap.
+  ---@param desc string The description of the keymap.
+  local function map(mode, lhs, rhs, desc)
+    vim.keymap.set(mode, lhs, rhs, { desc = desc, buffer = bufnr })
+  end
+
+  return map
+end
+
 return M

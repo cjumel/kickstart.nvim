@@ -26,13 +26,7 @@ return {
 
       local utils = require("utils")
 
-      ---@param mode string|string[] The mode(s) of the keymap.
-      ---@param lhs string The left-hand side of the keymap.
-      ---@param rhs string|function The right-hand side of the keymap.
-      ---@param desc string The description of the keymap.
-      local function map(mode, lhs, rhs, desc)
-        vim.keymap.set(mode, lhs, rhs, { desc = desc, buffer = bufnr })
-      end
+      local map = utils.keymap.get_buffer_local_map(bufnr)
 
       -- General git actions
       map("n", "<leader>ga", gs.stage_buffer, "[G]it: [A]dd buffer")
