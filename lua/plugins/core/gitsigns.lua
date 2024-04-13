@@ -132,7 +132,7 @@ return {
             end
           end,
         },
-        -- Exist must be with <Esc> for compatibility with clear window action
+        -- <Esc> must be exit for compatibility with clear window action purposes
         { "<Esc>", nil, { exit = true, desc = false } },
       },
     })
