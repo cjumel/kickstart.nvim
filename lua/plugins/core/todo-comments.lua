@@ -19,7 +19,7 @@ return {
           require("telescope")
         end
 
-        local cmd = "TodoTelescope previewer=false keywords=TODO initial_mode=normal"
+        local cmd = "TodoTelescope previewer=false keywords=TODO"
         if vim.bo.filetype == "oil" then
           cmd = cmd .. " cwd=" .. oil.get_current_dir()
         end
@@ -36,7 +36,7 @@ return {
           require("telescope")
         end
 
-        local cmd = "TodoTelescope previewer=false initial_mode=normal"
+        local cmd = "TodoTelescope previewer=false"
         if vim.bo.filetype == "oil" then
           cmd = cmd .. " cwd=" .. oil.get_current_dir()
         end
