@@ -118,7 +118,8 @@ return {
       }
       map("n", "gd", function() telescope.lsp_definitions(opts) end, "Go to definition")
       map("n", "gD", function() telescope.lsp_type_definitions(opts) end, "Go to type definition")
-      map("n", "gr", function() telescope.lsp_references(opts) end, "Go to references")
+      map("n", "gr", function() telescope.lsp_references(opts) end, "Go to reference")
+      map("n", "gR", function() require("trouble").toggle("lsp_references") end, "Open references")
 
       -- Next/previous reference navigation
       -- Define illuminate keymaps here to benefit from the on_attach function behavior
