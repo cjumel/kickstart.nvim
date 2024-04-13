@@ -19,6 +19,23 @@ return {
           require("telescope")
         end
 
+        local cmd = "TodoTelescope previewer=false keywords=TODO"
+        if vim.bo.filetype == "oil" then
+          cmd = cmd .. " cwd=" .. oil.get_current_dir()
+        end
+
+        vim.cmd(cmd)
+      end,
+      desc = "[F]ind: [T]odo-comments (only TODOs)",
+    },
+    {
+      "<leader>fT",
+      function()
+        local oil = require("oil")
+        if package.loaded.telescope == nil then
+          require("telescope")
+        end
+
         local cmd = "TodoTelescope previewer=false"
         if vim.bo.filetype == "oil" then
           cmd = cmd .. " cwd=" .. oil.get_current_dir()
@@ -26,7 +43,7 @@ return {
 
         vim.cmd(cmd)
       end,
-      desc = "[F]ind: [T]odo-comments",
+      desc = "[F]ind: [T]odo-comments (all)",
     },
   },
   opts = {
