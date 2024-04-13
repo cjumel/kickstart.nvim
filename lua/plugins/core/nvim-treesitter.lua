@@ -190,7 +190,7 @@ return {
       ts_utils.goto_node(sibling)
     end
 
-    nmap("gp", go_to_parent_node, "Go to parent node")
+    vim.keymap.set("n", "gp", go_to_parent_node, { desc = "Go to parent node" })
     utils.keymap.set_move_pair({ "[s", "]s" }, {
       next_sibling_node,
       prev_sibling_node,

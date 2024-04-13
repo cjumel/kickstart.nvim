@@ -40,9 +40,6 @@ return {
 
     local concat_arrays = custom_utils.table.concat_arrays
 
-    local nmap = custom_utils.keymap.nmap
-    local nvmap = custom_utils.keymap.nvmap
-
     -- [[ Custom actions ]]
     local custom_actions = {}
 
@@ -381,22 +378,24 @@ return {
     -- [[ Keymaps ]]
 
     -- General keymaps
-    nmap("<leader><leader>", builtin.resume, "Resume Telescope")
-    nvmap(
+    vim.keymap.set("n", "<leader><leader>", builtin.resume, { desc = "Resume Telescope" })
+    vim.keymap.set(
+      { "n", "v" },
       "<leader>s",
       function() builtin.current_buffer_fuzzy_find(make_opts({}, { visual_mode = true })) end,
-      "[S]earch fuzzily in buffer"
+      { desc = "[S]earch fuzzily in buffer" }
     )
 
     -- Main finders
-    nvmap("<leader>ff", function()
+    vim.keymap.set({ "n", "v" }, "<leader>ff", function()
       builtin.find_files(make_opts({
         find_command = { "fd", "--type", "f", "--color", "never" },
         preview = { hide_on_startup = true },
         prompt_title = "Find Files", -- Necessary for dynamic picker changes
       }, { oil_directory = true, visual_mode = true }))
-    end, "[F]ind: [F]iles")
-    nvmap(
+    end, { desc = "[F]ind: [F]iles" })
+    vim.keymap.set(
+      { "n", "v" },
       "<leader>fd",
       function()
         builtin.find_files(make_opts({
@@ -405,18 +404,20 @@ return {
           prompt_title = "Find Directories",
         }, { oil_directory = true, visual_mode = true, cat_previwer = true }))
       end,
-      "[F]ind: [D]irectories"
+      { desc = "[F]ind: [D]irectories" }
     )
-    nvmap(
+    vim.keymap.set(
+      { "n", "v" },
       "<leader>fg",
       function()
         builtin.live_grep(make_opts({
           prompt_title = "Find by Grep",
         }, { oil_directory = true, visual_mode = true }))
       end,
-      "[F]ind: by [G]rep"
+      { desc = "[F]ind: by [G]rep" }
     )
-    nvmap(
+    vim.keymap.set(
+      { "n", "v" },
       "<leader>fo",
       function()
         builtin.oldfiles(make_opts({
@@ -425,11 +426,11 @@ return {
           prompt_title = "Find OldFiles",
         }, { visual_mode = true }))
       end,
-      "[F]ind: [O]ldfiles"
+      { desc = "[F]ind: [O]ldfiles" }
     )
 
     -- Vim- or Neovim-related
-    nmap("<leader>:", function()
+    vim.keymap.set("n", "<leader>:", function()
       builtin.command_history(themes.get_dropdown({
         previewer = false,
         layout_config = { width = 0.7 },
@@ -437,8 +438,9 @@ return {
         -- Filter out short commands like "w", "q", "wq", "wqa"
         filter_fn = function(cmd) return string.len(cmd) >= 4 end,
       }))
-    end, "Command history")
-    nmap(
+    end, { desc = "Command history" })
+    vim.keymap.set(
+      "n",
       "<leader>/",
       function()
         builtin.search_history(themes.get_dropdown({
@@ -447,36 +449,39 @@ return {
           tiebreak = recency_tiebreak,
         }))
       end,
-      "Search history"
+      { desc = "Search history" }
     )
 
     -- Git related
-    nmap("<leader>gs", builtin.git_status, "[G]it: [S]tatus")
-    nmap("<leader>gb", builtin.git_branches, "[G]it: [B]ranches")
-    nmap(
+    vim.keymap.set("n", "<leader>gs", builtin.git_status, { desc = "[G]it: [S]tatus" })
+    vim.keymap.set("n", "<leader>gb", builtin.git_branches, { desc = "[G]it: [B]ranches" })
+    vim.keymap.set(
+      "n",
       "<leader>gl",
       function() builtin.git_commits({ prompt_title = "Git Log" }) end,
-      "[G]it: [L]og"
+      { desc = "[G]it: [L]og" }
     )
-    nvmap("<leader>gL", function()
+    vim.keymap.set({ "n", "v" }, "<leader>gL", function()
       if vim.fn.mode() == "n" then
         builtin.git_bcommits({ prompt_title = "Git Buffer Log" })
       else
         builtin.git_bcommits_range({ prompt_title = "Git Selection Log" })
       end
-    end, "[G]it: buffer/selection [L]og")
+    end, { desc = "[G]it: buffer/selection [L]og" })
 
     -- Help related
-    nmap("<leader>?c", builtin.commands, "Help: [C]ommands")
-    nmap(
+    vim.keymap.set("n", "<leader>?c", builtin.commands, { desc = "Help: [C]ommands" })
+    vim.keymap.set(
+      "n",
       "<leader>?k",
       function() builtin.keymaps({ prompt_title = "Keymaps" }) end,
-      "Help: [K]eymaps"
+      { desc = "Help: [K]eymaps" }
     )
-    nmap(
+    vim.keymap.set(
+      "n",
       "<leader>?h",
       function() builtin.help_tags({ prompt_title = "Help Tags" }) end,
-      "Help: [H]elp tags"
+      { desc = "Help: [H]elp tags" }
     )
   end,
 }
