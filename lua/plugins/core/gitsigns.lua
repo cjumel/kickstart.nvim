@@ -102,17 +102,16 @@ return {
       mode = { "n", "v" },
       hint = [[
    ^ ^                            ^ ^        Hunk manager           ^ ^                            
-   _,_ ➜ Next hunk                _p_ ➜ [P]review hunk              _u_ ➜ [U]ndo stage   
-   _;_ ➜ Previous hunk            _s_ ➜ [S]tage hunk/selection      _x_ ➜ Discard hunk/selection   
+   _,_ ➜ Next hunk                _a_ ➜ [A]dd hunk/selection        _u_ ➜ [U]nstage last staged hunk   
+   _;_ ➜ Previous hunk            _p_ ➜ [P]review hunk              _x_ ➜ Discard hunk/selection   
 ]],
       heads = {
         -- "," & ";" are not repeatable on purpose, to be able to resume the previous movement
         -- actions after leaving the hydra
         { ",", function() gs.next_hunk({ navigation_message = false }) end },
         { ";", function() gs.prev_hunk({ navigation_message = false }) end },
-        { "p", function() gs.preview_hunk() end },
         {
-          "s",
+          "a",
           function()
             if vim.fn.mode() == "n" then
               gs.stage_hunk()
@@ -121,6 +120,7 @@ return {
             end
           end,
         },
+        { "p", function() gs.preview_hunk() end },
         { "u", function() gs.undo_stage_hunk() end },
         {
           "x",
