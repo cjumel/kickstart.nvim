@@ -105,8 +105,8 @@ return {
       status = {
         ["q"] = "Close",
         ["s"] = "Stage",
-        ["S"] = "StageAll",
-        ["<C-s>"] = "StageUnstaged",
+        ["S"] = "StageUnstaged",
+        ["<C-s>"] = "StageAll",
         ["u"] = "Unstage",
         ["U"] = "UnstageStaged",
         ["x"] = "Discard",
