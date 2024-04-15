@@ -29,7 +29,7 @@ return {
       local map = utils.keymap.get_buffer_local_map(bufnr)
 
       -- General git actions
-      map("n", "<leader>ga", gs.stage_buffer, "[G]it: [A]dd buffer")
+      map("n", "<leader>gs", gs.stage_buffer, "[G]it: [S]tage buffer")
       map("n", "<leader>gu", gs.reset_buffer_index, "[G]it: [U]nstage buffer")
       map("n", "<leader>gx", gs.reset_buffer, "[G]it: discard buffer changes")
       map("n", "<leader>gd", function() gs.diffthis("~") end, "[G]it: [D]iff buffer")
@@ -102,16 +102,19 @@ return {
       mode = { "n", "v" },
       hint = [[
    ^ ^                            ^ ^        Hunk manager           ^ ^                            
-   _,_ ➜ Next hunk                _a_ ➜ [A]dd hunk/selection        _u_ ➜ [U]nstage last staged hunk   
-   _;_ ➜ Previous hunk            _p_ ➜ [P]review hunk              _x_ ➜ Discard hunk/selection   
+   _,_ ➜ Next hunk                _p_ ➜ [P]review hunk              _u_ ➜ [U]nstage last staged hunk   
+   _;_ ➜ Previous hunk            _s_ ➜ [S]tage hunk/selection      _x_ ➜ Discard hunk/selection   
 ]],
       heads = {
         -- "," & ";" are not repeatable on purpose, to be able to resume the previous movement
         -- actions after leaving the hydra
         { ",", function() gs.next_hunk({ navigation_message = false }) end },
         { ";", function() gs.prev_hunk({ navigation_message = false }) end },
+        { "p", function() gs.preview_hunk() end },
         {
-          "a",
+          -- "a" (like in `git add`) doesn't work well in visual mode, there is a delay due to
+          -- text-objects keymaps (like `ab`)
+          "s",
           function()
             if vim.fn.mode() == "n" then
               gs.stage_hunk()
@@ -120,7 +123,6 @@ return {
             end
           end,
         },
-        { "p", function() gs.preview_hunk() end },
         { "u", function() gs.undo_stage_hunk() end },
         {
           "x",

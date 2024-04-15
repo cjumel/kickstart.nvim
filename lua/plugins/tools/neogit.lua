@@ -103,9 +103,10 @@ return {
         ["?"] = "HelpPopup",
       },
       status = {
-        ["a"] = "Stage",
-        ["A"] = "StageAll",
         ["q"] = "Close",
+        ["s"] = "Stage",
+        ["S"] = "StageAll",
+        ["<C-s>"] = "StageUnstaged",
         ["u"] = "Unstage",
         ["U"] = "UnstageStaged",
         ["x"] = "Discard",

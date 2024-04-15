@@ -453,7 +453,12 @@ return {
     )
 
     -- Git related
-    vim.keymap.set("n", "<leader>gs", builtin.git_status, { desc = "[G]it: [S]tatus" })
+    vim.keymap.set(
+      "n",
+      "<leader>gg",
+      function() builtin.git_status({ prompt_title = "Find Git Files" }) end,
+      { desc = "[G]it: find [G]it files" }
+    )
     vim.keymap.set("n", "<leader>gb", builtin.git_branches, { desc = "[G]it: [B]ranches" })
     vim.keymap.set(
       "n",
