@@ -18,6 +18,7 @@ local is_in_empty_line = custom_conds.line_begin * show_conds.line_end
 
 return {
   s({ trig = "directory", show_condition = is_in_empty_line }, { i(1, "name"), t("/") }),
+  s({ trig = "json file", show_condition = is_in_empty_line }, { i(1, "name"), t(".json") }),
   s({ trig = "lua file", show_condition = is_in_empty_line * custom_conds.project.is_lua }, {
     c(1, {
       sn(nil, { i(1, "name"), t(".lua") }),
@@ -46,5 +47,12 @@ return {
     }),
   }),
   s({ trig = "sh file", show_condition = is_in_empty_line }, { i(1, "name"), t(".sh") }),
+  s({ trig = "toml file", show_condition = is_in_empty_line }, { i(1, "name"), t(".toml") }),
+  s({ trig = "yaml file", show_condition = is_in_empty_line }, {
+    c(1, {
+      sn(nil, { i(1, "name"), t(".yaml") }),
+      sn(nil, { i(1, "name"), t(".yml") }),
+    }),
+  }),
   s({ trig = "zsh file", show_condition = is_in_empty_line }, { i(1, "name"), t(".zsh") }),
 }
