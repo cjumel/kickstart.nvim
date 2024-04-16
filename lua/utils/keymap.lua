@@ -29,9 +29,7 @@ function M.get_buffer_local_map(bufnr)
   ---@param lhs string The left-hand side of the keymap.
   ---@param rhs string|function The right-hand side of the keymap.
   ---@param desc string The description of the keymap.
-  local function map(mode, lhs, rhs, desc)
-    vim.keymap.set(mode, lhs, rhs, { desc = desc, buffer = bufnr })
-  end
+  local function map(mode, lhs, rhs, desc) vim.keymap.set(mode, lhs, rhs, { desc = desc, buffer = bufnr }) end
 
   return map
 end

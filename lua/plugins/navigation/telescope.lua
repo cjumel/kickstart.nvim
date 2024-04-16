@@ -193,10 +193,7 @@ return {
 
       -- Customize the prompt title; this must be done after any logic relying on the prompt title
       if #prompt_title_extras ~= 0 then
-        opts.prompt_title = opts.prompt_title
-          .. " ("
-          .. table.concat(prompt_title_extras, ", ")
-          .. ")"
+        opts.prompt_title = opts.prompt_title .. " (" .. table.concat(prompt_title_extras, ", ") .. ")"
       end
 
       return opts
@@ -350,9 +347,7 @@ return {
     -- [[ Keymap utilities ]]
 
     --- Keep entries sorted by recency when typing the prompt
-    local function recency_tiebreak(current_entry, existing_entry, _)
-      return current_entry.index < existing_entry.index
-    end
+    local function recency_tiebreak(current_entry, existing_entry, _) return current_entry.index < existing_entry.index end
 
     --- Make options dynamically depend on the Picker context and add a persistence layer.
     ---@param opts table Options to make.

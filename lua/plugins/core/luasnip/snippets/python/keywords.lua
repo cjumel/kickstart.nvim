@@ -15,9 +15,7 @@ local s = ls.snippet
 local sn = ls.snippet_node
 local t = ls.text_node
 
-local is_in_code_empty_line = custom_conds.ts.is_in_code
-  * custom_conds.line_begin
-  * show_conds.line_end
+local is_in_code_empty_line = custom_conds.ts.is_in_code * custom_conds.line_begin * show_conds.line_end
 local is_in_code_inline = custom_conds.ts.is_in_code * -custom_conds.line_begin
 
 local todo = "raise NotImplementedError  # TO" .. "DO: implement" -- not recognized by todo-comments

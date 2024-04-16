@@ -3,9 +3,7 @@ local utils = require("utils")
 local function pytest_is_setup()
   if vim.fn.filereadable("pytest.ini") == 1 then
     return true
-  elseif
-    vim.fn.filereadable("pyproject.toml") == 1 and utils.file.contain("pyproject.toml", "pytest =")
-  then
+  elseif vim.fn.filereadable("pyproject.toml") == 1 and utils.file.contain("pyproject.toml", "pytest =") then
     return true
   else
     return false

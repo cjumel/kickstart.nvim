@@ -12,12 +12,8 @@ local s = ls.snippet
 local sn = ls.snippet_node
 local t = ls.text_node
 
-local is_in_function_empty_line = custom_conds.ts.is_in_function
-  * custom_conds.line_begin
-  * show_conds.line_end
-local is_in_class_empty_line = custom_conds.ts.is_in_class
-  * custom_conds.line_begin
-  * show_conds.line_end
+local is_in_function_empty_line = custom_conds.ts.is_in_function * custom_conds.line_begin * show_conds.line_end
+local is_in_class_empty_line = custom_conds.ts.is_in_class * custom_conds.line_begin * show_conds.line_end
 
 return {
 
@@ -172,8 +168,7 @@ return {
                     if assignment_node ~= nil and assignment_node:type() == "assignment" then
                       local left_assignment_node = assignment_node:field("left")[1]
                       if left_assignment_node ~= nil then
-                        local prefixed_attribute =
-                          vim.treesitter.get_node_text(left_assignment_node, bufnr)
+                        local prefixed_attribute = vim.treesitter.get_node_text(left_assignment_node, bufnr)
                         -- Only keep assignments to self
                         if prefixed_attribute:sub(1, 5) == "self." then
                           -- Remove "self." prefix

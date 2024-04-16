@@ -3,10 +3,7 @@ local utils = require("utils")
 local function poetry_is_setup()
   if vim.fn.filereadable("poetry.lock") == 1 then
     return true
-  elseif
-    vim.fn.filereadable("pyproject.toml") == 1
-    and utils.file.contain("pyproject.toml", "[tool.poetry]")
-  then
+  elseif vim.fn.filereadable("pyproject.toml") == 1 and utils.file.contain("pyproject.toml", "[tool.poetry]") then
     return true
   else
     return false

@@ -16,9 +16,7 @@ function M.is_visual_block_mode() return vim.fn.mode() == "\22" end
 
 --- Check if the current mode is any visual mode (regular, line, or block).
 ---@return boolean output True iff the current mode is any visual mode.
-function M.is_visual_mode()
-  return M.is_visual_simple_mode() or M.is_visual_line_mode() or M.is_visual_block_mode()
-end
+function M.is_visual_mode() return M.is_visual_simple_mode() or M.is_visual_line_mode() or M.is_visual_block_mode() end
 
 --- Return the lines of the visual selection as an array with an entry for each line.
 --- This function is taken from:
@@ -55,14 +53,7 @@ function M.get_lines(opts)
     for i = srow, erow do
       table.insert(
         lines,
-        vim.api.nvim_buf_get_text(
-          0,
-          i - 1,
-          math.min(scol - 1, ecol),
-          i - 1,
-          math.max(scol - 1, ecol),
-          {}
-        )[1]
+        vim.api.nvim_buf_get_text(0, i - 1, math.min(scol - 1, ecol), i - 1, math.max(scol - 1, ecol), {})[1]
       )
     end
   end

@@ -84,11 +84,6 @@ return {
 
     -- In visual mode, this keymap doesn't work well for all formatters (some natively support
     -- range formatting, some others don't)
-    vim.keymap.set(
-      { "n", "v" },
-      "<leader>cf",
-      conform.format,
-      { desc = "[C]ode: [F]ormat buffer/selection" }
-    )
+    vim.keymap.set({ "n", "v" }, "<leader>cf", conform.format, { desc = "[C]ode: [F]ormat buffer/selection" })
   end,
 }

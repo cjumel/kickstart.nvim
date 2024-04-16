@@ -15,8 +15,7 @@ local M = {}
 local get_comment_strings = function(ctype)
   -- use the `Comments.nvim` API to fetch the comment string for the region
   -- (eq. '--%s' or '--[[%s]]' for `lua`)
-  local cstring = comment_ft.calculate({ ctype = ctype, range = comment_utils.get_region() })
-    or vim.bo.commentstring
+  local cstring = comment_ft.calculate({ ctype = ctype, range = comment_utils.get_region() }) or vim.bo.commentstring
   -- as we want only the strings themselves and not strings ready for using `format` we want to
   -- split the left and right side
   local left, right = comment_utils.unwrap_cstr(cstring)

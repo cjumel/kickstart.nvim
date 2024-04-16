@@ -24,9 +24,7 @@ return {
   {
     name = "Pre-commit run file",
     condition = {
-      callback = function(_)
-        return pre_commit_is_setup() and vim.bo.filetype ~= "" and vim.bo.filetype ~= "oil"
-      end,
+      callback = function(_) return pre_commit_is_setup() and vim.bo.filetype ~= "" and vim.bo.filetype ~= "oil" end,
     },
     params = {
       args = args,

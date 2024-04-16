@@ -59,10 +59,7 @@ return {
         end
         return true
       end
-      return not all(
-        data.event.regcontents,
-        function(line) return vim.fn.match(line, [[^\s*$]]) ~= -1 end
-      )
+      return not all(data.event.regcontents, function(line) return vim.fn.match(line, [[^\s*$]]) ~= -1 end)
     end,
     content_spec_column = true,
     on_select = {

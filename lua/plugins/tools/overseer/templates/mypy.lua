@@ -5,9 +5,7 @@ local function mypy_is_setup()
     return true
   elseif vim.fn.filereadable(".mypy.ini") == 1 then
     return true
-  elseif
-    vim.fn.filereadable("pyproject.toml") == 1 and utils.file.contain("pyproject.toml", "mypy =")
-  then
+  elseif vim.fn.filereadable("pyproject.toml") == 1 and utils.file.contain("pyproject.toml", "mypy =") then
     return true
   else
     return false

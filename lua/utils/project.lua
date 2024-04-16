@@ -20,9 +20,7 @@ local lua_project_dirs = {
   "lua",
 }
 
-M.is_lua = function()
-  return dir_utils.contain_files(lua_project_files) or dir_utils.contain_dirs(lua_project_dirs)
-end
+M.is_lua = function() return dir_utils.contain_files(lua_project_files) or dir_utils.contain_dirs(lua_project_dirs) end
 
 --- Output the path of the Git repository root containing the current project, if any.
 ---@return string|nil
