@@ -1,30 +1,16 @@
 local utils = require("utils")
 
---- Check in all the parent directories for the pre-commit configuration file until the home
---- directory.
+--- Check if pre-commit is setup by checking if it has a configuration file in the root of the
+--- Git repository containing the current project.
 ---@return boolean
 local function pre_commit_is_setup()
-  local dir_path = vim.fn.getcwd()
-  if dir_path == nil then -- No directory found
+  local repository_root_path = utils.project.get_repository_root_path()
+  if repository_root_path == nil then -- Not in a Git repository
     return false
-  end
-  dir_path = vim.fn.fnamemodify(dir_path, ":p:~") -- Make home directory prefix replaced by "~"
-  if string.sub(dir_path, 1, 1) ~= "~" then -- Path is not in the home directory
-    return false
-  end
-  if string.sub(dir_path, -1) == "/" then -- Path has a trailing slash
-    dir_path = string.sub(dir_path, 1, -2)
   end
 
-  while dir_path ~= "~" do
-    -- File path needs to be expanded for vim.fn.filereadable to work
-    local file_path = vim.fn.expand(dir_path .. "/.pre-commit-config.yaml")
-    if vim.fn.filereadable(file_path) == 1 then
-      return true
-    end
-    dir_path = vim.fn.fnamemodify(dir_path, ":h") -- Move to the parent directory
-  end
-  return false
+  local config_file_path = repository_root_path .. "/.pre-commit-config.yaml"
+  return vim.fn.filereadable(config_file_path) == 1
 end
 
 local args = {
