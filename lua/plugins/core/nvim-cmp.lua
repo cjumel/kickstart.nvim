@@ -41,10 +41,6 @@ return {
             -- command), & I simply prefer not to use it in insert mode as well, to only trigger
             -- completion willingly
             select = false,
-            -- If a completion is inserted in the middle of a word, replace the whole word with it
-            -- This causes the need to enter a white space before a word when we want to insert a
-            -- completion before it, but it's convenient to directly update a word with a completion
-            behavior = cmp.ConfirmBehavior.Replace,
           }),
           { "i", "c" }
         ),
