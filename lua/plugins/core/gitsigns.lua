@@ -102,7 +102,7 @@ return {
       mode = { "n", "v" },
       hint = [[
    ^ ^                            ^ ^        Hunk manager           ^ ^                            
-   _,_ ➜ Next hunk                _p_ ➜ [P]review hunk              _u_ ➜ [U]nstage last staged hunk   
+   _,_ ➜ Next hunk                _K_ ➜ Hover hunk                  _u_ ➜ [U]nstage last staged hunk   
    _;_ ➜ Previous hunk            _s_ ➜ [S]tage hunk/selection      _x_ ➜ Discard hunk/selection   
 ]],
       heads = {
@@ -110,7 +110,9 @@ return {
         -- actions after leaving the hydra
         { ",", function() gs.next_hunk({ navigation_message = false }) end },
         { ";", function() gs.prev_hunk({ navigation_message = false }) end },
-        { "p", function() gs.preview_hunk() end },
+        -- Don't use a key for preview which could be used for navigating (like "h", "j", "k", "l")
+        -- or selecting ("v", or any key involved in a text object) to be able to use them to stage
+        { "K", function() gs.preview_hunk() end },
         {
           -- "a" (like in `git add`) doesn't work well in visual mode, there is a delay due to
           -- text-objects keymaps (like `ab`)
