@@ -59,15 +59,10 @@ return {
       },
     },
     commands = {
-      history = {
-        filter_opts = { reverse = true }, -- Last items first
-      },
-      last = {
-        view = "split", -- Force split view because popup view doesn't work well the custom <ESC>
-      },
-      errors = {
-        view = "split", -- Force split view because popup view doesn't work well the custom <ESC>
-      },
+      history = {},
+      -- Force split views when not the default because popup view doesn't work well with the custom clear window action
+      last = { view = "split" },
+      errors = { view = "split" },
     },
   },
 }
