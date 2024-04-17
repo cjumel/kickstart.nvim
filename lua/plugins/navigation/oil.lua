@@ -86,9 +86,7 @@ return {
   config = function(_, opts)
     require("oil").setup(opts)
 
-    -- Disable line numbers and column ruler in Oil buffer
-    vim.api.nvim_command("autocmd FileType oil setlocal nonumber")
-    vim.api.nvim_command("autocmd FileType oil setlocal norelativenumber")
+    -- Disable column ruler in Oil buffer
     vim.api.nvim_command("autocmd FileType oil setlocal colorcolumn=")
   end,
 }
