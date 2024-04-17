@@ -81,18 +81,10 @@ return {
               end
             end,
             ruler_column = function()
-              if vim.o.colorcolumn == "" then
-                return "[off] /  80  /  100  /  120  /  140 "
-              elseif vim.o.colorcolumn == "81" then
-                return " off  / [80] /  100  /  120  /  140 "
-              elseif vim.o.colorcolumn == "101" then
-                return " off  /  80  / [100] /  120  /  140 "
-              elseif vim.o.colorcolumn == "121" then
-                return " off  /  80  /  100  / [120] /  140 "
-              elseif vim.o.colorcolumn == "141" then
-                return " off  /  80  /  100  /  120  / [140]"
+              if vim.g.disable_colorcolumn then
+                return " on  / [off]"
               else
-                return " off  /  80  /  100  /  120  /  140 "
+                return "[on] /  off "
               end
             end,
             sign_column = function()
@@ -159,7 +151,7 @@ return {
 
    Window options   
    _n_/_N_ ➜ Line numbring:         %{line_numbering}   
-   _r_/_R_ ➜ Ruler column:          %{ruler_column}   
+   _r_ ^ ^ ➜ Ruler column:          %{ruler_column}   
    _s_/_S_ ➜ Sign column:           %{sign_column}   
    _t_ ^ ^ ➜ Treesitterr context:   %{treesitter_context}   
 
@@ -210,32 +202,15 @@ return {
         {
           "r",
           function()
-            if vim.o.colorcolumn == "" then
-              vim.o.colorcolumn = "81"
-            elseif vim.o.colorcolumn == "81" then
-              vim.o.colorcolumn = "101"
-            elseif vim.o.colorcolumn == "101" then
-              vim.o.colorcolumn = "121"
-            elseif vim.o.colorcolumn == "121" then
-              vim.o.colorcolumn = "141"
+            -- This won't apply right away to opened buffers except for the current one
+            -- To apply this manually, either use the ":e" (or ":edit") command, reload the buffer manually or toggle
+            -- the setting again
+            if not vim.g.disable_colorcolumn then
+              vim.g.disable_colorcolumn = true
+              vim.opt.colorcolumn = "" -- Remove the colorcolumn in current buffer
             else
-              vim.o.colorcolumn = ""
-            end
-          end,
-        },
-        {
-          "R",
-          function()
-            if vim.o.colorcolumn == "" then
-              vim.o.colorcolumn = "141"
-            elseif vim.o.colorcolumn == "141" then
-              vim.o.colorcolumn = "121"
-            elseif vim.o.colorcolumn == "121" then
-              vim.o.colorcolumn = "101"
-            elseif vim.o.colorcolumn == "101" then
-              vim.o.colorcolumn = "81"
-            else
-              vim.o.colorcolumn = ""
+              vim.g.disable_colorcolumn = false
+              vim.cmd("edit") -- Reload the current buffer to apply the colorcolumn
             end
           end,
         },

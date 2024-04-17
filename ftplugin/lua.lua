@@ -35,4 +35,6 @@ local function get_colorcolumn()
 end
 
 -- Display a column ruler at the relevant line length
-vim.opt_local.colorcolumn = get_colorcolumn()
+if not vim.g.disable_colorcolumn then
+  vim.opt_local.colorcolumn = get_colorcolumn()
+end
