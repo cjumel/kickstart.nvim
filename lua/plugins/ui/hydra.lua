@@ -97,11 +97,11 @@ return {
             end,
             sign_column = function()
               if vim.wo.signcolumn == "number" then
-                return " on  / [num] /  off "
+                return "[num] /  yes  /  off "
               elseif vim.wo.signcolumn == "yes" then
-                return "[on] /  num  /  off "
+                return " num  / [yes] /  off "
               else
-                return " on  /  num  / [off]"
+                return " num  /  yes  / [off]"
               end
             end,
             treesitter_context = function()
@@ -243,11 +243,11 @@ return {
           "s",
           function()
             if vim.wo.signcolumn == "number" then
-              vim.wo.signcolumn = "no"
-            elseif vim.wo.signcolumn == "yes" then
-              vim.wo.signcolumn = "number"
-            else
               vim.wo.signcolumn = "yes"
+            elseif vim.wo.signcolumn == "yes" then
+              vim.wo.signcolumn = "no"
+            else
+              vim.wo.signcolumn = "number"
             end
           end,
         },
@@ -255,9 +255,9 @@ return {
           "S",
           function()
             if vim.wo.signcolumn == "number" then
-              vim.wo.signcolumn = "yes"
-            elseif vim.wo.signcolumn == "yes" then
               vim.wo.signcolumn = "no"
+            elseif vim.wo.signcolumn == "no" then
+              vim.wo.signcolumn = "yes"
             else
               vim.wo.signcolumn = "number"
             end
