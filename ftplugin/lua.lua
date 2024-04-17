@@ -2,36 +2,42 @@
 ---@return string|nil
 local function get_colorcolumn()
   local config_file_names = { ".stylua.toml", "stylua.toml" }
-  local cwd = vim.fn.getcwd()
+  local default_line_length = 120
+  local line_length_pattern = "column_width = "
 
-  for _, config_file_name in ipairs(config_file_names) do
-    local config_file_path = vim.fn.findfile(config_file_name, cwd .. ";")
+  local dir = vim.fn.getcwd()
 
-    if config_file_path ~= "" then -- A configuration file was found
-      local file = io.open(config_file_path, "r")
-      if not file then -- Unable to open file
-        return nil
-      end
-
-      local target = "column_width = "
-      for line in file:lines() do
-        local start, end_ = string.find(line, target, 1, true)
-        if start ~= nil and end_ ~= nil then -- The column_width line was found
-          file:close()
-
-          local line_length_string = line.sub(line, end_ + 1)
-          local line_length = tonumber(line_length_string) + 1
-          return tostring(line_length)
+  while true do
+    for _, config_file_name in ipairs(config_file_names) do
+      local config_file_path = dir .. "/" .. config_file_name
+      if vim.fn.filereadable(config_file_path) == 1 then -- A configuration file was found
+        local file = io.open(config_file_path, "r")
+        if not file then -- Unable to open file
+          return nil
         end
-      end
 
-      -- A config file is found but no column_width line
-      file:close()
-      return "121" -- 120 is the default line length
+        for line in file:lines() do
+          local start, end_ = string.find(line, line_length_pattern, 1, true)
+          if start == 1 and end_ ~= nil then -- The target line was found and is not a comment (start == 1)
+            file:close()
+
+            local line_length = tonumber(line.sub(line, end_ + 1))
+            return tostring(line_length + 1)
+          end
+        end
+
+        -- A config file is found but no column_width line
+        file:close()
+        return tostring(default_line_length + 1)
+      end
+    end
+
+    if dir == vim.env.HOME then
+      return nil
+    else
+      dir = vim.fn.fnamemodify(dir, ":h") -- Change dir to its parent directory & loop again
     end
   end
-
-  return nil
 end
 
 -- Display a column ruler at the relevant line length
