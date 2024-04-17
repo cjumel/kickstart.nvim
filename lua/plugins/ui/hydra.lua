@@ -210,7 +210,8 @@ return {
               vim.opt.colorcolumn = "" -- Remove the colorcolumn in current buffer
             else
               vim.g.disable_colorcolumn = false
-              vim.cmd("edit") -- Reload the current buffer to apply the colorcolumn
+              -- Reload the current buffer to apply the colorcolumn (protected to avoid issue when no buffer is opened)
+              pcall(function() vim.cmd("edit") end)
             end
           end,
         },
