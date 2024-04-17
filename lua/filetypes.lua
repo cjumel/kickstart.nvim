@@ -18,6 +18,13 @@ local filetypes_by_filename = {
   ["ripgreprc"] = "conf", -- auto-detected by nvim
 }
 
+local temporary_filetypes = {
+  "", -- No buffer opened
+  "NeogitStatus",
+  "oil",
+}
+
 return {
   by_filename = filetypes_by_filename,
+  temporary = temporary_filetypes,
 }

@@ -21,6 +21,8 @@ return {
 
     Hydra.setup(opts)
 
+    local filetypes = require("filetypes")
+
     -- The window manager uses builtin keymaps and the descriptions provided by WhichKey
     Hydra({
       body = "<C-w>",
@@ -210,8 +212,9 @@ return {
               vim.opt.colorcolumn = "" -- Remove the colorcolumn in current buffer
             else
               vim.g.disable_colorcolumn = false
-              -- Reload the current buffer to apply the colorcolumn (protected to avoid issue when no buffer is opened)
-              pcall(function() vim.cmd("edit") end)
+              if not vim.tbl_contains(filetypes.temporary, vim.bo.filetype) then -- Don't apply to temporary buffers
+                vim.cmd("edit") -- Reload the current buffer to apply the colorcolumn
+              end
             end
           end,
         },
