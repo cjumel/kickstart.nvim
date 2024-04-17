@@ -18,7 +18,7 @@ local is_in_empty_line = custom_conds.line_begin * show_conds.line_end
 
 return {
   s({ trig = ".json", show_condition = is_in_empty_line }, { i(1, "name"), t(".json") }),
-  s({ trig = ".json", show_condition = -is_in_empty_line }, { t(".json") }),
+  s({ trig = ".json", show_condition = -custom_conds.line_begin }, { t(".json") }),
 
   s({ trig = ".lua", show_condition = custom_conds.project.is_lua * is_in_empty_line }, {
     c(1, {
@@ -36,7 +36,7 @@ return {
       t("notes.md"),
     }),
   }),
-  s({ trig = ".md", show_condition = -is_in_empty_line }, { t(".md") }),
+  s({ trig = ".md", show_condition = -custom_conds.line_begin }, { t(".md") }),
 
   s({ trig = ".norg", show_condition = is_in_empty_line }, {
     c(1, {
@@ -44,7 +44,7 @@ return {
       t("todo.norg"),
     }),
   }),
-  s({ trig = ".norg", show_condition = -is_in_empty_line }, { t(".norg") }),
+  s({ trig = ".norg", show_condition = -custom_conds.line_begin }, { t(".norg") }),
 
   s({ trig = ".py", show_condition = custom_conds.project.is_python * is_in_empty_line }, {
     c(1, {
@@ -56,10 +56,10 @@ return {
   s({ trig = ".py", show_condition = custom_conds.project.is_python - is_in_empty_line }, { t(".py") }),
 
   s({ trig = ".sh", show_condition = is_in_empty_line }, { i(1, "name"), t(".sh") }),
-  s({ trig = ".sh", show_condition = -is_in_empty_line }, { t(".sh") }),
+  s({ trig = ".sh", show_condition = -custom_conds.line_begin }, { t(".sh") }),
 
   s({ trig = ".toml", show_condition = is_in_empty_line }, { i(1, "name"), t(".toml") }),
-  s({ trig = ".toml", show_condition = -is_in_empty_line }, { t(".toml") }),
+  s({ trig = ".toml", show_condition = -custom_conds.line_begin }, { t(".toml") }),
 
   s({ trig = ".yaml", show_condition = is_in_empty_line }, {
     c(1, {
@@ -67,8 +67,8 @@ return {
       sn(nil, { i(1, "name"), t(".yml") }),
     }),
   }),
-  s({ trig = ".yaml", show_condition = -is_in_empty_line }, { c(1, { t(".yaml"), t(".yml") }) }),
+  s({ trig = ".yaml", show_condition = -custom_conds.line_begin }, { c(1, { t(".yaml"), t(".yml") }) }),
 
   s({ trig = ".zsh", show_condition = is_in_empty_line }, { i(1, "name"), t(".zsh") }),
-  s({ trig = ".zsh", show_condition = -is_in_empty_line }, { t(".zsh") }),
+  s({ trig = ".zsh", show_condition = -custom_conds.line_begin }, { t(".zsh") }),
 }
