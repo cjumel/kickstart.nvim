@@ -11,7 +11,6 @@ return {
     "hrsh7th/cmp-path",
     "saadparwaiz1/cmp_luasnip",
     "L3MON4D3/LuaSnip",
-    "clementjumel/cmp-gitmoji",
     "windwp/nvim-autopairs",
   },
   event = {
@@ -82,27 +81,14 @@ return {
       },
     })
 
-    -- Set configuration for specific filetypes
-    cmp.setup.filetype({ "gitcommit", "NeogitCommitMessage" }, {
-      sources = cmp.config.sources({
-        { name = "gitmoji" },
-      }, {
-        { name = "buffer" },
-      }),
-    })
-    cmp.setup.filetype("oil", {
-      sources = cmp.config.sources({
-        { name = "luasnip" },
-      }),
-    })
-
-    -- Set configuration for command line
-    cmp.setup.cmdline({ "/", "?" }, {
-      sources = { { name = "buffer" } },
-    })
-    cmp.setup.cmdline(":", {
-      sources = cmp.config.sources({ { name = "path" } }, { { name = "cmdline" } }),
-    })
+    -- Set up special configurations
+    cmp.setup.cmdline(":", { sources = cmp.config.sources({ { name = "path" } }, { { name = "cmdline" } }) })
+    cmp.setup.cmdline({ "/", "?" }, { sources = { { name = "buffer" } } })
+    cmp.setup.filetype("oil", { sources = cmp.config.sources({ { name = "luasnip" } }) })
+    cmp.setup.filetype(
+      { "gitcommit", "NeogitCommitMessage" },
+      { sources = cmp.config.sources({ { name = "luasnip" } }, { { name = "buffer" } }) }
+    )
 
     -- Insert brackets & place the cursor between them when selecting a function or method item
     -- This feature creates some noise, but it's useful most often than not and it's easier to
