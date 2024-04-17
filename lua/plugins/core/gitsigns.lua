@@ -137,7 +137,7 @@ return {
           end,
         },
         -- <Esc> must be exit for compatibility with clear window action purposes
-        { "<Esc>", nil, { exit = true, desc = false } },
+        { "<Esc>", nil, { exit = true, mode = "n", desc = false } },
       },
     })
   end,
