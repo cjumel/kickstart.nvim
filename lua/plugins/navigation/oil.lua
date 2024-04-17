@@ -83,10 +83,4 @@ return {
       end,
     },
   },
-  config = function(_, opts)
-    require("oil").setup(opts)
-
-    -- Disable column ruler in Oil buffer
-    vim.api.nvim_command("autocmd FileType oil setlocal colorcolumn=")
-  end,
 }
