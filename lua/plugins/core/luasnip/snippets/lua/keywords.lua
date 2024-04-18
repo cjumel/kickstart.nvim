@@ -27,7 +27,11 @@ return {
         t("local "),
         i(1),
         t(" = "),
-        c(2, { i(2), t("{}"), t("nil"), t("false"), t("true") }),
+        c(2, {
+          i(2),
+          t("{}"),
+          sn(nil, { t([[require("]]), i(1), t([[")]]) }),
+        }),
       }),
       sn(nil, {
         t("local "),
