@@ -4,7 +4,7 @@ local function get_colorcolumn()
   local config_file_names = { ".yamlfmt", "yamlfmt.yml", "yamlfmt.yaml", ".yamlfmt.yaml", ".yamlfmt.yml" }
   local line_length_pattern = "  max_line_length: "
 
-  local file_path = vim.fn.expand("%") -- Get the current file path
+  local file_path = vim.fn.expand("%:p") -- Get the current file path (must be absolute to access its ancestors)
   local dir = vim.fn.fnamemodify(file_path, ":h") -- Get the parent directory
 
   while true do
