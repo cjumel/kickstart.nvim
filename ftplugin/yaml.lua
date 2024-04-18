@@ -7,7 +7,7 @@ local function get_colorcolumn()
   local file_path = vim.fn.expand("%:p") -- Get the current file path (must be absolute to access its ancestors)
   local dir = vim.fn.fnamemodify(file_path, ":h") -- Get the parent directory
 
-  while true do
+  for _ = 1, 50 do -- Virtually like a `while True`, but with a safety net
     for _, config_file_name in ipairs(config_file_names) do
       local config_file_path = dir .. "/" .. config_file_name
       if vim.fn.filereadable(config_file_path) == 1 then -- A configuration file was found
@@ -32,12 +32,14 @@ local function get_colorcolumn()
       end
     end
 
-    if dir == vim.env.HOME then
+    if dir == vim.env.HOME or dir == "/" then -- Stop at the home directory or root if file not in home directory
       return nil
     else
       dir = vim.fn.fnamemodify(dir, ":h") -- Change dir to its parent directory & loop again
     end
   end
+
+  vim.notify("Config file search limit reached", vim.log.levels.WARN)
 end
 
 -- Display a column ruler at the relevant line length
