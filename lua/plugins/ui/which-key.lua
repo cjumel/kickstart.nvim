@@ -35,6 +35,7 @@ return {
       ["<leader>m"] = { name = "[M]arks", _ = _ },
       ["<leader>n"] = { name = "[N]oice", _ = _ },
       ["<leader>o"] = { name = "[O]verseer", _ = _ },
+      ["<leader>q"] = { name = "[Q]uick actions", _ = _ },
       ["<leader>t"] = { name = "[T]erm", mode = { "n", "v" }, _ = _ },
       ["<leader>x"] = { name = "Trouble", _ = _ },
     })
