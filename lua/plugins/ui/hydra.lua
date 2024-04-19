@@ -152,16 +152,16 @@ return {
                        Options                        
 
    Window options   
-   _n_/_N_ ➜ Line numbring:         %{line_numbering}   
-   _r_ ^ ^ ➜ Ruler column:          %{ruler_column}   
-   _s_/_S_ ➜ Sign column:           %{sign_column}   
-   _t_ ^ ^ ➜ Treesitterr context:   %{treesitter_context}   
+   _c_ ^ ^ ➜ Treesitter context:   %{treesitter_context}   
+   _n_/_N_ ➜ Line numbering:       %{line_numbering}   
+   _r_ ^ ^ ➜ Ruler column:         %{ruler_column}   
+   _s_/_S_ ➜ Sign column:          %{sign_column}   
 
    Plugin options   
-   _a_ ^ ^ ➜ Auto-pairs:            %{autopairs}   
-   _c_ ^ ^ ➜ Copilot:               %{copilot}   
-   _f_ ^ ^ ➜ Format on save:        %{format_on_save}   
-   _l_ ^ ^ ➜ Lint:                  %{lint}   
+   _a_ ^ ^ ➜ Auto-pairs:           %{autopairs}   
+   _f_ ^ ^ ➜ Format on save:       %{format_on_save}   
+   _g_ ^ ^ ➜ GitHub copilot:       %{copilot}   
+   _l_ ^ ^ ➜ Lint:                 %{lint}   
 
 ]],
       heads = {
@@ -243,10 +243,9 @@ return {
           end,
         },
         {
-          "t",
+          "c",
           function()
             local treesitter_context = require("treesitter-context") -- Load the plugin if necessary
-
             if treesitter_context.enabled() then
               treesitter_context.disable()
             else
@@ -269,7 +268,7 @@ return {
           end,
         },
         {
-          "c",
+          "g",
           function()
             if not vim.g.disable_copilot then
               vim.cmd("Copilot disable") -- Load the plugin if necessary
