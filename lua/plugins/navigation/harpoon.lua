@@ -187,24 +187,24 @@ return {
 
         local bufnr = vim.fn.bufnr(list_item.value)
         local set_position = false
+        local reload = false -- Dirty fix to trigger ftplugins on file directly opened with Harpoon
         if bufnr == -1 then
           set_position = true
           bufnr = vim.fn.bufnr(list_item.value, true)
         end
         if not vim.api.nvim_buf_is_loaded(bufnr) then
           vim.fn.bufload(bufnr)
-          vim.api.nvim_set_option_value("buflisted", true, {
-            buf = bufnr,
-          })
+          vim.api.nvim_set_option_value("buflisted", true, { buf = bufnr })
+          reload = true
         end
 
         vim.api.nvim_set_current_buf(bufnr)
 
         if set_position then
-          vim.api.nvim_win_set_cursor(0, {
-            list_item.context.row or 1,
-            list_item.context.col or 0,
-          })
+          vim.api.nvim_win_set_cursor(0, { list_item.context.row or 1, list_item.context.col or 0 })
+        end
+        if reload then
+          vim.cmd("edit")
         end
       end,
     },
