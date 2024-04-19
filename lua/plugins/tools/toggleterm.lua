@@ -103,12 +103,6 @@ end
 
 return {
   "akinsho/toggleterm.nvim",
-  cmd = {
-    "ToggleTermLuajit",
-    "ToggleTermPython",
-    "ToggleTermPoetryPython",
-    "ToggleTermIPython",
-  },
   keys = {
     {
       "<leader>tt",
@@ -164,35 +158,4 @@ return {
     end,
     persist_size = false,
   },
-  config = function(_, opts)
-    require("toggleterm").setup(opts)
-
-    vim.api.nvim_create_user_command(
-      "ToggleTermLuajit",
-      function() vim.cmd("TermExec cmd='luajit'") end,
-      { desc = "Launch a LuaJIT console in ToggleTerm" }
-    )
-
-    -- Start a Python console without any virtual environment (even if one is activated when
-    -- starting Neovim)
-    vim.api.nvim_create_user_command(
-      "ToggleTermPython",
-      function() vim.cmd("TermExec cmd='python'") end,
-      { desc = "Launch a Python console in ToggleTerm" }
-    )
-    -- Start a Python console with a Poetry environment (requires a Poetry environment to be set up)
-    vim.api.nvim_create_user_command(
-      "ToggleTermPoetryPython",
-      function() vim.cmd("TermExec cmd='poetry run python'") end,
-      { desc = "Launch a Python console with the Poetry environment in ToggleTerm" }
-    )
-    -- Start an IPython console; if Neovim is started with a virtual environment activated & IPython
-    -- is installed in it, use this IPython, otherwise use the system-wide IPython with no virtual
-    -- environment
-    vim.api.nvim_create_user_command("ToggleTermIPython", function()
-      -- Start IPython with --no-autoindent to avoid messing with indents when sending code from
-      -- a buffer
-      vim.cmd("TermExec cmd='ipython --no-autoindent'")
-    end, { desc = "Launch an IPython console in ToggleTerm" })
-  end,
 }
