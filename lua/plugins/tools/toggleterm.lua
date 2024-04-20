@@ -11,47 +11,62 @@ return {
 
     local utils = require("utils")
 
-    --- Select a terminal and run an action on it.
-    ---@param action_name string Name of the action to display in the prompt.
-    ---@param action function Action to run on the selected terminal.
+    --- Select a terminal and run a callback on it.
+    ---@param callback function Action to run on the selected terminal.
+    ---@param opts table Options for the selection.
     ---@return nil
-    local function select_term_and_run(action_name, action)
+    local function select_term_and_run(callback, opts)
+      opts = opts or {}
+      local prompt = opts.prompt or "Select a terminal: "
+      local only_opened = opts.only_opened or false
+
       local terminals = terms.get_all(true)
+      if only_opened then
+        terminals = vim.tbl_filter(function(term) return term:is_open() end, terminals)
+      end
+
       if #terminals == 0 then
-        vim.notify("No terminal opened, yet", vim.log.levels.INFO)
+        if only_opened then
+          vim.notify("No terminal is opened", vim.log.levels.INFO)
+        else
+          vim.notify("No terminal found", vim.log.levels.INFO)
+        end
       elseif #terminals == 1 then
-        action(terminals[1])
+        callback(terminals[1])
       else
         vim.ui.select(terminals, {
-          prompt = "Select a terminal to " .. action_name .. ": ",
+          prompt = prompt,
           format_item = function(term)
-            local s = term.id .. ": " .. term:_display_name()
-            if term:is_open() then
-              s = s .. " (open)"
+            local display = term.id .. ": " .. term:_display_name()
+            if not only_opened and term:is_open() then
+              display = display .. " (open)"
             end
-            return s
+            return display
           end,
-        }, function(_, idx) action(terminals[idx]) end)
+        }, function(_, idx)
+          if idx == nil then -- The user canceled the selection
+            return
+          end
+          callback(terminals[idx])
+        end)
       end
     end
 
-    --- Get a new terminal id that is not already used.
+    --- Get a new, unused terminal identifier.
     ---@return number
     local function get_new_term_id()
-      local all = terms.get_all(true)
-      for index, term in pairs(all) do
-        if index ~= term.id then
-          return index
-        end
+      local all = terms.get_all(true) -- Result is sorted by term.id
+      if #all == 0 then
+        return 1
       end
-      return #all + 1
+      return all[#all].id + 1
     end
 
     return {
       {
         "<leader>tt",
         function()
-          select_term_and_run("toggle", function(term) term:toggle() end)
+          select_term_and_run(function(term) term:toggle() end, { prompt = "Select a terminal to toggle: " })
         end,
         desc = "[T]erm: toggle [T]erminal",
       },
@@ -69,7 +84,10 @@ return {
       {
         "<leader>tr",
         function()
-          select_term_and_run("rename", function(term) vim.cmd(term.id .. "ToggleTermSetName") end)
+          select_term_and_run(
+            function(term) vim.cmd(term.id .. "ToggleTermSetName") end,
+            { prompt = "Select a terminal to rename: " }
+          )
         end,
         desc = "[T]erm: toggle [A]ll terminals",
       },
@@ -77,7 +95,10 @@ return {
         "<leader>t",
         function()
           local lines = utils.visual.get_lines({ trim_ws = true })
-          select_term_and_run("send lines to", function(term) toggleterm.exec(table.concat(lines, "\n"), term.id) end)
+          select_term_and_run(
+            function(term) toggleterm.exec(table.concat(lines, "\n"), term.id) end,
+            { prompt = "Select a terminal to send to: ", only_opened = true }
+          )
         end,
         mode = "v",
         desc = "[T]erm: send selection",
@@ -86,7 +107,10 @@ return {
         "<leader>T",
         function()
           local lines = utils.visual.get_lines({ trim_ws = false })
-          select_term_and_run("send lines to", function(term) toggleterm.exec(table.concat(lines, "\n"), term.id) end)
+          select_term_and_run(
+            function(term) toggleterm.exec(table.concat(lines, "\n"), term.id) end,
+            { prompt = "Select a terminal to send to: ", only_opened = true }
+          )
         end,
         mode = "v",
         desc = "[T]erm: send selection with indentations",
