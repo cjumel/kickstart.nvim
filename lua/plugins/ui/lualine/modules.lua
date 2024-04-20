@@ -61,7 +61,14 @@ M.trouble = {
 
 -- Show the index of the ToggleTerm
 M.toggleterm = {
-  function() return "ToggleTerm #" .. vim.b.toggle_number end,
+  function()
+    local terms = require("toggleterm.terminal")
+    local term = terms.get(vim.b.toggle_number)
+    if term == nil then
+      return ""
+    end
+    return "Terminal " .. term.id .. ": " .. term:_display_name()
+  end,
 }
 
 -- Output a fake "utf-8" encoding for a consistent display between some special buffers (like Oil)
