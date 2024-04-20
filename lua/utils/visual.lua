@@ -12,7 +12,7 @@ end
 --- Trim leading and trailing white spaces from all lines in an array.
 ---@param lines string[] The array of lines to trim.
 ---@return string[] result A copy of the input array where all strings have been trimmed.
-local function trim_lines_ws(lines)
+function M.trim_lines_ws(lines)
   local result = {}
   for _, value in ipairs(lines) do
     value = value:gsub("^%s+", ""):gsub("%s+$", "")
@@ -27,7 +27,7 @@ end
 --- https://github.com/mfussenegger/nvim-dap-python/blob/3dffa58541d1f52c121fe58ced046268c838d802/lua/dap-python.lua
 ---@param lines string[] The array of lines to trim.
 ---@return string[] result A copy of the input array where all strings have been trimmed.
-local function trim_lines_indent(lines)
+function M.trim_lines_indent(lines)
   local offset = nil
   for _, line in ipairs(lines) do
     local first_non_ws = line:find("[^%s]") or 0
@@ -50,25 +50,26 @@ end
 function M.get_lines(opts)
   opts = opts or {}
   local trim_ws = opts.trim_ws or false
-  local trim_indent = opts.trim_indents or false
+  local trim_indent = opts.trim_indent or false
 
   local _, srow, scol = unpack(vim.fn.getpos("v"))
   local _, erow, ecol = unpack(vim.fn.getpos("."))
 
+  local mode = vim.fn.mode()
   local lines = {}
-  if M.is_visual_line_mode() then
+  if mode == "V" then -- Visual line mode
     if srow > erow then
       lines = vim.api.nvim_buf_get_lines(0, erow - 1, srow, true)
     else
       lines = vim.api.nvim_buf_get_lines(0, srow - 1, erow, true)
     end
-  elseif M.is_visual_simple_mode() then
+  elseif mode == "v" then
     if srow < erow or (srow == erow and scol <= ecol) then
       lines = vim.api.nvim_buf_get_text(0, srow - 1, scol - 1, erow - 1, ecol, {})
     else
       lines = vim.api.nvim_buf_get_text(0, erow - 1, ecol - 1, srow - 1, scol, {})
     end
-  elseif M.is_visual_block_mode() then
+  elseif mode == "\22" then -- Visual block mode
     if srow > erow then
       srow, erow = erow, srow
     end
@@ -84,9 +85,9 @@ function M.get_lines(opts)
   end
 
   if trim_ws then
-    lines = trim_lines_ws(lines)
+    lines = M.trim_lines_ws(lines)
   elseif trim_indent then
-    lines = trim_lines_indent(lines)
+    lines = M.trim_lines_indent(lines)
   end
 
   return lines

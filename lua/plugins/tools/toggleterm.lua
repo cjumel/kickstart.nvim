@@ -94,7 +94,8 @@ return {
       {
         "<leader>t",
         function()
-          local lines = utils.visual.get_lines({ trim_ws = true })
+          local opts = vim.g.toggleterm_send_lines_last_opts -- Re-use the last options set by the user, if any
+          local lines = utils.visual.get_lines(opts)
           select_term_and_run(
             function(term) toggleterm.exec(table.concat(lines, "\n"), term.id) end,
             { prompt = "Select a terminal to send to: ", only_opened = true }
@@ -106,14 +107,32 @@ return {
       {
         "<leader>T",
         function()
-          local lines = utils.visual.get_lines({ trim_ws = false })
-          select_term_and_run(
-            function(term) toggleterm.exec(table.concat(lines, "\n"), term.id) end,
-            { prompt = "Select a terminal to send to: ", only_opened = true }
+          -- Lines cannot be fetched in the `vim.ui.select` callback, so we fetch them here & apply the options later
+          local lines = utils.visual.get_lines()
+
+          vim.ui.select(
+            { "None", "Trim global indentation", "Trim leading whitespaces" },
+            { prompt = "Select options: " },
+            function(choice)
+              local opts = {}
+              if choice == "Trim global indentation" then
+                opts.trim_indent = true
+                lines = utils.visual.trim_lines_indent(lines)
+              elseif choice == "Trim leading whitespaces" then
+                opts.trim_ws = true
+                lines = utils.visual.trim_lines_ws(lines)
+              end
+              vim.g.toggleterm_send_lines_last_opts = opts
+
+              select_term_and_run(
+                function(term) toggleterm.exec(table.concat(lines, "\n"), term.id) end,
+                { prompt = "Select a terminal to send to: ", only_opened = true }
+              )
+            end
           )
         end,
         mode = "v",
-        desc = "[T]erm: send selection with indentations",
+        desc = "[T]erm: send selection with options",
       },
     }
   end,
