@@ -78,6 +78,7 @@ return {
     },
     templates = { "shell" },
     task_list = {
+      min_height = 0.25,
       direction = "bottom",
       bindings = {
         -- Disable bindings conflicting with window navigation
