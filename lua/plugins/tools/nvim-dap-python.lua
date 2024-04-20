@@ -32,7 +32,22 @@ return {
       {
         type = "python",
         request = "launch",
-        name = "Pytest current function",
+        name = "Pytest file with arguments",
+        module = "pytest",
+        args = function()
+          return coroutine.create(function(dap_run_co)
+            vim.ui.input(
+              { prompt = "Additional arguments: " },
+              function(input) coroutine.resume(dap_run_co, { "${file}", input }) end
+            )
+          end)
+        end,
+        console = "integratedTerminal",
+      },
+      {
+        type = "python",
+        request = "launch",
+        name = "Pytest function",
         module = "pytest",
         args = function()
           --- Output the name of the current function using Treesitter.
@@ -50,29 +65,11 @@ return {
             end
           end
 
-          local file_path = vim.fn.expand("%:p")
           local function_name = get_function_name()
           if function_name == nil then
             error("No function found")
           end
-          vim.g.dap_python_last_file_path = file_path
-          vim.g.dap_python_last_function_name = function_name
-          return { file_path .. "::" .. function_name }
-        end,
-        console = "integratedTerminal",
-      },
-      {
-        type = "python",
-        request = "launch",
-        name = "Pytest last function",
-        module = "pytest",
-        args = function()
-          local file_path = vim.g.dap_python_last_file_path
-          local function_name = vim.g.dap_python_last_function_name
-          if file_path == nil or function_name == nil then
-            error("No function found")
-          end
-          return { file_path .. "::" .. function_name }
+          return { "${file}::" .. function_name }
         end,
         console = "integratedTerminal",
       },
