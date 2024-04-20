@@ -87,18 +87,4 @@ M.filter_out_array = function(array, targets)
   return result
 end
 
---- Trim leading and trailing white spaces from all strings in an array.
----@param array string[] The array of strings to trim.
----@return string[] result A copy of the input array where all strings have been trimmed.
-function M.trim_ws_in_array(array)
-  local result = {}
-
-  for _, value in ipairs(array) do
-    value = value:gsub("^%s+", ""):gsub("%s+$", "")
-    table.insert(result, value)
-  end
-
-  return result
-end
-
 return M
