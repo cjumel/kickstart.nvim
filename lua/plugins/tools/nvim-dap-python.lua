@@ -8,62 +8,97 @@ return {
   dependencies = {
     "mfussenegger/nvim-dap",
   },
-  cmd = {
-    "DapPythonFile",
-    "DapPytestFunction",
-    "DapPytestFile",
-  },
+  lazy = true, -- Loaded by nvim-dap
   opts = {
     mason_ensure_installed = { -- Custom option to automatically install missing Mason packages
       "debugpy",
     },
-    include_configs = false,
-    console = "integratedTerminal",
+    custom_configurations = { -- Custom option to define Python configurations
+      {
+        type = "python",
+        request = "launch",
+        name = "Run file",
+        program = "${file}",
+        console = "integratedTerminal",
+      },
+      {
+        type = "python",
+        request = "launch",
+        name = "Pytest file",
+        module = "pytest",
+        args = { "${file}" },
+        console = "integratedTerminal",
+      },
+      {
+        type = "python",
+        request = "launch",
+        name = "Pytest current function",
+        module = "pytest",
+        args = function()
+          --- Output the name of the current function using Treesitter.
+          ---@return string|nil
+          local function get_function_name()
+            local node = vim.treesitter.get_node() -- Get the node under the cursor
+            while node ~= nil do
+              if node:type() == "function_definition" then -- Node is a function definition
+                local name_nodes = node:field("name")
+                assert(#name_nodes == 1, "Expected exactly one name node")
+                local name_node = name_nodes[1] -- Get the name node
+                return vim.treesitter.get_node_text(name_node, vim.api.nvim_get_current_buf())
+              end
+              node = node:parent()
+            end
+          end
+
+          local file_path = vim.fn.expand("%:p")
+          local function_name = get_function_name()
+          if function_name == nil then
+            error("No function found")
+          end
+          vim.g.dap_python_last_file_path = file_path
+          vim.g.dap_python_last_function_name = function_name
+          return { file_path .. "::" .. function_name }
+        end,
+        console = "integratedTerminal",
+      },
+      {
+        type = "python",
+        request = "launch",
+        name = "Pytest last function",
+        module = "pytest",
+        args = function()
+          local file_path = vim.g.dap_python_last_file_path
+          local function_name = vim.g.dap_python_last_function_name
+          if file_path == nil or function_name == nil then
+            error("No function found")
+          end
+          return { file_path .. "::" .. function_name }
+        end,
+        console = "integratedTerminal",
+      },
+    },
+    include_configs = false, -- Don't add builtin configurations
   },
   config = function(_, opts)
     local ensure_installed = require("plugins.core.mason.ensure_installed")
     ensure_installed(opts.mason_ensure_installed)
 
+    local dap = require("dap")
     local dap_python = require("dap-python")
+
+    -- Setup DAP-Python
     dap_python.setup("~/.local/share/nvim/mason/packages/debugpy/venv/bin/python", opts)
 
+    -- Add custom configurations
+    local configs = dap.configurations.python or {}
+    for _, configuration in ipairs(opts.custom_configurations) do
+      table.insert(configs, configuration)
+    end
+    dap.configurations.python = configs
+
     -- Enable debugpy to detect errors caught by pytest and break
-    local dap = require("dap")
     dap.listeners.after.event_initialized["dap_exception_breakpoint"] = function()
       dap.set_exception_breakpoints({ "userUnhandled" })
     end
-
-    vim.api.nvim_create_user_command(
-      "DapPythonFile",
-      function()
-        require("dap").run({
-          type = "python",
-          request = "launch",
-          name = "Run file",
-          program = "${file}",
-          console = "integratedTerminal",
-        })
-      end,
-      { desc = "Run Python on file with DAP." }
-    )
-    vim.api.nvim_create_user_command(
-      "DapPytestFunction",
-      function() require("dap-python").test_method({ test_runner = "pytest" }) end,
-      { desc = "Run Pytest on function with DAP." }
-    )
-    vim.api.nvim_create_user_command(
-      "DapPytestFile",
-      function()
-        require("dap").run({
-          type = "python",
-          request = "launch",
-          name = "Test file",
-          module = "pytest",
-          args = { "${file}" },
-          console = "integratedTerminal",
-        })
-      end,
-      { desc = "Run Pytest on file with DAP." }
-    )
   end,
 }
