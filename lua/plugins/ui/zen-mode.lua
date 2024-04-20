@@ -14,7 +14,7 @@ return {
   opts = {
     window = {
       backdrop = 1, -- No difference between the background and the window
-      width = 106, -- Give some room for line numbers and column signs
+      width = 126, -- Base width (120) + some room for line numbers and column signs
       options = {
         number = false, -- Disable number column
         relativenumber = false,
