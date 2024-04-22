@@ -23,11 +23,10 @@ return {
     -- Attribute existing icons & colors to custom file types
     -- This enables for instance Oil to use the right icons for the custom file types
     local filetypes = require("filetypes")
-    local utils = require("utils")
     local icon_data_by_filename = {}
     for filename, filetype in pairs(filetypes.by_filename) do
       -- Don't override icons set in opts.override_by_filename
-      if not utils.table.is_in_dict_keys(filename, opts.override_by_filename) then
+      if not vim.tbl_contains(vim.tbl_keys(opts.override_by_filename), filename) then
         local icon, color, cterm_color = web_devicons.get_icon_colors(filetype)
         icon_data_by_filename[filename] = {
           icon = icon,

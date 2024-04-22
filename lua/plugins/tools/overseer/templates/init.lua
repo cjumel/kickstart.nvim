@@ -1,11 +1,11 @@
-local utils = require("utils")
+local M = {}
 
-return utils.table.concat_arrays({
-  require("plugins.tools.overseer.templates.luajit"),
-  require("plugins.tools.overseer.templates.make"),
-  require("plugins.tools.overseer.templates.mypy"),
-  require("plugins.tools.overseer.templates.poetry"),
-  require("plugins.tools.overseer.templates.pre-commit"),
-  require("plugins.tools.overseer.templates.pytest"),
-  require("plugins.tools.overseer.templates.python"),
-})
+vim.list_extend(M, require("plugins.tools.overseer.templates.luajit"))
+vim.list_extend(M, require("plugins.tools.overseer.templates.make"))
+vim.list_extend(M, require("plugins.tools.overseer.templates.mypy"))
+vim.list_extend(M, require("plugins.tools.overseer.templates.poetry"))
+vim.list_extend(M, require("plugins.tools.overseer.templates.pre-commit"))
+vim.list_extend(M, require("plugins.tools.overseer.templates.pytest"))
+vim.list_extend(M, require("plugins.tools.overseer.templates.python"))
+
+return M

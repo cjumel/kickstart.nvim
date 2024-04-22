@@ -2,10 +2,7 @@
 --
 -- A blazing fast and customizable status bar written in Lua.
 
-local utils = require("utils")
-
--- Handle the case the theme file is missing
-local ok, theme = pcall(require, "theme")
+local ok, theme = pcall(require, "theme") -- Handle the case the theme file is missing
 if not ok then
   theme = {}
 end
@@ -19,64 +16,42 @@ return {
     "nvim-tree/nvim-web-devicons",
   },
   priority = 100, -- Main UI stuff should be loaded first
-  opts = utils.table.concat_dicts({
-    {
-      options = {
-        icons_enabled = true,
-        theme = "auto",
-        component_separators = "|",
-        section_separators = "",
-        refresh = {
-          statusline = 50, -- Decrease refresh rate to make modules more responsive (e.g. Harpoon's)
-        },
+  opts = vim.tbl_deep_extend("force", {
+    options = {
+      icons_enabled = true,
+      theme = "auto",
+      component_separators = "|",
+      section_separators = "",
+      refresh = {
+        statusline = 50, -- Decrease refresh rate to make modules more responsive (e.g. Harpoon's)
       },
-      sections = utils.table.concat_dicts({
-        sections.default,
-        {
-          lualine_x = utils.table.concat_arrays({
-            {
-              modules.macro,
-              modules.harpoon,
-            },
-            sections.default.lualine_x,
-          }),
-        },
+      sections = vim.tbl_deep_extend("force", sections.default, {
+        lualine_x = vim.list_extend({
+          modules.macro,
+          modules.harpoon,
+        }, sections.default.lualine_x),
       }),
       extensions = {
-        -- Redefine some extensions to customize them (see lualine/extensions/ for the initial
-        -- implementations)
+        -- Redefine some extensions to customize them (see lualine/extensions/ for the initial implementations)
         {
-          sections = utils.table.concat_dicts({
-            sections.default,
-            {
-              lualine_c = modules.oil,
-              lualine_x = utils.table.concat_arrays({
-                {
-                  modules.harpoon,
-                  modules.fake_encoding, -- Add a fake encoding for consistency with regular buffers
-                },
-                sections.default.lualine_x,
-              }),
-            },
+          sections = vim.tbl_deep_extend("force", sections.default, {
+            lualine_c = modules.oil,
+            lualine_x = vim.list_extend({
+              modules.harpoon,
+              modules.fake_encoding, -- Add a fake encoding for consistency with regular buffers
+            }, sections.default.lualine_x),
           }),
           filetypes = { "oil" },
         },
         {
-          sections = utils.table.concat_dicts({
-            sections.default,
-            { lualine_c = modules.trouble },
-          }),
+          sections = vim.tbl_deep_extend("force", sections.default, { lualine_c = modules.trouble }),
           filetypes = { "Trouble" },
         },
         {
-          sections = utils.table.concat_dicts({
-            sections.default,
-            { lualine_c = modules.toggleterm },
-          }),
+          sections = vim.tbl_deep_extend("force", sections.default, { lualine_c = modules.toggleterm }),
           filetypes = { "toggleterm" },
         },
       },
     },
-    theme.lualine_opts or {},
-  }),
+  }, theme.lualine_opts or {}),
 }

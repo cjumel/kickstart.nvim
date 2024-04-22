@@ -20,51 +20,32 @@ M.lualine_opts = {
       statusline = 50, -- Decrease refresh rate to make modules more responsive (e.g. Harpoon's)
     },
   },
-  sections = utils.table.concat_dicts({
-    sections.empty,
-    {
-      lualine_c = {
-        {
-          "filename",
-          path = 1, -- Relative path
-        },
-        "diff",
-        "diagnostics",
+  sections = vim.tbl_deep_extend("force", sections.empty, {
+    lualine_c = {
+      {
+        "filename",
+        path = 1, -- Relative path
       },
-      lualine_x = utils.table.concat_arrays({
-        { modules.macro, modules.harpoon },
-        { "location", "progress" },
-      }),
+      "diff",
+      "diagnostics",
     },
+    lualine_x = vim.list_extend({ modules.macro, modules.harpoon }, { "location", "progress" }),
   }),
   extensions = {
-    -- Redefine some extensions to customize them (see lualine/extensions/ for the initial
-    -- implementations)
+    -- Redefine some extensions to customize them (see lualine/extensions/ for the initial implementations)
     {
-      sections = utils.table.concat_dicts({
-        sections.empty,
-        {
-          lualine_c = modules.oil,
-          lualine_x = utils.table.concat_arrays({
-            { modules.harpoon },
-            { "location", "progress" },
-          }),
-        },
+      sections = vim.tbl_deep_extend("force", sections.empty, {
+        lualine_c = modules.oil,
+        lualine_x = vim.list_extend({ modules.harpoon }, { "location", "progress" }),
       }),
       filetypes = { "oil" },
     },
     {
-      sections = utils.table.concat_dicts({
-        sections.empty,
-        { lualine_c = modules.trouble },
-      }),
+      sections = vim.tbl_deep_extend("force", sections.empty, { lualine_c = modules.trouble }),
       filetypes = { "Trouble" },
     },
     {
-      sections = utils.table.concat_dicts({
-        sections.empty,
-        { lualine_c = modules.toggleterm },
-      }),
+      sections = vim.tbl_deep_extend("force", sections.empty, { lualine_c = modules.toggleterm }),
       filetypes = { "toggleterm" },
     },
   },

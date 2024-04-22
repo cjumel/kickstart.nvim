@@ -2,8 +2,7 @@
 --
 -- Neovim theme based off of the Nord Color Palette.
 
--- Handle the case the theme file is missing
-local ok, theme = pcall(require, "theme")
+local ok, theme = pcall(require, "theme") -- Handle the case the theme file is missing
 if not ok then
   theme = {}
 end
