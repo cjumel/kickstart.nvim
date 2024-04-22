@@ -1,11 +1,12 @@
 local M = {}
 
-M.nord_enabled = true
+M.tokyonight_enabled = true
+M.tokyonight_opts = {
+  style = "day", -- night, moon, storm or day
+}
 
 M.lualine_opts = {
   options = {
-    icons_enabled = false,
-    theme = "nord",
     component_separators = { left = "", right = "" },
     section_separators = { left = "", right = "" },
   },

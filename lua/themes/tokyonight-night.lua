@@ -4,9 +4,9 @@ local sections = require("plugins.ui.lualine.sections")
 
 local M = {}
 
-M.rose_pine_enabled = true
-M.rose_pine_opts = {
-  variant = "moon", -- auto, main, moon, or dawn
+M.tokyonight_enabled = true
+M.tokyonight_opts = {
+  style = "night", -- night, moon, storm or day
 }
 
 local custom_sections = vim.tbl_deep_extend("force", sections.empty, {
@@ -18,9 +18,6 @@ local custom_sections = vim.tbl_deep_extend("force", sections.empty, {
   lualine_x = { modules.macro, modules.harpoon, "location", "progress" },
 })
 M.lualine_opts = {
-  options = {
-    icons_enabled = false,
-  },
   sections = custom_sections,
   extensions = extensions.build_extensions(custom_sections),
 }
