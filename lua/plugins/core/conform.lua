@@ -15,7 +15,6 @@ local formatters_by_ft = {
   lua = { "stylua" },
   make = { "trim_newlines", "trim_whitespace" },
   markdown = { "mdformat" },
-  norg = { "trim_newlines", "trim_whitespace" },
   python = {
     "ruff_fix", -- Fix lint diagnostics
     "ruff_format", -- Regular formatting

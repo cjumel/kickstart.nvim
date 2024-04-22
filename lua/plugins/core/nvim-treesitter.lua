@@ -28,7 +28,6 @@ return {
       "make",
       "markdown",
       "markdown_inline",
-      "norg",
       "python",
       "regex",
       "requirements",

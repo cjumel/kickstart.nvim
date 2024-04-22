@@ -28,18 +28,11 @@ return {
     c(1, {
       sn(nil, { i(1, "name"), t(".md") }),
       t("README.md"),
-      t("notes.md"),
+      t("NOTES.md"),
+      t("TODO.md"),
     }),
   }),
   s({ trig = ".md", show_condition = -custom_conds.line_begin }, { t(".md") }),
-
-  s({ trig = ".norg", show_condition = is_in_empty_line }, {
-    c(1, {
-      sn(nil, { i(1, "name"), t(".norg") }),
-      t("todo.norg"),
-    }),
-  }),
-  s({ trig = ".norg", show_condition = -custom_conds.line_begin }, { t(".norg") }),
 
   s({ trig = ".py", show_condition = custom_conds.project.is_python * is_in_empty_line }, {
     c(1, {
