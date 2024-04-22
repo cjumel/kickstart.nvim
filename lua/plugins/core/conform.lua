@@ -19,6 +19,7 @@ local formatters_by_ft = {
     "ruff_fix", -- Fix lint diagnostics
     "ruff_format", -- Regular formatting
   },
+  sh = { "shfmt" },
   text = { "trim_newlines", "trim_whitespace" },
   tmux = { "trim_newlines", "trim_whitespace" },
   toml = {}, -- taplo in lspconfig
