@@ -25,6 +25,9 @@ local opts = {
 }
 
 local plugins = {
+  -- Color schemes plugins define the highlight groups used in the editor
+  { import = "plugins.colorschemes" },
+
   -- Core plugins bring features to edit buffers efficiently (text objects, motions, LSP,
   -- formatters, etc.)
   { import = "plugins.core" },
