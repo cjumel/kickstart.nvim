@@ -7,7 +7,7 @@ if not ok then
   theme = {}
 end
 
-local modules = require("plugins.ui.lualine.modules")
+local extensions = require("plugins.ui.lualine.extensions")
 local sections = require("plugins.ui.lualine.sections")
 
 return {
@@ -26,32 +26,7 @@ return {
         statusline = 50, -- Decrease refresh rate to make modules more responsive (e.g. Harpoon's)
       },
     },
-    sections = vim.tbl_deep_extend("force", sections.default, {
-      lualine_x = vim.list_extend({
-        modules.macro,
-        modules.harpoon,
-      }, sections.default.lualine_x),
-    }),
-    extensions = {
-      -- Redefine some extensions to customize them (see lualine/extensions/ for the initial implementations)
-      {
-        sections = vim.tbl_deep_extend("force", sections.default, {
-          lualine_c = modules.oil,
-          lualine_x = vim.list_extend({
-            modules.harpoon,
-            modules.fake_encoding, -- Add a fake encoding for consistency with regular buffers
-          }, sections.default.lualine_x),
-        }),
-        filetypes = { "oil" },
-      },
-      {
-        sections = vim.tbl_deep_extend("force", sections.default, { lualine_c = modules.trouble }),
-        filetypes = { "Trouble" },
-      },
-      {
-        sections = vim.tbl_deep_extend("force", sections.default, { lualine_c = modules.toggleterm }),
-        filetypes = { "toggleterm" },
-      },
-    },
+    sections = sections.default,
+    extensions = extensions.build_extensions(sections.default),
   }, theme.lualine_opts or {}),
 }

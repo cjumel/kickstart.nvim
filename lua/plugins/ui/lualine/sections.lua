@@ -1,3 +1,5 @@
+local modules = require("plugins.ui.lualine.modules")
+
 local M = {}
 
 M.default = {
@@ -12,7 +14,7 @@ M.default = {
       },
     },
   },
-  lualine_x = { "encoding", "fileformat", "filetype" },
+  lualine_x = { modules.macro, modules.harpoon, "encoding", "fileformat", "filetype" },
   lualine_y = { "location" },
   lualine_z = { "progress" },
 }
