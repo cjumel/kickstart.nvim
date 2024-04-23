@@ -9,6 +9,7 @@ return {
     "hrsh7th/cmp-buffer",
     "hrsh7th/cmp-cmdline",
     "hrsh7th/cmp-path",
+    "hrsh7th/cmp-emoji",
     "saadparwaiz1/cmp_luasnip",
     "L3MON4D3/LuaSnip",
     "windwp/nvim-autopairs",
@@ -84,6 +85,14 @@ return {
     -- Set up special configurations
     cmp.setup.cmdline(":", { sources = cmp.config.sources({ { name = "path" } }, { { name = "cmdline" } }) })
     cmp.setup.cmdline({ "/", "?" }, { sources = { { name = "buffer" } } })
+    cmp.setup.filetype("markdown", {
+      sources = cmp.config.sources({
+        { name = "luasnip" },
+      }, {
+        { name = "buffer" },
+        { name = "emoji" },
+      }),
+    })
     cmp.setup.filetype("oil", { sources = cmp.config.sources({ { name = "luasnip" } }) })
     cmp.setup.filetype(
       { "gitcommit", "NeogitCommitMessage" },
