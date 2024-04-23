@@ -22,7 +22,6 @@ return {
         local opts = themes.get_dropdown({
           previewer = false,
           layout_config = { width = 0.7 },
-          initial_mode = "normal",
           prompt_title = "Yank history",
         })
 
@@ -39,7 +38,6 @@ return {
         local opts = themes.get_dropdown({
           previewer = false,
           layout_config = { width = 0.7 },
-          initial_mode = "normal",
           prompt_title = "Macro history",
         })
 
