@@ -7,9 +7,14 @@ return {
   event = "VeryLazy",
   opts = {
     operators = { -- Add non-native operators that will trigger motion and text object completion
+      -- Comment.nvim
       gb = "Comment toggle blockwise",
       gc = "Comment toggle linewise",
+      -- substitute.nvim
       gs = "Substitute",
+      gS = "Substitute in buffer",
+      gw = "Swap",
+      -- nvim-surround
       ys = "Surround",
       yS = "Surround on new lines",
     },
