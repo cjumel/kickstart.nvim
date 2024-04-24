@@ -413,6 +413,15 @@ return {
         prompt_title = "Find OldFiles",
       }, { visual_mode = true }))
     end, { desc = "[F]ind: [O]ldfiles" })
+    vim.keymap.set({ "n", "v" }, "<leader>fb", function()
+      builtin.buffers(make_opts({
+        ignore_current_buffer = true,
+        sort_mru = true, -- Sort buffers by most recently used
+        preview = { hide_on_startup = true },
+        tiebreak = function(current, existing, _) return current.index < existing.index end, -- Sort entries by recency
+        prompt_title = "Find Buffers",
+      }, { visual_mode = true }))
+    end, { desc = "[F]ind: [B]uffers" })
 
     -- Vim- or Neovim-related
     vim.keymap.set("n", "<leader>:", function()
