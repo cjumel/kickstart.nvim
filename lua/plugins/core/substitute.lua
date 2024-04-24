@@ -8,6 +8,16 @@ return {
     { "gs", function() require("substitute").operator() end, desc = "Substitute" },
     { "gsc", function() require("substitute").line() end, desc = "Substitute current line" },
     { "gs", function() require("substitute").visual() end, mode = "x", desc = "Substitute" },
+    { "gS", function() require("substitute.range").operator() end, desc = "Substitute in buffer" },
+    { "gSc", function() require("substitute.range").word() end, desc = "Substitute current word in buffer" },
+    { "gS", function() require("substitute.range").visual() end, mode = "x", desc = "Substitute in buffer" },
+    { "gw", function() require("substitute.exchange").operator() end, desc = "Swap" },
+    { "gwc", function() require("substitute.exchange").line() end, desc = "Swap current line" },
+    { "gw", function() require("substitute.exchange").visual() end, mode = "x", desc = "Swap" },
   },
-  opts = {},
+  opts = {
+    range = {
+      range = "%", -- Perform range substitution on whole buffer
+    },
+  },
 }

@@ -11,7 +11,7 @@ return {
     { "yS", "<Plug>(nvim-surround-normal-line)", desc = "Surround on new lines" },
     { "ySc", "<Plug>(nvim-surround-normal-cur-line)", desc = "Surround current line on new lines" },
     { "S", "<Plug>(nvim-surround-visual)", mode = "x", desc = "Surround" },
-    { "gS", "<Plug>(nvim-surround-visual-line)", mode = "x", desc = "Surround on new lines" },
+    { "<C-s>", "<Plug>(nvim-surround-visual-line)", mode = "x", desc = "Surround on new lines" },
     { "ds", "<Plug>(nvim-surround-delete)", desc = "Delete surrounds" },
     { "cs", "<Plug>(nvim-surround-change)", desc = "Change surrounds" },
     { "cS", "<Plug>(nvim-surround-change-line)", desc = "Change surrounds on new lines" },
