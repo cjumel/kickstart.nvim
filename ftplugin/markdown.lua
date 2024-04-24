@@ -1,3 +1,5 @@
+-- [[ Options ]]
+
 --- Look for a mdformat configuration file and output a colorcolumn value based on it or nil.
 ---@return string|nil
 local function get_colorcolumn()
@@ -51,3 +53,14 @@ end
 if not vim.g.disable_colorcolumn then
   vim.opt_local.colorcolumn = get_colorcolumn()
 end
+
+-- [[ Keymaps ]]
+
+local utils = require("utils")
+
+-- This keymap also catches comments with `#` in code blocks (e.g. in Python), but this is good enough
+utils.keymap.set_move_pair(
+  { "[t", "]t" }, -- Correspond to todo-comments in other filetypes, but not used in Markdown
+  { function() vim.fn.search("^#") end, function() vim.fn.search("^#", "b") end },
+  { { desc = "Next title", buffer = true }, { desc = "Previous title", buffer = true } }
+)
