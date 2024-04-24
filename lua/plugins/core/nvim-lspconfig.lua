@@ -37,6 +37,12 @@ local servers = {
     },
   },
 
+  -- Marksman provides some basic LSP features for markdown files (like LSP symbols), as well as more refined features
+  -- to interact with links & references (completion, renaming, preview, etc.)
+  marksman = {
+    filetypes = { "markdown" },
+  },
+
   -- Besides regular LSP features, pyright provides static type checking making another
   -- static type checker (like mypy) redundant
   -- Ruff-lsp can be implemented as additional language server to Pyright to provide
