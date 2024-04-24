@@ -47,9 +47,6 @@ vim.o.completeopt = ""
 -- Use true colors in terminal
 vim.o.termguicolors = true
 
--- Set conceal level to hide some information in the buffer; default to 0 (no concealment)
-vim.o.conceallevel = 2 -- Hide concealable text almost all the time
-
 -- [[ Diagnostics ]]
 
 -- Make diagnostic signs in sign column the same as in Lualine
