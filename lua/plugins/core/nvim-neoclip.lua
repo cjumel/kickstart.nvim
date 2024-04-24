@@ -30,23 +30,6 @@ return {
       end,
       desc = "[Y]ank history",
     },
-    {
-      "<leader>m",
-      function()
-        local telescope = require("telescope")
-        local themes = require("telescope.themes")
-
-        local opts = themes.get_dropdown({
-          tiebreak = function(current, existing, _) return current.index < existing.index end, -- Sort entries by recency
-          previewer = false,
-          layout_config = { width = 0.7 },
-          prompt_title = "Macro history",
-        })
-
-        telescope.extensions.macroscope.default(opts)
-      end,
-      desc = "[M]acro history",
-    },
   },
   opts = {
     enable_persistent_history = true,
