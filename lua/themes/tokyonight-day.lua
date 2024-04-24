@@ -7,8 +7,7 @@ M.tokyonight_opts = {
 
 M.lualine_opts = {
   options = {
-    component_separators = { left = "", right = "" },
-    section_separators = { left = "", right = "" },
+    component_separators = {},
   },
 }
 
