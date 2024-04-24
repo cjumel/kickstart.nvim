@@ -1,5 +1,3 @@
-local comment_ft = require("Comment.ft")
-local comment_utils = require("Comment.utils")
 local ls = require("luasnip")
 
 local i = ls.insert_node
@@ -13,6 +11,15 @@ local M = {}
 ---@param ctype integer 1 for `line`-comment and 2 for `block`-comment
 ---@return table comment_strings {begcstring, endcstring}
 local get_comment_strings = function(ctype)
+  local comment_ft = package.loaded["Comment.ft"]
+  if comment_ft == nil then
+    comment_ft = require("Comment.ft")
+  end
+  local comment_utils = package.loaded["Comment.utils"]
+  if comment_utils == nil then
+    comment_utils = require("Comment.utils")
+  end
+
   -- use the `Comments.nvim` API to fetch the comment string for the region
   -- (eq. '--%s' or '--[[%s]]' for `lua`)
   local cstring = comment_ft.calculate({ ctype = ctype, range = comment_utils.get_region() }) or vim.bo.commentstring
