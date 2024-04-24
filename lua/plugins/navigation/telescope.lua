@@ -344,9 +344,6 @@ return {
 
     -- [[ Keymap utilities ]]
 
-    --- Keep entries sorted by recency when typing the prompt
-    local function recency_tiebreak(current_entry, existing_entry, _) return current_entry.index < existing_entry.index end
-
     --- Make options dynamically depend on the Picker context and add a persistence layer.
     ---@param opts table Options to make.
     ---@param meta_opts table Meta options establishing how to make the options.
@@ -409,41 +406,31 @@ return {
       end,
       { desc = "[F]ind: by [G]rep" }
     )
-    vim.keymap.set(
-      { "n", "v" },
-      "<leader>fo",
-      function()
-        builtin.oldfiles(make_opts({
-          preview = { hide_on_startup = true },
-          tiebreak = recency_tiebreak,
-          prompt_title = "Find OldFiles",
-        }, { visual_mode = true }))
-      end,
-      { desc = "[F]ind: [O]ldfiles" }
-    )
+    vim.keymap.set({ "n", "v" }, "<leader>fo", function()
+      builtin.oldfiles(make_opts({
+        preview = { hide_on_startup = true },
+        tiebreak = function(current, existing, _) return current.index < existing.index end, -- Sort entries by recency
+        prompt_title = "Find OldFiles",
+      }, { visual_mode = true }))
+    end, { desc = "[F]ind: [O]ldfiles" })
 
     -- Vim- or Neovim-related
     vim.keymap.set("n", "<leader>:", function()
       builtin.command_history(themes.get_dropdown({
         previewer = false,
         layout_config = { width = 0.7 },
-        tiebreak = recency_tiebreak,
+        tiebreak = function(current, existing, _) return current.index < existing.index end, -- Sort entries by recency
         -- Filter out short commands like "w", "q", "wq", "wqa"
         filter_fn = function(cmd) return string.len(cmd) >= 4 end,
       }))
     end, { desc = "Command history" })
-    vim.keymap.set(
-      "n",
-      "<leader>/",
-      function()
-        builtin.search_history(themes.get_dropdown({
-          previewer = false,
-          layout_config = { width = 0.7 },
-          tiebreak = recency_tiebreak,
-        }))
-      end,
-      { desc = "Search history" }
-    )
+    vim.keymap.set("n", "<leader>/", function()
+      builtin.search_history(themes.get_dropdown({
+        previewer = false,
+        layout_config = { width = 0.7 },
+        tiebreak = function(current, existing, _) return current.index < existing.index end, -- Sort entries by recency
+      }))
+    end, { desc = "Search history" })
 
     -- Git related
     vim.keymap.set(
