@@ -7,7 +7,8 @@ return {
   event = "VeryLazy",
   opts = {
     operators = { -- Add non-native operators that will trigger motion and text object completion
-      gc = "Comments",
+      gb = "Comment toggle blockwise",
+      gc = "Comment toggle linewise",
       ys = "Surround",
     },
     window = {
