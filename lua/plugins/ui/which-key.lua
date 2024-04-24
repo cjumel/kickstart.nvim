@@ -10,6 +10,7 @@ return {
       gb = "Comment toggle blockwise",
       gc = "Comment toggle linewise",
       ys = "Surround",
+      yS = "Surround on new lines",
     },
     window = {
       border = "rounded", -- Improve visibility with transparent background
