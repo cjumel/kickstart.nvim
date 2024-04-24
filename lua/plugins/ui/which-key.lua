@@ -9,6 +9,7 @@ return {
     operators = { -- Add non-native operators that will trigger motion and text object completion
       gb = "Comment toggle blockwise",
       gc = "Comment toggle linewise",
+      gs = "Substitute",
       ys = "Surround",
       yS = "Surround on new lines",
     },
