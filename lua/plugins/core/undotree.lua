@@ -6,9 +6,9 @@ return {
   "mbbill/undotree",
   keys = {
     {
-      "<leader>u",
+      "<leader>U",
       function() vim.cmd("UndotreeToggle") end,
-      desc = "[U]ndo tree",
+      desc = "[U]ndo tree menu",
     },
   },
   config = function()

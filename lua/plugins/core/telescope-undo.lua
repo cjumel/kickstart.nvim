@@ -9,7 +9,7 @@ return {
   },
   keys = {
     {
-      "<leader>fu",
+      "<leader>u",
       function()
         local telescope = require("telescope")
 
@@ -25,7 +25,7 @@ return {
         telescope.extensions.undo.undo(opts)
       end,
       mode = { "n", "v" },
-      desc = "[F]ind: [U]ndo tree",
+      desc = "[U]ndo tree history",
     },
   },
   opts = {
