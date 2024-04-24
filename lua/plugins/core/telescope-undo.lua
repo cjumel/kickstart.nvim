@@ -15,7 +15,9 @@ return {
 
         local custom_utils = require("utils")
 
-        local opts = {}
+        local opts = {
+          tiebreak = function(current, existing, _) return current.index < existing.index end, -- Sort entries by recency
+        }
         if custom_utils.visual.is_visual_mode() then
           opts.default_text = custom_utils.visual.get_text()
         end

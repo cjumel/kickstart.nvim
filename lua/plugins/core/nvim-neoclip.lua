@@ -20,6 +20,7 @@ return {
         local themes = require("telescope.themes")
 
         local opts = themes.get_dropdown({
+          tiebreak = function(current, existing, _) return current.index < existing.index end, -- Sort entries by recency
           previewer = false,
           layout_config = { width = 0.7 },
           prompt_title = "Yank history",
@@ -36,6 +37,7 @@ return {
         local themes = require("telescope.themes")
 
         local opts = themes.get_dropdown({
+          tiebreak = function(current, existing, _) return current.index < existing.index end, -- Sort entries by recency
           previewer = false,
           layout_config = { width = 0.7 },
           prompt_title = "Macro history",
