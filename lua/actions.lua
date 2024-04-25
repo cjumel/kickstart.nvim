@@ -134,4 +134,27 @@ M.hover = function()
   vim.lsp.buf.hover()
 end
 
+-- [[ Action keymaps ]]
+
+--- Yank the path of the current buffer (or Oil directory if in Oil buffer), relatively to the home directory.
+---@param opts table|nil Optional parameters.
+---@return nil
+function M.yank_buffer_path(opts)
+  opts = opts or {}
+  local mods = opts.mods or ":~:." -- Relative to cwd or home directory
+  local register = opts.register or '"' -- Default register
+
+  local path
+  if vim.bo.filetype == "oil" then
+    local oil = package.loaded.oil
+    path = oil.get_current_dir()
+  else
+    path = vim.fn.expand("%")
+  end
+  path = vim.fn.fnamemodify(path, mods) -- Make the path relative to the home directory
+
+  vim.fn.setreg(register, path)
+  vim.notify('Yanked "' .. path .. '" to register ' .. register .. "")
+end
+
 return M

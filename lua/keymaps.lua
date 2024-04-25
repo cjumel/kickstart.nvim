@@ -113,6 +113,31 @@ utils.keymap.set_move_pair(
 
 -- [[ Action keymaps ]]
 
+vim.keymap.set(
+  "n",
+  "<leader>ayr",
+  function() actions.yank_buffer_path() end,
+  { desc = "[A]ctions: [Y]ank [R]elative path" }
+)
+vim.keymap.set(
+  "n",
+  "<leader>ayR",
+  function() actions.yank_buffer_path({ register = "+" }) end,
+  { desc = "[A]ctions: [Y]ank [R]elative path in clipboard" }
+)
+vim.keymap.set(
+  "n",
+  "<leader>aya",
+  function() actions.yank_buffer_path({ mods = ":~" }) end,
+  { desc = "[A]ctions: [Y]ank [A]bsolute path" }
+)
+vim.keymap.set(
+  "n",
+  "<leader>ayA",
+  function() actions.yank_buffer_path({ mods = ":~", register = "+" }) end,
+  { desc = "[A]ctions: [Y]ank [A]bsolute path in clipboard" }
+)
+
 vim.keymap.set("n", "<leader>ax", function() vim.cmd("bufdo bd") end, { desc = "[A]ctions: close all buffers" })
 
 -- [[ Terminal-like keymaps ]]
