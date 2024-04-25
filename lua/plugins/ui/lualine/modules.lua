@@ -44,7 +44,10 @@ M.harpoon = {
 
 -- Show the path of the directory opened with Oil (instead of Oil's buffer path)
 M.oil = {
-  function() return utils.path.get_current_oil_directory({ cwd_strategy = "absolute" }) end,
+  function()
+    local oil = package.loaded.oil
+    return vim.fn.fnamemodify(oil.get_current_dir(), ":p:~:.")
+  end,
 }
 
 -- Show the name of the Trouble window
