@@ -106,9 +106,9 @@ utils.keymap.set_move_pair({ "[=", "]=" }, {
 
 local url_pattern = "http:\\/\\/\\|https:\\/\\/"
 utils.keymap.set_move_pair(
-  { "[u", "]u" },
+  { "[w", "]w" },
   { function() vim.fn.search(url_pattern) end, function() vim.fn.search(url_pattern, "b") end },
-  { { desc = "Next URL" }, { desc = "Previous URL" } }
+  { { desc = "Next Web address" }, { desc = "Previous Web address" } }
 )
 
 -- [[ Quick action keymaps ]]
