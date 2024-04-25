@@ -1,3 +1,5 @@
+local utils = require("utils")
+
 local M = {}
 
 -- [[ Redefine builtin actions ]]
@@ -47,6 +49,15 @@ end
 -- Fix gx keymap to open a link, as it needs netwrc which is disabled on my setup
 -- See https://www.reddit.com/r/neovim/comments/ro6oye/open_link_from_neovim/
 M.fixed_gx = [[:silent execute '!open ' . shellescape(expand('<cfile>'), 1)<CR>]]
+
+-- Remove "\V" from the search pattern of visual "*" keymap
+-- The only reason for this is that stubstitute.nvim doesn't work well with such patterns due to escaping "\V"
+function M.fixed_visual_star()
+  local selection = utils.visual.get_text()
+  vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<esc>", true, false, true), "x", true) -- Exit visual mode
+  vim.cmd("/" .. selection) -- vim.fn.search doesn't put the pattern in the search history
+  vim.cmd("normal! n") -- To perfectly mimic the native visual "*" keymap
+end
 
 -- [[ General actions ]]
 

@@ -52,6 +52,9 @@ vim.keymap.set("v", "zf", "zf", { desc = "Create fold" })
 -- only to open URLs in a web browser
 vim.api.nvim_set_keymap("n", "gx", actions.fixed_gx, { desc = "Open URL under cursor in browser" })
 
+-- Fix visual "*" keymap
+vim.keymap.set("v", "*", actions.fixed_visual_star, { desc = "Search selection" })
+
 -- [[ General keymaps ]]
 
 vim.keymap.set("n", "<Esc>", actions.clear_window, { desc = "Clear window" })
