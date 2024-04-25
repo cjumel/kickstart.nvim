@@ -74,11 +74,6 @@ return {
           return true
         end
 
-        -- Don't display Neovim-related files
-        if vim.startswith(name, ".null-ls_") then -- Null-ls temporary files
-          return true
-        end
-
         return false
       end,
     },
