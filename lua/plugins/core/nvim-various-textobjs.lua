@@ -21,7 +21,6 @@ return {
       { "iv", function() textobjs.value("inner") end, mode = mode, desc = "inner key-value pair value" },
       { "ak", function() textobjs.key("outer") end, mode = mode, desc = "a key-value pair key" },
       { "ik", function() textobjs.key("inner") end, mode = mode, desc = "inner key-value pair key" },
-      { "gw", textobjs.url, mode = mode, desc = "Web address" },
     }
   end,
 }
