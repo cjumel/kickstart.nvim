@@ -27,10 +27,12 @@ return {
       }),
     }),
   }),
-  s(
-    { trig = "function ()", show_condition = is_in_code },
-    { t("function "), i(1), t("("), i(2), t({ ")", "\t" }), i(3), t({ "", "end" }) }
-  ),
+  s({ trig = "function ()", show_condition = is_in_code }, {
+    c(1, {
+      sn(nil, { t("function "), i(1), t("("), i(2), t({ ")", "\t" }), i(3), t({ "", "end" }) }),
+      sn(nil, { t("function "), i(1), t("("), i(2), t(") "), i(3), t(" end") }),
+    }),
+  }),
 
   -- [[ Conditions ]]
   s(
