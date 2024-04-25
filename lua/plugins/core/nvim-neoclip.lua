@@ -9,26 +9,37 @@ return {
   },
   event = { "BufNewFile", "BufReadPre" },
   keys = {
-    -- Search in yank & macro history is not really convenient (often, older entries are shown
-    -- before the target I'm looking for). Besides, since they are shared between all the projects,
-    -- it is really messy, unlike the undo tree for instance. For these reasons, let's only
-    -- implement simple normal mode interfaces.
     {
-      "<leader>y",
+      '<leader>"',
       function()
         local telescope = require("telescope")
-        local themes = require("telescope.themes")
 
-        local opts = themes.get_dropdown({
+        local opts = {
           tiebreak = function(current, existing, _) return current.index < existing.index end, -- Sort entries by recency
           previewer = false,
-          layout_config = { width = 0.7 },
-          prompt_title = "Yank history",
-        })
+          layout_strategy = "vertical",
+          prompt_title = '" Register History',
+        }
 
         telescope.extensions.neoclip.default(opts)
       end,
-      desc = "[Y]ank history",
+      desc = '" register history',
+    },
+    {
+      "<leader>q",
+      function()
+        local telescope = require("telescope")
+
+        local opts = {
+          tiebreak = function(current, existing, _) return current.index < existing.index end, -- Sort entries by recency
+          previewer = false,
+          layout_strategy = "vertical",
+          prompt_title = "q Register Macro History",
+        }
+
+        telescope.extensions.macroscope.default(opts)
+      end,
+      desc = "[Q] register macro history",
     },
   },
   opts = {
