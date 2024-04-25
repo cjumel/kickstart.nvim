@@ -9,6 +9,7 @@ return {
     local textobjs = require("various-textobjs")
     local mode = { "x", "o" }
     return {
+      { "I", textobjs.restOfIndentation, mode = mode, desc = "" },
       { "as", function() textobjs.subword("outer") end, mode = mode, desc = "a subword" },
       { "is", function() textobjs.subword("inner") end, mode = mode, desc = "inner subword" },
       { "C", textobjs.toNextClosingBracket, mode = mode, desc = "Next right bracket" },
