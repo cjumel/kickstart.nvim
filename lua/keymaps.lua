@@ -111,9 +111,9 @@ utils.keymap.set_move_pair(
   { { desc = "Next Web address" }, { desc = "Previous Web address" } }
 )
 
--- [[ Quick action keymaps ]]
+-- [[ Action keymaps ]]
 
-vim.keymap.set("n", "<leader>qx", function() vim.cmd("bufdo bd") end, { desc = "[Q]uick actions: close all buffers" })
+vim.keymap.set("n", "<leader>ax", function() vim.cmd("bufdo bd") end, { desc = "[A]ctions: close all buffers" })
 
 -- [[ Terminal-like keymaps ]]
 -- Keymaps for insert & command-line modes to reproduce shell keymaps

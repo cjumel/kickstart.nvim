@@ -103,7 +103,7 @@ return {
       local map = utils.keymap.get_buffer_local_map(bufnr)
 
       map({ "n", "i" }, "<C-s>", vim.lsp.buf.signature_help, "Signature help")
-      map("n", "<leader>ca", vim.lsp.buf.code_action, "[C]ode: [A]ction")
+      map("n", "<leader>la", vim.lsp.buf.code_action, "[L]SP: [A]ction")
       map("n", "<leader>lr", vim.lsp.buf.rename, "[L]SP: [R]ename")
       map("n", "<leader>ls", function() vim.cmd("LspRestart") end, "[L]SP: [S]tart again")
 
