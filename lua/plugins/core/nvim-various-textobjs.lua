@@ -9,12 +9,12 @@ return {
     local textobjs = require("various-textobjs")
     local mode = { "x", "o" }
     return {
-      { "I", textobjs.restOfIndentation, mode = mode, desc = "" },
+      { "I", textobjs.restOfIndentation, mode = mode, desc = "Rest of indentation" },
       { "as", function() textobjs.subword("outer") end, mode = mode, desc = "a subword" },
       { "is", function() textobjs.subword("inner") end, mode = mode, desc = "inner subword" },
       { "C", textobjs.toNextClosingBracket, mode = mode, desc = "Next right bracket" },
       { "Q", textobjs.toNextQuotationMark, mode = mode, desc = "Next quotation mark" },
-      { "=", textobjs.multiCommentedLines, mode = mode, desc = "Multi-line comment" },
+      { "gm", textobjs.multiCommentedLines, mode = mode, desc = "Multi-line comment" },
       { "gG", textobjs.entireBuffer, mode = mode, desc = "Entire buffer" },
       { "g$", textobjs.nearEoL, mode = mode, desc = "Near end of line" },
       { "-", function() textobjs.lineCharacterwise("inner") end, mode = mode, desc = "Line characterwise" },
