@@ -19,38 +19,39 @@ return {
   keys = function()
     local noice = require("noice")
     return {
-      { "<leader>ah", function() noice.cmd("history") end, desc = "[A]ctions: view message [H]istory" },
-      { "<leader>al", function() noice.cmd("last") end, desc = "[A]ctions: view [L]ast message" },
-      { "<leader>ae", function() noice.cmd("errors") end, desc = "[A]ctions: view [E]rrors" },
+      { "<leader>vh", function() noice.cmd("history") end, desc = "[V]iew: message [H]istory" },
+      { "<leader>vl", function() noice.cmd("last") end, desc = "[V]iew: [L]ast message" },
+      { "<leader>ve", function() noice.cmd("errors") end, desc = "[V]iew: [E]rror messages" },
+      { "<leader>va", function() noice.cmd("all") end, desc = "[V]iew: [A]ll messages" },
     }
   end,
   opts = {
     lsp = {
-      override = { -- override markdown rendering so that **cmp** and other plugins use **Treesitter**
+      override = { -- Override markdown rendering so that cmp and other plugins use Treesitter
         ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
         ["vim.lsp.util.stylize_markdown"] = true,
         ["cmp.entry.get_documentation"] = true,
       },
     },
     presets = {
-      lsp_doc_border = true, -- add a border to hover docs and signature help
-      bottom_search = true, -- decreases the clutter on the screen during incremental search
+      bottom_search = true, -- Move the search command at the bottom (decreases visual clutter on screen)
+      lsp_doc_border = true, -- Add a border to hover documentations and signature help
     },
     routes = {
-      { -- hide written messages
-        filter = {
-          event = "msg_show",
-          kind = "",
-          find = "written",
-        },
-        opts = { skip = true },
-      },
+      { filter = { event = "msg_show", kind = "", find = "written" }, opts = { skip = true } }, -- Hide written messages
     },
     commands = {
-      history = {},
-      -- Force split views when not the default because popup view doesn't work well with the custom clear window action
-      last = { view = "split" },
-      errors = { view = "split" },
+      -- Override builtin commands options
+      history = { view = "popup" },
+      errors = { filter_opts = { reverse = false } },
+      -- Custom commands
+      all = {
+        view = "popup",
+        opts = { enter = true, format = "details" },
+        filter = {
+          ["not"] = { event = "msg_show", kind = "", find = "written" }, -- Hide written messages
+        },
+      },
     },
   },
 }
