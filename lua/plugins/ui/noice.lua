@@ -7,37 +7,26 @@ return {
   "folke/noice.nvim",
   dependencies = {
     "MunifTanjim/nui.nvim",
+    "nvim-treesitter/nvim-treesitter",
     {
       "rcarriga/nvim-notify",
       opts = {
-        -- Disable warnings with some color schemes when lacking this option
-        background_colour = "#000000",
+        background_colour = "#000000", -- Disable warnings with some color schemes when lacking this option
       },
     },
-    "nvim-treesitter/nvim-treesitter",
   },
   event = "VeryLazy",
-  keys = {
-    {
-      "<leader>nh",
-      function() require("noice").cmd("history") end,
-      desc = "[N]oice: [H]istory",
-    },
-    {
-      "<leader>nl",
-      function() require("noice").cmd("last") end,
-      desc = "[N]oice: [L]ast",
-    },
-    {
-      "<leader>ne",
-      function() require("noice").cmd("errors") end,
-      desc = "[N]oice: [E]rrors",
-    },
-  },
+  keys = function()
+    local noice = require("noice")
+    return {
+      { "<leader>ah", function() noice.cmd("history") end, desc = "[A]ctions: view message [H]istory" },
+      { "<leader>al", function() noice.cmd("last") end, desc = "[A]ctions: view [L]ast message" },
+      { "<leader>ae", function() noice.cmd("errors") end, desc = "[A]ctions: view [E]rrors" },
+    }
+  end,
   opts = {
     lsp = {
-      -- override markdown rendering so that **cmp** and other plugins use **Treesitter**
-      override = {
+      override = { -- override markdown rendering so that **cmp** and other plugins use **Treesitter**
         ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
         ["vim.lsp.util.stylize_markdown"] = true,
         ["cmp.entry.get_documentation"] = true,
@@ -48,8 +37,7 @@ return {
       bottom_search = true, -- decreases the clutter on the screen during incremental search
     },
     routes = {
-      -- hide written messages
-      {
+      { -- hide written messages
         filter = {
           event = "msg_show",
           kind = "",
