@@ -9,6 +9,8 @@ return {
     local textobjs = require("various-textobjs")
     local mode = { "x", "o" }
     return {
+      { "ai", function() textobjs.indentation("outer", "outer") end, mode = mode, desc = "an indentation" },
+      { "ii", function() textobjs.indentation("inner", "inner") end, mode = mode, desc = "inner indentation" },
       { "I", textobjs.restOfIndentation, mode = mode, desc = "Rest of indentation" },
       { "as", function() textobjs.subword("outer") end, mode = mode, desc = "a subword" },
       { "is", function() textobjs.subword("inner") end, mode = mode, desc = "inner subword" },
