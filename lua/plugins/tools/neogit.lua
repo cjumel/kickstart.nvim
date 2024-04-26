@@ -19,16 +19,10 @@ return {
   opts = {
     use_default_keymaps = false,
     disable_hint = true,
-    kind = "replace",
-    commit_editor = {
-      kind = "split",
-    },
-    commit_view = {
-      kind = "split",
-    },
-    rebase_editor = {
-      kind = "split",
-    },
+    kind = "tab",
+    commit_view = { kind = "tab" },
+    commit_editor = { kind = "split" },
+    rebase_editor = { kind = "split" },
     mappings = {
       commit_editor = {
         ["q"] = "Close",
@@ -77,7 +71,6 @@ return {
         ["grb"] = "RebasePopup",
         ["grs"] = "ResetPopup",
         ["grv"] = "RevertPopup",
-        ["gt"] = "TagPopup",
         ["gw"] = "WorktreePopup",
         ["?"] = "HelpPopup",
       },

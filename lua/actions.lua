@@ -136,28 +136,17 @@ M.hover = function()
   vim.lsp.buf.hover()
 end
 
---- Open the Git menu with Neogit. This will handle special cases with multiple windows nicely.
+--- Open the Git menu with Neogit. This will first close Zen mode if it is loaded.
 ---@return nil
 function M.git_menu()
-  -- If zen-mode is loaded, close it before counting windows as it will be closed anyway
+  -- If zen-mode is loaded, close it before counting windows as it will be closed anyway & might mess things up
   local zen_mode = package.loaded["zen-mode"]
   if zen_mode ~= nil then
     zen_mode.close()
   end
 
-  -- Count the number of opened windows
-  M.clear_window() -- Remove relative windows to avoid counting them
-  local n_windows = #vim.api.nvim_tabpage_list_wins(0)
-
   -- Open Neogit
-  local neogit = require("neogit")
-  if n_windows == 1 then -- Simple one window case
-    neogit.open()
-  else -- Multiple windows case
-    -- When using `kind="replace"` with multiple window, opening & closing Neogit buffer will
-    -- close the window which was replaced, hence messing up the initial layout
-    neogit.open({ kind = "tab" }) -- "tab" is similar to "replace" in slightly less nice
-  end
+  require("neogit").open()
 end
 
 -- [[ Action keymaps ]]
