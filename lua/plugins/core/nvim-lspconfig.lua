@@ -78,6 +78,7 @@ return {
     "hrsh7th/cmp-nvim-lsp",
     "nvim-telescope/telescope.nvim",
     "RRethy/vim-illuminate",
+    "smjonas/inc-rename.nvim",
   },
   ft = function()
     local filetypes = {}
@@ -104,7 +105,8 @@ return {
 
       map({ "n", "i" }, "<C-s>", vim.lsp.buf.signature_help, "Signature help")
       map("n", "<leader>la", vim.lsp.buf.code_action, "[L]SP: [A]ction")
-      map("n", "<leader>lr", vim.lsp.buf.rename, "[L]SP: [R]ename")
+      local function inc_rename() return ":IncRename " .. vim.fn.expand("<cword>") end
+      map("n", "<leader>lr", inc_rename, "[L]SP: [R]ename", { expr = true })
       map("n", "<leader>ls", function() vim.cmd("LspRestart") end, "[L]SP: [S]tart again")
 
       -- LSP symbol (variables, function, classes, etc.) search

@@ -36,6 +36,7 @@ return {
     presets = {
       bottom_search = true, -- Move the search command at the bottom (decreases visual clutter on screen)
       lsp_doc_border = true, -- Add a border to hover documentations and signature help
+      inc_rename = true, -- Enable an input dialog for inc-rename.nvim
     },
     routes = {
       { filter = { event = "msg_show", kind = "", find = "written" }, opts = { skip = true } }, -- Hide written messages
