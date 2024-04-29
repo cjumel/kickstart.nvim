@@ -1,12 +1,16 @@
 -- lsp_signature.nvim
 --
--- Improve the signature help experience in Neovim by bringing additional features like a virtual text or keeping the
--- float window opened while typing.
+-- Show function signature as you type.
+--
+-- This plugins provide 2 features I found useful, compared to the Noice alternative I used previously: it supports out
+-- of the box live signature help as you type, whereas in Noice it disappears as soon as you start typing, and the
+-- virtual text hint brings information on the current parameter, including its docstring, which is super convenient
+-- when they are many parameters or a long docstring.
 
 return {
   "ray-x/lsp_signature.nvim",
   lazy = true,
   opts = {
-    hint_prefix = "",
+    hint_prefix = "", -- Remove the emoji from the virual text hint
   },
 }

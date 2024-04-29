@@ -98,17 +98,15 @@ return {
     -- language server is attached
     on_attach = function(_, bufnr)
       local illuminate = require("illuminate")
-      local lsp_signature = require("lsp_signature")
       local telescope = require("telescope.builtin")
 
       local utils = require("utils")
 
       local map = utils.keymap.get_buffer_local_map(bufnr)
 
-      map({ "n", "i" }, "<C-s>", lsp_signature.toggle_float_win, "Signature help")
+      map("i", "<C-s>", vim.lsp.buf.signature_help, "Signature help") -- NOTE: can be removed in 0.10
       map("n", "crr", vim.lsp.buf.code_action, "Code action") -- NOTE: can be removed in 0.10
-      local function inc_rename() return ":IncRename " .. vim.fn.expand("<cword>") end
-      map("n", "crn", inc_rename, "Rename", { expr = true })
+      map("n", "crn", function() return ":IncRename " .. vim.fn.expand("<cword>") end, "Rename", { expr = true })
       map("n", "<leader>ls", function() vim.cmd("LspRestart") end, "[L]SP: [S]tart again")
 
       -- LSP symbol (variables, function, classes, etc.) search
