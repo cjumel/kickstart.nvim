@@ -78,6 +78,7 @@ return {
     "hrsh7th/cmp-nvim-lsp",
     "nvim-telescope/telescope.nvim",
     "RRethy/vim-illuminate",
+    "ray-x/lsp_signature.nvim",
     "smjonas/inc-rename.nvim",
   },
   ft = function()
@@ -97,13 +98,14 @@ return {
     -- language server is attached
     on_attach = function(_, bufnr)
       local illuminate = require("illuminate")
+      local lsp_signature = require("lsp_signature")
       local telescope = require("telescope.builtin")
 
       local utils = require("utils")
 
       local map = utils.keymap.get_buffer_local_map(bufnr)
 
-      map({ "n", "i" }, "<C-s>", vim.lsp.buf.signature_help, "Signature help")
+      map({ "n", "i" }, "<C-s>", lsp_signature.toggle_float_win, "Signature help")
       map("n", "<leader>la", vim.lsp.buf.code_action, "[L]SP: [A]ction")
       local function inc_rename() return ":IncRename " .. vim.fn.expand("<cword>") end
       map("n", "<leader>lr", inc_rename, "[L]SP: [R]ename", { expr = true })

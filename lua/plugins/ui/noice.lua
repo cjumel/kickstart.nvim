@@ -32,6 +32,7 @@ return {
         ["vim.lsp.util.stylize_markdown"] = true,
         ["cmp.entry.get_documentation"] = true,
       },
+      signature = { enabled = false }, -- Disable Noice's signature feature in favor of lsp_signature.nvim
     },
     presets = {
       bottom_search = true, -- Move the search command at the bottom (decreases visual clutter on screen)
