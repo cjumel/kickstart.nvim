@@ -106,9 +106,9 @@ return {
       local map = utils.keymap.get_buffer_local_map(bufnr)
 
       map({ "n", "i" }, "<C-s>", lsp_signature.toggle_float_win, "Signature help")
-      map("n", "<leader>la", vim.lsp.buf.code_action, "[L]SP: [A]ction")
+      map("n", "crr", vim.lsp.buf.code_action, "Code action") -- NOTE: can be removed in 0.10
       local function inc_rename() return ":IncRename " .. vim.fn.expand("<cword>") end
-      map("n", "<leader>lr", inc_rename, "[L]SP: [R]ename", { expr = true })
+      map("n", "crn", inc_rename, "Rename", { expr = true })
       map("n", "<leader>ls", function() vim.cmd("LspRestart") end, "[L]SP: [S]tart again")
 
       -- LSP symbol (variables, function, classes, etc.) search
