@@ -104,13 +104,6 @@ utils.keymap.set_move_pair({ "[=", "]=" }, {
   function() vim.fn.search(conflict_pattern, "b") end,
 }, { { desc = "Next conflict mark" }, { desc = "Previous conflict mark" } })
 
-local url_pattern = "http:\\/\\/\\|https:\\/\\/"
-utils.keymap.set_move_pair(
-  { "[u", "]u" },
-  { function() vim.fn.search(url_pattern) end, function() vim.fn.search(url_pattern, "b") end },
-  { { desc = "Next URL" }, { desc = "Previous URL" } }
-)
-
 -- [[ Action keymaps ]]
 
 vim.keymap.set("n", "<leader>ax", function() vim.cmd("bufdo bd") end, { desc = "[A]ctions: close all buffers" })
