@@ -80,6 +80,7 @@ return {
         set_jumps = true, -- Set jumps in the jumplist
         goto_next_start = {
           ["[["] = { query = "@class.outer", desc = "Next class start" },
+          ["[a"] = { query = "@parameter.outer", desc = "Next argument start" },
           ["[c"] = { query = "@conditional.outer", desc = "Next conditional start" },
           ["[f"] = { query = "@call.outer", desc = "Next function call start" },
           ["[l"] = { query = "@loop.outer", desc = "Next loop start" },
@@ -87,6 +88,7 @@ return {
         },
         goto_next_end = {
           ["[]"] = { query = "@class.outer", desc = "Next class end" },
+          ["[A"] = { query = "@parameter.outer", desc = "Next argument end" },
           ["[C"] = { query = "@conditional.outer", desc = "Next conditional end" },
           ["[F"] = { query = "@call.outer", desc = "Next function call end" },
           ["[L"] = { query = "@loop.outer", desc = "Next loop end" },
@@ -94,6 +96,7 @@ return {
         },
         goto_previous_start = {
           ["]["] = { query = "@class.outer", desc = "Previous class start" },
+          ["]a"] = { query = "@parameter.outer", desc = "Previous argument start" },
           ["]c"] = { query = "@conditional.outer", desc = "Previous conditional start" },
           ["]f"] = { query = "@call.outer", desc = "Previous function call start" },
           ["]l"] = { query = "@loop.outer", desc = "Previous loop start" },
@@ -101,6 +104,7 @@ return {
         },
         goto_previous_end = {
           ["]]"] = { query = "@class.outer", desc = "Previous class end" },
+          ["]A"] = { query = "@parameter.outer", desc = "Previous argument end" },
           ["]C"] = { query = "@conditional.outer", desc = "Previous conditional end" },
           ["]F"] = { query = "@call.outer", desc = "Previous function call end" },
           ["]L"] = { query = "@loop.outer", desc = "Previous loop end" },
