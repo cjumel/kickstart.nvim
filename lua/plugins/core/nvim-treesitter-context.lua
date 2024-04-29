@@ -13,10 +13,10 @@ return {
     treesitter_context.setup(opts)
 
     -- gp is used to go to treesitter parent node
-    vim.keymap.set("n", "gP", function()
+    vim.keymap.set("n", "g[", function()
       if treesitter_context.enabled() then -- When treesitter-context is not enabled, the plugin doesn't work well
         treesitter_context.go_to_context()
       end
-    end, { desc = "Go to context parent node" })
+    end, { desc = "Go to context" })
   end,
 }

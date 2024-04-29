@@ -153,24 +153,6 @@ return {
       return node
     end
 
-    --- Move the cursor to the parent of the current line main node.
-    ---@return nil
-    local go_to_parent_node = function()
-      local node = get_main_node()
-      local parent = node:parent()
-      -- Skip not interesting nodes to avoid jumping to them
-      while
-        parent ~= nil
-        -- Jumping to a "block" is quite useless; besides, since it's excluded in `get_main_node`,
-        -- if we leave it we can't jump to its parent once we're on it
-        and parent:type() == "block"
-      do
-        node = parent
-        parent = node:parent()
-      end
-      ts_utils.goto_node(parent)
-    end
-
     --- Move the cursor to the next sibling of the current line main node.
     ---@return nil
     local next_sibling_node = function()
@@ -195,7 +177,6 @@ return {
       ts_utils.goto_node(sibling)
     end
 
-    vim.keymap.set("n", "gp", go_to_parent_node, { desc = "Go to parent node" })
     utils.keymap.set_move_pair({ "[s", "]s" }, {
       next_sibling_node,
       prev_sibling_node,
