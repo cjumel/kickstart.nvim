@@ -37,7 +37,6 @@ return {
       ["<leader>"] = { name = "Leader", _ = _ },
       ["<leader>?"] = { name = "Help", _ = _ },
       ["<leader>a"] = { name = "[A]ctions", _ = _ },
-      ["<leader>ay"] = { name = "[A]ctions: [Y]ank", _ = _ },
       ["<leader>d"] = { name = "[D]AP", _ = _ },
       ["<leader>f"] = { name = "[F]ind", mode = { "n", "v" }, _ = _ },
       ["<leader>g"] = { name = "[G]it", mode = { "n", "v" }, _ = _ },
