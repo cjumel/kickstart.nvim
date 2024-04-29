@@ -15,16 +15,16 @@ return {
     }
 
     return {
-      { "go", substitute.operator, desc = "Overwrite" },
-      { "goc", substitute.line, desc = "Overwrite current line" },
-      { "go", substitute.visual, mode = "x", desc = "Overwrite" },
-      { "gO", function() range.operator(overwrite_range_opts) end, desc = "Overwrite in range" },
+      { "gp", substitute.operator, desc = "Paste over" },
+      { "gpc", substitute.line, desc = "Paste over current line" },
+      { "gp", substitute.visual, mode = "x", desc = "Paste over" },
+      { "go", function() range.operator(overwrite_range_opts) end, desc = "Overwrite" },
       {
-        "gOc",
+        "goc",
         function() range.operator(vim.tbl_deep_extend("force", overwrite_range_opts, { range = "%" })) end,
         desc = "Overwrite in current buffer",
       },
-      { "gO", function() range.visual_range(overwrite_range_opts) end, mode = "x", desc = "Overwrite in range" },
+      { "go", function() range.visual_range(overwrite_range_opts) end, mode = "x", desc = "Overwrite" },
       { "gs", range.operator, desc = "Substitute" },
       { "gsc", function() range.operator({ range = "%" }) end, desc = "Substitute in current buffer" },
       { "gs", range.visual_range, mode = "x", desc = "Substitute" },

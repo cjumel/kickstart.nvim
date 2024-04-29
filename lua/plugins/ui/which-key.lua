@@ -11,10 +11,10 @@ return {
       gb = "Comment toggle blockwise",
       gc = "Comment toggle linewise",
       -- substitute.nvim
-      go = "Overwrite",
-      gO = "Overwrite in range",
-      gs = "Substitute",
       ge = "Exchange",
+      go = "Overwrite",
+      gp = "Paste over",
+      gs = "Substitute",
       -- nvim-surround
       ys = "Surround",
       yS = "Surround on new lines",
