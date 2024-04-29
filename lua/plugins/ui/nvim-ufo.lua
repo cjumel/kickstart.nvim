@@ -6,7 +6,6 @@ return {
   "kevinhwang91/nvim-ufo",
   dependencies = {
     "kevinhwang91/promise-async",
-    "nvim-treesitter/nvim-treesitter", -- For treesitter provider
   },
   event = "VeryLazy", -- { "BufNewFile", "BufReadPre" } doesn't work
   init = function()
