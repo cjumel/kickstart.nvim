@@ -12,6 +12,5 @@ return {
   lazy = true,
   opts = {
     hint_prefix = "", -- Remove the emoji from the virual text hint
-    hint_inline = function() return false end, -- NOTE: this can be turned on in 0.10 and tested, see if it's better
   },
 }
