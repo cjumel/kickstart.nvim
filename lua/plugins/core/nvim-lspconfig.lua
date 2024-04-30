@@ -74,7 +74,6 @@ return {
     "williamboman/mason.nvim",
     "williamboman/mason-lspconfig.nvim",
     "folke/neodev.nvim",
-    "hrsh7th/nvim-cmp",
     "hrsh7th/cmp-nvim-lsp",
     "nvim-telescope/telescope.nvim",
     "RRethy/vim-illuminate",

@@ -1,6 +1,7 @@
 -- nvim-cmp
 --
--- Nvim-cmp is a lightweight and extensible completion plugin for neovim written in lua.
+-- Nvim-cmp is a lightweight and extensible completion engine for Neovim written in Lua. It is very easy to use, and
+-- integrates well with many tools, like LSP or code snippets.
 
 return {
   "hrsh7th/nvim-cmp",
@@ -14,22 +15,14 @@ return {
     "L3MON4D3/LuaSnip",
     "windwp/nvim-autopairs",
   },
-  event = {
-    "BufNewFile",
-    "BufReadPre",
-    "CmdlineEnter", -- For command line completion
-  },
+  event = { "InsertEnter", "CmdlineEnter" }, -- CmdlineEnter is not covered by InsertEnter
   config = function()
     local cmp = require("cmp")
+    local luasnip = require("luasnip")
 
     cmp.setup({
-      snippet = {
-        expand = function(args) require("luasnip").lsp_expand(args.body) end,
-      },
-      window = {
-        completion = cmp.config.window.bordered(),
-        documentation = cmp.config.window.bordered(),
-      },
+      snippet = { expand = function(args) luasnip.lsp_expand(args.body) end },
+      window = { completion = cmp.config.window.bordered(), documentation = cmp.config.window.bordered() },
       mapping = {
         -- By default, mappings are in insert mode
         -- Using `cmp.mapping(..., { "i", "c" })` makes them available in command mode for instance
@@ -37,9 +30,8 @@ return {
         ["<CR>"] = cmp.mapping(
           cmp.mapping.confirm({
             -- Don't automatically select an item when confirming
-            -- This is really annoying in command mode (requires to press enter twice to enter a
-            -- command), & I simply prefer not to use it in insert mode as well, to only trigger
-            -- completion willingly
+            -- This is really annoying in command mode (requires to press enter twice to enter a command), & I simply
+            -- prefer not to use it in insert mode as well, to only trigger completion willingly
             select = false,
           }),
           { "i", "c" }
@@ -69,11 +61,10 @@ return {
         { name = "buffer" },
       }),
       -- Disable menu in completion window
-      -- This menu can describe the source of the completion item (e.g. its global source like
-      -- "LSP" or "Luasnip", or the module corresponding to a completion item for languages like
-      -- Python), however disabling it solves an issue with the documentation window hiding the
-      -- completion item (see https://github.com/hrsh7th/nvim-cmp/issues/1154 or
-      -- https://github.com/hrsh7th/nvim-cmp/issues/1673).
+      -- This menu can describe the source of the completion item (e.g. its global source like "LSP" or "Luasnip", or
+      -- the module corresponding to a completion item for languages like Python), however disabling it solves an issue
+      -- with the documentation window hiding the completion item (see https://github.com/hrsh7th/nvim-cmp/issues/1154
+      -- or https://github.com/hrsh7th/nvim-cmp/issues/1673).
       formatting = {
         format = function(_, vim_item)
           vim_item.menu = nil
@@ -99,14 +90,18 @@ return {
       { sources = cmp.config.sources({ { name = "luasnip" } }, { { name = "buffer" } }) }
     )
 
-    -- Insert brackets & place the cursor between them when selecting a function or method item
-    -- This feature creates some noise, but it's useful most often than not and it's easier to
-    -- remove the brackets than to add them manually with my keybindings
+    -- [[ Auto-pairs ]]
+
     local autopairs = require("nvim-autopairs")
-    local cmp_autopairs = require("nvim-autopairs.completion.cmp")
+    local autopairs_cmp = require("nvim-autopairs.completion.cmp")
+    local autopairs_utils = require("nvim-autopairs.utils")
+
+    -- Insert brackets & place the cursor between them when selecting a function or method item
+    -- This feature creates some noise, but it's useful most often than not and it's easier to remove the brackets
+    -- than to add them manually with my keybindings
     local function custom_callback(evt)
       if not autopairs.state.disabled then
-        cmp_autopairs.on_confirm_done()(evt)
+        autopairs_cmp.on_confirm_done()(evt)
       end
     end
     cmp.event:on("confirm_done", custom_callback)
@@ -114,8 +109,7 @@ return {
     -- Dirty fix to prevent nvim-autopairs from adding brackets when importing functions in Python
     -- This only works on the first line of an import statement
     -- Source: https://github.com/windwp/nvim-autopairs/issues/206#issuecomment-1916003469
-    local autopairs_utils = require("nvim-autopairs.utils")
-    local python_handler = cmp_autopairs.filetypes["python"]["("].handler
+    local python_handler = autopairs_cmp.filetypes["python"]["("].handler
     local custom_python_handler = function(char, item, bufnr, rules, commit_character)
       local line = autopairs_utils.text_get_current_line(bufnr)
       if line:match("^(from.*import.*)$") then
@@ -123,6 +117,6 @@ return {
       end
       python_handler(char, item, bufnr, rules, commit_character)
     end
-    cmp_autopairs.filetypes["python"]["("].handler = custom_python_handler
+    autopairs_cmp.filetypes["python"]["("].handler = custom_python_handler
   end,
 }
