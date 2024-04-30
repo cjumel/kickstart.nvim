@@ -9,6 +9,7 @@ return {
   "ray-x/lsp_signature.nvim",
   lazy = true,
   opts = {
+    doc_lines = 0, -- Do not show function description in the signature help (redundant with hover)
     hint_prefix = "", -- Remove the emoji from the virual text hint
   },
 }
