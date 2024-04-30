@@ -8,6 +8,7 @@ return {
   "github/copilot.vim",
   event = { "InsertEnter" },
   cmd = { "Copilot" }, -- For other plugins using directly the command
+  keys = { { "<leader>c", "<cmd>Copilot panel<CR>", desc = "[C]opilot panel" } },
   config = function()
     vim.g.copilot_filetypes = { markdown = true } -- Enable Copilot on Markdown
 
