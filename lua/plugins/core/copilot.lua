@@ -1,32 +1,18 @@
 -- Copilot.vim
 --
--- Vim implementation of GitHub's Copilot.
--- Invoke `:Copilot setup` when using for the first time.
+-- (Neo)Vim plugin for GitHub's Copilot. This plugins uses OpenAI Codex to suggest code completions using virtual text,
+-- so it's nicely complementary with floating-window completion tools, like nvim-cmp. However, since the model is not
+-- run locally, this plugins require an active internet connection and an active subscription.
 
 return {
   "github/copilot.vim",
-  -- For some reason, with `event = InsertEnter`, when entering insert mode for the first time
-  -- directly in a buffer (e.g. not in Telescope), an event `github_copilot` takes around 900 ms
-  -- and causes a significant latency
-  event = { "BufNewFile", "BufReadPre" },
-  cmd = { "Copilot" },
+  event = { "InsertEnter" },
+  cmd = { "Copilot" }, -- For other plugins using directly the command
   config = function()
-    vim.g.copilot_filetypes = { -- Enable or disable on some file types
-      markdown = true,
-    }
+    vim.g.copilot_filetypes = { markdown = true } -- Enable Copilot on Markdown
 
-    -- The plugin sets <C-i> (<Tab>) as the regular completion key
-    vim.keymap.set(
-      "i",
-      "<C-]>", -- <C-$>
-      "<Plug>(copilot-accept-word)",
-      { desc = "Copilot: accept one word" }
-    )
-    vim.keymap.set(
-      "i",
-      "<C-\\>", -- <C-`>
-      "<Plug>(copilot-accept-line)",
-      { desc = "Copilot: accept one line" }
-    )
+    -- The plugin sets <C-i> as the regular completion key; let's add <C-$> & <C-`> to accept word or line
+    vim.keymap.set("i", "<C-]>", "<Plug>(copilot-accept-word)", { desc = "Copilot: accept one word" })
+    vim.keymap.set("i", "<C-\\>", "<Plug>(copilot-accept-line)", { desc = "Copilot: accept one line" })
   end,
 }
