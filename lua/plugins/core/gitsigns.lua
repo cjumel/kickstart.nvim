@@ -137,7 +137,7 @@ return {
             end
           end,
         },
-        { "g", actions.git_menu, { exit = true } },
+        { "g", "<cmd>NeogitCustom<CR>", { exit = true } },
         -- <Esc> must be exit for compatibility with clear window action purposes
         { "<Esc>", nil, { exit = true, mode = "n", desc = false } },
       },

@@ -132,19 +132,6 @@ M.hover = function()
   vim.lsp.buf.hover()
 end
 
---- Open the Git menu with Neogit. This will first close Zen mode if it is loaded.
----@return nil
-function M.git_menu()
-  -- If zen-mode is loaded, close it before counting windows as it will be closed anyway & might mess things up
-  local zen_mode = package.loaded["zen-mode"]
-  if zen_mode ~= nil then
-    zen_mode.close()
-  end
-
-  -- Open Neogit
-  require("neogit").open()
-end
-
 -- [[ Action keymaps ]]
 
 --- Yank the path of the current buffer (or Oil directory if in Oil buffer), relatively to the home directory.

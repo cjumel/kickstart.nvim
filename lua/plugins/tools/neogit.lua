@@ -1,21 +1,28 @@
 -- Neogit
 --
--- A Magit clone for Neovim. This plugins provides a modern UI to interact with Git.
-
-local actions = require("actions")
+-- Neogit provides an interactive and powerful Git interface for Neovim, inspired by Magit. It is very nicely
+-- complementary with Gitsigns, and is my go-to tool for any Git-related action that goes beyond a simple buffer, like
+-- committing or rebasing.
 
 return {
   "NeogitOrg/neogit",
   dependencies = {
     "nvim-lua/plenary.nvim",
-    -- Neogit buffers are not detected by "BufNewFile" or "BufReadPre" event, so to enable plugins
-    -- relevant to write commit messages for instance, let's add them manually
-    "hrsh7th/nvim-cmp",
-    "github/copilot.vim",
+    "sindrets/diffview.nvim",
+    "nvim-telescope/telescope.nvim",
   },
-  keys = {
-    { "<leader>gm", actions.git_menu, desc = "[G]it: [M]enu" },
-  },
+  init = function()
+    -- Customize the Neogit command to close zen-mode before opening Neogit
+    vim.api.nvim_create_user_command("NeogitCustom", function()
+      -- If zen-mode is loaded, close it before counting windows as it will be closed anyway & might mess things up
+      local zen_mode = package.loaded["zen-mode"]
+      if zen_mode ~= nil then
+        zen_mode.close()
+      end
+      require("neogit").open()
+    end, {})
+  end,
+  keys = { { "<leader>gm", "<cmd>NeogitCustom<CR>", desc = "[G]it: [M]enu" } },
   opts = {
     use_default_keymaps = false,
     disable_hint = true,
@@ -63,6 +70,7 @@ return {
       popup = {
         ["gb"] = "BranchPopup",
         ["gc"] = "CommitPopup",
+        ["gd"] = "DiffPopup",
         ["gf"] = "FetchPopup",
         ["gl"] = "LogPopup",
         ["gsh"] = "StashPopup",
