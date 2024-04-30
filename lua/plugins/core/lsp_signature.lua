@@ -1,11 +1,9 @@
 -- lsp_signature.nvim
 --
--- Show function signature as you type.
---
--- This plugins provide 2 features I found useful, compared to the Noice alternative I used previously: it supports out
--- of the box live signature help as you type, whereas in Noice it disappears as soon as you start typing, and the
--- virtual text hint brings information on the current parameter, including its docstring, which is super convenient
--- when they are many parameters or a long docstring.
+-- lsp_signature.nvim is a small plugin improving and making more customizable the LSP signature help. Compared to the
+-- alternative I used previously, Noice, it has 2 main advantages: it supports out of the box live signature help as
+-- you type, and it adds a virtual text hint which brings information on the current parameter (including the parameter
+-- docstring, if the LSP supports it), which can be very nice when there are many parameters or a long docstring.
 
 return {
   "ray-x/lsp_signature.nvim",

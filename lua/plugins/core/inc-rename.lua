@@ -1,9 +1,9 @@
 -- inc-rename.nvim
 --
--- Provide a command for LSP renaming with immediate visual feedback thanks to Neovim's command preview feature.
---
--- This small plugin is quite convenient to bring the advantages of incremental searching (highlightin & immediate
--- feedback) to LSP renaming, as well as making the rename prompt located at the cursor position.
+-- inc-rename.nvim is a small plugin providing a command for LSP renaming in an incremental fashion, that is with
+-- target highlighting & immediate visual feedback of the result, thanks to Neovim's command preview feature. Besides,
+-- it makes the renaming prompt located at the cursor position, which is more convenient than the default centered
+-- position. All in all, it makes the LSP renaming a sensibly better experience, in my opinion.
 
 return {
   "smjonas/inc-rename.nvim",
