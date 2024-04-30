@@ -41,12 +41,16 @@ end
 M.get_comment_string_start = function() return get_comment_strings(1)[1] end
 M.get_comment_string_end = function() return get_comment_strings(1)[2] end
 
+-- Except for "FIX" (splitted between "FIXME" and "BUG"), these are the default keywords for todo-comments
 local tdc_keywords = {
   "TODO",
-  "NOTE",
-  "BUG",
   "FIXME",
-  "ISSUE",
+  "BUG",
+  "HACK",
+  "WARN",
+  "PERF",
+  "TEST",
+  "NOTE",
 }
 
 M.get_tdc_sn_options = function()
