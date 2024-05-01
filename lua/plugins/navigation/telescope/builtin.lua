@@ -27,6 +27,10 @@ function M.find_files()
     prompt_title = "Find Files",
   }
 
+  if custom_utils.visual.is_visual_mode() then
+    opts.default_text = custom_utils.visual.get_text()
+  end
+
   if vim.bo.filetype == "oil" then
     local cwd = package.loaded.oil.get_current_dir()
     opts.cwd = cwd
@@ -43,6 +47,10 @@ function M.find_directories()
     preview = { hide_on_startup = true },
     prompt_title = "Find Directories",
   }
+
+  if custom_utils.visual.is_visual_mode() then
+    opts.default_text = custom_utils.visual.get_text()
+  end
 
   if vim.bo.filetype == "oil" then
     local cwd = package.loaded.oil.get_current_dir()
@@ -85,6 +93,10 @@ function M.oldfiles()
     tiebreak = function(current, existing, _) return current.index < existing.index end, -- Sort entries by recency
     prompt_title = "Find OldFiles",
   }
+
+  if custom_utils.visual.is_visual_mode() then
+    opts.default_text = custom_utils.visual.get_text()
+  end
 
   builtin.oldfiles(opts)
 end
