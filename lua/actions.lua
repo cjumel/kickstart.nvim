@@ -1,44 +1,46 @@
+-- Actions used through keymaps defined in `keymaps` or in plugins themselves.
+
 local utils = require("utils")
 
 local M = {}
 
 -- [[ Redefine builtin actions ]]
+-- These keymaps fix or alter the behavior of builtin actions.
 
-local no_indent_filetype_prefixes = {
-  "dap-", -- In dap & dapui, it doesn't work well with sidebar windows (e.g. break the repl)
-  "dapui_",
-}
+-- In DAP & DAP-UI, smart `a` & `i` actions don't work well with sidebar windows (it breaks the REPL)
+local no_indent_filetype_prefixes = { "dap-", "dapui_" }
 
---- Smart version of `a` action to automatically indent when used in empty line.
-M.smart_a = function()
+--- Smart version of `a` action. Builtin action doesn't automatically indent on empty line, but this version does.
+---@return string
+function M.smart_a()
   for _, prefix in ipairs(no_indent_filetype_prefixes) do
     if vim.bo.filetype:sub(1, #prefix) == prefix then
       return "a"
     end
   end
-
   if string.match(vim.api.nvim_get_current_line(), "%g") == nil then
     return '"_cc' -- Save to black hole register to avoid polluting the default register
   end
   return "a"
 end
 
---- Smart version of `i` action to automatically indent when used in empty line.
-M.smart_i = function()
+--- Smart version of `i` action. Builtin action doesn't automatically indent on empty line, but this version does.
+---@return string
+function M.smart_i()
   for _, prefix in ipairs(no_indent_filetype_prefixes) do
     if vim.bo.filetype:sub(1, #prefix) == prefix then
       return "a"
     end
   end
-
   if string.match(vim.api.nvim_get_current_line(), "%g") == nil then
     return '"_cc' -- Save to black hole register to avoid polluting the default register
   end
   return "i"
 end
 
---- Smart version of `dd` action to avoid saving deleted empty lines in register.
-M.smart_dd = function()
+--- Smart version of `dd` action. This version avoids saving deleted empty lines in register.
+---@return string
+function M.smart_dd()
   if vim.api.nvim_get_current_line():match("^%s*$") then
     return '"_dd'
   else
@@ -46,8 +48,9 @@ M.smart_dd = function()
   end
 end
 
--- Remove "\V" from the search pattern of visual "*" keymap
--- The only reason for this is that stubstitute.nvim doesn't work well with such patterns due to escaping "\V"
+--- Fixed version of visual `*` action. This version removes "\V" from the search pattern. The only reason for this is
+--- that stubstitute.nvim doesn't work well with such patterns due to escaping "\V".
+---@return nil
 function M.fixed_visual_star()
   local selection = utils.visual.get_text()
   vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<esc>", true, false, true), "x", true) -- Exit visual mode
@@ -56,12 +59,12 @@ function M.fixed_visual_star()
 end
 
 -- [[ General actions ]]
+-- Define new general actions, sometimes involving multiple plugins.
 
 --- Clear window artifacts, like highlights or floating windows.
 ---@return nil
 function M.clear_window()
-  -- Clear search highlights in case `vim.o.hlsearch` is true
-  vim.cmd("nohlsearch")
+  vim.cmd("nohlsearch") -- Clear search highlights in case `vim.o.hlsearch` is true
 
   -- Dismiss Noice messages if Noice is loaded
   local noice = package.loaded.noice
@@ -112,47 +115,61 @@ function M.clear_all()
   M.clear_insert_mode()
 end
 
-M.hover = function()
+--- Custom hover action. If nvim-ufo is loaded, it will peek the lines under the cursor. Otherwise, it will hover with
+--- the LSP.
+function M.hover()
   -- If nvim-ufo is loaded and the cursor is on a folded line, peek the lines under the cursor
   if package.loaded.ufo ~= nil then
     local winid = nil
     if require("ufo.preview.floatwin").winid == nil then -- Peek window is not already opened
-      -- Open peek window
-      winid = require("ufo").peekFoldedLinesUnderCursor(false, false)
+      winid = require("ufo").peekFoldedLinesUnderCursor(false, false) -- Open peek window
     else
-      -- Enter in peek window
-      winid = require("ufo").peekFoldedLinesUnderCursor(true, false)
+      winid = require("ufo").peekFoldedLinesUnderCursor(true, false) -- Enter in peek window
     end
     if winid then -- Cursor was indeed on a folded line
       return
     end
   end
-
-  -- Otherwise, hover with the LSP
-  vim.lsp.buf.hover()
+  vim.lsp.buf.hover() -- Otherwise, hover with the LSP
 end
 
--- [[ Action keymaps ]]
+M.yank = {}
 
---- Yank the path of the current buffer (or Oil directory if in Oil buffer), relatively to the home directory.
----@param opts table|nil Optional parameters.
+--- Yank the path of the current buffer or directory if in Oil buffer.
+---@param opts table|nil Optional parameters. Supported parameters are:
+--- - cwd boolean: If true, yank the current working directory. Default is false.
+--- - mods string: Modifications to apply to the path. Default is ":~:.".
 ---@return nil
-function M.yank_buffer_path(opts)
+local function yank_path(opts)
   opts = opts or {}
+  local cwd = opts.cwd or false
   local mods = opts.mods or ":~:." -- Relative to cwd or home directory
-  local register = opts.register or '"' -- Default register
 
   local path
-  if vim.bo.filetype == "oil" then
-    local oil = package.loaded.oil
+  if cwd then
+    path = vim.fn.getcwd()
+  elseif vim.bo.filetype == "oil" then
+    local oil = package.loaded.oil -- Oil should already have been loaded
     path = oil.get_current_dir()
   else
     path = vim.fn.expand("%")
   end
-  path = vim.fn.fnamemodify(path, mods) -- Make the path relative to the home directory
 
-  vim.fn.setreg(register, path)
-  vim.notify('Yanked "' .. path .. '" to register ' .. register .. "")
+  path = vim.fn.fnamemodify(path, mods)
+  vim.fn.setreg('"', path)
+  vim.notify('Yanked "' .. path .. '"')
+end
+
+function M.yank.cwd() yank_path({ cwd = true, mods = ":~" }) end
+function M.yank.relative_path() yank_path({ mods = ":~:." }) end
+function M.yank.absolute_path() yank_path({ mods = ":~" }) end
+
+--- Send the content of the default register to the clipboard.
+---@return nil
+function M.yank.send_to_clipboard()
+  local yank = vim.fn.getreg('"')
+  vim.fn.setreg("+", yank)
+  vim.notify('Sent "' .. yank .. '" to clipboard')
 end
 
 return M

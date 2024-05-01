@@ -1,7 +1,10 @@
+-- Define general custom keymaps.
+
 local actions = require("actions")
 local utils = require("utils")
 
 -- [[ Disable builtin keymaps ]]
+-- Disable builtin keymaps that are not useful or that are conflicting with custom keymaps.
 
 vim.keymap.set({ "n", "v" }, "<Space>", "<Nop>", { silent = true })
 
@@ -23,7 +26,8 @@ vim.keymap.set("n", "]m", function() end, { desc = "which_key_ignore" })
 vim.keymap.set("n", "[M", function() end, { desc = "which_key_ignore" })
 vim.keymap.set("n", "]M", function() end, { desc = "which_key_ignore" })
 
--- [[ Remap builtin keymaps ]]
+-- [[ Redefine builtin keymaps ]]
+-- These keymaps fix or alter the behavior of builtin keymaps.
 
 -- Remap a/i to automatically indent on empty line
 vim.keymap.set("n", "a", actions.smart_a, { desc = "Neovim builtin", expr = true, noremap = true })
@@ -50,6 +54,7 @@ vim.keymap.set("v", "zf", "zf", { desc = "Create fold" })
 vim.keymap.set("v", "*", actions.fixed_visual_star, { desc = "Search selection" })
 
 -- [[ General keymaps ]]
+-- Define new general keymaps, sometimes involving multiple plugins.
 
 vim.keymap.set("n", "<Esc>", actions.clear_window, { desc = "Clear window" })
 -- In visual, insert & cmdline modes, <ESC> is already taken, so let's use <C-c> instead
@@ -63,7 +68,7 @@ vim.keymap.set({ "i", "v", "c" }, "<C-c>", function()
   end
 end, { desc = "Clear window" })
 
--- Naturally use <C-i> (or <Tab>), & <C-o> because it's next to <C-i> & does nothing in visual mode
+-- Naturally use <C-i> to indent, & <C-o> because it's next to <C-i> & does nothing in visual mode
 vim.keymap.set("v", "<C-i>", ">gv", { desc = "Indent selection" })
 vim.keymap.set("v", "<C-o>", "<gv", { desc = "Unindent selection" })
 
@@ -76,7 +81,15 @@ vim.keymap.set("n", "<leader><CR>", vim.diagnostic.open_float, { desc = "Open di
 
 vim.keymap.set("n", "K", actions.hover, { desc = "Hover" })
 
+vim.keymap.set("n", "<leader>ax", function() vim.cmd("bufdo bd") end, { desc = "[A]ctions: close all buffers" })
+
+vim.keymap.set("n", "<leader>yc", actions.yank.cwd, { desc = "[Y]ank: [C]wd" })
+vim.keymap.set("n", "<leader>yr", actions.yank.relative_path, { desc = "[Y]ank: [R]elative path" })
+vim.keymap.set("n", "<leader>ya", actions.yank.absolute_path, { desc = "[Y]ank: [A]bsolute path" })
+vim.keymap.set("n", "<leader>ys", actions.yank.send_to_clipboard, { desc = "[Y]ank: [S]end to clipboard" })
+
 -- [[ Go-to keymaps ]]
+-- Keymaps to move the cursor to specific locations.
 
 -- Dianostics can be errors, warnings, information messages or hints
 utils.keymap.set_move_pair(
@@ -98,34 +111,8 @@ utils.keymap.set_move_pair({ "[=", "]=" }, {
   function() vim.fn.search(conflict_pattern, "b") end,
 }, { { desc = "Next conflict mark" }, { desc = "Previous conflict mark" } })
 
--- [[ Action keymaps ]]
-
-vim.keymap.set("n", "<leader>ax", function() vim.cmd("bufdo bd") end, { desc = "[A]ctions: close all buffers" })
-
--- [[ Yank keymaps ]]
-
-vim.keymap.set("n", "<leader>yr", function() actions.yank_buffer_path() end, { desc = "[Y]ank: [R]elative path" })
-vim.keymap.set(
-  "n",
-  "<leader>yR",
-  function() actions.yank_buffer_path({ register = "+" }) end,
-  { desc = "[Y]ank: [R]elative path (clipboard)" }
-)
-vim.keymap.set(
-  "n",
-  "<leader>ya",
-  function() actions.yank_buffer_path({ mods = ":~" }) end,
-  { desc = "[Y]ank: [A]bsolute path" }
-)
-vim.keymap.set(
-  "n",
-  "<leader>yA",
-  function() actions.yank_buffer_path({ mods = ":~", register = "+" }) end,
-  { desc = "[Y]ank: [A]bsolute path (clipboard)" }
-)
-
 -- [[ Terminal-like keymaps ]]
--- Keymaps for insert & command-line modes to reproduce shell keymaps
+-- Keymaps for insert & command-line modes to reproduce shell keymaps.
 
 vim.keymap.set({ "i", "c" }, "<M-BS>", "<C-w>", { desc = "Delete word" })
 
