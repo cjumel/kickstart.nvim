@@ -110,6 +110,20 @@ return {
                 return " on  / [off]"
               end
             end,
+            hide_concelable_text = function()
+              if vim.wo.conceallevel == 2 then
+                return "[on] /  off "
+              else
+                return " on  / [off]"
+              end
+            end,
+            invisible_cursor = function()
+              if vim.g.invisible_cursor then
+                return "[on] /  off "
+              else
+                return " on  / [off]"
+              end
+            end,
 
             -- Plugin options
             autopairs = function()
@@ -152,16 +166,18 @@ return {
                        Options                        
 
    Window options   
-   _c_ ^ ^ ➜ Treesitter context:   %{treesitter_context}   
-   _n_/_N_ ➜ Line numbering:       %{line_numbering}   
-   _r_ ^ ^ ➜ Ruler column:         %{ruler_column}   
-   _s_/_S_ ➜ Sign column:          %{sign_column}   
+   _c_ ^ ^ ➜ Treesitter context:      %{treesitter_context}   
+   _n_/_N_ ➜ Line numbering:          %{line_numbering}   
+   _r_ ^ ^ ➜ Ruler column:            %{ruler_column}   
+   _s_/_S_ ➜ Sign column:             %{sign_column}   
+   _h_ ^ ^ ➜ Hide concealable text:   %{hide_concelable_text}
+   _i_ ^ ^ ➜ Invisible cursor:        %{invisible_cursor}   
 
    Plugin options   
-   _a_ ^ ^ ➜ Auto-pairs:           %{autopairs}   
-   _f_ ^ ^ ➜ Format on save:       %{format_on_save}   
-   _g_ ^ ^ ➜ GitHub copilot:       %{copilot}   
-   _l_ ^ ^ ➜ Lint:                 %{lint}   
+   _a_ ^ ^ ➜ Auto-pairs:              %{autopairs}   
+   _f_ ^ ^ ➜ Format on save:          %{format_on_save}   
+   _g_ ^ ^ ➜ GitHub copilot:          %{copilot}   
+   _l_ ^ ^ ➜ Lint:                    %{lint}   
 
 ]],
       heads = {
@@ -250,6 +266,28 @@ return {
               treesitter_context.disable()
             else
               treesitter_context.enable()
+            end
+          end,
+        },
+        {
+          "h",
+          function()
+            if vim.wo.conceallevel == 2 then
+              vim.o.conceallevel = 0
+            else
+              vim.o.conceallevel = 2 -- Hide concealable text almost all the time
+            end
+          end,
+        },
+        {
+          "i",
+          function()
+            if vim.g.invisible_cursor then
+              vim.g.invisible_cursor = false
+              vim.cmd("highlight Cursor blend=0")
+            else
+              vim.g.invisible_cursor = true
+              vim.cmd("highlight Cursor blend=100")
             end
           end,
         },

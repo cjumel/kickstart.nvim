@@ -47,6 +47,10 @@ vim.o.completeopt = ""
 -- Use true colors in terminal
 vim.o.termguicolors = true
 
+-- Use an highlight group for the cursor, making possible to alter it dynamically later on
+-- Note that this cannot be done after Noice has been initialized
+vim.opt.guicursor = vim.opt.guicursor + "a:Cursor"
+
 -- [[ Diagnostics ]]
 
 -- Make diagnostic signs in sign column the same as in Lualine
