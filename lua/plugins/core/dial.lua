@@ -36,7 +36,7 @@ return {
       python = {
         augend.integer.alias.decimal,
         augend.constant.new({ elements = { "True", "False" } }),
-        augend.constant.new({ elements = { "==", "!=" } }),
+        augend.constant.new({ elements = { "==", "!=" }, word = false }),
         augend.constant.new({ elements = { "if", "elif", "else" } }),
       },
     })
