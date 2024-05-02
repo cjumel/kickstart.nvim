@@ -21,6 +21,9 @@ M.headlines_opts = {
       "Headline5",
       "Headline6",
     },
+    codeblock_highlight = "CodeBlock",
+    dash_highlight = "Dash",
+    quote_highlight = "Quote",
   },
 }
 
