@@ -106,9 +106,8 @@ return {
       map({ "n", "i" }, "<C-s>", vim.lsp.buf.signature_help, "Signature help")
       map("n", "crr", vim.lsp.buf.code_action, "Code action")
       map("n", "crn", function() return ":IncRename " .. vim.fn.expand("<cword>") end, "Rename", { expr = true })
-      map("n", "<leader>ls", function() vim.cmd("LspRestart") end, "[L]SP: [S]tart again")
 
-      -- LSP symbol (variables, function, classes, etc.) search
+      map("n", "<leader>lr", function() vim.cmd("LspRestart") end, "[L]SP: [R]estart")
       map("n", "<leader>ld", telescope.lsp_document_symbols, "[L]SP: [D]ocument symbols")
       map("n", "<leader>lw", telescope.lsp_dynamic_workspace_symbols, "[L]SP: [W]orkspace symbols")
 
