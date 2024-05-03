@@ -1,7 +1,9 @@
 -- [[ Options ]]
 
 -- Set conceal level to hide some information in the buffer; default to 0 (no concealment)
-vim.opt_local.conceallevel = 2 -- Hide concealable text almost all the time
+if not vim.g.disable_concealing then
+  vim.opt_local.conceallevel = 2 -- Hide concealable text almost all the time
+end
 
 --- Look for a mdformat configuration file and output a colorcolumn value based on it or nil.
 ---@return string|nil
