@@ -8,10 +8,6 @@ return {
   "github/copilot.vim",
   event = { "InsertEnter" },
   cmd = { "Copilot" }, -- For other plugins using directly the command, like the settings in Hydra.nvim
-  keys = {
-    { "<leader>cs", "<cmd>Copilot panel<CR>", desc = "[C]opilot: [S]uggestions" },
-    { "<leader>cr", "<cmd>Copilot restart<CR>", desc = "[C]opilot: [R]estart" },
-  },
   config = function()
     vim.g.copilot_filetypes = { markdown = true } -- Enable Copilot on Markdown
 
