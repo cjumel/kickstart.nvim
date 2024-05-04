@@ -19,7 +19,10 @@ through SSH on remote machines).
 <summary>MacOS</summary>
 
 ```shell
+# to install the latest stable version:
 brew install neovim
+# or, to install the nightly version:
+brew install --HEAD neovim
 
 git clone --depth=1 https://github.com/clementjumel/kickstart.nvim ~/.config/nvim
 # optionally, to install plugins & external tools from the command line:
