@@ -14,5 +14,8 @@ return {
     -- The plugin sets <C-i> as the regular completion key; let's add <C-$> & <C-`> to accept word or line
     vim.keymap.set("i", "<C-]>", "<Plug>(copilot-accept-word)", { desc = "Copilot: accept one word" })
     vim.keymap.set("i", "<C-\\>", "<Plug>(copilot-accept-line)", { desc = "Copilot: accept one line" })
+    -- Use <M-,> & <M-;> to navigate through the suggestions
+    vim.keymap.set("i", "∞", "<Plug>(copilot-next)", { desc = "Copilot: next suggestion" })
+    vim.keymap.set("i", "…", "<Plug>(copilot-previous)", { desc = "Copilot: previous suggestion" })
   end,
 }
