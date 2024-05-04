@@ -125,20 +125,23 @@ return {
     t('"""'),
     i(1),
     d(2, function(_)
+      -- Get function node under the cursor
       local function_node = vim.treesitter.get_node()
       if function_node == nil or function_node:type() ~= function_node_type then
         return sn(nil, {})
       end
 
+      local snippets = {}
       local args_snippets, insert_snippet_idx = get_args_snippets(function_node, 1)
+      vim.list_extend(snippets, args_snippets)
       local return_snippets, _ = get_return_snippets(function_node, insert_snippet_idx)
-      vim.list_extend(args_snippets, return_snippets)
+      vim.list_extend(snippets, return_snippets)
 
       -- If at least a snippet is added, add a line break before the closing triple quotes
-      if #args_snippets ~= 0 then
-        table.insert(args_snippets, t({ "", "" }))
+      if #snippets ~= 0 then
+        table.insert(snippets, t({ "", "" }))
       end
-      return sn(nil, args_snippets)
+      return sn(nil, snippets)
     end),
     t('"""'),
   }),

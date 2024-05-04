@@ -119,18 +119,21 @@ return {
     t('"""'),
     i(1),
     d(2, function(_)
+      -- Get class node under the cursor
       local class_node = vim.treesitter.get_node()
       if class_node == nil or class_node:type() ~= class_node_type then
         return sn(nil, {})
       end
 
+      local snippets = {}
       local attr_snippets, _ = get_attributes_snipppets(class_node, 1)
+      vim.list_extend(snippets, attr_snippets)
 
       -- If at least a snippet is added, add a line break before the closing triple quotes
-      if #attr_snippets ~= 0 then
-        table.insert(attr_snippets, t({ "", "" }))
+      if #snippets ~= 0 then
+        table.insert(snippets, t({ "", "" }))
       end
-      return sn(nil, attr_snippets)
+      return sn(nil, snippets)
     end),
     t('"""'),
   }),
