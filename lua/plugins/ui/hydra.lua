@@ -117,13 +117,6 @@ return {
                 return "[on] /  off "
               end
             end,
-            invisible_cursor = function()
-              if vim.g.enable_invisible_cursor then
-                return "[on] /  off "
-              else
-                return " on  / [off]"
-              end
-            end,
 
             -- Plugin options
             autopairs = function()
@@ -168,7 +161,6 @@ return {
    Window options   
    _c_ ^ ^ ➜ Treesitter context:      %{treesitter_context}   
    _h_ ^ ^ ➜ Hide concealable text:   %{concealing}   
-   _i_ ^ ^ ➜ Invisible cursor:        %{invisible_cursor}   
    _n_/_N_ ➜ Line numbering:          %{line_numbering}   
    _r_ ^ ^ ➜ Ruler column:            %{ruler_column}   
    _s_/_S_ ➜ Sign column:             %{sign_column}   
@@ -280,18 +272,6 @@ return {
               if vim.bo.filetype == "markdown" then -- Apply the conceal level setting when relevant
                 vim.opt_local.conceallevel = 0
               end
-            end
-          end,
-        },
-        {
-          "i",
-          function()
-            if vim.g.enable_invisible_cursor then
-              vim.g.enable_invisible_cursor = false
-              vim.cmd("highlight Cursor blend=0")
-            else
-              vim.g.enable_invisible_cursor = true
-              vim.cmd("highlight Cursor blend=100")
             end
           end,
         },
