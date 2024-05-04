@@ -22,6 +22,22 @@ return {
       { "<leader>xl", function() trouble.open("loclist") end, desc = "Trouble: [L]oclist" },
       { "<leader>xd", function() trouble.open("document_diagnostics") end, desc = "Trouble: buffer [D]iagnostics" },
       { "<leader>xD", function() trouble.open("workspace_diagnostics") end, desc = "Trouble: all [D]iagnostics" },
+      {
+        "<leader>xm",
+        function()
+          require("marks").mark_state:buffer_to_list()
+          trouble.open("loclist")
+        end,
+        desc = "Trouble: buffer [M]arks",
+      },
+      {
+        "<leader>xM",
+        function()
+          require("marks").mark_state:all_to_list()
+          trouble.open("loclist")
+        end,
+        desc = "Trouble: all [M]arks",
+      },
       { "[x", next_trouble_item, mode = { "n", "x", "o" }, desc = "Next Trouble item" },
       { "]x", prev_trouble_item, mode = { "n", "x", "o" }, desc = "Previous Trouble item" },
     }
