@@ -56,21 +56,11 @@ local function tresitter_check_node_type(line_to_cursor, treesitter_node_types, 
   return check_exclusion
 end
 
--- Condition determining wether a snippet is in a class or not, using treesitter.
-local function is_in_class(line_to_cursor) return tresitter_check_node_type(line_to_cursor, treesitter_node_type_class) end
-M.is_in_class = cond_obj.make_condition(is_in_class)
-
 -- Condition determining wether a snippet is in a comment or not, using treesitter.
 local function is_in_comment(line_to_cursor)
   return tresitter_check_node_type(line_to_cursor, treesitter_node_types_comment)
 end
 M.is_in_comment = cond_obj.make_condition(is_in_comment)
-
--- Condition determining wether a snippet is in a function or not, using treesitter.
-local function is_in_function(line_to_cursor)
-  return tresitter_check_node_type(line_to_cursor, treesitter_node_type_function)
-end
-M.is_in_function = cond_obj.make_condition(is_in_function)
 
 -- Condition determining wether a snippet is in actual code or not, using treesitter.
 local function is_in_code(line_to_cursor)
