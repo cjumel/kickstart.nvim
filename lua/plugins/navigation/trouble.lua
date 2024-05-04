@@ -2,32 +2,29 @@
 --
 -- Trouble provides pretty lists for showing diagnostics, references, telescope results, quickfix and location lists
 -- to help you solve all the trouble your code is causing. It is a very nice interface for very various stuff, quite
--- complementary with Telescope.
+-- complementary with Telescope and other plugins using the quickfix and loclist lists.
 
 return {
   "folke/trouble.nvim",
   dependencies = { "nvim-tree/nvim-web-devicons" },
   keys = function()
     local trouble = require("trouble")
-    local toggle = trouble.toggle
+    local ts_repeat_move = require("nvim-treesitter.textobjects.repeatable_move")
+
+    local next_trouble_item, prev_trouble_item = ts_repeat_move.make_repeatable_move_pair(
+      function() trouble.next({ skip_groups = true, jump = true }) end,
+      function() trouble.previous({ skip_groups = true, jump = true }) end
+    )
+
     return {
-      { "<leader>xx", function() toggle() end, desc = "Trouble: toggle" },
-      { "<leader>xd", function() toggle("document_diagnostics") end, desc = "Trouble: [D]ocument diagnostics" },
-      { "<leader>xw", function() toggle("workspace_diagnostics") end, desc = "Trouble: [W]orkspace diagnostics" },
-      { "<leader>xq", function() toggle("quickfix") end, desc = "Trouble: [Q]uickfix" },
-      { "<leader>xl", function() toggle("loclist") end, desc = "Trouble: [L]oclist" },
+      { "<leader>xx", trouble.toggle, desc = "Trouble: toggle" },
+      { "<leader>xq", function() trouble.open("quickfix") end, desc = "Trouble: [Q]uickfix" },
+      { "<leader>xl", function() trouble.open("loclist") end, desc = "Trouble: [L]oclist" },
+      { "<leader>xd", function() trouble.open("document_diagnostics") end, desc = "Trouble: buffer [D]iagnostics" },
+      { "<leader>xD", function() trouble.open("workspace_diagnostics") end, desc = "Trouble: all [D]iagnostics" },
+      { "[x", next_trouble_item, mode = { "n", "x", "o" }, desc = "Next Trouble item" },
+      { "]x", prev_trouble_item, mode = { "n", "x", "o" }, desc = "Previous Trouble item" },
     }
   end,
   opts = {},
-  config = function(_, opts)
-    local trouble = require("trouble")
-    local utils = require("utils")
-
-    trouble.setup(opts)
-
-    utils.keymap.set_move_pair({ "[x", "]x" }, {
-      function() trouble.next({ skip_groups = true, jump = true }) end,
-      function() trouble.previous({ skip_groups = true, jump = true }) end,
-    }, { { desc = "Next Trouble item" }, { desc = "Previous Trouble item" } })
-  end,
 }

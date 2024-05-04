@@ -22,8 +22,8 @@ return {
       { "dm", marks.delete, desc = "Delete mark" },
       { "dm<Space>", marks.delete_line, desc = "Delete line marks" },
       { "dm<CR>", marks.delete_buf, desc = "Delete buffer marks" },
-      { "[`", next_mark, desc = "Next mark" },
-      { "]`", prev_mark, desc = "Previous mark" },
+      { "[`", next_mark, mode = { "n", "x", "o" }, desc = "Next mark" },
+      { "]`", prev_mark, mode = { "n", "x", "o" }, desc = "Previous mark" },
     }
   end,
   opts = {
