@@ -10,25 +10,23 @@
 return {
   "chentoast/marks.nvim",
   event = { "BufNewFile", "BufReadPre" },
+  keys = function() -- Defining manually keymaps (instead of in options) is the only way to add descriptions
+    local marks = require("marks")
+    local ts_repeat_move = require("nvim-treesitter.textobjects.repeatable_move")
+
+    local next_mark, prev_mark = ts_repeat_move.make_repeatable_move_pair(marks.next, marks.prev)
+
+    return {
+      { "m", marks.set, desc = "Set mark" },
+      { "m<Space>", marks.set_next, desc = "Set next available mark" },
+      { "dm", marks.delete, desc = "Delete mark" },
+      { "dm<Space>", marks.delete_line, desc = "Delete line marks" },
+      { "dm<CR>", marks.delete_buf, desc = "Delete buffer marks" },
+      { "[`", next_mark, desc = "Next mark" },
+      { "]`", prev_mark, desc = "Previous mark" },
+    }
+  end,
   opts = {
     default_mappings = false,
   },
-  config = function(_, opts)
-    local marks = require("marks")
-    local utils = require("utils")
-
-    marks.setup(opts)
-
-    -- Defining manually keymaps (instead of in options) is the only way to add descriptions
-    vim.keymap.set("n", "m", marks.set, { desc = "Set mark" })
-    vim.keymap.set("n", "m<Space>", marks.set_next, { desc = "Set next available mark" })
-    vim.keymap.set("n", "dm", marks.delete, { desc = "Delete mark" })
-    vim.keymap.set("n", "dm<Space>", marks.delete_line, { desc = "Delete line marks" })
-    vim.keymap.set("n", "dm<CR>", marks.delete_buf, { desc = "Delete buffer marks" })
-    utils.keymap.set_move_pair(
-      { "[`", "]`" },
-      { marks.next, marks.prev },
-      { { desc = "Next mark" }, { desc = "Previous mark" } }
-    )
-  end,
 }
