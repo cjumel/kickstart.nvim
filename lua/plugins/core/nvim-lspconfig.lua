@@ -103,7 +103,6 @@ return {
 
       local map = utils.keymap.get_buffer_local_map(bufnr)
 
-      map({ "n", "i" }, "<C-s>", vim.lsp.buf.signature_help, "Signature help")
       map("n", "crr", vim.lsp.buf.code_action, "Code action")
       map("n", "crn", function() return ":IncRename " .. vim.fn.expand("<cword>") end, "Rename", { expr = true })
 

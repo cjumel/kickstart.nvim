@@ -10,5 +10,7 @@ return {
   lazy = true,
   opts = {
     hint_prefix = "", -- Remove the emoji from the virual text hint
+    toggle_key = "<C-s>",
+    toggle_key_flip_floatwin_setting = true, -- When false, signature re-appears too quickly after being toggled off
   },
 }
