@@ -6,7 +6,6 @@ local matched_trigger_pattern = require("plugins.core.luasnip.conditions.matched
 
 local M = {}
 
-M.project = require("plugins.core.luasnip.conditions.project")
 M.ts = require("plugins.core.luasnip.conditions.treesitter")
 
 -- Condition determining wether a snippet is at the beginning of a line or not.

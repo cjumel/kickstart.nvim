@@ -15,14 +15,14 @@ return {
   s({ trig = ".json", show_condition = is_in_empty_line }, { i(1, "name"), t(".json") }),
   s({ trig = ".json", show_condition = -custom_conds.line_begin }, { t(".json") }),
 
-  s({ trig = ".lua", show_condition = custom_conds.project.is_lua * is_in_empty_line }, {
+  s({ trig = ".lua", show_condition = is_in_empty_line }, {
     c(1, {
       sn(nil, { i(1, "name"), t(".lua") }),
       t("init.lua"),
       t("temp.lua"),
     }),
   }),
-  s({ trig = ".lua", show_condition = custom_conds.project.is_lua - is_in_empty_line }, { t(".lua") }),
+  s({ trig = ".lua", show_condition = -is_in_empty_line }, { t(".lua") }),
 
   s({ trig = ".md", show_condition = is_in_empty_line }, {
     c(1, {
@@ -34,14 +34,14 @@ return {
   }),
   s({ trig = ".md", show_condition = -custom_conds.line_begin }, { t(".md") }),
 
-  s({ trig = ".py", show_condition = custom_conds.project.is_python * is_in_empty_line }, {
+  s({ trig = ".py", show_condition = is_in_empty_line }, {
     c(1, {
       sn(nil, { i(1, "name"), t(".py") }),
       t("__init__.py"),
       t("temp.py"),
     }),
   }),
-  s({ trig = ".py", show_condition = custom_conds.project.is_python - is_in_empty_line }, { t(".py") }),
+  s({ trig = ".py", show_condition = -is_in_empty_line }, { t(".py") }),
 
   s({ trig = ".sh", show_condition = is_in_empty_line }, { i(1, "name"), t(".sh") }),
   s({ trig = ".sh", show_condition = -custom_conds.line_begin }, { t(".sh") }),
