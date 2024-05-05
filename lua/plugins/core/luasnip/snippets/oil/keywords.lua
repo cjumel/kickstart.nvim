@@ -10,12 +10,12 @@ local sn = ls.snippet_node
 local t = ls.text_node
 
 return {
-  s({ trig = ".json", show_condition = custom_conds.line_begin * show_conds.line_end }, { i(1, "name"), t(".json") }),
+  s({ trig = ".json", show_condition = custom_conds.line_begin * show_conds.line_end }, { i(1), t(".json") }),
   s({ trig = ".json", show_condition = -custom_conds.line_begin * show_conds.line_end }, { t(".json") }),
 
   s({ trig = ".lua", show_condition = custom_conds.line_begin * show_conds.line_end }, {
     c(1, {
-      sn(nil, { i(1, "name"), t(".lua") }),
+      sn(nil, { i(1), t(".lua") }),
       t("init.lua"),
       t("temp.lua"),
     }),
@@ -24,7 +24,7 @@ return {
 
   s({ trig = ".md", show_condition = custom_conds.line_begin * show_conds.line_end }, {
     c(1, {
-      sn(nil, { i(1, "name"), t(".md") }),
+      sn(nil, { i(1), t(".md") }),
       t("README.md"),
       t("NOTES.md"),
       t("TODO.md"),
@@ -34,23 +34,23 @@ return {
 
   s({ trig = ".py", show_condition = custom_conds.line_begin * show_conds.line_end }, {
     c(1, {
-      sn(nil, { i(1, "name"), t(".py") }),
+      sn(nil, { i(1), t(".py") }),
       t("__init__.py"),
       t("temp.py"),
     }),
   }),
   s({ trig = ".py", show_condition = -custom_conds.line_begin * show_conds.line_end }, { t(".py") }),
 
-  s({ trig = ".sh", show_condition = custom_conds.line_begin * show_conds.line_end }, { i(1, "name"), t(".sh") }),
+  s({ trig = ".sh", show_condition = custom_conds.line_begin * show_conds.line_end }, { i(1), t(".sh") }),
   s({ trig = ".sh", show_condition = -custom_conds.line_begin * show_conds.line_end }, { t(".sh") }),
 
-  s({ trig = ".toml", show_condition = custom_conds.line_begin * show_conds.line_end }, { i(1, "name"), t(".toml") }),
+  s({ trig = ".toml", show_condition = custom_conds.line_begin * show_conds.line_end }, { i(1), t(".toml") }),
   s({ trig = ".toml", show_condition = -custom_conds.line_begin * show_conds.line_end }, { t(".toml") }),
 
   s({ trig = ".yaml", show_condition = custom_conds.line_begin * show_conds.line_end }, {
     c(1, {
-      sn(nil, { i(1, "name"), t(".yaml") }),
-      sn(nil, { i(1, "name"), t(".yml") }),
+      sn(nil, { i(1), t(".yaml") }),
+      sn(nil, { i(1), t(".yml") }),
     }),
   }),
   s({ trig = ".yaml", show_condition = -custom_conds.line_begin * show_conds.line_end }, {
@@ -60,6 +60,6 @@ return {
     }),
   }),
 
-  s({ trig = ".zsh", show_condition = custom_conds.line_begin * show_conds.line_end }, { i(1, "name"), t(".zsh") }),
+  s({ trig = ".zsh", show_condition = custom_conds.line_begin * show_conds.line_end }, { i(1), t(".zsh") }),
   s({ trig = ".zsh", show_condition = -custom_conds.line_begin * show_conds.line_end }, { t(".zsh") }),
 }
