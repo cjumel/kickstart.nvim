@@ -28,7 +28,9 @@ function M.find_files()
   }
 
   if custom_utils.visual.is_visual_mode() then
-    opts.default_text = custom_utils.visual.get_text()
+    local text = custom_utils.visual.get_text()
+    -- Replace punctuation marks by spaces, to support searching from module names, like "plugins.core"
+    opts.default_text = string.gsub(text, "%p", " ")
   end
 
   if vim.bo.filetype == "oil" then
@@ -49,7 +51,9 @@ function M.find_directories()
   }
 
   if custom_utils.visual.is_visual_mode() then
-    opts.default_text = custom_utils.visual.get_text()
+    local text = custom_utils.visual.get_text()
+    -- Replace punctuation marks by spaces, to support searching from module names, like "plugins.core"
+    opts.default_text = string.gsub(text, "%p", " ")
   end
 
   if vim.bo.filetype == "oil" then
@@ -95,7 +99,9 @@ function M.oldfiles()
   }
 
   if custom_utils.visual.is_visual_mode() then
-    opts.default_text = custom_utils.visual.get_text()
+    local text = custom_utils.visual.get_text()
+    -- Replace punctuation marks by spaces, to support searching from module names, like "plugins.core"
+    opts.default_text = string.gsub(text, "%p", " ")
   end
 
   builtin.oldfiles(opts)
