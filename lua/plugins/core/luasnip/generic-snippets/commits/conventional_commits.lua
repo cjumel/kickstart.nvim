@@ -1,6 +1,6 @@
 local ls = require("luasnip")
 
-local custom_conds = require("plugins.core.luasnip.conditions")
+local custom_conditions = require("plugins.core.luasnip.conditions")
 
 local i = ls.insert_node
 local c = ls.choice_node
@@ -23,7 +23,7 @@ local keywords = {
 }
 
 local function make_snippet(keyword)
-  return s({ trig = keyword, show_condition = custom_conds.line_begin }, {
+  return s({ trig = keyword, show_condition = custom_conditions.line_begin }, {
     c(1, {
       sn(nil, { t(keyword .. ": "), i(1) }),
       sn(nil, { t(keyword .. "("), i(1), t("): ") }), -- With scope

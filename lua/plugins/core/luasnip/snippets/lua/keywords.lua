@@ -1,7 +1,7 @@
 local ls = require("luasnip")
+local ls_show_conditions = require("luasnip.extras.conditions.show")
 
-local custom_conds = require("plugins.core.luasnip.conditions")
-local show_conds = require("luasnip.extras.conditions.show")
+local custom_conditions = require("plugins.core.luasnip.conditions")
 
 local c = ls.choice_node
 local i = ls.insert_node
@@ -9,8 +9,8 @@ local s = ls.snippet
 local sn = ls.snippet_node
 local t = ls.text_node
 
-local is_in_code = custom_conds.ts.is_in_code
-local is_in_code_empty_line = custom_conds.ts.is_in_code * custom_conds.line_begin * show_conds.line_end
+local is_in_code = custom_conditions.is_in_code
+local is_in_code_empty_line = custom_conditions.is_in_code * custom_conditions.line_begin * ls_show_conditions.line_end
 
 return {
   s({ trig = "local .. = ..", show_condition = is_in_code_empty_line }, {

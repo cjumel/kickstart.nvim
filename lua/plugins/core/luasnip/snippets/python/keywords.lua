@@ -1,19 +1,19 @@
-local extras = require("luasnip.extras")
 local ls = require("luasnip")
-local show_conds = require("luasnip.extras.conditions.show")
+local ls_extras = require("luasnip.extras")
+local ls_show_conditions = require("luasnip.extras.conditions.show")
 
-local custom_conds = require("plugins.core.luasnip.conditions")
+local custom_conditions = require("plugins.core.luasnip.conditions")
 
 local c = ls.choice_node
 local d = ls.dynamic_node
 local i = ls.insert_node
-local rep = extras.rep
+local rep = ls_extras.rep
 local s = ls.snippet
 local sn = ls.snippet_node
 local t = ls.text_node
 
-local is_in_code_empty_line = custom_conds.ts.is_in_code * custom_conds.line_begin * show_conds.line_end
-local is_in_code_inline = custom_conds.ts.is_in_code * -custom_conds.line_begin
+local is_in_code_empty_line = custom_conditions.is_in_code * custom_conditions.line_begin * ls_show_conditions.line_end
+local is_in_code_inline = custom_conditions.is_in_code * -custom_conditions.line_begin
 
 local function is_function_in_class()
   local node = vim.treesitter.get_node()
