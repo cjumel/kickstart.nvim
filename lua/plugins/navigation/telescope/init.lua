@@ -111,7 +111,7 @@ return {
             ["<ESC>"] = actions.close,
           },
         },
-        file_ignore_patterns = { ".git/" }, -- Exclude in all searches (even when hidden & ignored files are included)
+        file_ignore_patterns = { "%.git/" }, -- Exclude in all searches (even when hidden & ignored files are included)
         sorting_strategy = "ascending",
         layout_config = {
           horizontal = { preview_cutoff = 50, preview_width = 0.5, prompt_position = "top", width = 0.9 },
