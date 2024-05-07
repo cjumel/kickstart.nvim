@@ -253,8 +253,10 @@ return {
         {
           "c",
           function()
-            local treesitter_context = require("treesitter-context") -- Load the plugin if necessary
-            if treesitter_context.enabled() then
+            local treesitter_context = package.loaded["treesitter-context"]
+            if treesitter_context == nil then
+              require("treesitter-context") -- Load the plugin, it will be enabled by default
+            elseif treesitter_context.enabled() then
               treesitter_context.disable()
             else
               treesitter_context.enable()
