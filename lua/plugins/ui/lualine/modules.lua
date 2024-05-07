@@ -18,18 +18,15 @@ M.macro = {
   color = { fg = "#ff9e64" },
 }
 
--- If file or directory (for Oil buffers) is in Harpoon list, show its index
--- This loads Harpoon so it's not lazy-loaded anymore (it's also true for Oil but it's already
--- not lazy loaded)
+-- If file or directory is in Harpoon list, show its index (this lazy-loads Harpoon as soon as a buffer is opened)
 M.harpoon = {
   function()
-    local harpoon = require("harpoon")
-
     local path = utils.path.get_current_buffer_path()
-    if path == nil then
+    if path == nil then -- No buffer is opened
       return ""
     end
 
+    local harpoon = require("harpoon")
     local harpoon_list_length = harpoon:list():length()
     for index = 1, harpoon_list_length do
       local harpoon_file_path = harpoon:list():get(index).value
