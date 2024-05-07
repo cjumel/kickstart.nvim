@@ -4,10 +4,7 @@
 
 return {
   "nvim-treesitter/nvim-treesitter",
-  dependencies = {
-    "nvim-treesitter/nvim-treesitter-context",
-    "nvim-treesitter/nvim-treesitter-textobjects",
-  },
+  dependencies = { "nvim-treesitter/nvim-treesitter-textobjects" },
   build = ":TSUpdate",
   event = { "BufNewFile", "BufReadPre" },
   opts = {

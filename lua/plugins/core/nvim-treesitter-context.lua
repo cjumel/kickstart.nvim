@@ -1,18 +1,16 @@
 -- nvim-treesitter-context
 --
--- Use treesitter to show the context of the currently visible buffer contents.
+-- A simple plugin to show code context using treesitter. I don't use this by default, but it can be very handy when
+-- exploring large unknown files.
 
 return {
   "nvim-treesitter/nvim-treesitter-context",
-  lazy = true, -- Dependency of nvim-treesitter
-  opts = {
-    enable = false, -- Keep the plugin disabled by default and only enable it via keymaps
-  },
+  lazy = true, -- Lazy-loaded when enabled from the option manager
+  opts = {},
   config = function(_, opts)
     local treesitter_context = require("treesitter-context")
     treesitter_context.setup(opts)
 
-    -- gp is used to go to treesitter parent node
     vim.keymap.set("n", "g[", function()
       if treesitter_context.enabled() then -- When treesitter-context is not enabled, the plugin doesn't work well
         treesitter_context.go_to_context()
