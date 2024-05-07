@@ -124,6 +124,7 @@ return {
         end,
       },
       pickers = {
+        -- Set keymaps to toggle searching in hidden or hidden & ignored files in main pickers
         find_files = {
           mappings = {
             i = {
@@ -138,6 +139,13 @@ return {
               ["<C-^>"] = custom_actions.live_grep.toggle_hidden,
               ["<C-_>"] = custom_actions.live_grep.toggle_all,
             },
+          },
+        },
+        -- Override the <Tab> key in `git_status` picker to toggle preview instead of staging/unstaging
+        git_status = {
+          mappings = {
+            i = { ["<Tab>"] = actions_layout.toggle_preview },
+            n = { ["<Tab>"] = actions_layout.toggle_preview },
           },
         },
       },
