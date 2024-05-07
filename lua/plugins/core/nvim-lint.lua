@@ -38,6 +38,9 @@ return {
     "williamboman/mason.nvim",
   },
   ft = vim.tbl_keys(linters_by_ft),
+  keys = {
+    { "<leader>al", function() require("lint").try_lint() end, desc = "[A]ctions: [L]int buffer" },
+  },
   opts = function()
     local mason_ensure_installed = {}
     for _, linters in pairs(linters_by_ft) do
