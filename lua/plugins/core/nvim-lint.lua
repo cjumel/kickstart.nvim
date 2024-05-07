@@ -34,58 +34,45 @@ local linter_to_mason_name = {}
 
 return {
   "mfussenegger/nvim-lint",
-  dependencies = {
-    "williamboman/mason.nvim",
-  },
+  dependencies = { "williamboman/mason.nvim" },
   ft = vim.tbl_keys(linters_by_ft),
-  keys = {
-    { "<leader>al", function() require("lint").try_lint() end, desc = "[A]ctions: [L]int buffer" },
-  },
-  opts = function()
-    local mason_ensure_installed = {}
+  init = function()
+    local ensure_installed = {}
     for _, linters in pairs(linters_by_ft) do
       for _, linter in ipairs(linters) do
         if not vim.tbl_contains(linters_without_mason_package, linter) then
           local mason_name = linter_to_mason_name[linter] or linter
-          if not vim.tbl_contains(mason_ensure_installed, mason_name) then
-            table.insert(mason_ensure_installed, mason_name)
+          if not vim.tbl_contains(ensure_installed, mason_name) then
+            table.insert(ensure_installed, mason_name)
           end
         end
       end
     end
-
-    return {
-      -- Custom option to automatically install missing Mason packages
-      mason_ensure_installed = mason_ensure_installed,
-      linters_by_ft = linters_by_ft,
-      should_lint = function() -- Custom option to enable/disable linting
-        if vim.g.disable_lint then
-          return false
-        end
-
-        local path = require("utils").path.get_current_file_path()
-        if path == nil then
-          return false
-        end
-
-        -- Files outside of the current working directory
-        if vim.startswith(path, "/") or vim.startswith(path, "~") then
-          return false
-
-        -- Files inside Python virtual environments
-        elseif vim.startswith(path, ".venv/") then
-          return false
-        end
-
-        return true
-      end,
-    }
+    local mason_utils = require("plugins.core.mason.utils")
+    mason_utils.ensure_installed(ensure_installed)
   end,
+  opts = {
+    linters_by_ft = linters_by_ft,
+    should_lint = function() -- Custom option to enable/disable linting
+      if vim.g.disable_lint then
+        return false
+      end
+      local path = require("utils").path.get_current_file_path()
+      if path == nil then
+        return false
+      end
+      if vim.startswith(path, "/") or vim.startswith(path, "~") then -- Files outside of the current working directory
+        return false
+      elseif vim.startswith(path, ".venv/") then -- Files inside Python virtual environments
+        return false
+      end
+      return true
+    end,
+  },
   config = function(_, opts)
-    local ensure_installed = require("plugins.core.mason.ensure_installed")
-    ensure_installed(opts.mason_ensure_installed)
+    local lint = require("lint")
 
-    require("lint").linters_by_ft = opts.linters_by_ft
+    lint.linters_by_ft = opts.linters_by_ft
     vim.api.nvim_create_autocmd({
       "BufEnter", -- Entering a buffer
       "InsertLeave", -- Leaving insert mode
@@ -94,9 +81,11 @@ return {
     }, {
       callback = function()
         if opts.should_lint() then
-          require("lint").try_lint()
+          lint.try_lint()
         end
       end,
     })
+
+    vim.keymap.set("n", "<leader>al", lint.try_lint, { desc = "[A]ctions: [L]int buffer" })
   end,
 }

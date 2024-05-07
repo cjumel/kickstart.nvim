@@ -5,14 +5,14 @@
 
 return {
   "mfussenegger/nvim-dap-python",
-  dependencies = {
-    "mfussenegger/nvim-dap",
-  },
-  lazy = true, -- Loaded by nvim-dap
+  dependencies = { "mfussenegger/nvim-dap" },
+  lazy = true, -- Lazy-loaded by nvim-dap
+  init = function()
+    local ensure_installed = { "debugpy" }
+    local mason_utils = require("plugins.core.mason.utils")
+    mason_utils.ensure_installed(ensure_installed)
+  end,
   opts = {
-    mason_ensure_installed = { -- Custom option to automatically install missing Mason packages
-      "debugpy",
-    },
     custom_configurations = { -- Custom option to define Python configurations
       {
         type = "python",
@@ -77,9 +77,6 @@ return {
     include_configs = false, -- Don't add builtin configurations
   },
   config = function(_, opts)
-    local ensure_installed = require("plugins.core.mason.ensure_installed")
-    ensure_installed(opts.mason_ensure_installed)
-
     local dap = require("dap")
     local dap_python = require("dap-python")
 

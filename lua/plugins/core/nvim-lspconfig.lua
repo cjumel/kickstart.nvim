@@ -68,6 +68,11 @@ local servers = {
   },
 }
 
+local server_name_to_mason_name = { -- This is usually done in mason-lspconfig
+  lua_ls = "lua-language-server",
+  yamlls = "yaml-language-server",
+}
+
 return {
   "neovim/nvim-lspconfig",
   dependencies = {
@@ -88,6 +93,17 @@ return {
       end
     end
     return filetypes
+  end,
+  init = function()
+    local ensure_installed = {}
+    for server_name, _ in pairs(servers) do
+      local mason_name = server_name_to_mason_name[server_name] or server_name
+      if not vim.tbl_contains(ensure_installed, mason_name) then
+        table.insert(ensure_installed, mason_name)
+      end
+    end
+    local mason_utils = require("plugins.core.mason.utils")
+    mason_utils.ensure_installed(ensure_installed)
   end,
   opts = {
     servers = servers,
@@ -151,7 +167,6 @@ return {
     -- In my configuration, this is ensured by the fact that mason is in the dependencies and
     -- mason's setup is called in the plugin configuration
     require("mason-lspconfig").setup({
-      ensure_installed = vim.tbl_keys(opts.servers or {}),
       handlers = {
         function(server_name)
           local server = opts.servers[server_name] or {}

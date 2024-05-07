@@ -42,43 +42,36 @@ local formatter_to_mason_name = {
 
 return {
   "stevearc/conform.nvim",
-  dependencies = {
-    "williamboman/mason.nvim",
-  },
+  dependencies = { "williamboman/mason.nvim" },
   ft = vim.tbl_keys(formatters_by_ft),
-  opts = function()
-    local mason_ensure_installed = {}
+  init = function()
+    local ensure_installed = {}
     for _, formatters in pairs(formatters_by_ft) do
       for _, formatter in ipairs(formatters) do
         if not vim.tbl_contains(formatters_without_mason_package, formatter) then
           local mason_name = formatter_to_mason_name[formatter] or formatter
-          if not vim.tbl_contains(mason_ensure_installed, mason_name) then
-            table.insert(mason_ensure_installed, mason_name)
+          if not vim.tbl_contains(ensure_installed, mason_name) then
+            table.insert(ensure_installed, mason_name)
           end
         end
       end
     end
-
-    return {
-      -- Custom option to automatically install missing Mason packages
-      mason_ensure_installed = mason_ensure_installed,
-      formatters_by_ft = formatters_by_ft,
-      format_on_save = function(_)
-        if vim.g.disable_autoformat then
-          return
-        end
-
-        return {
-          lsp_fallback = true, -- Some formatters (like taplo) are setup with lspconfig
-          timeout_ms = 500,
-        }
-      end,
-    }
+    local mason_utils = require("plugins.core.mason.utils")
+    mason_utils.ensure_installed(ensure_installed)
   end,
+  opts = {
+    formatters_by_ft = formatters_by_ft,
+    format_on_save = function(_)
+      if vim.g.disable_autoformat then
+        return
+      end
+      return {
+        lsp_fallback = true, -- Some formatters (like taplo) are setup with lspconfig
+        timeout_ms = 500,
+      }
+    end,
+  },
   config = function(_, opts)
-    local ensure_installed = require("plugins.core.mason.ensure_installed")
-    ensure_installed(opts.mason_ensure_installed)
-
     local conform = require("conform")
     conform.setup(opts)
 
