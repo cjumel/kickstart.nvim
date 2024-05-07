@@ -20,15 +20,15 @@ return {
       { "<leader>xx", trouble.toggle, desc = "Trouble: toggle" },
       { "<leader>xq", function() trouble.open("quickfix") end, desc = "Trouble: [Q]uickfix" },
       { "<leader>xl", function() trouble.open("loclist") end, desc = "Trouble: [L]oclist" },
-      { "<leader>xd", function() trouble.open("document_diagnostics") end, desc = "Trouble: buffer [D]iagnostics" },
-      { "<leader>xD", function() trouble.open("workspace_diagnostics") end, desc = "Trouble: all [D]iagnostics" },
+      { "<leader>xd", function() trouble.open("document_diagnostics") end, desc = "Trouble: document [D]iagnostics" },
+      { "<leader>xD", function() trouble.open("workspace_diagnostics") end, desc = "Trouble: workspace [D]iagnostics" },
       {
         "<leader>xm",
         function()
           require("marks").mark_state:buffer_to_list()
           trouble.open("loclist")
         end,
-        desc = "Trouble: buffer [M]arks",
+        desc = "Trouble: document [M]arks",
       },
       {
         "<leader>xM",
@@ -36,7 +36,7 @@ return {
           require("marks").mark_state:all_to_list()
           trouble.open("loclist")
         end,
-        desc = "Trouble: all [M]arks",
+        desc = "Trouble: workspace [M]arks",
       },
       { "[x", next_trouble_item, mode = { "n", "x", "o" }, desc = "Next Trouble item" },
       { "]x", prev_trouble_item, mode = { "n", "x", "o" }, desc = "Previous Trouble item" },

@@ -107,8 +107,8 @@ return {
       map("n", "crn", function() return ":IncRename " .. vim.fn.expand("<cword>") end, "Rename", { expr = true })
 
       map("n", "<leader>lr", function() vim.cmd("LspRestart") end, "[L]SP: [R]estart")
-      map("n", "<leader>ld", telescope.lsp_document_symbols, "[L]SP: [D]ocument symbols")
-      map("n", "<leader>lw", telescope.lsp_dynamic_workspace_symbols, "[L]SP: [W]orkspace symbols")
+      map("n", "<leader>ls", telescope.lsp_document_symbols, "[L]SP: document [S]ymbols")
+      map("n", "<leader>lS", telescope.lsp_dynamic_workspace_symbols, "[L]SP: workspace [S]ymbols")
 
       -- Go to navigation
       local opts = {
