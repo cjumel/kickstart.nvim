@@ -35,6 +35,7 @@ return {
         end
         return vim.startswith(name, ".") -- Default condition
       end,
+      is_always_hidden = function(name, _) return name == ".." end, -- Don't show ".." when hidden is on
     },
   },
 }
