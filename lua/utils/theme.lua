@@ -3,7 +3,7 @@ local M = {}
 --- Get the theme module, or fallback to the default theme if the theme module symlink is missing.
 ---@return table<string, any>
 function M.get_theme()
-  local ok, theme = pcall(require, "theme")
+  local ok, theme = pcall(require, "_theme")
   if not ok then -- The theme symlink is missing
     theme = require("themes.catppuccin-mocha")
   end
