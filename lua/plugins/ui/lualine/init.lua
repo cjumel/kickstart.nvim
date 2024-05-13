@@ -2,21 +2,15 @@
 --
 -- A blazing fast and customizable status bar written in Lua.
 
-local ok, theme = pcall(require, "theme") -- Handle the case the theme file is missing
-if not ok then
-  theme = {}
-end
-
 local extensions = require("plugins.ui.lualine.extensions")
 local sections = require("plugins.ui.lualine.sections")
+local utils = require("utils")
 
 return {
   "nvim-lualine/lualine.nvim",
-  dependencies = {
-    "nvim-tree/nvim-web-devicons",
-  },
+  dependencies = { "nvim-tree/nvim-web-devicons" },
   priority = 100, -- Main UI stuff should be loaded first
-  opts = vim.tbl_deep_extend("force", {
+  opts = utils.theme.make_opts("lualine", {
     options = {
       icons_enabled = true,
       theme = "auto",
@@ -28,5 +22,5 @@ return {
     },
     sections = sections.default,
     extensions = extensions.build_extensions(sections.default),
-  }, theme.lualine_opts or {}),
+  }),
 }

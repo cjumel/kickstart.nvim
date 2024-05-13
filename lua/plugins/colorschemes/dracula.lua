@@ -2,19 +2,15 @@
 --
 -- Dracula color scheme for Neovim written in Lua.
 
-local ok, theme = pcall(require, "theme") -- Handle the case the theme file is missing
-if not ok then
-  theme = {}
-end
+local utils = require("utils")
 
 return {
   "Mofiqul/dracula.nvim",
-  -- If plugin is not enabled, just make it lazy to avoid changing the lazy lock file
-  lazy = not (theme.dracula_enabled or false), -- By default, don't enable color schemes
+  lazy = utils.theme.get_lazyness("dracula"),
   priority = 1000, -- Main UI stuff should be loaded first
-  opts = vim.tbl_deep_extend("force", {
+  opts = utils.theme.make_opts("dracula", {
     transparent_bg = true,
-  }, theme.dracula_opts or {}),
+  }),
   config = function(_, opts)
     require("dracula").setup(opts)
     vim.cmd.colorscheme("dracula")

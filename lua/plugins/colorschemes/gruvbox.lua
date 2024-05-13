@@ -2,22 +2,19 @@
 --
 -- A port of gruvbox community theme to lua with treesitter and semantic highlights support.
 
-local ok, theme = pcall(require, "theme") -- Handle the case the theme file is missing
-if not ok then
-  theme = {}
-end
+local utils = require("utils")
 
 return {
   "ellisonleao/gruvbox.nvim",
-  -- If plugin is not enabled, just make it lazy to avoid changing the lazy lock file
-  lazy = not (theme.gruvbox_enabled or false), -- By default, don't enable color schemes
+  lazy = utils.theme.get_lazyness("gruvbox"),
   priority = 1000,
-  opts = vim.tbl_deep_extend("force", {
+  opts = utils.theme.make_opts("gruvbox", {
     transparent_mode = true,
-  }, theme.gruvbox_opts or {}),
+  }),
   config = function(_, opts)
     require("gruvbox").setup(opts) -- setup must be called before loading
 
+    local theme = utils.theme.get_theme()
     local gruvbox_background = theme.gruvbox_background or "dark"
     vim.o.background = gruvbox_background
     vim.cmd.colorscheme("gruvbox")
