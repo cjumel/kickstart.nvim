@@ -88,8 +88,19 @@ vim.keymap.set("n", "<leader>yr", actions.yank.relative_path, { desc = "[Y]ank: 
 vim.keymap.set("n", "<leader>ya", actions.yank.absolute_path, { desc = "[Y]ank: [A]bsolute path" })
 vim.keymap.set("n", "<leader>ys", actions.yank.send_to_clipboard, { desc = "[Y]ank: [S]end to clipboard" })
 
--- [[ Go-to keymaps ]]
+-- [[ Next/previous keymaps ]]
 -- Keymaps to move the cursor to specific locations.
+
+utils.keymap.set_move_pair(
+  { "[s", "]s" },
+  { function() vim.cmd("normal )") end, function() vim.cmd("normal (") end },
+  { { desc = "Next sentence" }, { desc = "Previous sentence" } }
+)
+utils.keymap.set_move_pair(
+  { "[p", "]p" },
+  { function() vim.cmd("normal }") end, function() vim.cmd("normal {") end },
+  { { desc = "Next paragraph" }, { desc = "Previous paragraph" } }
+)
 
 -- Dianostics can be errors, warnings, information messages or hints
 utils.keymap.set_move_pair(

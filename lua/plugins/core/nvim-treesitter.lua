@@ -174,9 +174,10 @@ return {
       ts_utils.goto_node(sibling)
     end
 
-    utils.keymap.set_move_pair({ "[s", "]s" }, {
-      next_sibling_node,
-      prev_sibling_node,
-    }, { { desc = "Next sibling node" }, { desc = "Previous sibling node" } })
+    utils.keymap.set_move_pair(
+      { "[n", "]n" },
+      { next_sibling_node, prev_sibling_node },
+      { { desc = "Next sibling node" }, { desc = "Previous sibling node" } }
+    )
   end,
 }
