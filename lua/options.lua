@@ -15,6 +15,9 @@ vim.o.matchpairs = vim.o.matchpairs .. ",<:>"
 -- Set highlight on search; use `:nohlsearch` to remove the search highlight
 vim.o.hlsearch = true
 
+-- Set split preview in incremental commands (replace/renaming)
+vim.opt.inccommand = "split"
+
 -- Line numbering
 vim.wo.number = true
 vim.wo.relativenumber = false
