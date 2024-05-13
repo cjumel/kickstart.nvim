@@ -2,13 +2,13 @@
 --
 -- NeoVim dark colorscheme inspired by the colors of the famous painting by Katsushika Hokusai.
 
-local utils = require("utils")
+local theme = require("theme")
 
 return {
   "rebelot/kanagawa.nvim",
-  lazy = utils.theme.get_lazyness("kanagawa"),
+  lazy = theme.get_lazyness("kanagawa"),
   priority = 1000,
-  opts = utils.theme.make_opts("kanagawa", {
+  opts = theme.make_opts("kanagawa", {
     keywordStyle = { italic = false },
     transparent = true,
   }),

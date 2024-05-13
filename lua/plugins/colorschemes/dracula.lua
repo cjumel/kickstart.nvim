@@ -2,13 +2,13 @@
 --
 -- Dracula color scheme for Neovim written in Lua.
 
-local utils = require("utils")
+local theme = require("theme")
 
 return {
   "Mofiqul/dracula.nvim",
-  lazy = utils.theme.get_lazyness("dracula"),
+  lazy = theme.get_lazyness("dracula"),
   priority = 1000, -- Main UI stuff should be loaded first
-  opts = utils.theme.make_opts("dracula", {
+  opts = theme.make_opts("dracula", {
     transparent_bg = true,
   }),
   config = function(_, opts)

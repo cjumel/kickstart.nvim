@@ -2,21 +2,19 @@
 --
 -- A port of gruvbox community theme to lua with treesitter and semantic highlights support.
 
-local utils = require("utils")
+local theme = require("theme")
 
 return {
   "ellisonleao/gruvbox.nvim",
-  lazy = utils.theme.get_lazyness("gruvbox"),
+  lazy = theme.get_lazyness("gruvbox"),
   priority = 1000,
-  opts = utils.theme.make_opts("gruvbox", {
+  opts = theme.make_opts("gruvbox", {
     transparent_mode = true,
   }),
   config = function(_, opts)
     require("gruvbox").setup(opts) -- setup must be called before loading
 
-    local theme = utils.theme.get_theme()
-    local gruvbox_background = theme.gruvbox_background or "dark"
-    vim.o.background = gruvbox_background
+    vim.o.background = theme.get_field("gruvbox", "background") or "dark"
     vim.cmd.colorscheme("gruvbox")
 
     -- Fix inconsistent highlight groups for Neogit (foreground color is either white or red

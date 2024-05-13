@@ -2,11 +2,11 @@
 --
 -- Neovim theme based off of the Nord Color Palette.
 
-local utils = require("utils")
+local theme = require("theme")
 
 return {
   "shaunsingh/nord.nvim",
-  lazy = utils.theme.get_lazyness("nord"),
+  lazy = theme.get_lazyness("nord"),
   priority = 1000, -- Main UI stuff should be loaded first
   config = function()
     vim.g.nord_disable_background = true -- Enable transparent background

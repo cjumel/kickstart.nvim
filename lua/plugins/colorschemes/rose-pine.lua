@@ -2,14 +2,14 @@
 --
 -- All natural pine, faux fur and a bit of soho vibes for the classy minimalist.
 
-local utils = require("utils")
+local theme = require("theme")
 
 return {
   "rose-pine/neovim",
   name = "rose-pine",
-  lazy = utils.theme.get_lazyness("rose_pine"),
+  lazy = theme.get_lazyness("rose_pine"),
   priority = 1000, -- Main UI stuff should be loaded first
-  opts = utils.theme.make_opts("rose_pine", {
+  opts = theme.make_opts("rose_pine", {
     variant = "main",
     styles = { transparency = true },
   }),

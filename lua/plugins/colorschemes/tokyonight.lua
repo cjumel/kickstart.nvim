@@ -2,13 +2,13 @@
 --
 -- A dark and light Neovim theme written in Lua ported from the Visual Studio Code TokyoNight theme.
 
-local utils = require("utils")
+local theme = require("theme")
 
 return {
   "folke/tokyonight.nvim",
-  lazy = utils.theme.get_lazyness("tokyonight"),
+  lazy = theme.get_lazyness("tokyonight"),
   priority = 1000,
-  opts = utils.theme.make_opts("tokyonight", {
+  opts = theme.make_opts("tokyonight", {
     style = "night", -- night, moon, storm or day
     transparent = true,
   }),

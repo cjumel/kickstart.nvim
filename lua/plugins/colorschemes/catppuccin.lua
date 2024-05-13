@@ -3,14 +3,14 @@
 -- Catppuccin is a color scheme compatible with many tools, including neovim, and defining different tones from light
 -- to dark.
 
-local utils = require("utils")
+local theme = require("theme")
 
 return {
   "catppuccin/nvim",
   name = "catppuccin",
-  lazy = utils.theme.get_lazyness("catppuccin"),
+  lazy = theme.get_lazyness("catppuccin"),
   priority = 1000, -- Main UI stuff should be loaded first
-  opts = utils.theme.make_opts("catppuccin", {
+  opts = theme.make_opts("catppuccin", {
     flavour = "mocha", -- latte, frappe, macchiato, mocha
     transparent_background = true,
     integrations = { -- add highlight groups for popular plugins

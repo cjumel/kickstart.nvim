@@ -4,13 +4,13 @@
 
 local extensions = require("plugins.ui.lualine.extensions")
 local sections = require("plugins.ui.lualine.sections")
-local utils = require("utils")
+local theme = require("theme")
 
 return {
   "nvim-lualine/lualine.nvim",
   dependencies = { "nvim-tree/nvim-web-devicons" },
   priority = 100, -- Main UI stuff should be loaded first
-  opts = utils.theme.make_opts("lualine", {
+  opts = theme.make_opts("lualine", {
     options = {
       icons_enabled = true,
       theme = "auto",
