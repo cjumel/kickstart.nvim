@@ -45,19 +45,21 @@ return {
   dependencies = { "williamboman/mason.nvim" },
   ft = vim.tbl_keys(formatters_by_ft),
   init = function()
-    local ensure_installed = {}
+    local mason_ensure_installed = {}
     for _, formatters in pairs(formatters_by_ft) do
       for _, formatter in ipairs(formatters) do
         if not vim.tbl_contains(formatters_without_mason_package, formatter) then
           local mason_name = formatter_to_mason_name[formatter] or formatter
-          if not vim.tbl_contains(ensure_installed, mason_name) then
-            table.insert(ensure_installed, mason_name)
+          if
+            not vim.tbl_contains(mason_ensure_installed, mason_name)
+            and not vim.tbl_contains(vim.g.mason_ensure_installed or {}, mason_name)
+          then
+            table.insert(mason_ensure_installed, mason_name)
           end
         end
       end
     end
-    local mason_utils = require("plugins.core.mason.utils")
-    mason_utils.ensure_installed(ensure_installed)
+    vim.g.mason_ensure_installed = vim.list_extend(vim.g.mason_ensure_installed or {}, mason_ensure_installed)
   end,
   opts = {
     formatters_by_ft = formatters_by_ft,

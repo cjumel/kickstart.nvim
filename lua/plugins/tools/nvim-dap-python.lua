@@ -8,9 +8,8 @@ return {
   dependencies = { "mfussenegger/nvim-dap" },
   lazy = true, -- Lazy-loaded by nvim-dap
   init = function()
-    local ensure_installed = { "debugpy" }
-    local mason_utils = require("plugins.core.mason.utils")
-    mason_utils.ensure_installed(ensure_installed)
+    local mason_ensure_installed = { "debugpy" }
+    vim.g.mason_ensure_installed = vim.list_extend(vim.g.mason_ensure_installed or {}, mason_ensure_installed)
   end,
   opts = {
     custom_configurations = { -- Custom option to define Python configurations

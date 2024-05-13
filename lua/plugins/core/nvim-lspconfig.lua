@@ -95,15 +95,17 @@ return {
     return filetypes
   end,
   init = function()
-    local ensure_installed = {}
+    local mason_ensure_installed = {}
     for server_name, _ in pairs(servers) do
       local mason_name = server_name_to_mason_name[server_name] or server_name
-      if not vim.tbl_contains(ensure_installed, mason_name) then
-        table.insert(ensure_installed, mason_name)
+      if
+        not vim.tbl_contains(mason_ensure_installed, mason_name)
+        and not vim.tbl_contains(vim.g.mason_ensure_installed or {}, mason_name)
+      then
+        table.insert(mason_ensure_installed, mason_name)
       end
     end
-    local mason_utils = require("plugins.core.mason.utils")
-    mason_utils.ensure_installed(ensure_installed)
+    vim.g.mason_ensure_installed = vim.list_extend(vim.g.mason_ensure_installed or {}, mason_ensure_installed)
   end,
   opts = {
     servers = servers,

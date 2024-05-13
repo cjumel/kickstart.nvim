@@ -37,19 +37,21 @@ return {
   dependencies = { "williamboman/mason.nvim" },
   ft = vim.tbl_keys(linters_by_ft),
   init = function()
-    local ensure_installed = {}
+    local mason_ensure_installed = {}
     for _, linters in pairs(linters_by_ft) do
       for _, linter in ipairs(linters) do
         if not vim.tbl_contains(linters_without_mason_package, linter) then
           local mason_name = linter_to_mason_name[linter] or linter
-          if not vim.tbl_contains(ensure_installed, mason_name) then
-            table.insert(ensure_installed, mason_name)
+          if
+            not vim.tbl_contains(mason_ensure_installed, mason_name)
+            and not vim.tbl_contains(vim.g.mason_ensure_installed or {}, mason_name)
+          then
+            table.insert(mason_ensure_installed, mason_name)
           end
         end
       end
     end
-    local mason_utils = require("plugins.core.mason.utils")
-    mason_utils.ensure_installed(ensure_installed)
+    vim.g.mason_ensure_installed = vim.list_extend(vim.g.mason_ensure_installed or {}, mason_ensure_installed)
   end,
   opts = {
     linters_by_ft = linters_by_ft,
