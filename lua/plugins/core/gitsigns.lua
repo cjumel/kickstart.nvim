@@ -1,13 +1,11 @@
 -- gitsigns.nvim
 --
--- Super fast git decorations and utilities implemented purely in Lua. This plugin brings
--- buffer-centric features, like signs to mark git hunks, or functions to stage them.
+-- Super fast git decorations and utilities implemented purely in Lua. This plugin brings buffer-centric features,
+-- like signs to mark git hunks, or functions to stage them.
 
 return {
   "lewis6991/gitsigns.nvim",
-  dependencies = {
-    "nvimtools/hydra.nvim",
-  },
+  dependencies = { "nvimtools/hydra.nvim" },
   event = { "BufNewFile", "BufReadPre" },
   opts = {
     signs = {
@@ -18,8 +16,8 @@ return {
       changedelete = { text = "~" },
       untracked = { text = "+" },
     },
-    -- Enable Gitsigns on untracked files to avoid mistaking them with tracked ones without change
-    -- and enable keymaps to stage them
+    -- Enable Gitsigns on untracked files to avoid mistaking them with tracked ones without change and enable keymaps
+    -- to stage them
     attach_to_untracked = true,
     on_attach = function(bufnr)
       local gs = package.loaded.gitsigns
@@ -104,7 +102,7 @@ return {
    ^ ^                            ^ ^        Hunk manager           ^ ^                            
    _,_ ➜ Next hunk                _K_ ➜ Hover hunk                  _u_ ➜ [U]nstage last staged hunk   
    _;_ ➜ Previous hunk            _s_ ➜ [S]tage hunk/selection      _x_ ➜ Discard hunk/selection   
-   ^ ^                            ^ ^                               _g_ ➜ [G]it menu                               
+   ^ ^                            ^ ^                               _n_ ➜ [N]eogit   
 ]],
       heads = {
         -- "," & ";" are not repeatable on purpose, to be able to resume the previous movement
@@ -137,7 +135,7 @@ return {
             end
           end,
         },
-        { "g", "<cmd>NeogitCustom<CR>", { exit = true } },
+        { "n", "<cmd>NeogitCustom<CR>", { exit = true } },
         -- <Esc> must be exit for compatibility with clear window action purposes
         { "<Esc>", nil, { exit = true, mode = "n", desc = false } },
       },

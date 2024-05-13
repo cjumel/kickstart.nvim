@@ -22,7 +22,7 @@ return {
       require("neogit").open()
     end, {})
   end,
-  keys = { { "<leader>gm", "<cmd>NeogitCustom<CR>", desc = "[G]it: [M]enu" } },
+  keys = { { "<leader>gn", "<cmd>NeogitCustom<CR>", desc = "[G]it: [N]eogit" } },
   opts = {
     use_default_keymaps = false,
     disable_hint = true,
