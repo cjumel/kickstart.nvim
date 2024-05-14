@@ -8,5 +8,5 @@
 return {
   "smjonas/inc-rename.nvim",
   lazy = true,
-  opts = {},
+  opts = { save_in_cmdline_history = false }, -- Don't save command in history, like the builtin LSP rename
 }
