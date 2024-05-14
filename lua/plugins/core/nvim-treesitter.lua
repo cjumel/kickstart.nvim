@@ -6,7 +6,7 @@ return {
   "nvim-treesitter/nvim-treesitter",
   dependencies = { "nvim-treesitter/nvim-treesitter-textobjects" },
   build = ":TSUpdate",
-  lazy = false, -- Make plugin load on start-up to ensure all parsers are installed on first Neovim launch
+  event = "VeryLazy", -- Force load on start-up to ensure all parsers are always installed
   opts = {
     ensure_installed = {
       "bash",
