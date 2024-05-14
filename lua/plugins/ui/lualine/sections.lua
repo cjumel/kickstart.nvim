@@ -9,9 +9,7 @@ M.default = {
     {
       "filename",
       path = 1, -- Relative path
-      symbols = {
-        modified = "●", -- Text to show when the buffer is modified
-      },
+      symbols = { modified = "●" }, -- Text to show when the buffer is modified
     },
   },
   lualine_x = { modules.macro, modules.harpoon, "encoding", "fileformat", "filetype" },

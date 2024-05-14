@@ -16,9 +16,7 @@ return {
       theme = "auto",
       component_separators = "|",
       section_separators = "",
-      refresh = {
-        statusline = 50, -- Decrease refresh rate to make modules more responsive (e.g. Harpoon's)
-      },
+      refresh = { statusline = 50 }, -- Decrease refresh rate to make modules more responsive (e.g. Harpoon's)
     },
     sections = sections.default,
     extensions = extensions.build_extensions(sections.default),

@@ -2,17 +2,18 @@ local utils = require("utils")
 
 local M = {}
 
--- Add a message in the status line when recording a macro
--- This means that noice needs to pass the message to the statusline (see noice's wiki)
+-- Add a message in the status line when recording a macro (Noice needs to pass the message, see Noice's wiki)
 M.macro = {
   function()
-    if package.loaded.noice ~= nil then -- Don't fail if Noice is not setup
-      return require("noice").api.statusline.mode.get()
+    local noice = package.loaded.noice
+    if noice ~= nil then
+      return noice.api.statusline.mode.get()
     end
   end,
   cond = function()
-    if package.loaded.noice ~= nil then -- Don't fail if Noice is not setup
-      return require("noice").api.statusline.mode.has()
+    local noice = package.loaded.noice
+    if noice ~= nil then
+      return noice.api.statusline.mode.has()
     end
   end,
   color = { fg = "#ff9e64" },
@@ -26,7 +27,7 @@ M.harpoon = {
       return ""
     end
 
-    local harpoon = require("harpoon")
+    local harpoon = require("harpoon") -- Harpoon is not loaded if no buffer/directory is opened
     local harpoon_list_length = harpoon:list():length()
     for index = 1, harpoon_list_length do
       local harpoon_file_path = harpoon:list():get(index).value
@@ -69,12 +70,6 @@ M.toggleterm = {
     end
     return "Terminal " .. term.id .. ": " .. term:_display_name()
   end,
-}
-
--- Output a fake "utf-8" encoding for a consistent display between some special buffers (like Oil)
--- and regular ones
-M.fake_encoding = {
-  function() return "utf-8" end,
 }
 
 return M
