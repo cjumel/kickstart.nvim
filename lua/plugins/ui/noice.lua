@@ -1,7 +1,6 @@
 -- Noice
 --
--- Highly experimental plugin that completely replaces the UI for messages, cmdline and the
--- popupmenu.
+-- Highly experimental plugin that completely replaces the UI for messages, cmdline and the popupmenu.
 
 return {
   "folke/noice.nvim",
@@ -10,21 +9,17 @@ return {
     "nvim-treesitter/nvim-treesitter",
     {
       "rcarriga/nvim-notify",
-      opts = {
-        background_colour = "#000000", -- Disable warnings with some color schemes when lacking this option
-      },
+      opts = { background_colour = "#000000" }, -- Disable warnings with some color schemes when lacking this option
     },
   },
   event = "VeryLazy",
-  keys = function()
-    local noice = require("noice")
-    return {
-      { "<leader>vh", function() noice.cmd("history") end, desc = "[V]iew: message [H]istory" },
-      { "<leader>vl", function() noice.cmd("last") end, desc = "[V]iew: [L]ast message" },
-      { "<leader>ve", function() noice.cmd("errors") end, desc = "[V]iew: [E]rror messages" },
-      { "<leader>va", function() noice.cmd("all") end, desc = "[V]iew: [A]ll messages" },
-    }
-  end,
+  keys = {
+    -- When defining `keys` as a function with `noice = require("noice")` in it, Noice is not properly lazy-loaded
+    { "<leader>vh", function() require("noice").cmd("history") end, desc = "[V]iew: message [H]istory" },
+    { "<leader>vl", function() require("noice").cmd("last") end, desc = "[V]iew: [L]ast message" },
+    { "<leader>ve", function() require("noice").cmd("errors") end, desc = "[V]iew: [E]rror messages" },
+    { "<leader>va", function() require("noice").cmd("all") end, desc = "[V]iew: [A]ll messages" },
+  },
   opts = {
     lsp = {
       override = { -- Override markdown rendering so that cmp and other plugins use Treesitter
