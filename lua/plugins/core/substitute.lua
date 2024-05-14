@@ -34,9 +34,5 @@ return {
       { "ge", exchange.visual, mode = "x", desc = "Exchange" },
     }
   end,
-  opts = {
-    range = {
-      subject = { last_search = true }, -- Subject is taken from the last search instead of a motion
-    },
-  },
+  opts = {},
 }
