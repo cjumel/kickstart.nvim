@@ -1,13 +1,8 @@
---- Look at global editor variables and existing formatter configuration files to determine the relevant `colorcolumn`
---- option value.
+--- Look at existing formatter configuration files to determine the relevant `colorcolumn` option value.
 ---@return string
 local function get_colorcolumn()
-  if vim.g.disable_colorcolumn then
-    return ""
-  end
-
-  local config_file_names = { ".stylua.toml", "stylua.toml" }
-  local default_line_length = 120
+  local config_file_names = { ".taplo.toml", "taplo.toml" }
+  local default_line_length = 80
   local line_length_pattern = "column_width = "
 
   local file_path = vim.fn.expand("%:p") -- Get the current file path (must be absolute to access its ancestors)
@@ -50,4 +45,6 @@ local function get_colorcolumn()
 end
 
 -- Display a column ruler at the relevant line length
-vim.opt_local.colorcolumn = get_colorcolumn()
+if not vim.g.disable_colorcolumn then
+  vim.opt_local.colorcolumn = get_colorcolumn()
+end

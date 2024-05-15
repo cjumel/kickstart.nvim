@@ -1,15 +1,10 @@
---- Look at global editor variables and existing formatter configuration files to determine the relevant `colorcolumn`
---- option value.
+--- Look at existing formatter configuration files to determine the relevant `colorcolumn` option value.
 --- This implementation is quite different from other similar functions because it needs to look for both pure Ruff
 --- configuration files (like ".ruff.toml") and generic Python configuration files ("pyproject.toml"), which may not
 --- configure Ruff or does configure Ruff but extends another one where the line length is defined. This tries to take
 --- all these cases into account but takes some shortcuts.
 ---@return string
 local function get_colorcolumn()
-  if vim.g.disable_colorcolumn then
-    return ""
-  end
-
   local config_file_names = { ".ruff.toml", "ruff.toml", "pyproject.toml" }
   local default_line_length = 88
   local line_length_pattern = "line-length = "
@@ -90,4 +85,6 @@ local function get_colorcolumn()
 end
 
 -- Display a column ruler at the relevant line length
-vim.opt_local.colorcolumn = get_colorcolumn()
+if not vim.g.disable_colorcolumn then
+  vim.opt_local.colorcolumn = get_colorcolumn()
+end
