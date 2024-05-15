@@ -1,13 +1,13 @@
 -- conform.nvim
 --
--- Lightweight yet powerful formatter plugin for Neovim
+-- Lightweight yet powerful formatter plugin for Neovim. This is my plugin of choice for formatting & auto-formatting
+-- due to its great flexibility & customizability while still remaining quite simple, compared to alternative like
+-- null-ls/none-ls.
 
--- Some file types have already a formatter integrated in lspconfig:
--- - toml: taplo
--- We need to add those file types as keys in `formatters_by_ft` to trigger formatting on save
-
--- Define here which formatter to use for each file type
--- Keys must be simple file types, and values arrays of formatters
+-- Define here which formatters to use for each file type
+-- Keys must be simple file types, and values arrays of formatter names
+-- In some file types, a formatter is alraedy integrated as a language server in `nvim-lspconfig`; in that case, the
+-- corresponding file type must be added as a key with an empty array as value, to trigger formatting on save
 local formatters_by_ft = {
   gitconfig = { "trim_newlines", "trim_whitespace" },
   gitignore = { "trim_newlines", "trim_whitespace" },
@@ -75,9 +75,28 @@ return {
   },
   config = function(_, opts)
     local conform = require("conform")
+    local utils = require("utils")
+
     conform.setup(opts)
 
-    -- In visual mode, this keymap doesn't work well for all formatters (only some natively support range formatting)
-    vim.keymap.set({ "n", "v" }, "<leader>af", conform.format, { desc = "[A]ctions: [F]ormat buffer/selection" })
+    vim.keymap.set({ "n", "v" }, "<leader>af", function()
+      if utils.visual.is_visual_mode() then
+        conform.format() -- This doesn't work super well for all formatters
+      else -- Following code is taken from https://github.com/stevearc/conform.nvim/issues/92#issuecomment-2069915330
+        local hunks = require("gitsigns").get_hunks()
+        for i = #hunks, 1, -1 do
+          local hunk = hunks[i]
+          if hunk ~= nil and hunk.type ~= "delete" then
+            local start = hunk.added.start
+            local last = start + hunk.added.count
+            -- nvim_buf_get_lines uses zero-based indexing -> subtract from last
+            local last_hunk_line = vim.api.nvim_buf_get_lines(0, last - 2, last - 1, true)[1]
+            local range = { start = { start, 0 }, ["end"] = { last - 1, last_hunk_line:len() } }
+            conform.format({ range = range })
+          end
+        end
+      end
+    end, { desc = "[A]ctions: [F]ormat changes/selection" })
+    vim.keymap.set("n", "<leader>aF", conform.format, { desc = "[A]ctions: [F]ormat buffer" })
   end,
 }
