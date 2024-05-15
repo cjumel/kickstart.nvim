@@ -1,10 +1,15 @@
---- Look for a Ruff configuration file and output a colorcolumn value based on it or nil.
+--- Look at global editor variables and existing formatter configuration files to determine the relevant `colorcolumn`
+--- option value.
 --- This implementation is quite different from other similar functions because it needs to look for both pure Ruff
 --- configuration files (like ".ruff.toml") and generic Python configuration files ("pyproject.toml"), which may not
 --- configure Ruff or does configure Ruff but extends another one where the line length is defined. This tries to take
 --- all these cases into account but takes some shortcuts.
----@return string|nil
+---@return string
 local function get_colorcolumn()
+  if vim.g.disable_colorcolumn then
+    return ""
+  end
+
   local config_file_names = { ".ruff.toml", "ruff.toml", "pyproject.toml" }
   local default_line_length = 88
   local line_length_pattern = "line-length = "
@@ -18,7 +23,7 @@ local function get_colorcolumn()
       if vim.fn.filereadable(config_file_path) == 1 then -- A configuration file was found
         local file = io.open(config_file_path, "r")
         if not file then -- Unable to open file
-          return nil
+          return ""
         end
 
         if config_file_name ~= "pyproject.toml" then -- Regular case of pure config files
@@ -74,32 +79,15 @@ local function get_colorcolumn()
     end
 
     if dir == vim.env.HOME or dir == "/" then -- Stop at the home directory or root if file not in home directory
-      return nil
+      return ""
     else
       dir = vim.fn.fnamemodify(dir, ":h") -- Change dir to its parent directory & loop again
     end
   end
 
   vim.notify("Config file search limit reached", vim.log.levels.WARN)
+  return ""
 end
 
 -- Display a column ruler at the relevant line length
-if not vim.g.disable_colorcolumn then
-  vim.opt_local.colorcolumn = get_colorcolumn()
-end
-
---- Yank the path of the current Python module.
----@return nil
-local function yank_module_path()
-  local path = vim.fn.expand("%")
-  path = vim.fn.fnamemodify(path, ":.")
-
-  path = path:gsub("%.py$", "") -- Remove the ".py" extension
-  path = path:gsub(".__init__$", "") -- Remove the ".__init__" suffix (in case in an __init__.py file)
-  path = path:gsub("/", ".") -- Replace slashes with dots
-
-  vim.fn.setreg('"', path)
-  vim.notify('Yanked "' .. path .. '"')
-end
-
-vim.keymap.set("n", "<leader>ym", yank_module_path, { buffer = true, desc = "[Y]ank: current Python [M]odule" })
+vim.opt_local.colorcolumn = get_colorcolumn()

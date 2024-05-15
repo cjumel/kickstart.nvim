@@ -1,6 +1,11 @@
---- Look for a Stylua configuration file and output a colorcolumn value based on it or nil.
----@return string|nil
+--- Look at global editor variables and existing formatter configuration files to determine the relevant `colorcolumn`
+--- option value.
+---@return string
 local function get_colorcolumn()
+  if vim.g.disable_colorcolumn then
+    return ""
+  end
+
   local config_file_names = { ".stylua.toml", "stylua.toml" }
   local default_line_length = 120
   local line_length_pattern = "column_width = "
@@ -14,7 +19,7 @@ local function get_colorcolumn()
       if vim.fn.filereadable(config_file_path) == 1 then -- A configuration file was found
         local file = io.open(config_file_path, "r")
         if not file then -- Unable to open file
-          return nil
+          return ""
         end
 
         for line in file:lines() do
@@ -34,33 +39,15 @@ local function get_colorcolumn()
     end
 
     if dir == vim.env.HOME or dir == "/" then -- Stop at the home directory or root if file not in home directory
-      return nil
+      return ""
     else
       dir = vim.fn.fnamemodify(dir, ":h") -- Change dir to its parent directory & loop again
     end
   end
 
   vim.notify("Config file search limit reached", vim.log.levels.WARN)
+  return ""
 end
 
 -- Display a column ruler at the relevant line length
-if not vim.g.disable_colorcolumn then
-  vim.opt_local.colorcolumn = get_colorcolumn()
-end
-
---- Yank the path of the current Lua module.
----@return nil
-local function yank_module_path()
-  local path = vim.fn.expand("%")
-  path = vim.fn.fnamemodify(path, ":.")
-
-  path = path:gsub("^lua/", "") -- Remove the "lua/" prefix if it exists
-  path = path:gsub("%.lua$", "") -- Remove the ".lua" extension
-  path = path:gsub(".init$", "") -- Remove the ".init" suffix (in case in an init.lua file)
-  path = path:gsub("/", ".") -- Replace slashes with dots
-
-  vim.fn.setreg('"', path)
-  vim.notify('Yanked "' .. path .. '"')
-end
-
-vim.keymap.set("n", "<leader>ym", yank_module_path, { buffer = true, desc = "[Y]ank: current Lua [M]odule" })
+vim.opt_local.colorcolumn = get_colorcolumn()
