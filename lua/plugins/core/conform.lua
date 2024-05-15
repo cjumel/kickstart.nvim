@@ -63,8 +63,8 @@ return {
   end,
   opts = {
     formatters_by_ft = formatters_by_ft,
-    format_on_save = function(_)
-      if vim.g.disable_autoformat then
+    format_on_save = function(bufnr)
+      if vim.g.disable_autoformat or vim.tbl_contains(vim.g.disable_autoformat_bufnrs or {}, bufnr) then
         return
       end
       return {
