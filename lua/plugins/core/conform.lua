@@ -6,7 +6,7 @@
 
 -- Define here which formatters to use for each file type
 -- Keys must be simple file types, and values arrays of formatter names
--- In some file types, a formatter is alraedy integrated as a language server in `nvim-lspconfig`; in that case, the
+-- In some file types, a formatter is integrated as a language server in `nvim-lspconfig`; in that case, the
 -- corresponding file type must be added as a key with an empty array as value, to trigger formatting on save
 local formatters_by_ft = {
   gitconfig = { "trim_newlines", "trim_whitespace" },
@@ -67,10 +67,7 @@ return {
       if vim.g.disable_autoformat or vim.tbl_contains(vim.g.disable_autoformat_bufnrs or {}, bufnr) then
         return
       end
-      return {
-        lsp_fallback = true, -- Some formatters (like taplo) are setup with lspconfig
-        timeout_ms = 500,
-      }
+      return { lsp_fallback = true, timeout_ms = 500 }
     end,
   },
   config = function(_, opts)
@@ -79,9 +76,10 @@ return {
 
     conform.setup(opts)
 
+    -- Following keymap uses range formatting, which doesn't work super well with some formatters
     vim.keymap.set({ "n", "v" }, "<leader>af", function()
       if utils.visual.is_visual_mode() then
-        conform.format() -- This doesn't work super well for all formatters
+        conform.format({ lsp_fallback = true, timeout_ms = 500 })
       else -- Following code is taken from https://github.com/stevearc/conform.nvim/issues/92#issuecomment-2069915330
         local hunks = require("gitsigns").get_hunks()
         for i = #hunks, 1, -1 do
@@ -92,11 +90,16 @@ return {
             -- nvim_buf_get_lines uses zero-based indexing -> subtract from last
             local last_hunk_line = vim.api.nvim_buf_get_lines(0, last - 2, last - 1, true)[1]
             local range = { start = { start, 0 }, ["end"] = { last - 1, last_hunk_line:len() } }
-            conform.format({ range = range })
+            conform.format({ lsp_fallback = true, timeout_ms = 500, range = range })
           end
         end
       end
     end, { desc = "[A]ctions: [F]ormat changes/selection" })
-    vim.keymap.set("n", "<leader>aF", conform.format, { desc = "[A]ctions: [F]ormat buffer" })
+    vim.keymap.set(
+      "n",
+      "<leader>aF",
+      function() conform.format({ lsp_fallback = true, timeout_ms = 500 }) end,
+      { desc = "[A]ctions: [F]ormat buffer" }
+    )
   end,
 }
