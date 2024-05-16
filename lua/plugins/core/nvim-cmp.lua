@@ -63,7 +63,8 @@ return {
     })
 
     -- Set up special configurations
-    cmp.setup.cmdline(":", { sources = { { name = "cmdline" }, { name = "path" } } })
+    -- In regular command line, don't show cmdline completion when path's are available to avoid duplicates
+    cmp.setup.cmdline(":", { sources = cmp.config.sources({ { name = "path" } }, { { name = "cmdline" } }) })
     cmp.setup.cmdline({ "/", "?" }, { sources = { { name = "buffer" } } })
 
     -- Set up filetype-specific configurations
