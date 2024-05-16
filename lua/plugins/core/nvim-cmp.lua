@@ -17,24 +17,15 @@ return {
   event = { "InsertEnter", "CmdlineEnter" }, -- CmdlineEnter is not covered by InsertEnter
   config = function()
     local cmp = require("cmp")
-    local luasnip = require("luasnip")
+    local ls = require("luasnip")
 
     cmp.setup({
-      snippet = { expand = function(args) luasnip.lsp_expand(args.body) end },
+      snippet = { expand = function(args) ls.lsp_expand(args.body) end },
+      completion = { completeopt = "menu,menuone,noinsert" }, -- Directly select the first sugggestion
       window = { completion = cmp.config.window.bordered(), documentation = cmp.config.window.bordered() },
+      -- Mapping <C-c> to abort completion (among other things) is defined in the general keymaps
       mapping = {
-        -- By default, mappings are in insert mode
-        -- Using `cmp.mapping(..., { "i", "c" })` makes them available in command mode for instance
-        -- <C-c> to abort completion is defined at the configuration-level
-        ["<CR>"] = cmp.mapping(
-          cmp.mapping.confirm({
-            -- Don't automatically select an item when confirming
-            -- This is really annoying in command mode (requires to press enter twice to enter a command), & I simply
-            -- prefer not to use it in insert mode as well, to only trigger completion willingly
-            select = false,
-          }),
-          { "i", "c" }
-        ),
+        ["<C-y>"] = cmp.mapping(cmp.mapping.confirm({ select = true }), { "i", "c" }),
         ["<C-n>"] = cmp.mapping(function()
           if cmp.visible() then
             cmp.select_next_item()
@@ -49,8 +40,8 @@ return {
             cmp.complete()
           end
         end, { "i", "c" }),
-        ["<C-d>"] = cmp.mapping.scroll_docs(5),
-        ["<C-u>"] = cmp.mapping.scroll_docs(-5),
+        ["Ï"] = cmp.mapping(cmp.mapping.scroll_docs(5), { "i", "c" }), -- <M-j>
+        ["È"] = cmp.mapping(cmp.mapping.scroll_docs(-5), { "i", "c" }), -- <M-k>
       },
       sources = {
         { name = "luasnip", priority = 100 },
