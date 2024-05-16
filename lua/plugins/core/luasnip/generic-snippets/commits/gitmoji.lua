@@ -88,7 +88,7 @@ local function make_snippet(gitmoji_data)
   local keyword = gitmoji_data.name
   local emoji = gitmoji_data.emoji
 
-  return s({ trig = ":" .. keyword .. ":", show_condition = custom_conditions.line_begin }, {
+  return s({ trig = ":" .. keyword .. ": " .. emoji, show_condition = custom_conditions.line_begin }, {
     c(1, {
       sn(nil, { t(emoji .. " "), i(1) }),
       sn(nil, { t(emoji .. " ("), i(1), t("): ") }), -- With scope
