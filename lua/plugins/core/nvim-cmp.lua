@@ -79,7 +79,13 @@ return {
     })
     cmp.setup.filetype({ "oil", "gitcommit", "NeogitCommitMessage" }, {
       sources = {
-        { name = "luasnip", priority = 100 },
+        { name = "luasnip", priority = 10 },
+        { name = "buffer" },
+      },
+    })
+    cmp.setup.filetype("sql", {
+      sources = {
+        { name = "vim-dadbod-completion", priority = 10 },
         { name = "buffer" },
       },
     })
