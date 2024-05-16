@@ -26,15 +26,40 @@ vim.keymap.set("n", "]m", function() end, { desc = "which_key_ignore" })
 vim.keymap.set("n", "[M", function() end, { desc = "which_key_ignore" })
 vim.keymap.set("n", "]M", function() end, { desc = "which_key_ignore" })
 
--- [[ Redefine builtin keymaps ]]
--- These keymaps fix or alter the behavior of builtin keymaps.
+-- [[ Builtin keymaps ]]
+-- Fix or alter the behavior of builtin keymaps.
 
--- Remap a/i to automatically indent on empty line
-vim.keymap.set("n", "a", actions.smart_a, { desc = "Neovim builtin", expr = true, noremap = true })
-vim.keymap.set("n", "i", actions.smart_i, { desc = "Neovim builtin", expr = true, noremap = true })
+local smart_a_or_i_ignore_filetypes = { -- In some file types (e.g. not modifiable), the smart `a` & `i` keymaps crash
+  "dap-repl",
+  "dapui_breakpoints",
+  "dapui_console",
+  "dapui_scopes",
+  "dapui_watches",
+}
+--- Smart version of `a` & `i` keymaps to automatically indent when used on empty line.
+---@param default_keymap string "a" or "i", the action to perform by default.
+---@return string
+local function smart_a_or_i(default_keymap)
+  if
+    vim.tbl_contains(smart_a_or_i_ignore_filetypes, vim.bo.filetype) -- File type to ignore
+    or string.match(vim.api.nvim_get_current_line(), "%g") ~= nil -- Line is not empty
+  then
+    return default_keymap
+  end
+  return '"_cc' -- Save to black hole register to avoid polluting the default register
+end
+vim.keymap.set("n", "a", function() return smart_a_or_i("a") end, { desc = "Append", expr = true, noremap = true })
+vim.keymap.set("n", "i", function() return smart_a_or_i("i") end, { desc = "Insert", expr = true, noremap = true })
 
--- Remap dd to avoid saving empty lines in register
-vim.keymap.set("n", "dd", actions.smart_dd, { desc = "Line", expr = true, noremap = true })
+--- Smart version of `dd` keymap, to avoid saving empty lines in register.
+---@return string
+local function smart_dd()
+  if vim.api.nvim_get_current_line():match("^%s*$") then
+    return '"_dd' -- Save to black hole register
+  end
+  return "dd"
+end
+vim.keymap.set("n", "dd", smart_dd, { desc = "Line", expr = true, noremap = true })
 
 -- Remap j/k to deal with word wrap
 vim.keymap.set("n", "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
