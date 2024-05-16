@@ -76,8 +76,6 @@ vim.keymap.set({ "n", "v" }, "Q", "@q", { desc = "Run macro from default registe
 
 vim.keymap.set("n", "<leader><CR>", vim.diagnostic.open_float, { desc = "Open diagnostics" })
 
-vim.keymap.set("n", "K", actions.hover, { desc = "Hover" })
-
 vim.keymap.set("n", "<leader>ax", function() vim.cmd("bufdo bd") end, { desc = "[A]ctions: close all buffers" })
 
 vim.keymap.set("n", "<leader>yc", actions.yank.cwd, { desc = "[Y]ank: [C]wd" })

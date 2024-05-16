@@ -121,6 +121,7 @@ return {
 
       local map = utils.keymap.get_buffer_local_map(bufnr)
 
+      map("n", "K", vim.lsp.buf.hover, "Hover")
       map("n", "crr", vim.lsp.buf.code_action, "Code action")
       map("n", "crn", function() return ":IncRename " .. vim.fn.expand("<cword>") end, "Rename", { expr = true })
 

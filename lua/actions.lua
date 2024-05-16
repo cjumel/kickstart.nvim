@@ -105,24 +105,6 @@ function M.clear_all()
   M.clear_insert_mode()
 end
 
---- Custom hover action. If nvim-ufo is loaded, it will peek the lines under the cursor. Otherwise, it will hover with
---- the LSP.
-function M.hover()
-  -- If nvim-ufo is loaded and the cursor is on a folded line, peek the lines under the cursor
-  if package.loaded.ufo ~= nil then
-    local winid = nil
-    if require("ufo.preview.floatwin").winid == nil then -- Peek window is not already opened
-      winid = require("ufo").peekFoldedLinesUnderCursor(false, false) -- Open peek window
-    else
-      winid = require("ufo").peekFoldedLinesUnderCursor(true, false) -- Enter in peek window
-    end
-    if winid then -- Cursor was indeed on a folded line
-      return
-    end
-  end
-  vim.lsp.buf.hover() -- Otherwise, hover with the LSP
-end
-
 M.yank = {}
 
 --- Yank the path of the current buffer or directory if in Oil buffer.
