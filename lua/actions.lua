@@ -48,16 +48,6 @@ function M.smart_dd()
   end
 end
 
---- Fixed version of visual `*` action. This version removes "\V" from the search pattern. The only reason for this is
---- that stubstitute.nvim doesn't work well with such patterns due to escaping "\V".
----@return nil
-function M.fixed_visual_star()
-  local selection = utils.visual.get_text()
-  vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<esc>", true, false, true), "x", true) -- Exit visual mode
-  vim.cmd("/" .. selection) -- vim.fn.search doesn't put the pattern in the search history
-  vim.cmd("normal! NNn") -- Dirty fix to mimic the native visual "*" keymap behavior as close as possible
-end
-
 -- [[ General actions ]]
 -- Define new general actions, sometimes involving multiple plugins.
 
