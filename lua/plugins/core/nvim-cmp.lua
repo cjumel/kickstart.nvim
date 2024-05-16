@@ -53,13 +53,13 @@ return {
         ["<C-d>"] = cmp.mapping.scroll_docs(5),
         ["<C-u>"] = cmp.mapping.scroll_docs(-5),
       },
-      -- Sources are grouped by decreasing priority
-      sources = cmp.config.sources({
-        { name = "luasnip", priority = 2 },
-        { name = "nvim_lsp", priority = 1 },
-      }, {
+      sources = {
+        { name = "luasnip", priority = 100 },
+        { name = "nvim_lsp", priority = 10 },
         { name = "buffer" },
-      }),
+        { name = "path" },
+      },
+
       -- Disable menu in completion window
       -- This menu can describe the source of the completion item (e.g. its global source like "LSP" or "Luasnip", or
       -- the module corresponding to a completion item for languages like Python), however disabling it solves an issue
@@ -74,21 +74,25 @@ return {
     })
 
     -- Set up special configurations
-    cmp.setup.cmdline(":", { sources = cmp.config.sources({ { name = "path" } }, { { name = "cmdline" } }) })
+    cmp.setup.cmdline(":", { sources = { { name = "cmdline" }, { name = "path" } } })
     cmp.setup.cmdline({ "/", "?" }, { sources = { { name = "buffer" } } })
+
+    -- Set up filetype-specific configurations
     cmp.setup.filetype("markdown", {
-      sources = cmp.config.sources({
-        { name = "luasnip" },
-      }, {
+      sources = {
+        { name = "luasnip", priority = 100 },
+        { name = "nvim_lsp", priority = 10 },
         { name = "buffer" },
+        { name = "path" },
         { name = "emoji" },
-      }),
+      },
     })
-    cmp.setup.filetype("oil", { sources = cmp.config.sources({ { name = "luasnip" } }) })
-    cmp.setup.filetype(
-      { "gitcommit", "NeogitCommitMessage" },
-      { sources = cmp.config.sources({ { name = "luasnip" } }, { { name = "buffer" } }) }
-    )
+    cmp.setup.filetype({ "oil", "gitcommit", "NeogitCommitMessage" }, {
+      sources = {
+        { name = "luasnip", priority = 100 },
+        { name = "buffer" },
+      },
+    })
 
     -- [[ Auto-pairs ]]
 
