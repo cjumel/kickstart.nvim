@@ -9,7 +9,4 @@ require("lazy-plugins")
 -- [[ Setting options ]]
 require("options")
 
--- [[ General Keymaps ]]
-require("keymaps")
-
 -- vim: ts=2 sts=2 sw=2 et
