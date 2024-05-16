@@ -13,7 +13,6 @@ return {
     "hrsh7th/cmp-emoji",
     "saadparwaiz1/cmp_luasnip",
     "L3MON4D3/LuaSnip",
-    "windwp/nvim-autopairs",
   },
   event = { "InsertEnter", "CmdlineEnter" }, -- CmdlineEnter is not covered by InsertEnter
   config = function()
@@ -59,7 +58,6 @@ return {
         { name = "buffer" },
         { name = "path" },
       },
-
       -- Disable menu in completion window
       -- This menu can describe the source of the completion item (e.g. its global source like "LSP" or "Luasnip", or
       -- the module corresponding to a completion item for languages like Python), however disabling it solves an issue
@@ -93,34 +91,5 @@ return {
         { name = "buffer" },
       },
     })
-
-    -- [[ Auto-pairs ]]
-
-    local autopairs = require("nvim-autopairs")
-    local autopairs_cmp = require("nvim-autopairs.completion.cmp")
-    local autopairs_utils = require("nvim-autopairs.utils")
-
-    -- Insert brackets & place the cursor between them when selecting a function or method item
-    -- This feature creates some noise, but it's useful most often than not and it's easier to remove the brackets
-    -- than to add them manually with my keybindings
-    local function custom_callback(evt)
-      if not autopairs.state.disabled then
-        autopairs_cmp.on_confirm_done()(evt)
-      end
-    end
-    cmp.event:on("confirm_done", custom_callback)
-
-    -- Dirty fix to prevent nvim-autopairs from adding brackets when importing functions in Python
-    -- This only works on the first line of an import statement
-    -- Source: https://github.com/windwp/nvim-autopairs/issues/206#issuecomment-1916003469
-    local python_handler = autopairs_cmp.filetypes["python"]["("].handler
-    local custom_python_handler = function(char, item, bufnr, rules, commit_character)
-      local line = autopairs_utils.text_get_current_line(bufnr)
-      if line:match("^(from.*import.*)$") then
-        return
-      end
-      python_handler(char, item, bufnr, rules, commit_character)
-    end
-    autopairs_cmp.filetypes["python"]["("].handler = custom_python_handler
   end,
 }
