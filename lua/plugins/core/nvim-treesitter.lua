@@ -108,6 +108,15 @@ return {
           ["]M"] = { query = "@function.outer", desc = "Previous method definition end" },
         },
       },
+      swap = {
+        enable = true,
+        swap_next = {
+          ["<leader>n"] = { query = "@parameter.inner", desc = "[N]ext argument swap" },
+        },
+        swap_previous = {
+          ["<leader>p"] = { query = "@parameter.inner", desc = "[P]revious argument swap" },
+        },
+      },
     },
   },
   config = function(_, opts)
