@@ -23,10 +23,9 @@ return {
       snippet = { expand = function(args) ls.lsp_expand(args.body) end },
       completion = { completeopt = "menu,menuone,noinsert" }, -- Directly select the first sugggestion
       window = { completion = cmp.config.window.bordered(), documentation = cmp.config.window.bordered() },
-      -- Mapping <C-c> to abort completion (among other things) is defined in the general keymaps
       mapping = {
-        ["<C-y>"] = cmp.mapping(cmp.mapping.confirm({ select = true }), { "i", "c" }), -- Default Vim keymap
-        ["<M-CR>"] = cmp.mapping(cmp.mapping.confirm({ select = true }), { "i", "c" }), -- <C-CR>, alternate keymap
+        -- <C-c> is mapped to `cmp.abort` and other things in the general keymaps
+        ["<C-y>"] = cmp.mapping(cmp.mapping.confirm({ select = true }), { "i", "c" }),
         ["<C-n>"] = cmp.mapping(function()
           if cmp.visible() then
             cmp.select_next_item()
