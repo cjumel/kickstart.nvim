@@ -6,7 +6,4 @@ vim.g.maplocalleader = " "
 -- [[ Install `lazy.nvim` plugin manager & configure plugins ]]
 require("lazy-plugins")
 
--- [[ Setting options ]]
-require("options")
-
 -- vim: ts=2 sts=2 sw=2 et

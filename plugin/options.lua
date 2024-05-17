@@ -1,4 +1,4 @@
--- [[ General settings ]]
+-- General Vim options
 
 -- Disable neovim intro as it appears very briefly on startup and then disappears
 vim.opt.shortmess:append({ I = true })
@@ -49,43 +49,3 @@ vim.o.completeopt = ""
 
 -- Use true colors in terminal
 vim.o.termguicolors = true
-
--- [[ Diagnostics ]]
-
--- Make diagnostic signs in sign column the same as in Lualine
-local signs = { -- values are taken from lualine/components/diagnostics/config.lua
-  Error = "󰅚 ", -- x000f015a
-  Warn = "󰀪 ", -- x000f002a
-  Hint = "󰌶 ", -- x000f0336
-  Info = "󰋽 ", -- x000f02fd
-}
-for type, icon in pairs(signs) do
-  local hl = "DiagnosticSign" .. type
-  vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
-end
-
-vim.diagnostic.config({
-  float = {
-    border = "rounded", -- Border of the "show diagnostic" popup
-  },
-  severity_sort = true, -- Display symbol for the most severe diagnostic in sign column
-})
-
--- [[ Highlight on yank ]]
-
-local highlight_group = vim.api.nvim_create_augroup("YankHighlight", { clear = true })
-vim.api.nvim_create_autocmd("TextYankPost", {
-  callback = function() vim.highlight.on_yank() end,
-  group = highlight_group,
-  pattern = "*",
-})
-
--- [[ Custom file types ]]
-
-local filetypes = require("filetypes")
-
-vim.filetype.add({
-  filename = filetypes.by_filename,
-})
-
--- vim: ts=2 sts=2 sw=2 et

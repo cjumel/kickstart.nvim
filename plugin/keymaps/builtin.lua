@@ -1,18 +1,11 @@
 -- Keymaps to fix or improve the behavior of builtin keymaps
 
-local smart_a_or_i_ignore_filetypes = { -- In some file types (e.g. not modifiable), the smart `a` & `i` keymaps crash
-  "dap-repl",
-  "dapui_breakpoints",
-  "dapui_console",
-  "dapui_scopes",
-  "dapui_watches",
-}
 --- Smart version of `a` & `i` keymaps to automatically indent when used on empty line.
 ---@param default_keymap string "a" or "i", the action to perform by default.
 ---@return string
 local function smart_a_or_i(default_keymap)
   if
-    vim.tbl_contains(smart_a_or_i_ignore_filetypes, vim.bo.filetype) -- File type to ignore
+    vim.tbl_contains(vim.g.temporary_filetypes, vim.bo.filetype) -- File type to ignore (crash in not modifiable ones)
     or string.match(vim.api.nvim_get_current_line(), "%g") ~= nil -- Line is not empty
   then
     return default_keymap

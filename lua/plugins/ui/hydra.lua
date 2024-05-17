@@ -21,8 +21,6 @@ return {
 
     Hydra.setup(opts)
 
-    local filetypes = require("filetypes")
-
     -- The window manager uses builtin keymaps and the descriptions provided by WhichKey
     Hydra({
       body = "<C-w>",
@@ -220,7 +218,7 @@ return {
               vim.opt.colorcolumn = "" -- Remove the colorcolumn in current buffer
             else
               vim.g.disable_colorcolumn = false
-              if not vim.tbl_contains(filetypes.temporary, vim.bo.filetype) then -- Don't apply to temporary buffers
+              if not vim.tbl_contains(vim.g.temporary_filetypes, vim.bo.filetype) then -- Skip temporary buffers
                 vim.cmd("edit") -- Reload the current buffer to apply the colorcolumn
               end
             end
@@ -268,7 +266,9 @@ return {
           function()
             if vim.g.disable_concealing then
               vim.g.disable_concealing = false
-              vim.cmd("edit") -- Reload the current buffer to apply the conceal level setting
+              if not vim.tbl_contains(vim.g.temporary_filetypes, vim.bo.filetype) then -- Skip temporary buffers
+                vim.cmd("edit") -- Reload the current buffer to apply the conceal level setting
+              end
             else
               vim.g.disable_concealing = true
               if vim.bo.filetype == "markdown" then -- Apply the conceal level setting when relevant
