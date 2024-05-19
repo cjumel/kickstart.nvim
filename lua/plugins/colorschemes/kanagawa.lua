@@ -9,11 +9,11 @@ return {
   lazy = theme.get_lazyness("kanagawa"),
   priority = 1000,
   opts = theme.make_opts("kanagawa", {
-    keywordStyle = { italic = false },
     transparent = true,
   }),
   config = function(_, opts)
     require("kanagawa").setup(opts) -- setup must be called before loading
-    vim.cmd.colorscheme("kanagawa")
+    local kanagawa_theme = opts.theme or "wave"
+    vim.cmd.colorscheme("kanagawa-" .. kanagawa_theme)
   end,
 }
