@@ -1,14 +1,12 @@
 -- Setup custom file types
 
--- Map some file names not known by Neovim to a filetype
+-- Map some filenames unknown to Neovim to the relevant filetype
 local filetype_by_filename = {
-  [".env.example"] = "sh", -- Same as `.env`
-  [".fdignore"] = "conf", -- auto-detected by nvim
+  [".env.example"] = "sh", -- same as `.env`
   [".ideavimrc"] = "vim",
-  [".ignore"] = "conf", -- auto-detected by nvim
-  [".markdownlintrc"] = "json", -- or ini
+  [".markdownlintrc"] = "json", -- could also be "ini"
   [".prettierignore"] = "conf", -- auto-detected by nvim
-  [".prettierrc"] = "yaml", -- or json
+  [".prettierrc"] = "yaml", -- could also be "json"
   [".shellcheckrc"] = "conf", -- auto-detected by nvim
   [".stow-global-ignore"] = "conf", -- auto-detected by nvim
   [".stow-local-ignore"] = "conf", -- auto-detected by nvim
@@ -20,24 +18,28 @@ local filetype_by_filename = {
 }
 vim.filetype.add({ filename = filetype_by_filename })
 
--- Attribute to filenames in `filetype_by_filename` the nvim-web-devicons icon data corresponding to the filetype
+-- Map some filenames unkown (or not well known) to Neovim/nvim-web-devicons to the relevant icon data
+-- Icon data are taken from existing filenames with `:lua print(require("nvim-web-devicons").get_icon_colors("name"))`
+local icons = {
+  [".env.example"] = { icon = "", color = "#faf743", cterm_color = "227", name = ".env" },
+  [".ideavimrc"] = { icon = "", color = "#019833", cterm_color = 28, name = "vim" },
+  [".markdownlintrc"] = { icon = "", color = "#cbcb41", cterm_color = 185, name = "json" },
+  [".prettierignore"] = { icon = "", color = "#6d8086", cterm_color = 66, name = "conf" },
+  [".shellcheckrc"] = { icon = "", color = "#6d8086", cterm_color = 66, name = "conf" },
+  [".stow-global-ignore"] = { icon = "", color = "#6d8086", cterm_color = 66, name = "conf" },
+  [".stow-local-ignore"] = { icon = "", color = "#6d8086", cterm_color = 66, name = "conf" },
+  [".vimiumrc"] = { icon = "", color = "#019833", cterm_color = 28, name = "vim" },
+  [".yamlfmt"] = { icon = "", color = "#6d8086", cterm_color = 66, name = "yaml" },
+  [".yamllint"] = { icon = "", color = "#6d8086", cterm_color = 66, name = "yaml" },
+  ["ignore"] = { icon = "", color = "#6d8086", cterm_color = 66, name = "conf" },
+  ["ripgreprc"] = { icon = "", color = "#6d8086", cterm_color = 66, name = "conf" },
+  ["tmux-pre-tpm.conf"] = { icon = "", color = "#14ba19", cterm_color = "34", name = "tmux.conf" },
+  ["tmux-post-tpm.conf"] = { icon = "", color = "#14ba19", cterm_color = "34", name = "tmux.conf" },
+}
 local web_devicons = package.loaded["nvim-web-devicons"] -- Plugin scripts are loaded after start-up plugins
-local supported_filenames = vim.tbl_keys(web_devicons.get_icons_by_filename()) -- Up-to-date list of supported filenames
-local icon_data_by_filename = {}
-for filename, filetype in pairs(filetype_by_filename) do
-  if not vim.tbl_contains(supported_filenames, filename) then -- Don't override already supported filenames
-    local icon, color, cterm_color = web_devicons.get_icon_colors(filetype)
-    icon_data_by_filename[filename] = {
-      icon = icon,
-      color = color,
-      cterm_color = cterm_color,
-      name = filetype,
-    }
-  end
-end
-web_devicons.set_icon(icon_data_by_filename)
+web_devicons.set_icon(icons)
 
--- Define filetypes of temporary buffers (typically plugins' ones)
+-- List filetypes associated with temporary buffers (typically plugin ones)
 local temporary_filetypes = {
   "", -- No buffer opened
   "dap-repl",
