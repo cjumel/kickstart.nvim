@@ -1,37 +1,39 @@
---- Look at existing formatter configuration files to determine the relevant `colorcolumn` option value.
+--- Look at existing formatter configuration files to determine the relevant `colorcolumn` option value for Markdown.
+--- More specifically, this function looks for a `mdformat` configuration file named `.mdformat.toml` in all parent
+--- directories until the home or root directory. If it finds one, it looks at the value of the `wrap` key to determine
+--- the line length, if it's not `"no"` or `"keep"`.
 ---@return string
 local function get_colorcolumn()
-  local config_file_names = { ".mdformat.toml" }
-  local line_length_pattern = "wrap = "
-
-  local file_path = vim.fn.expand("%:p") -- Get the current file path (must be absolute to access its ancestors)
-  local dir = vim.fn.fnamemodify(file_path, ":h") -- Get the parent directory
+  local file_path = vim.fn.expand("%:p") -- Absolute current file path (must be absolute to access its ancestors)
+  local dir = vim.fn.fnamemodify(file_path, ":h") -- Parent directory of the current file
 
   for _ = 1, 50 do -- Virtually like a `while True`, but with a safety net
-    for _, config_file_name in ipairs(config_file_names) do
+    for _, config_file_name in ipairs({ ".mdformat.toml" }) do -- Files to check
       local config_file_path = dir .. "/" .. config_file_name
-      if vim.fn.filereadable(config_file_path) == 1 then -- A configuration file was found
+      if vim.fn.filereadable(config_file_path) == 1 then -- A configuration file is found
         local file = io.open(config_file_path, "r")
         if not file then -- Unable to open file
           return ""
         end
 
+        -- Look for the line length value, as the value of the `wrap` key in the configuration file
         for line in file:lines() do
-          local start, end_ = string.find(line, line_length_pattern, 1, true)
-          if start == 1 and end_ ~= nil then -- The target line was found and is not a comment (start == 1)
-            file:close()
-
-            local line_length_candidate = line.sub(line, end_ + 1)
-            if line_length_candidate == "keep" or line_length_candidate == "no" then
-              return ""
-            else
-              local line_length = tonumber(line.sub(line, end_ + 1))
-              return tostring(line_length + 1)
+          if line:sub(1, 1) ~= "#" then -- Skip comment lines
+            -- Capture the value of the `wrap` key but not comments after it
+            local line_length_candidate = line:match("wrap = ([^%s]+)")
+            if line_length_candidate ~= nil then -- A match is found
+              file:close()
+              if line_length_candidate == "keep" or line_length_candidate == "no" then
+                return ""
+              else
+                local line_length = tonumber(line_length_candidate)
+                return tostring(line_length + 1)
+              end
             end
           end
         end
 
-        -- A config file is found but no column_width line
+        -- A config file is found but no line length
         file:close()
         return ""
       end
