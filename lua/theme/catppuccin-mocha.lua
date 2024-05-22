@@ -5,6 +5,13 @@ M.catppuccin_opts = {
   flavour = "mocha", -- latte, frappe, macchiato, mocha
 }
 
+M.lualine_opts = {
+  options = {
+    component_separators = "",
+    section_separators = { right = "" },
+  },
+}
+
 M.headlines_opts = {
   markdown = {
     headline_highlights = {
