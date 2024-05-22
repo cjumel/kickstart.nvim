@@ -3,9 +3,6 @@
 -- marks.nvim provides a better user experience for interacting with and manipulating Vim & Neovim marks. Such a plugin
 -- is, in my opinion, essential to use marks, as it provides the missing features of Neovim marks, like visualizing
 -- them in the sign column or some handy keymaps to delete them, for instance.
---
--- Note that there is a known issue with mark deletion being not permanent (hence polluting buffers when shown in the
--- sign column), which requires Neovim v0.10 to be solved, or a nightly version.
 
 return {
   "chentoast/marks.nvim",
