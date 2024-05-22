@@ -8,35 +8,33 @@ local function get_colorcolumn()
   local dir = vim.fn.fnamemodify(file_path, ":h") -- Parent directory of the current file
 
   for _ = 1, 50 do -- Virtually like a `while True`, but with a safety net
-    for _, config_file_name in ipairs({ ".mdformat.toml" }) do -- Files to check
-      local config_file_path = dir .. "/" .. config_file_name
-      if vim.fn.filereadable(config_file_path) == 1 then -- A configuration file is found
-        local file = io.open(config_file_path, "r")
-        if not file then -- Unable to open file
-          return ""
-        end
+    local config_file_path = dir .. "/.mdformat.toml" -- Only one file to check
+    if vim.fn.filereadable(config_file_path) == 1 then -- A configuration file is found
+      local file = io.open(config_file_path, "r")
+      if not file then -- Unable to open file
+        return ""
+      end
 
-        -- Look for the line length value, as the value of the `wrap` key in the configuration file
-        for line in file:lines() do
-          if line:sub(1, 1) ~= "#" then -- Skip comment lines
-            -- Capture the value of the `wrap` key but not comments after it
-            local line_length_candidate = line:match("wrap = ([^%s]+)")
-            if line_length_candidate ~= nil then -- A match is found
-              file:close()
-              if line_length_candidate == "keep" or line_length_candidate == "no" then
-                return ""
-              else
-                local line_length = tonumber(line_length_candidate)
-                return tostring(line_length + 1)
-              end
+      -- Look for the line length value, as the value of the `wrap` key in the configuration file
+      for line in file:lines() do
+        if line:sub(1, 1) ~= "#" then -- Skip comment lines
+          -- Capture the value of the `wrap` key but not comments after it
+          local line_length_candidate = line:match("wrap = ([^%s]+)")
+          if line_length_candidate ~= nil then -- A match is found
+            file:close()
+            if line_length_candidate == "keep" or line_length_candidate == "no" then
+              return ""
+            else
+              local line_length = tonumber(line_length_candidate)
+              return tostring(line_length + 1)
             end
           end
         end
-
-        -- A config file is found but no line length
-        file:close()
-        return ""
       end
+
+      -- A config file is found but no line length
+      file:close()
+      return ""
     end
 
     if dir == vim.env.HOME or dir == "/" then -- Stop at the home directory or root if file not in home directory
