@@ -71,10 +71,9 @@ vim.keymap.set("v", "<C-c>", "<cmd>ClearWindow<CR>", { desc = "Clear" })
 vim.keymap.set("i", "<C-c>", "<cmd>ClearAll<CR>", { desc = "Clear" })
 vim.keymap.set("c", "<C-c>", "<cmd>ClearInsertMode<CR>", { desc = "Clear" }) -- Don't clean the cmdline popup itself
 
--- Shortcuts for quicker access to some of the main registers
+-- Shortcuts to access the main registers
 vim.keymap.set({ "n", "v" }, "+", '"+', { desc = "System clipboard register" })
 vim.keymap.set({ "n", "v" }, "_", '"_', { desc = "Black hole register" })
-vim.keymap.set({ "n", "v" }, "Q", "@q", { desc = "Run macro from default register" })
 
 --- Yank the path of the current buffer or directory if in Oil buffer.
 ---@param opts table|nil Optional parameters. Supported parameters are:

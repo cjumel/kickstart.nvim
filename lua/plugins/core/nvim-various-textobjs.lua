@@ -57,7 +57,7 @@ return {
       { "as", function() textobjs.subword("outer") end, mode = { "x", "o" }, desc = "a subword" },
       { "is", function() textobjs.subword("inner") end, mode = { "x", "o" }, desc = "inner subword" },
       { "C", textobjs.toNextClosingBracket, mode = { "x", "o" }, desc = "Next right bracket" },
-      { "Q", textobjs.toNextQuotationMark, mode = { "x", "o" }, desc = "Next quotation mark" },
+      { "gq", textobjs.toNextQuotationMark, mode = { "x", "o" }, desc = "Next quotation mark" },
       { "gG", textobjs.entireBuffer, mode = { "x", "o" }, desc = "Entire buffer" },
       { "g$", textobjs.nearEoL, mode = { "x", "o" }, desc = "Near end of line" },
       { "-", function() textobjs.lineCharacterwise("inner") end, mode = { "x", "o" }, desc = "Line characterwise" },
