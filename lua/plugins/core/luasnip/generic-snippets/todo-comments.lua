@@ -1,6 +1,8 @@
 -- Provide todo-comment snippets, either using Treesitter to detect if we are within a comment or a string, or not using
 -- it at all, in case it's not available.
--- This is largely adapted from https://github.com/L3MON4D3/LuaSnip/wiki/Cool-Snippets#all---todo-commentsnvim-snippets
+-- Original implementation is a simpler version of
+-- https://github.com/L3MON4D3/LuaSnip/wiki/Cool-Snippets#all---todo-commentsnvim-snippets
+-- It was then simplified to avoid relying on the `Comment.nvim` plugin
 
 local ls = require("luasnip")
 local ls_conditions = require("luasnip.extras.conditions")
@@ -14,25 +16,24 @@ local s = ls.snippet
 local sn = ls.snippet_node
 local t = ls.text_node
 
---- Get the comment string start and end, depending on the current file type. This uses the `Comment.nvim` plugin.
----@param ctype integer Type of the comment, 1 for `line`-comment and 2 for `block`-comment.
----@return table comment_strings Table containing the comment string start and end.
-local function get_comment_strings(ctype)
-  local comment_ft = package.loaded["Comment.ft"]
-  if comment_ft == nil then
-    comment_ft = require("Comment.ft")
-  end
-  local comment_utils = package.loaded["Comment.utils"]
-  if comment_utils == nil then
-    comment_utils = require("Comment.utils")
-  end
+--- Get the comment string start and end, depending on the current file type.
+---@return string[]
+local function get_comment_strings()
+  -- Fetch the comment string for the filetype (e.g. '-- %s' for `lua`)
+  -- Compared to the initial implementation using `Comments.nvim`, this doesn't work for code regions with different
+  -- comment string than the filetype (e.g. code embedded in Markdown files)
+  local cstring = vim.bo.commentstring
 
-  -- Use the `Comments.nvim` API to fetch the comment string for the region (eq. '--%s' or '--[[%s]]' for `lua`)
-  local cstring = comment_ft.calculate({ ctype = ctype, range = comment_utils.get_region() }) or vim.bo.commentstring
-  -- As we want only the strings themselves and not strings ready for using `format` we want to split the left and right
-  -- side
-  local left, right = comment_utils.unwrap_cstr(cstring)
-  -- Create the `{left, right}` table for it
+  -- Initially, comment strings are ready to be used by `format`, so we want to split the left and right side
+  -- This implementation is taken from `require("Comments.nvim.utils").unwrap_cstr`
+  local left, right = string.match(cstring, "(.*)%%s(.*)")
+  assert(
+    (left or right),
+    { msg = string.format("Invalid commentstring for %s! Read `:h commentstring` for help.", vim.bo.filetype) }
+  )
+  left, right = vim.trim(left), vim.trim(right)
+
+  -- Create & output the final table
   if left ~= "" then
     left = left .. " "
   end
@@ -41,9 +42,8 @@ local function get_comment_strings(ctype)
   end
   return { left, right }
 end
-
-local function get_comment_string_start() return get_comment_strings(1)[1] end
-local function get_comment_string_end() return get_comment_strings(1)[2] end
+local function get_comment_string_start() return get_comment_strings()[1] end
+local function get_comment_string_end() return get_comment_strings()[2] end
 
 -- Except for "FIX" (splitted between "FIXME" and "BUG"), these are the default keywords for todo-comments
 local todo_comment_keywords = {
@@ -83,7 +83,6 @@ local function is_in_comment_function(line_to_cursor)
   if not node then -- E.g. very beginning of the buffer
     return false
   end
-
   return vim.tbl_contains(comment_node_types, node:type())
 end
 local is_in_comment_condition = ls_conditions.make_condition(is_in_comment_function)
