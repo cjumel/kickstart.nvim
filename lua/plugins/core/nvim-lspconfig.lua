@@ -120,24 +120,19 @@ return {
       local utils = require("utils")
 
       local map = utils.keymap.get_buffer_local_map(bufnr)
-
-      map("n", "K", vim.lsp.buf.hover, "Hover")
-      map("n", "crr", vim.lsp.buf.code_action, "Code action")
-      map("n", "crn", function() return ":IncRename " .. vim.fn.expand("<cword>") end, "Rename", { expr = true })
-
-      map("n", "<leader>lr", function() vim.cmd("LspRestart") end, "[L]SP: [R]estart")
-      map("n", "<leader>ls", telescope.lsp_document_symbols, "[L]SP: document [S]ymbols")
-      map("n", "<leader>lS", telescope.lsp_dynamic_workspace_symbols, "[L]SP: workspace [S]ymbols")
-
-      -- Go to navigation
-      local opts = {
+      local go_to_opts = {
         initial_mode = "normal",
         show_line = false, -- Don't show the whole line in the picker next to the file path
       }
-      map("n", "gd", function() telescope.lsp_definitions(opts) end, "Go to definition")
-      map("n", "gD", function() telescope.lsp_type_definitions(opts) end, "Go to type definition")
-      map("n", "gr", function() telescope.lsp_references(opts) end, "Go to reference")
-      map("n", "gR", function() require("trouble").toggle("lsp_references") end, "Open references")
+
+      map("n", "gra", vim.lsp.buf.code_action, "Code action")
+      map("n", "grn", function() return ":IncRename " .. vim.fn.expand("<cword>") end, "Rename", { expr = true })
+      map("n", "grr", function() telescope.lsp_references(go_to_opts) end, "Go to references")
+      map("n", "grd", function() telescope.lsp_definitions(go_to_opts) end, "Go to definition")
+      map("n", "grt", function() telescope.lsp_type_definitions(go_to_opts) end, "Go to type definition")
+      map("n", "grs", telescope.lsp_document_symbols, "Document symbols")
+      map("n", "grS", telescope.lsp_dynamic_workspace_symbols, "Workspace symbols")
+      map("n", "grx", function() vim.cmd("LspRestart") end, "Restart")
 
       -- Next/previous reference navigation
       -- Define illuminate keymaps here to benefit from the on_attach function behavior

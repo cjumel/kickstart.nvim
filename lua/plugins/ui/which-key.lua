@@ -30,6 +30,7 @@ return {
     which_key.register({
       ["["] = { name = "Next", _ = _ },
       ["]"] = { name = "Previous", _ = _ },
+      ["gr"] = { name = "LSP", _ = _ },
 
       ["<leader>"] = { name = "Leader", _ = _ },
       ["<leader>?"] = { name = "Help", _ = _ },
@@ -38,7 +39,6 @@ return {
       ["<leader>d"] = { name = "[D]AP", _ = _ },
       ["<leader>f"] = { name = "[F]ind", mode = { "n", "v" }, _ = _ },
       ["<leader>g"] = { name = "[G]it", mode = { "n", "v" }, _ = _ },
-      ["<leader>l"] = { name = "[L]SP", _ = _ },
       ["<leader>m"] = { name = "[M]arks", _ = _ },
       ["<leader>o"] = { name = "[O]verseer", _ = _ },
       ["<leader>t"] = { name = "[T]erm", mode = { "n", "v" }, _ = _ },
