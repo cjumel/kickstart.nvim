@@ -37,18 +37,11 @@ return {
     routes = {
       { filter = { event = "msg_show", kind = "", find = "written" }, opts = { skip = true } }, -- Hide written messages
     },
-    commands = {
-      -- Override builtin commands options
+    commands = { -- Override builtin command options
       history = { view = "popup" },
-      errors = { filter_opts = { reverse = false } },
-      -- Custom commands
-      all = {
-        view = "popup",
-        opts = { enter = true, format = "details" },
-        filter = {
-          ["not"] = { event = "msg_show", kind = "", find = "written" }, -- Hide written messages
-        },
-      },
+      last = { view = "popup" },
+      errors = { view = "popup", filter_opts = { reverse = false } },
+      all = { view = "popup" },
     },
   },
 }
