@@ -4,6 +4,8 @@
 vim.opt.shortmess:append({ I = true }) -- Disable Neovim homepage on startup
 vim.o.mouse = "a" -- Enable mouse mode in all modes
 vim.o.breakindent = true -- Indent parts after break in wrapped lines
+vim.o.splitright = true -- Open new vertical split windows to the right
+vim.o.splitbelow = true -- Open new horizontal split windows below
 
 -- Side column
 vim.wo.number = true -- Enable line numbering
