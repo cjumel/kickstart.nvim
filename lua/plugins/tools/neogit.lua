@@ -27,7 +27,7 @@ return {
   opts = {
     disable_hint = true, -- Don't always show help hint
     use_default_keymaps = true, -- Implementing custom keymaps make the plugin break often when updating it
-    commit_view = { kind = "tab" }, -- Use "tab" view instead of "split", to better visualize the whole commit
-    rebase_editor = { kind = "split" }, -- Force the "split" below (instead of "auto")
+    commit_view = { kind = "tab" }, -- Use "tab" view instead of "split", to decrease visual clutter
+    rebase_editor = { kind = "tab" }, -- Use "tab" view instead of "auto", to decrease visual clutter
   },
 }
