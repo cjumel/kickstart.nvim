@@ -125,11 +125,18 @@ return {
         show_line = false, -- Don't show the whole line in the picker next to the file path
       }
 
+      -- NOTE: this keymaps are following the new Neovim defaults, but they are still debated
+      --  see https://github.com/neovim/neovim/pull/28650
       map("n", "gra", vim.lsp.buf.code_action, "Code action")
       map("n", "grn", function() return ":IncRename " .. vim.fn.expand("<cword>") end, "Rename", { expr = true })
       map("n", "grr", function() telescope.lsp_references(go_to_opts) end, "Go to references")
-      map("n", "grd", function() telescope.lsp_definitions(go_to_opts) end, "Go to definition")
-      map("n", "grt", function() telescope.lsp_type_definitions(go_to_opts) end, "Go to type definition")
+
+      -- Neovim has default keymaps for "go to definition" with gd and "go to declaration" with gD written for C
+      --  I don't use languages where "go to declaration" is useful, so let's replace it with "go to type definition"
+      --  I don't use languages where "go to implementation" is useful either, so let's omit this keymap
+      map("n", "gd", function() telescope.lsp_definitions(go_to_opts) end, "Go to definition")
+      map("n", "gD", function() telescope.lsp_type_definitions(go_to_opts) end, "Go to type definition")
+
       map("n", "grs", telescope.lsp_document_symbols, "Document symbols")
       map("n", "grS", telescope.lsp_dynamic_workspace_symbols, "Workspace symbols")
       map("n", "grx", function() vim.cmd("LspRestart") end, "Restart")
