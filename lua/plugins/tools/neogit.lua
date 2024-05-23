@@ -26,6 +26,8 @@ return {
   keys = { { "<leader>gn", "<cmd>NeogitCustom<CR>", desc = "[G]it: [N]eogit" } },
   opts = {
     disable_hint = true, -- Don't always show help hint
+    -- NOTE: once the plugin (and especially the management of custom keymaps) is more stable, let's re-implement custom
+    --  keymaps
     use_default_keymaps = true, -- Implementing custom keymaps make the plugin break often when updating it
     commit_view = { kind = "tab" }, -- Use "tab" view instead of "split", to decrease visual clutter
     rebase_editor = { kind = "tab" }, -- Use "tab" view instead of "auto", to decrease visual clutter
