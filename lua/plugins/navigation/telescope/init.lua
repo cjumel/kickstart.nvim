@@ -42,11 +42,6 @@ return {
       { "<leader>gb", builtin.git_branches, desc = "[G]it: [B]ranches" },
       { "<leader>gl", custom_builtin.git_commits, desc = "[G]it: [L]og" },
       { "<leader>gL", custom_builtin.git_bcommits, mode = { "n", "v" }, desc = "[G]it: buffer/selection [L]og" },
-
-      -- Help related
-      { "<leader>?c", builtin.commands, desc = "Help: [C]ommands" },
-      { "<leader>?k", custom_builtin.keymaps, desc = "Help: [K]eymaps" },
-      { "<leader>?h", custom_builtin.help_tags, desc = "Help: [H]elp tags" },
     }
   end,
   opts = function()

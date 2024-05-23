@@ -148,14 +148,4 @@ function M.git_bcommits()
   end
 end
 
-function M.keymaps()
-  local opts = { prompt_title = "Keymaps" }
-  builtin.keymaps(opts)
-end
-
-function M.help_tags()
-  local opts = { prompt_title = "Help Tags" }
-  builtin.help_tags(opts)
-end
-
 return M

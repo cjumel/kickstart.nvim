@@ -33,7 +33,6 @@ return {
       ["gr"] = { name = "LSP", _ = _ },
 
       ["<leader>"] = { name = "Leader", _ = _ },
-      ["<leader>?"] = { name = "Help", _ = _ },
       ["<leader>a"] = { name = "[A]ctions", _ = _ },
       ["<leader>c"] = { name = "[C]opilot", _ = _ },
       ["<leader>d"] = { name = "[D]AP", _ = _ },
