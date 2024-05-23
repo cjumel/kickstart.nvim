@@ -62,9 +62,6 @@ vim.keymap.set({ "n", "o", "x" }, "G", "G$", { desc = "End of buffer" })
 -- Remap $ in visual mode to avoid selecting the newline character (consistent with other modes)
 vim.keymap.set("v", "$", "$h", { desc = "End of line" })
 
--- Make zf detected by Which Key in visual mode
-vim.keymap.set("v", "zf", "zf", { desc = "Create fold" })
-
 -- [[ General keymaps ]]
 
 vim.keymap.set("n", "<leader><CR>", vim.diagnostic.open_float, { desc = "Open diagnostics" })
