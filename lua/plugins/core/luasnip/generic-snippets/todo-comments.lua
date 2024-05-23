@@ -20,12 +20,12 @@ local t = ls.text_node
 ---@return string[]
 local function get_comment_strings()
   -- Fetch the comment string for the filetype (e.g. '-- %s' for `lua`)
-  -- Compared to the initial implementation using `Comments.nvim`, this doesn't work for code regions with different
+  -- Compared to the initial implementation using `Comment.nvim`, this doesn't work for code regions with different
   -- comment string than the filetype (e.g. code embedded in Markdown files)
   local cstring = vim.bo.commentstring
 
   -- Initially, comment strings are ready to be used by `format`, so we want to split the left and right side
-  -- This implementation is taken from `require("Comments.nvim.utils").unwrap_cstr`
+  -- This implementation is taken from `require("Comment.nvim.utils").unwrap_cstr`
   local left, right = string.match(cstring, "(.*)%%s(.*)")
   assert(
     (left or right),
