@@ -5,10 +5,6 @@ vim.opt.shortmess:append({ I = true }) -- Disable Neovim homepage on startup
 vim.o.mouse = "a" -- Enable mouse mode in all modes
 vim.o.breakindent = true -- Indent parts after break in wrapped lines
 
--- Status line
-vim.o.laststatus = 3 -- Use a single global status line for all splits
-vim.opt.showmode = false -- Don't show mode in status line as it is redundant with Lualine's onw feature
-
 -- Side column
 vim.wo.number = true -- Enable line numbering
 vim.wo.relativenumber = false -- Keep line numbering absolute
