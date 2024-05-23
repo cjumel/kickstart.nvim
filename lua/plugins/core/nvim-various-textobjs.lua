@@ -1,6 +1,7 @@
 -- nvim-various-textobjs
 --
--- Provide a bundle of convenient rule-based textobjects to complete the builtin and treesitter ones.
+-- Provide a bundle of new rule-based text-objects, to complete the builtin ones as well as the ones implemented by
+-- Treesitter in `nvim-treesitter-textobjects`.
 
 return {
   "chrisgrieser/nvim-various-textobjs",
@@ -8,11 +9,8 @@ return {
     local textobjs = require("various-textobjs")
     local charwise_textobjs = require("various-textobjs.charwise-textobjs")
 
-    -- Implement smarter versions of builtin `gx` keymap for normal mode, but specific to URLs and with lookahead or
-    -- buffer-wide search
-    -- This is taken from https://github.com/chrisgrieser/nvim-various-textobjs?tab=readme-ov-file#smarter-gx
-
     --- Open the URL under the cursor or with lookahead.
+    -- This is taken from https://github.com/chrisgrieser/nvim-various-textobjs?tab=readme-ov-file#smarter-gx.
     ---@return nil
     local function open_cursor_url()
       textobjs.url() -- Select the URL under the cursor or with lookahead
@@ -26,6 +24,7 @@ return {
     end
 
     --- Find all URLs in the current buffer and prompt the user to select one to open.
+    -- This is taken from https://github.com/chrisgrieser/nvim-various-textobjs?tab=readme-ov-file#smarter-gx.
     ---@return nil
     local function open_any_url()
       -- Find all URLs in the current buffer
@@ -50,23 +49,36 @@ return {
     end
 
     return {
-      -- [[ Text objects ]]
-      { "ai", function() textobjs.indentation("outer", "outer") end, mode = { "x", "o" }, desc = "an indentation" },
-      { "ii", function() textobjs.indentation("inner", "inner") end, mode = { "x", "o" }, desc = "inner indentation" },
-      { "I", textobjs.restOfIndentation, mode = { "x", "o" }, desc = "Rest of indentation" },
+      -- a/i text-objects
+      { "aq", function() textobjs.anyQuote("outer") end, mode = { "x", "o" }, desc = "a quote" },
+      { "iq", function() textobjs.anyQuote("inner") end, mode = { "x", "o" }, desc = "inner quote" },
       { "as", function() textobjs.subword("outer") end, mode = { "x", "o" }, desc = "a subword" },
       { "is", function() textobjs.subword("inner") end, mode = { "x", "o" }, desc = "inner subword" },
-      { "C", textobjs.toNextClosingBracket, mode = { "x", "o" }, desc = "Next right bracket" },
-      { "gq", textobjs.toNextQuotationMark, mode = { "x", "o" }, desc = "Next quotation mark" },
+      { "ak", function() textobjs.key("outer") end, mode = { "x", "o" }, desc = "a key in key-value pair" },
+      { "ik", function() textobjs.key("inner") end, mode = { "x", "o" }, desc = "inner key in key-value pair" },
+      { "av", function() textobjs.value("outer") end, mode = { "x", "o" }, desc = "a value in key-value pair" },
+      { "iv", function() textobjs.value("inner") end, mode = { "x", "o" }, desc = "inner value in key-value pair" },
+      {
+        "a<Space>",
+        function() textobjs.indentation("outer", "outer") end,
+        mode = { "x", "o" },
+        desc = "an indentation",
+      },
+      {
+        "i<Space>",
+        function() textobjs.indentation("inner", "inner") end,
+        mode = { "x", "o" },
+        desc = "inner indentation",
+      },
+      -- Simple text-objects
       { "gG", textobjs.entireBuffer, mode = { "x", "o" }, desc = "Entire buffer" },
-      { "g$", textobjs.nearEoL, mode = { "x", "o" }, desc = "Near end of line" },
-      { "-", function() textobjs.lineCharacterwise("inner") end, mode = { "x", "o" }, desc = "Line characterwise" },
-      { "av", function() textobjs.value("outer") end, mode = { "x", "o" }, desc = "a key-value pair value" },
-      { "iv", function() textobjs.value("inner") end, mode = { "x", "o" }, desc = "inner key-value pair value" },
-      { "ak", function() textobjs.key("outer") end, mode = { "x", "o" }, desc = "a key-value pair key" },
-      { "ik", function() textobjs.key("inner") end, mode = { "x", "o" }, desc = "inner key-value pair key" },
+      { "gb", textobjs.toNextClosingBracket, mode = { "x", "o" }, desc = "Next closing bracket" },
+      { "gq", textobjs.toNextQuotationMark, mode = { "x", "o" }, desc = "Next quotation mark" },
+      { "gl", function() textobjs.lineCharacterwise("inner") end, mode = { "x", "o" }, desc = "Line characterwise" },
       { "gx", textobjs.url, mode = { "x", "o" }, desc = "URL" },
-      -- [[ Other ]]
+      { "g$", textobjs.nearEoL, mode = { "x", "o" }, desc = "Near end of line" },
+      { "g<Space>", textobjs.restOfIndentation, mode = { "x", "o" }, desc = "End of indentation" },
+      -- Normal mode keymaps
       { "gx", open_cursor_url, mode = { "n" }, desc = "Open URL under cursor" },
       { "gX", open_any_url, mode = { "n" }, desc = "Open any URL in buffer" },
     }
