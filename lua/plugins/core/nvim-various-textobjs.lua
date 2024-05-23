@@ -50,8 +50,6 @@ return {
 
     return {
       -- a/i text-objects
-      { "aq", function() textobjs.anyQuote("outer") end, mode = { "x", "o" }, desc = "a quote" },
-      { "iq", function() textobjs.anyQuote("inner") end, mode = { "x", "o" }, desc = "inner quote" },
       { "as", function() textobjs.subword("outer") end, mode = { "x", "o" }, desc = "a subword" },
       { "is", function() textobjs.subword("inner") end, mode = { "x", "o" }, desc = "inner subword" },
       { "ak", function() textobjs.key("outer") end, mode = { "x", "o" }, desc = "a key in key-value pair" },
@@ -73,7 +71,7 @@ return {
       -- Simple text-objects
       { "gG", textobjs.entireBuffer, mode = { "x", "o" }, desc = "Entire buffer" },
       { "gb", textobjs.toNextClosingBracket, mode = { "x", "o" }, desc = "Next closing bracket" },
-      { "gq", textobjs.toNextQuotationMark, mode = { "x", "o" }, desc = "Next quotation mark" },
+      { 'g"', textobjs.toNextQuotationMark, mode = { "x", "o" }, desc = "Next quotation mark" },
       { "gl", function() textobjs.lineCharacterwise("inner") end, mode = { "x", "o" }, desc = "Line characterwise" },
       { "gx", textobjs.url, mode = { "x", "o" }, desc = "URL" },
       { "g$", textobjs.nearEoL, mode = { "x", "o" }, desc = "Near end of line" },

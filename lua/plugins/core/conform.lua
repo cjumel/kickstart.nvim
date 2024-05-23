@@ -45,6 +45,9 @@ return {
   dependencies = { "williamboman/mason.nvim" },
   ft = vim.tbl_keys(formatters_by_ft),
   init = function()
+    -- Enable conform formatting with Neovim's builtin formatting (see `:h gq`)
+    vim.o.formatexpr = "v:lua.require'conform'.formatexpr()"
+
     local mason_ensure_installed = {}
     for _, formatters in pairs(formatters_by_ft) do
       for _, formatter in ipairs(formatters) do
@@ -70,36 +73,4 @@ return {
       return { lsp_fallback = true, timeout_ms = 500 }
     end,
   },
-  config = function(_, opts)
-    local conform = require("conform")
-    local utils = require("utils")
-
-    conform.setup(opts)
-
-    -- Following keymap uses range formatting, which doesn't work super well with some formatters
-    vim.keymap.set({ "n", "v" }, "<leader>af", function()
-      if utils.visual.is_visual_mode() then
-        conform.format({ lsp_fallback = true, timeout_ms = 500 })
-      else -- Following code is taken from https://github.com/stevearc/conform.nvim/issues/92#issuecomment-2069915330
-        local hunks = require("gitsigns").get_hunks()
-        for i = #hunks, 1, -1 do
-          local hunk = hunks[i]
-          if hunk ~= nil and hunk.type ~= "delete" then
-            local start = hunk.added.start
-            local last = start + hunk.added.count
-            -- nvim_buf_get_lines uses zero-based indexing -> subtract from last
-            local last_hunk_line = vim.api.nvim_buf_get_lines(0, last - 2, last - 1, true)[1]
-            local range = { start = { start, 0 }, ["end"] = { last - 1, last_hunk_line:len() } }
-            conform.format({ lsp_fallback = true, timeout_ms = 500, range = range })
-          end
-        end
-      end
-    end, { desc = "[A]ctions: [F]ormat changes/selection" })
-    vim.keymap.set(
-      "n",
-      "<leader>aF",
-      function() conform.format({ lsp_fallback = true, timeout_ms = 500 }) end,
-      { desc = "[A]ctions: [F]ormat buffer" }
-    )
-  end,
 }
