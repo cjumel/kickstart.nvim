@@ -76,8 +76,6 @@ vim.keymap.set({ "n", "v" }, "+", '"+', { desc = "System clipboard register" })
 vim.keymap.set({ "n", "v" }, "_", '"_', { desc = "Black hole register" })
 vim.keymap.set({ "n", "v" }, "Q", "@q", { desc = "Run macro from default register" })
 
-vim.keymap.set("n", "<leader>ax", "<cmd>bufdo bd<CR>", { desc = "[A]ctions: close all buffers" })
-
 --- Yank the path of the current buffer or directory if in Oil buffer.
 ---@param opts table|nil Optional parameters. Supported parameters are:
 --- - cwd boolean: If true, yank the current working directory. Default is false.
