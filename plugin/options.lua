@@ -46,6 +46,3 @@ vim.o.timeoutlen = 300
 -- Disable builtin auto-completion (replaced by nvim-cmp)
 vim.o.complete = ""
 vim.o.completeopt = ""
-
--- Use true colors in terminal
-vim.o.termguicolors = true
