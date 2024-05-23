@@ -1,49 +1,26 @@
 -- General Vim options
 
--- Disable neovim intro as it appears very briefly on startup and then disappears
-vim.opt.shortmess:append({ I = true })
+-- Global user interface
+vim.opt.shortmess:append({ I = true }) -- Disable Neovim homepage on startup
+vim.o.mouse = "a" -- Enable mouse mode in all modes
+vim.o.breakindent = true -- Indent parts after break in wrapped lines
 
--- Disable builtin show mode as it is done by lualine and it messes with the macro messages
-vim.opt.showmode = false
+-- Status line
+vim.o.laststatus = 3 -- Use a single global status line for all splits
+vim.opt.showmode = false -- Don't show mode in status line as it is redundant with Lualine's onw feature
 
--- Status line mode
-vim.o.laststatus = 3 -- Use a global status line & a thin line to separate splits
+-- Side column
+vim.wo.number = true -- Enable line numbering
+vim.wo.relativenumber = false -- Keep line numbering absolute
+vim.wo.signcolumn = "number" -- Merge signcolumn in line numbering column
 
--- Support additional pairs of characters
-vim.o.matchpairs = vim.o.matchpairs .. ",<:>"
+-- Search & replace
+vim.o.ignorecase = true -- Make search case-insensitive by default
+vim.o.smartcase = true -- Enable case-sensitive searching when "\C" or capital in search
+vim.o.hlsearch = true -- Enable highlight on search; use `:nohlsearch` to remove the search highlight
+vim.opt.inccommand = "split" -- Set split preview in incremental commands (replace/renaming)
 
--- Set highlight on search; use `:nohlsearch` to remove the search highlight
-vim.o.hlsearch = true
-
--- Set split preview in incremental commands (replace/renaming)
-vim.opt.inccommand = "split"
-
--- Line numbering
-vim.wo.number = true
-vim.wo.relativenumber = false
-
--- Enable mouse mode
-vim.o.mouse = "a"
-
--- Enable break indent
-vim.o.breakindent = true
-
--- Save undo history
-vim.o.undofile = true
-
--- Case-insensitive searching UNLESS \C or capital in search
-vim.o.ignorecase = true
-vim.o.smartcase = true
-
--- Merge signcolumn and number column
-vim.wo.signcolumn = "number"
-
--- Decrease update time
-vim.o.updatetime = 250
-vim.o.timeout = true
-vim.o.timeoutlen = 300
-
--- Disable builtin auto-completion (replaced by nvim-cmp)
+-- Disable builtin auto-completion in favor of nvim-cmp
 vim.o.complete = ""
 vim.o.completeopt = ""
 
@@ -53,3 +30,10 @@ vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()" -- Use Treesitter folding
 vim.opt.foldtext = "" -- Use transparent fold (show first line of the fold, with highlights)
 vim.opt.fillchars:append({ fold = " " }) -- Don't fill folded lines with characters
 vim.opt.foldlevelstart = 99 -- Start with all folds open
+
+-- Internals
+vim.o.matchpairs = vim.o.matchpairs .. ",<:>" -- Add new recognized pairs of characters
+vim.o.undofile = true -- Save undo history to file
+vim.o.updatetime = 250 -- Decrease delay for writting swap files
+vim.o.timeout = true -- Enable timeout when receiving mapped key sequences
+vim.o.timeoutlen = 300 -- Decrease delay between keys in mapped sequences
