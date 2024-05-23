@@ -7,9 +7,6 @@ return {
   event = "VeryLazy",
   opts = {
     operators = { -- Add non-native operators that will trigger motion and text object completion
-      -- Comment.nvim
-      gb = "Comment toggle blockwise",
-      gc = "Comment toggle linewise",
       -- substitute.nvim
       ge = "Exchange",
       go = "Overwrite",
