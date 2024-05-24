@@ -12,7 +12,7 @@
   "copilot.vim": { "branch": "release", "commit": "25feddf8e3aa79f0573c8f43ddb13c44c530cfa5" },
   "dial.nvim": { "branch": "master", "commit": "7af2daaaf933b0617ded0f78b49f4d5fc45f9f64" },
   "diffview.nvim": { "branch": "main", "commit": "0bae1a371ac68be86ead374ee2c4f36bd96bb6c6" },
-  "gitsigns.nvim": { "branch": "main", "commit": "cdfcd9d39d23c46ae9a040de2c6a8b8bf868746e" },
+  "gitsigns.nvim": { "branch": "main", "commit": "035da036e68e509ed158414416c827d022d914bd" },
   "gruvbox.nvim": { "branch": "main", "commit": "96a8ec336fb48a11cefbd57508888361431aac26" },
   "harpoon": { "branch": "harpoon2", "commit": "a38be6e0dd4c6db66997deab71fc4453ace97f9c" },
   "headlines.nvim": { "branch": "master", "commit": "618ef1b2502c565c82254ef7d5b04402194d9ce3" },
