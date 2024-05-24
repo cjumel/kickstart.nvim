@@ -1,12 +1,16 @@
 -- Which Key
 --
--- Show the available keymaps once you start writink a few keys, the marks and registers.
+-- Which Key is a plugin which helps creating keybindings that stick. It displays a popup with possible key bindings of
+-- the command you started typing. It is, for me, essential to use and learn both builtin Neovim and custom key
+-- bindings.
 
 return {
   "folke/which-key.nvim",
   event = "VeryLazy",
   opts = {
-    operators = { -- Add non-native operators that will trigger motion and text object completion
+    operators = { -- Add operators that will trigger motion and text object completion
+      -- Builtin operators not included by default
+      gq = "Format",
       -- substitute.nvim
       ge = "Exchange",
       go = "Overwrite",
@@ -16,16 +20,14 @@ return {
       ys = "Surround",
       yS = "Surround on new lines",
     },
-    window = {
-      border = "rounded", -- Improve visibility with transparent background
-    },
+    window = { border = "rounded" }, -- Improve visibility with transparent background
   },
   config = function(_, opts)
     local which_key = require("which-key")
 
     which_key.setup(opts)
 
-    -- document existing key chains
+    -- Document existing key chains
     local _ = "which_key_ignore"
     which_key.register({
       ["["] = { name = "Next", _ = _ },
