@@ -100,7 +100,6 @@ return {
    ^ ^                            ^ ^        Hunk manager           ^ ^                            
    _,_ ➜ Next hunk                _K_ ➜ Hover hunk                  _u_ ➜ [U]nstage last staged hunk   
    _;_ ➜ Previous hunk            _s_ ➜ [S]tage hunk/selection      _x_ ➜ Discard hunk/selection   
-   ^ ^                            ^ ^                               _n_ ➜ [N]eogit   
 ]],
       heads = {
         -- "," & ";" are not repeatable on purpose, to be able to resume the previous movement
@@ -133,7 +132,6 @@ return {
             end
           end,
         },
-        { "n", "<cmd>NeogitCustom<CR>", { exit = true } },
         -- <Esc> must be exit for compatibility with clear window action purposes
         { "<Esc>", nil, { exit = true, mode = "n", desc = false } },
       },
