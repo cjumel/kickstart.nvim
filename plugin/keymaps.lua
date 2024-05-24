@@ -140,6 +140,10 @@ utils.keymap.set_move_pair({ "[=", "]=" }, {
 -- [[ Command-line keymaps ]]
 -- Keymaps for command-line mode, for instance to reproduce some shell keymaps (can be also used in insert mode)
 
+-- Disable builtin auto-completion, to avoid triggering it by mistake
+vim.keymap.set("c", "<Tab>", "<Nop>", { silent = true })
+vim.keymap.set("c", "<S-Tab>", "<Nop>", { silent = true })
+
 vim.keymap.set({ "i", "c" }, "<M-BS>", "<C-w>", { desc = "Delete word" }) -- <C-BS>
 
 vim.keymap.set({ "i", "c" }, "<C-b>", "<Left>", { desc = "Move cursor one character left" })
