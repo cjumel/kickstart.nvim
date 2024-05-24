@@ -1,148 +1,74 @@
 -- Harpoon
 --
--- Enable harpooning files. Harpooned files can be accessed from anywhere and at all time
--- with a simple command.
-
---- Output true if the current file is in the Harpoon list, false otherwise
----@return boolean
-local function is_in_harpoon_list()
-  local harpoon = require("harpoon")
-  local utils = require("utils")
-
-  local path = utils.path.get_current_buffer_path()
-  if path == nil then
-    return false
-  end
-
-  local harpoon_list_length = harpoon:list():length()
-  for index = 1, harpoon_list_length do
-    local harpoon_item_value = harpoon:list():get(index).value
-    if path == harpoon_item_value then
-      return true
-    end
-  end
-
-  return false
-end
+-- Harpoon is a plugin designed to get you where you want with the fewest keystrokes. It is a great plugin, which makes
+-- very easy to access the main files you're working on. It is very complementary with Telescope & Oil to navigate in
+-- the file system.
 
 return {
   "ThePrimeagen/harpoon",
   branch = "harpoon2",
-  dependencies = {
-    "nvim-lua/plenary.nvim",
-  },
-  keys = {
-    {
-      "î", -- <M-i>
-      function()
-        local harpoon = require("harpoon")
+  -- FIXME: when updating beyond this commit, my configuration broke & Harpoon's behavior changed (allowing for holes
+  --  in Harpoon's list), so let's prevent this for now
+  commit = "a38be6e0dd4c6db66997deab71fc4453ace97f9c",
+  dependencies = { "nvim-lua/plenary.nvim" },
+  keys = function()
+    local harpoon = require("harpoon")
+    local utils = require("utils")
 
-        if is_in_harpoon_list() then
-          harpoon:list():remove()
-        else
-          harpoon:list():append()
+    --- Output true if the current file is in the Harpoon list, false otherwise
+    ---@return boolean
+    local function is_in_harpoon_list()
+      local path = utils.path.get_current_buffer_path()
+      if path == nil then
+        return false
+      end
+      local harpoon_list_length = harpoon:list():length()
+      for index = 1, harpoon_list_length do
+        local harpoon_item_value = harpoon:list():get(index).value
+        if path == harpoon_item_value then
+          return true
         end
-      end,
-      desc = "Append to Harpoon",
-    },
-    {
-      "œ", -- <M-o>
-      function()
-        local harpoon = require("harpoon")
+      end
+      return false
+    end
 
-        if is_in_harpoon_list() then
-          harpoon:list():remove()
-        else
-          harpoon:list():prepend()
-        end
-      end,
-      desc = "Prepend to Harpoon",
-    },
-    {
-      "©", -- <M-c>
-      function()
-        local harpoon = require("harpoon")
-        harpoon:list():clear()
-      end,
-      desc = "Clear Harpoon",
-    },
-    {
-      "Ì", -- <M-h>
-      function()
-        local harpoon = require("harpoon")
-        harpoon.ui:toggle_quick_menu(harpoon:list())
-      end,
-      desc = "Harpoon menu",
-    },
-    {
-      "Ï", -- <M-j>
-      function()
-        local harpoon = require("harpoon")
-        harpoon:list():select(1)
-      end,
-      desc = "Go to Harpoon file 1",
-    },
-    {
-      "È", -- <M-k>
-      function()
-        local harpoon = require("harpoon")
-        harpoon:list():select(2)
-      end,
-      desc = "Go to Harpoon file 2",
-    },
-    {
-      "|", -- <M-l>
-      function()
-        local harpoon = require("harpoon")
-        harpoon:list():select(3)
-      end,
-      desc = "Go to Harpoon file 3",
-    },
-    {
-      "µ", -- <M-m>
-      function()
-        local harpoon = require("harpoon")
-        harpoon:list():select(4)
-      end,
-      desc = "Go to Harpoon file 4",
-    },
-    {
-      "∞", -- <M-,>
-      function()
-        local harpoon = require("harpoon")
-        harpoon:list():select(5)
-      end,
-      desc = "Go to Harpoon file 5",
-    },
-    {
-      "…", -- <M-;>
-      function()
-        local harpoon = require("harpoon")
-        harpoon:list():select(6)
-      end,
-      desc = "Go to Harpoon file 6",
-    },
-    {
-      "\\", -- <M-\>
-      function()
-        local harpoon = require("harpoon")
-        harpoon:list():select(7)
-      end,
-      desc = "Go to Harpoon file 7",
-    },
-    {
-      "≠", -- <M-≠>
-      function()
-        local harpoon = require("harpoon")
-        harpoon:list():select(8)
-      end,
-      desc = "Go to Harpoon file 8",
-    },
-  },
+    return {
+      {
+        "î", -- <M-i>
+        function()
+          if is_in_harpoon_list() then
+            harpoon:list():remove()
+          else
+            harpoon:list():append()
+          end
+        end,
+        desc = "Append to Harpoon",
+      },
+      {
+        "œ", -- <M-o>
+        function()
+          if is_in_harpoon_list() then
+            harpoon:list():remove()
+          else
+            harpoon:list():prepend()
+          end
+        end,
+        desc = "Prepend to Harpoon",
+      },
+      { "©", function() harpoon:list():clear() end, desc = "Clear Harpoon" }, -- <M-c>
+      { "Ì", function() harpoon.ui:toggle_quick_menu(harpoon:list()) end, desc = "Harpoon menu" }, -- <M-h>
+      { "Ï", function() harpoon:list():select(1) end, desc = "Go to Harpoon file 1" }, -- <M-j>
+      { "È", function() harpoon:list():select(2) end, desc = "Go to Harpoon file 2" }, -- <M-k>
+      { "|", function() harpoon:list():select(3) end, desc = "Go to Harpoon file 3" }, -- <M-l>
+      { "µ", function() harpoon:list():select(4) end, desc = "Go to Harpoon file 4" }, -- <M-m>
+      { "∞", function() harpoon:list():select(5) end, desc = "Go to Harpoon file 5" }, -- <M-,>
+      { "…", function() harpoon:list():select(6) end, desc = "Go to Harpoon file 6" }, -- <M-;>
+      { "\\", function() harpoon:list():select(7) end, desc = "Go to Harpoon file 7" }, -- <M-\>
+      { "≠", function() harpoon:list():select(8) end, desc = "Go to Harpoon file 8" }, -- <M-≠>
+    }
+  end,
   opts = {
-    settings = {
-      save_on_toggle = true,
-    },
+    settings = { save_on_toggle = true },
 
     -- Config for default Harpoon list (for files)
     -- The following functions relies a lot on the original implementation, in harpoon.config
