@@ -1,6 +1,9 @@
 -- Noice
 --
--- Highly experimental plugin that completely replaces the UI for messages, cmdline and the popupmenu.
+-- Noice is a highly experimental plugin that completely replaces the UI for messages, command line and the popup menu.
+-- It makes the whole experience of using Neovim feel more modern and, in my opinion, simply better, for instance by
+-- re-locating some essential pieces of information (like the command line or the notifications) in a more convenient
+-- place.
 
 return {
   "folke/noice.nvim",
@@ -14,11 +17,11 @@ return {
   },
   event = "VeryLazy",
   keys = {
-    -- When defining `keys` as a function with `noice = require("noice")` in it, Noice is not properly lazy-loaded
-    { "<leader>vh", function() require("noice").cmd("history") end, desc = "[V]iew: message [H]istory" },
-    { "<leader>vl", function() require("noice").cmd("last") end, desc = "[V]iew: [L]ast message" },
-    { "<leader>ve", function() require("noice").cmd("errors") end, desc = "[V]iew: [E]rror messages" },
-    { "<leader>va", function() require("noice").cmd("all") end, desc = "[V]iew: [A]ll messages" },
+    -- When defining `keys` as a function with `noice = require("noice")` in it, Noice is not properly very-lazy-loaded
+    { "<leader>?h", function() require("noice").cmd("history") end, desc = "Noice: [H]istory" },
+    { "<leader>?l", function() require("noice").cmd("last") end, desc = "Noice: [L]ast message" },
+    { "<leader>?e", function() require("noice").cmd("errors") end, desc = "Noice: [E]rrors" },
+    { "<leader>?a", function() require("noice").cmd("all") end, desc = "Noice: [A]ll messages" },
   },
   opts = {
     lsp = {
