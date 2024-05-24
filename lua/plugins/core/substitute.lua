@@ -6,35 +6,48 @@ return {
   "gbprod/substitute.nvim",
   keys = function()
     local exchange = require("substitute.exchange")
-    local range = require("substitute.range")
     local substitute = require("substitute")
-
-    local overwrite_range_opts = {
-      register = "0", -- Replacement is taken from the default register
-      auto_apply = true,
-    }
+    local substitute_range = require("substitute.range")
 
     return {
-      { "gp", substitute.operator, desc = "Paste over" },
-      { "gp", substitute.visual, mode = "x", desc = "Paste over" },
-      { "gpc", substitute.line, desc = "Paste over current line" },
-      { "go", function() range.operator(overwrite_range_opts) end, desc = "Overwrite" },
-      { "go", function() range.visual(overwrite_range_opts) end, mode = "x", desc = "Overwrite" },
+      -- Overwrite: like paste, but as an operator and without yanking the replaced text
+      { "go", substitute.operator, desc = "Overwrite" },
+      { "go", substitute.visual, mode = "x", desc = "Overwrite" },
+      { "goc", substitute.line, desc = "Overwrite current line" },
+      -- Substitute: replace some target within a range
+      { "gs", substitute_range.operator, desc = "Substitute" },
+      { "gs", substitute_range.visual, mode = "x", desc = "Substitute" },
+      { "gsc", function() substitute_range.operator({ range = "%" }) end, desc = "Substitute in current buffer" },
       {
-        "goc",
-        function() range.operator(vim.tbl_deep_extend("force", overwrite_range_opts, { range = "%" })) end,
-        desc = "Overwrite in current buffer",
-      },
-      {
-        "goc",
-        function() range.visual(vim.tbl_deep_extend("force", overwrite_range_opts, { range = "%" })) end,
+        "gsc",
+        function() substitute_range.visual({ range = "%" }) end,
         mode = "x",
-        desc = "Overwrite in current buffer",
+        desc = "Substitute in current buffer",
       },
-      { "gs", range.operator, desc = "Substitute" },
-      { "gs", range.visual, mode = "x", desc = "Substitute" },
-      { "gsc", function() range.operator({ range = "%" }) end, desc = "Substitute in current buffer" },
-      { "gsc", function() range.visual({ range = "%" }) end, mode = "x", desc = "Substitute in current buffer" },
+      -- Substitute with register: replace some target within a range with the content of the default register
+      {
+        "gS",
+        function() substitute_range.operator({ register = "0", auto_apply = true }) end,
+        desc = "Substitute with register",
+      },
+      {
+        "gS",
+        function() substitute_range.visual({ register = "0", auto_apply = true }) end,
+        mode = "x",
+        desc = "Substitute with register",
+      },
+      {
+        "gSc",
+        function() substitute_range.operator({ register = "0", auto_apply = true, range = "%" }) end,
+        desc = "Substitute with register in current buffer",
+      },
+      {
+        "gSc",
+        function() substitute_range.visual({ register = "0", auto_apply = true, range = "%" }) end,
+        mode = "x",
+        desc = "Substitute with register in current buffer",
+      },
+      -- Exchange: swap two targets
       -- I don't use builtin "ge", it can be replaced with Hop's equivalent or with "F" so let's remap it here
       { "ge", exchange.operator, desc = "Exchange" },
       { "ge", exchange.visual, mode = "x", desc = "Exchange" },

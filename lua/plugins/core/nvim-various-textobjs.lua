@@ -75,7 +75,8 @@ return {
       { "gl", function() textobjs.lineCharacterwise("inner") end, mode = { "x", "o" }, desc = "Line characterwise" },
       { "gx", textobjs.url, mode = { "x", "o" }, desc = "URL" },
       { "g$", textobjs.nearEoL, mode = { "x", "o" }, desc = "Near end of line" },
-      { "g<Space>", textobjs.restOfIndentation, mode = { "x", "o" }, desc = "End of indentation" },
+      { "gp", textobjs.restOfParagraph, mode = { "x", "o" }, desc = "Rest of paragraph" },
+      { "g<Space>", textobjs.restOfIndentation, mode = { "x", "o" }, desc = "Rest of indentation" },
       -- Normal mode keymaps
       { "gx", open_cursor_url, mode = { "n" }, desc = "Open URL under cursor" },
       { "gX", open_any_url, mode = { "n" }, desc = "Open any URL in buffer" },
