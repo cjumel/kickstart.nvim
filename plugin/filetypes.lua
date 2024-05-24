@@ -36,8 +36,7 @@ local icons = {
   ["tmux-pre-tpm.conf"] = { icon = "", color = "#14ba19", cterm_color = "34", name = "tmux.conf" },
   ["tmux-post-tpm.conf"] = { icon = "", color = "#14ba19", cterm_color = "34", name = "tmux.conf" },
 }
-local web_devicons = package.loaded["nvim-web-devicons"] -- Plugin scripts are loaded after start-up plugins
-web_devicons.set_icon(icons)
+require("nvim-web-devicons").set_icon(icons)
 
 -- List filetypes associated with temporary buffers (typically plugin ones)
 local temporary_filetypes = {
