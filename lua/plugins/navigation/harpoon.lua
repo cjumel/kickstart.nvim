@@ -7,8 +7,9 @@
 return {
   "ThePrimeagen/harpoon",
   branch = "harpoon2",
-  -- FIXME: when updating beyond this commit, my configuration broke & Harpoon's behavior changed (allowing for holes
-  --  in Harpoon's list), so let's prevent this for now
+  -- FIXME: when updating beyond this commit, 2 issues appeared (from what I can recall)
+  --  - the Oil buffer support got broken
+  --  - Harpoon's behavior changed (allowing for holes in Harpoon's list), which I don't really like
   commit = "a38be6e0dd4c6db66997deab71fc4453ace97f9c",
   dependencies = { "nvim-lua/plenary.nvim" },
   keys = function()
