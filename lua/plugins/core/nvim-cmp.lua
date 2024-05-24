@@ -83,11 +83,5 @@ return {
         { name = "buffer" },
       },
     })
-    cmp.setup.filetype("sql", {
-      sources = {
-        { name = "vim-dadbod-completion", priority = 10 },
-        { name = "buffer" },
-      },
-    })
   end,
 }
