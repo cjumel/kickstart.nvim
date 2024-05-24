@@ -8,11 +8,7 @@ return {
     "tpope/vim-dadbod",
     "kristijanhusak/vim-dadbod-completion",
   },
-  keys = { {
-    "<leader>ad",
-    "<cmd>DBUIToggle<CR>",
-    desc = "[A]ctions: [D]atabase explorer",
-  } },
+  keys = { { "<leader>S", "<cmd>DBUIToggle<CR>", desc = "[S]QL explorer" } },
   config = function()
     vim.g.db_ui_use_nerd_fonts = 1
     vim.g.db_ui_use_nvim_notify = 1
