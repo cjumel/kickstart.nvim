@@ -66,10 +66,10 @@ return {
           ["il"] = { query = "@loop.inner", desc = "inner loop" },
           ["am"] = { query = "@function.outer", desc = "a method defintion" },
           ["im"] = { query = "@function.inner", desc = "inner method definition" },
-          ["gaa"] = { query = "@assignment.outer", desc = "an assignment" },
-          ["gai"] = { query = "@assignment.inner", desc = "inner assignment" },
-          ["gal"] = { query = "@assignment.lhs", desc = "assignment left hand side" },
-          ["gar"] = { query = "@assignment.rhs", desc = "assignment right hand side" },
+          -- For assignments, there are also left- & right-hand-side text objects, but they can be replaced with "inner
+          -- assignment" at the beginning or end of the line, respectively, so let's omit them
+          ["a="] = { query = "@assignment.outer", desc = "an assignment" },
+          ["i="] = { query = "@assignment.inner", desc = "inner assignment" },
         },
       },
       move = {
@@ -111,10 +111,10 @@ return {
       swap = {
         enable = true,
         swap_next = {
-          ["<leader>n"] = { query = "@parameter.inner", desc = "[N]ext argument swap" },
+          ["ga"] = { query = "@parameter.inner", desc = "Swap argument with next" },
         },
         swap_previous = {
-          ["<leader>p"] = { query = "@parameter.inner", desc = "[P]revious argument swap" },
+          ["gA"] = { query = "@parameter.inner", desc = "Swap argument with previous" },
         },
       },
     },
