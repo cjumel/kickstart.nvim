@@ -9,8 +9,6 @@ return {
   event = "VeryLazy",
   opts = {
     operators = { -- Add operators that will trigger motion and text object completion
-      -- Builtin operators not included by default
-      gq = "Format",
       -- substitute.nvim
       ge = "Exchange",
       go = "Overwrite",
