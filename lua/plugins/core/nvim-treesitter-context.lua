@@ -11,7 +11,7 @@ return {
     local treesitter_context = require("treesitter-context")
     treesitter_context.setup(opts)
 
-    vim.keymap.set("n", "g[", function()
+    vim.keymap.set("n", "gC", function()
       if treesitter_context.enabled() then -- When treesitter-context is not enabled, the plugin doesn't work well
         treesitter_context.go_to_context()
       end
