@@ -6,7 +6,7 @@
 -- editing features it provides are very elegant and natural to learn, and they are usable with other plugins, like
 -- Copilot.vim or code snippest (e.g. Luasnip), which makes creating files very simple & customizable.
 --
--- Some additional Oil configuration is done in ftplugin/oil.lua, for Oil buffer options.
+-- Some additional Oil configuration is done in ftplugin/oil/, for Oil buffer options.
 
 return {
   "stevearc/oil.nvim",
@@ -16,16 +16,19 @@ return {
   opts = {
     cleanup_delay_ms = 0, -- Cleanup the oil buffer right away to avoid jumping back to it with <C-o> and <C-i>
     keymaps = {
-      ["?"] = "actions.show_help",
-      ["<CR>"] = "actions.select",
-      ["<C-v>"] = "actions.select_vsplit",
-      ["<C-x>"] = "actions.select_split",
-      ["<C-i>"] = "actions.preview",
-      ["q"] = "actions.close",
-      ["R"] = "actions.refresh",
+      -- Since Oil can be used as a real, editable buffer, to edit files quickly and optionally in batch, let's not
+      --  overwrite any keymap which could be useful for editing files, to still be able to use features like macros
+      --  (with "q"), visual block edition (with "<C-v>") or decrementing (with "<C-x>") for instance
       ["-"] = "actions.parent",
       ["_"] = "actions.open_cwd",
-      ["H"] = "actions.toggle_hidden",
+      ["<CR>"] = "actions.select",
+      ["<C-i>"] = "actions.preview",
+      ["gv"] = "actions.select_vsplit",
+      ["gx"] = "actions.select_split",
+      ["gr"] = "actions.refresh",
+      ["gh"] = "actions.toggle_hidden",
+      ["gq"] = "actions.close",
+      ["?"] = "actions.show_help",
     },
     use_default_keymaps = false,
     view_options = {
