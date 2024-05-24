@@ -14,6 +14,7 @@ return {
     flavour = "mocha", -- latte, frappe, macchiato, mocha
     transparent_background = true,
     integrations = { -- add highlight groups for popular plugins
+      diffview = true,
       harpoon = true,
       headlines = true,
       hop = true,
