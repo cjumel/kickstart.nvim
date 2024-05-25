@@ -5,16 +5,17 @@
 
 return {
   "nvim-treesitter/nvim-treesitter-context",
-  lazy = true, -- Lazy-loaded when enabled from the option manager
+  lazy = true, -- Lazy-loaded when enabled from the option manager; lazy-loading through `keys` doesn't seem to work
   opts = {},
   config = function(_, opts)
     local treesitter_context = require("treesitter-context")
+
     treesitter_context.setup(opts)
 
-    vim.keymap.set("n", "gC", function()
+    vim.keymap.set("n", "gp", function()
       if treesitter_context.enabled() then -- When treesitter-context is not enabled, the plugin doesn't work well
         treesitter_context.go_to_context()
       end
-    end, { desc = "Go to context" })
+    end, { desc = "Go to context parent node" })
   end,
 }
