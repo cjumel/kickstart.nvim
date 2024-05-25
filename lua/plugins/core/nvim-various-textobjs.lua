@@ -56,27 +56,21 @@ return {
       { "ik", function() textobjs.key("inner") end, mode = { "x", "o" }, desc = "inner key in key-value pair" },
       { "av", function() textobjs.value("outer") end, mode = { "x", "o" }, desc = "a value in key-value pair" },
       { "iv", function() textobjs.value("inner") end, mode = { "x", "o" }, desc = "inner value in key-value pair" },
-      {
-        "a<Space>",
-        function() textobjs.indentation("outer", "outer") end,
-        mode = { "x", "o" },
-        desc = "an indentation",
-      },
-      {
-        "i<Space>",
-        function() textobjs.indentation("inner", "inner") end,
-        mode = { "x", "o" },
-        desc = "inner indentation",
-      },
+      { "ai", function() textobjs.indentation("outer", "outer") end, mode = { "x", "o" }, desc = "an indentation" },
+      { "ii", function() textobjs.indentation("inner", "inner") end, mode = { "x", "o" }, desc = "inner indentation" },
       -- Simple text-objects
       { "gG", textobjs.entireBuffer, mode = { "x", "o" }, desc = "Entire buffer" },
-      { "gb", textobjs.toNextClosingBracket, mode = { "x", "o" }, desc = "Next closing bracket" },
-      { 'g"', textobjs.toNextQuotationMark, mode = { "x", "o" }, desc = "Next quotation mark" },
-      { "gl", function() textobjs.lineCharacterwise("inner") end, mode = { "x", "o" }, desc = "Line characterwise" },
+      { "-", function() textobjs.lineCharacterwise("inner") end, mode = { "x", "o" }, desc = "Line characterwise" },
       { "gx", textobjs.url, mode = { "x", "o" }, desc = "URL" },
-      { "g$", textobjs.nearEoL, mode = { "x", "o" }, desc = "Near end of line" },
-      { "gp", textobjs.restOfParagraph, mode = { "x", "o" }, desc = "Rest of paragraph" },
-      { "g<Space>", textobjs.restOfIndentation, mode = { "x", "o" }, desc = "Rest of indentation" },
+      -- Forward-only text-objects
+      -- These text-objects are quite simple, let's implement them in operator-pending mode only, to use keys which are
+      -- only available in this mode & avoid overriding them in visual mode (e.g. "Q" in visual mode run a macro on
+      -- each selected line)
+      { "C", textobjs.toNextClosingBracket, mode = "o", desc = "Next closing bracket" },
+      { "Q", textobjs.toNextQuotationMark, mode = "o", desc = "Next quotation mark" },
+      { "O", textobjs.nearEoL, mode = "o", desc = "One character before EOL" },
+      { "P", textobjs.restOfParagraph, mode = "o", desc = "Rest of paragraph" },
+      { "I", textobjs.restOfIndentation, mode = "o", desc = "Rest of indentation" },
       -- Normal mode keymaps
       { "gx", open_cursor_url, mode = { "n" }, desc = "Open URL under cursor" },
       { "gX", open_any_url, mode = { "n" }, desc = "Open any URL in buffer" },
