@@ -10,10 +10,10 @@ return {
   opts = {
     operators = { -- Add operators that will trigger motion and text object completion
       -- substitute.nvim
-      ge = "Exchange",
       go = "Overwrite",
-      gp = "Paste over",
       gs = "Substitute",
+      gS = "Substitute with register",
+      ge = "Exchange",
       -- nvim-surround
       ys = "Surround",
       yS = "Surround on new lines",
