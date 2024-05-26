@@ -1,6 +1,17 @@
 -- Hop
 --
--- Hop is a plugin enabling fast in-file navigation.
+-- Hop provides Neovim motions on speed. It adds many simple but powerful features to simplify navigating in a file
+-- using only the keyboard. I find this plugin essential in my workflow, especially since I don't use counts as, using
+-- an azerty keyboard, typing numbers is far from the home row and requires the use of the shift key at the same time.
+--
+-- There are many alternatives to Hop, I tried some but Hop remained my favorite:
+--  - flash.nvim is a more sophisticated alternative with cool features like Treesitter nodes or remote operations,
+--    however I prefer the basic features of Hop and I find the more sophisticated features of flash.nvim not to be
+--    essential
+--  - leap.nvim is another more sophisticated alternative, also with cool features like Treesitter nodes or remote
+--    operations, but it is focused on a single 2-character jump keymap, and I'm not a fan of this philosophy as it
+--    always require to read some characters before jumping whereas in Hop, some keymaps don't require to read
+--    characters beforehand (like word- or line-start jumps)
 
 return {
   "smoka7/hop.nvim",
@@ -13,7 +24,7 @@ return {
     local end_ = hint.HintPosition.END
 
     return {
-      -- Buitlin "s" keymap is equivalent to "cl"
+      -- Buitlin "s" keymap is equivalent to "cl" and is pretty much useless
       { "s", hop.hint_char2, mode = { "n", "x", "o" }, desc = "Search 2 characters hop" },
       {
         "f",
@@ -63,19 +74,26 @@ return {
         mode = { "n", "x", "o" },
         desc = "[E]nd of word hop backward",
       },
-      { "<leader>j", "<cmd> HopLineStartAC <cr>", mode = { "n", "x" }, desc = "Downward line start hop" },
-      { "<leader>J", "<cmd> HopVerticalAC <cr>", mode = { "n", "x" }, desc = "Downward vertical hop" },
-      { "<leader>k", "<cmd> HopLineStartBC <cr>", mode = { "n", "x" }, desc = "Upward line start hop" },
-      { "<leader>K", "<cmd> HopVerticalBC <cr>", mode = { "n", "x" }, desc = "Upward vertical hop" },
-      -- In operator-pending mode, make line-related keymaps act linewise, like builtin operators like "y", "d", etc.
-      { "<leader>j", "V<cmd> HopLineStartAC <cr>", mode = { "o" }, desc = "Downward line start hop" },
-      { "<leader>J", "V<cmd> HopVerticalAC <cr>", mode = { "o" }, desc = "Downward vertical hop" },
-      { "<leader>k", "V<cmd> HopLineStartBC <cr>", mode = { "o" }, desc = "Upward line start hop" },
-      { "<leader>K", "V<cmd> HopVerticalBC <cr>", mode = { "o" }, desc = "Upward vertical hop" },
+      {
+        "<leader>s",
+        function() hop.hint_camel_case({ direction = after_cursor, current_line_only = true }) end,
+        mode = { "n", "x", "o" },
+        desc = "[S]ubword hop",
+      },
+      {
+        "<leader>S",
+        function() hop.hint_camel_case({ direction = before_cursor, current_line_only = true }) end,
+        mode = { "n", "x", "o" },
+        desc = "[S]ubword hop backward",
+      },
+      -- In operator-pending mode, let's make line-related keymaps act linewise, like builtin operators like "y" or "d"
+      { "<leader>j", "<cmd>HopLineStartAC<CR>", mode = { "n", "x" }, desc = "Downward line start hop" },
+      { "<leader>j", "V<cmd>HopLineStartAC<CR>", mode = { "o" }, desc = "Downward line start hop" },
+      { "<leader>k", "<cmd>HopLineStartBC<CR>", mode = { "n", "x" }, desc = "Upward line start hop" },
+      { "<leader>k", "V<cmd>HopLineStartBC<CR>", mode = { "o" }, desc = "Upward line start hop" },
     }
   end,
   opts = {
     keys = "hgjfkdlsmqyturieozpabvn",
-    uppercase_labels = true,
   },
 }

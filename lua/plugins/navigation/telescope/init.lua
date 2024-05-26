@@ -25,13 +25,18 @@ return {
     return {
       -- General keymaps
       { "<leader><leader>", builtin.resume, desc = "Resume Telescope" },
-      { "<leader>s", custom_builtin.current_buffer_fuzzy_find, mode = { "n", "v" }, desc = "[S]earch in buffer" },
 
       -- Main finders
       { "<leader>ff", custom_builtin.find_files, mode = { "n", "v" }, desc = "[F]ind: [F]iles" },
       { "<leader>fd", custom_builtin.find_directories, mode = { "n", "v" }, desc = "[F]ind: [D]irectories" },
       { "<leader>fg", custom_builtin.live_grep, mode = { "n", "v" }, desc = "[F]ind: by [G]rep" },
       { "<leader>fo", custom_builtin.oldfiles, mode = { "n", "v" }, desc = "[F]ind: [O]ldfiles" },
+      {
+        "<leader>fz",
+        custom_builtin.current_buffer_fuzzy_find,
+        mode = { "n", "v" },
+        desc = "[F]ind: fu[Z]zilly in buffer",
+      },
 
       -- Vim- or Neovim-related
       { "<leader>:", custom_builtin.command_history, desc = "Command history" },
