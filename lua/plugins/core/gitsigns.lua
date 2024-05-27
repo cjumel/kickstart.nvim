@@ -35,6 +35,7 @@ return {
       map("n", "<leader>gx", gs.reset_buffer, "[G]it: discard buffer changes")
       map("n", "<leader>gd", function() gs.diffthis("~") end, "[G]it: [D]iff buffer")
       map("n", "<leader>gB", function() gs.blame_line({ full = true }) end, "[G]it: [B]lame line")
+      map("n", "<leader>xh", "<cmd>Gitsigns setloclist<CR>", "Trouble: [H]unks") -- Lazy-load Trouble automatically
 
       -- Navigation keymaps
       utils.keymap.set_move_pair({ "[h", "]h" }, {
