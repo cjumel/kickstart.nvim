@@ -95,5 +95,6 @@ return {
   end,
   opts = {
     keys = "hgjfkdlsmqyturieozpabvn",
+    uppercase_labels = true, -- Make labels stand-out more and be more readable
   },
 }
