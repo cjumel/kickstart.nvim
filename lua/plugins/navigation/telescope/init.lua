@@ -114,8 +114,16 @@ return {
         file_ignore_patterns = { "%.git/" }, -- Exclude in all searches (even when hidden & ignored files are included)
         sorting_strategy = "ascending",
         layout_config = {
-          horizontal = { preview_cutoff = 50, preview_width = 0.5, prompt_position = "top", width = 0.9 },
-          vertical = { prompt_position = "top", mirror = true },
+          horizontal = {
+            prompt_position = "top", -- Make text input at the top instead of the bottom
+            width = { 0.8, max = 180 }, -- Add a limit to the width
+            preview_width = 0.5, -- Make preview the same width as the results
+          },
+          vertical = {
+            prompt_position = "top", -- Make text input at the top instead of the bottom
+            width = { 0.8, max = 180 }, -- Add a limit to the width
+            mirror = true, -- Move preview to the bottom instead of above the prompt
+          },
         },
         path_display = function(_, path)
           path = custom_utils.path.normalize(path) -- Normalize and shorten the path
