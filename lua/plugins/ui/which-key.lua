@@ -33,11 +33,11 @@ return {
       ["gr"] = { name = "LSP", _ = _ },
 
       ["<leader>"] = { name = "Leader", _ = _ },
-      ["<leader>?"] = { name = "Noice", mode = { "n", "v" }, _ = _ },
       ["<leader>c"] = { name = "[C]opilot", _ = _ },
       ["<leader>d"] = { name = "[D]AP", _ = _ },
       ["<leader>f"] = { name = "[F]ind", mode = { "n", "v" }, _ = _ },
       ["<leader>g"] = { name = "[G]it", mode = { "n", "v" }, _ = _ },
+      ["<leader>n"] = { name = "[N]oice", mode = { "n", "v" }, _ = _ },
       ["<leader>o"] = { name = "[O]verseer", _ = _ },
       ["<leader>t"] = { name = "[T]erm", mode = { "n", "v" }, _ = _ },
       ["<leader>x"] = { name = "Trouble", _ = _ },

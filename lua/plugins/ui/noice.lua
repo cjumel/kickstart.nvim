@@ -18,10 +18,10 @@ return {
   event = "VeryLazy",
   keys = {
     -- When defining `keys` as a function with `noice = require("noice")` in it, Noice is not properly very-lazy-loaded
-    { "<leader>?h", function() require("noice").cmd("history") end, desc = "Noice: [H]istory" },
-    { "<leader>?l", function() require("noice").cmd("last") end, desc = "Noice: [L]ast message" },
-    { "<leader>?e", function() require("noice").cmd("errors") end, desc = "Noice: [E]rrors" },
-    { "<leader>?a", function() require("noice").cmd("all") end, desc = "Noice: [A]ll messages" },
+    { "<leader>nh", function() require("noice").cmd("history") end, desc = "[N]oice: [H]istory" },
+    { "<leader>nl", function() require("noice").cmd("last") end, desc = "[N]oice: [L]ast message" },
+    { "<leader>ne", function() require("noice").cmd("errors") end, desc = "[N]oice: [E]rrors" },
+    { "<leader>na", function() require("noice").cmd("all") end, desc = "[N]oice: [A]ll messages" },
   },
   opts = {
     lsp = {
