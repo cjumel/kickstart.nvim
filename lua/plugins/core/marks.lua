@@ -21,6 +21,22 @@ return {
       { "dm<CR>", marks.delete_buf, desc = "Delete buffer marks" },
       { "[`", next_mark, mode = { "n", "x", "o" }, desc = "Next mark" },
       { "]`", prev_mark, mode = { "n", "x", "o" }, desc = "Previous mark" },
+      {
+        "<leader>xm",
+        function()
+          marks.mark_state:buffer_to_list()
+          require("trouble").open("loclist")
+        end,
+        desc = "Trouble: document [M]arks",
+      },
+      {
+        "<leader>xM",
+        function()
+          marks.mark_state:all_to_list()
+          require("trouble").open("loclist")
+        end,
+        desc = "Trouble: workspace [M]arks",
+      },
     }
   end,
   opts = {
