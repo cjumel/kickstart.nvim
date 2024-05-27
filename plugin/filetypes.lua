@@ -3,6 +3,8 @@
 -- Map some filenames unknown to Neovim to the relevant filetype
 local filetype_by_filename = {
   [".env.example"] = "sh", -- same as `.env`
+  [".env.test"] = "sh", -- same as `.env`
+  [".env.test.example"] = "sh", -- same as `.env`
   [".ideavimrc"] = "vim",
   [".markdownlintrc"] = "json", -- could also be "ini"
   [".prettierignore"] = "conf", -- auto-detected by nvim
@@ -22,6 +24,8 @@ vim.filetype.add({ filename = filetype_by_filename })
 -- Icon data are taken from existing filenames with `:lua print(require("nvim-web-devicons").get_icon_colors("name"))`
 local icons = {
   [".env.example"] = { icon = "", color = "#faf743", cterm_color = "227", name = ".env" },
+  [".env.test"] = { icon = "", color = "#faf743", cterm_color = "227", name = ".env" },
+  [".env.test.example"] = { icon = "", color = "#faf743", cterm_color = "227", name = ".env" },
   [".ideavimrc"] = { icon = "", color = "#019833", cterm_color = 28, name = "vim" },
   [".markdownlintrc"] = { icon = "", color = "#cbcb41", cterm_color = 185, name = "json" },
   [".prettierignore"] = { icon = "", color = "#6d8086", cterm_color = 66, name = "conf" },
