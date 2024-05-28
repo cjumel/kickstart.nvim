@@ -5,9 +5,6 @@
 
 return {
   "lewis6991/gitsigns.nvim",
-  -- FIXME: when updating beyond this commit, I noticed a slight but sensible delay when staging/unstaging hunks; it's
-  --  not a big deal but it's annoying
-  commit = "035da036e68e509ed158414416c827d022d914bd",
   dependencies = { "nvimtools/hydra.nvim" },
   event = { "BufNewFile", "BufReadPre" },
   opts = {
