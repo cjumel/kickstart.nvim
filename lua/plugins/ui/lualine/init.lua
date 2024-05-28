@@ -22,7 +22,7 @@ return {
     sections = sections.default,
     extensions = extensions.build_extensions(sections.default),
   }),
-  config = function(_, opts)
+  config = theme.get_field("lualine", "config") or function(_, opts)
     require("lualine").setup(opts)
 
     -- Status line global options

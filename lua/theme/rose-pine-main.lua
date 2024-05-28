@@ -24,5 +24,6 @@ M.lualine_opts = {
   sections = custom_sections,
   extensions = extensions.build_extensions(custom_sections),
 }
+M.lualine_config = function(_, opts) require("lualine").setup(opts) end
 
 return M
