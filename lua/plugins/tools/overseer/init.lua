@@ -1,6 +1,8 @@
 -- overseer.nvim
 --
--- A task runner and job management plugin for Neovim.
+-- Overseer is a task runner and job management plugin for Neovim. It enables to run any kind of job (build, test,
+-- formatting, etc.) very easily & taking into account the project context (e.g. only suggest a `make` job if there is
+-- a `Makefile` & suggest the `make` commands based on it).
 
 return {
   "stevearc/overseer.nvim",
@@ -26,22 +28,11 @@ return {
     }
   end,
   opts = {
-    form = {
-      win_opts = {
-        winblend = 0, -- Shell float window colors are messed up with transparency
-      },
-    },
-    templates = { "shell" },
     task_list = {
+      direction = "bottom", -- Instead of on the left-hand-side
       min_height = 0.25,
-      direction = "bottom",
-      bindings = {
-        -- Disable bindings conflicting with window navigation
-        ["<C-h>"] = false,
-        ["<C-j>"] = false,
-        ["<C-k>"] = false,
-        ["<C-l>"] = false,
-      },
+      -- Disable bindings conflicting with window navigation
+      bindings = { ["<C-h>"] = false, ["<C-j>"] = false, ["<C-k>"] = false, ["<C-l>"] = false },
     },
     task_editor = {
       bindings = {
@@ -49,27 +40,26 @@ return {
           ["<CR>"] = "Submit",
           ["<C-j>"] = "Next",
           ["<C-k>"] = "Prev",
-          -- Disable bindings conflicting with copilot
-          ["<Tab>"] = false,
-          ["<S-Tab>"] = false,
+          ["<C-c>"] = "Cancel",
+          ["<Tab>"] = false, -- Disable to let Copilot work
         },
         n = {
           ["<CR>"] = "Submit",
+          ["<C-i>"] = "Next",
+          ["<C-o>"] = "Prev",
           ["<ESC>"] = "Cancel",
           ["?"] = "ShowHelp",
-          -- Disable bindings conflicting with copilot
-          ["<Tab>"] = false,
-          ["<S-Tab>"] = false,
         },
       },
     },
-    default_template_prompt = "always", -- Always ask for parameters there are any
+    default_template_prompt = "always", -- Always ask for parameters if there are any
   },
   config = function(_, opts)
     local overseer = require("overseer")
 
     overseer.setup(opts)
 
+    -- Register custom templates
     local templates = require("plugins.tools.overseer.templates")
     for _, template in ipairs(templates) do
       overseer.register_template(template)
