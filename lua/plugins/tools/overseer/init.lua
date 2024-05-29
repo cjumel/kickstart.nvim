@@ -4,72 +4,27 @@
 
 return {
   "stevearc/overseer.nvim",
-  keys = {
-    {
-      "<leader>oo",
-      function() require("overseer").toggle() end,
-      desc = "[O]verseer: toggle",
-    },
-    {
-      "<leader>or",
-      function()
-        local overseer = require("overseer")
-        overseer.run_template(
-          {
-            prompt = "allow", -- Only ask for parameters when necessary
-          },
-          overseer.open -- Open Overseer afterwards
-        )
-      end,
-      desc = "[O]verseer: [R]un",
-    },
-    {
-      "<leader>oR",
-      function()
-        local overseer = require("overseer")
-        overseer.run_template(
-          {
-            prompt = "always", -- Always ask for parameters when possible
-          },
-          overseer.open -- Open Overseer afterwards
-        )
-      end,
-      desc = "[O]verseer: [R]un with prompt",
-    },
-    {
-      "<leader>ob",
-      function()
-        local overseer = require("overseer")
-        overseer.run_template({
-          prompt = "allow", -- Only ask for parameters when necessary
-        })
-      end,
-      desc = "[O]verseer: [B]ackground run",
-    },
-    {
-      "<leader>oB",
-      function()
-        local overseer = require("overseer")
-        overseer.run_template({
-          prompt = "always", -- Always ask for parameters when possible
-        })
-      end,
-      desc = "[O]verseer: [B]ackground run with prompt",
-    },
-    {
-      "<leader>ol",
-      function()
-        local overseer = require("overseer")
-        local tasks = overseer.list_tasks({ recent_first = true })
-        if vim.tbl_isempty(tasks) then
-          vim.notify("No tasks found", vim.log.levels.WARN)
-        else
-          overseer.run_action(tasks[1], "restart")
-        end
-      end,
-      desc = "[O]verseer: run [L]ast task",
-    },
-  },
+  keys = function()
+    local overseer = require("overseer")
+    return {
+      { "<leader>oo", function() overseer.toggle() end, desc = "[O]verseer: toggle" },
+      { "<leader>or", function() overseer.run_template({}, overseer.open) end, desc = "[O]verseer: [R]un" },
+      { "<leader>ob", function() overseer.run_template({}) end, desc = "[O]verseer: [B]ackground run" },
+      { "<leader>os", function() overseer.run_template({ name = "shell" }) end, desc = "[O]verseer: [S]hell" },
+      {
+        "<leader>ol",
+        function()
+          local tasks = overseer.list_tasks({ recent_first = true })
+          if vim.tbl_isempty(tasks) then
+            vim.notify("No tasks found", vim.log.levels.WARN)
+          else
+            overseer.run_action(tasks[1], "restart")
+          end
+        end,
+        desc = "[O]verseer: rerun [L]ast task",
+      },
+    }
+  end,
   opts = {
     form = {
       win_opts = {
@@ -108,6 +63,7 @@ return {
         },
       },
     },
+    default_template_prompt = "always", -- Always ask for parameters there are any
   },
   config = function(_, opts)
     local overseer = require("overseer")
