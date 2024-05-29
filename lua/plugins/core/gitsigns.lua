@@ -90,7 +90,6 @@ return {
       config = {
         desc = "[H]unk manager",
         color = "pink", -- For synchron buffer actions
-        on_exit = function() vim.cmd("ClearWindow") end, -- Leave hunk preview when leaving the hunk manager
         -- Setting `buffer=true` or `buffer=bufnr` makes the hunk manager keymaps only work in a
         -- single buffer, while still being able to switch buffer (as `foreign_keys="run"` can't
         -- be overriden for pink Hydra). In that case, the Hydra is still opened but the keymaps

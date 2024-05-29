@@ -60,10 +60,10 @@ vim.keymap.set("v", "$", "$h", { desc = "End of line" })
 
 vim.keymap.set("n", "<leader><CR>", vim.diagnostic.open_float, { desc = "Open diagnostics" })
 
-vim.keymap.set("n", "<Esc>", "<cmd>ClearWindow<CR>", { desc = "Clear" }) -- <Esc> is only available in normal mode
-vim.keymap.set("v", "<C-c>", "<cmd>ClearWindow<CR>", { desc = "Clear" })
+vim.keymap.set("n", "<Esc>", "<cmd>ClearNormal<CR>", { desc = "Clear" }) -- <Esc> is only available in normal mode
+vim.keymap.set("v", "<C-c>", "<cmd>ClearNormal<CR>", { desc = "Clear" })
 vim.keymap.set("i", "<C-c>", "<cmd>ClearAll<CR>", { desc = "Clear" })
-vim.keymap.set("c", "<C-c>", "<cmd>ClearInsertMode<CR>", { desc = "Clear" }) -- Don't clean the cmdline popup itself
+vim.keymap.set("c", "<C-c>", "<cmd>ClearInsert<CR>", { desc = "Clear" }) -- Don't clean the cmdline popup itself
 
 -- Shortcuts to access the main registers
 vim.keymap.set({ "n", "v" }, "+", '"+', { desc = "System clipboard register" })
