@@ -14,13 +14,6 @@ function M.smart_open_trouble(prompt_bufnr, _mode)
   trouble_actions.smart_open_with_trouble(prompt_bufnr, _mode)
 end
 
-function M.smart_open_loclist(prompt_bufnr, _mode)
-  local telescope_actions = require("telescope.actions")
-  local trouble = require("trouble") -- Lazy loaded thanks to function wrapping
-  telescope_actions.smart_send_to_loclist(prompt_bufnr, _mode)
-  trouble.open("loclist")
-end
-
 function M.smart_open_quickfix(prompt_bufnr, _mode)
   local telescope_actions = require("telescope.actions")
   local trouble = require("trouble") -- Lazy loaded thanks to function wrapping

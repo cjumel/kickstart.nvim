@@ -23,9 +23,6 @@ return {
     local custom_builtin = require("plugins.navigation.telescope.builtin")
 
     return {
-      -- General keymaps
-      { "<leader><leader>", builtin.resume, desc = "Resume Telescope" },
-
       -- Main finders
       { "<leader>ff", custom_builtin.find_files, mode = { "n", "v" }, desc = "[F]ind: [F]iles" },
       { "<leader>fd", custom_builtin.find_directories, mode = { "n", "v" }, desc = "[F]ind: [D]irectories" },
@@ -38,7 +35,8 @@ return {
         desc = "[F]ind: fu[Z]zilly in buffer",
       },
 
-      -- Vim- or Neovim-related
+      -- Neovim-related
+      { "<leader><leader>", builtin.resume, desc = "Resume Telescope" },
       { "<leader>:", custom_builtin.command_history, desc = "Command history" },
       { "<leader>/", custom_builtin.search_history, desc = "Search history" },
 
@@ -61,54 +59,61 @@ return {
       defaults = {
         default_mappings = {
           i = {
-            -- General actions (shared between both modes)
+            -- General insert-mode actions
             ["<CR>"] = actions.select_default,
             ["<C-n>"] = actions.move_selection_next,
             ["<C-p>"] = actions.move_selection_previous,
-            ["<C-c>"] = actions.close,
-            ["<C-d>"] = actions.close, -- More convenient way to directly exit Telescope
+            ["<C-g>"] = actions.move_to_top, -- Like "go to top"
+            ["<C-s>"] = actions.toggle_selection + actions.move_selection_next,
+            ["<C-w>"] = actions.which_key,
+            ["<C-d>"] = actions.close, -- Shell-style exit, consistent with command line keymaps
 
-            -- Preview actions (shared between both modes)
+            -- Preview actions
             ["<C-i>"] = actions_layout.toggle_preview,
             ["<C-h>"] = actions.preview_scrolling_left,
             ["<C-j>"] = actions.preview_scrolling_down,
             ["<C-k>"] = actions.preview_scrolling_up,
             ["<C-l>"] = actions.preview_scrolling_right,
 
-            -- Insert mode specific actions
-            ["<C-g>"] = actions.move_to_top, -- Go to top
-            ["<C-t>"] = custom_actions.smart_open_trouble,
+            -- Open actions
             ["<C-x>"] = actions.select_horizontal,
             ["<C-v>"] = actions.select_vertical,
-            ["<C-w>"] = actions.which_key,
+            ["<C-t>"] = custom_actions.smart_open_trouble,
+            -- I prefer the qflist over the loclist to use `cdo`, and the <C-l> keymap would conflict with preview ones
+            ["<C-q>"] = custom_actions.smart_open_quickfix,
           },
           n = {
-            -- General actions (shared between both modes)
+            -- General insert-mode actions
             ["<CR>"] = actions.select_default,
             ["<C-n>"] = actions.move_selection_next,
             ["<C-p>"] = actions.move_selection_previous,
-            ["<C-c>"] = actions.close,
-            ["<C-d>"] = actions.close, -- More convenient way to directly exit Telescope
+            ["<C-g>"] = actions.move_to_top, -- Like "go to top"
+            ["<C-s>"] = actions.toggle_selection + actions.move_selection_next,
+            ["<C-w>"] = actions.which_key,
+            ["<C-d>"] = actions.close, -- Shell-style exit, consistent with command line keymaps
 
-            -- Preview actions (shared between both modes)
-            ["<C-i>"] = actions_layout.toggle_preview,
-            ["<C-h>"] = actions.preview_scrolling_left,
-            ["<C-j>"] = actions.preview_scrolling_down,
-            ["<C-k>"] = actions.preview_scrolling_up,
-            ["<C-l>"] = actions.preview_scrolling_right,
-
-            -- Normal mode specific actions
+            -- General normal-mode actions
             ["j"] = actions.move_selection_next,
             ["k"] = actions.move_selection_previous,
             ["G"] = actions.move_to_bottom,
             ["gg"] = actions.move_to_top,
             ["s"] = actions.toggle_selection + actions.move_selection_next,
-            ["S"] = actions.toggle_selection + actions.move_selection_previous,
-            ["T"] = custom_actions.smart_open_trouble,
-            ["L"] = custom_actions.smart_open_loclist,
-            ["Q"] = custom_actions.smart_open_quickfix,
             ["?"] = actions.which_key,
-            ["<ESC>"] = actions.close,
+            ["<Esc>"] = actions.close,
+
+            -- Preview actions
+            ["<C-i>"] = actions_layout.toggle_preview,
+            ["<C-h>"] = actions.preview_scrolling_left,
+            ["<C-j>"] = actions.preview_scrolling_down,
+            ["<C-k>"] = actions.preview_scrolling_up,
+            ["<C-l>"] = actions.preview_scrolling_right,
+
+            -- Open actions
+            ["<C-x>"] = actions.select_horizontal,
+            ["<C-v>"] = actions.select_vertical,
+            ["<C-t>"] = custom_actions.smart_open_trouble,
+            -- I prefer the qflist over the loclist to use `cdo`, and the <C-l> keymap would conflict with preview ones
+            ["<C-q>"] = custom_actions.smart_open_quickfix,
           },
         },
         file_ignore_patterns = { "%.git/" }, -- Exclude in all searches (even when hidden & ignored files are included)
