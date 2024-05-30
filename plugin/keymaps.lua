@@ -138,11 +138,16 @@ utils.keymap.set_move_pair({ "[=", "]=" }, {
 }, { { desc = "Next conflict mark" }, { desc = "Previous conflict mark" } })
 
 -- [[ Command-line keymaps ]]
--- Keymaps for command-line mode, for instance to reproduce some shell keymaps (can be also used in insert mode)
+-- Keymaps for command-line mode (also sometimes added to insert mode); these keymaps notably reproduce some shell
+-- behaviors in insert and command-line modes
 
 -- Disable builtin auto-completion, to avoid triggering it by mistake
 vim.keymap.set("c", "<Tab>", "<Nop>", { silent = true })
 vim.keymap.set("c", "<S-Tab>", "<Nop>", { silent = true })
+
+-- In insert mode, the builtin <C-d> deindents the line so let's not override it
+-- For some reason, using `<ESC>` as `rhs` runs the command instead of exiting the cmdline
+vim.keymap.set("c", "<C-d>", "<C-c>", { desc = "Exit cmdline" })
 
 vim.keymap.set({ "i", "c" }, "<M-BS>", "<C-w>", { desc = "Delete word" }) -- <C-BS>
 
@@ -154,11 +159,6 @@ vim.keymap.set({ "i", "c" }, "<C-_>", "<C-Left>", { desc = "Move cursor to previ
 
 vim.keymap.set({ "i", "c" }, "<C-e>", "<End>", { desc = "Move cursor to end of line" })
 vim.keymap.set({ "i", "c" }, "<C-a>", "<Home>", { desc = "Move cursor to beginning of line" })
-
--- Use <C-d> in cmdline mode to exit it like in the shell
--- In insert mode, the builtin <C-d> deindents the line so let's not override it
--- For some reason, using `<ESC>` as `rhs` runs the command instead of exiting the cmdline
-vim.keymap.set("c", "<C-d>", "<C-c>", { desc = "Exit cmdline" })
 
 -- [[ Terminal keymaps ]]
 -- Keymaps for terminal mode, when using the builtin terminal emulator or in ToggleTerm, for instance
