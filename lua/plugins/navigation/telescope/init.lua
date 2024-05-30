@@ -144,14 +144,16 @@ return {
               ["<C-^>"] = custom_actions.find_files.toggle_hidden,
               ["<C-_>"] = custom_actions.find_files.toggle_all,
             },
+            n = {
+              ["<C-^>"] = custom_actions.find_files.toggle_hidden,
+              ["<C-_>"] = custom_actions.find_files.toggle_all,
+            },
           },
         },
         live_grep = {
           mappings = {
-            i = {
-              ["<C-^>"] = custom_actions.live_grep.toggle_hidden,
-              ["<C-_>"] = custom_actions.live_grep.toggle_all,
-            },
+            i = { ["<C-^>"] = custom_actions.live_grep.toggle_hidden, ["<C-_>"] = custom_actions.live_grep.toggle_all },
+            n = { ["<C-^>"] = custom_actions.live_grep.toggle_hidden, ["<C-_>"] = custom_actions.live_grep.toggle_all },
           },
         },
         -- Override the <Tab> key in `git_status` picker to toggle preview instead of staging/unstaging
