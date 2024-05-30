@@ -148,4 +148,16 @@ function M.git_bcommits()
   end
 end
 
+function M.lsp_symbols()
+  local opts = {}
+
+  if custom_utils.visual.is_visual_mode() then
+    local text = custom_utils.visual.get_text()
+    -- Replace punctuation marks by spaces, to support searching from module names, like "plugins.core"
+    opts.default_text = string.gsub(text, "%p", " ")
+  end
+
+  builtin.lsp_document_symbols(opts)
+end
+
 return M

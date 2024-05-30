@@ -163,6 +163,18 @@ return {
             n = { ["<Tab>"] = actions_layout.toggle_preview },
           },
         },
+        lsp_document_symbols = {
+          mappings = {
+            i = { ["<C-^>"] = custom_actions.lsp_document_symbols.switch_to_lsp_dynamic_workspace_symbols },
+            n = { ["<C-^>"] = custom_actions.lsp_document_symbols.switch_to_lsp_dynamic_workspace_symbols },
+          },
+        },
+        lsp_dynamic_workspace_symbols = {
+          mappings = {
+            i = { ["<C-^>"] = custom_actions.lsp_dynamic_workspace_symbols.switch_to_lsp_document_symbols },
+            n = { ["<C-^>"] = custom_actions.lsp_dynamic_workspace_symbols.switch_to_lsp_document_symbols },
+          },
+        },
       },
     }
   end,

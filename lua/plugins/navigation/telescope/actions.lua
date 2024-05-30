@@ -119,4 +119,30 @@ function M.live_grep.toggle_all(prompt_bufnr, _)
   builtin.live_grep(opts)
 end
 
+M.lsp_document_symbols = {}
+
+function M.lsp_document_symbols.switch_to_lsp_dynamic_workspace_symbols(prompt_bufnr, _)
+  local opts = {}
+
+  -- Compute not persisted options
+  local current_picker = actions_state.get_current_picker(prompt_bufnr)
+  opts.default_text = current_picker:_get_prompt()
+  actions.close(prompt_bufnr)
+
+  builtin.lsp_dynamic_workspace_symbols(opts)
+end
+
+M.lsp_dynamic_workspace_symbols = {}
+
+function M.lsp_dynamic_workspace_symbols.switch_to_lsp_document_symbols(prompt_bufnr, _)
+  local opts = {}
+
+  -- Compute not persisted options
+  local current_picker = actions_state.get_current_picker(prompt_bufnr)
+  opts.default_text = current_picker:_get_prompt()
+  actions.close(prompt_bufnr)
+
+  builtin.lsp_document_symbols(opts)
+end
+
 return M
