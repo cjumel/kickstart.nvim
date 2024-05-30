@@ -8,7 +8,12 @@ local theme = require("theme")
 
 return {
   "nvim-lualine/lualine.nvim",
-  dependencies = { "nvim-tree/nvim-web-devicons" },
+  dependencies = {
+    "nvim-tree/nvim-web-devicons",
+    -- FIXME: for some reason, `require("harpoon")` doesn't lazy-load Harpoon anymore, leading to issues with the
+    --  Lualine module & when using it on Oil buffers; the Harpoon dependency can be removed once this issue is fixed
+    "ThePrimeagen/harpoon",
+  },
   priority = 100, -- Main UI stuff should be loaded first
   opts = theme.make_opts("lualine", {
     options = {
