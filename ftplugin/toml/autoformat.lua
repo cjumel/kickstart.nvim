@@ -1,47 +1,37 @@
-local bufnr = vim.fn.bufnr()
+local utils = require("utils")
 
---- Determine whether to disable auto-formatting for the current buffer or not, based on existing configuration files
---- (e.g. if a tool is configured and conflicts with the formatter).
----@return boolean
+--- Determine whether to disable Taplo auto-formatting for the current buffer, based on the presence of a `toml-sort`
+--- hook configured for `pre-commit` in the current project, as both tools conflict with each other.
+---@return boolean _ Whether to disable Taplo auto-formatting or not.
 local function disable_autoformat()
-  local config_file_names = { ".pre-commit-config.yaml" }
-  local line_length_pattern = "- repo: https://github.com/pappasam/toml-sort"
-
-  local file_path = vim.fn.expand("%:p") -- Get the current file path (must be absolute to access its ancestors)
-  local dir = vim.fn.fnamemodify(file_path, ":h") -- Get the parent directory
-
-  for _ = 1, 50 do -- Virtually like a `while True`, but with a safety net
-    for _, config_file_name in ipairs(config_file_names) do
-      local config_file_path = dir .. "/" .. config_file_name
-      if vim.fn.filereadable(config_file_path) == 1 then -- A configuration file was found
-        local file = io.open(config_file_path, "r")
-        if not file then -- Unable to open file
-          return false
-        end
-        for line in file:lines() do
-          local start, end_ = string.find(line, line_length_pattern, 1, true)
-          if start ~= nil and end_ ~= nil then -- The target line was found
-            file:close()
-            return true
-          end
-        end
-        -- A config file is found but not the target line
-        file:close()
+  local git_root_path = utils.path.get_git_root()
+  if git_root_path ~= nil then -- The cwd is in a Git repository
+    local file_path = git_root_path .. "/.pre-commit-config.yaml"
+    if vim.fn.filereadable(file_path) == 1 then -- There is a pre-commit configuration file
+      local file = io.open(file_path, "r")
+      if not file then -- Make sure again that the file is readable to please the LSP
         return false
       end
-    end
 
-    if dir == vim.env.HOME or dir == "/" then -- Stop at the home directory or root if file not in home directory
+      -- Look for the `toml-sort` hook URL in the right format in any line of the file
+      for line in file:lines() do
+        -- In the following pattern, "^%s*" matches any number of spaces at the beginning of the line, and the rest
+        -- corresponds to the target URL where the special characters (".", "-") are escaped with "%"
+        if line:match("^%s*%- repo: https://github%.com/pappasam/toml%-sort") ~= nil then
+          file:close()
+          return true
+        end
+      end
+
+      file:close()
       return false
-    else
-      dir = vim.fn.fnamemodify(dir, ":h") -- Change dir to its parent directory & loop again
     end
   end
 
-  vim.notify("Config file search limit reached", vim.log.levels.WARN)
   return false
 end
 
+local bufnr = vim.fn.bufnr()
 if not vim.tbl_contains(vim.g.disable_autoformat_bufnrs or {}, bufnr) and disable_autoformat() then
   vim.g.disable_autoformat_bufnrs = vim.list_extend(vim.g.disable_autoformat_bufnrs or {}, { bufnr })
 end
