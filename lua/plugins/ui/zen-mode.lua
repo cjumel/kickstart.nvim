@@ -10,7 +10,7 @@ return {
     window = {
       backdrop = 1, -- No difference between the background and the window
       width = 126, -- Base width (120) + some room for line numbers and column signs
-      options = { number = false, relativenumber = false, colorcolumn = "0" }, -- Disable numbers and ruler column
+      options = { number = false, relativenumber = false }, -- Disable line numbering
     },
     plugins = {
       twilight = { enabled = false }, -- Don't enable Twilight when entering zen mode
