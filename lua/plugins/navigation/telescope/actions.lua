@@ -9,9 +9,9 @@ local custom_make_entry = require("plugins.navigation.telescope.make_entry")
 
 local M = {}
 
-function M.smart_open_trouble(prompt_bufnr, _mode)
-  local trouble_actions = require("trouble.providers.telescope") -- Lazy loaded thanks to function wrapping
-  trouble_actions.smart_open_with_trouble(prompt_bufnr, _mode)
+function M.smart_open_trouble(prompt_bufnr, _)
+  local trouble_actions = require("trouble.sources.telescope") -- Lazy loaded thanks to function wrapping
+  trouble_actions.open(prompt_bufnr)
 end
 
 function M.smart_open_quickfix(prompt_bufnr, _mode)

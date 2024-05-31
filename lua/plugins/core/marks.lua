@@ -27,15 +27,7 @@ return {
           marks.mark_state:buffer_to_list()
           require("trouble").open("loclist")
         end,
-        desc = "Trouble: document [M]arks",
-      },
-      {
-        "<leader>xM",
-        function()
-          marks.mark_state:all_to_list()
-          require("trouble").open("loclist")
-        end,
-        desc = "Trouble: workspace [M]arks",
+        desc = "Trouble: [M]arks",
       },
     }
   end,
