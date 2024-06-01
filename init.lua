@@ -43,7 +43,4 @@ local opts = {
 }
 require("lazy").setup(plugins, opts)
 
--- Use "<Esc>" instead of "q" to exit the Lazy UI (source: https://github.com/folke/lazy.nvim/issues/1308)
-require("lazy.view.config").keys.close = "<Esc>"
-
 -- vim: ts=2 sts=2 sw=2 et
