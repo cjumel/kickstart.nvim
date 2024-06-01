@@ -4,99 +4,96 @@ local utils = require("utils")
 -- This case is quite tricky, as it must deal with the standard case of ".ruff.toml"/"ruff.toml" and with the special
 -- case of generic Python configuration file ("pyproject.toml") where the Ruff configuration is only a sub-section, as
 -- well as the possibility to extend another configuration file with Ruff
+
 local config_file_names = { ".ruff.toml", "ruff.toml", "pyproject.toml" }
-local is_config_file_func = function(config_file_name, file)
-  return false -- TODO: really implement this
-end
-local get_colorcolumn_from_file_func = function(config_file_name, file)
-  return "" -- TODO: really implement this
+
+local is_config_file_func = function(dir, file_name)
+  if vim.tbl_contains({ ".ruff.toml", "ruff.toml" }, file_name) then
+    return true
+  end
+
+  -- Case of a `pyproject.toml` (make sure Ruff is configured in it through a `tool.ruff` section or subsection)
+  local file = io.open(dir .. "/" .. file_name, "r")
+  if not file then
+    return false -- This shouldn't happen
+  end
+
+  for line in file:lines() do
+    if line:match("^%[tool%.ruff.*%]") then
+      file:close()
+      return true
+    end
+  end
+
+  file:close()
+  return false
 end
 
--- TODO: remove the following commented function, it's only ket to ease the re-implementation of the code above
---
--- local function get_colorcolumn()
---   local file_path = vim.fn.expand("%:p") -- Absolute current file path (must be absolute to access its ancestors)
---   if file_path == "" then -- Not an actual file
---     return ""
---   end
---   local dir = vim.fn.fnamemodify(file_path, ":h") -- Parent directory of the current file
---
---   for _ = 1, 50 do -- Virtually like a `while True`, but with a safety net
---     for _, config_file_name in ipairs({ ".ruff.toml", "ruff.toml", "pyproject.toml" }) do
---       local config_file_path = dir .. "/" .. config_file_name
---       if vim.fn.filereadable(config_file_path) == 1 then -- A configuration file was found
---         local file = io.open(config_file_path, "r")
---         if not file then -- Unable to open file
---           return ""
---         end
---
---         -- Look for the color column value, as the value of the `line-length` key in Ruff configuration files
---         if config_file_name ~= "pyproject.toml" then
---           for line in file:lines() do
---             if line:sub(1, 1) ~= "#" then -- Skip comment lines
---               -- Capture the value of the `line-length` key but not comments after it
---               local line_length_candidate = line:match("line-length = ([^%s]+)")
---               if line_length_candidate ~= nil then -- A match if found
---                 file:close()
---                 local line_length = tonumber(line_length_candidate)
---                 return tostring(line_length + 1)
---               end
---             end
---           end
---
---           -- A config file is found but no color column value
---           file:close()
---           return "89"
---
---         -- Look for the color column value, as the value of the `line-length` key in `tool.ruff` section in a
---         -- `pyproject.toml`
---         else
---           local is_in_ruff_section = false -- Actually "is after Ruff section title" but close enough
---           local extends_ruff_config = false
---           local start, end_
---
---           for line in file:lines() do
---             if not is_in_ruff_section then
---               start, end_ = string.find(line, "tool.ruff", 1, true)
---               if start == 2 and end_ ~= nil then -- Target is found at the beginning of the line (except for a "[")
---                 is_in_ruff_section = true -- Ruff section is starting after this line
---               end
---             else
---               start, end_ = string.find(line, "line-length = ", 1, true)
---               if start == 1 and end_ ~= nil then -- Target is found at the beginning of the line
---                 file:close()
---
---                 local line_length = tonumber(line.sub(line, end_ + 1))
---                 return tostring(line_length + 1)
---               end
---
---               if not extends_ruff_config then
---                 start, end_ = string.find(line, "extend = ", 1, true)
---                 if start == 1 and end_ ~= nil then -- Target is found at the beginning of the line
---                   extends_ruff_config = true
---                 end
---               end
---             end
---           end
---           file:close()
---
---           -- A config file is found but no line length line & it doesn't extend another config
---           if is_in_ruff_section and not extends_ruff_config then
---             return "89"
---           end
---         end
---       end
---     end
---
---     if dir == vim.env.HOME or dir == "/" then -- Stop at the home directory or root if file not in home directory
---       return ""
---     end
---     dir = vim.fn.fnamemodify(dir, ":h") -- Change dir to its parent directory & loop again
---   end
---
---   vim.notify("Config file search limit reached", vim.log.levels.WARN)
---   return ""
--- end
+local get_colorcolumn_from_file_func -- Need to be declared beforehand to allow recursive calls
+get_colorcolumn_from_file_func = function(dir, file_name)
+  local is_ruff_config_file = false -- Whether the file is a dedicated Ruff config file or not
+  local ruff_is_setup = false -- Whether Ruff has been setup in this config file or not
+  local ruff_main_setup_is_over = false -- Whether the main section of Ruff setup is over or not
+  local ruff_extended_file = nil -- The file extended by Ruff, if any
+
+  if vim.tbl_contains({ ".ruff.toml", "ruff.toml" }, file_name) then
+    is_ruff_config_file = true
+    ruff_is_setup = true
+  end
+
+  local file = io.open(dir .. "/" .. file_name, "r")
+  if not file then
+    return "" -- This shouldn't happen
+  end
+
+  for line in file:lines() do
+    if not ruff_is_setup then -- Only possible in `pyproject.toml`
+      if line:match("^%[tool%.ruff.*%]") ~= nil then -- Any Ruff section or subsection is found
+        ruff_is_setup = true
+      end
+    end
+
+    if ruff_is_setup and not ruff_main_setup_is_over then
+      if is_ruff_config_file then
+        if line:match("^%[.*%]") then -- Any section or subsection is found
+          ruff_main_setup_is_over = true
+        end
+      else
+        if
+          line:match("^%[tool%.ruff%..*%]") -- Any Ruff subsection is found
+          or (line:match("^%[.*%]") and not line:match("^%[tool%.ruff.*%]")) -- Any not-Ruff section is found
+        then
+          ruff_main_setup_is_over = true
+        end
+      end
+    end
+
+    if ruff_is_setup and not ruff_main_setup_is_over then
+      -- Capture the value of `line-length` but not if commented & not any comment after it
+      local line_length_candidate = line:match("^line%-length = ([^%s]+)")
+      if line_length_candidate ~= nil then -- A match is found
+        local line_length = tonumber(line_length_candidate)
+        file:close()
+        return tostring(line_length + 1)
+      end
+
+      if ruff_extended_file == nil then
+        -- Capture the value of `extend` but not if commented & not any comment after it
+        local ruff_extended_file_candidate = line:match([[^extend = "([^%s]+)"]])
+        if ruff_extended_file_candidate ~= nil then -- A match is found
+          ruff_extended_file = ruff_extended_file_candidate
+        end
+      end
+    end
+  end
+
+  -- At this point, Ruff should have been setup but no line length has been found
+  file:close()
+  if ruff_extended_file ~= nil then
+    return get_colorcolumn_from_file_func(dir, ruff_extended_file)
+  end
+  return "89" -- Correspond to default formatter value
+end
 
 -- Display a column ruler at the relevant line length
 if not vim.g.disable_colorcolumn then

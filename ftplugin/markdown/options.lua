@@ -3,19 +3,27 @@ local utils = require("utils")
 -- Define custom colorcolumn parameters for Mdformat
 local config_file_names = { ".mdformat.toml" }
 local is_config_file_func = nil
-local get_colorcolumn_from_file_func = function(_, file)
+local get_colorcolumn_from_file_func = function(dir, file_name)
+  local file = io.open(dir .. "/" .. file_name, "r")
+  if not file then
+    return "" -- This shouldn't happen
+  end
+
   for line in file:lines() do
     -- Capture the value of `wrap` but not if commented & not any comment after it
     local line_length_candidate = line:match("^wrap = ([^%s]+)")
     if line_length_candidate ~= nil then -- A match is found
       if line_length_candidate == "keep" or line_length_candidate == "no" then
+        file:close()
         return ""
       else
         local line_length = tonumber(line_length_candidate)
+        file:close()
         return tostring(line_length + 1)
       end
     end
   end
+  file:close()
   return "" -- Correspond to default formatter value
 end
 

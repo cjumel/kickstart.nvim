@@ -6,9 +6,9 @@ local M = {}
 --- by checking candidate configuration files in all parent directories of the current file until the home or root
 --- directory is found.
 ---@param config_file_names string[] Names of the configuration files to look for.
----@param is_config_file_func nil|fun(config_file_name: string, file): boolean Function to determine if a candidate
+---@param is_config_file_func nil|fun(dir: string, file_name: string): boolean Function to determine if a candidate
 ---   configuration file is the right one (default to always true).
----@param get_colorcolumn_from_file_func fun(config_file_name: string, file): string Function to extract the color
+---@param get_colorcolumn_from_file_func fun(dir: string, file_name: string): string Function to extract the color
 ---   column value from the configuration file.
 ---@return string
 function M.get_colorcolumn(config_file_names, is_config_file_func, get_colorcolumn_from_file_func)
@@ -23,18 +23,10 @@ function M.get_colorcolumn(config_file_names, is_config_file_func, get_colorcolu
   local dir = vim.fn.fnamemodify(file_path, ":h") -- Parent directory of the current buffer file
 
   for _ = 1, 50 do -- Virtually like a `while True`, but with a safety net to prevent infinite loops
-    for _, config_file_name in ipairs(config_file_names) do
-      local config_file_path = dir .. "/" .. config_file_name
-      if vim.fn.filereadable(config_file_path) == 1 then -- A candidate configuration file was found
-        local file = io.open(config_file_path, "r")
-        if not file then -- Make sure again that the file is readable to please the LSP
-          return ""
-        end
-
-        if is_config_file_func(config_file_name, file) then
-          local colorcolumn = get_colorcolumn_from_file_func(config_file_name, file)
-          file:close()
-          return colorcolumn
+    for _, file_name in ipairs(config_file_names) do
+      if vim.fn.filereadable(dir .. "/" .. file_name) == 1 then
+        if is_config_file_func(dir, file_name) then
+          return get_colorcolumn_from_file_func(dir, file_name)
         end
       end
     end
