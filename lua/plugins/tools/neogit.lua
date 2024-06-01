@@ -11,6 +11,9 @@ return {
     "sindrets/diffview.nvim",
     "nvim-telescope/telescope.nvim",
   },
+  -- FIXME: when updating beyond this commit, committing with Neogit stop working
+  --  This is probably related to https://github.com/NeogitOrg/neogit/issues/1342
+  commit = "daebc4bc94bdcfa69d8d75c731878bff758e16fa",
   keys = {
     {
       "<leader>;", -- No mnemonic for this keymap, but simple and unused
