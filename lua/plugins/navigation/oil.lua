@@ -5,8 +5,6 @@
 -- focusing on the current directory in a single window, instead of the whole project tree in a side window. The file
 -- editing features it provides are very elegant and natural to learn, and they are usable with other plugins, like
 -- Copilot.vim or code snippest (e.g. Luasnip), which makes creating files very simple & customizable.
---
--- Some additional Oil configuration is done in ftplugin/oil/, for Oil buffer options.
 
 return {
   "stevearc/oil.nvim",
@@ -14,6 +12,7 @@ return {
   lazy = false, -- Required to be used as default file explorer
   keys = { { "-", function() require("oil").open() end, desc = "Open parent directory" } },
   opts = {
+    win_options = { number = false, relativenumber = false }, -- Disable line-numbering in Oil buffers
     cleanup_delay_ms = 0, -- Cleanup the oil buffer right away to avoid jumping back to it with <C-o> and <C-i>
     keymaps = {
       -- Since Oil can be used as a real, editable buffer, to edit files quickly and optionally in batch, let's not
