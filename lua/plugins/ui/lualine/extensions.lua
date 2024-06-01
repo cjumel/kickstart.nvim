@@ -15,10 +15,6 @@ function M.build_extensions(sections)
       sections = vim.tbl_deep_extend("force", sections, { lualine_c = modules.toggleterm }),
       filetypes = { "toggleterm" },
     },
-    {
-      sections = vim.tbl_deep_extend("force", sections, { lualine_c = modules.trouble }),
-      filetypes = { "Trouble" },
-    },
   }
 end
 

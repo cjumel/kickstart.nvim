@@ -2,7 +2,8 @@ local utils = require("utils")
 
 local M = {}
 
--- Add a message in the status line when recording a macro (Noice needs to pass the message, see Noice's wiki)
+-- Add a message in the status line when recording a macro
+-- Source: https://github.com/folke/noice.nvim/wiki/Configuration-Recipes#show-recording-messages
 M.macro = {
   function()
     local noice = package.loaded.noice
@@ -19,7 +20,8 @@ M.macro = {
   color = { fg = "#ff9e64" },
 }
 
--- If file or directory is in Harpoon list, show its index (this lazy-loads Harpoon as soon as a buffer is opened)
+-- If file or directory is in Harpoon list, show its index and the number of Harpoon items
+-- This will lazy-load Harpoon as soon as a buffer is opened
 M.harpoon = {
   function()
     local path = utils.path.get_current_buffer_path()
@@ -40,7 +42,7 @@ M.harpoon = {
   end,
 }
 
--- Show the path of the directory opened with Oil (instead of Oil's buffer path)
+-- Show the path of the directory opened with Oil instead of Oil's buffer path
 M.oil = {
   function()
     local oil = package.loaded.oil
@@ -48,19 +50,7 @@ M.oil = {
   end,
 }
 
--- Show the name of the Trouble window
-M.trouble = {
-  function()
-    local opts = require("trouble.config").options
-    local words = vim.split(opts.mode, "[%W]")
-    for i, word in ipairs(words) do
-      words[i] = word:sub(1, 1):upper() .. word:sub(2)
-    end
-    return table.concat(words, " ")
-  end,
-}
-
--- Show the index of the ToggleTerm
+-- Show the index & name of the ToggleTerm opened in a window instead of the ToggleTerm buffer path
 M.toggleterm = {
   function()
     local terms = require("toggleterm.terminal")
