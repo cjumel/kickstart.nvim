@@ -2,11 +2,10 @@
 -- for each picker I use.
 
 local builtin = require("telescope.builtin")
-local previewers = require("telescope.previewers")
-local themes = require("telescope.themes")
-
 local custom_make_entry = require("plugins.navigation.telescope.make_entry")
 local custom_utils = require("utils")
+local previewers = require("telescope.previewers")
+local themes = require("telescope.themes")
 
 local M = {}
 
@@ -152,9 +151,7 @@ function M.lsp_symbols()
   local opts = {}
 
   if custom_utils.visual.is_visual_mode() then
-    local text = custom_utils.visual.get_text()
-    -- Replace punctuation marks by spaces, to support searching from module names, like "plugins.core"
-    opts.default_text = string.gsub(text, "%p", " ")
+    opts.default_text = custom_utils.visual.get_text()
   end
 
   builtin.lsp_document_symbols(opts)
