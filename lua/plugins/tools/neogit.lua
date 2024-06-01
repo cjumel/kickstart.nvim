@@ -11,9 +11,6 @@ return {
     "sindrets/diffview.nvim",
     "nvim-telescope/telescope.nvim",
   },
-  -- FIXME: when updating beyond this commit, committing with Neogit stop working
-  --  This is probably related to https://github.com/NeogitOrg/neogit/issues/1342
-  commit = "daebc4bc94bdcfa69d8d75c731878bff758e16fa",
   keys = {
     {
       "<leader>;", -- No mnemonic for this keymap, but simple and unused
@@ -30,8 +27,11 @@ return {
   },
   opts = {
     disable_hint = true, -- Don't always show help hint
-    -- NOTE: once the plugin (and especially the management of custom keymaps) is more stable, let's re-implement custom
-    --  keymaps
+    -- FIXME: the plugin would be better with custom keymaps, but I have some issues implementing them:
+    --  - when disabling default mappings & copy pasting the default ones from the documentation, some issues
+    --    arrise (they can be adressed by looking into the error trace & the source code of the plugin)
+    --  - once the issues above are solved, committing stopped working; this is maybe linked to
+    --    https://github.com/NeogitOrg/neogit/issues/1342
     use_default_keymaps = true, -- Implementing custom keymaps make the plugin break often when updating it
     commit_view = { kind = "tab" }, -- Use "tab" view instead of "split", to decrease visual clutter
     rebase_editor = { kind = "tab" }, -- Use "tab" view instead of "auto", to decrease visual clutter
