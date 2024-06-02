@@ -58,7 +58,7 @@ return {
     should_lint = function() -- Custom option to enable/disable linting
       local utils = require("utils")
 
-      if vim.g.disable_lint or not utils.buffer.is_in_project() then
+      if vim.g.disable_lint or utils.buffer.tooling_is_disabled() then
         return false
       end
       return true

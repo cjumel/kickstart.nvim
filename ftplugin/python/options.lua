@@ -1,13 +1,21 @@
 local utils = require("utils")
 
--- Define custom colorcolumn parameters for Ruff
--- This case is quite tricky, as it must deal with the standard case of ".ruff.toml"/"ruff.toml" and with the special
--- case of generic Python configuration file ("pyproject.toml") where the Ruff configuration is only a sub-section, as
--- well as the possibility to extend another configuration file with Ruff
+-- [[ Colorcolumn ]]
+-- The case of determining the right colorcolumn for Ruff is quite tricky compared to other formatters, as it must deal
+-- with the standard case of ".ruff.toml"/"ruff.toml" but also with the special case of generic Python configuration
+-- file ("pyproject.toml") where the Ruff configuration is only a sub-section, as well as the possibility to extend
+-- another configuration file with Ruff
 
+-- Possible configuration file names for Ruff
 local config_file_names = { ".ruff.toml", "ruff.toml", "pyproject.toml" }
 
-local is_config_file_func = function(dir, file_name)
+--- Determine if a file is a Ruff configuration file or not. For file named ".ruff.toml" or "ruff.toml", it's a Ruff
+--- configuration file. For "pyproject.toml", it's a Ruff configuration file if a `tool.ruff` section or subsection is
+--- found.
+---@param dir string Directory of the configuration file.
+---@param file_name string Name of the configuration file.
+---@return boolean
+local function is_config_file_func(dir, file_name)
   if vim.tbl_contains({ ".ruff.toml", "ruff.toml" }, file_name) then
     return true
   end
@@ -30,7 +38,12 @@ local is_config_file_func = function(dir, file_name)
 end
 
 local get_colorcolumn_from_file_func -- Need to be declared beforehand to allow recursive calls
-get_colorcolumn_from_file_func = function(dir, file_name)
+
+--- Get the right color column value for Ruff based on a configuration file.
+---@param dir string Directory of the configuration file.
+---@param file_name string Name of the configuration file.
+---@return string
+function get_colorcolumn_from_file_func(dir, file_name)
   local is_ruff_config_file = false -- Whether the file is a dedicated Ruff config file or not
   local ruff_is_setup = false -- Whether Ruff has been setup in this config file or not
   local ruff_main_setup_is_over = false -- Whether the main section of Ruff setup is over or not
@@ -95,8 +108,38 @@ get_colorcolumn_from_file_func = function(dir, file_name)
   return "89" -- Correspond to default formatter value
 end
 
+--- Get the right color column value for Ruff for the current buffer. To do so, this function looks relevant
+--- configuration files, and read in them the relevant line length.
+---@return string
+local function get_colorcolumn()
+  local dir = utils.buffer.get_parent_dir()
+  if dir == nil then
+    return ""
+  end
+
+  for _ = 1, 50 do -- Virtually like a `while True`, but with a safety net to prevent infinite loops
+    for _, file_name in ipairs(config_file_names) do
+      if vim.fn.filereadable(dir .. "/" .. file_name) == 1 then
+        if is_config_file_func(dir, file_name) then
+          return get_colorcolumn_from_file_func(dir, file_name)
+        end
+      end
+    end
+
+    if dir == vim.env.HOME or dir == "/" then -- Stop at the home directory or root if file not in home directory
+      return ""
+    end
+    dir = vim.fn.fnamemodify(dir, ":h") -- Change dir to its parent directory & loop again
+  end
+
+  vim.notify("Config file search limit reached", vim.log.levels.WARN)
+  return ""
+end
+
 -- Display a column ruler at the relevant line length
-if not vim.g.disable_colorcolumn then
-  vim.opt_local.colorcolumn =
-    utils.ftplugin.get_colorcolumn(config_file_names, is_config_file_func, get_colorcolumn_from_file_func)
+if
+  vim.opt_local.colorcolumn._value == "" -- Prevent computing the value several times
+  and not (vim.g.disable_colorcolumn or utils.buffer.tooling_is_disabled())
+then
+  vim.opt_local.colorcolumn = get_colorcolumn()
 end

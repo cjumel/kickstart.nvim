@@ -69,7 +69,7 @@ return {
     format_on_save = function(_)
       local utils = require("utils")
 
-      if vim.g.disable_autoformat or not utils.buffer.is_in_project() then
+      if vim.g.disable_autoformat or utils.buffer.tooling_is_disabled() then
         return
       end
       return { lsp_fallback = true, timeout_ms = 500 }
