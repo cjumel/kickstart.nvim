@@ -83,4 +83,12 @@ function M.get_git_root()
   return vim.fn.fnamemodify(git_dir_path, ":h") -- Parent directory of ".git/"
 end
 
+--- Output whether the current buffer is in the current working directory or not.
+---@return boolean _ Whether the current buffer is in the current working directory or not.
+function M.buffer_is_in_cwd()
+  local path = vim.fn.expand("%:p") -- Absolute path of current buffer
+  local cwd = vim.fn.getcwd() -- Absolute path of cwd
+  return path:sub(1, #cwd) == cwd
+end
+
 return M

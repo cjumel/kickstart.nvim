@@ -67,9 +67,11 @@ return {
   opts = {
     formatters_by_ft = formatters_by_ft,
     format_on_save = function(bufnr)
-      local disable = vim.g.disable_autoformat -- Global option set through keymaps
-      local disable_by_bufnr = vim.g.disable_autoformat_by_bufnr or {} -- Per-buffer option set by ftplugins
-      if disable or disable_by_bufnr[bufnr] then
+      local utils = require("utils")
+
+      local disable_autoformat = vim.g.disable_autoformat -- Global option set through keymaps
+      local disable_autoformat_by_bufnr = vim.g.disable_autoformat_by_bufnr or {} -- Per-buffer option set by ftplugins
+      if disable_autoformat or disable_autoformat_by_bufnr[bufnr] or not utils.path.buffer_is_in_cwd() then
         return
       end
       return { lsp_fallback = true, timeout_ms = 500 }
