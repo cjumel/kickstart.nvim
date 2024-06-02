@@ -58,10 +58,7 @@ return {
     should_lint = function() -- Custom option to enable/disable linting
       local utils = require("utils")
 
-      local bufnr = vim.fn.bufnr()
-      local disable_lint = vim.g.disable_lint -- Global option set through keymaps
-      local disable_lint_by_bufnr = vim.g.disable_lint_by_bufnr or {} -- Per-buffer option set by ftplugins
-      if disable_lint or disable_lint_by_bufnr[bufnr] or not utils.path.buffer_is_in_cwd() then
+      if vim.g.disable_lint or not utils.buffer.is_in_project() then
         return false
       end
       return true
