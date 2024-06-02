@@ -37,11 +37,11 @@ return {
   -- [[ Conditions ]]
   s(
     { trig = "if .. then", show_condition = is_in_code_empty_line },
-    { t("if "), i(1), t({ " then", "\t" }), i(2), t({ "", "end" }) }
+    { t("if "), c(1, { i(1), sn(nil, { t("not "), i(1) }) }), t({ " then", "\t" }), i(2), t({ "", "end" }) }
   ),
   s(
     { trig = "elsif .. then", show_condition = is_in_code_empty_line },
-    { t("elseif "), i(1), t({ " then", "\t" }), i(2) }
+    { t("elseif "), c(1, { i(1), sn(nil, { t("not "), i(1) }) }), t({ " then", "\t" }), i(2) }
   ),
   s({ trig = "else", show_condition = is_in_code_empty_line }, { t({ "else", "\t" }), i(1) }),
 
