@@ -67,7 +67,10 @@ return {
   opts = {
     formatters_by_ft = formatters_by_ft,
     format_on_save = function(bufnr)
-      if vim.g.disable_autoformat or vim.tbl_contains(vim.g.disable_autoformat_bufnrs or {}, bufnr) then
+      if
+        vim.g.disable_autoformat -- Global option set through keymaps
+        or vim.g.disable_autoformat_by_bufnr[bufnr] -- Per-buffer option set by ftplugins
+      then
         return
       end
       return { lsp_fallback = true, timeout_ms = 500 }

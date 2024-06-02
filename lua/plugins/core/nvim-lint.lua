@@ -56,16 +56,11 @@ return {
   opts = {
     linters_by_ft = linters_by_ft,
     should_lint = function() -- Custom option to enable/disable linting
-      if vim.g.disable_lint then
-        return false
-      end
-      local path = require("utils").path.get_current_file_path()
-      if path == nil then
-        return false
-      end
-      if vim.startswith(path, "/") or vim.startswith(path, "~") then -- Files outside of the current working directory
-        return false
-      elseif vim.startswith(path, ".venv/") then -- Files inside Python virtual environments
+      local bufnr = vim.fn.bufnr()
+      if
+        vim.g.disable_lint -- Global option set through keymaps
+        or vim.g.disable_lint_by_bufnr[bufnr] -- Per-buffer option set by ftplugins
+      then
         return false
       end
       return true
