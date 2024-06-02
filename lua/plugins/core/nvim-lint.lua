@@ -57,10 +57,9 @@ return {
     linters_by_ft = linters_by_ft,
     should_lint = function() -- Custom option to enable/disable linting
       local bufnr = vim.fn.bufnr()
-      if
-        vim.g.disable_lint -- Global option set through keymaps
-        or vim.g.disable_lint_by_bufnr[bufnr] -- Per-buffer option set by ftplugins
-      then
+      local disable = vim.g.disable_lint -- Global option set through keymaps
+      local disable_by_bufnr = vim.g.disable_lint_by_bufnr or {} -- Per-buffer option set by ftplugins
+      if disable or disable_by_bufnr[bufnr] then
         return false
       end
       return true
