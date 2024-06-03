@@ -122,10 +122,15 @@ return {
   config = function(_, opts)
     local ts_config = require("nvim-treesitter.configs")
     local ts_utils = require("nvim-treesitter.ts_utils")
-
     local utils = require("utils")
 
     ts_config.setup(opts)
+
+    -- Fix Treesitter keymap descriptions (builtin ones are shown instead of Treesitter's)
+    vim.keymap.set("n", "[m", function() end, { desc = "which_key_ignore" })
+    vim.keymap.set("n", "]m", function() end, { desc = "which_key_ignore" })
+    vim.keymap.set("n", "[M", function() end, { desc = "which_key_ignore" })
+    vim.keymap.set("n", "]M", function() end, { desc = "which_key_ignore" })
 
     --- Output the current line main node, that is the top-level ancestor from the node under the
     --- cursor within the same line.

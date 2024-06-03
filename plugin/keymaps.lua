@@ -3,19 +3,24 @@ local utils = require("utils")
 -- [[ Disable builtin keymaps ]]
 -- Disable some builtin keymaps, because they are useless or they are conflicting with other keymaps
 
--- Disable builtin navigation keymaps
--- Some keymaps can't be properly disabled; in that case, let's give them no effect & make Which-Key ignore them
-vim.keymap.set("n", "[(", function() end, { desc = "which_key_ignore" })
-vim.keymap.set("n", "](", function() end, { desc = "which_key_ignore" })
-vim.keymap.set("n", "[<", function() end, { desc = "which_key_ignore" })
-vim.keymap.set("n", "]<", function() end, { desc = "which_key_ignore" })
-vim.keymap.set("n", "[{", function() end, { desc = "which_key_ignore" })
-vim.keymap.set("n", "]{", function() end, { desc = "which_key_ignore" })
--- Disable some keymaps overwritten by Treesitter, to prevent Which-Key from showing them
-vim.keymap.set("n", "[m", function() end, { desc = "which_key_ignore" })
-vim.keymap.set("n", "]m", function() end, { desc = "which_key_ignore" })
-vim.keymap.set("n", "[M", function() end, { desc = "which_key_ignore" })
-vim.keymap.set("n", "]M", function() end, { desc = "which_key_ignore" })
+-- Adapt builtin navigation keymaps to inverted "["/"]" and with ","/";" repeating & complete them with missing ones
+for _, char in ipairs({ "(", ")", "{", "}", "[", "]", "<", ">" }) do
+  utils.keymap.set_move_pair(
+    { "[" .. char, "]" .. char },
+    { function() vim.fn.search(char) end, function() vim.fn.search(char, "b") end },
+    { { desc = "Next " .. char }, { desc = "Previous " .. char } }
+  )
+end
+utils.keymap.set_move_pair(
+  { "[b", "]b" },
+  { function() vim.fn.search("[()]") end, function() vim.fn.search("[()]", "b") end },
+  { { desc = "Next bracket" }, { desc = "Previous bracket" } }
+)
+utils.keymap.set_move_pair(
+  { "[B", "]B" },
+  { function() vim.fn.search("[{}]") end, function() vim.fn.search("[{}]", "b") end },
+  { { desc = "Next curly bracket" }, { desc = "Previous curly bracket" } }
+)
 
 -- [[ Modify builtin keymaps ]]
 -- Keymaps to modify (fix or improve) the behavior of builtin keymaps
