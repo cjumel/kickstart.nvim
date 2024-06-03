@@ -1,7 +1,7 @@
 -- toggleterm.nvim
 --
--- A neovim plugin to persist and interact with (hide, send code, etc.) multiple terminals during
--- an editing session.
+-- ToggleTerm is a Neovim plugin to persist and interact with multiple terminals during an editing session. It provides
+-- several improvements over the builtin terminal integration, which make it a really nice addition.
 
 return {
   "akinsho/toggleterm.nvim",
@@ -68,18 +68,22 @@ return {
         function()
           select_term_and_run(function(term) term:toggle() end, { prompt = "Select a terminal to toggle: " })
         end,
-        desc = "[T]erm: toggle [T]erminal",
+        desc = "[T]erminal: toggle",
       },
-      { "<leader>ta", toggleterm.toggle_all, desc = "[T]erm: toggle [A]ll terminals" },
+      {
+        "<leader>ta",
+        toggleterm.toggle_all,
+        desc = "[T]erminal: toggle [A]ll",
+      },
       {
         "<leader>tn",
         function() toggleterm.toggle(get_new_term_id(), nil, nil, "horizontal") end,
-        desc = "[T]erm: [N]ew term",
+        desc = "[T]erminal: [N]ew",
       },
       {
         "<leader>tv",
         function() toggleterm.toggle(get_new_term_id(), nil, nil, "vertical") end,
-        desc = "[T]erm: new term in [V]split",
+        desc = "[T]erminal: new in [V]ertical split",
       },
       {
         "<leader>tr",
@@ -89,7 +93,7 @@ return {
             { prompt = "Select a terminal to rename: " }
           )
         end,
-        desc = "[T]erm: toggle [A]ll terminals",
+        desc = "[T]erminal: [R]ename",
       },
       {
         "<leader>t",
@@ -102,7 +106,7 @@ return {
           )
         end,
         mode = "v",
-        desc = "[T]erm: send selection",
+        desc = "[T]erminal: send selection",
       },
       {
         "<leader>T",
@@ -132,7 +136,7 @@ return {
           )
         end,
         mode = "v",
-        desc = "[T]erm: send selection with options",
+        desc = "[T]erminal: send selection with options",
       },
     }
   end,
