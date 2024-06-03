@@ -13,4 +13,4 @@ local function yank_module_path()
   vim.notify('Yanked "' .. path .. '"')
 end
 
-vim.keymap.set("n", "<leader>ym", yank_module_path, { buffer = true, desc = "[Y]ank: current Lua [M]odule" })
+vim.keymap.set("n", "<leader>ym", yank_module_path, { buffer = true, desc = "[Y]ank: current Lua [M]odule (Lua)" })
