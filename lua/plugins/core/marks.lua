@@ -19,15 +19,16 @@ return {
       { "dm", marks.delete, desc = "Delete mark" },
       { "dm<Space>", marks.delete_line, desc = "Delete line marks" },
       { "dm<CR>", marks.delete_buf, desc = "Delete buffer marks" },
+      -- "[m" & "]m" are used for "next method" & "previous method", so let's use "`" instead
       { "[`", next_mark, mode = { "n", "x", "o" }, desc = "Next mark" },
       { "]`", prev_mark, mode = { "n", "x", "o" }, desc = "Previous mark" },
       {
-        "<leader>xm",
+        "<leader>x`",
         function()
           marks.mark_state:buffer_to_list()
           require("trouble").open("loclist")
         end,
-        desc = "Trouble: [M]arks",
+        desc = "Trouble: marks",
       },
     }
   end,
