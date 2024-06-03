@@ -1,5 +1,12 @@
 local utils = require("utils")
 
+local title_pattern = "^#"
+utils.keymap.set_move_pair(
+  { "[#", "]#" },
+  { function() vim.fn.search(title_pattern) end, function() vim.fn.search(title_pattern, "b") end },
+  { { desc = "Next title", buffer = true }, { desc = "Previous title", buffer = true } }
+)
+
 utils.keymap.set_move_pair(
   { "[s", "]s" },
   { function() vim.cmd("normal )") end, function() vim.cmd("normal (") end },
