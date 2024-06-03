@@ -43,7 +43,7 @@ local icons = {
 require("nvim-web-devicons").set_icon(icons)
 
 -- List filetypes associated with temporary buffers (typically plugin ones)
-local temporary_filetypes = {
+vim.g.temporary_filetypes = {
   "", -- No buffer opened
   "dap-repl",
   "dapui_breakpoints",
@@ -53,4 +53,3 @@ local temporary_filetypes = {
   "NeogitStatus",
   "oil",
 }
-vim.g.temporary_filetypes = temporary_filetypes

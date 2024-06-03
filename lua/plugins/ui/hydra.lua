@@ -18,6 +18,7 @@ return {
   },
   config = function(_, opts)
     local Hydra = require("hydra")
+    local utils = require("utils")
 
     Hydra.setup(opts)
 
@@ -218,7 +219,7 @@ return {
               vim.opt.colorcolumn = "" -- Remove the colorcolumn in current buffer
             else
               vim.g.disable_colorcolumn = false
-              if not vim.tbl_contains(vim.g.temporary_filetypes, vim.bo.filetype) then -- Skip temporary buffers
+              if not utils.buffer.is_temporary() then
                 vim.cmd("edit") -- Reload the current buffer to apply the colorcolumn
               end
             end
@@ -266,7 +267,7 @@ return {
           function()
             if vim.g.disable_concealing then
               vim.g.disable_concealing = false
-              if not vim.tbl_contains(vim.g.temporary_filetypes, vim.bo.filetype) then -- Skip temporary buffers
+              if not utils.buffer.is_temporary() then
                 vim.cmd("edit") -- Reload the current buffer to apply the conceal level setting
               end
             else

@@ -16,7 +16,7 @@ local function get_condition(opts)
   return {
     callback = function(search)
       if opts.filetype == "all" then -- Custom case to handle the case of filetypes corresponding to real files
-        if vim.tbl_contains(vim.g.temporary_filetypes, vim.bo.filetype) then
+        if utils.buffer.is_temporary() then
           return false
         end
       elseif type(opts.filetype) == "string" then

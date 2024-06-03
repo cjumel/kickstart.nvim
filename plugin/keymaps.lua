@@ -25,7 +25,7 @@ vim.keymap.set("n", "]M", function() end, { desc = "which_key_ignore" })
 ---@return string
 local function smart_a_or_i(default_keymap)
   if
-    vim.tbl_contains(vim.g.temporary_filetypes, vim.bo.filetype) -- File type to ignore (crash in not modifiable ones)
+    utils.buffer.is_temporary() -- File type to ignore (crash in not modifiable ones)
     or string.match(vim.api.nvim_get_current_line(), "%g") ~= nil -- Line is not empty
   then
     return default_keymap

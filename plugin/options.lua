@@ -35,3 +35,10 @@ vim.o.undofile = true -- Save undo history to file
 vim.o.updatetime = 250 -- Decrease delay for writting swap files
 vim.o.timeout = true -- Enable timeout when receiving mapped key sequences
 vim.o.timeoutlen = 300 -- Decrease delay between keys in mapped sequences
+
+-- Callback to disable tooling in some location
+vim.g.disable_tooling_callback = function(file_path)
+  return file_path:match("/.venv/") -- Virtual environments
+    or (file_path:match("^~/%..*/") and not file_path:match("^~/%.config/")) -- Hidden $HOME sub-directories
+    or file_path:match("^~/Library/Caches/") -- Dependencies installed by package managers like `pip` or `poetry`
+end
