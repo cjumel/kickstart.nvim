@@ -13,6 +13,10 @@ utils.keymap.set_move_pair(
   { { desc = "Next sentence", buffer = true }, { desc = "Previous sentence", buffer = true } }
 )
 
+-- Overwrite custom subword text-objects with builtin sentence ones
+vim.keymap.set({ "x", "o" }, "is", "is", { desc = "inner sentence", buffer = true })
+vim.keymap.set({ "x", "o" }, "as", "as", { desc = "a sentence", buffer = true })
+
 local todo_item_pattern = "- [🎯⏳] " -- Don't look for items done or cancelled
 utils.keymap.set_move_pair(
   { "[t", "]t" }, -- Correpond to todo-comments in other filetypes, but not used in Markdown
