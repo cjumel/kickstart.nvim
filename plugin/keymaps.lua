@@ -1,27 +1,5 @@
 local utils = require("utils")
 
--- [[ Disable builtin keymaps ]]
--- Disable some builtin keymaps, because they are useless or they are conflicting with other keymaps
-
--- Adapt builtin navigation keymaps to inverted "["/"]" and with ","/";" repeating & complete them with missing ones
-for _, char in ipairs({ "(", ")", "{", "}", "[", "]", "<", ">" }) do
-  utils.keymap.set_move_pair(
-    { "[" .. char, "]" .. char },
-    { function() vim.fn.search(char) end, function() vim.fn.search(char, "b") end },
-    { { desc = "Next " .. char }, { desc = "Previous " .. char } }
-  )
-end
-utils.keymap.set_move_pair(
-  { "[b", "]b" },
-  { function() vim.fn.search("[()]") end, function() vim.fn.search("[()]", "b") end },
-  { { desc = "Next bracket" }, { desc = "Previous bracket" } }
-)
-utils.keymap.set_move_pair(
-  { "[B", "]B" },
-  { function() vim.fn.search("[{}]") end, function() vim.fn.search("[{}]", "b") end },
-  { { desc = "Next curly bracket" }, { desc = "Previous curly bracket" } }
-)
-
 -- [[ Modify builtin keymaps ]]
 -- Keymaps to modify (fix or improve) the behavior of builtin keymaps
 
@@ -60,6 +38,15 @@ vim.keymap.set({ "n", "o", "x" }, "G", "G$", { desc = "End of buffer" })
 
 -- Remap $ in visual mode to avoid selecting the newline character (consistent with other modes)
 vim.keymap.set("v", "$", "$h", { desc = "End of line" })
+
+-- Re-implement the builtin bracket navigation keymaps (for "(", "{" & "<") and complete them (with "[")
+for _, char in ipairs({ "(", "{", "<", "[" }) do
+  utils.keymap.set_move_pair(
+    { "[" .. char, "]" .. char },
+    { function() vim.fn.search(char) end, function() vim.fn.search(char, "b") end },
+    { { desc = "Next " .. char }, { desc = "Previous " .. char } }
+  )
+end
 
 -- [[ General keymaps ]]
 
