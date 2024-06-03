@@ -1,5 +1,12 @@
 local utils = require("utils")
 
+-- [[ Disable builtin keymaps ]]
+-- Disable some builtin keymaps to prevent them from appearing in Which Key
+
+-- Next/prev mispelled word
+vim.keymap.set("n", "[s", function() end, { desc = "which_key_ignore" })
+vim.keymap.set("n", "]s", function() end, { desc = "which_key_ignore" })
+
 -- [[ Modify builtin keymaps ]]
 -- Keymaps to modify (fix or improve) the behavior of builtin keymaps
 
@@ -98,11 +105,6 @@ local function send_yanked_to_clipboard()
 end
 vim.keymap.set("n", "<leader>ys", send_yanked_to_clipboard, { desc = "[Y]ank: [S]end to clipboard" })
 
-utils.keymap.set_move_pair(
-  { "[s", "]s" },
-  { function() vim.cmd("normal )") end, function() vim.cmd("normal (") end },
-  { { desc = "Next sentence" }, { desc = "Previous sentence" } }
-)
 utils.keymap.set_move_pair(
   { "[p", "]p" },
   { function() vim.cmd("normal }") end, function() vim.cmd("normal {") end },
