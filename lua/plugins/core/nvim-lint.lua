@@ -80,7 +80,5 @@ return {
         end
       end,
     })
-
-    vim.keymap.set("n", "<leader>al", lint.try_lint, { desc = "[A]ctions: [L]int buffer" })
   end,
 }
