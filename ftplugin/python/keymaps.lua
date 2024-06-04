@@ -1,6 +1,6 @@
 --- Yank the path of the current Python module.
 ---@return nil
-local function yank_module_path()
+local function yank_module()
   local path = vim.fn.expand("%")
   path = vim.fn.fnamemodify(path, ":.")
 
@@ -11,10 +11,4 @@ local function yank_module_path()
   vim.fn.setreg('"', path)
   vim.notify('Yanked "' .. path .. '"')
 end
-
-vim.keymap.set(
-  "n",
-  "<leader>ym",
-  yank_module_path,
-  { buffer = true, desc = "[Y]ank: current Python [M]odule (Python)" }
-)
+vim.keymap.set("n", "<leader>Y", yank_module, { buffer = true, desc = "[Y]ank module (Python)" })

@@ -1,6 +1,6 @@
 --- Yank the path of the current Lua module.
 ---@return nil
-local function yank_module_path()
+local function yank_module()
   local path = vim.fn.expand("%")
   path = vim.fn.fnamemodify(path, ":.")
 
@@ -12,5 +12,4 @@ local function yank_module_path()
   vim.fn.setreg('"', path)
   vim.notify('Yanked "' .. path .. '"')
 end
-
-vim.keymap.set("n", "<leader>ym", yank_module_path, { buffer = true, desc = "[Y]ank: current Lua [M]odule (Lua)" })
+vim.keymap.set("n", "<leader>Y", yank_module, { buffer = true, desc = "[Y]ank module (Lua)" })
