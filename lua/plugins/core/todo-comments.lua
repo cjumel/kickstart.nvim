@@ -29,7 +29,17 @@ return {
         end
         vim.cmd("TodoTrouble filter.buf=0")
       end,
-      desc = "Trouble: [T]odo-comments",
+      desc = "Trouble: [T]odo-comments (buffer)",
+    },
+    {
+      "<leader>xT",
+      function()
+        if package.loaded.trouble == nil then -- Lazy load Trouble if needed
+          require("trouble")
+        end
+        vim.cmd("TodoTrouble")
+      end,
+      desc = "Trouble: [T]odo-comments (workspace)",
     },
   },
   opts = {
