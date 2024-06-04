@@ -28,15 +28,11 @@ return {
       { "<leader>fd", custom_builtin.find_directories, mode = { "n", "v" }, desc = "[F]ind: [D]irectories" },
       { "<leader>fg", custom_builtin.live_grep, mode = { "n", "v" }, desc = "[F]ind: by [G]rep" },
       { "<leader>fo", custom_builtin.oldfiles, mode = { "n", "v" }, desc = "[F]ind: [O]ldfiles" },
-      {
-        "<leader>fz",
-        custom_builtin.current_buffer_fuzzy_find,
-        mode = { "n", "v" },
-        desc = "[F]ind: fu[Z]zilly in buffer",
-      },
+      { "<leader>fz", custom_builtin.current_buffer, mode = { "n", "v" }, desc = "[F]ind: fu[Z]zilly in buffer" },
 
       -- Neovim-related
       { "<leader><leader>", builtin.resume, desc = "Resume Telescope" },
+      { "<leader><CR>", custom_builtin.buffers, desc = "Buffer switcher" },
       { "<leader>:", custom_builtin.command_history, desc = "Command history" },
       { "<leader>/", custom_builtin.search_history, desc = "Search history" },
 

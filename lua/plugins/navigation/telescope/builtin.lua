@@ -9,16 +9,6 @@ local themes = require("telescope.themes")
 
 local M = {}
 
-function M.current_buffer_fuzzy_find()
-  local opts = {}
-
-  if custom_utils.visual.is_visual_mode() then
-    opts.default_text = custom_utils.visual.get_text()
-  end
-
-  builtin.current_buffer_fuzzy_find(opts)
-end
-
 function M.find_files()
   local opts = {
     find_command = { "fd", "--type", "f", "--color", "never" },
@@ -104,6 +94,31 @@ function M.oldfiles()
   end
 
   builtin.oldfiles(opts)
+end
+
+function M.current_buffer()
+  local opts = {}
+
+  if custom_utils.visual.is_visual_mode() then
+    opts.default_text = custom_utils.visual.get_text()
+  end
+
+  builtin.current_buffer_fuzzy_find(opts)
+end
+
+function M.buffers()
+  local opts = themes.get_dropdown({
+    preview = { hide_on_startup = true },
+    initial_mode = "normal",
+    sort_lastused = true,
+    sort_mru = true,
+  })
+
+  if custom_utils.visual.is_visual_mode() then
+    opts.default_text = custom_utils.visual.get_text()
+  end
+
+  builtin.buffers(opts)
 end
 
 function M.command_history()
