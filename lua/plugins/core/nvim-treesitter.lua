@@ -64,7 +64,7 @@ return {
           ["ii"] = { query = "@conditional.inner", desc = "inner if statement" },
           ["al"] = { query = "@loop.outer", desc = "a loop" },
           ["il"] = { query = "@loop.inner", desc = "inner loop" },
-          ["am"] = { query = "@function.outer", desc = "a method defintion" },
+          ["am"] = { query = "@function.outer", desc = "a method definition" },
           ["im"] = { query = "@function.inner", desc = "inner method definition" },
           -- For assignments, there are also left- & right-hand-side text objects, but they can be replaced with "inner
           -- assignment" at the beginning or end of the line, respectively, so let's omit them
