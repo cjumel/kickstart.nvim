@@ -1,3 +1,5 @@
+-- [[ User commands ]]
+
 --- Clear function for normal mode: clear search highlights, Noice messages, etc.
 ---@return nil
 local function clear_normal()
@@ -35,3 +37,13 @@ local function clear_all()
   clear_insert()
 end
 vim.api.nvim_create_user_command("ClearAll", clear_all, { desc = "Clear for all modes" })
+
+-- [[ Auto-commands ]]
+
+-- Highlight yanked text
+local highlight_group = vim.api.nvim_create_augroup("YankHighlight", { clear = true })
+vim.api.nvim_create_autocmd("TextYankPost", {
+  callback = function() vim.highlight.on_yank() end,
+  group = highlight_group,
+  pattern = "*",
+})

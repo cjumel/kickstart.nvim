@@ -36,6 +36,18 @@ vim.o.updatetime = 250 -- Decrease delay for writting swap files
 vim.o.timeout = true -- Enable timeout when receiving mapped key sequences
 vim.o.timeoutlen = 300 -- Decrease delay between keys in mapped sequences
 
+-- Diagnostics
+vim.diagnostic.config({
+  float = { border = "rounded" }, -- Settings for the "open float diagnostic" popup
+  severity_sort = true, -- Display most severe diagnostic in sign column
+})
+-- Use symbols taken from lualine/components/diagnostics/config.lua in sign column
+local signs = { Error = "󰅚 ", Warn = "󰀪 ", Hint = "󰌶 ", Info = "󰋽 " }
+for type, icon in pairs(signs) do
+  local hl = "DiagnosticSign" .. type
+  vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
+end
+
 -- Callback to disable tooling in some location
 vim.g.disable_tooling_callback = function(file_path)
   return file_path:match("/.venv/") -- Virtual environments
