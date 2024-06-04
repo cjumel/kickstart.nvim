@@ -67,17 +67,17 @@ return {
 
             -- Preview actions
             ["<C-i>"] = actions_layout.toggle_preview,
-            ["<C-h>"] = actions.preview_scrolling_left,
-            ["<C-j>"] = actions.preview_scrolling_down,
-            ["<C-k>"] = actions.preview_scrolling_up,
-            ["<C-l>"] = actions.preview_scrolling_right,
+            ["Ì"] = actions.preview_scrolling_left, -- <M-h>
+            ["Ï"] = actions.preview_scrolling_down, -- <M-j>
+            ["È"] = actions.preview_scrolling_up, -- <M-k>
+            ["|"] = actions.preview_scrolling_right, -- <M-l>
 
             -- Open actions
             ["<C-x>"] = actions.select_horizontal,
             ["<C-v>"] = actions.select_vertical,
-            ["<C-t>"] = custom_actions.smart_open_trouble,
-            -- I prefer the qflist over the loclist to use `cdo`, and the <C-l> keymap would conflict with preview ones
+            ["<C-l>"] = custom_actions.smart_open_loclist,
             ["<C-q>"] = custom_actions.smart_open_quickfix,
+            ["<C-t>"] = custom_actions.smart_open_trouble,
           },
           n = {
             -- General insert-mode actions
@@ -100,17 +100,17 @@ return {
 
             -- Preview actions
             ["<C-i>"] = actions_layout.toggle_preview,
-            ["<C-h>"] = actions.preview_scrolling_left,
-            ["<C-j>"] = actions.preview_scrolling_down,
-            ["<C-k>"] = actions.preview_scrolling_up,
-            ["<C-l>"] = actions.preview_scrolling_right,
+            ["Ì"] = actions.preview_scrolling_left, -- <M-h>
+            ["Ï"] = actions.preview_scrolling_down, -- <M-j>
+            ["È"] = actions.preview_scrolling_up, -- <M-k>
+            ["|"] = actions.preview_scrolling_right, -- <M-l>
 
             -- Open actions
             ["<C-x>"] = actions.select_horizontal,
             ["<C-v>"] = actions.select_vertical,
-            ["<C-t>"] = custom_actions.smart_open_trouble,
-            -- I prefer the qflist over the loclist to use `cdo`, and the <C-l> keymap would conflict with preview ones
+            ["<C-l>"] = custom_actions.smart_open_loclist,
             ["<C-q>"] = custom_actions.smart_open_quickfix,
+            ["<C-t>"] = custom_actions.smart_open_trouble,
           },
         },
         file_ignore_patterns = { "%.git/" }, -- Exclude in all searches (even when hidden & ignored files are included)

@@ -9,9 +9,11 @@ local custom_make_entry = require("plugins.navigation.telescope.make_entry")
 
 local M = {}
 
-function M.smart_open_trouble(prompt_bufnr, _)
-  local trouble_actions = require("trouble.sources.telescope") -- Lazy loaded thanks to function wrapping
-  trouble_actions.open(prompt_bufnr)
+function M.smart_open_loclist(prompt_bufnr, _mode)
+  local telescope_actions = require("telescope.actions")
+  local trouble = require("trouble") -- Lazy loaded thanks to function wrapping
+  telescope_actions.smart_send_to_loclist(prompt_bufnr, _mode)
+  trouble.open("loclist")
 end
 
 function M.smart_open_quickfix(prompt_bufnr, _mode)
@@ -19,6 +21,11 @@ function M.smart_open_quickfix(prompt_bufnr, _mode)
   local trouble = require("trouble") -- Lazy loaded thanks to function wrapping
   telescope_actions.smart_send_to_qflist(prompt_bufnr, _mode)
   trouble.open("quickfix")
+end
+
+function M.smart_open_trouble(prompt_bufnr, _)
+  local trouble_actions = require("trouble.sources.telescope") -- Lazy loaded thanks to function wrapping
+  trouble_actions.open(prompt_bufnr)
 end
 
 M.find_files = {}
