@@ -43,11 +43,7 @@ vim.api.nvim_create_user_command("ClearAll", clear_all, { desc = "Clear for all 
 local augroup = vim.api.nvim_create_augroup("CustomCommands", { clear = true })
 
 -- Highlight yanked text
-vim.api.nvim_create_autocmd("TextYankPost", {
-  callback = function() vim.highlight.on_yank() end,
-  group = augroup,
-  pattern = "*",
-})
+vim.api.nvim_create_autocmd("TextYankPost", { callback = function() vim.highlight.on_yank() end, group = augroup })
 
 -- Clear unnamed buffers which are empty (created when no buffer is open)
 local function clear_unnamed_buffers()
@@ -68,8 +64,4 @@ local function clear_unnamed_buffers()
     end
   end
 end
-vim.api.nvim_create_autocmd("BufReadPost", {
-  callback = clear_unnamed_buffers,
-  group = augroup,
-  pattern = "*",
-})
+vim.api.nvim_create_autocmd("BufReadPost", { callback = clear_unnamed_buffers, group = augroup })
