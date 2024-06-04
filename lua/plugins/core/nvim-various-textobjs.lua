@@ -80,7 +80,7 @@ return {
       { "Q", textobjs.toNextQuotationMark, mode = "o", desc = "Next quotation mark" },
       { "O", textobjs.nearEoL, mode = "o", desc = "One character before EOL" },
       { "P", textobjs.restOfParagraph, mode = "o", desc = "Rest of paragraph" },
-      { "<Tab>", textobjs.restOfIndentation, mode = "o", desc = "Rest of indentation" },
+      { "I", textobjs.restOfIndentation, mode = "o", desc = "Rest of indentation" },
       -- Normal mode keymaps
       { "gx", open_cursor_url, mode = { "n" }, desc = "Open URL under cursor" },
       { "gX", open_any_url, mode = { "n" }, desc = "Open any URL in buffer" },
