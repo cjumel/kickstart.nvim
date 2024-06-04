@@ -1,12 +1,5 @@
 local utils = require("utils")
 
--- [[ Disable builtin keymaps ]]
--- Disable some builtin keymaps to prevent them from appearing in Which Key
-
--- Next/prev mispelled word
-vim.keymap.set("n", "[s", function() end, { desc = "which_key_ignore" })
-vim.keymap.set("n", "]s", function() end, { desc = "which_key_ignore" })
-
 -- [[ Modify builtin keymaps ]]
 -- Keymaps to modify (fix or improve) the behavior of builtin keymaps
 

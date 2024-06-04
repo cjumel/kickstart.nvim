@@ -180,9 +180,9 @@ return {
     end
 
     utils.keymap.set_move_pair(
-      { "[n", "]n" },
+      { "[s", "]s" },
       { next_sibling_node, prev_sibling_node },
-      { { desc = "Next sibling node" }, { desc = "Previous sibling node" } }
+      { { desc = "Next sibling" }, { desc = "Previous sibling" } }
     )
   end,
 }
