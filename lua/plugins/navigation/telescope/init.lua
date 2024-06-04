@@ -18,6 +18,7 @@ return {
       cond = function() return vim.fn.executable("make") == 1 end, -- Only load if make is available
     },
   },
+  cmd = { "Telescope" }, -- Especially useful for other plugins calling Telescope through a command
   keys = function()
     local builtin = require("telescope.builtin")
     local custom_builtin = require("plugins.navigation.telescope.builtin")

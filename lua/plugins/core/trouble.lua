@@ -7,6 +7,7 @@
 return {
   "folke/trouble.nvim",
   dependencies = { "nvim-tree/nvim-web-devicons" },
+  cmd = { "Trouble" }, -- Especially useful for other plugins calling Trouble through a command
   keys = {
     { "<leader>xd", "<cmd>Trouble diagnostics_buffer toggle<CR>", desc = "Trouble: [D]iagnostics (buffer)" },
     { "<leader>xD", "<cmd>Trouble diagnostics toggle<CR>", desc = "Trouble: [D]iagnostics (workspace)" },

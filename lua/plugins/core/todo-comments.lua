@@ -11,36 +11,9 @@ return {
   dependencies = { "nvim-lua/plenary.nvim" },
   event = { "BufNewFile", "BufReadPre" },
   keys = {
-    {
-      "<leader>ft",
-      function()
-        if package.loaded.telescope == nil then -- Lazy load Telescope if needed
-          require("telescope")
-        end
-        vim.cmd("TodoTelescope previewer=false")
-      end,
-      desc = "[F]ind: [T]odo-comments",
-    },
-    {
-      "<leader>xt",
-      function()
-        if package.loaded.trouble == nil then -- Lazy load Trouble if needed
-          require("trouble")
-        end
-        vim.cmd("TodoTrouble filter.buf=0")
-      end,
-      desc = "Trouble: [T]odo-comments (buffer)",
-    },
-    {
-      "<leader>xT",
-      function()
-        if package.loaded.trouble == nil then -- Lazy load Trouble if needed
-          require("trouble")
-        end
-        vim.cmd("TodoTrouble")
-      end,
-      desc = "Trouble: [T]odo-comments (workspace)",
-    },
+    { "<leader>ft", "<cmd>Telescope todo-comments todo previewer=false<CR>", desc = "[F]ind: [T]odo-comments" },
+    { "<leader>xt", "<cmd>Trouble todo filter.buf=0<CR>", desc = "Trouble: [T]odo-comments (buffer)" },
+    { "<leader>xT", "<cmd>Trouble todo<CR>", desc = "Trouble: [T]odo-comments (workspace)" },
   },
   opts = {
     -- Include hidden files when searching for todo comments
