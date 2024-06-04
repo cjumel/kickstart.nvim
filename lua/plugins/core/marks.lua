@@ -23,12 +23,20 @@ return {
       { "[`", next_mark, mode = { "n", "x", "o" }, desc = "Next mark" },
       { "]`", prev_mark, mode = { "n", "x", "o" }, desc = "Previous mark" },
       {
-        "<leader>x`",
+        "<leader>m",
         function()
           marks.mark_state:buffer_to_list()
           require("trouble").open("loclist")
         end,
-        desc = "Trouble: marks",
+        desc = "[M]arks (buffer)",
+      },
+      {
+        "<leader>M",
+        function()
+          marks.mark_state:all_to_list()
+          require("trouble").open("loclist")
+        end,
+        desc = "[M]arks (workspace)",
       },
     }
   end,
