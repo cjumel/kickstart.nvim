@@ -106,13 +106,16 @@ end
 vim.keymap.set("n", "<leader>ys", send_yanked_to_clipboard, { desc = "[Y]ank: [S]end to clipboard" })
 
 utils.keymap.set_move_pair(
+  { "[b", "]b" },
+  { function() vim.cmd("bnext") end, function() vim.cmd("bprev") end },
+  { { desc = "Next buffer" }, { desc = "Previous buffer" } }
+)
+utils.keymap.set_move_pair(
   { "[p", "]p" },
   { function() vim.cmd("normal }") end, function() vim.cmd("normal {") end },
   { { desc = "Next paragraph" }, { desc = "Previous paragraph" } }
 )
-
--- Dianostics can be errors, warnings, information messages or hints
-utils.keymap.set_move_pair(
+utils.keymap.set_move_pair( -- Dianostics can be errors, warnings, information messages or hints
   { "[d", "]d" },
   { vim.diagnostic.goto_next, vim.diagnostic.goto_prev },
   { { desc = "Next diagnostic" }, { desc = "Previous diagnostic" } }
@@ -121,10 +124,7 @@ utils.keymap.set_move_pair({ "[e", "]e" }, {
   function() vim.diagnostic.goto_next({ severity = vim.diagnostic.severity.ERROR }) end,
   function() vim.diagnostic.goto_prev({ severity = vim.diagnostic.severity.ERROR }) end,
 }, { { desc = "Next error" }, { desc = "Previous error" } })
-
--- Conflict markers follow one of the 3 following forms at the start of a line:
--- `<<<<<<< <some text>`, ` =======` or ` >>>>>>> <some text>`
--- "^" forces the search pattern matches to be at the start of a line
+-- Conflict markers have 3 forms, all at the start of a line: `<<<<<<< <text>`, ` =======`, ` >>>>>>> <text>`
 local conflict_pattern = "^<<<<<<< \\|^=======\\|^>>>>>>> "
 utils.keymap.set_move_pair({ "[=", "]=" }, {
   function() vim.fn.search(conflict_pattern) end,
