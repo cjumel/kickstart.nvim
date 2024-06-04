@@ -104,6 +104,17 @@ utils.keymap.set_move_pair(
   { { desc = "Next buffer" }, { desc = "Previous buffer" } }
 )
 utils.keymap.set_move_pair(
+  { "[l", "]l" },
+  { function() vim.cmd("lnext") end, function() vim.cmd("lprev") end },
+  { { desc = "Next loclist item" }, { desc = "Previous loclist item" } }
+)
+utils.keymap.set_move_pair(
+  { "[q", "]q" },
+  { function() vim.cmd("cnext") end, function() vim.cmd("cprev") end },
+  { { desc = "Next qflist item" }, { desc = "Previous qflist item" } }
+)
+
+utils.keymap.set_move_pair(
   { "[p", "]p" },
   { function() vim.cmd("normal }") end, function() vim.cmd("normal {") end },
   { { desc = "Next paragraph" }, { desc = "Previous paragraph" } }
