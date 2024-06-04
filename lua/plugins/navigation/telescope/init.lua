@@ -75,9 +75,9 @@ return {
             -- Open actions
             ["<C-x>"] = actions.select_horizontal,
             ["<C-v>"] = actions.select_vertical,
+            ["<C-t>"] = actions.select_tab,
             ["<C-l>"] = custom_actions.smart_open_loclist,
             ["<C-q>"] = custom_actions.smart_open_quickfix,
-            ["<C-t>"] = custom_actions.smart_open_trouble,
           },
           n = {
             -- General insert-mode actions
@@ -108,9 +108,9 @@ return {
             -- Open actions
             ["<C-x>"] = actions.select_horizontal,
             ["<C-v>"] = actions.select_vertical,
+            ["<C-t>"] = actions.select_tab,
             ["<C-l>"] = custom_actions.smart_open_loclist,
             ["<C-q>"] = custom_actions.smart_open_quickfix,
-            ["<C-t>"] = custom_actions.smart_open_trouble,
           },
         },
         file_ignore_patterns = { "%.git/" }, -- Exclude in all searches (even when hidden & ignored files are included)
