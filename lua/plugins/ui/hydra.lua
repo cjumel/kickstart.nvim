@@ -2,6 +2,14 @@
 --
 -- Neovim implementation of the famous Emacs Hydra package.
 
+-- TODO: some small improvements can be made on the Hydra config:
+--  - separate config from each Hydra in different files to update them more easily
+--  - improve the option manager:
+--    - change the treesitter context to use the "t" keymap & be in the plugin section
+--    - try to improve the concealing keymap for something more mnemonic
+--    - add a cursorline parameter
+--    - add manual ruler column length (current mode could be named "auto")
+
 return {
   "nvimtools/hydra.nvim",
   keys = {
