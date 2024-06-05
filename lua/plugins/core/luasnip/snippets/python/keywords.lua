@@ -57,7 +57,23 @@ return {
   ),
 
   -- [[ Conditions ]]
-  -- Block version (there's not much value in adding snippets for simple if/elif/else statements so let's not bother)
+  -- Block version
+  s({ trig = "if ..", show_condition = is_in_code_empty_line }, {
+    t("if "),
+    c(1, { i(1), sn(nil, { t("not "), i(1) }) }),
+    t({ ":", "\t" }),
+    c(2, { i(1), sn(nil, { t("pass"), i(1) }) }),
+  }),
+  s({ trig = "elif ..", show_condition = is_in_code_empty_line }, {
+    t("elif "),
+    c(1, { i(1), sn(nil, { t("not "), i(1) }) }),
+    t({ ":", "\t" }),
+    c(2, { i(1), sn(nil, { t("pass"), i(1) }) }),
+  }),
+  s({ trig = "else ..", show_condition = is_in_code_empty_line }, {
+    t({ "else:", "\t" }),
+    c(1, { i(1), sn(nil, { t("pass"), i(1) }) }),
+  }),
   s(
     { trig = 'if .. "__main__"', show_condition = is_in_code_empty_line },
     { t({ 'if __name__ == "__main__":', "\t" }), c(1, { i(1), sn(nil, { t("pass"), i(1) }) }) }
