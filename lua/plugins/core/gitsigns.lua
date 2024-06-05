@@ -21,7 +21,6 @@ return {
     attach_to_untracked = true,
     on_attach = function(bufnr)
       local gs = package.loaded.gitsigns
-
       local utils = require("utils")
 
       local map = utils.keymap.get_buffer_local_map(bufnr)
@@ -76,65 +75,11 @@ return {
   },
   config = function(_, opts)
     local gs = require("gitsigns")
-
     gs.setup(opts)
 
-    -- Hunk actions are implemented with Hydra to avoid the need to type the leader key between
-    -- each hunk action. When tied to a specific buffer, the Hydra cannot perform actions on other
-    -- buffers (but it can switch to them), hence it is defined globally here, without buffer.
+    -- Hunk actions are implemented with Hydra to remove the need to type the <leader> key between each hunk action.
     local Hydra = require("hydra")
-
-    Hydra({
-      body = "<leader>h",
-      config = {
-        desc = "[H]unk manager",
-        color = "pink", -- For synchron buffer actions
-        -- Setting `buffer=true` or `buffer=bufnr` makes the hunk manager keymaps only work in a
-        -- single buffer, while still being able to switch buffer (as `foreign_keys="run"` can't
-        -- be overriden for pink Hydra). In that case, the Hydra is still opened but the keymaps
-        -- don't work in the new buffer, which is quite confusing.
-        buffer = nil,
-      },
-      mode = { "n", "v" },
-      hint = [[
-   ^ ^                            ^ ^        Hunk manager           ^ ^                            
-   _,_ ➜ Next hunk                _K_ ➜ Hover hunk                  _u_ ➜ [U]nstage last staged hunk   
-   _;_ ➜ Previous hunk            _s_ ➜ [S]tage hunk/selection      _x_ ➜ Discard hunk/selection   
-]],
-      heads = {
-        -- "," & ";" are not repeatable on purpose, to be able to resume the previous movement
-        -- actions after leaving the hydra
-        { ",", function() gs.next_hunk({ navigation_message = false }) end },
-        { ";", function() gs.prev_hunk({ navigation_message = false }) end },
-        -- Don't use a key for preview which could be used for navigating (like "h", "j", "k", "l")
-        -- or selecting ("v", or any key involved in a text object) to be able to use them to stage
-        { "K", function() gs.preview_hunk() end },
-        {
-          -- "a" (like in `git add`) doesn't work well in visual mode, there is a delay due to
-          -- text-objects keymaps (like `ab`)
-          "s",
-          function()
-            if vim.fn.mode() == "n" then
-              gs.stage_hunk()
-            else
-              gs.stage_hunk({ vim.fn.line("."), vim.fn.line("v") })
-            end
-          end,
-        },
-        { "u", function() gs.undo_stage_hunk() end },
-        {
-          "x",
-          function()
-            if vim.fn.mode() == "n" then
-              gs.reset_hunk()
-            else
-              gs.reset_hunk({ vim.fn.line("."), vim.fn.line("v") })
-            end
-          end,
-        },
-        { "q", nil, { exit = true, mode = "n", desc = false } },
-        { "<Esc>", nil, { exit = true, mode = "n", desc = false } },
-      },
-    })
+    local hydra_configs = require("plugins.ui.hydra.configs")
+    Hydra(hydra_configs.hunk)
   end,
 }
