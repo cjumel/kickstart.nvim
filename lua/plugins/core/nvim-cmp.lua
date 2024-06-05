@@ -43,12 +43,16 @@ return {
         ["Ï"] = cmp.mapping(cmp.mapping.scroll_docs(5), { "i", "c" }), -- <M-j>
         ["È"] = cmp.mapping(cmp.mapping.scroll_docs(-5), { "i", "c" }), -- <M-k>
       },
-      sources = {
-        { name = "luasnip", priority = 100 },
-        { name = "nvim_lsp", priority = 10 },
-        { name = "buffer" },
+      -- We can define groups of sources with `cmp.config.sources`: a group of sources is only enabled if the previous
+      -- groups didn't return any completion items, and within a group, sources are ordered by decreasing priority,
+      -- just like the usual setup
+      sources = cmp.config.sources({
+        { name = "luasnip" },
+        { name = "nvim_lsp" },
         { name = "path" },
-      },
+      }, {
+        { name = "buffer" },
+      }),
       -- Disable menu in completion window
       -- This menu can describe the source of the completion item (e.g. its global source like "LSP" or "Luasnip", or
       -- the module corresponding to a completion item for languages like Python), however disabling it solves an issue
@@ -70,16 +74,16 @@ return {
     -- Set up filetype-specific configurations
     cmp.setup.filetype("markdown", {
       sources = {
-        { name = "luasnip", priority = 100 },
-        { name = "nvim_lsp", priority = 10 },
-        { name = "buffer" },
+        { name = "luasnip" },
+        { name = "nvim_lsp" },
         { name = "path" },
         { name = "emoji" },
+        { name = "buffer" },
       },
     })
     cmp.setup.filetype({ "oil", "gitcommit", "NeogitCommitMessage" }, {
       sources = {
-        { name = "luasnip", priority = 10 },
+        { name = "luasnip" },
         { name = "buffer" },
       },
     })
