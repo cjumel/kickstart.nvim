@@ -4,7 +4,10 @@
 
 return {
   "nvim-treesitter/nvim-treesitter",
-  dependencies = { "nvim-treesitter/nvim-treesitter-textobjects" },
+  dependencies = {
+    "nvim-treesitter/nvim-treesitter-textobjects",
+    "nvim-treesitter/nvim-treesitter-context",
+  },
   build = ":TSUpdate",
   event = "VeryLazy", -- Force load on start-up to ensure all parsers are always installed
   opts = {

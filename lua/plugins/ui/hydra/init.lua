@@ -7,7 +7,6 @@
 
 -- TODO: some small improvements can be made on the Hydra config:
 --  - improve the option manager:
---    - change the treesitter context to use the "t" keymap & be in the plugin section
 --    - try to improve the concealing keymap for something more mnemonic
 --    - add a cursorline parameter
 --    - add manual ruler column length (current mode could be named "auto")
@@ -20,6 +19,9 @@ return {
     { "<C-w>", desc = "Window Hydra" },
     { "<leader>,", desc = "Option Hydra" },
   },
+  init = function()
+    vim.g.disable_treesitter_context = true
+  end,
   opts = {
     invoke_on_body = true,
     hint = { float_opts = { border = "rounded" } }, -- Improve visibility with transparent background

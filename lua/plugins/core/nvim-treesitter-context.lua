@@ -5,11 +5,14 @@
 
 return {
   "nvim-treesitter/nvim-treesitter-context",
-  lazy = true, -- Lazy-loaded when enabled from the option manager; lazy-loading through `keys` doesn't seem to work
+  -- We could lazy loaded the plugin if `vim.g.disable_treesitter_context` defaults to `false`, but for the sake of
+  -- simplicity let's not bother with that
+  lazy = true, -- Dependency of `nvim-treesitter`
   opts = {},
   config = function(_, opts)
     local treesitter_context = require("treesitter-context")
 
+    opts.enable = not vim.g.disable_treesitter_context
     treesitter_context.setup(opts)
 
     vim.keymap.set("n", "gp", function()

@@ -1,5 +1,22 @@
 -- The option Hydra provides a simple interface to view and change Neovim-level settings.
 
+local function treesitter_context_display()
+  local treesitter_context = package.loaded["treesitter-context"]
+  if treesitter_context.enabled() then
+    return "[on] /  off "
+  else
+    return " on  / [off]"
+  end
+end
+local function treesitter_context_switch_next()
+  local treesitter_context = package.loaded["treesitter-context"]
+  if treesitter_context.enabled() then
+    treesitter_context.disable()
+  else
+    treesitter_context.enable()
+  end
+end
+
 return {
   body = "<leader>,",
   config = {
@@ -36,18 +53,6 @@ return {
             return " num  / [yes] /  off "
           else
             return " num  /  yes  / [off]"
-          end
-        end,
-        treesitter_context = function()
-          local treesitter_context = package.loaded["treesitter-context"]
-          if treesitter_context == nil then
-            return " on  / [off]" -- default value
-          end
-
-          if treesitter_context.enabled() then
-            return "[on] /  off "
-          else
-            return " on  / [off]"
           end
         end,
         concealing = function()
@@ -92,6 +97,7 @@ return {
             return "[on] /  off "
           end
         end,
+        treesitter_context = treesitter_context_display,
       },
     },
   },
@@ -99,7 +105,6 @@ return {
                         Option Hydra                          
 
    Window options   
-   _c_ ^ ^ ➜ Treesitter context:      %{treesitter_context}   
    _h_ ^ ^ ➜ Hide concealable text:   %{concealing}   
    _n_/_N_ ➜ Line numbering:          %{line_numbering}   
    _r_ ^ ^ ➜ Ruler column:            %{ruler_column}   
@@ -110,6 +115,7 @@ return {
    _f_ ^ ^ ➜ Format on save:          %{format_on_save}   
    _g_ ^ ^ ➜ GitHub copilot:          %{copilot}   
    _l_ ^ ^ ➜ Lint:                    %{lint}   
+   _t_ ^ ^ ➜ Treesitter context:      %{treesitter_context}   
 
 ]],
   heads = {
@@ -191,19 +197,6 @@ return {
       end,
     },
     {
-      "c",
-      function()
-        local treesitter_context = package.loaded["treesitter-context"]
-        if treesitter_context == nil then
-          require("treesitter-context") -- Load the plugin, it will be enabled by default
-        elseif treesitter_context.enabled() then
-          treesitter_context.disable()
-        else
-          treesitter_context.enable()
-        end
-      end,
-    },
-    {
       "h",
       function()
         if vim.g.disable_concealing then
@@ -270,6 +263,7 @@ return {
         end
       end,
     },
+    { "t", treesitter_context_switch_next },
 
     { "<Esc>", nil, { exit = true, desc = false } },
   },
