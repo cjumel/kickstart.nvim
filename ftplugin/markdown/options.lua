@@ -62,7 +62,8 @@ end
 -- Display a column ruler at the relevant line length
 if
   vim.opt_local.colorcolumn._value == "" -- Prevent computing the value several times
-  and not (vim.g.disable_colorcolumn or utils.buffer.tooling_is_disabled())
+  and vim.g.color_column_mode == "auto"
+  and not utils.buffer.tooling_is_disabled()
 then
   vim.opt_local.colorcolumn = get_colorcolumn()
 end
@@ -70,9 +71,6 @@ end
 -- [[ Conceallevel ]]
 
 -- Set conceal level to hide some information in the buffer; default to 0 (no concealment)
-if
-  vim.opt_local.conceallevel._value == "" -- Prevent computing the value several times
-  and not vim.g.disable_concealing
-then
-  vim.opt_local.conceallevel = 2 -- Hide concealable text almost all the time
+if vim.g.concealing_mode == "auto" then
+  vim.opt_local.conceallevel = 2
 end

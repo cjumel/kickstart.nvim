@@ -1,5 +1,269 @@
 -- The option Hydra provides a simple interface to view and change Neovim-level settings.
 
+local utils = require("utils")
+
+-- [[ Neovim options ]]
+
+local function color_column_display()
+  if vim.g.color_column_mode == "auto" then
+    return "[auto] /  88   /  100  /  120  /  140  /  off "
+  elseif vim.g.color_column_mode == "88" then
+    return " auto  / [88]  /  100  /  120  /  140  /  off "
+  elseif vim.g.color_column_mode == "100" then
+    return " auto  /  88   / [100] /  120  /  140  /  off "
+  elseif vim.g.color_column_mode == "120" then
+    return " auto  /  88   /  100  / [120] /  140  /  off "
+  elseif vim.g.color_column_mode == "140" then
+    return " auto  /  88   /  100  /  120  / [140] /  off "
+  else
+    return " auto  /  88   /  100  /  120  /  140  / [off]"
+  end
+end
+local function color_column_switch_next()
+  if vim.g.color_column_mode == "auto" then
+    vim.g.color_column_mode = "88"
+  elseif vim.g.color_column_mode == "88" then
+    vim.g.color_column_mode = "100"
+  elseif vim.g.color_column_mode == "100" then
+    vim.g.color_column_mode = "120"
+  elseif vim.g.color_column_mode == "120" then
+    vim.g.color_column_mode = "140"
+  elseif vim.g.color_column_mode == "140" then
+    vim.g.color_column_mode = "off"
+  else
+    vim.g.color_column_mode = "auto"
+  end
+
+  if vim.g.color_column_mode == "auto" or vim.g.color_column_mode == "off" then
+    vim.opt.colorcolumn = "" -- No colorcolumn (for "auto", ftplugins will change it)
+  else
+    vim.opt.colorcolumn = vim.g.color_column_mode
+  end
+  if not utils.buffer.is_temporary() then
+    vim.cmd("edit") -- Reload the current buffer to apply the new colorcolumn setting
+  end
+end
+local function color_column_switch_prev()
+  if vim.g.color_column_mode == "auto" then
+    vim.g.color_column_mode = "off"
+  elseif vim.g.color_column_mode == "off" then
+    vim.g.color_column_mode = "140"
+  elseif vim.g.color_column_mode == "140" then
+    vim.g.color_column_mode = "120"
+  elseif vim.g.color_column_mode == "120" then
+    vim.g.color_column_mode = "100"
+  elseif vim.g.color_column_mode == "100" then
+    vim.g.color_column_mode = "88"
+  else
+    vim.g.color_column_mode = "auto"
+  end
+
+  if vim.g.color_column_mode == "auto" or vim.g.color_column_mode == "off" then
+    vim.opt.colorcolumn = "" -- No colorcolumn (for "auto", ftplugins will change it)
+  else
+    vim.opt.colorcolumn = vim.g.color_column_mode
+  end
+  if not utils.buffer.is_temporary() then
+    vim.cmd("edit") -- Reload the current buffer to apply the new colorcolumn setting
+  end
+end
+
+local function number_column_display()
+  if vim.g.number_column_mode == "absolute" then
+    return "[abs] /  rel  /  off "
+  elseif vim.g.number_column_mode == "relative" then
+    return " abs  / [rel] /  off "
+  else
+    return " abs  /  rel  / [off]"
+  end
+end
+local function number_column_switch_next()
+  if vim.g.number_column_mode == "absolute" then
+    vim.g.number_column_mode = "relative"
+  elseif vim.g.number_column_mode == "relative" then
+    vim.g.number_column_mode = "off"
+  else
+    vim.g.number_column_mode = "absolute"
+  end
+
+  if vim.g.number_column_mode == "absolute" then
+    vim.wo.number = true
+    vim.wo.relativenumber = false
+  elseif vim.g.number_column_mode == "relative" then
+    vim.wo.number = true
+    vim.wo.relativenumber = true
+  else
+    vim.wo.number = false
+    vim.wo.relativenumber = false
+  end
+end
+local function number_column_switch_prev()
+  if vim.g.number_column_mode == "absolute" then
+    vim.g.number_column_mode = "off"
+  elseif vim.g.number_column_mode == "off" then
+    vim.g.number_column_mode = "relative"
+  else
+    vim.g.number_column_mode = "absolute"
+  end
+
+  if vim.g.number_column_mode == "absolute" then
+    vim.wo.number = true
+    vim.wo.relativenumber = false
+  elseif vim.g.number_column_mode == "relative" then
+    vim.wo.number = true
+    vim.wo.relativenumber = true
+  else
+    vim.wo.number = false
+    vim.wo.relativenumber = false
+  end
+end
+
+local function concealing_display()
+  if vim.g.concealing_mode == "auto" then
+    return "[auto] /  on   /  off "
+  elseif vim.g.concealing_mode == "on" then
+    return " auto  / [on]  /  off "
+  else
+    return " auto  /  on   / [off]"
+  end
+end
+local function concealing_switch_next()
+  if vim.g.concealing_mode == "auto" then
+    vim.g.concealing_mode = "on"
+  elseif vim.g.concealing_mode == "on" then
+    vim.g.concealing_mode = "off"
+  else
+    vim.g.concealing_mode = "auto"
+  end
+
+  if vim.g.concealing_mode == "auto" or vim.g.concealing_mode == "off" then
+    vim.opt.conceallevel = 0 -- No concealing (for "auto", ftplugins will change it)
+  else
+    vim.opt.conceallevel = 2
+  end
+  if not utils.buffer.is_temporary() then
+    vim.cmd("edit") -- Reload the current buffer to apply the conceal level setting
+  end
+end
+local function concealing_switch_prev()
+  if vim.g.concealing_mode == "auto" then
+    vim.g.concealing_mode = "off"
+  elseif vim.g.concealing_mode == "off" then
+    vim.g.concealing_mode = "on"
+  else
+    vim.g.concealing_mode = "auto"
+  end
+
+  if vim.g.concealing_mode == "auto" or vim.g.concealing_mode == "off" then
+    vim.opt.conceallevel = 0 -- No concealing (for "auto", ftplugins will change it)
+  else
+    vim.opt.conceallevel = 2
+  end
+  if not utils.buffer.is_temporary() then
+    vim.cmd("edit") -- Reload the current buffer to apply the conceal level setting
+  end
+end
+
+local function sign_column_display()
+  if vim.g.sign_column_mode == "number" then
+    return "[num] /  yes  /  off "
+  elseif vim.g.sign_column_mode == "yes" then
+    return " num  / [yes] /  off "
+  else
+    return " num  /  yes  / [off]"
+  end
+end
+local function sign_column_switch_next()
+  if vim.g.sign_column_mode == "number" then
+    vim.g.sign_column_mode = "yes"
+  elseif vim.g.sign_column_mode == "yes" then
+    vim.g.sign_column_mode = "off"
+  else
+    vim.g.sign_column_mode = "number"
+  end
+
+  if vim.g.sign_column_mode == "off" then
+    vim.wo.signcolumn = "no"
+  else
+    vim.wo.signcolumn = vim.g.sign_column_mode
+  end
+end
+local function sign_column_switch_prev()
+  if vim.g.sign_column_mode == "number" then
+    vim.g.sign_column_mode = "off"
+  elseif vim.g.sign_column_mode == "off" then
+    vim.g.sign_column_mode = "yes"
+  else
+    vim.g.sign_column_mode = "number"
+  end
+
+  if vim.g.sign_column_mode == "off" then
+    vim.wo.signcolumn = "no"
+  else
+    vim.wo.signcolumn = vim.g.sign_column_mode
+  end
+end
+
+local function cursor_line_display()
+  if vim.g.cursor_line_mode == "both" then
+    return "[both] /  line  /  num  /  off "
+  elseif vim.g.cursor_line_mode == "line" then
+    return " both  / [line] /  num  /  off "
+  elseif vim.g.cursor_line_mode == "number" then
+    return " both  /  line  / [num] /  off "
+  else
+    return " both  /  line  /  num  / [off]"
+  end
+end
+local function cursor_line_switch_next()
+  if vim.g.cursor_line_mode == "both" then
+    vim.g.cursor_line_mode = "line"
+  elseif vim.g.cursor_line_mode == "line" then
+    vim.g.cursor_line_mode = "number"
+  elseif vim.g.cursor_line_mode == "number" then
+    vim.g.cursor_line_mode = "off"
+  else
+    vim.g.cursor_line_mode = "both"
+  end
+
+  if vim.g.cursor_line_mode == "both" then
+    vim.opt.cursorline = true
+    vim.opt.cursorlineopt = "both"
+  elseif vim.g.cursor_line_mode == "line" then
+    vim.opt.cursorline = true
+    vim.opt.cursorlineopt = "line"
+  elseif vim.g.cursor_line_mode == "number" then
+    vim.opt.cursorline = true
+    vim.opt.cursorlineopt = "number"
+  else
+    vim.opt.cursorline = false
+  end
+end
+local function cursor_line_switch_prev()
+  if vim.g.cursor_line_mode == "both" then
+    vim.g.cursor_line_mode = "off"
+  elseif vim.g.cursor_line_mode == "off" then
+    vim.g.cursor_line_mode = "number"
+  elseif vim.g.cursor_line_mode == "number" then
+    vim.g.cursor_line_mode = "line"
+  else
+    vim.g.cursor_line_mode = "both"
+  end
+
+  if vim.g.cursor_line_mode == "both" then
+    vim.opt.cursorline = true
+    vim.opt.cursorlineopt = "both"
+  elseif vim.g.cursor_line_mode == "line" then
+    vim.opt.cursorline = true
+    vim.opt.cursorlineopt = "line"
+  elseif vim.g.cursor_line_mode == "number" then
+    vim.opt.cursorline = true
+    vim.opt.cursorlineopt = "number"
+  else
+    vim.opt.cursorline = false
+  end
+end
+
 -- [[ Plugin options ]]
 -- All the plugin options rely on a `vim.g.disable_` variable. The display functions display the relevant setting based
 -- directly on it, while the toggle functions switch its value &, when necessary & if the plugin is loaded, apply the
@@ -96,45 +360,12 @@ return {
     hint = {
       position = "middle",
       funcs = {
-
-        -- In the following, when the setting depends on a plugin which is not loaded, let's
-        -- try to display the setting without loading the plugin when possible, or display
-        -- the default setting value without loading the plugin
-
-        -- Window option
-        line_numbering = function()
-          if vim.wo.number and not vim.wo.relativenumber then
-            return "[abs] /  rel  /  off "
-          elseif vim.wo.number and vim.wo.relativenumber then
-            return " abs  / [rel] /  off "
-          else
-            return " abs  /  rel  / [off]"
-          end
-        end,
-        ruler_column = function()
-          if vim.g.disable_colorcolumn then
-            return " on  / [off]"
-          else
-            return "[on] /  off "
-          end
-        end,
-        sign_column = function()
-          if vim.wo.signcolumn == "number" then
-            return "[num] /  yes  /  off "
-          elseif vim.wo.signcolumn == "yes" then
-            return " num  / [yes] /  off "
-          else
-            return " num  /  yes  / [off]"
-          end
-        end,
-        concealing = function()
-          if vim.g.disable_concealing then
-            return " on  / [off]"
-          else
-            return "[on] /  off "
-          end
-        end,
-
+        -- Neovim options
+        color_column = color_column_display,
+        number_column = number_column_display,
+        concealing = concealing_display,
+        sign_column = sign_column_display,
+        cursor_line = cursor_line_display,
         -- Plugin options
         autopairs = autopairs_display,
         format_on_save = format_on_save_display,
@@ -144,14 +375,16 @@ return {
       },
     },
   },
+  -- The way "Option Hydra" is centered is determined empirically, as the content of the Hydra body depends on functions
   hint = [[
-                        Option Hydra                          
+                                   Option Hydra                          
 
-   Window options   
-   _h_ ^ ^ ➜ Hide concealable text:   %{concealing}   
-   _n_/_N_ ➜ Line numbering:          %{line_numbering}   
-   _r_ ^ ^ ➜ Ruler column:            %{ruler_column}   
+   Neovim options   
+   _c_/_C_ ➜ Color column:            %{color_column}   
+   _n_/_N_ ➜ Number column:           %{number_column}   
+   _o_/_O_ ➜ Concealing:              %{concealing}   
    _s_/_S_ ➜ Sign column:             %{sign_column}   
+   _u_/_U_ ➜ Cursor line:             %{cursor_line}   
 
    Plugin options   
    _a_ ^ ^ ➜ Auto-pairs:              %{autopairs}   
@@ -162,107 +395,24 @@ return {
 
 ]],
   heads = {
-
-    -- In the following, when the setting depends on a plugin which is not loaded, let's
-    -- try to change the setting without loading the plugin when possible, otherwise load the
-    -- plugin and change the setting afterwards
-
-    -- Window options
-    {
-      "n",
-      function()
-        if vim.wo.number and not vim.wo.relativenumber then
-          vim.wo.number = true
-          vim.wo.relativenumber = true
-        elseif vim.wo.number and vim.wo.relativenumber then
-          vim.wo.number = false
-          vim.wo.relativenumber = false
-        else
-          vim.wo.number = true
-          vim.wo.relativenumber = false
-        end
-      end,
-    },
-    {
-      "N",
-      function()
-        if vim.wo.number and not vim.wo.relativenumber then
-          vim.wo.number = false
-          vim.wo.relativenumber = false
-        elseif vim.wo.number and vim.wo.relativenumber then
-          vim.wo.number = true
-          vim.wo.relativenumber = false
-        else
-          vim.wo.number = true
-          vim.wo.relativenumber = true
-        end
-      end,
-    },
-    {
-      "r",
-      function()
-        -- This won't apply right away to opened buffers except for the current one
-        -- To apply this manually, either use the ":e" (or ":edit") command, reload the buffer manually or toggle
-        -- the setting again
-        if not vim.g.disable_colorcolumn then
-          vim.g.disable_colorcolumn = true
-          vim.opt.colorcolumn = "" -- Remove the colorcolumn in current buffer
-        else
-          vim.g.disable_colorcolumn = false
-          if not utils.buffer.is_temporary() then
-            vim.cmd("edit") -- Reload the current buffer to apply the colorcolumn
-          end
-        end
-      end,
-    },
-    {
-      "s",
-      function()
-        if vim.wo.signcolumn == "number" then
-          vim.wo.signcolumn = "yes"
-        elseif vim.wo.signcolumn == "yes" then
-          vim.wo.signcolumn = "no"
-        else
-          vim.wo.signcolumn = "number"
-        end
-      end,
-    },
-    {
-      "S",
-      function()
-        if vim.wo.signcolumn == "number" then
-          vim.wo.signcolumn = "no"
-        elseif vim.wo.signcolumn == "no" then
-          vim.wo.signcolumn = "yes"
-        else
-          vim.wo.signcolumn = "number"
-        end
-      end,
-    },
-    {
-      "h",
-      function()
-        if vim.g.disable_concealing then
-          vim.g.disable_concealing = false
-          if not utils.buffer.is_temporary() then
-            vim.cmd("edit") -- Reload the current buffer to apply the conceal level setting
-          end
-        else
-          vim.g.disable_concealing = true
-          if vim.bo.filetype == "markdown" then -- Apply the conceal level setting when relevant
-            vim.opt_local.conceallevel = 0
-          end
-        end
-      end,
-    },
-
+    -- Neovim options
+    { "c", color_column_switch_next },
+    { "C", color_column_switch_prev },
+    { "n", number_column_switch_next },
+    { "N", number_column_switch_prev },
+    { "o", concealing_switch_next },
+    { "O", concealing_switch_prev },
+    { "s", sign_column_switch_next },
+    { "S", sign_column_switch_prev },
+    { "u", cursor_line_switch_next },
+    { "U", cursor_line_switch_prev },
     -- Plugin options
     { "a", autopairs_toggle },
     { "f", format_on_save_toggle },
     { "g", github_copilot_toggle },
     { "l", lint_toggle },
     { "t", treesitter_context_toggle },
-
+    -- Other
     { "<Esc>", nil, { exit = true, desc = false } },
   },
 }

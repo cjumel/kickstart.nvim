@@ -5,14 +5,6 @@
 -- possible to use window keymaps (increase height, decrease width, etc.) without having to type the window prefix
 -- (<C-w>) between each single action, which is a lot more convenient.
 
--- TODO: some small improvements can be made on the Hydra config:
---  - improve the option manager:
---    - try to improve the concealing keymap for something more mnemonic
---    - add a cursorline parameter
---    - add manual ruler column length (current mode could be named "auto")
---    - support auto, on, off options for conform
---    - support auto, on, off options for lint
-
 return {
   "nvimtools/hydra.nvim",
   keys = {
@@ -21,6 +13,12 @@ return {
   },
   init = function()
     -- Initialize global variables for the option Hydra
+    -- Neovim options
+    vim.g.color_column_mode = "auto" -- "auto", "88" (Ruff default), "100", "120" (Stylua default), "140", "off"
+    vim.g.number_column_mode = "absolute" -- "absolute", "relative", "off"
+    vim.g.concealing_mode = "auto" -- "auto", "on", "off"
+    vim.g.sign_column_mode = "number" -- "number", "yes", "off"
+    vim.g.cursor_line_mode = "both" -- "both", "line", "number", "off"
     -- Plugin options
     vim.g.disable_autopairs = false
     vim.g.disable_format_on_save = false

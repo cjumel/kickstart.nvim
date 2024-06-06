@@ -6,12 +6,45 @@ vim.o.mouse = "a" -- Enable mouse mode in all modes
 vim.o.breakindent = true -- Indent parts after break in wrapped lines
 vim.o.splitright = true -- Open new vertical split windows to the right
 vim.o.splitbelow = true -- Open new horizontal split windows below
-vim.opt.cursorline = true -- Hilight current line & line number
+if vim.g.cursor_line_mode == "both" then
+  vim.opt.cursorline = true
+  vim.opt.cursorlineopt = "both"
+elseif vim.g.cursor_line_mode == "line" then
+  vim.opt.cursorline = true
+  vim.opt.cursorlineopt = "line"
+elseif vim.g.cursor_line_mode == "number" then
+  vim.opt.cursorline = true
+  vim.opt.cursorlineopt = "number"
+else
+  vim.opt.cursorline = false
+end
+if vim.g.color_column_mode == "auto" or vim.g.color_column_mode == "off" then
+  vim.opt.colorcolumn = "" -- No colorcolumn (for "auto", ftplugins will change it)
+else
+  vim.opt.colorcolumn = vim.g.color_column_mode
+end
+if vim.g.concealing_mode == "auto" or vim.g.concealing_mode == "off" then
+  vim.opt.conceallevel = 0 -- No concealing (for "auto", ftplugins will change it)
+else
+  vim.opt.conceallevel = 2
+end
 
 -- Side column
-vim.wo.number = true -- Enable line numbering
-vim.wo.relativenumber = false -- Keep line numbering absolute
-vim.wo.signcolumn = "number" -- Merge signcolumn in line numbering column
+if vim.g.number_column_mode == "absolute" then
+  vim.wo.number = true
+  vim.wo.relativenumber = false
+elseif vim.g.number_column_mode == "relative" then
+  vim.wo.number = true
+  vim.wo.relativenumber = true
+else
+  vim.wo.number = false
+  vim.wo.relativenumber = false
+end
+if vim.g.sign_column_mode == "off" then
+  vim.wo.signcolumn = "no"
+else
+  vim.wo.signcolumn = vim.g.sign_column_mode
+end
 
 -- Search & replace
 vim.o.ignorecase = true -- Make search case-insensitive by default

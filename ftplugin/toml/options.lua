@@ -96,7 +96,8 @@ end
 -- Display a column ruler at the relevant line length
 if
   vim.opt_local.colorcolumn._value == "" -- Prevent computing the value several times
-  and not (vim.g.disable_colorcolumn or utils.buffer.tooling_is_disabled())
+  and vim.g.color_column_mode == "auto"
+  and not utils.buffer.tooling_is_disabled()
 then
   vim.opt_local.colorcolumn = get_colorcolumn()
 end
