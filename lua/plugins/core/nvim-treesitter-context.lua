@@ -5,13 +5,10 @@
 
 return {
   "nvim-treesitter/nvim-treesitter-context",
-  -- We could lazy loaded the plugin if `vim.g.disable_treesitter_context` defaults to `false`, but for the sake of
-  -- simplicity let's not bother with that
-  lazy = true, -- Dependency of `nvim-treesitter`
+  event = { "BufNewFile", "BufReadPre" },
   opts = {},
   config = function(_, opts)
     local treesitter_context = require("treesitter-context")
-
     opts.enable = not vim.g.disable_treesitter_context
     treesitter_context.setup(opts)
 

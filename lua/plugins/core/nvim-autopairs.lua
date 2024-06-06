@@ -7,4 +7,12 @@ return {
   "windwp/nvim-autopairs",
   event = { "InsertEnter" },
   opts = {},
+  config = function(_, opts)
+    local autopairs = require("nvim-autopairs")
+    autopairs.setup(opts)
+
+    if vim.g.disable_autopairs then
+      autopairs.disable()
+    end
+  end,
 }

@@ -9,6 +9,10 @@ return {
   event = { "InsertEnter" },
   cmd = { "Copilot" }, -- For other plugins using directly the command, like the settings in Hydra.nvim
   config = function()
+    if vim.g.disable_github_copilot then
+      vim.cmd("Copilot disable")
+    end
+
     vim.g.copilot_filetypes = { markdown = true } -- Enable Copilot on Markdown
 
     -- The plugin sets <C-i> as the regular completion key; let's add <C-$> & <C-`> to accept word or line

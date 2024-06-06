@@ -20,6 +20,12 @@ return {
     { "<leader>,", desc = "Option Hydra" },
   },
   init = function()
+    -- Initialize global variables for the option Hydra
+    -- Plugin options
+    vim.g.disable_autopairs = false
+    vim.g.disable_format_on_save = false
+    vim.g.disable_github_copilot = false
+    vim.g.disable_lint = false
     vim.g.disable_treesitter_context = true
   end,
   opts = {

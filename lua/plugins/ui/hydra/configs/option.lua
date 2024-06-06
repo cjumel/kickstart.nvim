@@ -1,19 +1,91 @@
 -- The option Hydra provides a simple interface to view and change Neovim-level settings.
 
-local function treesitter_context_display()
-  local treesitter_context = package.loaded["treesitter-context"]
-  if treesitter_context.enabled() then
-    return "[on] /  off "
-  else
+-- [[ Plugin options ]]
+-- All the plugin options rely on a `vim.g.disable_` variable. The display functions display the relevant setting based
+-- directly on it, while the toggle functions switch its value &, when necessary & if the plugin is loaded, apply the
+-- new option to the plugin settings.
+
+local function autopairs_display()
+  if vim.g.disable_autopairs then
     return " on  / [off]"
   end
+  return "[on] /  off "
 end
-local function treesitter_context_switch_next()
+local function autopairs_toggle()
+  vim.g.disable_autopairs = not vim.g.disable_autopairs
+
+  local autopairs = package.loaded["nvim-autopairs"]
+  if autopairs ~= nil then
+    if vim.g.disable_autopairs then
+      autopairs.disable()
+    else
+      autopairs.enable()
+    end
+  end
+end
+
+local function format_on_save_display()
+  if vim.g.disable_format_on_save then
+    return " on  / [off]"
+  end
+  return "[on] /  off "
+end
+local function format_on_save_toggle() vim.g.disable_format_on_save = not vim.g.disable_format_on_save end
+
+local function github_copilot_display()
+  if vim.g.disable_github_copilot then
+    return " on  / [off]"
+  end
+  return "[on] /  off "
+end
+local function github_copilot_toggle()
+  vim.g.disable_github_copilot = not vim.g.disable_github_copilot
+
+  local copilot = package.loaded["_copilot"]
+  if copilot ~= nil then
+    if vim.g.disable_github_copilot then
+      vim.cmd("Copilot disable")
+    else
+      vim.cmd("Copilot enable")
+    end
+  end
+end
+
+local function lint_display()
+  if vim.g.disable_lint then
+    return " on  / [off]"
+  end
+  return "[on] /  off "
+end
+local function lint_toggle()
+  vim.g.disable_lint = not vim.g.disable_lint
+
+  local lint = package.loaded["lint"]
+  if lint ~= nil then
+    if vim.g.disable_lint then
+      vim.diagnostic.reset() -- Remove existing diagnostics
+    else
+      lint.try_lint() -- Manually trigger linting right away
+    end
+  end
+end
+
+local function treesitter_context_display()
+  if vim.g.disable_treesitter_context then
+    return " on  / [off]"
+  end
+  return "[on] /  off "
+end
+local function treesitter_context_toggle()
+  vim.g.disable_treesitter_context = not vim.g.disable_treesitter_context
+
   local treesitter_context = package.loaded["treesitter-context"]
-  if treesitter_context.enabled() then
-    treesitter_context.disable()
-  else
-    treesitter_context.enable()
+  if treesitter_context ~= nil then
+    if vim.g.disable_treesitter_context then
+      treesitter_context.disable()
+    else
+      treesitter_context.enable()
+    end
   end
 end
 
@@ -64,39 +136,10 @@ return {
         end,
 
         -- Plugin options
-        autopairs = function()
-          local autopairs = package.loaded["nvim-autopairs"]
-          if autopairs == nil then
-            return "[on] /  off " -- default value
-          end
-
-          if autopairs.state.disabled then
-            return " on  / [off]"
-          else
-            return "[on] /  off "
-          end
-        end,
-        copilot = function()
-          if vim.g.disable_copilot then
-            return " on  / [off]"
-          else
-            return "[on] /  off "
-          end
-        end,
-        format_on_save = function()
-          if vim.g.disable_autoformat then
-            return " on  / [off]"
-          else
-            return "[on] /  off "
-          end
-        end,
-        lint = function()
-          if vim.g.disable_lint then
-            return " on  / [off]"
-          else
-            return "[on] /  off "
-          end
-        end,
+        autopairs = autopairs_display,
+        format_on_save = format_on_save_display,
+        github_copilot = github_copilot_display,
+        lint = lint_display,
         treesitter_context = treesitter_context_display,
       },
     },
@@ -113,7 +156,7 @@ return {
    Plugin options   
    _a_ ^ ^ ➜ Auto-pairs:              %{autopairs}   
    _f_ ^ ^ ➜ Format on save:          %{format_on_save}   
-   _g_ ^ ^ ➜ GitHub copilot:          %{copilot}   
+   _g_ ^ ^ ➜ GitHub copilot:          %{github_copilot}   
    _l_ ^ ^ ➜ Lint:                    %{lint}   
    _t_ ^ ^ ➜ Treesitter context:      %{treesitter_context}   
 
@@ -214,56 +257,11 @@ return {
     },
 
     -- Plugin options
-    {
-      "a",
-      function()
-        local autopairs = require("nvim-autopairs") -- Load the plugin if necessary
-
-        if autopairs.state.disabled then
-          autopairs.enable()
-        else
-          autopairs.disable()
-        end
-      end,
-    },
-    {
-      "g",
-      function()
-        if not vim.g.disable_copilot then
-          vim.cmd("Copilot disable") -- Load the plugin if necessary
-          vim.g.disable_copilot = true
-        else
-          vim.cmd("Copilot enable") -- Load the plugin if necessary
-          vim.g.disable_copilot = false
-        end
-      end,
-    },
-    {
-      "f",
-      function()
-        -- Plugin doesn't need to be loaded
-        if not vim.g.disable_autoformat then
-          vim.g.disable_autoformat = true
-        else
-          vim.g.disable_autoformat = false
-        end
-      end,
-    },
-    {
-      "l",
-      function()
-        if not vim.g.disable_lint then
-          -- Plugin doesn't need to be loaded
-          vim.g.disable_lint = true
-          vim.diagnostic.reset() -- Remove existing diagnostics
-        else
-          -- Load the plugin if necessary
-          vim.g.disable_lint = false
-          require("lint").try_lint() -- Manually trigger linting right away
-        end
-      end,
-    },
-    { "t", treesitter_context_switch_next },
+    { "a", autopairs_toggle },
+    { "f", format_on_save_toggle },
+    { "g", github_copilot_toggle },
+    { "l", lint_toggle },
+    { "t", treesitter_context_toggle },
 
     { "<Esc>", nil, { exit = true, desc = false } },
   },
