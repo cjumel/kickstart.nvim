@@ -96,6 +96,7 @@ return {
             ["gg"] = actions.move_to_top,
             ["s"] = actions.toggle_selection + actions.move_selection_next,
             ["?"] = actions.which_key,
+            ["q"] = actions.close,
             ["<Esc>"] = actions.close,
 
             -- Preview actions
