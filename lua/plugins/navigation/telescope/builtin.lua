@@ -158,7 +158,7 @@ function M.git_bcommits()
   end
 end
 
-function M.lsp_symbols()
+function M.lsp_document_symbols()
   local opts = {}
 
   if custom_utils.visual.is_visual_mode() then
@@ -166,6 +166,16 @@ function M.lsp_symbols()
   end
 
   builtin.lsp_document_symbols(opts)
+end
+
+function M.lsp_workspace_symbols()
+  local opts = {}
+
+  if custom_utils.visual.is_visual_mode() then
+    opts.default_text = custom_utils.visual.get_text()
+  end
+
+  builtin.lsp_dynamic_workspace_symbols(opts)
 end
 
 return M

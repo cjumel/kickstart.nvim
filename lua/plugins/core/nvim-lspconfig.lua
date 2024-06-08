@@ -137,7 +137,8 @@ return {
       map("n", "gd", function() telescope.lsp_definitions(go_to_opts) end, "Go to definition")
       map("n", "gD", function() telescope.lsp_type_definitions(go_to_opts) end, "Go to type definition")
 
-      map({ "n", "v" }, "<leader>fs", telescope_custom.lsp_symbols, "[F]ind: [S]ymbols (LSP)")
+      map({ "n", "v" }, "<leader>fs", telescope_custom.lsp_document_symbols, "[F]ind: LSP [S]ymbols (buffer)")
+      map({ "n", "v" }, "<leader>fS", telescope_custom.lsp_workspace_symbols, "[F]ind: LSP [S]ymbols (workspace)")
 
       -- Next/previous reference navigation
       -- Define illuminate keymaps here to benefit from the on_attach function behavior
