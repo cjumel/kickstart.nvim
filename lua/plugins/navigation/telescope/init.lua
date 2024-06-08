@@ -33,7 +33,7 @@ return {
 
       -- Neovim-related
       { "<leader><leader>", builtin.resume, desc = "Resume Telescope" },
-      { "<leader><CR>", custom_builtin.buffers, desc = "Buffer switcher" },
+      { "<leader><Tab>", custom_builtin.buffers, desc = "Buffer switcher" },
       { "<leader>:", custom_builtin.command_history, desc = "Command history" },
       { "<leader>/", custom_builtin.search_history, desc = "Search history" },
 
@@ -152,6 +152,16 @@ return {
           mappings = {
             i = { ["<C-^>"] = custom_actions.live_grep.toggle_hidden, ["<C-_>"] = custom_actions.live_grep.toggle_all },
             n = { ["<C-^>"] = custom_actions.live_grep.toggle_hidden, ["<C-_>"] = custom_actions.live_grep.toggle_all },
+          },
+        },
+        -- Make buffer switcher keymaps AltTab-like
+        buffers = {
+          mappings = {
+            n = {
+              ["<Tab>"] = actions.move_selection_next,
+              ["<S-Tab>"] = actions.move_selection_previous,
+              ["<BS>"] = custom_actions.buffers.delete_buffer, -- For some reason "d" suffers from a delay
+            },
           },
         },
         -- Override the <Tab> key in `git_status` picker to toggle preview instead of staging/unstaging

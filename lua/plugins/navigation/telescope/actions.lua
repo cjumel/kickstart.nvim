@@ -3,9 +3,9 @@
 local actions = require("telescope.actions")
 local actions_state = require("telescope.actions.state")
 local builtin = require("telescope.builtin")
-local previewers = require("telescope.previewers")
-
+local custom_builtin = require("plugins.navigation.telescope.builtin")
 local custom_make_entry = require("plugins.navigation.telescope.make_entry")
+local previewers = require("telescope.previewers")
 
 local M = {}
 
@@ -119,6 +119,15 @@ function M.live_grep.toggle_all(prompt_bufnr, _)
   end
 
   builtin.live_grep(opts)
+end
+
+M.buffers = {}
+
+function M.buffers.delete_buffer(_, _)
+  -- No need to close the Telescope prompt buffer (besides, it provokes a weird flickering)
+  local current_selection = actions_state.get_selected_entry()
+  vim.api.nvim_buf_delete(current_selection.bufnr, {})
+  custom_builtin.buffers()
 end
 
 M.lsp_document_symbols = {}

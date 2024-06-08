@@ -114,10 +114,6 @@ function M.buffers()
     sort_mru = true,
   })
 
-  if custom_utils.visual.is_visual_mode() then
-    opts.default_text = custom_utils.visual.get_text()
-  end
-
   builtin.buffers(opts)
 end
 
