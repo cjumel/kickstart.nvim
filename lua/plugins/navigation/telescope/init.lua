@@ -154,14 +154,10 @@ return {
             n = { ["<C-^>"] = custom_actions.live_grep.toggle_hidden, ["<C-_>"] = custom_actions.live_grep.toggle_all },
           },
         },
-        -- Make buffer switcher keymaps AltTab-like
         buffers = {
           mappings = {
-            n = {
-              ["<Tab>"] = actions.move_selection_next,
-              ["<S-Tab>"] = actions.move_selection_previous,
-              ["<BS>"] = custom_actions.buffers.delete_buffer, -- For some reason "d" suffers from a delay
-            },
+            -- Make buffer switcher usable with <Tab> & <S-Tab> like AltTab
+            n = { ["<Tab>"] = actions.move_selection_next, ["<S-Tab>"] = actions.move_selection_previous },
           },
         },
         -- Override the <Tab> key in `git_status` picker to toggle preview instead of staging/unstaging

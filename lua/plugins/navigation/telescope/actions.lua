@@ -121,15 +121,6 @@ function M.live_grep.toggle_all(prompt_bufnr, _)
   builtin.live_grep(opts)
 end
 
-M.buffers = {}
-
-function M.buffers.delete_buffer(_, _)
-  -- No need to close the Telescope prompt buffer (besides, it provokes a weird flickering)
-  local current_selection = actions_state.get_selected_entry()
-  vim.api.nvim_buf_delete(current_selection.bufnr, {})
-  custom_builtin.buffers()
-end
-
 M.lsp_document_symbols = {}
 
 function M.lsp_document_symbols.switch_to_lsp_dynamic_workspace_symbols(prompt_bufnr, _)
