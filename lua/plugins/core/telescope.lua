@@ -140,19 +140,19 @@ return {
         find_files = {
           mappings = {
             i = {
-              ["<C-^>"] = custom_actions.find_files.toggle_all, -- <C-,> on my keyboard
+              ["<C-]>"] = custom_actions.find_files.toggle_all, -- <C-$> on my keyboard
               ["<C-t>"] = custom_actions.find_files.toggle_directories, -- Inspired by fzf
             },
             n = {
-              ["<C-^>"] = custom_actions.find_files.toggle_all, -- <C-,> on my keyboard
+              ["<C-]>"] = custom_actions.find_files.toggle_all, -- <C-$> on my keyboard
               ["<C-t>"] = custom_actions.find_files.toggle_directories, -- Inspired by fzf
             },
           },
         },
         live_grep = {
           mappings = {
-            i = { ["<C-^>"] = custom_actions.live_grep.toggle_all }, -- <C-,> on my keyboard
-            n = { ["<C-^>"] = custom_actions.live_grep.toggle_all }, -- <C-,> on my keyboard
+            i = { ["<C-]>"] = custom_actions.live_grep.toggle_all }, -- <C-$> on my keyboard
+            n = { ["<C-]>"] = custom_actions.live_grep.toggle_all }, -- <C-$> on my keyboard
           },
         },
         buffers = {
@@ -171,16 +171,16 @@ return {
         },
         lsp_document_symbols = {
           mappings = {
-            -- <C-^> corresponds to <C-,> on my keyboard
-            i = { ["<C-^>"] = custom_actions.lsp_document_symbols.switch_to_lsp_dynamic_workspace_symbols },
-            n = { ["<C-^>"] = custom_actions.lsp_document_symbols.switch_to_lsp_dynamic_workspace_symbols },
+            -- <C-]> corresponds to <C-$> on my keyboard
+            i = { ["<C-]>"] = custom_actions.lsp_document_symbols.switch_to_lsp_dynamic_workspace_symbols },
+            n = { ["<C-]>"] = custom_actions.lsp_document_symbols.switch_to_lsp_dynamic_workspace_symbols },
           },
         },
         lsp_dynamic_workspace_symbols = {
           mappings = {
-            -- <C-^> corresponds to <C-,> on my keyboard
-            i = { ["<C-^>"] = custom_actions.lsp_dynamic_workspace_symbols.switch_to_lsp_document_symbols },
-            n = { ["<C-^>"] = custom_actions.lsp_dynamic_workspace_symbols.switch_to_lsp_document_symbols },
+            -- <C-]> corresponds to <C-$> on my keyboard
+            i = { ["<C-]>"] = custom_actions.lsp_dynamic_workspace_symbols.switch_to_lsp_document_symbols },
+            n = { ["<C-]>"] = custom_actions.lsp_dynamic_workspace_symbols.switch_to_lsp_document_symbols },
           },
         },
       },
