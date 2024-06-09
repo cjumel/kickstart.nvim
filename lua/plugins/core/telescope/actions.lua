@@ -3,8 +3,7 @@
 local actions = require("telescope.actions")
 local actions_state = require("telescope.actions.state")
 local builtin = require("telescope.builtin")
-local custom_make_entry = require("plugins.core.telescope.make_entry")
-local previewers = require("telescope.previewers")
+local custom_builtin = require("plugins.core.telescope.builtin")
 
 local M = {}
 
@@ -24,98 +23,49 @@ end
 
 M.find_files = {}
 
-function M.find_files.toggle_hidden(prompt_bufnr, _)
+function M.find_files.toggle_all(prompt_bufnr, _)
+  -- Persisted options
   local opts = vim.g.telescope_last_opts
-
-  -- Switch the custom options & persist them
-  opts._hidden = not opts._hidden
-  opts._hidden_and_ignored = false
+  opts._all = not opts._all
   vim.g.telescope_last_opts = opts
 
-  -- Compute not persisted options
+  -- Not persisted options
+  opts = custom_builtin.finalize_opts_find_files(opts)
   local current_picker = actions_state.get_current_picker(prompt_bufnr)
   opts.default_text = current_picker:_get_prompt()
   actions.close(prompt_bufnr)
-  if opts.prompt_title:sub(1, 16) == "Find Directories" then
-    -- previwers.vim_buffer_cat can't be saved to state so let's work around this
-    opts.previewer = previewers.vim_buffer_cat.new({})
-    -- To support directory icons, use a custom entry maker (which needs to have accessed to the picker options)
-    opts.entry_maker = custom_make_entry.gen_from_dir(opts)
-  end
-  if opts._hidden then
-    local find_command = vim.list_extend({}, opts.find_command) -- Don't modify the original command
-    opts.find_command = vim.list_extend(find_command, { "--hidden" })
-    opts.prompt_title = opts.prompt_title .. " (w/ hidden)"
-  end
 
   builtin.find_files(opts)
 end
 
-function M.find_files.toggle_all(prompt_bufnr, _)
+function M.find_files.toggle_directories(prompt_bufnr, _)
+  -- Persisted options
   local opts = vim.g.telescope_last_opts
-
-  -- Switch the custom options & persist them
-  opts._hidden = false
-  opts._hidden_and_ignored = not opts._hidden_and_ignored
+  opts._directory = not opts._directory
   vim.g.telescope_last_opts = opts
 
-  -- Compute not persisted options
+  -- Not persisted options
+  opts = custom_builtin.finalize_opts_find_files(opts)
   local current_picker = actions_state.get_current_picker(prompt_bufnr)
   opts.default_text = current_picker:_get_prompt()
   actions.close(prompt_bufnr)
-  if opts.prompt_title:sub(1, 16) == "Find Directories" then
-    -- previwers.vim_buffer_cat can't be saved to state so let's work around this
-    opts.previewer = previewers.vim_buffer_cat.new({})
-    -- To support directory icons, use a custom entry maker (which needs to have accessed to the picker options)
-    opts.entry_maker = custom_make_entry.gen_from_dir(opts)
-  end
-  if opts._hidden_and_ignored then
-    local find_command = vim.list_extend({}, opts.find_command) -- Don't modify the original command
-    opts.find_command = vim.list_extend(find_command, { "--hidden", "--no-ignore" })
-    opts.prompt_title = opts.prompt_title .. " (all)"
-  end
 
   builtin.find_files(opts)
 end
 
 M.live_grep = {}
 
-function M.live_grep.toggle_hidden(prompt_bufnr, _)
-  local opts = vim.g.telescope_last_opts
-
-  -- Switch the custom options & persist them
-  opts._hidden = not opts._hidden
-  opts._hidden_and_ignored = false
-  vim.g.telescope_last_opts = opts
-
-  -- Compute not persisted options
-  local current_picker = actions_state.get_current_picker(prompt_bufnr)
-  opts.default_text = current_picker:_get_prompt()
-  actions.close(prompt_bufnr)
-  if opts._hidden then
-    opts.additional_args = { "--hidden" }
-    opts.prompt_title = opts.prompt_title .. " (w/ hidden)"
-  end
-
-  builtin.live_grep(opts)
-end
-
 function M.live_grep.toggle_all(prompt_bufnr, _)
+  -- Persisted options
   local opts = vim.g.telescope_last_opts
-
-  -- Switch the custom options & persist them
-  opts._hidden = false
-  opts._hidden_and_ignored = not opts._hidden_and_ignored
+  opts._all = not opts._all
   vim.g.telescope_last_opts = opts
 
-  -- Compute not persisted options
+  -- Not persisted options
+  opts = custom_builtin.finalize_opts_live_grep(opts)
   local current_picker = actions_state.get_current_picker(prompt_bufnr)
   opts.default_text = current_picker:_get_prompt()
   actions.close(prompt_bufnr)
-  if opts._hidden_and_ignored then
-    opts.additional_args = { "--hidden", "--no-ignore" }
-    opts.prompt_title = opts.prompt_title .. " (w/ all)"
-  end
 
   builtin.live_grep(opts)
 end

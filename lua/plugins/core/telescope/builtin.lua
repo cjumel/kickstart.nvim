@@ -9,11 +9,16 @@ local themes = require("telescope.themes")
 
 local M = {}
 
-function M.find_files()
+--- Get the input options for the `find_files` picker.
+---@param all boolean Whether to search for ignored files or not.
+---@param directory boolean Whether to search for directories or not.
+---@return table
+local function get_input_opts_find_files(all, directory)
   local opts = {
-    find_command = { "fd", "--type", "f", "--color", "never" },
     preview = { hide_on_startup = true },
-    prompt_title = "Find Files",
+    -- Custom options
+    _all = all,
+    _directory = directory,
   }
 
   if custom_utils.visual.is_visual_mode() then
@@ -23,47 +28,82 @@ function M.find_files()
   end
 
   if vim.bo.filetype == "oil" then
-    local cwd = package.loaded.oil.get_current_dir()
-    opts.cwd = cwd
-    opts.prompt_title = opts.prompt_title .. " - " .. custom_utils.path.normalize(cwd)
+    opts.cwd = package.loaded.oil.get_current_dir()
   end
 
+  return opts
+end
+
+--- Finalize the options for the `find_files` picker.
+---@param opts table The input options.
+---@return table
+local function finalize_opts_find_files(opts)
+  if not opts._all and not opts._directory then
+    opts.prompt_title = "Find Files"
+    opts.find_command = { "fd", "--type", "f", "--color", "never", "--hidden" }
+  elseif opts._all and not opts._directory then
+    opts.prompt_title = "Find Files (all)"
+    opts.find_command = { "fd", "--type", "f", "--color", "never", "--hidden", "--no-ignore" }
+  elseif not opts._all and opts._directory then
+    opts.prompt_title = "Find Directories"
+    opts.find_command = { "fd", "--type", "d", "--color", "never", "--hidden" }
+    -- previwers.vim_buffer_cat can't be saved to state so let's work around this
+    opts.previewer = previewers.vim_buffer_cat.new({})
+    -- To support directory icons, use a custom entry maker (which needs to have accessed to the picker options)
+    opts.entry_maker = custom_make_entry.gen_from_dir(opts)
+  else
+    opts.prompt_title = "Find Directories (all)"
+    opts.find_command = { "fd", "--type", "d", "--color", "never", "--hidden", "--no-ignore" }
+    -- previwers.vim_buffer_cat can't be saved to state so let's work around this
+    opts.previewer = previewers.vim_buffer_cat.new({})
+    -- To support directory icons, use a custom entry maker (which needs to have accessed to the picker options)
+    opts.entry_maker = custom_make_entry.gen_from_dir(opts)
+  end
+
+  if opts.cwd then
+    opts.prompt_title = opts.prompt_title .. " - " .. custom_utils.path.normalize(opts.cwd)
+  end
+
+  return opts
+end
+M.finalize_opts_find_files = finalize_opts_find_files
+
+function M.find_files()
+  local opts = get_input_opts_find_files(false, false)
   vim.g.telescope_last_opts = opts -- Persist the options dynamically change them later on
+
+  opts = finalize_opts_find_files(opts)
+  builtin.find_files(opts)
+end
+
+function M.find_files_all()
+  local opts = get_input_opts_find_files(true, false)
+  vim.g.telescope_last_opts = opts -- Persist the options dynamically change them later on
+
+  opts = finalize_opts_find_files(opts)
   builtin.find_files(opts)
 end
 
 function M.find_directories()
-  local opts = {
-    find_command = { "fd", "--type", "d", "--color", "never" },
-    preview = { hide_on_startup = true },
-    prompt_title = "Find Directories",
-  }
-
-  if custom_utils.visual.is_visual_mode() then
-    local text = custom_utils.visual.get_text()
-    -- Replace punctuation marks by spaces, to support searching from module names, like "plugins.core"
-    opts.default_text = string.gsub(text, "%p", " ")
-  end
-
-  if vim.bo.filetype == "oil" then
-    local cwd = package.loaded.oil.get_current_dir()
-    opts.cwd = cwd
-    opts.prompt_title = opts.prompt_title .. " - " .. custom_utils.path.normalize(cwd)
-  end
-
+  local opts = get_input_opts_find_files(false, true)
   vim.g.telescope_last_opts = opts -- Persist the options dynamically change them later on
 
-  -- previwers.vim_buffer_cat can't be saved to state so let's work around this
-  opts.previewer = previewers.vim_buffer_cat.new({})
-  -- To support directory icons, use a custom entry maker (which needs to have accessed to the picker options)
-  opts.entry_maker = custom_make_entry.gen_from_dir(opts)
-
+  opts = finalize_opts_find_files(opts)
   builtin.find_files(opts)
 end
 
-function M.live_grep()
+function M.find_directories_all()
+  local opts = get_input_opts_find_files(true, true)
+  vim.g.telescope_last_opts = opts -- Persist the options dynamically change them later on
+
+  opts = finalize_opts_find_files(opts)
+  builtin.find_files(opts)
+end
+
+local function get_input_opts_live_grep(all)
   local opts = {
-    prompt_title = "Find by Grep",
+    -- Custom options
+    _all = all,
   }
 
   if custom_utils.visual.is_visual_mode() then
@@ -71,12 +111,42 @@ function M.live_grep()
   end
 
   if vim.bo.filetype == "oil" then
-    local cwd = package.loaded.oil.get_current_dir()
-    opts.cwd = cwd
-    opts.prompt_title = opts.prompt_title .. " - " .. custom_utils.path.normalize(cwd)
+    opts.cwd = package.loaded.oil.get_current_dir()
   end
 
-  vim.g.telescope_last_opts = opts
+  return opts
+end
+
+local function finalize_opts_live_grep(opts)
+  if not opts._all then
+    opts.prompt_title = "Find by Grep"
+    opts.additional_args = { "--hidden" }
+  else
+    opts.prompt_title = "Find by Grep (all)"
+    opts.additional_args = { "--hidden", "--no-ignore" }
+  end
+
+  if opts.cwd then
+    opts.prompt_title = opts.prompt_title .. " - " .. custom_utils.path.normalize(opts.cwd)
+  end
+
+  return opts
+end
+M.finalize_opts_live_grep = finalize_opts_live_grep
+
+function M.live_grep()
+  local opts = get_input_opts_live_grep(false)
+  vim.g.telescope_last_opts = opts -- Persist the options dynamically change them later on
+
+  opts = finalize_opts_live_grep(opts)
+  builtin.live_grep(opts)
+end
+
+function M.live_grep_all()
+  local opts = get_input_opts_live_grep(true)
+  vim.g.telescope_last_opts = opts -- Persist the options dynamically change them later on
+
+  opts = finalize_opts_live_grep(opts)
   builtin.live_grep(opts)
 end
 

@@ -26,8 +26,11 @@ return {
     return {
       -- Main finders
       { "<leader>ff", custom_builtin.find_files, mode = { "n", "v" }, desc = "[F]ind: [F]iles" },
+      { "<leader>fF", custom_builtin.find_files_all, mode = { "n", "v" }, desc = "[F]ind: [F]iles (all)" },
       { "<leader>fd", custom_builtin.find_directories, mode = { "n", "v" }, desc = "[F]ind: [D]irectories" },
+      { "<leader>fD", custom_builtin.find_directories_all, mode = { "n", "v" }, desc = "[F]ind: [D]irectories (all)" },
       { "<leader>fg", custom_builtin.live_grep, mode = { "n", "v" }, desc = "[F]ind: by [G]rep" },
+      { "<leader>fG", custom_builtin.live_grep_all, mode = { "n", "v" }, desc = "[F]ind: by [G]rep (all)" },
       { "<leader>fo", custom_builtin.oldfiles, mode = { "n", "v" }, desc = "[F]ind: [O]ldfiles" },
       { "<leader>fz", custom_builtin.current_buffer, mode = { "n", "v" }, desc = "[F]ind: fu[Z]zilly in buffer" },
 
@@ -75,7 +78,6 @@ return {
             -- Open actions
             ["<C-x>"] = actions.select_horizontal,
             ["<C-v>"] = actions.select_vertical,
-            ["<C-t>"] = actions.select_tab,
             ["<C-l>"] = custom_actions.smart_open_loclist,
             ["<C-q>"] = custom_actions.smart_open_quickfix,
           },
@@ -110,7 +112,6 @@ return {
             -- Open actions
             ["<C-x>"] = actions.select_horizontal,
             ["<C-v>"] = actions.select_vertical,
-            ["<C-t>"] = actions.select_tab,
             ["<C-l>"] = custom_actions.smart_open_loclist,
             ["<C-q>"] = custom_actions.smart_open_quickfix,
           },
@@ -136,46 +137,48 @@ return {
         end,
       },
       pickers = {
-        -- Set keymaps to toggle searching in hidden or hidden & ignored files in main pickers
         find_files = {
           mappings = {
             i = {
-              ["<C-^>"] = custom_actions.find_files.toggle_hidden,
-              ["<C-_>"] = custom_actions.find_files.toggle_all,
+              ["<C-^>"] = custom_actions.find_files.toggle_all, -- <C-,> on my keyboard
+              ["<C-t>"] = custom_actions.find_files.toggle_directories, -- Inspired by fzf
             },
             n = {
-              ["<C-^>"] = custom_actions.find_files.toggle_hidden,
-              ["<C-_>"] = custom_actions.find_files.toggle_all,
+              ["<C-^>"] = custom_actions.find_files.toggle_all, -- <C-,> on my keyboard
+              ["<C-t>"] = custom_actions.find_files.toggle_directories, -- Inspired by fzf
             },
           },
         },
         live_grep = {
           mappings = {
-            i = { ["<C-^>"] = custom_actions.live_grep.toggle_hidden, ["<C-_>"] = custom_actions.live_grep.toggle_all },
-            n = { ["<C-^>"] = custom_actions.live_grep.toggle_hidden, ["<C-_>"] = custom_actions.live_grep.toggle_all },
+            i = { ["<C-^>"] = custom_actions.live_grep.toggle_all }, -- <C-,> on my keyboard
+            n = { ["<C-^>"] = custom_actions.live_grep.toggle_all }, -- <C-,> on my keyboard
           },
         },
         buffers = {
           mappings = {
             -- Make buffer switcher usable with <Tab> & <S-Tab> like AltTab
+            i = { ["<Tab>"] = actions.move_selection_next, ["<S-Tab>"] = actions.move_selection_previous },
             n = { ["<Tab>"] = actions.move_selection_next, ["<S-Tab>"] = actions.move_selection_previous },
           },
         },
-        -- Override the <Tab> key in `git_status` picker to toggle preview instead of staging/unstaging
         git_status = {
           mappings = {
+            -- Override the <Tab> key to toggle preview instead of staging/unstaging
             i = { ["<Tab>"] = actions_layout.toggle_preview },
             n = { ["<Tab>"] = actions_layout.toggle_preview },
           },
         },
         lsp_document_symbols = {
           mappings = {
+            -- <C-^> corresponds to <C-,> on my keyboard
             i = { ["<C-^>"] = custom_actions.lsp_document_symbols.switch_to_lsp_dynamic_workspace_symbols },
             n = { ["<C-^>"] = custom_actions.lsp_document_symbols.switch_to_lsp_dynamic_workspace_symbols },
           },
         },
         lsp_dynamic_workspace_symbols = {
           mappings = {
+            -- <C-^> corresponds to <C-,> on my keyboard
             i = { ["<C-^>"] = custom_actions.lsp_dynamic_workspace_symbols.switch_to_lsp_document_symbols },
             n = { ["<C-^>"] = custom_actions.lsp_dynamic_workspace_symbols.switch_to_lsp_document_symbols },
           },
