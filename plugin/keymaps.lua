@@ -50,6 +50,7 @@ end
 
 -- [[ General keymaps ]]
 
+vim.keymap.set("n", "<leader>-", "<cmd>bufdo bd<CR>", { desc = "Delete all buffers" })
 vim.keymap.set("n", "<leader>v", vim.diagnostic.open_float, { desc = "[V]iew diagnostic" })
 
 vim.keymap.set("n", "<Esc>", "<cmd>ClearNormal<CR>", { desc = "Clear" }) -- <Esc> is only available in normal mode
