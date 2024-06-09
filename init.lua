@@ -26,10 +26,6 @@ local plugins = {
   -- formatters, etc.)
   { import = "plugins.core" },
 
-  -- Navigation plugins enable fast navigation and exploration between files (file fuzzy finding,
-  -- file explorer, etc.) but also various navigation interfaces
-  { import = "plugins.navigation" },
-
   -- Tools plugins bring extra features not related directly to editing buffer (DAP, database
   -- explorer, etc.)
   { import = "plugins.tools" },

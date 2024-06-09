@@ -3,8 +3,7 @@
 local actions = require("telescope.actions")
 local actions_state = require("telescope.actions.state")
 local builtin = require("telescope.builtin")
-local custom_builtin = require("plugins.navigation.telescope.builtin")
-local custom_make_entry = require("plugins.navigation.telescope.make_entry")
+local custom_make_entry = require("plugins.core.telescope.make_entry")
 local previewers = require("telescope.previewers")
 
 local M = {}

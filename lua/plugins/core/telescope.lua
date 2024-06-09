@@ -21,7 +21,7 @@ return {
   cmd = { "Telescope" }, -- Especially useful for other plugins calling Telescope through a command
   keys = function()
     local builtin = require("telescope.builtin")
-    local custom_builtin = require("plugins.navigation.telescope.builtin")
+    local custom_builtin = require("plugins.core.telescope.builtin")
 
     return {
       -- Main finders
@@ -47,10 +47,9 @@ return {
   opts = function()
     local actions = require("telescope.actions")
     local actions_layout = require("telescope.actions.layout")
-    local utils = require("telescope.utils")
-
-    local custom_actions = require("plugins.navigation.telescope.actions")
+    local custom_actions = require("plugins.core.telescope.actions")
     local custom_utils = require("utils")
+    local utils = require("telescope.utils")
 
     return {
       defaults = {

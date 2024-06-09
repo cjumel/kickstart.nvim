@@ -116,7 +116,7 @@ return {
     on_attach = function(_, bufnr)
       local illuminate = require("illuminate")
       local telescope = require("telescope.builtin")
-      local telescope_custom = require("plugins.navigation.telescope.builtin")
+      local telescope_custom = require("plugins.core.telescope.builtin")
 
       local utils = require("utils")
 

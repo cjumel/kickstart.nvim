@@ -2,7 +2,7 @@
 -- for each picker I use.
 
 local builtin = require("telescope.builtin")
-local custom_make_entry = require("plugins.navigation.telescope.make_entry")
+local custom_make_entry = require("plugins.core.telescope.make_entry")
 local custom_utils = require("utils")
 local previewers = require("telescope.previewers")
 local themes = require("telescope.themes")
