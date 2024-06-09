@@ -62,6 +62,7 @@ return {
             ["<C-g>"] = actions.move_to_top, -- Like "go to top"
             ["<C-s>"] = actions.toggle_selection + actions.move_selection_next,
             ["<C-w>"] = actions.which_key,
+            ["<C-c>"] = actions.close,
             ["<C-d>"] = actions.close, -- Shell-style exit, consistent with command line keymaps
 
             -- Preview actions
@@ -86,6 +87,7 @@ return {
             ["<C-g>"] = actions.move_to_top, -- Like "go to top"
             ["<C-s>"] = actions.toggle_selection + actions.move_selection_next,
             ["<C-w>"] = actions.which_key,
+            ["<C-c>"] = actions.close,
             ["<C-d>"] = actions.close, -- Shell-style exit, consistent with command line keymaps
 
             -- General normal-mode actions
