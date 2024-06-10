@@ -26,11 +26,8 @@ return {
     return {
       -- Main finders
       { "<leader>ff", custom_builtin.find_files, mode = { "n", "v" }, desc = "[F]ind: [F]iles" },
-      { "<leader>fF", custom_builtin.find_files_all, mode = { "n", "v" }, desc = "[F]ind: [F]iles (all)" },
       { "<leader>fd", custom_builtin.find_directories, mode = { "n", "v" }, desc = "[F]ind: [D]irectories" },
-      { "<leader>fD", custom_builtin.find_directories_all, mode = { "n", "v" }, desc = "[F]ind: [D]irectories (all)" },
       { "<leader>fg", custom_builtin.live_grep, mode = { "n", "v" }, desc = "[F]ind: by [G]rep" },
-      { "<leader>fG", custom_builtin.live_grep_all, mode = { "n", "v" }, desc = "[F]ind: by [G]rep (all)" },
       { "<leader>fo", custom_builtin.oldfiles, mode = { "n", "v" }, desc = "[F]ind: [O]ldfiles" },
       { "<leader>fz", custom_builtin.current_buffer, mode = { "n", "v" }, desc = "[F]ind: fu[Z]zilly in buffer" },
 
