@@ -62,6 +62,9 @@ vim.keymap.set("c", "<C-c>", "<cmd>ClearInsert<CR>", { desc = "Clear" }) -- Don'
 vim.keymap.set({ "n", "v" }, "+", '"+', { desc = "System clipboard register" })
 vim.keymap.set({ "n", "v" }, "_", '"_', { desc = "Black hole register" })
 
+vim.keymap.set("v", "<Tab>", ">gv", { desc = "Indent selection" })
+vim.keymap.set("v", "<S-Tab>", "<gv", { desc = "Unindent selection" })
+
 --- Yank the path of the current buffer file or directory.
 ---@return nil
 local function yank_path()
