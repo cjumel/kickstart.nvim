@@ -126,6 +126,7 @@ return {
         show_line = false, -- Don't show the whole line in the picker next to the file path
       }
 
+      map("n", "<C-s>", vim.lsp.buf.signature_help, "Signature help")
       map("n", "gra", vim.lsp.buf.code_action, "Code action")
       map("n", "grn", function() return ":IncRename " .. vim.fn.expand("<cword>") end, "Rename", { expr = true })
       map("n", "grr", function() telescope.lsp_references(go_to_opts) end, "Go to references")
