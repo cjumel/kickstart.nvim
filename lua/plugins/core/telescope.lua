@@ -75,6 +75,7 @@ return {
             -- Open actions
             ["<C-x>"] = actions.select_horizontal,
             ["<C-v>"] = actions.select_vertical,
+            ["<C-t>"] = actions.select_tab,
             ["<C-l>"] = custom_actions.smart_open_loclist,
             ["<C-q>"] = custom_actions.smart_open_quickfix,
           },
@@ -109,6 +110,7 @@ return {
             -- Open actions
             ["<C-x>"] = actions.select_horizontal,
             ["<C-v>"] = actions.select_vertical,
+            ["<C-t>"] = actions.select_tab,
             ["<C-l>"] = custom_actions.smart_open_loclist,
             ["<C-q>"] = custom_actions.smart_open_quickfix,
           },
@@ -137,19 +139,19 @@ return {
         find_files = {
           mappings = {
             i = {
-              ["<C-]>"] = custom_actions.find_files.toggle_all, -- <C-$> on my keyboard
-              ["<C-t>"] = custom_actions.find_files.toggle_directories, -- Inspired by fzf
+              ["<C-]>"] = custom_actions.find_files.toggle_all,
+              ["<C-c>"] = custom_actions.find_files.toggle_directories, -- Change picker
             },
             n = {
-              ["<C-]>"] = custom_actions.find_files.toggle_all, -- <C-$> on my keyboard
-              ["<C-t>"] = custom_actions.find_files.toggle_directories, -- Inspired by fzf
+              ["<C-]>"] = custom_actions.find_files.toggle_all,
+              ["<C-c>"] = custom_actions.find_files.toggle_directories, -- Change picker
             },
           },
         },
         live_grep = {
           mappings = {
-            i = { ["<C-]>"] = custom_actions.live_grep.toggle_all }, -- <C-$> on my keyboard
-            n = { ["<C-]>"] = custom_actions.live_grep.toggle_all }, -- <C-$> on my keyboard
+            i = { ["<C-]>"] = custom_actions.live_grep.toggle_all },
+            n = { ["<C-]>"] = custom_actions.live_grep.toggle_all },
           },
         },
         buffers = {
@@ -168,14 +170,12 @@ return {
         },
         lsp_document_symbols = {
           mappings = {
-            -- <C-]> corresponds to <C-$> on my keyboard
             i = { ["<C-]>"] = custom_actions.lsp_document_symbols.switch_to_lsp_dynamic_workspace_symbols },
             n = { ["<C-]>"] = custom_actions.lsp_document_symbols.switch_to_lsp_dynamic_workspace_symbols },
           },
         },
         lsp_dynamic_workspace_symbols = {
           mappings = {
-            -- <C-]> corresponds to <C-$> on my keyboard
             i = { ["<C-]>"] = custom_actions.lsp_dynamic_workspace_symbols.switch_to_lsp_document_symbols },
             n = { ["<C-]>"] = custom_actions.lsp_dynamic_workspace_symbols.switch_to_lsp_document_symbols },
           },
