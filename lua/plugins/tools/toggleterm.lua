@@ -107,6 +107,25 @@ return {
         desc = "[T]erminal: [N]ame",
       },
       {
+        "<leader>tr",
+        function()
+          select_term_and_run(function(term)
+            local path = utils.path.get_current_file_path()
+            local line
+            if vim.bo.filetype == "lua" then
+              line = [[dofile("]] .. path .. [[")]]
+            elseif vim.bo.filetype == "python" then
+              line = [[exec(open("]] .. path .. [[").read())]]
+            else
+              error("Unsupported filetype: " .. vim.bo.filetype)
+            end
+            toggleterm.exec(line, term.id)
+          end, { prompt = "Select a terminal to run in: ", only_opened = true })
+        end,
+        ft = { "lua", "python" },
+        desc = "[T]erminal: [R]un file in shell",
+      },
+      {
         "<leader>t",
         function()
           select_term_and_run(function(term)
