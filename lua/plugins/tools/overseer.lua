@@ -2,7 +2,7 @@
 --
 -- Overseer is a task runner and job management plugin for Neovim. It enables to run any kind of job (build, test,
 -- formatting, etc.) very easily & taking into account the project context (e.g. only suggest a `make` job if there is
--- a `Makefile` & suggest the `make` commands based on it).
+-- a `Makefile` & suggest the relevant `make` commands based on its parsing).
 
 return {
   "stevearc/overseer.nvim",
@@ -11,8 +11,7 @@ return {
     return {
       { "<leader>oo", function() overseer.toggle() end, desc = "[O]verseer: toggle" },
       { "<leader>or", function() overseer.run_template({}, overseer.open) end, desc = "[O]verseer: [R]un" },
-      { "<leader>ob", function() overseer.run_template({}) end, desc = "[O]verseer: [B]ackground run" },
-      { "<leader>os", function() overseer.run_template({ name = "shell" }) end, desc = "[O]verseer: [S]hell" },
+      { "<leader>ob", function() overseer.run_template({}) end, desc = "[O]verseer: run in [B]ackground" },
       {
         "<leader>ol",
         function()
