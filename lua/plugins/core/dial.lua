@@ -20,24 +20,27 @@ return {
 
     config.augends:register_group({
       default = {
-        augend.constant.new({ elements = { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" }, word = false }),
+        augend.integer.alias.decimal,
         augend.constant.new({ elements = { "true", "false" } }),
+        augend.constant.new({ elements = { "True", "False" } }),
       },
     })
 
     config.augends:on_filetype({
       lua = {
-        augend.constant.new({ elements = { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" }, word = false }),
+        augend.integer.alias.decimal,
         augend.constant.new({ elements = { "true", "false" } }),
         augend.constant.new({ elements = { "==", "~=" }, word = false }),
       },
       markdown = {
-        augend.constant.new({ elements = { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" }, word = false }),
+        augend.integer.alias.decimal,
+        augend.constant.new({ elements = { "true", "false" } }),
+        augend.constant.new({ elements = { "True", "False" } }),
         augend.misc.alias.markdown_header,
         augend.constant.new({ elements = { "🎯", "⏳", "✅", "❌" } }),
       },
       python = {
-        augend.constant.new({ elements = { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" }, word = false }),
+        augend.integer.alias.decimal,
         augend.constant.new({ elements = { "True", "False" } }),
         augend.constant.new({ elements = { "==", "!=" }, word = false }),
       },
