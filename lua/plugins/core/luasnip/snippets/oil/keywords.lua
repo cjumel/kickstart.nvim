@@ -54,7 +54,7 @@ return {
   s({ trig = ".py", show_condition = extension_condition }, { t(".py") }),
   s({ trig = ".sh", show_condition = extension_condition }, { t(".sh") }),
   s({ trig = ".toml", show_condition = extension_condition }, { t(".toml") }),
-  s({ trig = ".txt", show_condition = extension_condition }, { t(".toml") }),
+  s({ trig = ".txt", show_condition = extension_condition }, { t(".txt") }),
   s({ trig = ".yaml", show_condition = extension_condition }, { c(1, { t(".yaml"), t(".yml") }) }),
   s({ trig = ".zsh", show_condition = extension_condition }, { t(".zsh") }),
 
