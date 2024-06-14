@@ -9,6 +9,8 @@ local t = ls.text_node
 local extension_condition = -custom_conditions.line_begin * ls_show_conditions.line_end
 local preset_file_condition = custom_conditions.line_begin * ls_show_conditions.line_end
 
+-- TODO: add a check for Lua & Python specific stuff, to prevent them from appearing when irrelevant
+
 return {
   -- File extensions
   s({ trig = ".json", show_condition = extension_condition }, { t(".json") }),

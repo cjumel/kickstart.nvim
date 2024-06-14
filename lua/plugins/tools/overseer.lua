@@ -4,6 +4,18 @@
 -- formatting, etc.) very easily & taking into account the project context (e.g. only suggest a `make` job if there is
 -- a `Makefile` & suggest the `make` commands based on it).
 
+-- TODO: some improvements can be made in the Overseer templates:
+--  - don't use the template builder as it couples all the templates together & prevents changing the templates
+--  - instead of <file> or <dir>, the actual path of file or dir can be passed; it's less pretty but is more consistent
+--    with the behavior of the `make` template & will allow later for instance to suggest the tests of all individual
+--    functions in a file (like file:function_name)
+--  - for pytest, all the arguments can be passed directly in the command instead of through args (it works with the
+--    -m "not slow" issue); if there's not reason otherwise, let's make all template like this, otherwise remove the
+--    ", " delimiter in the args & use " " instead (prettier)
+--  - conditions can be improved (e.g. pytest directory is in `tests/` or pytest file ends with `_test.py`)
+--  - (harder) add a new template to sugggest to test all individual functions in a test file, a bit like what's the
+--    `make` template does (see its source code)
+
 return {
   "stevearc/overseer.nvim",
   keys = function()
