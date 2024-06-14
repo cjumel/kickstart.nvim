@@ -40,6 +40,7 @@ return {
     }
   end,
   opts = {
+    dap = false, -- When true, this lazy-load nvim-dap but I don't use it with Overseer
     task_list = {
       direction = "bottom", -- Instead of on the left-hand-side
       min_height = 0.25,
