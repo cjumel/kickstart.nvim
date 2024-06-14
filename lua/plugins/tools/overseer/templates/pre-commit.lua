@@ -1,19 +1,44 @@
 local utils = require("utils")
-local template_builder = require("plugins.tools.overseer.template_builder")
-
-local opts = {
-  condition_callback = function(_)
-    local git_root_path = utils.path.get_git_root()
-    if git_root_path == nil then
-      return false
-    end
-
-    return vim.fn.filereadable(git_root_path .. "/.pre-commit-config.yaml") == 1
-  end,
-  filetype = "all",
-}
 
 return {
-  template_builder.cmd({ "pre-commit", "run", "--all-files" }, opts),
-  template_builder.cmd_file({ "pre-commit", "run", "--file" }, opts),
+  name = "pre-commit run",
+  condition = {
+    callback = function(_)
+      if vim.fn.executable("pre-commit") == 0 then
+        return false
+      end
+      local git_root_path = utils.path.get_git_root()
+      if git_root_path == nil then
+        return false
+      end
+      if vim.fn.filereadable(git_root_path .. "/.pre-commit-config.yaml") == 0 then
+        return false
+      end
+      return true
+    end,
+  },
+  generator = function(_, cb)
+    cb({
+      {
+        name = "pre-commit run --all-files",
+        builder = function(_)
+          return {
+            cmd = { "pre-commit", "run" },
+            args = { "--all-files" },
+          }
+        end,
+      },
+      {
+        name = "pre-commit run --files <file>",
+        condition = { callback = function(_) return not utils.buffer.is_temporary() end },
+        builder = function(_)
+          local path = vim.fn.expand("%:p:~:.") -- Current file path relative to cwd or HOME or absolute
+          return {
+            cmd = { "pre-commit", "run" },
+            args = { "--files", path },
+          }
+        end,
+      },
+    })
+  end,
 }
