@@ -6,45 +6,15 @@ vim.o.mouse = "a" -- Enable mouse mode in all modes
 vim.o.breakindent = true -- Indent parts after break in wrapped lines
 vim.o.splitright = true -- Open new vertical split windows to the right
 vim.o.splitbelow = true -- Open new horizontal split windows below
-if vim.g.cursor_line_mode == "both" then
-  vim.opt.cursorline = true
-  vim.opt.cursorlineopt = "both"
-elseif vim.g.cursor_line_mode == "line" then
-  vim.opt.cursorline = true
-  vim.opt.cursorlineopt = "line"
-elseif vim.g.cursor_line_mode == "number" then
-  vim.opt.cursorline = true
-  vim.opt.cursorlineopt = "number"
-else
-  vim.opt.cursorline = false
-end
-if vim.g.color_column_mode == "auto" or vim.g.color_column_mode == "off" then
-  vim.opt.colorcolumn = "" -- No colorcolumn (for "auto", ftplugins will change it)
-else
-  vim.opt.colorcolumn = vim.g.color_column_mode
-end
-if vim.g.concealing_mode == "auto" or vim.g.concealing_mode == "off" then
-  vim.opt.conceallevel = 0 -- No concealing (for "auto", ftplugins will change it)
-else
-  vim.opt.conceallevel = 2
-end
+vim.opt.cursorline = true -- Enable hilighting of line where cursor is
+vim.opt.cursorlineopt = "both" -- The cursorline highlights both the line background and the line number foreground
+vim.opt.colorcolumn = "" -- No colorcolumn by default; ftplugins might change this for specific file types
+vim.opt.conceallevel = 0 -- No concealing by default; ftplugins might change this for specific file types
 
 -- Side column
-if vim.g.number_column_mode == "absolute" then
-  vim.wo.number = true
-  vim.wo.relativenumber = false
-elseif vim.g.number_column_mode == "relative" then
-  vim.wo.number = true
-  vim.wo.relativenumber = true
-else
-  vim.wo.number = false
-  vim.wo.relativenumber = false
-end
-if vim.g.sign_column_mode == "off" then
-  vim.wo.signcolumn = "no"
-else
-  vim.wo.signcolumn = vim.g.sign_column_mode
-end
+vim.wo.number = true -- Enable line numbering
+vim.wo.relativenumber = false -- Use absolute line numbering
+vim.wo.signcolumn = "number" -- Make sign column merged in line numbering column
 
 -- Search & replace
 vim.o.ignorecase = true -- Make search case-insensitive by default

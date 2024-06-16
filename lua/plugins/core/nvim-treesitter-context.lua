@@ -6,14 +6,16 @@
 return {
   "nvim-treesitter/nvim-treesitter-context",
   event = { "BufNewFile", "BufReadPre" },
-  opts = {},
+  opts = {
+    enable = false, -- Disable by default, can be enabled by the option Hydra
+  },
   config = function(_, opts)
     local treesitter_context = require("treesitter-context")
-    opts.enable = not vim.g.disable_treesitter_context
+
     treesitter_context.setup(opts)
 
     vim.keymap.set("n", "gp", function()
-      if treesitter_context.enabled() then -- When treesitter-context is not enabled, the plugin doesn't work well
+      if treesitter_context.enabled() then -- When treesitter-context is not enabled, the keymap doesn't work well
         treesitter_context.go_to_context()
       end
     end, { desc = "Go to context parent node" })
