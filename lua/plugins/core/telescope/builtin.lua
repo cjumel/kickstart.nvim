@@ -208,23 +208,32 @@ function M.search_history()
 end
 
 function M.git_status()
-  local opts = { prompt_title = "Find Git Files" }
+  local opts = { prompt_title = "Git Status" }
   builtin.git_status(opts)
 end
 
 function M.git_commits()
-  local opts = { prompt_title = "Git Log" }
+  local opts = {
+    prompt_title = "Git Log",
+    tiebreak = function(current, existing, _) return current.index < existing.index end, -- Sort entries by recency
+  }
   builtin.git_commits(opts)
 end
 
 function M.git_bcommits()
-  if vim.fn.mode() == "n" then
-    local opts = { prompt_title = "Git Buffer Log" }
-    builtin.git_bcommits(opts)
-  else
-    local opts = { prompt_title = "Git Selection Log" }
-    builtin.git_bcommits_range(opts)
-  end
+  local opts = {
+    prompt_title = "Buffer Commits",
+    tiebreak = function(current, existing, _) return current.index < existing.index end, -- Sort entries by recency
+  }
+  builtin.git_bcommits(opts)
+end
+
+function M.git_bcommits_range()
+  local opts = {
+    prompt_title = "Selection Commits",
+    tiebreak = function(current, existing, _) return current.index < existing.index end, -- Sort entries by recency
+  }
+  builtin.git_bcommits_range(opts)
 end
 
 function M.lsp_document_symbols()

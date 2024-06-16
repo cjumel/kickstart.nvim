@@ -38,10 +38,10 @@ return {
       { "<leader>/", custom_builtin.search_history, desc = "Search history" },
 
       -- Git related
-      { "<leader>gg", custom_builtin.git_status, desc = "[G]it: find [G]it files" },
-      { "<leader>gb", builtin.git_branches, desc = "[G]it: [B]ranches" },
+      { "<leader>gg", custom_builtin.git_status, desc = "[G]it: status" },
       { "<leader>gl", custom_builtin.git_commits, desc = "[G]it: [L]og" },
-      { "<leader>gL", custom_builtin.git_bcommits, mode = { "n", "v" }, desc = "[G]it: buffer/selection [L]og" },
+      { "<leader>gc", custom_builtin.git_bcommits, desc = "[G]it: buffer [C]ommits" },
+      { "<leader>gc", custom_builtin.git_bcommits_range, mode = { "v" }, desc = "[G]it: selection [C]ommits" },
     }
   end,
   opts = function()

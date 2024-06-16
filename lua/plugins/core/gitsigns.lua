@@ -29,8 +29,8 @@ return {
       map("n", "<leader>gs", gs.stage_buffer, "[G]it: [S]tage buffer")
       map("n", "<leader>gu", gs.reset_buffer_index, "[G]it: [U]nstage buffer")
       map("n", "<leader>gx", gs.reset_buffer, "[G]it: discard buffer changes")
-      map("n", "<leader>gd", function() gs.diffthis("~") end, "[G]it: [D]iff buffer")
-      map("n", "<leader>gv", function() gs.blame_line({ full = true }) end, "[G]it: [V]iew line blame")
+      map("n", "<leader>gb", function() gs.blame_line({ full = true }) end, "[G]it: line [B]lame")
+      map("n", "<leader>gd", function() gs.diffthis("~") end, "[G]it: buffer [D]iff")
       map("n", "<leader>gh", "<cmd>Gitsigns setloclist<CR>", "[G]it: buffer [H]unks") -- Lazy-load Trouble
 
       -- Navigation keymaps
