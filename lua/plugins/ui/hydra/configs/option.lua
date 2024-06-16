@@ -319,9 +319,9 @@ return {
                                    Option Hydra                          
 
    Neovim options   
-   _c_/_C_ ➜ Color column:            %{color_column}   
+   _c_/_C_ ➜ Concealing:              %{concealing}   
    _n_/_N_ ➜ Number column:           %{number_column}   
-   _o_/_O_ ➜ Concealing:              %{concealing}   
+   _r_/_R_ ➜ Ruler column:            %{color_column}   
    _s_/_S_ ➜ Sign column:             %{sign_column}   
 
    Plugin options   
@@ -334,12 +334,12 @@ return {
 ]],
   heads = {
     -- Neovim options
-    { "c", color_column_switch_next },
-    { "C", color_column_switch_prev },
+    { "c", concealing_switch_next },
+    { "C", concealing_switch_prev },
     { "n", number_column_switch_next },
     { "N", number_column_switch_prev },
-    { "o", concealing_switch_next },
-    { "O", concealing_switch_prev },
+    { "r", color_column_switch_next },
+    { "R", color_column_switch_prev },
     { "s", sign_column_switch_next },
     { "S", sign_column_switch_prev },
     -- Plugin options
