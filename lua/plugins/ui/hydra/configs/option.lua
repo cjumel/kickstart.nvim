@@ -204,66 +204,6 @@ local function sign_column_switch_prev()
   end
 end
 
-local function cursor_line_display()
-  if vim.g.cursor_line_mode == "both" then
-    return "[both] /  line  /  num  /  off "
-  elseif vim.g.cursor_line_mode == "line" then
-    return " both  / [line] /  num  /  off "
-  elseif vim.g.cursor_line_mode == "number" then
-    return " both  /  line  / [num] /  off "
-  else
-    return " both  /  line  /  num  / [off]"
-  end
-end
-local function cursor_line_switch_next()
-  if vim.g.cursor_line_mode == "both" then
-    vim.g.cursor_line_mode = "line"
-  elseif vim.g.cursor_line_mode == "line" then
-    vim.g.cursor_line_mode = "number"
-  elseif vim.g.cursor_line_mode == "number" then
-    vim.g.cursor_line_mode = "off"
-  else
-    vim.g.cursor_line_mode = "both"
-  end
-
-  if vim.g.cursor_line_mode == "both" then
-    vim.opt.cursorline = true
-    vim.opt.cursorlineopt = "both"
-  elseif vim.g.cursor_line_mode == "line" then
-    vim.opt.cursorline = true
-    vim.opt.cursorlineopt = "line"
-  elseif vim.g.cursor_line_mode == "number" then
-    vim.opt.cursorline = true
-    vim.opt.cursorlineopt = "number"
-  else
-    vim.opt.cursorline = false
-  end
-end
-local function cursor_line_switch_prev()
-  if vim.g.cursor_line_mode == "both" then
-    vim.g.cursor_line_mode = "off"
-  elseif vim.g.cursor_line_mode == "off" then
-    vim.g.cursor_line_mode = "number"
-  elseif vim.g.cursor_line_mode == "number" then
-    vim.g.cursor_line_mode = "line"
-  else
-    vim.g.cursor_line_mode = "both"
-  end
-
-  if vim.g.cursor_line_mode == "both" then
-    vim.opt.cursorline = true
-    vim.opt.cursorlineopt = "both"
-  elseif vim.g.cursor_line_mode == "line" then
-    vim.opt.cursorline = true
-    vim.opt.cursorlineopt = "line"
-  elseif vim.g.cursor_line_mode == "number" then
-    vim.opt.cursorline = true
-    vim.opt.cursorlineopt = "number"
-  else
-    vim.opt.cursorline = false
-  end
-end
-
 -- [[ Plugin options ]]
 -- All the plugin options rely on a `vim.g.disable_` variable. The display functions display the relevant setting based
 -- directly on it, while the toggle functions switch its value &, when necessary & if the plugin is loaded, apply the
@@ -365,7 +305,6 @@ return {
         number_column = number_column_display,
         concealing = concealing_display,
         sign_column = sign_column_display,
-        cursor_line = cursor_line_display,
         -- Plugin options
         autopairs = autopairs_display,
         format_on_save = format_on_save_display,
@@ -384,7 +323,6 @@ return {
    _n_/_N_ ➜ Number column:           %{number_column}   
    _o_/_O_ ➜ Concealing:              %{concealing}   
    _s_/_S_ ➜ Sign column:             %{sign_column}   
-   _u_/_U_ ➜ Cursor line:             %{cursor_line}   
 
    Plugin options   
    _a_ ^ ^ ➜ Auto-pairs:              %{autopairs}   
@@ -404,8 +342,6 @@ return {
     { "O", concealing_switch_prev },
     { "s", sign_column_switch_next },
     { "S", sign_column_switch_prev },
-    { "u", cursor_line_switch_next },
-    { "U", cursor_line_switch_prev },
     -- Plugin options
     { "a", autopairs_toggle },
     { "f", format_on_save_toggle },

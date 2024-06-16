@@ -21,7 +21,6 @@ return {
     vim.g.number_column_mode = "absolute" -- "absolute", "relative", "off"
     vim.g.concealing_mode = "auto" -- "auto", "on", "off"
     vim.g.sign_column_mode = "number" -- "number", "yes", "off"
-    vim.g.cursor_line_mode = "both" -- "both", "line", "number", "off"
     -- Plugin options, default behavior is defined in the relevant plugin config in `lua/plugins/`
     vim.g.disable_autopairs = false
     vim.g.disable_format_on_save = false
