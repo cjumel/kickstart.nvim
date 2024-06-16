@@ -179,7 +179,6 @@ end
 function M.buffers()
   local opts = themes.get_dropdown({
     preview = { hide_on_startup = true },
-    initial_mode = "normal",
     sort_lastused = true,
     sort_mru = true,
   })
