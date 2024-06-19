@@ -5,12 +5,6 @@ M.tokyonight_opts = {
   style = "storm", -- night, moon, storm or day
 }
 
-M.lualine_opts = {
-  options = {
-    component_separators = {},
-  },
-}
-
 M.headlines_opts = {
   markdown = {
     headline_highlights = {
