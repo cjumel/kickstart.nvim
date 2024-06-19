@@ -7,7 +7,8 @@ M.catppuccin_opts = {
 
 M.lualine_opts = {
   options = {
-    component_separators = "",
+    icons_enabled = false,
+    component_separators = "/",
     section_separators = { left = "", right = "" },
   },
 }
