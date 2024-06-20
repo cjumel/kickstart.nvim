@@ -4,6 +4,10 @@
 -- LSP servers, DAP servers, linters, and formatters. It covers all the external tools I need, and thus occupies a
 -- central role in my configuration.
 
+-- TODO: replace the "MasonInstallAll" command with a more modular one to install bundle of packages ("python", "lua" &
+-- "generic" for instance), with an additional "all" option to keep the previous behavior; ideally we want to be able to
+-- specify several bundles at once
+
 return {
   "williamboman/mason.nvim",
   cmd = { "Mason", "MasonUpdate", "MasonInstall", "MasonInstallAll", "MasonUninstall", "MasonUninstallAll" },
