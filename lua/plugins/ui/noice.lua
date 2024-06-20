@@ -30,6 +30,9 @@ return {
         ["vim.lsp.util.stylize_markdown"] = true,
         ["cmp.entry.get_documentation"] = true,
       },
+      -- Hide "No information available" LSP messages (don't bring much information & when 2 LSPs are attached, e.g.
+      -- in Python with Pyright & Ruff, the message is always shown because Ruff doesn't provide any information)
+      hover = { silent = true },
       signature = { enabled = false }, -- Disable Noice's signature feature in favor of lsp_signature.nvim
     },
     presets = {
@@ -38,7 +41,8 @@ return {
       inc_rename = true, -- Enable an input dialog for inc-rename.nvim
     },
     routes = {
-      { filter = { event = "msg_show", kind = "", find = "written" }, opts = { skip = true } }, -- Hide written messages
+      -- Hide written messages as they appear often & don't bring any value (file path, number of lines & size)
+      { filter = { event = "msg_show", kind = "", find = "written" }, opts = { skip = true } },
     },
     commands = { -- Override builtin command options
       history = { view = "popup" },
