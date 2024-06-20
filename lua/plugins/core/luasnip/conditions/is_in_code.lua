@@ -1,4 +1,4 @@
-local luasnip_conditions = require("luasnip.extras.conditions")
+local ls_conditions = require("luasnip.extras.conditions")
 
 local get_treesitter_node = require("plugins.core.luasnip.conditions.utils").get_treesitter_node
 
@@ -24,6 +24,6 @@ local function is_in_code_function(line_to_cursor)
 
   return not vim.tbl_contains(excluded_node_types, node:type())
 end
-local is_inc_code_condition = luasnip_conditions.make_condition(is_in_code_function)
+local is_in_code_condition = ls_conditions.make_condition(is_in_code_function)
 
-return is_inc_code_condition
+return is_in_code_condition

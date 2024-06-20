@@ -1,4 +1,4 @@
-local luasnip_conditions = require("luasnip.extras.conditions")
+local ls_conditions = require("luasnip.extras.conditions")
 
 local matched_trigger_pattern = require("plugins.core.luasnip.conditions.utils").matched_trigger_pattern
 
@@ -12,6 +12,6 @@ local function line_begin_function(line_to_cursor)
   end
   return string.match(before_matched_trigger, "^%s*$") ~= nil
 end
-local line_begin_condition = luasnip_conditions.make_condition(line_begin_function)
+local line_begin_condition = ls_conditions.make_condition(line_begin_function)
 
 return line_begin_condition

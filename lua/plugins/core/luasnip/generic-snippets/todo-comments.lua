@@ -5,7 +5,6 @@
 -- It was then simplified to avoid relying on the `Comment.nvim` plugin
 
 local ls = require("luasnip")
-local ls_conditions = require("luasnip.extras.conditions")
 
 local custom_conditions = require("plugins.core.luasnip.conditions")
 
@@ -67,26 +66,6 @@ local function get_todo_comment_sn_options()
   return todo_comment_sn_options
 end
 
-local comment_node_types = {
-  "comment",
-  "comment_content",
-}
-
---- Check wether a snippet suggestion is in a comment or not, using Treesitter.
----@param line_to_cursor string The current line up to the current cursor position.
----@return boolean check Whether the cursor is in a comment or not.
-local function is_in_comment_function(line_to_cursor)
-  local is_treesitter_parsable_, node = pcall(custom_conditions.utils.get_treesitter_node, line_to_cursor)
-  if not is_treesitter_parsable_ then -- Treesitter is not available or the buffer is not parsable
-    return false
-  end
-  if not node then -- E.g. very beginning of the buffer
-    return false
-  end
-  return vim.tbl_contains(comment_node_types, node:type())
-end
-local is_in_comment_condition = ls_conditions.make_condition(is_in_comment_function)
-
 return {
   no_ts = {
     s({ trig = "todo-comment" }, {
@@ -101,7 +80,7 @@ return {
       c(1, get_todo_comment_sn_options()),
       f(get_comment_string_end),
     }),
-    s({ trig = "todo-comment", show_condition = is_in_comment_condition }, {
+    s({ trig = "todo-comment", show_condition = custom_conditions.is_in_comment }, {
       c(1, get_todo_comment_sn_options()),
     }),
   },
