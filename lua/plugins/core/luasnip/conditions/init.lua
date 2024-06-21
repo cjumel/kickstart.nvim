@@ -2,6 +2,7 @@
 
 local M = {}
 
+M.first_line = require("plugins.core.luasnip.conditions.first_line")
 M.line_begin = require("plugins.core.luasnip.conditions.line_begin")
 M.is_in_code = require("plugins.core.luasnip.conditions.is_in_code")
 M.is_in_comment = require("plugins.core.luasnip.conditions.is_in_comment")
