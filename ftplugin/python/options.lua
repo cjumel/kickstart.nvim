@@ -1,5 +1,13 @@
 local utils = require("utils")
 
+-- [[ Format options ]]
+
+-- Format options are adapted from Lua's default one in Neovim, defined in `nvim/runtime/ftplugin/lua.vim` with
+--  `setlocal formatoptions-=t formatoptions+=croql`
+-- Default formation options are: "tcqj"
+vim.opt_local.formatoptions:remove("t")
+vim.opt_local.formatoptions:append("rol")
+
 -- [[ Colorcolumn ]]
 -- The case of determining the right colorcolumn for Ruff is quite tricky compared to other formatters, as it must deal
 -- with the standard case of ".ruff.toml"/"ruff.toml" but also with the special case of generic Python configuration
