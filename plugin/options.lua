@@ -26,13 +26,6 @@ vim.opt.inccommand = "split" -- Set split preview in incremental commands (repla
 vim.o.complete = ""
 vim.o.completeopt = ""
 
--- Folding
-vim.opt.foldmethod = "expr"
-vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()" -- Use Treesitter folding
-vim.opt.foldtext = "" -- Use transparent fold (show first line of the fold, with highlights)
-vim.opt.fillchars:append({ fold = " " }) -- Don't fill folded lines with characters
-vim.opt.foldlevelstart = 99 -- Start with all folds open
-
 -- Internals
 vim.o.matchpairs = vim.o.matchpairs .. ",<:>" -- Add new recognized pairs of characters
 vim.o.undofile = true -- Save undo history to file
