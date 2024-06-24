@@ -57,7 +57,9 @@ return {
           i = {
             -- General insert-mode actions
             ["<CR>"] = actions.select_default,
+            ["<Tab>"] = actions.move_selection_next,
             ["<C-n>"] = actions.move_selection_next,
+            ["<S-Tab>"] = actions.move_selection_previous,
             ["<C-p>"] = actions.move_selection_previous,
             ["<C-g>"] = actions.move_to_top, -- Like "go to top"
             ["<C-s>"] = actions.toggle_selection + actions.move_selection_next,
@@ -66,7 +68,7 @@ return {
             ["<C-d>"] = actions.close, -- Shell-style exit, consistent with command line keymaps
 
             -- Preview actions
-            ["<C-i>"] = actions_layout.toggle_preview,
+            ["<C-]>"] = actions_layout.toggle_preview,
             ["Ì"] = actions.preview_scrolling_left, -- <M-h>
             ["Ï"] = actions.preview_scrolling_down, -- <M-j>
             ["È"] = actions.preview_scrolling_up, -- <M-k>
@@ -82,7 +84,9 @@ return {
           n = {
             -- General insert-mode actions
             ["<CR>"] = actions.select_default,
+            ["<Tab>"] = actions.move_selection_next,
             ["<C-n>"] = actions.move_selection_next,
+            ["<S-Tab>"] = actions.move_selection_previous,
             ["<C-p>"] = actions.move_selection_previous,
             ["<C-g>"] = actions.move_to_top, -- Like "go to top"
             ["<C-s>"] = actions.toggle_selection + actions.move_selection_next,
@@ -101,7 +105,7 @@ return {
             ["<Esc>"] = actions.close,
 
             -- Preview actions
-            ["<C-i>"] = actions_layout.toggle_preview,
+            ["<C-]>"] = actions_layout.toggle_preview,
             ["Ì"] = actions.preview_scrolling_left, -- <M-h>
             ["Ï"] = actions.preview_scrolling_down, -- <M-j>
             ["È"] = actions.preview_scrolling_up, -- <M-k>
@@ -139,45 +143,37 @@ return {
         find_files = {
           mappings = {
             i = {
-              ["<C-]>"] = custom_actions.find_files.toggle_all,
+              ["<C-^>"] = custom_actions.find_files.toggle_all,
               ["<C-c>"] = custom_actions.find_files.toggle_directories, -- Change picker
             },
             n = {
-              ["<C-]>"] = custom_actions.find_files.toggle_all,
+              ["<C-^>"] = custom_actions.find_files.toggle_all,
               ["<C-c>"] = custom_actions.find_files.toggle_directories, -- Change picker
             },
           },
         },
         live_grep = {
           mappings = {
-            i = { ["<C-]>"] = custom_actions.live_grep.toggle_all },
-            n = { ["<C-]>"] = custom_actions.live_grep.toggle_all },
+            i = { ["<C-^>"] = custom_actions.live_grep.toggle_all },
+            n = { ["<C-^>"] = custom_actions.live_grep.toggle_all },
           },
         },
-        buffers = {
+        git_status = { -- Override the <Tab> keymap to revert the staging/unstaging behavior of the picker
           mappings = {
-            -- Make buffer switcher usable with <Tab> & <S-Tab> like AltTab
-            i = { ["<Tab>"] = actions.move_selection_next, ["<S-Tab>"] = actions.move_selection_previous },
-            n = { ["<Tab>"] = actions.move_selection_next, ["<S-Tab>"] = actions.move_selection_previous },
-          },
-        },
-        git_status = {
-          mappings = {
-            -- Override the <Tab> key to toggle preview instead of staging/unstaging
-            i = { ["<Tab>"] = actions_layout.toggle_preview },
-            n = { ["<Tab>"] = actions_layout.toggle_preview },
+            i = { ["<Tab>"] = actions.move_selection_next },
+            n = { ["<Tab>"] = actions.move_selection_next },
           },
         },
         lsp_document_symbols = {
           mappings = {
-            i = { ["<C-]>"] = custom_actions.lsp_document_symbols.switch_to_lsp_dynamic_workspace_symbols },
-            n = { ["<C-]>"] = custom_actions.lsp_document_symbols.switch_to_lsp_dynamic_workspace_symbols },
+            i = { ["<C-^>"] = custom_actions.lsp_document_symbols.switch_to_lsp_dynamic_workspace_symbols },
+            n = { ["<C-^>"] = custom_actions.lsp_document_symbols.switch_to_lsp_dynamic_workspace_symbols },
           },
         },
         lsp_dynamic_workspace_symbols = {
           mappings = {
-            i = { ["<C-]>"] = custom_actions.lsp_dynamic_workspace_symbols.switch_to_lsp_document_symbols },
-            n = { ["<C-]>"] = custom_actions.lsp_dynamic_workspace_symbols.switch_to_lsp_document_symbols },
+            i = { ["<C-^>"] = custom_actions.lsp_dynamic_workspace_symbols.switch_to_lsp_document_symbols },
+            n = { ["<C-^>"] = custom_actions.lsp_dynamic_workspace_symbols.switch_to_lsp_document_symbols },
           },
         },
       },
