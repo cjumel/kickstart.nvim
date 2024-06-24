@@ -50,15 +50,15 @@ end
 
 -- [[ General keymaps ]]
 
+vim.keymap.set("n", "<C-]>", vim.diagnostic.open_float, { desc = "Expand diagnostics" })
+
 vim.keymap.set("n", "<leader>-", "<cmd>bufdo bd<CR>", { desc = "Delete all buffers" })
-vim.keymap.set("n", "<leader>v", vim.diagnostic.open_float, { desc = "[V]iew diagnostic" })
 
 vim.keymap.set("n", "<Esc>", "<cmd>ClearNormal<CR>", { desc = "Clear" }) -- <Esc> is only available in normal mode
 vim.keymap.set("v", "<C-c>", "<cmd>ClearNormal<CR>", { desc = "Clear" })
 vim.keymap.set("i", "<C-c>", "<cmd>ClearAll<CR>", { desc = "Clear" })
 vim.keymap.set("c", "<C-c>", "<cmd>ClearInsert<CR>", { desc = "Clear" }) -- Don't clean the cmdline popup itself
 
--- Shortcuts to access the main registers
 vim.keymap.set({ "n", "v" }, "+", '"+', { desc = "System clipboard register" })
 vim.keymap.set({ "n", "v" }, "_", '"_', { desc = "Black hole register" })
 
