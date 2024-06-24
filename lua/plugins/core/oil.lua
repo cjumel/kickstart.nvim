@@ -15,20 +15,19 @@ return {
     win_options = { number = false, relativenumber = false }, -- Disable line-numbering in Oil buffers
     cleanup_delay_ms = 0, -- Cleanup the oil buffer right away to avoid jumping back to it with <C-o> and <C-i>
     keymaps = {
-      -- Since Oil can be used as a real, editable buffer, to edit files quickly and optionally in batch, let's not
+      -- Since Oil can be used as an actual editable buffer, to edit files quickly and optionally in batch, let's not
       --  overwrite any keymap which could be useful for editing files, to still be able to use features like macros
       --  (with "q"), visual block edition (with "<C-v>") or decrementing (with "<C-x>") for instance
       ["-"] = "actions.parent",
       ["_"] = "actions.open_cwd",
       ["<CR>"] = "actions.select",
-      ["<C-i>"] = "actions.preview",
-      ["<C-x>"] = "actions.select_split",
-      ["<C-v>"] = "actions.select_vsplit",
-      ["<C-t>"] = "actions.select_tab",
+      ["<C-]>"] = "actions.preview",
       ["<C-c>"] = "actions.close",
-      ["gr"] = "actions.refresh",
-      ["gh"] = "actions.toggle_hidden",
-      ["gx"] = "actions.open_external",
+      ["g<C-x>"] = "actions.select_split",
+      ["g<C-v>"] = "actions.select_vsplit",
+      ["g<C-t>"] = "actions.select_tab",
+      ["g<C-r>"] = "actions.refresh",
+      ["g<C-h>"] = "actions.toggle_hidden",
       ["?"] = "actions.show_help",
     },
     use_default_keymaps = false,
