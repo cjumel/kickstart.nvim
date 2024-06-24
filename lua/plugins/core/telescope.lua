@@ -142,14 +142,14 @@ return {
       pickers = {
         find_files = {
           mappings = {
-            i = { ["<C-^>"] = custom_actions.find_files.toggle_all },
-            n = { ["<C-^>"] = custom_actions.find_files.toggle_all },
+            i = { ["<C-\\>"] = custom_actions.find_files.toggle_all },
+            n = { ["<C-\\>"] = custom_actions.find_files.toggle_all },
           },
         },
         live_grep = {
           mappings = {
-            i = { ["<C-^>"] = custom_actions.live_grep.toggle_all },
-            n = { ["<C-^>"] = custom_actions.live_grep.toggle_all },
+            i = { ["<C-\\>"] = custom_actions.live_grep.toggle_all },
+            n = { ["<C-\\>"] = custom_actions.live_grep.toggle_all },
           },
         },
         git_status = { -- Override the <Tab> keymap to revert the staging/unstaging behavior of the picker
@@ -160,14 +160,14 @@ return {
         },
         lsp_document_symbols = {
           mappings = {
-            i = { ["<C-^>"] = custom_actions.lsp_document_symbols.switch_to_lsp_dynamic_workspace_symbols },
-            n = { ["<C-^>"] = custom_actions.lsp_document_symbols.switch_to_lsp_dynamic_workspace_symbols },
+            i = { ["<C-\\>"] = custom_actions.lsp_document_symbols.switch_to_lsp_dynamic_workspace_symbols },
+            n = { ["<C-\\>"] = custom_actions.lsp_document_symbols.switch_to_lsp_dynamic_workspace_symbols },
           },
         },
         lsp_dynamic_workspace_symbols = {
           mappings = {
-            i = { ["<C-^>"] = custom_actions.lsp_dynamic_workspace_symbols.switch_to_lsp_document_symbols },
-            n = { ["<C-^>"] = custom_actions.lsp_dynamic_workspace_symbols.switch_to_lsp_document_symbols },
+            i = { ["<C-\\>"] = custom_actions.lsp_dynamic_workspace_symbols.switch_to_lsp_document_symbols },
+            n = { ["<C-\\>"] = custom_actions.lsp_dynamic_workspace_symbols.switch_to_lsp_document_symbols },
           },
         },
       },
