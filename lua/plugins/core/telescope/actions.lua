@@ -38,21 +38,6 @@ function M.find_files.toggle_all(prompt_bufnr, _)
   builtin.find_files(opts)
 end
 
-function M.find_files.toggle_directories(prompt_bufnr, _)
-  -- Persisted options
-  local opts = vim.g.telescope_last_opts
-  opts._directory = not opts._directory
-  vim.g.telescope_last_opts = opts
-
-  -- Not persisted options
-  opts = custom_builtin.finalize_opts_find_files(opts)
-  local current_picker = actions_state.get_current_picker(prompt_bufnr)
-  opts.default_text = current_picker:_get_prompt()
-  actions.close(prompt_bufnr)
-
-  builtin.find_files(opts)
-end
-
 M.live_grep = {}
 
 function M.live_grep.toggle_all(prompt_bufnr, _)

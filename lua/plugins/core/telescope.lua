@@ -142,14 +142,8 @@ return {
       pickers = {
         find_files = {
           mappings = {
-            i = {
-              ["<C-^>"] = custom_actions.find_files.toggle_all,
-              ["<C-c>"] = custom_actions.find_files.toggle_directories, -- Change picker
-            },
-            n = {
-              ["<C-^>"] = custom_actions.find_files.toggle_all,
-              ["<C-c>"] = custom_actions.find_files.toggle_directories, -- Change picker
-            },
+            i = { ["<C-^>"] = custom_actions.find_files.toggle_all },
+            n = { ["<C-^>"] = custom_actions.find_files.toggle_all },
           },
         },
         live_grep = {
