@@ -6,7 +6,8 @@
 
 return {
   "github/copilot.vim",
-  event = { "InsertEnter" },
+  -- When lazy-loading more agressively (e.g. on `InsertEnter` event), the plugin doesn't write properly right away
+  event = { "BufNewFile", "BufReadPre" },
   cmd = { "Copilot" }, -- For other plugins using directly the command, like the settings in Hydra.nvim
   config = function()
     vim.g.copilot_filetypes = { markdown = true } -- Enable Copilot on Markdown
