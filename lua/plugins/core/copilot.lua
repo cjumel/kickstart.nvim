@@ -13,16 +13,8 @@ return {
     vim.g.copilot_no_tab_map = true -- Don't automatically map the <Tab> key
     vim.g.copilot_filetypes = { markdown = true } -- Enable Copilot on additional filetypes
 
-    vim.keymap.set("i", "<C-]>", "<Plug>(copilot-accept-word)", { desc = "Copilot: accept one word" })
-    vim.keymap.set("i", "<C-\\>", "<Plug>(copilot-accept-line)", { desc = "Copilot: accept one line" })
-    vim.keymap.set(
-      "i",
-      "<M-CR>", -- <C-CR>
-      'copilot#Accept("")',
-      { expr = true, replace_keycodes = false, desc = "Copilot: accept" }
-    )
-
-    vim.keymap.set("i", "∞", "<Plug>(copilot-next)", { desc = "Copilot: next suggestion" }) -- <M-,>
-    vim.keymap.set("i", "…", "<Plug>(copilot-previous)", { desc = "Copilot: previous suggestion" }) -- <M-;>
+    vim.keymap.set("i", "<M-CR>", "<Plug>(copilot-accept-line)", { desc = "Copilot: accept line" }) -- <C-CR>
+    vim.keymap.set("i", "<C-]>", "<Plug>(copilot-accept-word)", { desc = "Copilot: accept word" })
+    vim.keymap.set("i", "<C-\\>", "<Plug>(copilot-next)", { desc = "Copilot: next suggestion" })
   end,
 }
