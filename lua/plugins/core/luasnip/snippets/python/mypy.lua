@@ -16,7 +16,7 @@ return {
   -- Let's only implement an "in-code" version (no "in-comment" one), as the latter cannot be as much controlled and
   -- will be available in any comment & at any place inside the comment
   s({
-    trig = "mypy-ignore",
+    trig = "ignore-mypy",
     show_condition = mypy_is_executable_condition
       * custom_conditions.is_in_code
       * -custom_conditions.line_begin

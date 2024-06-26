@@ -12,7 +12,7 @@ return {
   -- Let's only implement "in-code" versions (no "in-comment" ones), as the latter cannot be as much controlled and
   -- will be available in any comment & at any place inside the comment
   s({
-    trig = "ruff-ignore",
+    trig = "ignore-ruff",
     show_condition = custom_conditions.is_in_code * -custom_conditions.line_begin * ls_conditions_show.line_end,
   }, {
     c(1, {
@@ -21,7 +21,7 @@ return {
     }),
   }),
   s({
-    trig = "ruff-ignore",
+    trig = "ignore-ruff",
     show_condition = custom_conditions.first_line
       * custom_conditions.is_in_code
       * custom_conditions.line_begin
