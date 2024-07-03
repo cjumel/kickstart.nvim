@@ -42,7 +42,7 @@ end
 
 return {
 
-  -- [[ Imports ]]
+  -- import
   s({ trig = "import ..", show_condition = custom_conditions.is_in_code_empty_line }, {
     t("import "),
     i(1),
@@ -68,8 +68,7 @@ return {
     i(3),
   }),
 
-  -- [[ Conditions ]]
-  -- Block version
+  -- if/else/elif
   s({ trig = "if ..", show_condition = custom_conditions.is_in_code_empty_line }, {
     t("if "),
     c(1, { i(1), sn(nil, { t("not "), i(1) }) }),
@@ -85,6 +84,12 @@ return {
   s({ trig = "else ..", show_condition = custom_conditions.is_in_code_empty_line }, {
     t({ "else:", "\t" }),
     c(1, { i(1), sn(nil, { t("pass"), i(1) }) }),
+  }),
+  s({ trig = "if .. else ..", show_condition = custom_conditions.is_in_code_inline }, {
+    t("if "),
+    i(1),
+    t(" else "),
+    c(2, { i(1), t("None") }),
   }),
   s({ trig = 'if .. "__main__"', show_condition = custom_conditions.is_in_code_empty_line }, {
     t({ 'if __name__ == "__main__":', "\t" }),
@@ -113,8 +118,20 @@ return {
       }),
     }),
   }),
-  s({ trig = "if not isinstance .. raise ..", show_condition = custom_conditions.is_in_code_empty_line }, {
+  s({ trig = "if isinstance .. raise ..", show_condition = custom_conditions.is_in_code_empty_line }, {
     c(1, {
+      sn(nil, {
+        t("if isinstance("),
+        i(1),
+        t(", "),
+        i(2), -- support union & or tuple for multiple types
+        t({ "):", "\t" }),
+        t([[raise TypeError(f"Expected ']]),
+        rep(1),
+        t([[' not to be of type ']]),
+        rep(2),
+        t([['")]]),
+      }),
       sn(nil, {
         t("if not isinstance("),
         i(1),
@@ -129,30 +146,10 @@ return {
         rep(1),
         t([[)}'")]]),
       }),
-      sn(nil, {
-        t("if isinstance("),
-        i(1),
-        t(", "),
-        i(2), -- support union & or tuple for multiple types
-        t({ "):", "\t" }),
-        t([[raise TypeError(f"Expected ']]),
-        rep(1),
-        t([[' not to be of type ']]),
-        rep(2),
-        t([['")]]),
-      }),
     }),
   }),
-  -- Inline version
-  s({ trig = "if .. else ..", show_condition = custom_conditions.is_in_code_inline }, {
-    t("if "),
-    i(1),
-    t(" else "),
-    c(2, { i(1), t("None") }),
-  }),
 
-  -- [[ Loops ]]
-  -- Block version
+  -- for
   s({ trig = "for .. in ..", show_condition = custom_conditions.is_in_code_empty_line }, {
     t("for "),
     i(1),
@@ -160,6 +157,12 @@ return {
     i(2),
     t({ ":", "\t" }),
     c(3, { i(1), sn(nil, { t("pass"), i(1) }) }),
+  }),
+  s({ trig = "for .. in ..", show_condition = custom_conditions.is_in_code_inline }, {
+    t("for "),
+    i(1),
+    t(" in "),
+    i(2),
   }),
   s({ trig = "for .. enumerate ..", show_condition = custom_conditions.is_in_code_empty_line }, {
     t("for "),
@@ -171,6 +174,15 @@ return {
     t({ "):", "\t" }),
     c(4, { i(1), sn(nil, { t("pass"), i(1) }) }),
   }),
+  s({ trig = "for .. enumerate ..", show_condition = custom_conditions.is_in_code_inline }, {
+    t("for "),
+    i(1, "i"),
+    t(", "),
+    i(2, "x"),
+    t(" in enumerate("),
+    i(3),
+    t(")"),
+  }),
   s({ trig = "for .. range ..", show_condition = custom_conditions.is_in_code_empty_line }, {
     t("for "),
     i(1, "i"),
@@ -178,6 +190,13 @@ return {
     i(2),
     t({ "):", "\t" }),
     c(3, { i(1), sn(nil, { t("pass"), i(1) }) }),
+  }),
+  s({ trig = "for .. range ..", show_condition = custom_conditions.is_in_code_inline }, {
+    t("for "),
+    i(1, "i"),
+    t(" in range("),
+    i(2),
+    t(")"),
   }),
   s({ trig = "for .. zip ..", show_condition = custom_conditions.is_in_code_empty_line }, {
     t("for "),
@@ -189,37 +208,6 @@ return {
     t({ "):", "\t" }),
     c(4, { i(1), sn(nil, { t("pass"), i(1) }) }),
   }),
-  s({ trig = "async for .. in ..", show_condition = custom_conditions.is_in_code_empty_line }, {
-    t("async for "),
-    i(1),
-    t(" in "),
-    i(2),
-    t({ ":", "\t" }),
-    c(3, { i(1), sn(nil, { t("pass"), i(1) }) }),
-  }),
-  -- Inline version
-  s({ trig = "for .. in ..", show_condition = custom_conditions.is_in_code_inline }, {
-    t("for "),
-    i(1),
-    t(" in "),
-    i(2),
-  }),
-  s({ trig = "for .. enumerate ..", show_condition = custom_conditions.is_in_code_inline }, {
-    t("for "),
-    i(1, "i"),
-    t(", "),
-    i(2, "x"),
-    t(" in enumerate("),
-    i(3),
-    t(")"),
-  }),
-  s({ trig = "for .. range ..", show_condition = custom_conditions.is_in_code_inline }, {
-    t("for "),
-    i(1, "i"),
-    t(" in range("),
-    i(2),
-    t(")"),
-  }),
   s({ trig = "for .. zip ..", show_condition = custom_conditions.is_in_code_inline }, {
     t("for "),
     i(1, "x"),
@@ -229,8 +217,24 @@ return {
     i(3),
     t(")"),
   }),
+  s({ trig = "async for .. in ..", show_condition = custom_conditions.is_in_code_empty_line }, {
+    t("async for "),
+    i(1),
+    t(" in "),
+    i(2),
+    t({ ":", "\t" }),
+    c(3, { i(1), sn(nil, { t("pass"), i(1) }) }),
+  }),
 
-  -- [[ Errors handling ]]
+  -- while
+  s({ trig = "while ..", show_condition = custom_conditions.is_in_code_empty_line }, {
+    t("while "),
+    c(1, { i(1), t("True") }),
+    t({ ":", "\t" }),
+    c(2, { i(1), sn(nil, { t("pass"), i(1) }) }),
+  }),
+
+  -- try/except/finally
   s({ trig = "try .. except", show_condition = custom_conditions.is_in_code_empty_line }, {
     t({ "try:", "\t" }),
     c(1, { i(1), sn(nil, { t("pass"), i(1) }) }),
@@ -246,7 +250,7 @@ return {
     c(2, { i(1), sn(nil, { t("pass"), i(1) }) }),
   }),
 
-  -- [[ Functions ]]
+  -- def
   s({ trig = "def ..", show_condition = custom_conditions.is_in_code_empty_line }, {
     t("def "),
     d(1, def_dymamic_name),
@@ -268,7 +272,7 @@ return {
     c(4, { i(1), sn(nil, { t("pass"), i(1) }) }),
   }),
 
-  -- [[ Classes ]]
+  -- class
   s({ trig = "class ..", show_condition = custom_conditions.is_in_code_empty_line }, {
     t("class "),
     c(1, { i(1, "Name"), sn(nil, { i(1, "Name"), t("("), i(2, "Parent"), t(")") }) }),
