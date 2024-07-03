@@ -1,6 +1,7 @@
 -- Define custom conditions & related utilities used throughout various custom snippets.
 
 local ls_conditions = require("luasnip.extras.conditions")
+local ls_conditions_show = require("luasnip.extras.conditions.show")
 
 local M = {}
 
@@ -36,7 +37,8 @@ local function first_line()
   local _, row, _, _, _ = unpack(vim.fn.getcurpos())
   return row == 1
 end
-M.first_line = ls_conditions.make_condition(first_line)
+local first_line_condition = ls_conditions.make_condition(first_line)
+M.first_line = first_line_condition
 
 --- Check wether a snippet suggestion is at the beginning of a line or not.
 ---@param line_to_cursor string The current line up to the current cursor position.
@@ -48,7 +50,8 @@ local function line_begin_function(line_to_cursor)
   end
   return string.match(before_matched_trigger, "^%s*$") ~= nil
 end
-M.line_begin = ls_conditions.make_condition(line_begin_function)
+local line_begin_condition = ls_conditions.make_condition(line_begin_function)
+M.line_begin = line_begin_condition
 
 local excluded_node_types = { -- Treesitter nodes considered to be not in actual code
   "comment",
@@ -72,7 +75,10 @@ local function is_in_code_function(line_to_cursor)
 
   return not vim.tbl_contains(excluded_node_types, node:type())
 end
-M.is_in_code = ls_conditions.make_condition(is_in_code_function)
+local is_in_code_condition = ls_conditions.make_condition(is_in_code_function)
+M.is_in_code = is_in_code_condition
+M.is_in_code_empty_line = is_in_code_condition * line_begin_condition * ls_conditions_show.line_end
+M.is_in_code_inline = is_in_code_condition * -line_begin_condition
 
 local comment_node_types = {
   "comment",
@@ -92,6 +98,7 @@ local function is_in_comment_function(line_to_cursor)
   end
   return vim.tbl_contains(comment_node_types, node:type())
 end
-M.is_in_comment = ls_conditions.make_condition(is_in_comment_function)
+local is_in_comment_condition = ls_conditions.make_condition(is_in_comment_function)
+M.is_in_comment = is_in_comment_condition
 
 return M

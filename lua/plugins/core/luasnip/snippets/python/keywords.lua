@@ -1,8 +1,6 @@
+local custom_conditions = require("plugins.core.luasnip.conditions")
 local ls = require("luasnip")
 local ls_extras = require("luasnip.extras")
-local ls_show_conditions = require("luasnip.extras.conditions.show")
-
-local custom_conditions = require("plugins.core.luasnip.conditions")
 
 local c = ls.choice_node
 local d = ls.dynamic_node
@@ -11,9 +9,6 @@ local rep = ls_extras.rep
 local s = ls.snippet
 local sn = ls.snippet_node
 local t = ls.text_node
-
-local is_in_code_empty_line = custom_conditions.is_in_code * custom_conditions.line_begin * ls_show_conditions.line_end
-local is_in_code_inline = custom_conditions.is_in_code * -custom_conditions.line_begin
 
 local function is_function_in_class()
   local node = vim.treesitter.get_node()
@@ -48,37 +43,57 @@ end
 return {
 
   -- [[ Imports ]]
-  s({ trig = "import ..", show_condition = is_in_code_empty_line }, { t("import "), i(1) }),
-  s({ trig = "import .. as ..", show_condition = is_in_code_empty_line }, { t("import "), i(1), t(" as "), i(2) }),
-  s({ trig = "from .. import ..", show_condition = is_in_code_empty_line }, { t("from "), i(1), t(" import "), i(2) }),
-  s(
-    { trig = "from .. import .. as ..", show_condition = is_in_code_empty_line },
-    { t("from "), i(1), t(" import "), i(2), t(" as "), i(3) }
-  ),
+  s({ trig = "import ..", show_condition = custom_conditions.is_in_code_empty_line }, {
+    t("import "),
+    i(1),
+  }),
+  s({ trig = "import .. as ..", show_condition = custom_conditions.is_in_code_empty_line }, {
+    t("import "),
+    i(1),
+    t(" as "),
+    i(2),
+  }),
+  s({ trig = "from .. import ..", show_condition = custom_conditions.is_in_code_empty_line }, {
+    t("from "),
+    i(1),
+    t(" import "),
+    i(2),
+  }),
+  s({ trig = "from .. import .. as ..", show_condition = custom_conditions.is_in_code_empty_line }, {
+    t("from "),
+    i(1),
+    t(" import "),
+    i(2),
+    t(" as "),
+    i(3),
+  }),
 
   -- [[ Conditions ]]
   -- Block version
-  s({ trig = "if ..", show_condition = is_in_code_empty_line }, {
+  s({ trig = "if ..", show_condition = custom_conditions.is_in_code_empty_line }, {
     t("if "),
     c(1, { i(1), sn(nil, { t("not "), i(1) }) }),
     t({ ":", "\t" }),
     c(2, { i(1), sn(nil, { t("pass"), i(1) }) }),
   }),
-  s({ trig = "elif ..", show_condition = is_in_code_empty_line }, {
+  s({ trig = "elif ..", show_condition = custom_conditions.is_in_code_empty_line }, {
     t("elif "),
     c(1, { i(1), sn(nil, { t("not "), i(1) }) }),
     t({ ":", "\t" }),
     c(2, { i(1), sn(nil, { t("pass"), i(1) }) }),
   }),
-  s({ trig = "else ..", show_condition = is_in_code_empty_line }, {
+  s({ trig = "else ..", show_condition = custom_conditions.is_in_code_empty_line }, {
     t({ "else:", "\t" }),
     c(1, { i(1), sn(nil, { t("pass"), i(1) }) }),
   }),
-  s(
-    { trig = 'if .. "__main__"', show_condition = is_in_code_empty_line },
-    { t({ 'if __name__ == "__main__":', "\t" }), c(1, { i(1), sn(nil, { t("pass"), i(1) }) }) }
-  ),
-  s({ trig = "if .. None .. raise ..", show_condition = is_in_code_empty_line }, {
+  s({ trig = 'if .. "__main__"', show_condition = custom_conditions.is_in_code_empty_line }, {
+    t({ 'if __name__ == "__main__":', "\t" }),
+    c(1, {
+      i(1),
+      sn(nil, { t("pass"), i(1) }),
+    }),
+  }),
+  s({ trig = "if .. None .. raise ..", show_condition = custom_conditions.is_in_code_empty_line }, {
     c(1, {
       sn(nil, {
         t("if "),
@@ -98,7 +113,7 @@ return {
       }),
     }),
   }),
-  s({ trig = "if not isinstance .. raise ..", show_condition = is_in_code_empty_line }, {
+  s({ trig = "if not isinstance .. raise ..", show_condition = custom_conditions.is_in_code_empty_line }, {
     c(1, {
       sn(nil, {
         t("if not isinstance("),
@@ -129,18 +144,24 @@ return {
     }),
   }),
   -- Inline version
-  s(
-    { trig = "if .. else ..", show_condition = is_in_code_inline },
-    { t("if "), i(1), t(" else "), c(2, { i(1), t("None") }) }
-  ),
+  s({ trig = "if .. else ..", show_condition = custom_conditions.is_in_code_inline }, {
+    t("if "),
+    i(1),
+    t(" else "),
+    c(2, { i(1), t("None") }),
+  }),
 
   -- [[ Loops ]]
   -- Block version
-  s(
-    { trig = "for .. in ..", show_condition = is_in_code_empty_line },
-    { t("for "), i(1), t(" in "), i(2), t({ ":", "\t" }), c(3, { i(1), sn(nil, { t("pass"), i(1) }) }) }
-  ),
-  s({ trig = "for .. enumerate ..", show_condition = is_in_code_empty_line }, {
+  s({ trig = "for .. in ..", show_condition = custom_conditions.is_in_code_empty_line }, {
+    t("for "),
+    i(1),
+    t(" in "),
+    i(2),
+    t({ ":", "\t" }),
+    c(3, { i(1), sn(nil, { t("pass"), i(1) }) }),
+  }),
+  s({ trig = "for .. enumerate ..", show_condition = custom_conditions.is_in_code_empty_line }, {
     t("for "),
     i(1, "i"),
     t(", "),
@@ -150,11 +171,15 @@ return {
     t({ "):", "\t" }),
     c(4, { i(1), sn(nil, { t("pass"), i(1) }) }),
   }),
-  s(
-    { trig = "for .. range ..", show_condition = is_in_code_empty_line },
-    { t("for "), i(1, "i"), t(" in range("), i(2), t({ "):", "\t" }), c(3, { i(1), sn(nil, { t("pass"), i(1) }) }) }
-  ),
-  s({ trig = "for .. zip ..", show_condition = is_in_code_empty_line }, {
+  s({ trig = "for .. range ..", show_condition = custom_conditions.is_in_code_empty_line }, {
+    t("for "),
+    i(1, "i"),
+    t(" in range("),
+    i(2),
+    t({ "):", "\t" }),
+    c(3, { i(1), sn(nil, { t("pass"), i(1) }) }),
+  }),
+  s({ trig = "for .. zip ..", show_condition = custom_conditions.is_in_code_empty_line }, {
     t("for "),
     i(1, "x"),
     t(", "),
@@ -164,27 +189,49 @@ return {
     t({ "):", "\t" }),
     c(4, { i(1), sn(nil, { t("pass"), i(1) }) }),
   }),
-  s(
-    { trig = "async for .. in ..", show_condition = is_in_code_empty_line },
-    { t("async for "), i(1), t(" in "), i(2), t({ ":", "\t" }), c(3, { i(1), sn(nil, { t("pass"), i(1) }) }) }
-  ),
+  s({ trig = "async for .. in ..", show_condition = custom_conditions.is_in_code_empty_line }, {
+    t("async for "),
+    i(1),
+    t(" in "),
+    i(2),
+    t({ ":", "\t" }),
+    c(3, { i(1), sn(nil, { t("pass"), i(1) }) }),
+  }),
   -- Inline version
-  s({ trig = "for .. in ..", show_condition = is_in_code_inline }, { t("for "), i(1), t(" in "), i(2) }),
-  s(
-    { trig = "for .. enumerate ..", show_condition = is_in_code_inline },
-    { t("for "), i(1, "i"), t(", "), i(2, "x"), t(" in enumerate("), i(3), t(")") }
-  ),
-  s(
-    { trig = "for .. range ..", show_condition = is_in_code_inline },
-    { t("for "), i(1, "i"), t(" in range("), i(2), t(")") }
-  ),
-  s(
-    { trig = "for .. zip ..", show_condition = is_in_code_inline },
-    { t("for "), i(1, "x"), t(", "), i(2, "y"), t(" in zip("), i(3), t(")") }
-  ),
+  s({ trig = "for .. in ..", show_condition = custom_conditions.is_in_code_inline }, {
+    t("for "),
+    i(1),
+    t(" in "),
+    i(2),
+  }),
+  s({ trig = "for .. enumerate ..", show_condition = custom_conditions.is_in_code_inline }, {
+    t("for "),
+    i(1, "i"),
+    t(", "),
+    i(2, "x"),
+    t(" in enumerate("),
+    i(3),
+    t(")"),
+  }),
+  s({ trig = "for .. range ..", show_condition = custom_conditions.is_in_code_inline }, {
+    t("for "),
+    i(1, "i"),
+    t(" in range("),
+    i(2),
+    t(")"),
+  }),
+  s({ trig = "for .. zip ..", show_condition = custom_conditions.is_in_code_inline }, {
+    t("for "),
+    i(1, "x"),
+    t(", "),
+    i(2, "y"),
+    t(" in zip("),
+    i(3),
+    t(")"),
+  }),
 
   -- [[ Errors handling ]]
-  s({ trig = "try .. except", show_condition = is_in_code_empty_line }, {
+  s({ trig = "try .. except", show_condition = custom_conditions.is_in_code_empty_line }, {
     t({ "try:", "\t" }),
     c(1, { i(1), sn(nil, { t("pass"), i(1) }) }),
     t({ "", "except " }),
@@ -192,7 +239,7 @@ return {
     t({ ":", "\t" }),
     c(3, { i(1), sn(nil, { t("pass"), i(1) }) }),
   }),
-  s({ trig = "try .. finally", show_condition = is_in_code_empty_line }, {
+  s({ trig = "try .. finally", show_condition = custom_conditions.is_in_code_empty_line }, {
     t({ "try:", "\t" }),
     c(1, { i(1), sn(nil, { t("pass"), i(1) }) }),
     t({ "", "finally:", "\t" }),
@@ -200,7 +247,7 @@ return {
   }),
 
   -- [[ Functions ]]
-  s({ trig = "def ..", show_condition = is_in_code_empty_line }, {
+  s({ trig = "def ..", show_condition = custom_conditions.is_in_code_empty_line }, {
     t("def "),
     d(1, def_dymamic_name),
     t("("),
@@ -210,7 +257,7 @@ return {
     t({ ":", "\t" }),
     c(4, { i(1), sn(nil, { t("pass"), i(1) }) }),
   }),
-  s({ trig = "async def ..", show_condition = is_in_code_empty_line }, {
+  s({ trig = "async def ..", show_condition = custom_conditions.is_in_code_empty_line }, {
     t("async def "),
     d(1, def_dymamic_name),
     t("("),
@@ -222,7 +269,7 @@ return {
   }),
 
   -- [[ Classes ]]
-  s({ trig = "class ..", show_condition = is_in_code_empty_line }, {
+  s({ trig = "class ..", show_condition = custom_conditions.is_in_code_empty_line }, {
     t("class "),
     c(1, { i(1, "Name"), sn(nil, { i(1, "Name"), t("("), i(2, "Parent"), t(")") }) }),
     t({ ":", "\t" }),
