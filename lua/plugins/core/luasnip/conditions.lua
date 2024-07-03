@@ -20,7 +20,7 @@ local matched_trigger_pattern = "(.*)" .. separator_pattern .. "(.*)$"
 ---@param line_to_cursor string The current line up to the current cursor position.
 ---@return TSNode|nil node The Treesitter node at the position before the matched trigger.
 local function get_treesitter_node(line_to_cursor)
-  local _, matched_trigger = string.match(line_to_cursor, M.matched_trigger_pattern)
+  local _, matched_trigger = string.match(line_to_cursor, matched_trigger_pattern)
   if matched_trigger == nil then
     matched_trigger = ""
   end
