@@ -37,7 +37,7 @@ local def_dymamic_name = function(_)
   end
 end
 
-local def_nynamic_args = function(_)
+local def_dynamic_args = function(_)
   if is_function_in_class() then
     return sn(nil, { c(1, { sn(nil, { t("self"), i(1) }), sn(nil, { t("cls"), i(1) }), sn(nil, { i(1) }) }) })
   else
@@ -204,7 +204,7 @@ return {
     t("def "),
     d(1, def_dymamic_name),
     t("("),
-    d(2, def_nynamic_args),
+    d(2, def_dynamic_args),
     t(")"),
     c(3, { sn(nil, { t(" -> "), i(1) }), sn(nil, { t(" -> "), i(1, "None") }), sn(nil, { i(1) }) }),
     t({ ":", "\t" }),
@@ -214,7 +214,7 @@ return {
     t("async def "),
     d(1, def_dymamic_name),
     t("("),
-    d(2, def_nynamic_args),
+    d(2, def_dynamic_args),
     t(")"),
     c(3, { sn(nil, { t(" -> "), i(1) }), sn(nil, { t(" -> "), i(1, "None") }), sn(nil, { i(1) }) }),
     t({ ":", "\t" }),
