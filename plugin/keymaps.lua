@@ -121,6 +121,10 @@ utils.keymap.set_move_pair({ "[e", "]e" }, {
   function() vim.diagnostic.goto_next({ severity = vim.diagnostic.severity.ERROR }) end,
   function() vim.diagnostic.goto_prev({ severity = vim.diagnostic.severity.ERROR }) end,
 }, { { desc = "Next error" }, { desc = "Previous error" } })
+utils.keymap.set_move_pair({ "[w", "]w" }, {
+  function() vim.diagnostic.goto_next({ severity = vim.diagnostic.severity.WARN }) end,
+  function() vim.diagnostic.goto_prev({ severity = vim.diagnostic.severity.WARN }) end,
+}, { { desc = "Next warning" }, { desc = "Previous warning" } })
 -- Conflict markers have 3 forms, all at the start of a line: `<<<<<<< <text>`, ` =======`, ` >>>>>>> <text>`
 local conflict_pattern = "^<<<<<<< \\|^=======\\|^>>>>>>> "
 utils.keymap.set_move_pair({ "[=", "]=" }, {
