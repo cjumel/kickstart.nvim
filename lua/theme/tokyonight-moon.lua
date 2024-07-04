@@ -18,6 +18,9 @@ local custom_sections = vim.tbl_deep_extend("force", sections.empty, {
   lualine_x = { modules.macro, modules.harpoon, "location", "progress" },
 })
 M.lualine_opts = {
+  options = {
+    component_separators = {},
+  },
   sections = custom_sections,
   extensions = extensions.build_extensions(custom_sections),
   _keep_showmode = true,
