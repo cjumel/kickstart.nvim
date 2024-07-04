@@ -4,6 +4,10 @@
 -- very easy to access the main files you're working on. It is very complementary with Telescope & Oil to navigate in
 -- the file system.
 
+-- TODO: improve Harpoon module, for instance by
+--  - always displaying something in the Lualine module to prevent component separators from appearing & disappearing
+--  - use letters instead of indexes, both to add & display the Harpoon marker in the Lualine
+
 return {
   "ThePrimeagen/harpoon",
   branch = "harpoon2",
