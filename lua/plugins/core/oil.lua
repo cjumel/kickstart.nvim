@@ -21,9 +21,9 @@ return {
       ["-"] = "actions.parent",
       ["_"] = "actions.open_cwd",
       ["<CR>"] = "actions.select",
-      ["<C-]>"] = "actions.preview",
-      ["<C-s>"] = "actions.change_sort",
       ["<C-c>"] = "actions.close",
+      ["<C-s>"] = "actions.change_sort",
+      ["gp"] = "actions.preview",
       ["gh"] = "actions.toggle_hidden",
       ["gd"] = { -- Taken from Oil recipes
         callback = function()
