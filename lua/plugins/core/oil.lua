@@ -22,9 +22,22 @@ return {
       ["_"] = "actions.open_cwd",
       ["<CR>"] = "actions.select",
       ["<C-]>"] = "actions.preview",
+      ["<C-s>"] = "actions.change_sort",
       ["<C-c>"] = "actions.close",
       ["gh"] = "actions.toggle_hidden",
+      ["gd"] = { -- Taken from Oil recipes
+        callback = function()
+          DETAIL = not DETAIL
+          if DETAIL then
+            require("oil").set_columns({ "icon", "permissions", "size", "mtime" })
+          else
+            require("oil").set_columns({ "icon" })
+          end
+        end,
+        desc = "Toggle file detail view",
+      },
       ["gr"] = "actions.refresh",
+      ["gx"] = "actions.open_external",
       ["g?"] = "actions.show_help",
       ["g<C-x>"] = { "actions.select", opts = { horizontal = true }, desc = "Open the entry in a split" },
       ["g<C-v>"] = { "actions.select", opts = { vertical = true }, desc = "Open the entry in a vertical split" },
