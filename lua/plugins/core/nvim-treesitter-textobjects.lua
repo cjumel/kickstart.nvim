@@ -7,12 +7,17 @@ return {
   lazy = true, -- Dependency of nvim-treesitter
   config = function()
     local repeatable_move = require("nvim-treesitter.textobjects.repeatable_move")
-    vim.keymap.set({ "n", "x", "o" }, ",", repeatable_move.repeat_last_move_next, { desc = "Repeat last move next" })
+    vim.keymap.set(
+      { "n", "x", "o" },
+      ",",
+      repeatable_move.repeat_last_move_next,
+      { desc = 'Repeat last move in "next" direction' }
+    )
     vim.keymap.set(
       { "n", "x", "o" },
       ";",
       repeatable_move.repeat_last_move_previous,
-      { desc = "Repeat last move previous" }
+      { desc = 'Repeat last move in "previous" direction' }
     )
   end,
 }
