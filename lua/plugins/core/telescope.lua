@@ -152,7 +152,13 @@ return {
             n = { ["<C-\\>"] = custom_actions.live_grep.toggle_all },
           },
         },
-        git_status = { -- Override the <Tab> keymap to revert the staging/unstaging behavior of the picker
+        buffers = {
+          mappings = {
+            i = { ["<C-d>"] = actions.delete_buffer },
+            n = { ["<C-d>"] = actions.delete_buffer },
+          },
+        },
+        git_status = { -- Override the <Tab> keymap to disable the stage/unstage feature of the picker
           mappings = {
             i = { ["<Tab>"] = actions.move_selection_next },
             n = { ["<Tab>"] = actions.move_selection_next },
