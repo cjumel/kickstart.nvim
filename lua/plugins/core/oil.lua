@@ -1,7 +1,7 @@
 -- oil.nvim
 --
--- Oil is a modern version of netwrc (vim's default file explorer) which lets you edit your file system just like any
--- in a Neovim buffer. It is my plugin of choice for file edition, as it is a powerful alternative to tree explorers,
+-- Oil is a modern version of netwrc, Vim's default file explorer, which lets you edit your file system just like any
+-- Neovim buffer. It is my plugin of choice for file edition, as it is a powerful alternative to tree explorers,
 -- focusing on the current directory in a single window, instead of the whole project tree in a side window. The file
 -- editing features it provides are very elegant and natural to learn, and they are usable with other plugins, like
 -- Copilot.vim or code snippest (e.g. Luasnip), which makes creating files very simple & customizable.
@@ -23,12 +23,12 @@ return {
       ["<CR>"] = "actions.select",
       ["<C-]>"] = "actions.preview",
       ["<C-c>"] = "actions.close",
-      ["g<C-x>"] = "actions.select_split",
-      ["g<C-v>"] = "actions.select_vsplit",
-      ["g<C-t>"] = "actions.select_tab",
-      ["g<C-r>"] = "actions.refresh",
-      ["g<C-h>"] = "actions.toggle_hidden",
-      ["?"] = "actions.show_help",
+      ["gh"] = "actions.toggle_hidden",
+      ["gr"] = "actions.refresh",
+      ["g?"] = "actions.show_help",
+      ["g<C-x>"] = { "actions.select", opts = { horizontal = true }, desc = "Open the entry in a split" },
+      ["g<C-v>"] = { "actions.select", opts = { vertical = true }, desc = "Open the entry in a vertical split" },
+      ["g<C-t>"] = { "actions.select", opts = { tab = true }, desc = "Open the entry in new tab" },
     },
     use_default_keymaps = false,
     view_options = {
@@ -38,7 +38,7 @@ return {
         end
         return vim.startswith(name, ".") -- Default condition
       end,
-      is_always_hidden = function(name, _) return name == ".." end, -- Don't show ".." when hidden is on
+      is_always_hidden = function(name, _) return name == ".." end, -- Don't show ".." when showing hidden files
     },
   },
 }
