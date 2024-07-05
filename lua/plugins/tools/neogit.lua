@@ -45,6 +45,7 @@ return {
         ["z"] = "StashPopup",
       },
       status = {
+        ["<C-c>"] = "Close",
         ["{"] = false,
         [";"] = "GoToPreviousHunkHeader",
         ["}"] = false,
