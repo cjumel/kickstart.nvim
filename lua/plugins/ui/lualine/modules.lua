@@ -20,13 +20,25 @@ M.macro = {
   color = { fg = "#ff9e64" },
 }
 
--- If file or directory is in Harpoon list, show its index and the number of Harpoon items
+-- Display the Harpoon list key corresponding to the current buffer, if any
 -- This will lazy-load Harpoon as soon as a buffer is opened
+local harpoon_default_symbol = "󰟢" -- Displayed when not in Harpoon list
+local harpoon_symbols = { -- `harpoon_symbols[idx]` is displayed when buffer is Harpoon's list idx'th buffer
+  "[J]",
+  "[K]",
+  "[L]",
+  "[M]",
+  "[,]",
+  "[;]",
+  "[:]",
+  "[=]",
+}
+local harpoon_out_of_bound_symbol = "++" -- Displayed when the buffer index doesn't correspond to a supported key
 M.harpoon = {
   function()
     local path = utils.path.get_current_buffer_path()
     if path == nil then -- No buffer is opened
-      return ""
+      return harpoon_default_symbol
     end
 
     local harpoon = require("harpoon") -- Harpoon is not loaded if no buffer/directory is opened
@@ -34,11 +46,15 @@ M.harpoon = {
     for index = 1, harpoon_list_length do
       local harpoon_file_path = harpoon:list():get(index).value
       if path == harpoon_file_path then
-        return "H-" .. index .. "/" .. harpoon_list_length
+        local harpoon_symbol = harpoon_symbols[index]
+        if harpoon_symbol == nil then -- The index is above the number of defined symbols & keys
+          return harpoon_out_of_bound_symbol
+        end
+        return harpoon_symbol
       end
     end
 
-    return ""
+    return harpoon_default_symbol
   end,
 }
 
