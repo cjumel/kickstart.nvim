@@ -68,8 +68,8 @@ return {
       { "µ", function() harpoon:list():select(4) end, desc = "Go to Harpoon file 4" }, -- <M-m>
       { "∞", function() harpoon:list():select(5) end, desc = "Go to Harpoon file 5" }, -- <M-,>
       { "…", function() harpoon:list():select(6) end, desc = "Go to Harpoon file 6" }, -- <M-;>
-      { "\\", function() harpoon:list():select(7) end, desc = "Go to Harpoon file 7" }, -- <M-\>
-      { "≠", function() harpoon:list():select(8) end, desc = "Go to Harpoon file 8" }, -- <M-≠>
+      { "\\", function() harpoon:list():select(7) end, desc = "Go to Harpoon file 7" }, -- <M-:>
+      { "≠", function() harpoon:list():select(8) end, desc = "Go to Harpoon file 8" }, -- <M-=>
     }
   end,
   opts = {
