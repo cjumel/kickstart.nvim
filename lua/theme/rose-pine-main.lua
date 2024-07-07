@@ -15,11 +15,11 @@ local custom_sections = vim.tbl_deep_extend("force", sections.empty, {
     "diff",
     "diagnostics",
   },
-  lualine_x = { modules.macro, modules.harpoon, "location", "progress" },
+  lualine_x = { modules.macro, modules.harpoon, "filetype", "location", "progress" },
 })
 M.lualine_opts = {
   options = {
-    component_separators = {},
+    icons_enabled = false,
   },
   sections = custom_sections,
   extensions = extensions.build_extensions(custom_sections),

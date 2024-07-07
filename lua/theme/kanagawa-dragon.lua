@@ -5,10 +5,6 @@ M.kanagawa_opts = {
   theme = "dragon",
 }
 
-M.lualine_opts = {
-  options = {
-    component_separators = "",
-  },
-}
+M.lualine_opts = {}
 
 return M
