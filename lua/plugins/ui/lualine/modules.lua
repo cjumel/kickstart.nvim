@@ -25,7 +25,6 @@ M.harpoon_buffer_title = { function() return "Harpoon" end }
 
 -- Display the Harpoon list key corresponding to the current buffer, if any
 -- This will lazy-load Harpoon as soon as a buffer is opened
-local harpoon_default_symbol = "󰟢" -- Displayed when not in Harpoon list
 local harpoon_symbols = { -- `harpoon_symbols[idx]` is displayed when buffer is Harpoon's list idx'th buffer
   "[J]",
   "[K]",
@@ -50,7 +49,7 @@ M.harpoon_marker = {
       end
     end
 
-    return harpoon_default_symbol
+    return ""
   end,
 }
 
