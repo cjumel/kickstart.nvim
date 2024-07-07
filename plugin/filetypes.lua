@@ -50,6 +50,8 @@ vim.g.temporary_filetypes = {
   "dapui_console",
   "dapui_scopes",
   "dapui_watches",
+  "harpoon",
   "NeogitStatus",
+  "NeogitCommitView",
   "oil",
 }
