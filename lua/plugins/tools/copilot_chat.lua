@@ -25,10 +25,6 @@ return {
       },
     }
   end,
-  init = function()
-    local temporary_filetypes = { "copilot-chat" }
-    vim.g.temporary_filetypes = vim.list_extend(vim.g.temporary_filetypes or {}, temporary_filetypes)
-  end,
   opts = {
     show_folds = false,
     show_help = false,

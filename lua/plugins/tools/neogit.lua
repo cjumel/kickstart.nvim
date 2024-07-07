@@ -25,16 +25,6 @@ return {
       desc = "Neogit",
     },
   },
-  init = function()
-    local temporary_filetypes = {
-      "NeogitCommitPopup",
-      "NeogitCommitView",
-      "NeogitRebasePopup",
-      "NeogitResetPopup",
-      "NeogitStatus",
-    }
-    vim.g.temporary_filetypes = vim.list_extend(vim.g.temporary_filetypes or {}, temporary_filetypes)
-  end,
   opts = {
     disable_hint = true, -- Remove always-on visual help in Neogit window
     commit_view = { kind = "tab" }, -- Decrease visual clutter when using this view
