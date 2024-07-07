@@ -20,9 +20,6 @@ M.macro = {
   color = { fg = "#ff9e64" },
 }
 
--- Show a simple title instead of a weird buffer name for Harpoon menu
-M.harpoon_buffer_title = { function() return "Harpoon" end }
-
 -- Display the Harpoon list key corresponding to the current buffer, if any
 -- This will lazy-load Harpoon as soon as a buffer is opened
 local harpoon_symbols = { -- `harpoon_symbols[idx]` is displayed when buffer is Harpoon's list idx'th buffer
@@ -36,7 +33,7 @@ local harpoon_symbols = { -- `harpoon_symbols[idx]` is displayed when buffer is 
   "[=]",
 }
 local harpoon_out_of_bound_symbol = "++" -- Displayed when the buffer index doesn't correspond to a supported key
-M.harpoon_marker = {
+M.harpoon = {
   function()
     if vim.bo.filetype ~= "oil" and utils.buffer.is_temporary() then -- Include case when no buffer is opened
       return "" -- Don't show anything for temporary buffers (just like there is no encoding)

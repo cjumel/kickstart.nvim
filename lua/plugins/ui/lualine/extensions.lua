@@ -8,10 +8,6 @@ local M = {}
 function M.build_extensions(sections)
   return {
     {
-      sections = vim.tbl_deep_extend("force", sections, { lualine_c = modules.harpoon_buffer_title }),
-      filetypes = { "harpoon" },
-    },
-    {
       sections = vim.tbl_deep_extend("force", sections, { lualine_c = modules.oil }),
       filetypes = { "oil" },
     },
