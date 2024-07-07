@@ -25,10 +25,10 @@ M.macro = {
 -- Display the Harpoon list key corresponding to the current buffer, if any
 -- This will lazy-load Harpoon as soon as a buffer is opened
 local harpoon_symbols = { -- `harpoon_symbols[idx]` is displayed when buffer is Harpoon's list idx'th buffer
-  "[J]",
-  "[K]",
-  "[L]",
-  "[M]",
+  "[j]",
+  "[k]",
+  "[l]",
+  "[m]",
   "[,]",
   "[;]",
   "[:]",
