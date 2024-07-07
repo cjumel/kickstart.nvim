@@ -68,6 +68,10 @@ return {
       { "≠", function() harpoon:list():select(8) end, desc = "Go to Harpoon file 8" }, -- <M-=>
     }
   end,
+  init = function()
+    local temporary_filetypes = { "harpoon" }
+    vim.g.temporary_filetypes = vim.list_extend(vim.g.temporary_filetypes or {}, temporary_filetypes)
+  end,
   opts = {
     settings = { save_on_toggle = true },
 

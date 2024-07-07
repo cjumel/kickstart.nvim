@@ -8,6 +8,15 @@ return {
     "nvim-neotest/nvim-nio",
   },
   lazy = true, -- Dependency of nvim-dap
+  init = function()
+    local temporary_filetypes = {
+      "dapui_breakpoints",
+      "dapui_console",
+      "dapui_scopes",
+      "dapui_watches",
+    }
+    vim.g.temporary_filetypes = vim.list_extend(vim.g.temporary_filetypes or {}, temporary_filetypes)
+  end,
   opts = {
     layouts = {
       -- Vertical section

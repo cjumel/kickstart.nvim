@@ -46,6 +46,10 @@ return {
       { "<leader>dU", function() require("dapui").open({ reset = true }) end, desc = "[D]AP: reset [U]I" },
     }
   end,
+  init = function()
+    local temporary_filetypes = { "dap-repl" }
+    vim.g.temporary_filetypes = vim.list_extend(vim.g.temporary_filetypes or {}, temporary_filetypes)
+  end,
   config = function(_, _)
     local dap = require("dap")
     local dapui = require("dapui")

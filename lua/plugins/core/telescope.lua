@@ -44,6 +44,10 @@ return {
       { "<leader>gc", custom_builtin.git_bcommits_range, mode = { "v" }, desc = "[G]it: selection [C]ommits" },
     }
   end,
+  init = function()
+    local temporary_filetypes = { "TelescopePrompt" }
+    vim.g.temporary_filetypes = vim.list_extend(vim.g.temporary_filetypes or {}, temporary_filetypes)
+  end,
   opts = function()
     local actions = require("telescope.actions")
     local actions_layout = require("telescope.actions.layout")
