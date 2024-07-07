@@ -5,8 +5,6 @@
 -- possible to use window keymaps (increase height, decrease width, etc.) without having to type the window prefix
 -- (<C-w>) between each single action, which is a lot more convenient.
 
--- TODO: integrate a new DAP hydra for quicker keymaps when debugging
-
 return {
   "nvimtools/hydra.nvim",
   keys = {
