@@ -15,7 +15,7 @@ local custom_sections = vim.tbl_deep_extend("force", sections.empty, {
     "diff",
     "diagnostics",
   },
-  lualine_x = { modules.macro, modules.harpoon, "location", "progress" },
+  lualine_x = { modules.macro, modules.harpoon_marker, "location", "progress" },
 })
 M.lualine_opts = {
   options = {
