@@ -36,21 +36,14 @@ local harpoon_symbols = { -- `harpoon_symbols[idx]` is displayed when buffer is 
 local harpoon_out_of_bound_symbol = "++" -- Displayed when the buffer index doesn't correspond to a supported key
 M.harpoon = {
   function()
-    local path = utils.path.get_current_buffer_path()
-    if path == nil then -- No buffer is opened
-      return harpoon_default_symbol
+    if vim.bo.filetype ~= "oil" and utils.buffer.is_temporary() then -- Include case when no buffer is opened
+      return "" -- Don't show anything for temporary buffers (just like there is no encoding)
     end
 
     local harpoon = require("harpoon") -- Harpoon is not loaded if no buffer/directory is opened
-    local harpoon_list_length = harpoon:list():length()
-    for index = 1, harpoon_list_length do
-      local harpoon_file_path = harpoon:list():get(index).value
-      if path == harpoon_file_path then
-        local harpoon_symbol = harpoon_symbols[index]
-        if harpoon_symbol == nil then -- The index is above the number of defined symbols & keys
-          return harpoon_out_of_bound_symbol
-        end
-        return harpoon_symbol
+    for index = 1, harpoon:list():length() do
+      if utils.path.get_current_buffer_path() == harpoon:list():get(index).value then
+        return harpoon_symbols[index] or harpoon_out_of_bound_symbol
       end
     end
 
