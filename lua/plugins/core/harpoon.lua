@@ -47,10 +47,10 @@ return {
             harpoon:list():append()
           end
         end,
-        desc = "Append to Harpoon",
+        desc = "Insert in Harpoon list",
       },
       {
-        "œ", -- <M-o>
+        "º", -- <M-u>
         function()
           if is_in_harpoon_list() then
             harpoon:list():remove()
@@ -58,7 +58,7 @@ return {
             harpoon:list():prepend()
           end
         end,
-        desc = "Prepend to Harpoon",
+        desc = "Insert at up-most position in Harpoon list",
       },
       { "©", function() harpoon:list():clear() end, desc = "Clear Harpoon" }, -- <M-c>
       { "Ì", function() harpoon.ui:toggle_quick_menu(harpoon:list()) end, desc = "Harpoon menu" }, -- <M-h>
