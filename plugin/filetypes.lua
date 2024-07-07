@@ -54,4 +54,5 @@ vim.g.temporary_filetypes = {
   "NeogitStatus",
   "NeogitCommitView",
   "oil",
+  "TelescopePrompt",
 }
