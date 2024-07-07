@@ -2,6 +2,8 @@ local utils = require("utils")
 
 local M = {}
 
+M.empty = { function() return "" end }
+
 -- Add a message in the status line when recording a macro
 -- Source: https://github.com/folke/noice.nvim/wiki/Configuration-Recipes#show-recording-messages
 M.macro = {

@@ -59,4 +59,5 @@ vim.g.temporary_filetypes = {
   "NeogitStatus",
   "oil",
   "TelescopePrompt",
+  "toggleterm",
 }
