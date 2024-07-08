@@ -17,7 +17,8 @@ utils.keymap.set_move_pair(
 vim.keymap.set({ "x", "o" }, "is", "is", { desc = "inner sentence (Markdown)", buffer = true })
 vim.keymap.set({ "x", "o" }, "as", "as", { desc = "a sentence (Markdown)", buffer = true })
 
-local todo_item_pattern = "- [🎯⏳] " -- Don't look for items done or cancelled
+-- Navigate to emojis representing todo items
+local todo_item_pattern = "[🎯⌛]" -- Look only for todo or in progress items, not done or cancelled
 utils.keymap.set_move_pair(
   { "[t", "]t" }, -- Correpond to todo-comments in other filetypes, but not used in Markdown
   { function() vim.fn.search(todo_item_pattern) end, function() vim.fn.search(todo_item_pattern, "b") end },
