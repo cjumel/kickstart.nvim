@@ -37,14 +37,12 @@ return {
         augend.constant.new({ elements = { "true", "false" } }),
         augend.constant.new({ elements = { "True", "False" } }),
         augend.misc.alias.markdown_header,
-        augend.constant.new({ -- Custom convention for emojis representing todo-items
-          elements = {
-            "🎯", -- :dart: -> todo
-            "⌛", -- :hourglass: -> in progress
-            "✅", -- :white_check_mark: -> done
-            "❌", -- :x: -> cancelled
-          },
-        }),
+        -- Todomojis: todo items with emojis
+        --  🎯 (:dart:) -> todo
+        --  ⌛ (:hourglass:) -> in progress
+        --  ✅ (:white_check_mark:) -> done
+        --  ❌ (:x:) -> cancelled
+        augend.constant.new({ elements = { "🎯", "⌛", "✅", "❌" } }),
       },
       python = {
         augend.constant.new({ elements = { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" }, word = false }),

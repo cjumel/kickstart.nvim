@@ -8,6 +8,8 @@ local sn = ls.snippet_node
 local t = ls.text_node
 
 return {
+
+  -- [[ Vanilla Markdown ]]
   s("link", { t("["), i(1, "name"), t("]("), i(2, "url"), t(")") }),
   s({ trig = "code-block", show_condition = custom_conditions.empty_line }, {
     t("```"),
@@ -16,6 +18,8 @@ return {
     i(2),
     t({ "", "```" }),
   }),
+
+  -- [[ GitHub Flavored Markdown ]]
   s({ trig = "toggle-block", show_condition = custom_conditions.empty_line }, {
     t({ "<details>", "<summary>" }),
     i(1, "Summary"),
@@ -24,21 +28,26 @@ return {
     t({ "", "", "</details>" }),
   }),
 
-  -- Custom convention for emojis representing todo-items
-  s({ trig = "todo-list-item", show_condition = custom_conditions.line_begin }, {
+  -- [[ Custom ]]
+  -- Todomojis: todo items with emojis
+  --  🎯 (:dart:) -> todo
+  --  ⌛ (:hourglass:) -> in progress
+  --  ✅ (:white_check_mark:) -> done
+  --  ❌ (:x:) -> cancelled
+  s({ trig = "todomoji", show_condition = custom_conditions.line_begin }, {
     c(1, {
-      sn(nil, { t("- 🎯 "), i(1) }), -- :dart: -> todo
-      sn(nil, { t("- ⌛ "), i(1) }), -- :hourglass: -> in progress
-      sn(nil, { t("- ✅ "), i(1) }), -- :white_check_mark: -> done
-      sn(nil, { t("- ❌ "), i(1) }), -- :x: -> cancelled
+      sn(nil, { t("- 🎯 "), i(1) }),
+      sn(nil, { t("- ⌛ "), i(1) }),
+      sn(nil, { t("- ✅ "), i(1) }),
+      sn(nil, { t("- ❌ "), i(1) }),
     }),
   }),
-  s({ trig = "todo-item", show_condition = -custom_conditions.line_begin }, {
+  s({ trig = "todomoji", show_condition = -custom_conditions.line_begin }, {
     c(1, {
-      sn(nil, { t("🎯"), i(1) }), -- :dart: -> todo
-      sn(nil, { t("⌛"), i(1) }), -- :hourglass: -> in progress
-      sn(nil, { t("✅"), i(1) }), -- :white_check_mark: -> done
-      sn(nil, { t("❌"), i(1) }), -- :x: -> cancelled
+      sn(nil, { t("🎯"), i(1) }),
+      sn(nil, { t("⌛"), i(1) }),
+      sn(nil, { t("✅"), i(1) }),
+      sn(nil, { t("❌"), i(1) }),
     }),
   }),
 }
