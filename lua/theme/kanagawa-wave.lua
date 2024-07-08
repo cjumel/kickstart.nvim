@@ -5,6 +5,4 @@ M.kanagawa_opts = {
   theme = "wave",
 }
 
-M.lualine_opts = {}
-
 return M

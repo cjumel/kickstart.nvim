@@ -5,6 +5,4 @@ M.kanagawa_opts = {
   theme = "lotus",
 }
 
-M.lualine_opts = {}
-
 return M
