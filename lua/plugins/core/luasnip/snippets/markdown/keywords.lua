@@ -20,6 +20,12 @@ return {
   }),
 
   -- [[ GitHub Flavored Markdown ]]
+  s({ trig = "checkbox", show_condition = custom_conditions.line_begin }, {
+    c(1, {
+      sn(nil, { t("- [ ] "), i(1) }),
+      sn(nil, { t("- [x] "), i(1) }),
+    }),
+  }),
   s({ trig = "toggle-block", show_condition = custom_conditions.empty_line }, {
     t({ "<details>", "<summary>" }),
     i(1, "Summary"),

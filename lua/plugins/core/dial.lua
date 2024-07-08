@@ -37,6 +37,8 @@ return {
         augend.constant.new({ elements = { "true", "false" } }),
         augend.constant.new({ elements = { "True", "False" } }),
         augend.misc.alias.markdown_header,
+        augend.constant.new({ elements = { "- [ ]", "- [x]" }, word = false }),
+        augend.constant.new({ elements = { "- \\[ \\]", "- \\[x\\]" }, word = false }), -- After mdformat formatting
         -- Todomojis: todo items with emojis
         --  🎯 (:dart:) -> todo
         --  ⌛ (:hourglass:) -> in progress
