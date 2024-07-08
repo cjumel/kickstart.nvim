@@ -52,6 +52,7 @@ local function line_begin_function(line_to_cursor)
 end
 local line_begin_condition = ls_conditions.make_condition(line_begin_function)
 M.line_begin = line_begin_condition
+M.empty_line = line_begin_condition * ls_conditions_show.line_end
 
 local excluded_node_types = { -- Treesitter nodes considered to be not in actual code
   "comment",
