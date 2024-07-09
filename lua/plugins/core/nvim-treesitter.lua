@@ -66,29 +66,35 @@ return {
           ["il"] = { query = "@loop.inner", desc = "inner loop" },
           ["am"] = { query = "@function.outer", desc = "a method definition" },
           ["im"] = { query = "@function.inner", desc = "inner method definition" },
-          -- For assignments, there are also left- & right-hand-side text objects, but they can be replaced with "inner
-          -- assignment" at the beginning or end of the line, respectively, so let's omit them
           ["a="] = { query = "@assignment.outer", desc = "an assignment" },
           ["i="] = { query = "@assignment.inner", desc = "inner assignment" },
+          ["gl"] = { query = "@assignment.lhs", desc = "Left-hand-side of assignment" },
+          ["gr"] = { query = "@assignment.rhs", desc = "Right-hand-side of assignment" },
         },
       },
       move = {
         enable = true,
         set_jumps = true, -- Set jumps in the jumplist
+        -- In the following, let's not define move keymaps for objects that are not clearly delimitted and which can
+        --  be nested, as it makes moving between them quite painful
         goto_next_start = {
           ["[c"] = { query = "@class.outer", desc = "Next class start" },
+          ["[g"] = { query = "@comment.outer", desc = "Next comment start" },
           ["[m"] = { query = "@function.outer", desc = "Next method definition start" },
         },
         goto_next_end = {
           ["[C"] = { query = "@class.outer", desc = "Next class end" },
+          ["[G"] = { query = "@comment.outer", desc = "Next comment end" },
           ["[M"] = { query = "@function.outer", desc = "Next method definition end" },
         },
         goto_previous_start = {
           ["]c"] = { query = "@class.outer", desc = "Previous class start" },
+          ["]g"] = { query = "@comment.outer", desc = "Previous comment start" },
           ["]m"] = { query = "@function.outer", desc = "Previous method definition start" },
         },
         goto_previous_end = {
           ["]C"] = { query = "@class.outer", desc = "Previous class end" },
+          ["]G"] = { query = "@comment.outer", desc = "Previous comment end" },
           ["]M"] = { query = "@function.outer", desc = "Previous method definition end" },
         },
       },
@@ -160,7 +166,7 @@ return {
     utils.keymap.set_move_pair(
       { "[s", "]s" },
       { next_sibling_node, prev_sibling_node },
-      { { desc = "Next sibling" }, { desc = "Previous sibling" } }
+      { { desc = "Next line sibling" }, { desc = "Previous line sibling" } }
     )
   end,
 }
