@@ -20,6 +20,7 @@ return {
   }),
 
   -- [[ GitHub Flavored Markdown ]]
+  s("@me", { t("@clementjumel"), i(1) }),
   s({ trig = "checkbox", show_condition = custom_conditions.line_begin }, {
     c(1, {
       sn(nil, { t("- [ ] "), i(1) }),
