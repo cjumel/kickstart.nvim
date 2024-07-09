@@ -39,8 +39,9 @@ vim.keymap.set({ "n", "o", "x" }, "G", "G$", { desc = "End of buffer" })
 -- Remap $ in visual mode to avoid selecting the newline character (consistent with other modes)
 vim.keymap.set("v", "$", "$h", { desc = "End of line" })
 
--- Re-implement the builtin bracket navigation keymaps (for "(", "{" & "<") and complete them (with "[")
-for _, char in ipairs({ "(", "{", "<", "[" }) do
+-- Re-implement the builtin bracket navigation keymaps (with "(", "{" & "<") and complete them (with "[" and all of the
+--  corresponding closing bracket)
+for _, char in ipairs({ "(", ")", "{", "}", "<", ">", "[", "]" }) do
   utils.keymap.set_move_pair(
     { "[" .. char, "]" .. char },
     { function() vim.fn.search(char) end, function() vim.fn.search(char, "b") end },
