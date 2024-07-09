@@ -98,12 +98,12 @@ utils.keymap.set_move_pair(
 )
 utils.keymap.set_move_pair(
   { "[l", "]l" },
-  { function() vim.cmd("lnext") end, function() vim.cmd("lprev") end },
+  { function() vim.cmd("silent! lnext") end, function() vim.cmd("silent! lprev") end },
   { { desc = "Next loclist item" }, { desc = "Previous loclist item" } }
 )
 utils.keymap.set_move_pair(
   { "[q", "]q" },
-  { function() vim.cmd("cnext") end, function() vim.cmd("cprev") end },
+  { function() vim.cmd("silent! cnext") end, function() vim.cmd("silent! cprev") end },
   { { desc = "Next qflist item" }, { desc = "Previous qflist item" } }
 )
 
