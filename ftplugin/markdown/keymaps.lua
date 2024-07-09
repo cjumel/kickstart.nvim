@@ -1,12 +1,13 @@
 local utils = require("utils")
 
 -- [[ Modify existing keymaps ]]
+-- In Markdown, Treesitter class navigation will actually navigate between headers
 
 -- Use builtin sentence text-objects instead of custom sub-word ones
 vim.keymap.set({ "x", "o" }, "is", "is", { desc = "inner sentence (Markdown)", buffer = true })
 vim.keymap.set({ "x", "o" }, "as", "as", { desc = "a sentence (Markdown)", buffer = true })
 
--- Navigate between sentences instead of Treesitter line siblings (the latter can be replaced by title navigation)
+-- Navigate between sentences instead of line siblings with Treesitter (the latter can be replaced by header navigation)
 utils.keymap.set_move_pair(
   { "[s", "]s" },
   { function() vim.cmd("normal )") end, function() vim.cmd("normal (") end },
@@ -28,9 +29,10 @@ utils.keymap.set_move_pair(
 
 -- [[ Introduce new keymaps ]]
 
-local title_pattern = "^#" -- Will also match some lines in code blocks (e.g. Python comments), but good enough
+-- Navigate between GitHub-flavored Markdown checkboxes
+local checkbox_pattern = "- \\[ ]\\|- \\\\[ \\\\\\]" -- Handle both normal checkboxes & after mdformat formatting
 utils.keymap.set_move_pair(
-  { "[#", "]#" },
-  { function() vim.fn.search(title_pattern) end, function() vim.fn.search(title_pattern, "b") end },
-  { { desc = "Next title (Markdown)", buffer = true }, { desc = "Previous title (Markdown)", buffer = true } }
+  { "[x", "]x" },
+  { function() vim.fn.search(checkbox_pattern) end, function() vim.fn.search(checkbox_pattern, "b") end },
+  { { desc = "Next checkbox (Markdown)", buffer = true }, { desc = "Previous checkbox (Markdown)", buffer = true } }
 )
