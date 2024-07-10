@@ -61,18 +61,12 @@ return {
             ["<C-n>"] = actions.move_selection_next,
             ["<S-Tab>"] = actions.move_selection_previous,
             ["<C-p>"] = actions.move_selection_previous,
+            ["<C-]>"] = actions_layout.toggle_preview,
             ["<C-g>"] = actions.move_to_top, -- Like "go to top"
             ["<C-s>"] = actions.toggle_selection + actions.move_selection_next,
             ["<C-w>"] = actions.which_key,
             ["<C-c>"] = actions.close,
             ["<C-d>"] = actions.close, -- Shell-style exit, consistent with command line keymaps
-
-            -- Preview actions
-            ["<C-]>"] = actions_layout.toggle_preview,
-            ["Ì"] = actions.preview_scrolling_left, -- <M-h>
-            ["Ï"] = actions.preview_scrolling_down, -- <M-j>
-            ["È"] = actions.preview_scrolling_up, -- <M-k>
-            ["|"] = actions.preview_scrolling_right, -- <M-l>
 
             -- Open actions
             ["<C-x>"] = actions.select_horizontal,
@@ -88,6 +82,7 @@ return {
             ["<C-n>"] = actions.move_selection_next,
             ["<S-Tab>"] = actions.move_selection_previous,
             ["<C-p>"] = actions.move_selection_previous,
+            ["<C-]>"] = actions_layout.toggle_preview,
             ["<C-g>"] = actions.move_to_top, -- Like "go to top"
             ["<C-s>"] = actions.toggle_selection + actions.move_selection_next,
             ["<C-w>"] = actions.which_key,
@@ -104,19 +99,18 @@ return {
             ["q"] = actions.close,
             ["<Esc>"] = actions.close,
 
-            -- Preview actions
-            ["<C-]>"] = actions_layout.toggle_preview,
-            ["Ì"] = actions.preview_scrolling_left, -- <M-h>
-            ["Ï"] = actions.preview_scrolling_down, -- <M-j>
-            ["È"] = actions.preview_scrolling_up, -- <M-k>
-            ["|"] = actions.preview_scrolling_right, -- <M-l>
-
             -- Open actions
             ["<C-x>"] = actions.select_horizontal,
             ["<C-v>"] = actions.select_vertical,
             ["<C-t>"] = actions.select_tab,
             ["<C-l>"] = custom_actions.smart_open_loclist,
             ["<C-q>"] = custom_actions.smart_open_quickfix,
+
+            -- Preview actions
+            ["Ì"] = actions.preview_scrolling_left, -- <M-h>
+            ["Ï"] = actions.preview_scrolling_down, -- <M-j>
+            ["È"] = actions.preview_scrolling_up, -- <M-k>
+            ["|"] = actions.preview_scrolling_right, -- <M-l>
           },
         },
         file_ignore_patterns = { "%.git/" }, -- Exclude in all searches (even when hidden & ignored files are included)
