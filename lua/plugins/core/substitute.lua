@@ -1,6 +1,8 @@
 -- substitute.nvim
 --
--- Plugin aiming to provide new operator motions to make it very easy to perform quick substitutions and exchange.
+-- substitute.nvim is a plugin aiming to provide new operator motions to make it easy to perform quick substitutions
+-- and exchange. It completes nicely builtin operators like commenting with `gc`, with very natural and useful new
+-- operations.
 
 return {
   "gbprod/substitute.nvim",
@@ -10,20 +12,18 @@ return {
     local substitute_range = require("substitute.range")
 
     return {
+      -- In the following, I don't implement "current-line" variations of the keymaps (like "goc" for "Overwrite
+      -- current line") similarly to what's done with "gc" & "gcc", as a "c" operator-pending text-object is defined
+      -- for the current line characterwise in nvim-various-textobjs, which provides this behavior out of the box.
+
       -- Overwrite: like paste, but as an operator and without yanking the replaced text
       { "go", substitute.operator, desc = "Overwrite" },
       { "go", substitute.visual, mode = "x", desc = "Overwrite" },
-      { "goc", substitute.line, desc = "Overwrite current line" },
+
       -- Substitute: replace some target within a range
       { "gs", substitute_range.operator, desc = "Substitute" },
       { "gs", substitute_range.visual, mode = "x", desc = "Substitute" },
-      { "gsc", function() substitute_range.operator({ range = "%" }) end, desc = "Substitute in current buffer" },
-      {
-        "gsc",
-        function() substitute_range.visual({ range = "%" }) end,
-        mode = "x",
-        desc = "Substitute in current buffer",
-      },
+
       -- Substitute with register: replace some target within a range with the content of the default register
       {
         "gS",
@@ -36,22 +36,10 @@ return {
         mode = "x",
         desc = "Substitute with register",
       },
-      {
-        "gSc",
-        function() substitute_range.operator({ register = "0", auto_apply = true, range = "%" }) end,
-        desc = "Substitute with register in current buffer",
-      },
-      {
-        "gSc",
-        function() substitute_range.visual({ register = "0", auto_apply = true, range = "%" }) end,
-        mode = "x",
-        desc = "Substitute with register in current buffer",
-      },
-      -- Exchange: swap two targets
-      -- I don't use builtin "ge", it can be replaced with Hop's equivalent or with "F" so let's remap it here
+
+      -- Exchange: swap two targets (I don't use the builtin "ge", so let's use it here)
       { "ge", exchange.operator, desc = "Exchange" },
       { "ge", exchange.visual, mode = "x", desc = "Exchange" },
-      { "gec", exchange.line, desc = "Exchange current line" },
     }
   end,
   opts = {},
