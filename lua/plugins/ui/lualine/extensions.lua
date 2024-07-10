@@ -15,8 +15,10 @@ function M.build_extensions(sections)
       filetypes = { "toggleterm" },
       sections = vim.tbl_deep_extend("force", sections, { lualine_c = modules.toggleterm }),
     },
+    -- Use an empty `lualine_c` section for all the remaining temporary filetypes
+    --  See `vim.g.temporary_filetypes` in `plugin/filetypes.lua` for the full list of temporary filetypes
     {
-      filetypes = { -- All the remaining temporary filetypes
+      filetypes = {
         "", -- No buffer opened
         "copilot-chat",
         "dap-repl",
@@ -25,12 +27,15 @@ function M.build_extensions(sections)
         "dapui_scopes",
         "dapui_watches",
         "harpoon",
+        "lazy",
+        "mason",
         "NeogitCommitPopup",
         "NeogitCommitView",
         "NeogitRebasePopup",
         "NeogitResetPopup",
         "NeogitStatus",
         "TelescopePrompt",
+        "undotree",
       },
       sections = vim.tbl_deep_extend("force", sections, { lualine_c = modules.empty }),
     },
