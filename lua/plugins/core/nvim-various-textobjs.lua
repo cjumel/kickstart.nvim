@@ -1,7 +1,8 @@
 -- nvim-various-textobjs
 --
--- Provide a bundle of new rule-based text-objects, to complete the builtin ones as well as the ones implemented by
--- Treesitter in `nvim-treesitter-textobjects`.
+-- nvim-various-textobjs provides a bundle of new simple rule-based text-objects, to complete builtin text objects as
+-- well as the ones implemented by Treesitter in `nvim-treesitter-textobjects`. It is a very nice and customizable
+-- addition for anyone who likes using text objects.
 
 return {
   "chrisgrieser/nvim-various-textobjs",
@@ -50,40 +51,39 @@ return {
 
     return {
       -- a/i text-objects
+      { "aq", function() textobjs.anyQuote("outer") end, mode = { "x", "o" }, desc = "a quote" },
+      { "iq", function() textobjs.anyQuote("inner") end, mode = { "x", "o" }, desc = "inner quote" },
       { "as", function() textobjs.subword("outer") end, mode = { "x", "o" }, desc = "a subword" },
       { "is", function() textobjs.subword("inner") end, mode = { "x", "o" }, desc = "inner subword" },
       { "ak", function() textobjs.key("outer") end, mode = { "x", "o" }, desc = "a key in key-value pair" },
       { "ik", function() textobjs.key("inner") end, mode = { "x", "o" }, desc = "inner key in key-value pair" },
       { "av", function() textobjs.value("outer") end, mode = { "x", "o" }, desc = "a value in key-value pair" },
       { "iv", function() textobjs.value("inner") end, mode = { "x", "o" }, desc = "inner value in key-value pair" },
+      { "a<Tab>", function() textobjs.indentation("outer", "outer") end, mode = { "x", "o" }, desc = "an indentation" },
       {
-        "a<Space>",
-        function() textobjs.indentation("outer", "outer") end,
-        mode = { "x", "o" },
-        desc = "an indentation",
-      },
-      {
-        "i<Space>",
+        "i<Tab>",
         function() textobjs.indentation("inner", "inner") end,
         mode = { "x", "o" },
         desc = "inner indentation",
       },
+
       -- Simple text-objects
       { "gG", textobjs.entireBuffer, mode = { "x", "o" }, desc = "Entire buffer" },
-      { "-", function() textobjs.lineCharacterwise("inner") end, mode = { "x", "o" }, desc = "Line characterwise" },
       { "gx", textobjs.url, mode = { "x", "o" }, desc = "URL" },
+
       -- Forward-only text-objects
-      -- These text-objects are quite simple, let's implement them in operator-pending mode only, to use keys which are
-      -- only available in this mode & avoid overriding them in visual mode (e.g. "Q" in visual mode run a macro on
-      -- each selected line)
-      { "C", textobjs.toNextClosingBracket, mode = "o", desc = "Next closing bracket" },
-      { "Q", textobjs.toNextQuotationMark, mode = "o", desc = "Next quotation mark" },
-      { "O", textobjs.nearEoL, mode = "o", desc = "One character before EOL" },
-      { "P", textobjs.restOfParagraph, mode = "o", desc = "Rest of paragraph" },
-      { "I", textobjs.restOfIndentation, mode = "o", desc = "Rest of indentation" },
+      --  These text-objects are only implemented in operator-pending mode, to avoid overriding the corresponding keys
+      --  in visual mode as their might be conflicts
+      { "c", function() textobjs.lineCharacterwise("inner") end, mode = "o", desc = "Current line characterwise" },
+      { "r", textobjs.toNextClosingBracket, mode = "o", desc = "Next right-hand-side bracket" },
+      { "q", textobjs.toNextQuotationMark, mode = "o", desc = "Next quotation mark" },
+      { "o", textobjs.nearEoL, mode = "o", desc = "One character before EOL" },
+      { "p", textobjs.restOfParagraph, mode = "o", desc = "Rest of paragraph" },
+      { "<Tab>", textobjs.restOfIndentation, mode = "o", desc = "Rest of indentation" },
+
       -- Normal mode keymaps
-      { "gx", open_cursor_url, mode = { "n" }, desc = "Open URL under cursor" },
-      { "gX", open_any_url, mode = { "n" }, desc = "Open any URL in buffer" },
+      { "gx", open_cursor_url, mode = "n", desc = "Open URL under cursor" },
+      { "gX", open_any_url, mode = "n", desc = "Open any URL in buffer" },
     }
   end,
 }
