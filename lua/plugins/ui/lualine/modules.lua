@@ -26,14 +26,16 @@ M.macro = {
 -- This will lazy-load Harpoon as soon as a buffer is opened
 M.harpoon = {
   function()
-    if vim.bo.filetype ~= "oil" and utils.buffer.is_temporary() then -- Include case when no buffer is opened
-      return "" -- Don't show anything for temporary buffers (just like there is no encoding)
+    if vim.bo.filetype ~= "oil" and utils.buffer.is_temporary() then
+      return ""
     end
 
-    local harpoon = require("harpoon") -- Harpoon is not loaded if no buffer/directory is opened
-    for index = 1, harpoon:list():length() do
-      if utils.path.get_current_buffer_path() == harpoon:list():get(index).value then
-        return "H-" .. index .. "/" .. harpoon:list():length()
+    local harpoon = require("harpoon") -- Harpoon is only lazy-loaded here
+    local harpoon_list_length = harpoon:list():length()
+    for index = 1, harpoon_list_length do
+      local harpoon_item = harpoon:list():get(index)
+      if harpoon_item ~= nil and utils.path.get_current_buffer_path() == harpoon_item.value then
+        return "H-" .. index .. "/" .. harpoon_list_length
       end
     end
 

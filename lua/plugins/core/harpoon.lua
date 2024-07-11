@@ -18,17 +18,13 @@ return {
     local harpoon = require("harpoon")
     local utils = require("utils")
 
-    --- Output true if the current file is in the Harpoon list, false otherwise
+    --- Output true if the current file is in the Harpoon list, false otherwise.
     ---@return boolean
     local function is_in_harpoon_list()
-      local path = utils.path.get_current_buffer_path()
-      if path == nil then
-        return false
-      end
       local harpoon_list_length = harpoon:list():length()
       for index = 1, harpoon_list_length do
-        local harpoon_item_value = harpoon:list():get(index).value
-        if path == harpoon_item_value then
+        local harpoon_item = harpoon:list():get(index)
+        if harpoon_item ~= nil and utils.path.get_current_buffer_path() == harpoon_item.value then
           return true
         end
       end
@@ -39,7 +35,9 @@ return {
       {
         "î", -- <M-i>
         function()
-          if is_in_harpoon_list() then
+          if vim.bo.filetype ~= "oil" and utils.buffer.is_temporary() then
+            vim.notify("Cannot add temporary buffer to Harpoon", vim.log.levels.WARN)
+          elseif is_in_harpoon_list() then
             harpoon:list():remove()
           else
             harpoon:list():append()
@@ -50,13 +48,15 @@ return {
       {
         "º", -- <M-u>
         function()
-          if is_in_harpoon_list() then
+          if vim.bo.filetype ~= "oil" and utils.buffer.is_temporary() then
+            vim.notify("Cannot add temporary buffer to Harpoon", vim.log.levels.WARN)
+          elseif is_in_harpoon_list() then
             harpoon:list():remove()
           else
             harpoon:list():prepend()
           end
         end,
-        desc = "Insert at up-most position in Harpoon list",
+        desc = "Insert at upmost position in Harpoon list",
       },
       { "©", function() harpoon:list():clear() end, desc = "Clear Harpoon" }, -- <M-c>
       { "Ì", function() harpoon.ui:toggle_quick_menu(harpoon:list()) end, desc = "Harpoon menu" }, -- <M-h>
