@@ -22,19 +22,8 @@ M.macro = {
   color = { fg = "#ff9e64" },
 }
 
--- Display the Harpoon list key corresponding to the current buffer, if any
+-- Display the Harpoon list index corresponding to the current buffer and the Harpoon list length, if in Harpoon list
 -- This will lazy-load Harpoon as soon as a buffer is opened
-local harpoon_symbols = { -- `harpoon_symbols[idx]` is displayed when buffer is Harpoon's list idx'th buffer
-  "[j]",
-  "[k]",
-  "[l]",
-  "[m]",
-  "[,]",
-  "[;]",
-  "[:]",
-  "[=]",
-}
-local harpoon_out_of_bound_symbol = "++" -- Displayed when the buffer index doesn't correspond to a supported key
 M.harpoon = {
   function()
     if vim.bo.filetype ~= "oil" and utils.buffer.is_temporary() then -- Include case when no buffer is opened
@@ -44,7 +33,7 @@ M.harpoon = {
     local harpoon = require("harpoon") -- Harpoon is not loaded if no buffer/directory is opened
     for index = 1, harpoon:list():length() do
       if utils.path.get_current_buffer_path() == harpoon:list():get(index).value then
-        return harpoon_symbols[index] or harpoon_out_of_bound_symbol
+        return "H-" .. index .. "/" .. harpoon:list():length()
       end
     end
 
