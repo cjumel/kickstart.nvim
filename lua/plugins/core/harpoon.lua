@@ -1,15 +1,17 @@
 -- Harpoon
 --
--- Harpoon is a plugin designed to get you where you want with the fewest keystrokes. It is a great plugin, which makes
--- very easy to access the main files you're working on. It is very complementary with Telescope & Oil to navigate in
--- the file system.
+-- Harpoon is a plugin designed to get you where you want with the fewest keystrokes, creating a new workflow to access
+-- instantaneously a few selected files. It is very complementary with Telescope & Oil, as it makes possible to go back
+-- to any file previously opened without repeating the manual search for it. Besides, it is very customizable, which
+-- allows for instance to add support for harpooning Oil buffers.
 
 return {
   "ThePrimeagen/harpoon",
   branch = "harpoon2",
-  -- FIXME: when updating beyond this commit, 2 issues appeared (from what I can recall)
-  --  - the Oil buffer support got broken
-  --  - Harpoon's behavior changed (allowing for holes in Harpoon's list), which I don't really like
+  -- FIXME: when updating beyond this commit, some issues appeared
+  --  - the base features are broken and need fixing (manageable)
+  --  - Harpoon's behavior changed (allowing for holes in Harpoon list)
+  --  - for an obscure reason, the hop.nvim text-objects are completely broken
   commit = "a38be6e0dd4c6db66997deab71fc4453ace97f9c",
   dependencies = { "nvim-lua/plenary.nvim" },
   keys = function()
@@ -136,8 +138,5 @@ return {
       end,
     },
   },
-  config = function(_, opts)
-    local harpoon = require("harpoon")
-    harpoon:setup(opts)
-  end,
+  config = function(_, opts) require("harpoon"):setup(opts) end,
 }
