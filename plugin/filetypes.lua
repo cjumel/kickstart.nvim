@@ -53,6 +53,7 @@ vim.g.temporary_filetypes = {
   "dapui_watches",
   "harpoon",
   "lazy",
+  "lspinfo",
   "mason",
   "NeogitCommitPopup",
   "NeogitCommitView",
@@ -62,5 +63,6 @@ vim.g.temporary_filetypes = {
   "oil",
   "TelescopePrompt",
   "toggleterm",
+  "trouble",
   "undotree",
 }
