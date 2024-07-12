@@ -24,7 +24,7 @@ local todo_item_pattern = "[🎯⌛]" -- Look only for todo or in progress items
 utils.keymap.set_move_pair(
   { "[t", "]t" },
   { function() vim.fn.search(todo_item_pattern) end, function() vim.fn.search(todo_item_pattern, "b") end },
-  { { desc = "Next todo item (Markdown)", buffer = true }, { desc = "Previous todo item (Markdown)", buffer = true } }
+  { { desc = "Next todomoji (Markdown)", buffer = true }, { desc = "Previous todomoji (Markdown)", buffer = true } }
 )
 
 -- [[ Introduce new keymaps ]]
@@ -32,7 +32,10 @@ utils.keymap.set_move_pair(
 -- Navigate between GitHub-flavored Markdown checkboxes
 local checkbox_pattern = "- \\[ ]\\|- \\\\[ \\\\\\]" -- Handle both normal checkboxes & after mdformat formatting
 utils.keymap.set_move_pair(
-  { "[x", "]x" },
+  { "[T", "]T" },
   { function() vim.fn.search(checkbox_pattern) end, function() vim.fn.search(checkbox_pattern, "b") end },
-  { { desc = "Next checkbox (Markdown)", buffer = true }, { desc = "Previous checkbox (Markdown)", buffer = true } }
+  {
+    { desc = "Next todo checkbox (Markdown)", buffer = true },
+    { desc = "Previous todo checkbox (Markdown)", buffer = true },
+  }
 )

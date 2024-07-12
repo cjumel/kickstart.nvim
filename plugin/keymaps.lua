@@ -51,17 +51,12 @@ end
 
 -- [[ General keymaps ]]
 
-vim.keymap.set("n", "<C-]>", vim.diagnostic.open_float, { desc = "Expand diagnostics" })
-
-vim.keymap.set("n", "<leader>-", "<cmd>bufdo bd<CR>", { desc = "Delete all buffers" })
+vim.keymap.set("n", "<C-]>", vim.diagnostic.open_float, { desc = "Expand diagnostics" }) -- Like preview in plugins
 
 vim.keymap.set("n", "<Esc>", "<cmd>ClearNormal<CR>", { desc = "Clear" }) -- <Esc> is only available in normal mode
 vim.keymap.set("v", "<C-c>", "<cmd>ClearNormal<CR>", { desc = "Clear" })
 vim.keymap.set("i", "<C-c>", "<cmd>ClearAll<CR>", { desc = "Clear" })
 vim.keymap.set("c", "<C-c>", "<cmd>ClearInsert<CR>", { desc = "Clear" }) -- Don't clean the cmdline popup itself
-
-vim.keymap.set({ "n", "v" }, "+", '"+', { desc = "System clipboard register" })
-vim.keymap.set({ "n", "v" }, "_", '"_', { desc = "Black hole register" })
 
 vim.keymap.set("v", "<Tab>", ">gv", { desc = "Indent selection" })
 vim.keymap.set("v", "<S-Tab>", "<gv", { desc = "Unindent selection" })
@@ -81,7 +76,6 @@ local function yank_path()
   vim.fn.setreg('"', path)
   vim.notify('Yanked "' .. path .. '"')
 end
-vim.keymap.set("n", "<leader>y", yank_path, { desc = "[Y]ank path" })
 
 --- Send the content of the default register to the clipboard.
 ---@return nil
@@ -90,8 +84,17 @@ local function send_yanked_to_clipboard()
   vim.fn.setreg("+", yank)
   vim.notify('Sent "' .. yank .. '" to clipboard')
 end
+
+vim.keymap.set({ "n", "v" }, "+", '"+', { desc = "System clipboard register" })
+vim.keymap.set({ "n", "v" }, "_", '"_', { desc = "Black hole register" })
+vim.keymap.set("n", "<leader>y", yank_path, { desc = "[Y]ank path" })
 vim.keymap.set("n", "<leader>+", send_yanked_to_clipboard, { desc = "Send yanked to clipboard" })
 
+utils.keymap.set_move_pair(
+  { "[p", "]p" },
+  { function() vim.cmd("normal }") end, function() vim.cmd("normal {") end },
+  { { desc = "Next paragraph" }, { desc = "Previous paragraph" } }
+)
 utils.keymap.set_move_pair(
   { "[b", "]b" },
   { function() vim.cmd("bnext") end, function() vim.cmd("bprev") end },
@@ -108,11 +111,6 @@ utils.keymap.set_move_pair(
   { { desc = "Next qflist item" }, { desc = "Previous qflist item" } }
 )
 
-utils.keymap.set_move_pair(
-  { "[p", "]p" },
-  { function() vim.cmd("normal }") end, function() vim.cmd("normal {") end },
-  { { desc = "Next paragraph" }, { desc = "Previous paragraph" } }
-)
 utils.keymap.set_move_pair( -- Dianostics can be errors, warnings, information messages or hints
   { "[d", "]d" },
   { vim.diagnostic.goto_next, vim.diagnostic.goto_prev },
@@ -126,12 +124,13 @@ utils.keymap.set_move_pair({ "[w", "]w" }, {
   function() vim.diagnostic.goto_next({ severity = vim.diagnostic.severity.WARN }) end,
   function() vim.diagnostic.goto_prev({ severity = vim.diagnostic.severity.WARN }) end,
 }, { { desc = "Next warning" }, { desc = "Previous warning" } })
+
 -- Conflict markers have 3 forms, all at the start of a line: `<<<<<<< <text>`, ` =======`, ` >>>>>>> <text>`
 local conflict_pattern = "^<<<<<<< \\|^=======\\|^>>>>>>> "
-utils.keymap.set_move_pair({ "[=", "]=" }, {
+utils.keymap.set_move_pair({ "[x", "]x" }, {
   function() vim.fn.search(conflict_pattern) end,
   function() vim.fn.search(conflict_pattern, "b") end,
-}, { { desc = "Next conflict mark" }, { desc = "Previous conflict mark" } })
+}, { { desc = "Next conflict" }, { desc = "Previous conflict" } })
 
 -- [[ Command-line keymaps ]]
 -- Keymaps for command-line mode (also sometimes added to insert mode); these keymaps notably reproduce some shell
