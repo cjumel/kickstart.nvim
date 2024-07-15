@@ -35,7 +35,7 @@ M.harpoon = {
     for index = 1, harpoon_list_length do
       local harpoon_item = harpoon:list():get(index)
       if harpoon_item ~= nil and utils.path.get_current_buffer_path() == harpoon_item.value then
-        return "⚡" .. index .. "/" .. harpoon_list_length
+        return " " .. index .. "/" .. harpoon_list_length
       end
     end
 
