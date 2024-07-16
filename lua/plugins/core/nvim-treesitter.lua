@@ -75,26 +75,20 @@ return {
       move = {
         enable = true,
         set_jumps = true, -- Set jumps in the jumplist
-        -- In the following, let's not define move keymaps for objects that are not clearly delimitted and which can
-        --  be nested, as it makes moving between them quite painful
         goto_next_start = {
           ["[c"] = { query = "@class.outer", desc = "Next class start" },
-          ["[g"] = { query = "@comment.outer", desc = "Next comment start" },
           ["[m"] = { query = "@function.outer", desc = "Next method definition start" },
         },
         goto_next_end = {
           ["[C"] = { query = "@class.outer", desc = "Next class end" },
-          ["[G"] = { query = "@comment.outer", desc = "Next comment end" },
           ["[M"] = { query = "@function.outer", desc = "Next method definition end" },
         },
         goto_previous_start = {
           ["]c"] = { query = "@class.outer", desc = "Previous class start" },
-          ["]g"] = { query = "@comment.outer", desc = "Previous comment start" },
           ["]m"] = { query = "@function.outer", desc = "Previous method definition start" },
         },
         goto_previous_end = {
           ["]C"] = { query = "@class.outer", desc = "Previous class end" },
-          ["]G"] = { query = "@comment.outer", desc = "Previous comment end" },
           ["]M"] = { query = "@function.outer", desc = "Previous method definition end" },
         },
       },
