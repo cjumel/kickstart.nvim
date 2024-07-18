@@ -4,7 +4,7 @@ local base_template = {
       type = "list",
       delimiter = ", ", -- Because some arguments can have spaces (e.g. in "-m 'not slow'"), we need a comma
       optional = true,
-      default = { "-m", "not slow" },
+      default = { "-m", "not slow" }, -- Exclude tests marked as "slow" if there are any by default
     },
   },
 }

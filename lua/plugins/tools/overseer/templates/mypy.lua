@@ -4,7 +4,7 @@ local base_template = {
       type = "list",
       delimiter = " ",
       optional = true,
-      default = { "--strict", "--install-types", "--non-interactive" },
+      default = {},
     },
   },
 }
