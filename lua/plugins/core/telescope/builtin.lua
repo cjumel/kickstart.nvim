@@ -176,6 +176,26 @@ function M.current_buffer()
   builtin.current_buffer_fuzzy_find(opts)
 end
 
+function M.help_tags()
+  local opts = {}
+
+  if custom_utils.visual.is_visual_mode() then
+    opts.default_text = custom_utils.visual.get_text()
+  end
+
+  builtin.help_tags(opts)
+end
+
+function M.man_pages()
+  local opts = {}
+
+  if custom_utils.visual.is_visual_mode() then
+    opts.default_text = custom_utils.visual.get_text()
+  end
+
+  builtin.man_pages(opts)
+end
+
 function M.buffers()
   local opts = themes.get_dropdown({
     preview = { hide_on_startup = true },

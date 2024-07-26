@@ -30,6 +30,8 @@ return {
       { "<leader>fg", custom_builtin.live_grep, mode = { "n", "v" }, desc = "[F]ind: by [G]rep" },
       { "<leader>fo", custom_builtin.oldfiles, mode = { "n", "v" }, desc = "[F]ind: [O]ldfiles" },
       { "<leader>fz", custom_builtin.current_buffer, mode = { "n", "v" }, desc = "[F]ind: fu[Z]zilly in buffer" },
+      { "<leader>fh", custom_builtin.help_tags, mode = { "n", "v" }, desc = "[F]ind: [H]elp tags" },
+      { "<leader>fm", custom_builtin.man_pages, mode = { "n", "v" }, desc = "[F]ind: [M]an pages" },
 
       -- Neovim-related
       { "<leader><leader>", builtin.resume, desc = "Resume Telescope" },
