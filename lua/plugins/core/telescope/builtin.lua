@@ -179,8 +179,9 @@ end
 function M.buffers()
   local opts = themes.get_dropdown({
     preview = { hide_on_startup = true },
-    sort_lastused = true,
-    sort_mru = true,
+    ignore_current_buffer = true, -- When current buffer is included & last used is selected, search doesn't work well
+    sort_lastused = true, -- Sort current & last used buffer at the top & select the last used
+    sort_mru = true, -- Sort all buffers after the last used
   })
 
   builtin.buffers(opts)
