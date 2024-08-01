@@ -1,6 +1,8 @@
 -- Here are defined custom wrappers around Telescope builtin pickers. It is where I implement custom options or logic
--- for each picker I use.
+-- for each picker I use & want to customize.
 
+local action_state = require("telescope.actions.state")
+local actions = require("telescope.actions")
 local builtin = require("telescope.builtin")
 local custom_make_entry = require("plugins.core.telescope.make_entry")
 local custom_utils = require("utils")
@@ -9,16 +11,51 @@ local themes = require("telescope.themes")
 
 local M = {}
 
---- Get the input options for the `find_files` picker.
----@param all boolean Whether to search for ignored files or not.
----@param directory boolean Whether to search for directories or not.
----@return table
-local function get_input_opts_find_files(all, directory)
+--- Finalize the options for the `find_files` picker. This function adds all the relevant not-persisted options to
+--- the persisted ones.
+---@param opts table The persisted options.
+---@return table _ The finalized options.
+local function find_files_finalize_opts(opts)
+  if not opts._include_all_files then
+    opts.prompt_title = "Find Files"
+    opts.find_command = { "fd", "--type", "f", "--color", "never", "--hidden" }
+  else
+    opts.prompt_title = "Find Files (all)"
+    opts.find_command = { "fd", "--type", "f", "--color", "never", "--hidden", "--no-ignore" }
+  end
+
+  if opts.cwd then
+    opts.prompt_title = opts.prompt_title .. " - " .. custom_utils.path.normalize(opts.cwd)
+  end
+
+  return opts
+end
+
+--- Get the base options for the `find_files` picker.
+---@return table _ The `find_files` base options.
+local function find_files_get_base_opts()
+  local function toggle_all_files(prompt_bufnr, _)
+    -- Persisted options
+    local opts = vim.g.telescope_last_opts
+    opts._include_all_files = not opts._include_all_files
+    vim.g.telescope_last_opts = opts
+
+    -- Not persisted options
+    opts = find_files_finalize_opts(opts)
+    local current_picker = action_state.get_current_picker(prompt_bufnr)
+    opts.default_text = current_picker:_get_prompt()
+    actions.close(prompt_bufnr)
+
+    builtin.find_files(opts)
+  end
+
   local opts = {
     preview = { hide_on_startup = true },
-    -- Custom options
-    _all = all,
-    _directory = directory,
+    attach_mappings = function(_, map)
+      map({ "i", "n" }, "<C-\\>", toggle_all_files)
+      return true -- Enable default mappings
+    end,
+    _include_all_files = false,
   }
 
   if custom_utils.visual.is_visual_mode() then
@@ -27,24 +64,36 @@ local function get_input_opts_find_files(all, directory)
     opts.default_text = string.gsub(text, "%p", " ")
   end
 
-  if vim.bo.filetype == "oil" then
-    opts.cwd = package.loaded.oil.get_current_dir()
-  end
-
   return opts
 end
 
---- Finalize the options for the `find_files` picker.
----@param opts table The input options.
----@return table
-local function finalize_opts_find_files(opts)
-  if not opts._all and not opts._directory then
-    opts.prompt_title = "Find Files"
-    opts.find_command = { "fd", "--type", "f", "--color", "never", "--hidden" }
-  elseif opts._all and not opts._directory then
-    opts.prompt_title = "Find Files (all)"
-    opts.find_command = { "fd", "--type", "f", "--color", "never", "--hidden", "--no-ignore" }
-  elseif not opts._all and opts._directory then
+function M.find_files()
+  local opts = find_files_get_base_opts()
+  vim.g.telescope_last_opts = opts -- Persist the options dynamically change them later on
+
+  opts = find_files_finalize_opts(opts)
+  builtin.find_files(opts)
+end
+
+function M.find_files_oil_directory()
+  local opts = find_files_get_base_opts()
+  if vim.bo.filetype == "oil" then
+    opts.cwd = package.loaded.oil.get_current_dir()
+  else
+    error("The current buffer is not an Oil buffer.")
+  end
+  vim.g.telescope_last_opts = opts -- Persist the options dynamically change them later on
+
+  opts = find_files_finalize_opts(opts)
+  builtin.find_files(opts)
+end
+
+--- Finalize the options for the `find_directories` custom picker. This function adds all the relevant not-persisted
+--- options to the persisted ones.
+---@param opts table The persisted options.
+---@return table _ The finalized options.
+local function find_directories_finalize_opts(opts)
+  if not opts._include_all_files then
     opts.prompt_title = "Find Directories"
     opts.find_command = { "fd", "--type", "d", "--color", "never", "--hidden" }
     -- previwers.vim_buffer_cat can't be saved to state so let's work around this
@@ -66,43 +115,70 @@ local function finalize_opts_find_files(opts)
 
   return opts
 end
-M.finalize_opts_find_files = finalize_opts_find_files
 
-function M.find_files()
-  local opts = get_input_opts_find_files(false, false)
-  vim.g.telescope_last_opts = opts -- Persist the options dynamically change them later on
+--- Get the base options for the `find_directories` custom picker.
+---@return table _ The `find_directories` base options.
+local function find_directories_get_base_opts()
+  local function toggle_all_files(prompt_bufnr, _)
+    -- Persisted options
+    local opts = vim.g.telescope_last_opts
+    opts._include_all_files = not opts._include_all_files
+    vim.g.telescope_last_opts = opts
 
-  opts = finalize_opts_find_files(opts)
-  builtin.find_files(opts)
-end
+    -- Not persisted options
+    opts = find_directories_finalize_opts(opts)
+    local current_picker = action_state.get_current_picker(prompt_bufnr)
+    opts.default_text = current_picker:_get_prompt()
+    actions.close(prompt_bufnr)
 
-function M.find_directories()
-  local opts = get_input_opts_find_files(false, true)
-  vim.g.telescope_last_opts = opts -- Persist the options dynamically change them later on
+    builtin.find_files(opts)
+  end
 
-  opts = finalize_opts_find_files(opts)
-  builtin.find_files(opts)
-end
-
-local function get_input_opts_live_grep(all)
   local opts = {
-    -- Custom options
-    _all = all,
+    preview = { hide_on_startup = true },
+    attach_mappings = function(_, map)
+      map({ "i", "n" }, "<C-\\>", toggle_all_files)
+      return true -- Enable default mappings
+    end,
+    _include_all_files = false,
   }
 
   if custom_utils.visual.is_visual_mode() then
-    opts.default_text = custom_utils.visual.get_text()
-  end
-
-  if vim.bo.filetype == "oil" then
-    opts.cwd = package.loaded.oil.get_current_dir()
+    local text = custom_utils.visual.get_text()
+    -- Replace punctuation marks by spaces, to support searching from module names, like "plugins.core"
+    opts.default_text = string.gsub(text, "%p", " ")
   end
 
   return opts
 end
 
-local function finalize_opts_live_grep(opts)
-  if not opts._all then
+function M.find_directories()
+  local opts = find_directories_get_base_opts()
+  vim.g.telescope_last_opts = opts -- Persist the options dynamically change them later on
+
+  opts = find_directories_finalize_opts(opts)
+  builtin.find_files(opts)
+end
+
+function M.find_directories_oil_directory()
+  local opts = find_directories_get_base_opts()
+  if vim.bo.filetype == "oil" then
+    opts.cwd = package.loaded.oil.get_current_dir()
+  else
+    error("The current buffer is not an Oil buffer.")
+  end
+  vim.g.telescope_last_opts = opts -- Persist the options dynamically change them later on
+
+  opts = find_directories_finalize_opts(opts)
+  builtin.find_files(opts)
+end
+
+--- Finalize the options for the `live_grep` picker. This function adds all the relevant not-persisted options to the
+--- persisted ones.
+---@param opts table The persisted options.
+---@return table _ The finalized options.
+local function live_grep_finalize_opts(opts)
+  if not opts._include_all_files then
     opts.prompt_title = "Find by Grep"
     opts.additional_args = { "--hidden" }
   else
@@ -116,13 +192,58 @@ local function finalize_opts_live_grep(opts)
 
   return opts
 end
-M.finalize_opts_live_grep = finalize_opts_live_grep
+
+--- Get the base options for the `live_grep` picker.
+---@return table _ The `live_grep` base options.
+local function live_grep_get_base_opts()
+  local function toggle_all_files(prompt_bufnr, _)
+    -- Persisted options
+    local opts = vim.g.telescope_last_opts
+    opts._include_all_files = not opts._include_all_files
+    vim.g.telescope_last_opts = opts
+
+    -- Not persisted options
+    opts = live_grep_finalize_opts(opts)
+    local current_picker = action_state.get_current_picker(prompt_bufnr)
+    opts.default_text = current_picker:_get_prompt()
+    actions.close(prompt_bufnr)
+
+    builtin.live_grep(opts)
+  end
+
+  local opts = {
+    attach_mappings = function(_, map)
+      map({ "i", "n" }, "<C-\\>", toggle_all_files)
+      return true -- Enable default mappings
+    end,
+    _include_all_files = false,
+  }
+
+  if custom_utils.visual.is_visual_mode() then
+    opts.default_text = custom_utils.visual.get_text()
+  end
+
+  return opts
+end
 
 function M.live_grep()
-  local opts = get_input_opts_live_grep(false)
+  local opts = live_grep_get_base_opts()
   vim.g.telescope_last_opts = opts -- Persist the options dynamically change them later on
 
-  opts = finalize_opts_live_grep(opts)
+  opts = live_grep_finalize_opts(opts)
+  builtin.live_grep(opts)
+end
+
+function M.live_grep_oil_directory()
+  local opts = live_grep_get_base_opts()
+  if vim.bo.filetype == "oil" then
+    opts.cwd = package.loaded.oil.get_current_dir()
+  else
+    error("The current buffer is not an Oil buffer.")
+  end
+  vim.g.telescope_last_opts = opts -- Persist the options dynamically change them later on
+
+  opts = live_grep_finalize_opts(opts)
   builtin.live_grep(opts)
 end
 

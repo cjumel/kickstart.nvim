@@ -136,18 +136,6 @@ return {
         end,
       },
       pickers = {
-        find_files = {
-          mappings = {
-            i = { ["<C-\\>"] = custom_actions.find_files.toggle_all },
-            n = { ["<C-\\>"] = custom_actions.find_files.toggle_all },
-          },
-        },
-        live_grep = {
-          mappings = {
-            i = { ["<C-\\>"] = custom_actions.live_grep.toggle_all },
-            n = { ["<C-\\>"] = custom_actions.live_grep.toggle_all },
-          },
-        },
         buffers = {
           mappings = {
             i = { ["<C-d>"] = actions.delete_buffer },

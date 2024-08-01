@@ -6,6 +6,8 @@
 -- editing features it provides are very elegant and natural to learn, and they are usable with other plugins, like
 -- Copilot.vim or code snippest (e.g. Luasnip), which makes creating files very simple & customizable.
 
+local telescope_custom_builtin = require("plugins.core.telescope.builtin")
+
 return {
   "stevearc/oil.nvim",
   dependencies = { "nvim-tree/nvim-web-devicons" },
@@ -42,6 +44,19 @@ return {
           end
         end,
         desc = "Toggle file detail view",
+      },
+
+      ["<localleader>ff"] = {
+        callback = telescope_custom_builtin.find_files_oil_directory,
+        desc = "[F]ind: [F]iles in Oil directory",
+      },
+      ["<localleader>fd"] = {
+        callback = telescope_custom_builtin.find_directories_oil_directory,
+        desc = "[F]ind: [D]irectories in Oil directory",
+      },
+      ["<localleader>fg"] = {
+        callback = telescope_custom_builtin.live_grep_oil_directory,
+        desc = "[F]ind: by [G]rep in Oil directory",
       },
     },
     use_default_keymaps = false,
