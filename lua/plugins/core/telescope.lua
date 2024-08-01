@@ -34,8 +34,8 @@ return {
       { "<leader>fm", custom_builtin.man_pages, mode = { "n", "v" }, desc = "[F]ind: [M]an pages" },
 
       -- Neovim-related
-      { "<leader><leader>", builtin.resume, desc = "Resume Telescope" },
       { "<leader><Tab>", custom_builtin.buffers, desc = "Buffer switcher" },
+      { "<leader>;", builtin.resume, desc = "Resume Telescope" },
       { "<leader>:", custom_builtin.command_history, desc = "Command history" },
       { "<leader>/", custom_builtin.search_history, desc = "Search history" },
 
