@@ -76,24 +76,8 @@ function M.find_files()
   builtin.find_files(opts)
 end
 
-function M.find_files_all()
-  local opts = get_input_opts_find_files(true, false)
-  vim.g.telescope_last_opts = opts -- Persist the options dynamically change them later on
-
-  opts = finalize_opts_find_files(opts)
-  builtin.find_files(opts)
-end
-
 function M.find_directories()
   local opts = get_input_opts_find_files(false, true)
-  vim.g.telescope_last_opts = opts -- Persist the options dynamically change them later on
-
-  opts = finalize_opts_find_files(opts)
-  builtin.find_files(opts)
-end
-
-function M.find_directories_all()
-  local opts = get_input_opts_find_files(true, true)
   vim.g.telescope_last_opts = opts -- Persist the options dynamically change them later on
 
   opts = finalize_opts_find_files(opts)
@@ -136,14 +120,6 @@ M.finalize_opts_live_grep = finalize_opts_live_grep
 
 function M.live_grep()
   local opts = get_input_opts_live_grep(false)
-  vim.g.telescope_last_opts = opts -- Persist the options dynamically change them later on
-
-  opts = finalize_opts_live_grep(opts)
-  builtin.live_grep(opts)
-end
-
-function M.live_grep_all()
-  local opts = get_input_opts_live_grep(true)
   vim.g.telescope_last_opts = opts -- Persist the options dynamically change them later on
 
   opts = finalize_opts_live_grep(opts)
