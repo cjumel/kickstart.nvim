@@ -18,14 +18,21 @@ return {
       -- Since Oil can be used as an actual editable buffer, to edit files quickly and optionally in batch, let's not
       --  overwrite any keymap which could be useful for editing files, to still be able to use features like macros
       --  (with "q"), visual block edition (with "<C-v>") or decrementing (with "<C-x>") for instance
+
       ["-"] = "actions.parent",
       ["_"] = "actions.open_cwd",
       ["<CR>"] = "actions.select",
       ["<C-c>"] = "actions.close",
       ["<C-]>"] = "actions.preview",
-      ["<C-s>"] = "actions.change_sort",
-      ["gh"] = "actions.toggle_hidden",
-      ["gd"] = { -- Taken from Oil recipes
+      ["g?"] = "actions.show_help",
+
+      ["<localleader>x"] = { "actions.select", opts = { horizontal = true }, desc = "Open entry in split" },
+      ["<localleader>v"] = { "actions.select", opts = { vertical = true }, desc = "Open entry in vertical split" },
+      ["<localleader>t"] = { "actions.select", opts = { tab = true }, desc = "Open entry in new tab" },
+      ["<localleader>h"] = "actions.toggle_hidden",
+      ["<localleader>r"] = "actions.refresh",
+      ["<localleader>s"] = "actions.change_sort",
+      ["<localleader>d"] = { -- Taken from Oil recipes
         callback = function()
           DETAIL = not DETAIL
           if DETAIL then
@@ -36,12 +43,6 @@ return {
         end,
         desc = "Toggle file detail view",
       },
-      ["gr"] = "actions.refresh",
-      ["gx"] = "actions.open_external",
-      ["g?"] = "actions.show_help",
-      ["g<C-x>"] = { "actions.select", opts = { horizontal = true }, desc = "Open the entry in a split" },
-      ["g<C-v>"] = { "actions.select", opts = { vertical = true }, desc = "Open the entry in a vertical split" },
-      ["g<C-t>"] = { "actions.select", opts = { tab = true }, desc = "Open the entry in new tab" },
     },
     use_default_keymaps = false,
     view_options = {
