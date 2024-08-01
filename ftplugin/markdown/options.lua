@@ -67,10 +67,3 @@ if
 then
   vim.opt_local.colorcolumn = get_colorcolumn()
 end
-
--- [[ Conceallevel ]]
-
--- Set conceal level to hide some information in the buffer; default to 0 (no concealment)
-if vim.g.concealing_mode == "auto" then
-  vim.opt_local.conceallevel = 2
-end

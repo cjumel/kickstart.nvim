@@ -118,52 +118,6 @@ local function number_column_switch_prev()
   end
 end
 
-local function concealing_display()
-  if vim.g.concealing_mode == "auto" then
-    return "[auto] /  on   /  off "
-  elseif vim.g.concealing_mode == "on" then
-    return " auto  / [on]  /  off "
-  else
-    return " auto  /  on   / [off]"
-  end
-end
-local function concealing_switch_next()
-  if vim.g.concealing_mode == "auto" then
-    vim.g.concealing_mode = "on"
-  elseif vim.g.concealing_mode == "on" then
-    vim.g.concealing_mode = "off"
-  else
-    vim.g.concealing_mode = "auto"
-  end
-
-  if vim.g.concealing_mode == "auto" or vim.g.concealing_mode == "off" then
-    vim.opt.conceallevel = 0 -- No concealing (for "auto", ftplugins will change it)
-  else
-    vim.opt.conceallevel = 2
-  end
-  if not utils.buffer.is_temporary() then
-    vim.cmd("edit") -- Reload the current buffer to apply the conceal level setting
-  end
-end
-local function concealing_switch_prev()
-  if vim.g.concealing_mode == "auto" then
-    vim.g.concealing_mode = "off"
-  elseif vim.g.concealing_mode == "off" then
-    vim.g.concealing_mode = "on"
-  else
-    vim.g.concealing_mode = "auto"
-  end
-
-  if vim.g.concealing_mode == "auto" or vim.g.concealing_mode == "off" then
-    vim.opt.conceallevel = 0 -- No concealing (for "auto", ftplugins will change it)
-  else
-    vim.opt.conceallevel = 2
-  end
-  if not utils.buffer.is_temporary() then
-    vim.cmd("edit") -- Reload the current buffer to apply the conceal level setting
-  end
-end
-
 local function sign_column_display()
   if vim.g.sign_column_mode == "number" then
     return "[num] /  yes  /  off "
@@ -303,7 +257,6 @@ return {
         -- Neovim options
         color_column = color_column_display,
         number_column = number_column_display,
-        concealing = concealing_display,
         sign_column = sign_column_display,
         -- Plugin options
         autopairs = autopairs_display,
@@ -319,7 +272,6 @@ return {
                                    Option Hydra                          
 
    Neovim options   
-   _c_/_C_ ➜ Concealing:              %{concealing}   
    _n_/_N_ ➜ Number column:           %{number_column}   
    _r_/_R_ ➜ Ruler column:            %{color_column}   
    _s_/_S_ ➜ Sign column:             %{sign_column}   
@@ -334,8 +286,6 @@ return {
 ]],
   heads = {
     -- Neovim options
-    { "c", concealing_switch_next },
-    { "C", concealing_switch_prev },
     { "n", number_column_switch_next },
     { "N", number_column_switch_prev },
     { "r", color_column_switch_next },

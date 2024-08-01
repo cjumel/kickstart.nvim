@@ -17,7 +17,6 @@ return {
     -- Neovim options, default behavior is defined in `plugin/options.lua`
     vim.g.color_column_mode = "auto" -- "auto", "88" (Ruff default), "100", "120" (Stylua default), "140", "off"
     vim.g.number_column_mode = "absolute" -- "absolute", "relative", "off"
-    vim.g.concealing_mode = "auto" -- "auto", "on", "off"
     vim.g.sign_column_mode = "number" -- "number", "yes", "off"
     -- Plugin options, default behavior is defined in the relevant plugin config in `lua/plugins/`
     vim.g.disable_autopairs = false
