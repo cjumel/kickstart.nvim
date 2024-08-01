@@ -11,9 +11,10 @@ return {
     "sindrets/diffview.nvim",
     "nvim-telescope/telescope.nvim",
   },
+  cmd = { "Neogit" }, -- To open Neogit directly from outside Neovim
   keys = {
     {
-      "<leader>;", -- No mnemonic for this keymap, but simple and unused
+      "&", -- Similar (in terms of key position) to "-" for Oil
       function()
         -- If zen-mode is loaded, close it before counting windows as it will be closed anyway & might mess things up
         local zen_mode = package.loaded["zen-mode"]
