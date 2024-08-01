@@ -16,7 +16,6 @@ return {
     integrations = { -- add highlight groups for popular plugins
       diffview = true,
       harpoon = true,
-      headlines = true,
       hop = true,
       mason = true,
       noice = true,

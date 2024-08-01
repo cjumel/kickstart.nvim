@@ -23,17 +23,4 @@ M.lualine_opts = {
   _keep_showmode = true,
 }
 
-M.headlines_opts = {
-  markdown = {
-    headline_highlights = {
-      "Headline1",
-      "Headline2",
-      "Headline3",
-      "Headline4",
-      "Headline5",
-      "Headline6",
-    },
-  },
-}
-
 return M
