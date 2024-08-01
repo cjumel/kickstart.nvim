@@ -32,12 +32,14 @@ return {
     rebase_editor = { kind = "tab" }, -- Decrease visual clutter when using this view
     mappings = {
       rebase_editor = {
+        -- Replace "gj" & "gk" to move up or down a commit by the unused "J" and "K"
         ["gk"] = false,
-        ["<C-p>"] = "MoveUp",
+        ["K"] = "MoveUp",
         ["gj"] = false,
-        ["<C-n>"] = "MoveDown",
+        ["J"] = "MoveDown",
       },
       popup = {
+        -- Simplify or modify some of the default shortcuts
         ["D"] = false,
         ["d"] = "DiffPopup",
         ["X"] = false,
@@ -46,11 +48,19 @@ return {
         ["z"] = "StashPopup",
       },
       status = {
-        ["<C-c>"] = "Close",
+        ["<C-c>"] = "Close", -- Close Neogit with <C-c> (as well as with "q")
+        -- Replace "{" & "}" to navigate between hunks by the unused "," & ";"
         ["{"] = false,
         [";"] = "GoToPreviousHunkHeader",
         ["}"] = false,
         [","] = "GoToNextHunkHeader",
+        -- Use the unused "J" & "K" to navigate between sections
+        ["J"] = function() vim.cmd.normal("}j") end,
+        ["K"] = function()
+          if vim.api.nvim_win_get_cursor(0)[1] > 5 then -- Avoid jumping to the heading section
+            vim.cmd.normal("k{j")
+          end
+        end,
       },
     },
   },
