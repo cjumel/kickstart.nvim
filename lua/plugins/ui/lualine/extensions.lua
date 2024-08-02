@@ -27,7 +27,6 @@ function M.build_extensions(sections)
         "dapui_scopes",
         "dapui_watches",
         "gitcommit",
-        "harpoon",
         "lazy",
         "lspinfo",
         "mason",

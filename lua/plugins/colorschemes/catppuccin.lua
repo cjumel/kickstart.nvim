@@ -15,7 +15,6 @@ return {
     transparent_background = true,
     integrations = { -- add highlight groups for popular plugins
       diffview = true,
-      harpoon = true,
       hop = true,
       mason = true,
       noice = true,

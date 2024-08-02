@@ -22,27 +22,6 @@ M.macro = {
   color = { fg = "#ff9e64" },
 }
 
--- Display the Harpoon list index corresponding to the current buffer and the Harpoon list length, if in Harpoon list
--- This will lazy-load Harpoon as soon as a buffer is opened
-M.harpoon = {
-  function()
-    if vim.bo.filetype ~= "oil" and utils.buffer.is_temporary() then
-      return ""
-    end
-
-    local harpoon = require("harpoon") -- Harpoon is only lazy-loaded here
-    local harpoon_list_length = harpoon:list():length()
-    for index = 1, harpoon_list_length do
-      local harpoon_item = harpoon:list():get(index)
-      if harpoon_item ~= nil and utils.path.get_current_buffer_path() == harpoon_item.value then
-        return " " .. index .. "/" .. harpoon_list_length
-      end
-    end
-
-    return ""
-  end,
-}
-
 -- Show the path of the directory opened with Oil instead of Oil's buffer path
 M.oil = {
   function()
