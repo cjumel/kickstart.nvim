@@ -30,7 +30,7 @@ return {
       ["<localleader>v"] = { "actions.select", opts = { vertical = true }, desc = "Open entry in vertical split" },
       ["<localleader>t"] = { "actions.select", opts = { tab = true }, desc = "Open entry in new tab" },
       ["<localleader>h"] = "actions.toggle_hidden",
-      ["<localleader>r"] = "actions.refresh",
+      ["<localleader>R"] = "actions.refresh",
       ["<localleader>s"] = "actions.change_sort",
       ["<localleader>d"] = { -- Taken from Oil recipes
         callback = function()
@@ -55,6 +55,11 @@ return {
       ["<localleader>fg"] = {
         callback = function() require("plugins.core.telescope.builtin").live_grep_oil_directory() end,
         desc = "[F]ind: by [G]rep in Oil directory",
+      },
+
+      ["<localleader>r"] = {
+        callback = function() require("plugins.core.grug-far.actions").grug_far_oil_directory() end,
+        desc = "[R]eplace: [R]eplace in Oil directory",
       },
     },
     use_default_keymaps = false,
