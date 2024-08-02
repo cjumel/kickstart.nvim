@@ -1,42 +1,33 @@
--- Set leader & local leader keys
--- This must happen before plugins are required (otherwise wrong leader will be used)
-vim.g.mapleader = " "
-vim.g.maplocalleader = "  "
-
--- Install `lazy.nvim` plugin manager
+-- Bootstrap lazy.nvim
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
-if not vim.loop.fs_stat(lazypath) then
-  vim.fn.system({
-    "git",
-    "clone",
-    "--filter=blob:none",
-    "https://github.com/folke/lazy.nvim.git",
-    "--branch=stable", -- latest stable release
-    lazypath,
-  })
+if not (vim.uv or vim.loop).fs_stat(lazypath) then
+  local lazyrepo = "https://github.com/folke/lazy.nvim.git"
+  local out = vim.fn.system({ "git", "clone", "--filter=blob:none", "--branch=stable", lazyrepo, lazypath })
+  if vim.v.shell_error ~= 0 then
+    vim.api.nvim_echo({
+      { "Failed to clone lazy.nvim:\n", "ErrorMsg" },
+      { out, "WarningMsg" },
+      { "\nPress any key to exit..." },
+    }, true, {})
+    vim.fn.getchar()
+    os.exit(1)
+  end
 end
 vim.opt.rtp:prepend(lazypath)
 
--- Setup `lazy.nvim` plugins and options
-local plugins = {
-  -- Color schemes plugins define the highlight groups used in the editor
-  { import = "plugins.colorschemes" },
+-- Setup leader and local leader keys before loading lazy.nvim so that mappings are correct in plugins setup
+vim.g.mapleader = " "
+vim.g.maplocalleader = "  "
 
-  -- Core plugins bring features to edit buffers efficiently (text objects, motions, LSP,
-  -- formatters, etc.)
-  { import = "plugins.core" },
-
-  -- Tools plugins bring extra features not related directly to editing buffer (DAP, database
-  -- explorer, etc.)
-  { import = "plugins.tools" },
-
-  -- User interface plugins bring various visual improvements (colorscheme, statusline, etc.)
-  { import = "plugins.ui" },
-}
-local opts = {
-  ui = { border = "rounded" }, -- Improve visibility with transparent background
-  change_detection = { enabled = false },
-}
-require("lazy").setup(plugins, opts)
-
--- vim: ts=2 sts=2 sw=2 et
+-- Setup lazy.nvim
+require("lazy").setup({
+  spec = { -- Define plugins specifications
+    { import = "plugins.colorschemes" }, -- Plugins for the various color schemes available
+    { import = "plugins.core" }, -- Plugins to edit buffers efficiently (text objects, motions, LSP, formatters, etc.)
+    { import = "plugins.tools" }, -- External tools plugins, to bring extra features (DAP, database explorer, etc.)
+    { import = "plugins.ui" }, -- UI-related plugins (status line, zen mode, etc.)
+  },
+  rocks = { enabled = false }, -- Disable luarocks as it's not installed on my machine & I don't need it
+  ui = { border = "rounded" }, -- Add a border in Lazy UI to improve visibility in transparent backgrounds
+  change_detection = { enabled = false }, -- Don't automatically reload plugins when their config is updated
+})
