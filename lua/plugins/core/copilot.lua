@@ -6,14 +6,12 @@
 
 return {
   "github/copilot.vim",
-  -- When lazy-loading more agressively (e.g. on `InsertEnter` event), the plugin doesn't work properly right away
-  event = { "BufNewFile", "BufReadPre" },
-  cmd = { "Copilot" }, -- For other plugins using directly the command, like the settings in Hydra.nvim
+  event = { "BufNewFile", "BufReadPre" }, -- When lazy-loading on InsertEnter, the plugin doesn't work right away
   config = function()
     vim.g.copilot_filetypes = { markdown = true } -- Enable Copilot on additional filetypes
 
     -- <Tab> is automatically mapped to "accept suggestion"
-    vim.keymap.set("i", "<C-]>", "<Plug>(copilot-accept-line)", { desc = "Copilot: accept line" })
+    vim.keymap.set("i", "<C-]>", "<Plug>(copilot-accept-line)", { desc = "Copilot: accept line" }) -- <C-$>
     vim.keymap.set("i", "<M-CR>", "<Plug>(copilot-accept-word)", { desc = "Copilot: accept word" }) -- <C-CR>
   end,
 }

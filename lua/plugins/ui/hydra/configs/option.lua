@@ -163,25 +163,6 @@ end
 -- directly on it, while the toggle functions switch its value &, when necessary & if the plugin is loaded, apply the
 -- new option to the plugin settings.
 
-local function autopairs_display()
-  if vim.g.disable_autopairs then
-    return " on  / [off]"
-  end
-  return "[on] /  off "
-end
-local function autopairs_toggle()
-  vim.g.disable_autopairs = not vim.g.disable_autopairs
-
-  local autopairs = package.loaded["nvim-autopairs"]
-  if autopairs ~= nil then
-    if vim.g.disable_autopairs then
-      autopairs.disable()
-    else
-      autopairs.enable()
-    end
-  end
-end
-
 local function format_on_save_display()
   if vim.g.disable_format_on_save then
     return " on  / [off]"
@@ -189,25 +170,6 @@ local function format_on_save_display()
   return "[on] /  off "
 end
 local function format_on_save_toggle() vim.g.disable_format_on_save = not vim.g.disable_format_on_save end
-
-local function github_copilot_display()
-  if vim.g.disable_github_copilot then
-    return " on  / [off]"
-  end
-  return "[on] /  off "
-end
-local function github_copilot_toggle()
-  vim.g.disable_github_copilot = not vim.g.disable_github_copilot
-
-  local copilot = package.loaded["_copilot"]
-  if copilot ~= nil then
-    if vim.g.disable_github_copilot then
-      vim.cmd("Copilot disable")
-    else
-      vim.cmd("Copilot enable")
-    end
-  end
-end
 
 local function lint_display()
   if vim.g.disable_lint then
@@ -259,9 +221,7 @@ return {
         number_column = number_column_display,
         sign_column = sign_column_display,
         -- Plugin options
-        autopairs = autopairs_display,
         format_on_save = format_on_save_display,
-        github_copilot = github_copilot_display,
         lint = lint_display,
         treesitter_context = treesitter_context_display,
       },
@@ -277,9 +237,7 @@ return {
    _s_/_S_ ➜ Sign column:             %{sign_column}   
 
    Plugin options   
-   _a_ ^ ^ ➜ Auto-pairs:              %{autopairs}   
    _f_ ^ ^ ➜ Format on save:          %{format_on_save}   
-   _g_ ^ ^ ➜ GitHub copilot:          %{github_copilot}   
    _l_ ^ ^ ➜ Lint:                    %{lint}   
    _t_ ^ ^ ➜ Treesitter context:      %{treesitter_context}   
 
@@ -293,9 +251,7 @@ return {
     { "s", sign_column_switch_next },
     { "S", sign_column_switch_prev },
     -- Plugin options
-    { "a", autopairs_toggle },
     { "f", format_on_save_toggle },
-    { "g", github_copilot_toggle },
     { "l", lint_toggle },
     { "t", treesitter_context_toggle },
     -- Other
