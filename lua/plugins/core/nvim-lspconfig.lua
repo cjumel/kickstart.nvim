@@ -131,15 +131,14 @@ return {
       map("n", "grn", function() return ":IncRename " .. vim.fn.expand("<cword>") end, "Rename", { expr = true })
       map("n", "grr", function() telescope.lsp_references(go_to_opts) end, "Go to references")
       map("n", "grx", "<cmd>LspRestart<CR>", "Restart LSP")
+      map({ "n", "v" }, "grs", telescope_custom.lsp_document_symbols, "Symbols")
+      map({ "n", "v" }, "grw", telescope_custom.lsp_workspace_symbols, "Workspace symbols")
 
       -- Neovim has default keymaps for "go to definition" with gd and "go to declaration" with gD written for C
       --  I don't use languages where "go to declaration" is useful, so let's replace it with "go to type definition"
       --  I don't use languages where "go to implementation" is useful either, so let's omit this keymap
       map("n", "gd", function() telescope.lsp_definitions(go_to_opts) end, "Go to definition")
       map("n", "gD", function() telescope.lsp_type_definitions(go_to_opts) end, "Go to type definition")
-
-      map({ "n", "v" }, "<leader>fs", telescope_custom.lsp_document_symbols, "[F]ind: LSP [S]ymbols (buffer)")
-      map({ "n", "v" }, "<leader>fS", telescope_custom.lsp_workspace_symbols, "[F]ind: LSP [S]ymbols (workspace)")
 
       -- Next/previous reference navigation
       -- Define illuminate keymaps here to benefit from the on_attach function behavior
