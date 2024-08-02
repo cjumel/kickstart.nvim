@@ -11,7 +11,6 @@ return {
     "nvim-lua/plenary.nvim",
     "nvim-tree/nvim-web-devicons",
     "nvim-treesitter/nvim-treesitter",
-    "stevearc/oil.nvim", -- Oil could have been lazy-loaded by Telescope but it is already not in the global setup
     {
       "nvim-telescope/telescope-fzf-native.nvim", -- Fuzzy finder algorithm requiring local dependencies to be built
       build = "make",
