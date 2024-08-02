@@ -11,4 +11,4 @@ local function yank_module()
   vim.fn.setreg('"', path)
   vim.notify('Yanked "' .. path .. '"')
 end
-vim.keymap.set("n", "<leader>Y", yank_module, { buffer = true, desc = "[Y]ank module (Python)" })
+vim.keymap.set("n", "<localleader>y", yank_module, { buffer = true, desc = "[Y]ank module" })
