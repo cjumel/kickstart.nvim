@@ -1,21 +1,22 @@
 -- nvim-lint
 --
--- An asynchronous linter plugin for Neovim complementary to the built-in Language Server Protocol
--- support.
+-- An asynchronous linter plugin for Neovim complementary to the built-in Language Server Protocol support. It is my
+-- plugin of choice for linting, as it's very simple, easily customizable, and is very complementary with conform.nvim,
+-- my formatting plugin.
 
--- Some file types have already a linter integrated in lspconfig:
--- - lua: lua_ls
--- - toml: taplo
+-- Some file types have already a linter integrated in nvim-lspconfig:
+-- - lua_ls for Lua
+-- - taplo for TOML
 
 -- Define here which linter to use for each file type
--- Keys must be simple file types, and values arrays of linters
+--  Keys must be simple file types, and values arrays of linters
 local linters_by_ft = {
   json = { "jsonlint" }, -- Diagnostics for parsing errors
   markdown = { "markdownlint" }, -- Diagnostics for style-related issues
   python = { "ruff" }, -- Completement Pyright with style-related & various issue diagnostics
   yaml = { "yamllint" }, -- Complement yamlls with style-related diagnostics
-  -- ShellCheck provides diagnostics for parsing errors & style-related issues
-  -- It is not made for zsh, but it works fine when disabling a few rules
+  -- ShellCheck provides diagnostics for parsing errors & style-related issues for bash scripts
+  --  It is not made for zsh, but it works fine when disabling a few rules
   zsh = { "shellcheck" },
 }
 
@@ -24,13 +25,6 @@ local linters_without_mason_package = {}
 
 -- Specify the name of the Mason package for linters where they differ
 local linter_to_mason_name = {}
-
--- Some linters were explored but not implemented:
--- - luacheck: require an additional dependency (luarocks) and is not maintained anymore
--- - mdarkdownlint: not responsive when updating a document, and linting for Markdown, a very free
---   format, is not very relevant
--- - selene: many diagnostics are already provided by lua_ls, require several additional not-hidden
---   configuration files, and don't implement some basic features like line-length
 
 return {
   "mfussenegger/nvim-lint",
@@ -58,10 +52,7 @@ return {
     should_lint = function() -- Custom option to enable/disable linting
       local utils = require("utils")
 
-      if vim.g.disable_lint or utils.buffer.tooling_is_disabled() then
-        return false
-      end
-      return true
+      return vim.g.lint_mode == "on" or (vim.g.lint_mode == "auto" and not utils.buffer.tooling_is_disabled())
     end,
   },
   config = function(_, opts)

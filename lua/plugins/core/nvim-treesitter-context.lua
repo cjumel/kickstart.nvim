@@ -5,9 +5,9 @@
 
 return {
   "nvim-treesitter/nvim-treesitter-context",
-  event = { "BufNewFile", "BufReadPre" },
+  event = { "BufNewFile", "BufReadPre" }, -- Lazy-loading the plugin on keys doesn't work well
   opts = {
-    enable = false, -- Disable by default, can be enabled by the option Hydra
+    enable = false, -- Disable by default, can be enabled by the settings Hydra
   },
   config = function(_, opts)
     local treesitter_context = require("treesitter-context")

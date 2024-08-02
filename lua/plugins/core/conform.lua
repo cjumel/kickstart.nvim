@@ -5,9 +5,9 @@
 -- null-ls/none-ls.
 
 -- Define here which formatters to use for each file type
--- Keys must be simple file types, and values arrays of formatter names
+--  Keys must be simple file types, and values arrays of formatter names
 -- In some file types, a formatter is integrated as a language server in `nvim-lspconfig`; in that case, the
--- corresponding file type must be added as a key with an empty array as value, to trigger formatting on save
+--  corresponding file type must be added as a key with an empty array as value, to trigger formatting on save
 local formatters_by_ft = {
   gitconfig = { "trim_newlines", "trim_whitespace" },
   gitignore = { "trim_newlines", "trim_whitespace" },
@@ -15,16 +15,13 @@ local formatters_by_ft = {
   lua = { "stylua" },
   make = { "trim_newlines", "trim_whitespace" },
   markdown = { "mdformat" },
-  python = {
-    "ruff_fix", -- Fix lint diagnostics
-    "ruff_format", -- Regular formatting
-  },
+  python = { "ruff_fix", "ruff_format" }, -- Lint diagnostic automatic fixes & regular formatting
   sh = { "shfmt" },
   text = { "trim_newlines", "trim_whitespace" },
   tmux = { "trim_newlines", "trim_whitespace" },
   toml = {}, -- taplo in lspconfig
   vim = { "trim_newlines", "trim_whitespace" },
-  yaml = { "yamlfmt", "trim_whitespace" }, -- `trim_whitespace` completes `yamlfmt`
+  yaml = { "yamlfmt", "trim_whitespace" }, -- "trim_whitespace" completes "yamlfmt"
   zsh = { "shfmt" }, -- Not actually for zsh, but in my use case it seems to work fine
 }
 
@@ -69,10 +66,12 @@ return {
     format_on_save = function(_)
       local utils = require("utils")
 
-      if vim.g.disable_format_on_save or utils.buffer.tooling_is_disabled() then
-        return
+      if
+        vim.g.format_on_save_mode == "on"
+        or (vim.g.format_on_save_mode == "auto" and not utils.buffer.tooling_is_disabled())
+      then
+        return { lsp_fallback = true, timeout_ms = 500 }
       end
-      return { lsp_fallback = true, timeout_ms = 500 }
     end,
   },
 }
