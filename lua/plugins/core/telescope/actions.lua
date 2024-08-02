@@ -1,9 +1,5 @@
 -- Here are defined custom actions for Telescope, used through general or spicker-specific mappings.
 
-local actions = require("telescope.actions")
-local actions_state = require("telescope.actions.state")
-local builtin = require("telescope.builtin")
-
 local M = {}
 
 function M.smart_open_loclist(prompt_bufnr, _mode)
@@ -18,32 +14,6 @@ function M.smart_open_quickfix(prompt_bufnr, _mode)
   local trouble = require("trouble") -- Lazy loaded thanks to function wrapping
   telescope_actions.smart_send_to_qflist(prompt_bufnr, _mode)
   trouble.open("quickfix")
-end
-
-M.lsp_document_symbols = {}
-
-function M.lsp_document_symbols.switch_to_lsp_dynamic_workspace_symbols(prompt_bufnr, _)
-  local opts = {}
-
-  -- Compute not persisted options
-  local current_picker = actions_state.get_current_picker(prompt_bufnr)
-  opts.default_text = current_picker:_get_prompt()
-  actions.close(prompt_bufnr)
-
-  builtin.lsp_dynamic_workspace_symbols(opts)
-end
-
-M.lsp_dynamic_workspace_symbols = {}
-
-function M.lsp_dynamic_workspace_symbols.switch_to_lsp_document_symbols(prompt_bufnr, _)
-  local opts = {}
-
-  -- Compute not persisted options
-  local current_picker = actions_state.get_current_picker(prompt_bufnr)
-  opts.default_text = current_picker:_get_prompt()
-  actions.close(prompt_bufnr)
-
-  builtin.lsp_document_symbols(opts)
 end
 
 return M

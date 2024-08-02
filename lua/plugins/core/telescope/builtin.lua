@@ -299,6 +299,10 @@ function M.buffers()
     ignore_current_buffer = true, -- When current buffer is included & last used is selected, search doesn't work well
     sort_lastused = true, -- Sort current & last used buffer at the top & select the last used
     sort_mru = true, -- Sort all buffers after the last used
+    attach_mappings = function(_, map)
+      map({ "i", "n" }, "<C-\\>", actions.delete_buffer)
+      return true -- Enable default mappings
+    end,
   })
 
   builtin.buffers(opts)
@@ -326,7 +330,14 @@ function M.search_history()
 end
 
 function M.git_status()
-  local opts = { prompt_title = "Git Status" }
+  local opts = {
+    prompt_title = "Git Status",
+    attach_mappings = function(_, map)
+      -- Override the <Tab> keymap to disable the stage/unstage feature of the picker
+      map({ "i", "n" }, "<Tab>", actions.move_selection_next)
+      return true -- Enable default mappings
+    end,
+  }
   builtin.git_status(opts)
 end
 

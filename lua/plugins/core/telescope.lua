@@ -135,32 +135,6 @@ return {
           return utils.transform_path({ path_display = { truncate = true } }, path)
         end,
       },
-      pickers = {
-        buffers = {
-          mappings = {
-            i = { ["<C-d>"] = actions.delete_buffer },
-            n = { ["<C-d>"] = actions.delete_buffer },
-          },
-        },
-        git_status = { -- Override the <Tab> keymap to disable the stage/unstage feature of the picker
-          mappings = {
-            i = { ["<Tab>"] = actions.move_selection_next },
-            n = { ["<Tab>"] = actions.move_selection_next },
-          },
-        },
-        lsp_document_symbols = {
-          mappings = {
-            i = { ["<C-\\>"] = custom_actions.lsp_document_symbols.switch_to_lsp_dynamic_workspace_symbols },
-            n = { ["<C-\\>"] = custom_actions.lsp_document_symbols.switch_to_lsp_dynamic_workspace_symbols },
-          },
-        },
-        lsp_dynamic_workspace_symbols = {
-          mappings = {
-            i = { ["<C-\\>"] = custom_actions.lsp_dynamic_workspace_symbols.switch_to_lsp_document_symbols },
-            n = { ["<C-\\>"] = custom_actions.lsp_dynamic_workspace_symbols.switch_to_lsp_document_symbols },
-          },
-        },
-      },
     }
   end,
   config = function(_, opts)
