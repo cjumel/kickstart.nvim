@@ -6,30 +6,10 @@
 return {
   "MagicDuck/grug-far.nvim",
   keys = function()
-    local grug_far = require("grug-far")
+    local actions = require("plugins.core.grug-far.actions")
     return {
-      {
-        "<leader>rr",
-        function() grug_far.grug_far({}) end,
-        desc = "[R]eplace: [R]eplace",
-      },
-      {
-        "<leader>rr",
-        function() grug_far.with_visual_selection({}) end,
-        mode = "v",
-        desc = "[R]eplace: [R]eplace selection",
-      },
-      {
-        "<leader>rc",
-        function() grug_far.grug_far({ prefills = { paths = vim.fn.expand("%") } }) end,
-        desc = "[R]eplace: in [C]urrent buffer",
-      },
-      {
-        "<leader>rc",
-        function() grug_far.with_visual_selection({ prefills = { paths = vim.fn.expand("%") } }) end,
-        mode = "v",
-        desc = "[R]eplace: selection in [C]urrent buffer",
-      },
+      { "<leader>rr", actions.grug_far, mode = { "n", "v" }, desc = "[R]eplace: [R]eplace" },
+      { "<leader>rc", actions.grug_far_current_buffer, mode = { "n", "v" }, desc = "[R]eplace: in [C]urrent buffer" },
     }
   end,
   opts = {},
