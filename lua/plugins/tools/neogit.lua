@@ -54,13 +54,6 @@ return {
         [";"] = "GoToPreviousHunkHeader",
         ["}"] = false,
         [","] = "GoToNextHunkHeader",
-        -- Use the unused "J" & "K" to navigate between sections
-        ["J"] = function() vim.cmd.normal("}j") end,
-        ["K"] = function()
-          if vim.api.nvim_win_get_cursor(0)[1] > 5 then -- Avoid jumping to the heading section
-            vim.cmd.normal("k{j")
-          end
-        end,
       },
     },
   },
