@@ -52,8 +52,8 @@ end
 -- [[ General keymaps ]]
 
 vim.keymap.set("n", "<C-]>", vim.diagnostic.open_float, { desc = "Expand diagnostics" }) -- Like preview in plugins
-vim.keymap.set("n", "<C-^>", "}", { desc = "Next paragraph" })
-vim.keymap.set("n", "<C-_>", "{", { desc = "Previous paragraph" })
+vim.keymap.set({ "n", "v" }, "<C-^>", "}", { desc = "Next paragraph" })
+vim.keymap.set({ "n", "v" }, "<C-_>", "{", { desc = "Previous paragraph" })
 
 vim.keymap.set("n", "<Esc>", "<cmd>ClearNormal<CR>", { desc = "Clear" }) -- <Esc> is only available in normal mode
 vim.keymap.set("v", "<C-c>", "<cmd>ClearNormal<CR>", { desc = "Clear" })
