@@ -1,10 +1,10 @@
 -- oil.nvim
 --
--- Oil is a modern version of netwrc, Vim's default file explorer, which lets you edit your file system just like any
--- Neovim buffer. It is my plugin of choice for file edition, as it is a powerful alternative to tree explorers,
--- focusing on the current directory in a single window, instead of the whole project tree in a side window. The file
--- editing features it provides are very elegant and natural to learn, and they are usable with other plugins, like
--- Copilot.vim or code snippest (e.g. Luasnip), which makes creating files very simple & customizable.
+-- oil.nvim is a Neovim file explorer enabling to edit your file system like a buffer. It is a modern version of
+-- netwrc, Vim's default file explorer, and my plugin of choice for file edition, as it is a powerful alternative to
+-- tree-based file explorers, focusing on the current directory in a single window, instead of the whole project tree
+-- in a side window. The file editing features it provides are very elegant and natural to learn, and they are usable
+-- with other plugins, like Copilot.vim or code snippest, which makes creating files very simple & customizable.
 
 return {
   "stevearc/oil.nvim",
@@ -13,7 +13,7 @@ return {
   keys = { { "-", function() require("oil").open() end, desc = "Open parent directory" } },
   opts = {
     win_options = { number = false, relativenumber = false }, -- Disable line-numbering in Oil buffers
-    cleanup_delay_ms = 0, -- Cleanup the oil buffer right away to avoid jumping back to it with <C-o> and <C-i>
+    cleanup_delay_ms = 0, -- Cleanup the Oil buffer right away to avoid jumping back to it with <C-o> and <C-i>
     keymaps = {
       -- Since Oil can be used as an actual editable buffer, to edit files quickly and optionally in batch, let's not
       --  overwrite any keymap which could be useful for editing files, to still be able to use features like macros

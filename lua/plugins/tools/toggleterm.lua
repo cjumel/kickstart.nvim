@@ -1,7 +1,8 @@
 -- toggleterm.nvim
 --
--- ToggleTerm is a Neovim plugin to persist and interact with multiple terminals during an editing session. It provides
--- several improvements over the builtin terminal integration, which make it a really nice addition.
+-- toggleterm.nvim is a Neovim plugin to persist and interact with multiple terminals during an editing session. It
+-- provides several improvements over the builtin terminal integration, which make it a really nice addition to Neovim,
+-- while being quite simple.
 
 return {
   "akinsho/toggleterm.nvim",

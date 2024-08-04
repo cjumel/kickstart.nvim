@@ -1,6 +1,7 @@
 -- Rosé Pine
 --
--- All natural pine, faux fur and a bit of soho vibes for the classy minimalist.
+-- Plugin providing all natural pine, faux fur and a bit of soho vibes for the classy minimalist. It is maybe the most
+-- popular minimalist color scheme for Neovim, and provides many features and integrations.
 
 local theme = require("theme")
 
@@ -10,11 +11,13 @@ return {
   lazy = theme.get_lazyness("rose_pine"),
   priority = 1000, -- Main UI stuff should be loaded first
   opts = theme.make_opts("rose_pine", {
-    variant = "main",
-    styles = { transparency = true },
+    variant = "main", -- "auto", "main", "moon", or "dawn"
+    styles = { transparency = true }, -- Don't set a background color
   }),
   config = function(_, opts)
-    require("rose-pine").setup(opts) -- setup must be called before loading
+    local rose_pine = require("rose-pine")
+
+    rose_pine.setup(opts) -- Setup must be called before loading the color scheme
     vim.cmd.colorscheme("rose-pine")
   end,
 }

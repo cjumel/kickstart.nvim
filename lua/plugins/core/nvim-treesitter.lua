@@ -1,6 +1,8 @@
 -- nvim-treesitter
 --
--- Treesitter configurations and abstraction layer for Neovim.
+-- Treesitter configurations and abstraction layer for Neovim. This plugin integrates Treesitter in Neovim, providing
+-- various language-specific features (highlighting, indentation, incremental selection, etc.) It is a must-have for
+-- any Neovim user, in my opinion.
 
 return {
   "nvim-treesitter/nvim-treesitter",
@@ -23,7 +25,7 @@ return {
       "luadoc", -- Lua docstrings
       "luap", -- Lua search patterns
       "make",
-      "markdown", -- Regular Markdown
+      "markdown",
       "markdown_inline", -- For advanced Markdown stuff, like concealing
       "python",
       "regex",

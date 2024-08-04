@@ -1,11 +1,12 @@
 -- nvim-surround
 --
--- Provide tools to surround or modify surroundings efficiently, juste like vim-surround.
+-- Plugin to add, change, delete surrounding delimiter pairs with ease in Neovim. This very simple plugin is in my
+-- opinion a must-have for any Neovim user.
 
 return {
   "kylechui/nvim-surround",
   keys = {
-    -- insert & insert_line are not re-implemented as they're not super useful in practice
+    -- insert & insert_line features are not re-implemented as I don't find them super useful
     { "ys", "<Plug>(nvim-surround-normal)", desc = "Surround" },
     { "ysc", "<Plug>(nvim-surround-normal-cur)", desc = "Surround current line" },
     { "yS", "<Plug>(nvim-surround-normal-line)", desc = "Surround on new lines" },

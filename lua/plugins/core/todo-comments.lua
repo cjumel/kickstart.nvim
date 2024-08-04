@@ -1,10 +1,9 @@
 -- Todo Comments
 --
--- Todo Comments is a plugin to highlight and search for todo-comments (like `TODO`, `HACK` or `BUG`), in the code
--- base. It is very convenient to document directly in the code the next steps to do, or to document long-term issues
--- left for the future, like unresolved bugs or performance issues. Besides, it works very nicely with other plugins,
--- like Telescope or Trouble, to navigate between todo-comments, or code snippets (e.g. Luasnip), to define custom
--- todo-comment snippets.
+-- Todo Comments is a plugin to highlight, list and search todo-comments (`TODO`, `HACK`, `BUG`, etc.), in your
+-- projects. It is very convenient to document directly in the code base the next steps to do, long-term issues left for
+-- the future like unresolved bugs or performance issues, etc. Besides, it is very nicely integrated with other plugins,
+-- like Telescope, Trouble, or code snippets, to define custom todo-comment snippets.
 
 return {
   "folke/todo-comments.nvim",

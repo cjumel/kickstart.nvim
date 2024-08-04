@@ -1,12 +1,12 @@
 -- conform.nvim
 --
--- Lightweight yet powerful formatter plugin for Neovim. This is my plugin of choice for formatting & auto-formatting
--- due to its great flexibility & customizability while still remaining quite simple, compared to alternative like
--- null-ls/none-ls.
+-- conform.nvim is a lightweight yet powerful formatter plugin for Neovim. It is my plugin of choice for formatting and
+-- auto-formatting due to its great flexibility and customizability, while still remaining quite simple compared to
+-- alternatives like null-ls.
 
--- Define here which formatters to use for each file type
---  Keys must be simple file types, and values arrays of formatter names
--- In some file types, a formatter is integrated as a language server in `nvim-lspconfig`; in that case, the
+-- Define here which formatters to use for each file type; keys must be simple file types, and values must be arrays
+--  of formatter names
+-- In some file types, a formatter is integrated as a language server in nvim-lspconfig; in that case, the
 --  corresponding file type must be added as a key with an empty array as value, to trigger formatting on save
 local formatters_by_ft = {
   gitconfig = { "trim_newlines", "trim_whitespace" },

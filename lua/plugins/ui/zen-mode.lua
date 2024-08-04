@@ -1,7 +1,7 @@
 -- Zen Mode
 --
--- Zen mode provides a centered mode striped out of distractions. It's a very nice addition to Neovim, especially
--- since it works over window splits (useful to center one split) and with Tmux.
+-- Zen mode provides a distraction-free mode for Neovim. It's a very nice and simple addition to Neovim, integrated
+-- with many plugins and other tools, like Tmux, and I like to use it to focus on one buffer edition.
 
 return {
   "folke/zen-mode.nvim",
@@ -13,9 +13,8 @@ return {
       options = { number = false, relativenumber = false }, -- Disable line numbering
     },
     plugins = {
-      twilight = { enabled = false }, -- Don't enable Twilight when entering zen mode
-      tmux = { enabled = true }, -- Disable Tmux status line when entering zen mode
       options = { laststatus = 0 }, -- Turn off the statusline in zen mode
+      tmux = { enabled = true }, -- Disable Tmux status line when entering zen mode
     },
   },
 }

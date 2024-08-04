@@ -1,6 +1,7 @@
 -- vim-dadbod-ui
 --
--- Simple UI for vim-dadbod. It allows simple navigation through databases and saving queries for later use.
+-- Simple UI for vim-dadbod, allowing simple navigation through databases and saving queries for later use. This plugin
+-- makes Neovim suited to explore databases like an actual database explorer.
 
 return {
   "kristijanhusak/vim-dadbod-ui",

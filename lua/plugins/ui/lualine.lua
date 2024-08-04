@@ -1,6 +1,8 @@
 -- lualine.nvim
 --
--- A blazing fast and customizable status bar written in Lua.
+-- A blazing fast and customizable status bar plugin for Neovim written in Lua. lualine.nvim has integrations with many
+-- popular plugins and can be further customized manually while remaining quite simple, making it a great choice for any
+-- configuration.
 
 local extensions = require("plugins.ui.lualine.extensions")
 local sections = require("plugins.ui.lualine.sections")
@@ -12,8 +14,8 @@ return {
   priority = 100, -- Main UI stuff should be loaded first
   init = function()
     -- Don't show Neovim mode in status line as it is redundant with Lualine's onw feature
-    -- This can be re-enabled in the `config` for status lines missing the corresponding feature, with the custom
-    -- parameter `_keep_showmode`
+    --  This can be re-enabled in the `config` for status lines missing the corresponding feature, with the custom
+    --  parameter `_keep_showmode`
     vim.opt.showmode = false
   end,
   opts = theme.make_opts("lualine", {
@@ -31,7 +33,6 @@ return {
     local lualine = require("lualine")
 
     lualine.setup(opts)
-
     if opts._keep_showmode then
       vim.opt.showmode = true -- Show Neovim status in status line
     end

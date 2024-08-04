@@ -1,6 +1,7 @@
 -- Indent blankline
 --
--- Add indentation guides even on blank lines.
+-- Plugin adding indentation guides in Neovim buffers. This is a super simple yet useful plugin, which I find improves
+-- code look and readability.
 
 return {
   "lukas-reineke/indent-blankline.nvim",
@@ -8,11 +9,11 @@ return {
   event = { "BufNewFile", "BufReadPre" },
   opts = {
     scope = {
-      show_end = false, -- Don't underline the end of the scope
+      show_end = false, -- Don't underline the end of a scope
       include = {
         node_type = { -- Add treesitter nodes to be considered as scope
           ["python"] = {
-            -- By default, only actual variable scopes are considered: classes & functions
+            -- By default, only actual variable scopes are considered (classes & functions), let's add more
             "if_statement",
             "for_statement",
             "while_statement",
@@ -22,7 +23,7 @@ return {
       },
       exclude = {
         language = {
-          "toml", -- Works not great & very few indent levels so not very useful
+          "toml", -- Works not great & very few indent levels so not very useful all in all
           "yaml", -- Works very poorly, add more noise than value
         },
       },

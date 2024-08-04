@@ -1,9 +1,9 @@
 -- telescope.nvim
 --
--- Telescope is a plugin which enables to gaze deeply into unknown regions of your code with powerful and blazing fast
--- fuzzy finding tools. It is one of the most essential plugins I use. It provides a really versatile interface, suited
--- for many use-cases beyond fuzzy-finding files, like LSP reference navigation, or user input selection. Besides, it
--- is very easily customizable, easier by crafting complex options or by creating extensions.
+-- telescope.nvim is a plugin which enables to gaze deeply into unknown regions of your code with powerful and blazing
+-- fast fuzzy finding tools. It is one of the most essential plugins I use. It provides a really versatile interface,
+-- suited for many use-cases beyond fuzzy-finding files, like LSP reference navigation, or user input selection.
+-- Besides, it is very easily customizable, easier by crafting complex options or by creating extensions.
 
 return {
   "nvim-telescope/telescope.nvim",
@@ -115,7 +115,7 @@ return {
           },
         },
         file_ignore_patterns = { "%.git/" }, -- Exclude in all searches (even when hidden & ignored files are included)
-        sorting_strategy = "ascending",
+        sorting_strategy = "ascending", -- Sort results in ascending order
         layout_config = {
           horizontal = {
             prompt_position = "top", -- Make text input at the top instead of the bottom
@@ -140,7 +140,6 @@ return {
     local telescope = require("telescope")
 
     telescope.setup(opts)
-
     pcall(telescope.load_extension, "fzf") -- Enable telescope fzf native, if installed
   end,
 }

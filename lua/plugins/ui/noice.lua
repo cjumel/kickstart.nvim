@@ -1,9 +1,9 @@
 -- Noice
 --
--- Noice is a highly experimental plugin that completely replaces the UI for messages, command line and the popup menu.
--- It makes the whole experience of using Neovim feel more modern and, in my opinion, simply better, for instance by
--- re-locating some essential pieces of information (like the command line or the notifications) in a more convenient
--- place.
+-- Noice is a highly experimental plugin that completely replaces the UI for messages, command line and the popup menu
+-- in Neovim. It makes the whole experience of using Neovim feel more modern and, in my opinion, simply better, for
+-- instance by re-locating some essential pieces of information (like the command line or the notifications) in a more
+-- centered location in the screen.
 
 return {
   "folke/noice.nvim",

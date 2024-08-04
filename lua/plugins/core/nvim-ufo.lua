@@ -10,7 +10,7 @@
 return {
   "kevinhwang91/nvim-ufo",
   dependencies = { "kevinhwang91/promise-async" },
-  event = "VeryLazy", -- For some reason, using `{ "BufNewFile", "BufReadPre" }` doesn't work
+  event = "VeryLazy", -- For some reason, using { "BufNewFile", "BufReadPre" } doesn't work
   init = function()
     vim.o.foldcolumn = "0" -- Disable fold level column
     vim.o.foldlevel = 99 -- nvim-ufo requires large fold level values
@@ -33,10 +33,10 @@ return {
 
     ufo.setup(opts)
 
-    -- nvim-ufo requires to remap `zR` & `zM` to open/close all folds
+    -- nvim-ufo requires to remap the keymaps "zR" & "zM" to open/close all folds
     vim.keymap.set("n", "zR", ufo.openAllFolds, { desc = "Open all folds" })
     vim.keymap.set("n", "zM", ufo.closeAllFolds, { desc = "Close all folds" })
-    -- The builtin `zr` & `zm` don't work with nvim-ufo, so let's remap them (but also change their behavior)
+    -- The builtin keymaps "zr" & "zm" don't work with nvim-ufo, so let's remap them (also changing their behavior)
     vim.keymap.set("n", "zr", ufo.openFoldsExceptKinds, { desc = "Open folds almost all folds" })
     vim.keymap.set("n", "zm", ufo.closeFoldsWith, { desc = "Close folds at count level" })
 

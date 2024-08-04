@@ -1,7 +1,8 @@
 -- dial.nvim
 --
--- Dial is an enhanced increment/decrement plugin. It is simple of use and can be really extensively configured, for
--- instance to increment/decrement custom patterns or emojis, e.g. to mark todo items as in progress and done.
+-- dial.nvim is an enhanced increment/decrement plugin. It is simple of use and can be really extensively configured,
+-- for instance to increment/decrement custom patterns or emojis, e.g. to mark todo items as "in progress" or "done". I
+-- find it really useful for small but cool filetype-specific additions.
 
 return {
   "monaqa/dial.nvim",

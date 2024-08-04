@@ -1,12 +1,12 @@
 -- nvim-dap
 --
--- Neovim implemetation of the Debug Adapter Protocol (DAP).
+-- nvim-dap provides a Neovim implemetation of the Debug Adapter Protocol (DAP), enabling a great experience for
+-- debugging directly in Neovim, making it a great plugin in my opinion. This plugin is best used with the nvim-dap-ui
+-- plugin to provide a great user interface, and with language specific configuration, like nvim-dap-python.
 
 return {
   "mfussenegger/nvim-dap",
-  dependencies = {
-    "rcarriga/nvim-dap-ui",
-  },
+  dependencies = { "rcarriga/nvim-dap-ui" },
   keys = function()
     local dap = require("dap")
     local dapui = require("dapui")

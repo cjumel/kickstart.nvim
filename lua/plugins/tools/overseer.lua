@@ -1,8 +1,8 @@
 -- overseer.nvim
 --
 -- Overseer is a task runner and job management plugin for Neovim. It enables to run any kind of job (build, test,
--- formatting, etc.) very easily & taking into account the project context (e.g. only suggest a `make` job if there is
--- a `Makefile` & suggest the relevant `make` commands based on its parsing).
+-- formatting, etc.) very easily and taking into account the project context (e.g. only suggest a `make` job if there
+-- is a Makefile and suggest the relevant `make` commands based on it).
 
 return {
   "stevearc/overseer.nvim",

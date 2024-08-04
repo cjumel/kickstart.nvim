@@ -1,7 +1,7 @@
 -- nvim-dap-python
 --
--- Python integration of nvim-dap. This plugins defines a few configurations and some functions
--- to make debugging Python code easier.
+-- nvim-dap-python provides a Python extension for nvim-dap, with default configurations for Python and some methods
+-- to debug individual test methods or classes.
 
 return {
   "mfussenegger/nvim-dap-python",

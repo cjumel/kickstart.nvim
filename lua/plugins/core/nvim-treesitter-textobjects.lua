@@ -1,6 +1,8 @@
 -- nvim-treesitter-textobjects
 --
--- Syntax aware text-objects, select, move, swap, and peek support.
+-- Syntax aware text-objects, select, move, swap, and peek support. This plugin completes the nvim-treesitter plugin
+-- with the amazing feature of language-aware text-objects operations. Text-object keymaps are defined in the nvim-
+-- treesitter plugin configuration.
 
 return {
   "nvim-treesitter/nvim-treesitter-textobjects",

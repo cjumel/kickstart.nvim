@@ -1,7 +1,7 @@
 -- nvim-cmp
 --
--- Nvim-cmp is a lightweight and extensible completion engine for Neovim written in Lua. It is very easy to use, and
--- integrates well with many tools, like LSP or code snippets.
+-- nvim-cmp is a lightweight and extensible completion engine for Neovim written in Lua. It is very easy to use, and
+-- integrates well with many tools, like LSP or code snippets. A must-have for Neovim, in my opinion.
 
 return {
   "hrsh7th/nvim-cmp",

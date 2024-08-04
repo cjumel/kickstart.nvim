@@ -1,9 +1,9 @@
 -- telescope-undo.nvim
 --
--- telescope-undo is a Telescope extension to visualize the undotree and fuzzy-search changes in it. I don't find it
--- as convenient as the undotree plugin for simple visualization and navigation in the undotree and I've encountered
--- issues with telescope-undo to restore some past states, but it enables fuzzy-searching changes in it, which is a
--- super nice feature and makes telescope-undo nicely complementary with undotree.
+-- telescope-undo.nvim is a Telescope extension to visualize the undotree and fuzzy-search changes in it. I don't find
+-- it as convenient as the undotree plugin for simple visualization and navigation in the undotree and I've encountered
+-- issues with telescope-undo.nvim to restore some past states, but it enables fuzzy-searching changes in it, which is a
+-- super nice feature and makes it nicely complementary with undotree.
 
 return {
   "debugloop/telescope-undo.nvim",
@@ -16,7 +16,8 @@ return {
         local telescope = require("telescope")
 
         local opts = {
-          tiebreak = function(current, existing, _) return current.index < existing.index end, -- Sort entries by recency
+          -- Sort entries by recency
+          tiebreak = function(current, existing, _) return current.index < existing.index end,
         }
         if custom_utils.visual.is_visual_mode() then
           opts.default_text = custom_utils.visual.get_text()
