@@ -45,20 +45,20 @@ return {
       },
 
       ["<localleader>ff"] = {
-        callback = function() require("plugins.core.telescope.builtin").find_files_oil_directory() end,
+        callback = require("plugins.core.telescope.builtin").find_files_oil_directory,
         desc = "[F]ind: [F]iles in Oil directory",
       },
       ["<localleader>fd"] = {
-        callback = function() require("plugins.core.telescope.builtin").find_directories_oil_directory() end,
+        callback = require("plugins.core.telescope.builtin").find_directories_oil_directory,
         desc = "[F]ind: [D]irectories in Oil directory",
       },
       ["<localleader>fg"] = {
-        callback = function() require("plugins.core.telescope.builtin").live_grep_oil_directory() end,
+        callback = require("plugins.core.telescope.builtin").live_grep_oil_directory,
         desc = "[F]ind: by [G]rep in Oil directory",
       },
 
       ["<localleader>r"] = {
-        callback = function() require("plugins.core.grug-far.actions").grug_far_oil_directory() end,
+        callback = require("plugins.core.grug-far.actions").grug_far_oil_directory,
         desc = "[R]eplace: [R]eplace in Oil directory",
       },
     },

@@ -1,45 +1,34 @@
 -- Define custom actions for grug-far.nvim
 
-local grug_far = require("grug-far")
 local utils = require("utils")
 
 local M = {}
 
 M.grug_far = function()
-  local opts = {}
+  local grug_far = require("grug-far")
 
-  if not utils.visual.is_visual_mode() then
-    grug_far.grug_far(opts)
-  else
-    grug_far.with_visual_selection(opts)
+  local opts = { prefills = {} }
+  if utils.visual.is_visual_mode() then
+    opts.prefills.search = utils.visual.get_text()
   end
+
+  grug_far.grug_far(opts)
 end
 
 M.grug_far_oil_directory = function()
-  if vim.bo.filetype ~= "oil" then
+  local grug_far = require("grug-far")
+
+  local opts = { prefills = {} }
+  if vim.bo.filetype == "oil" then
+    opts.prefills.paths = vim.fn.expand(package.loaded.oil.get_current_dir())
+  else
     error("The current buffer is not an Oil buffer.")
   end
-  local opts = {
-    prefills = { paths = vim.fn.expand(package.loaded.oil.get_current_dir()) },
-  }
-
-  if not utils.visual.is_visual_mode() then
-    grug_far.grug_far(opts)
-  else
-    grug_far.with_visual_selection(opts)
+  if utils.visual.is_visual_mode() then
+    opts.prefills.search = utils.visual.get_text()
   end
-end
 
-M.grug_far_current_buffer = function()
-  local opts = {
-    prefills = { paths = vim.fn.expand("%") },
-  }
-
-  if not utils.visual.is_visual_mode() then
-    grug_far.grug_far(opts)
-  else
-    grug_far.with_visual_selection(opts)
-  end
+  grug_far.grug_far(opts)
 end
 
 return M
