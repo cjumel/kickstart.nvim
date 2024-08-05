@@ -19,7 +19,6 @@ return {
   },
   cmd = { "Telescope" }, -- Especially useful for other plugins calling Telescope through a command
   keys = function()
-    local builtin = require("telescope.builtin")
     local custom_builtin = require("plugins.core.telescope.builtin")
 
     return {
@@ -34,7 +33,7 @@ return {
 
       -- Neovim-related
       { "<leader><Tab>", custom_builtin.buffers, desc = "Buffer switcher" },
-      { "<leader>;", builtin.resume, desc = "Resume Telescope" },
+      { "<leader>;", custom_builtin.resume, desc = "Resume Telescope" },
       { "<leader>:", custom_builtin.command_history, desc = "Command history" },
       { "<leader>/", custom_builtin.search_history, desc = "Search history" },
 

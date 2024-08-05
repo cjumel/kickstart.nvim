@@ -7,45 +7,39 @@
 return {
   "mfussenegger/nvim-dap",
   dependencies = { "rcarriga/nvim-dap-ui" },
-  keys = function()
-    local dap = require("dap")
-    local dapui = require("dapui")
-    local widgets = require("dap.ui.widgets")
-
-    return {
-      {
-        "<leader>dr",
-        function()
-          if vim.bo.filetype == "python" and package.loaded["dap-python"] == nil then
-            require("dap-python") -- Setup DAP configurations for Python
-          end
-          dap.continue()
-        end,
-        desc = "[D]AP: [R]un",
-      },
-      { "<leader>dl", dap.run_last, desc = "[D]AP: run [L]ast" },
-      { "<leader>dt", dap.terminate, desc = "[D]AP: [T]erminate" },
-      { "<leader>db", dap.toggle_breakpoint, desc = "[D]AP: [B]reakpoint" },
-      { "<leader>dK", widgets.hover, desc = "[D]AP: Hover" },
-      {
-        "<leader>dc",
-        function()
-          dapui.close() -- Close the UI if it's open
-          dap.repl.toggle()
-        end,
-        desc = "[D]AP: toggle REPL [C]onsole",
-      },
-      {
-        "<leader>du",
-        function()
-          dap.repl.close() -- Close the REPL console if it's open
-          dapui.toggle()
-        end,
-        desc = "[D]AP: toggle [U]I",
-      },
-      { "<leader>dU", function() require("dapui").open({ reset = true }) end, desc = "[D]AP: reset [U]I" },
-    }
-  end,
+  keys = {
+    {
+      "<leader>dr",
+      function()
+        if vim.bo.filetype == "python" and package.loaded["dap-python"] == nil then
+          require("dap-python") -- Setup DAP configurations for Python
+        end
+        require("dap").continue()
+      end,
+      desc = "[D]AP: [R]un",
+    },
+    { "<leader>dl", function() require("dap").run_last() end, desc = "[D]AP: run [L]ast" },
+    { "<leader>dt", function() require("dap").terminate() end, desc = "[D]AP: [T]erminate" },
+    { "<leader>db", function() require("dap").toggle_breakpoint() end, desc = "[D]AP: [B]reakpoint" },
+    { "<leader>dK", function() require("dap.ui.widgets").hover() end, desc = "[D]AP: Hover" },
+    {
+      "<leader>dc",
+      function()
+        require("dapui").close() -- Close the UI if it's open
+        require("dap").repl.toggle()
+      end,
+      desc = "[D]AP: toggle REPL [C]onsole",
+    },
+    {
+      "<leader>du",
+      function()
+        require("dap").repl.close() -- Close the REPL console if it's open
+        require("dapui").toggle()
+      end,
+      desc = "[D]AP: toggle [U]I",
+    },
+    { "<leader>dU", function() require("dapui").open({ reset = true }) end, desc = "[D]AP: reset [U]I" },
+  },
   config = function(_, _)
     local dap = require("dap")
     local dapui = require("dapui")

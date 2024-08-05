@@ -1,13 +1,7 @@
 -- Here are defined custom wrappers around Telescope builtin pickers. It is where I implement custom options or logic
 -- for each picker I use & want to customize.
 
-local action_state = require("telescope.actions.state")
-local actions = require("telescope.actions")
-local builtin = require("telescope.builtin")
-local custom_make_entry = require("plugins.core.telescope.make_entry")
 local custom_utils = require("utils")
-local previewers = require("telescope.previewers")
-local themes = require("telescope.themes")
 
 local M = {}
 
@@ -34,6 +28,10 @@ end
 --- Get the base options for the `find_files` picker.
 ---@return table _ The `find_files` base options.
 local function find_files_get_base_opts()
+  local action_state = require("telescope.actions.state")
+  local actions = require("telescope.actions")
+  local builtin = require("telescope.builtin")
+
   local function toggle_all_files(prompt_bufnr, _)
     -- Persisted options
     local opts = vim.g.telescope_last_opts
@@ -68,6 +66,8 @@ local function find_files_get_base_opts()
 end
 
 function M.find_files()
+  local builtin = require("telescope.builtin")
+
   local opts = find_files_get_base_opts()
   vim.g.telescope_last_opts = opts -- Persist the options dynamically change them later on
 
@@ -76,6 +76,8 @@ function M.find_files()
 end
 
 function M.find_files_oil_directory()
+  local builtin = require("telescope.builtin")
+
   local opts = find_files_get_base_opts()
   if vim.bo.filetype == "oil" then
     opts.cwd = package.loaded.oil.get_current_dir()
@@ -93,6 +95,9 @@ end
 ---@param opts table The persisted options.
 ---@return table _ The finalized options.
 local function find_directories_finalize_opts(opts)
+  local custom_make_entry = require("plugins.core.telescope.make_entry")
+  local previewers = require("telescope.previewers")
+
   if not opts._include_all_files then
     opts.prompt_title = "Find Directories"
     opts.find_command = { "fd", "--type", "d", "--color", "never", "--hidden" }
@@ -119,6 +124,10 @@ end
 --- Get the base options for the `find_directories` custom picker.
 ---@return table _ The `find_directories` base options.
 local function find_directories_get_base_opts()
+  local action_state = require("telescope.actions.state")
+  local actions = require("telescope.actions")
+  local builtin = require("telescope.builtin")
+
   local function toggle_all_files(prompt_bufnr, _)
     -- Persisted options
     local opts = vim.g.telescope_last_opts
@@ -153,6 +162,8 @@ local function find_directories_get_base_opts()
 end
 
 function M.find_directories()
+  local builtin = require("telescope.builtin")
+
   local opts = find_directories_get_base_opts()
   vim.g.telescope_last_opts = opts -- Persist the options dynamically change them later on
 
@@ -161,6 +172,8 @@ function M.find_directories()
 end
 
 function M.find_directories_oil_directory()
+  local builtin = require("telescope.builtin")
+
   local opts = find_directories_get_base_opts()
   if vim.bo.filetype == "oil" then
     opts.cwd = package.loaded.oil.get_current_dir()
@@ -196,6 +209,10 @@ end
 --- Get the base options for the `live_grep` picker.
 ---@return table _ The `live_grep` base options.
 local function live_grep_get_base_opts()
+  local action_state = require("telescope.actions.state")
+  local actions = require("telescope.actions")
+  local builtin = require("telescope.builtin")
+
   local function toggle_all_files(prompt_bufnr, _)
     -- Persisted options
     local opts = vim.g.telescope_last_opts
@@ -227,6 +244,8 @@ local function live_grep_get_base_opts()
 end
 
 function M.live_grep()
+  local builtin = require("telescope.builtin")
+
   local opts = live_grep_get_base_opts()
   vim.g.telescope_last_opts = opts -- Persist the options dynamically change them later on
 
@@ -235,6 +254,8 @@ function M.live_grep()
 end
 
 function M.live_grep_oil_directory()
+  local builtin = require("telescope.builtin")
+
   local opts = live_grep_get_base_opts()
   if vim.bo.filetype == "oil" then
     opts.cwd = package.loaded.oil.get_current_dir()
@@ -248,6 +269,8 @@ function M.live_grep_oil_directory()
 end
 
 function M.oldfiles()
+  local builtin = require("telescope.builtin")
+
   local opts = {
     preview = { hide_on_startup = true },
     tiebreak = function(current, existing, _) return current.index < existing.index end, -- Sort entries by recency
@@ -264,6 +287,8 @@ function M.oldfiles()
 end
 
 function M.current_buffer()
+  local builtin = require("telescope.builtin")
+
   local opts = {}
 
   if custom_utils.visual.is_visual_mode() then
@@ -274,6 +299,8 @@ function M.current_buffer()
 end
 
 function M.help_tags()
+  local builtin = require("telescope.builtin")
+
   local opts = {}
 
   if custom_utils.visual.is_visual_mode() then
@@ -284,6 +311,8 @@ function M.help_tags()
 end
 
 function M.man_pages()
+  local builtin = require("telescope.builtin")
+
   local opts = {}
 
   if custom_utils.visual.is_visual_mode() then
@@ -294,6 +323,10 @@ function M.man_pages()
 end
 
 function M.buffers()
+  local actions = require("telescope.actions")
+  local builtin = require("telescope.builtin")
+  local themes = require("telescope.themes")
+
   local opts = themes.get_dropdown({
     preview = { hide_on_startup = true },
     ignore_current_buffer = true, -- When current buffer is included & last used is selected, search doesn't work well
@@ -308,7 +341,18 @@ function M.buffers()
   builtin.buffers(opts)
 end
 
+function M.resume()
+  local builtin = require("telescope.builtin")
+
+  local opts = {}
+
+  builtin.resume(opts)
+end
+
 function M.command_history()
+  local builtin = require("telescope.builtin")
+  local themes = require("telescope.themes")
+
   local opts = themes.get_dropdown({
     previewer = false,
     layout_config = { width = 0.7 },
@@ -320,6 +364,9 @@ function M.command_history()
 end
 
 function M.search_history()
+  local builtin = require("telescope.builtin")
+  local themes = require("telescope.themes")
+
   local opts = themes.get_dropdown({
     previewer = false,
     layout_config = { width = 0.7 },
@@ -330,6 +377,9 @@ function M.search_history()
 end
 
 function M.git_status()
+  local actions = require("telescope.actions")
+  local builtin = require("telescope.builtin")
+
   local opts = {
     prompt_title = "Git Status",
     attach_mappings = function(_, map)
@@ -342,6 +392,8 @@ function M.git_status()
 end
 
 function M.git_commits()
+  local builtin = require("telescope.builtin")
+
   local opts = {
     prompt_title = "Git Log",
     tiebreak = function(current, existing, _) return current.index < existing.index end, -- Sort entries by recency
@@ -350,6 +402,8 @@ function M.git_commits()
 end
 
 function M.git_bcommits()
+  local builtin = require("telescope.builtin")
+
   local opts = {
     prompt_title = "Buffer Commits",
     tiebreak = function(current, existing, _) return current.index < existing.index end, -- Sort entries by recency
@@ -358,6 +412,8 @@ function M.git_bcommits()
 end
 
 function M.git_bcommits_range()
+  local builtin = require("telescope.builtin")
+
   local opts = {
     prompt_title = "Selection Commits",
     tiebreak = function(current, existing, _) return current.index < existing.index end, -- Sort entries by recency
@@ -366,6 +422,8 @@ function M.git_bcommits_range()
 end
 
 function M.lsp_document_symbols()
+  local builtin = require("telescope.builtin")
+
   local opts = {}
 
   if custom_utils.visual.is_visual_mode() then
@@ -376,6 +434,8 @@ function M.lsp_document_symbols()
 end
 
 function M.lsp_workspace_symbols()
+  local builtin = require("telescope.builtin")
+
   local opts = {}
 
   if custom_utils.visual.is_visual_mode() then

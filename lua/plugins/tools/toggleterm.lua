@@ -7,15 +7,13 @@
 return {
   "akinsho/toggleterm.nvim",
   keys = function()
-    local toggleterm = require("toggleterm")
-    local toggleterm_terminal = require("toggleterm.terminal")
     local utils = require("utils")
 
     --- Output the existing terminals.
     ---@param only_opened boolean Whether to restrict the terminal to the opened ones.
     ---@return Terminal[]
     local function get_terms(only_opened)
-      local terms = toggleterm_terminal.get_all(true)
+      local terms = require("toggleterm.terminal").get_all(true)
       if only_opened then
         terms = vim.tbl_filter(function(term) return term:is_open() end, terms)
       end
@@ -75,7 +73,7 @@ return {
         function()
           local terms = get_terms(false)
           if #terms == 0 then
-            toggleterm.toggle(get_new_term_id(), nil, nil, "horizontal")
+            require("toggleterm").toggle(get_new_term_id(), nil, nil, "horizontal")
           else
             select_term_and_run(function(term) term:toggle() end, { prompt = "Select a terminal to toggle: " })
           end
@@ -84,17 +82,17 @@ return {
       },
       {
         "<leader>ta",
-        toggleterm.toggle_all,
+        function() require("toggleterm").toggle_all() end,
         desc = "[T]erminal: toggle [A]ll",
       },
       {
         "<leader>tx",
-        function() toggleterm.toggle(get_new_term_id(), nil, nil, "horizontal") end,
+        function() require("toggleterm").toggle(get_new_term_id(), nil, nil, "horizontal") end,
         desc = "[T]erminal: new in horizontal split",
       },
       {
         "<leader>tv",
-        function() toggleterm.toggle(get_new_term_id(), nil, nil, "vertical") end,
+        function() require("toggleterm").toggle(get_new_term_id(), nil, nil, "vertical") end,
         desc = "[T]erminal: new in [V]ertical split",
       },
       {
@@ -120,7 +118,7 @@ return {
             else
               error("Unsupported filetype: " .. vim.bo.filetype)
             end
-            toggleterm.exec(line, term.id)
+            require("toggleterm").exec(line, term.id)
           end, { prompt = "Select a terminal to run in: ", only_opened = true })
         end,
         ft = { "lua", "python" },
@@ -131,7 +129,7 @@ return {
         function()
           select_term_and_run(function(term)
             local lines = utils.visual.get_lines({ trim_indent = true })
-            toggleterm.exec(table.concat(lines, "\n"), term.id)
+            require("toggleterm").exec(table.concat(lines, "\n"), term.id)
           end, { prompt = "Select a terminal to send to: ", only_opened = true })
         end,
         mode = "v",

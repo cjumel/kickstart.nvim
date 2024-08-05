@@ -6,15 +6,12 @@
 
 return {
   "monaqa/dial.nvim",
-  keys = function()
-    local map = require("dial.map")
-    return {
-      { "<C-a>", function() map.manipulate("increment", "normal") end, mode = "n", desc = "Increment" },
-      { "<C-a>", function() map.manipulate("increment", "visual") end, mode = "v", desc = "Increment" },
-      { "<C-x>", function() map.manipulate("decrement", "normal") end, mode = "n", desc = "Decrement" },
-      { "<C-x>", function() map.manipulate("decrement", "visual") end, mode = "v", desc = "Decrement" },
-    }
-  end,
+  keys = {
+    { "<C-a>", function() require("dial.map").manipulate("increment", "normal") end, mode = "n", desc = "Increment" },
+    { "<C-a>", function() require("dial.map").manipulate("increment", "visual") end, mode = "v", desc = "Increment" },
+    { "<C-x>", function() require("dial.map").manipulate("decrement", "normal") end, mode = "n", desc = "Decrement" },
+    { "<C-x>", function() require("dial.map").manipulate("decrement", "visual") end, mode = "v", desc = "Decrement" },
+  },
   config = function(_, _)
     local augend = require("dial.augend")
     local config = require("dial.config")

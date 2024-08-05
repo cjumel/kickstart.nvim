@@ -11,20 +11,20 @@ return {
     "github/copilot.vim",
     "nvim-lua/plenary.nvim",
   },
-  keys = function()
-    local chat = require("CopilotChat")
-    local chat_actions = require("CopilotChat.actions")
-
-    return {
-      { "<leader>cc", chat.toggle, desc = "[C]hat: toggle", mode = { "n", "v" } },
-      {
-        "<leader>ca",
-        function() chat_actions.pick(chat_actions.prompt_actions()) end,
-        desc = "[C]hat: [A]ctions",
-        mode = { "n", "v" },
-      },
-    }
-  end,
+  keys = {
+    {
+      "<leader>cc",
+      function() require("CopilotChat").toggle() end,
+      mode = { "n", "v" },
+      desc = "[C]hat: toggle",
+    },
+    {
+      "<leader>ca",
+      function() require("CopilotChat.actions").pick(require("CopilotChat.actions").prompt_actions()) end,
+      mode = { "n", "v" },
+      desc = "[C]hat: [A]ctions",
+    },
+  },
   opts = {
     show_folds = false,
     show_help = false,
