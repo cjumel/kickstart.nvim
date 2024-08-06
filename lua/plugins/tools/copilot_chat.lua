@@ -22,17 +22,31 @@ return {
       "<leader>ca",
       function() require("CopilotChat.actions").pick(require("CopilotChat.actions").prompt_actions()) end,
       mode = { "n", "v" },
-      desc = "[C]hat: [A]ctions",
+      desc = "[C]hat: [A]ction selection",
+    },
+    {
+      "<leader>cm",
+      function() require("CopilotChat").select_model() end,
+      desc = "[C]hat: [M]odel selection",
     },
   },
   opts = {
-    show_folds = false,
-    show_help = false,
-    auto_insert_mode = true,
-    context = "buffer", -- Pass the current buffer as context to the chat (default is file name)
+    show_folds = false, -- Don't show a fold for each section of the chat
+    context = "buffer", -- Pass the current buffer as context to the chat
     mappings = {
-      complete = { insert = false }, -- To let <Tab> for regular Copilot completion
-      reset = { normal = "gr", insert = false }, -- To let <C-l> for window change
+      complete = { normal = "", insert = "" }, -- Disabled in favor of nvim-cmp integration
+      close = { normal = "q", insert = "<C-c>" },
+      reset = { normal = "<localleader>r", insert = "" },
+      submit_prompt = { normal = "<CR>", insert = "<C-s>" },
+      accept_diff = { normal = "<localleader>a", insert = "" },
+      yank_diff = { normal = "<localleader>y", insert = "" },
+      show_diff = { normal = "<localleader>d", insert = "" },
+      show_system_prompt = { normal = "<localleader>p", insert = "" },
+      show_user_selection = { normal = "<localleader>s", insert = "" },
     },
   },
+  config = function(_, opts)
+    require("CopilotChat").setup(opts)
+    require("CopilotChat.integrations.cmp").setup()
+  end,
 }
