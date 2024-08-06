@@ -12,10 +12,10 @@ return {
     spec = { -- Register keymap groups
       { "gr", group = "LSP" },
       { "<leader> ", group = "Local leader" },
-      { "<leader>c", group = "[C]hat" },
+      { "<leader>c", group = "[C]hat", mode = { "n", "v" } },
       { "<leader>d", group = "[D]AP" },
-      { "<leader>f", group = "[F]ind" },
-      { "<leader>g", group = "[G]it" },
+      { "<leader>f", group = "[F]ind", mode = { "n", "v" } },
+      { "<leader>g", group = "[G]it", mode = { "n", "v" } },
       { "<leader>n", group = "[N]oice" },
       { "<leader>o", group = "[O]verseer" },
       { "<leader>t", group = "[T]erminal" },
