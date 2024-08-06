@@ -118,7 +118,7 @@ return {
       }),
     }),
   }),
-  s({ trig = "if isinstance .. raise ..", show_condition = custom_conditions.is_in_code_empty_line }, {
+  s({ trig = "if .. isinstance .. raise ..", show_condition = custom_conditions.is_in_code_empty_line }, {
     c(1, {
       sn(nil, {
         t("if isinstance("),
@@ -126,7 +126,7 @@ return {
         t(", "),
         i(2), -- support union & or tuple for multiple types
         t({ "):", "\t" }),
-        t([[raise TypeError(f"Expected ']]),
+        t([[raise TypeError("Expected ']]),
         rep(1),
         t([[' not to be of type ']]),
         rep(2),
