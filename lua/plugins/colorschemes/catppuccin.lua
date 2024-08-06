@@ -4,14 +4,12 @@
 -- to dark. It is one of the most popular color schemes for Neovim, and has many features and integrations available,
 -- hence it is one of the color schemes I use.
 
-local theme = require("theme")
-
 return {
   "catppuccin/nvim",
   name = "catppuccin",
-  lazy = theme.get_lazyness("catppuccin"),
+  lazy = require("theme").get_lazyness("catppuccin"),
   priority = 1000, -- Main UI stuff should be loaded first
-  opts = theme.make_opts("catppuccin", {
+  opts = require("theme").make_opts("catppuccin", {
     flavour = "mocha", -- "latte", "frappe", "macchiato", "mocha"
     transparent_background = true, -- Don't set a background color
     integrations = { -- Add highlight groups for additional plugins

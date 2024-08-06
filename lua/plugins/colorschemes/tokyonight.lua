@@ -4,13 +4,11 @@
 -- plugin comes with many features and integrations, like LSP or Treesitter support. The Tokyo Night theme is also
 -- available for many tools other than Neovim, making it one of the most popular color schemes out there.
 
-local theme = require("theme")
-
 return {
   "folke/tokyonight.nvim",
-  lazy = theme.get_lazyness("tokyonight"),
+  lazy = require("theme").get_lazyness("tokyonight"),
   priority = 1000, -- Main UI stuff should be loaded first
-  opts = theme.make_opts("tokyonight", {
+  opts = require("theme").make_opts("tokyonight", {
     style = "night", -- "night", "moon", "storm" or "day"
     transparent = true, -- Don't set a background color
   }),

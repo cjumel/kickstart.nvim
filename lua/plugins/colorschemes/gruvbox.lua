@@ -4,13 +4,11 @@
 -- simple and provides a nice old-school theme, even if it doesn't have as much features and integrations as more
 -- popular color schemes.
 
-local theme = require("theme")
-
 return {
   "ellisonleao/gruvbox.nvim",
-  lazy = theme.get_lazyness("gruvbox"),
+  lazy = require("theme").get_lazyness("gruvbox"),
   priority = 1000, -- Main UI stuff should be loaded first
-  opts = theme.make_opts("gruvbox", {
+  opts = require("theme").make_opts("gruvbox", {
     transparent_mode = true, -- Don't set a background color
   }),
   config = function(_, opts)
