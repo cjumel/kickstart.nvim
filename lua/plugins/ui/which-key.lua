@@ -1,47 +1,28 @@
 -- Which Key
 --
--- Which Key is a plugin which helps creating keybindings that stick. It displays a popup with possible key bindings of
--- the command you started typing. It is, for me, essential to use and learn both builtin Neovim and custom key
--- bindings.
+-- Which Key is a plugin which helps you remember your Neovim keymaps, by showing available keybindings in a popup as
+-- you type, to be able to create keybindings that actually stick. It is, for me, a must to learn and use both builtin
+-- and your own keybindings for Neovim.
 
 return {
   "folke/which-key.nvim",
+  dependencies = { "nvim-tree/nvim-web-devicons" },
   event = "VeryLazy",
   opts = {
-    operators = { -- Add operators that will trigger motion and text object completion
-      -- substitute.nvim
-      go = "Overwrite",
-      gs = "Substitute",
-      gS = "Substitute with register",
-      ge = "Exchange",
-      -- nvim-surround
-      ys = "Surround",
-      yS = "Surround on new lines",
+    spec = { -- Register keymap groups
+      { "gr", group = "LSP" },
+      { "<leader> ", group = "Local leader" },
+      { "<leader>c", group = "[C]hat" },
+      { "<leader>d", group = "[D]AP" },
+      { "<leader>f", group = "[F]ind" },
+      { "<leader>g", group = "[G]it" },
+      { "<leader>n", group = "[N]oice" },
+      { "<leader>o", group = "[O]verseer" },
+      { "<leader>t", group = "[T]erminal" },
+      { "<leader>x", group = "Trouble" },
     },
-    window = { border = "rounded" }, -- Improve visibility with transparent background
+    win = { border = "rounded" }, -- Add a border in Which Key UI to improve visibility in transparent backgrounds
+    sort = { "local", "order", "alphanum", "mod" }, -- Don't sort keymap groups last
+    icons = { mappings = false }, -- Disable icons as they are not present consistently in my keymaps
   },
-  config = function(_, opts)
-    local which_key = require("which-key")
-
-    which_key.setup(opts)
-
-    -- Document existing key chains
-    local _ = "which_key_ignore"
-    which_key.register({
-      ["["] = { name = "Next", _ = _ },
-      ["]"] = { name = "Previous", _ = _ },
-      ["gr"] = { name = "LSP", _ = _ },
-
-      ["<leader>"] = { name = "Leader", _ = _ },
-      ["<leader> "] = { name = "Local leader", _ = _ },
-      ["<leader>c"] = { name = "[C]hat", _ = _ },
-      ["<leader>d"] = { name = "[D]AP", _ = _ },
-      ["<leader>f"] = { name = "[F]ind", mode = { "n", "v" }, _ = _ },
-      ["<leader>g"] = { name = "[G]it", mode = { "n", "v" }, _ = _ },
-      ["<leader>n"] = { name = "[N]oice", mode = { "n", "v" }, _ = _ },
-      ["<leader>o"] = { name = "[O]verseer", _ = _ },
-      ["<leader>t"] = { name = "[T]erminal", mode = { "n", "v" }, _ = _ },
-      ["<leader>x"] = { name = "Trouble", _ = _ },
-    })
-  end,
 }
