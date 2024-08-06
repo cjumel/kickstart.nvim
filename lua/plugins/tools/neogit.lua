@@ -27,7 +27,6 @@ return {
     },
   },
   opts = {
-    disable_hint = true, -- Remove always-on visual help in Neogit window
     commit_view = { kind = "tab" }, -- Decrease visual clutter when using this view
     rebase_editor = { kind = "tab" }, -- Decrease visual clutter when using this view
     mappings = {
