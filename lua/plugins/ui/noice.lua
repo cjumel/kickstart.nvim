@@ -50,5 +50,8 @@ return {
       errors = { view = "popup", filter_opts = { reverse = false } },
       all = { view = "popup" },
     },
+    views = {
+      mini = { win_options = { winblend = 0 } }, -- Fix color issue in LSP progress bar with transparency
+    },
   },
 }
