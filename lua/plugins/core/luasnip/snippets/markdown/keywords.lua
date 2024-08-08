@@ -48,8 +48,10 @@ return {
   s("@me", { t("@clementjumel"), i(1) }),
   s({ trig = "checkbox", show_condition = custom_conditions.line_begin }, {
     c(1, {
-      sn(nil, { t("- [ ] "), i(1) }),
-      sn(nil, { t("- [x] "), i(1) }),
+      sn(nil, { t("- [ ] "), i(1) }), -- Not started
+      sn(nil, { t("- [-] "), i(1) }), -- In progress
+      sn(nil, { t("- [x] "), i(1) }), -- Done
+      sn(nil, { t("- [/] "), i(1) }), -- Cancelled
     }),
   }),
   s({ trig = "toggle-block", show_condition = custom_conditions.empty_line }, {

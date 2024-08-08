@@ -14,26 +14,12 @@ utils.keymap.set_move_pair(
   { { desc = "Next sentence (Markdown)", buffer = true }, { desc = "Previous sentence (Markdown)", buffer = true } }
 )
 
--- Navigate between todomojis instead of todo-comments (the latter are not supported in Markdown by todo-comments.nvim)
--- Todomojis: todo items with emojis
---  🎯 (:dart:) -> todo
---  ⌛ (:hourglass:) -> in progress
---  ✅ (:white_check_mark:) -> done
---  ❌ (:x:) -> cancelled
-local todo_item_pattern = "[🎯⌛]" -- Look only for todo or in progress items, not done or cancelled
+-- Navigate between GitHub-flavored Markdown todo checkboxes (not started or in progress), instead of todo-comments
+--  (which are not supported in Markdown by todo-comments.nvim anyway)
+local todo_checkbox_pattern = "- \\[ ] \\|- \\[-] "
 utils.keymap.set_move_pair(
   { "[t", "]t" },
-  { function() vim.fn.search(todo_item_pattern) end, function() vim.fn.search(todo_item_pattern, "b") end },
-  { { desc = "Next todomoji (Markdown)", buffer = true }, { desc = "Previous todomoji (Markdown)", buffer = true } }
-)
-
--- [[ Introduce new keymaps ]]
-
--- Navigate between GitHub-flavored Markdown checkboxes
-local checkbox_pattern = "- \\[ ]\\|- \\\\[ \\\\\\]" -- Handle both normal checkboxes & after mdformat formatting
-utils.keymap.set_move_pair(
-  { "[T", "]T" },
-  { function() vim.fn.search(checkbox_pattern) end, function() vim.fn.search(checkbox_pattern, "b") end },
+  { function() vim.fn.search(todo_checkbox_pattern) end, function() vim.fn.search(todo_checkbox_pattern, "b") end },
   {
     { desc = "Next todo checkbox (Markdown)", buffer = true },
     { desc = "Previous todo checkbox (Markdown)", buffer = true },

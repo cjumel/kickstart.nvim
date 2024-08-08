@@ -12,6 +12,14 @@ return {
   },
   ft = "markdown",
   opts = {
-    heading = { sign = false }, -- Turn off symbols in the sign column for headings
+    heading = {
+      sign = false, -- Turn off symbols in the sign column for headings
+    },
+    checkbox = {
+      custom = { -- Add custom symbols for checkboxes
+        wip = { raw = "[-]", rendered = "󰥔 ", highlight = "RenderMarkdownWarn" },
+        canceled = { raw = "[/]", rendered = " ", highlight = "RenderMarkdownError" },
+      },
+    },
   },
 }
