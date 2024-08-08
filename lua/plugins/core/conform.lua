@@ -21,7 +21,7 @@ local formatters_by_ft = {
   tmux = { "trim_newlines", "trim_whitespace" },
   toml = {}, -- taplo in lspconfig
   vim = { "trim_newlines", "trim_whitespace" },
-  yaml = { "prettier" },
+  yaml = { "prettier", "trim_newlines" }, -- Prettier doesn't remove trailing whitespace in YAML
   zsh = { "shfmt" }, -- Not actually for zsh, but in my use case it seems to work fine
 }
 
