@@ -78,6 +78,15 @@ return {
     } })
 
     -- Set up filetype-specific configurations
+    cmp.setup.filetype("lua", {
+      sources = {
+        { name = "lazydev", group_index = 0 }, -- `group_index = 0` is recommended by lazydev
+        { name = "luasnip", group_index = 1 },
+        { name = "nvim_lsp", group_index = 1 },
+        { name = "path", group_index = 1 },
+        { name = "buffer", group_index = 2 },
+      },
+    })
     cmp.setup.filetype("markdown", {
       sources = {
         { name = "luasnip" },

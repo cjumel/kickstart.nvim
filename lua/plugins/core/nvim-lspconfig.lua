@@ -13,10 +13,10 @@
 -- and it must be a table of strings
 local servers = {
 
-  -- A lot of lua_ls's configuration is handled through neodev's setup (see below)
   -- For lua_ls detailed documentation, see: https://luals.github.io/wiki/settings/
-  -- Besides regular LSP features, lua_ls provides very cool diagnostics making a linter (like
-  -- Selene) redundant, as well as some static type checking
+  -- Besides regular LSP features, lua_ls provides very cool diagnostics making a linter (like Selene) redundant, as
+  --  well as some static type checking
+  -- A lot of additional lua_ls configuration is handled by the lazydev.nvim plugin
   lua_ls = {
     filetypes = { "lua" },
     settings = {
@@ -78,7 +78,6 @@ return {
   dependencies = {
     "williamboman/mason.nvim",
     "williamboman/mason-lspconfig.nvim",
-    "folke/neodev.nvim",
     "hrsh7th/cmp-nvim-lsp",
     "nvim-telescope/telescope.nvim",
     "RRethy/vim-illuminate",
@@ -152,11 +151,6 @@ return {
     end,
   },
   config = function(_, opts)
-    -- Neodev does a bunch of configuration to improve Neovim development, by setting up
-    -- the relevant global variables (like `vim`) and making Neovim plugin's code available
-    -- to lua_ls
-    require("neodev").setup()
-
     -- LSP servers & clients are able to communicate to each other what features they support.
     -- By default, Neovim doesn't support everything that is in the LSP Specification. With
     -- nvim-cmp, Neovim has more capabilities, so we create these new capabilities to broadcast
