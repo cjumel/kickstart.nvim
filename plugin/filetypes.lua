@@ -7,13 +7,10 @@ local filetype_by_filename = {
   [".env.test.example"] = "sh", -- same as `.env`
   [".ideavimrc"] = "vim",
   [".markdownlintrc"] = "json", -- could also be "ini"
-  [".prettierignore"] = "conf", -- auto-detected by nvim
-  [".prettierrc"] = "yaml", -- could also be "json"
   [".shellcheckrc"] = "conf", -- auto-detected by nvim
   [".stow-global-ignore"] = "conf", -- auto-detected by nvim
   [".stow-local-ignore"] = "conf", -- auto-detected by nvim
   [".vimiumrc"] = "vim",
-  [".yamlfmt"] = "yaml",
   [".yamllint"] = "yaml",
   ["ignore"] = "conf", -- auto-detected by nvim
   ["ripgreprc"] = "conf", -- auto-detected by nvim
@@ -28,12 +25,10 @@ local icons = {
   [".env.test.example"] = { icon = "", color = "#faf743", cterm_color = "227", name = ".env" },
   [".ideavimrc"] = { icon = "", color = "#019833", cterm_color = 28, name = "vim" },
   [".markdownlintrc"] = { icon = "", color = "#cbcb41", cterm_color = 185, name = "json" },
-  [".prettierignore"] = { icon = "", color = "#6d8086", cterm_color = 66, name = "conf" },
   [".shellcheckrc"] = { icon = "", color = "#6d8086", cterm_color = 66, name = "conf" },
   [".stow-global-ignore"] = { icon = "", color = "#6d8086", cterm_color = 66, name = "conf" },
   [".stow-local-ignore"] = { icon = "", color = "#6d8086", cterm_color = 66, name = "conf" },
   [".vimiumrc"] = { icon = "", color = "#019833", cterm_color = 28, name = "vim" },
-  [".yamlfmt"] = { icon = "", color = "#6d8086", cterm_color = 66, name = "yaml" },
   [".yamllint"] = { icon = "", color = "#6d8086", cterm_color = 66, name = "yaml" },
   ["ignore"] = { icon = "", color = "#6d8086", cterm_color = 66, name = "conf" },
   ["ripgreprc"] = { icon = "", color = "#6d8086", cterm_color = 66, name = "conf" },
