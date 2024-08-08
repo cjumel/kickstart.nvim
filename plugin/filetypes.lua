@@ -12,7 +12,6 @@ local filetype_by_filename = {
   [".stow-global-ignore"] = "conf", -- auto-detected by nvim
   [".stow-local-ignore"] = "conf", -- auto-detected by nvim
   [".vimiumrc"] = "vim",
-  [".yamllint"] = "yaml",
   ["ignore"] = "conf", -- auto-detected by nvim
   ["ripgreprc"] = "conf", -- auto-detected by nvim
 }
@@ -30,7 +29,6 @@ local icons = {
   [".stow-global-ignore"] = { icon = "", color = "#6d8086", cterm_color = 66, name = "conf" },
   [".stow-local-ignore"] = { icon = "", color = "#6d8086", cterm_color = 66, name = "conf" },
   [".vimiumrc"] = { icon = "", color = "#019833", cterm_color = 28, name = "vim" },
-  [".yamllint"] = { icon = "", color = "#6d8086", cterm_color = 66, name = "yaml" },
   ["ignore"] = { icon = "", color = "#6d8086", cterm_color = 66, name = "conf" },
   ["ripgreprc"] = { icon = "", color = "#6d8086", cterm_color = 66, name = "conf" },
   ["tmux-pre-tpm.conf"] = { icon = "", color = "#14ba19", cterm_color = "34", name = "tmux.conf" },
