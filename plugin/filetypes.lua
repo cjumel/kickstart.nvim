@@ -7,6 +7,7 @@ local filetype_by_filename = {
   [".env.test.example"] = "sh", -- same as `.env`
   [".ideavimrc"] = "vim",
   [".markdownlintrc"] = "json", -- could also be "ini"
+  [".prettierignore"] = "conf", -- auto-detected by nvim
   [".shellcheckrc"] = "conf", -- auto-detected by nvim
   [".stow-global-ignore"] = "conf", -- auto-detected by nvim
   [".stow-local-ignore"] = "conf", -- auto-detected by nvim
