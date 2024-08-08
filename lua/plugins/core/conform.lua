@@ -11,17 +11,17 @@
 local formatters_by_ft = {
   gitconfig = { "trim_newlines", "trim_whitespace" },
   gitignore = { "trim_newlines", "trim_whitespace" },
-  json = { "trim_newlines", "trim_whitespace" },
+  json = { "prettier" },
   lua = { "stylua" },
   make = { "trim_newlines", "trim_whitespace" },
-  markdown = { "mdformat" },
+  markdown = { "prettier" }, -- Prettier is the only popular formatter I found which supports GitHub Flavored Markdown
   python = { "ruff_fix", "ruff_format" }, -- Lint diagnostic automatic fixes & regular formatting
   sh = { "shfmt" },
   text = { "trim_newlines", "trim_whitespace" },
   tmux = { "trim_newlines", "trim_whitespace" },
   toml = {}, -- taplo in lspconfig
   vim = { "trim_newlines", "trim_whitespace" },
-  yaml = { "yamlfmt", "trim_whitespace" }, -- "trim_whitespace" completes "yamlfmt"
+  yaml = { "prettier" },
   zsh = { "shfmt" }, -- Not actually for zsh, but in my use case it seems to work fine
 }
 
