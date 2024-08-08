@@ -43,21 +43,20 @@ return {
         ["Ï"] = cmp.mapping(cmp.mapping.scroll_docs(5), { "i", "c" }), -- <M-j>
         ["È"] = cmp.mapping(cmp.mapping.scroll_docs(-5), { "i", "c" }), -- <M-k>
       },
-      -- We can define groups of sources with `cmp.config.sources`: a group of sources is only enabled if the previous
-      -- groups didn't return any completion items, and within a group, sources are ordered by decreasing priority,
-      -- just like the usual setup
-      sources = cmp.config.sources({
-        { name = "luasnip" },
-        { name = "nvim_lsp" },
-        { name = "path" },
-      }, {
-        { name = "buffer" },
-      }),
+      -- We can define groups of sources with the `group_index` source attribute or using the `cmp.config.sources`
+      --  function; a group of sources is only enabled if the previous groups didn't return any completion items, and
+      --  within a group, sources are ordered by decreasing priority, just like the usual setup
+      sources = {
+        { name = "luasnip", group_index = 1 },
+        { name = "nvim_lsp", group_index = 1 },
+        { name = "path", group_index = 1 },
+        { name = "buffer", group_index = 2 },
+      },
       -- Disable menu in completion window
-      -- This menu can describe the source of the completion item (e.g. its global source like "LSP" or "Luasnip", or
-      -- the module corresponding to a completion item for languages like Python), however disabling it solves an issue
-      -- with the documentation window hiding the completion item (see https://github.com/hrsh7th/nvim-cmp/issues/1154
-      -- or https://github.com/hrsh7th/nvim-cmp/issues/1673).
+      --  This menu can describe the source of the completion item (e.g. its global source like "LSP" or "Luasnip", or
+      --  the module corresponding to a completion item for languages like Python), however disabling it solves an issue
+      --  with the documentation window hiding the completion item (see https://github.com/hrsh7th/nvim-cmp/issues/1154
+      --  or https://github.com/hrsh7th/nvim-cmp/issues/1673).
       formatting = {
         format = function(_, vim_item)
           vim_item.menu = nil
@@ -69,11 +68,10 @@ return {
     -- Set up special configurations
     cmp.setup.cmdline(":", {
       -- Don't show cmdline completion when path's are available to avoid duplicates
-      sources = cmp.config.sources({
-        { name = "path" },
-      }, {
-        { name = "cmdline" },
-      }),
+      sources = {
+        { name = "path", group_index = 1 },
+        { name = "cmdline", group_index = 2 },
+      },
     })
     cmp.setup.cmdline({ "/", "?" }, { sources = {
       { name = "buffer" },
