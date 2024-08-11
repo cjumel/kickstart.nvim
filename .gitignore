@@ -1,2 +1,5 @@
 # Ignore current theme symlink
 lua/theme/current.lua
+
+# MacOS stuff
+.DS_Store
