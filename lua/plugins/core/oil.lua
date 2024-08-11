@@ -27,13 +27,12 @@ return {
       ["g?"] = "actions.show_help",
 
       ["<localleader>x"] = { "actions.select", opts = { horizontal = true }, desc = "Open entry in split" },
-      ["<localleader>v"] = { "actions.select", opts = { vertical = true }, desc = "Open entry in vertical split" },
-      ["<localleader>t"] = { "actions.select", opts = { tab = true }, desc = "Open entry in new tab" },
-      ["<localleader>h"] = "actions.toggle_hidden",
-      ["<localleader>R"] = "actions.refresh",
-      ["<localleader>s"] = "actions.change_sort",
-      ["<localleader>d"] = { -- Taken from Oil recipes
-        callback = function()
+      ["<localleader>v"] = { "actions.select", opts = { vertical = true }, desc = "Open entry in [V]ertical split" },
+      ["<localleader>t"] = { "actions.select", opts = { tab = true }, desc = "Open entry in [T]ab" },
+      ["<localleader>l"] = { "actions.refresh", desc = "[L]oad again" },
+      ["<localleader>h"] = { "actions.toggle_hidden", desc = "Toggle [H]idden files" },
+      ["<localleader>d"] = {
+        function() -- Function taken from Oil recipes
           DETAIL = not DETAIL
           if DETAIL then
             require("oil").set_columns({ "icon", "permissions", "size", "mtime" })
@@ -41,25 +40,25 @@ return {
             require("oil").set_columns({ "icon" })
           end
         end,
-        desc = "Toggle file detail view",
+        desc = "Toggle [D]etails",
       },
+      ["<localleader>s"] = { "actions.change_sort", desc = "Change [S]ort" },
 
       ["<localleader>ff"] = {
-        callback = require("plugins.core.telescope.builtin").find_files_oil_directory,
-        desc = "[F]ind: [F]iles in Oil directory",
+        function() require("plugins.core.telescope.builtin").find_files_oil_directory() end,
+        desc = "[F]ind: [F]iles in current directory",
       },
       ["<localleader>fd"] = {
-        callback = require("plugins.core.telescope.builtin").find_directories_oil_directory,
-        desc = "[F]ind: [D]irectories in Oil directory",
+        function() require("plugins.core.telescope.builtin").find_directories_oil_directory() end,
+        desc = "[F]ind: [D]irectories in current directory",
       },
       ["<localleader>fg"] = {
-        callback = require("plugins.core.telescope.builtin").live_grep_oil_directory,
-        desc = "[F]ind: by [G]rep in Oil directory",
+        function() require("plugins.core.telescope.builtin").live_grep_oil_directory() end,
+        desc = "[F]ind: by [G]rep in current directory",
       },
-
       ["<localleader>r"] = {
-        callback = require("plugins.core.grug-far.actions").grug_far_oil_directory,
-        desc = "[R]eplace: [R]eplace in Oil directory",
+        function() require("plugins.core.grug-far.actions").grug_far_oil_directory() end,
+        desc = "[R]eplace: [R]eplace in current directory",
       },
     },
     use_default_keymaps = false,
