@@ -26,9 +26,14 @@ return {
       ["<C-]>"] = "actions.preview",
       ["g?"] = "actions.show_help",
 
+      ["<localleader>o"] = {
+        function() vim.cmd("silent exec '!open ' . expand('%:p')[6:]") end,
+        desc = "[O]pen current directory in external tool",
+      },
       ["<localleader>x"] = { "actions.select", opts = { horizontal = true }, desc = "Open entry in split" },
       ["<localleader>v"] = { "actions.select", opts = { vertical = true }, desc = "Open entry in [V]ertical split" },
       ["<localleader>t"] = { "actions.select", opts = { tab = true }, desc = "Open entry in [T]ab" },
+      ["<localleader>e"] = { "actions.open_external", desc = "Open entry in [E]xternal tool" },
       ["<localleader>l"] = { "actions.refresh", desc = "[L]oad again" },
       ["<localleader>h"] = { "actions.toggle_hidden", desc = "Toggle [H]idden files" },
       ["<localleader>d"] = {
@@ -58,7 +63,7 @@ return {
       },
       ["<localleader>r"] = {
         function() require("plugins.core.grug-far.actions").grug_far_oil_directory() end,
-        desc = "[R]eplace: [R]eplace in current directory",
+        desc = "[R]eplace in current directory",
       },
     },
     use_default_keymaps = false,
