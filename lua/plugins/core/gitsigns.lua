@@ -25,7 +25,6 @@ return {
       map("n", "<leader>gx", gitsigns.reset_buffer, "[G]it: discard buffer changes")
       map("n", "<leader>gb", function() gitsigns.blame_line({ full = true }) end, "[G]it: line [B]lame")
       map("n", "<leader>gd", function() gitsigns.diffthis("~") end, "[G]it: buffer [D]iff")
-      map("n", "<leader>gh", "<cmd>Gitsigns setloclist<CR>", "[G]it: buffer [H]unks") -- Lazy-load Trouble
 
       -- Navigation keymaps
       utils.keymap.set_move_pair({ "[h", "]h" }, {
