@@ -10,9 +10,8 @@ return {
   dependencies = { "nvim-lua/plenary.nvim" },
   event = { "BufNewFile", "BufReadPre" },
   keys = {
-    { "<leader>ft", "<cmd>Telescope todo-comments todo previewer=false<CR>", desc = "[F]ind: [T]odo-comments" },
-    { "<leader>xt", "<cmd>Trouble todo filter.buf=0<CR>", desc = "Trouble: [T]odo-comments (buffer)" },
-    { "<leader>xT", "<cmd>Trouble todo<CR>", desc = "Trouble: [T]odo-comments (workspace)" },
+    { "<leader>xt", "<cmd>Trouble todo_strict toggle<CR>", desc = "Trouble: [T]odo-comments (strict)" },
+    { "<leader>xT", "<cmd>Trouble todo toggle<CR>", desc = "Trouble: [T]odo-comments (all)" },
   },
   opts = {
     -- Include hidden files when searching for todo comments

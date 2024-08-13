@@ -18,6 +18,10 @@ return {
     { "<leader>xq", "<cmd>Trouble qflist toggle<CR>", desc = "Trouble: [Q]uickfix list" },
   },
   opts = {
+    keys = {
+      [","] = "next",
+      [";"] = "prev",
+    },
     modes = {
       -- Builtin modes
       diagnostics = {
@@ -47,6 +51,16 @@ return {
       symbols = {
         open_no_results = true, -- Open the Trouble window even when there is no item as they can appear dynamically
         groups = {}, -- Remove groups as this mode includes only current buffer items
+      },
+      todo = {
+        title = "{hl:Title}Todo-comments (all){hl} {count}",
+        open_no_results = true, -- Open the Trouble window even when there is no item as they can appear dynamically
+      },
+      todo_strict = {
+        mode = "todo",
+        title = "{hl:Title}Todo-comments (strict){hl} {count}",
+        filter = { tag = { "TODO" } }, -- Only show "TODO" items
+        groups = { { "filename", format = "{file_icon} {filename} {count}" } }, -- Remove tag group as we only have one
       },
     },
   },
