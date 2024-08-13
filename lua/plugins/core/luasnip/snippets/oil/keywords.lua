@@ -40,4 +40,6 @@ return {
     { trig = "temp.py", show_condition = custom_conditions.empty_line * custom_conditions.python_project },
     { t("temp.py") }
   ),
+  -- Other
+  s({ trig = ".gitignore", show_condition = custom_conditions.empty_line }, { t(".gitignore") }),
 }
