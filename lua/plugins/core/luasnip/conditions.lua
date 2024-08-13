@@ -53,6 +53,7 @@ end
 local line_begin_condition = ls_conditions.make_condition(line_begin_function)
 M.line_begin = line_begin_condition
 M.empty_line = line_begin_condition * ls_conditions_show.line_end
+M.non_emtpy_line_end = -line_begin_condition * ls_conditions_show.line_end
 
 local excluded_node_types = { -- Treesitter nodes considered to be not in actual code
   "comment",
@@ -101,5 +102,41 @@ local function is_in_comment_function(line_to_cursor)
 end
 local is_in_comment_condition = ls_conditions.make_condition(is_in_comment_function)
 M.is_in_comment = is_in_comment_condition
+
+--- Check if the current Oil directory is in a Lua project, by checking in the current directory & its parents until
+--- the Git root or the HOME directory is found whether a Lua file or a Stylua configuration file is present.
+---@return boolean
+local function lua_project_function()
+  local lua_related_files = vim.fs.find(
+    function(name, _) return name:match(".*%.lua$") or vim.tbl_contains({ ".stylua.toml", "stylua.toml" }, name) end,
+    {
+      type = "file",
+      path = package.loaded.oil.get_current_dir(),
+      upward = true, -- Search in the current directory and its parents
+      stop = utils.buffer.get_git_root() or vim.env.HOME, -- Stop searching at the Git root or the HOME directory
+    }
+  )
+  return not vim.tbl_isempty(lua_related_files)
+end
+local lua_project_condition = ls_conditions.make_condition(lua_project_function)
+M.lua_project = lua_project_condition
+
+--- Check if the current Oil directory is in a Python project, by checking in the current directory & its parents until
+--- the Git root or the HOME directory is found whether a Python file or a `pyproject.toml` file is present.
+---@return boolean
+local function python_project_function()
+  local lua_related_files = vim.fs.find(
+    function(name, _) return name:match(".*%.py$") or vim.tbl_contains({ "pyproject.toml" }, name) end,
+    {
+      type = "file",
+      path = package.loaded.oil.get_current_dir(),
+      upward = true, -- Search in the current directory and its parents
+      stop = utils.buffer.get_git_root() or vim.env.HOME, -- Stop searching at the Git root or the HOME directory
+    }
+  )
+  return not vim.tbl_isempty(lua_related_files)
+end
+local python_project_condition = ls_conditions.make_condition(python_project_function)
+M.python_project = python_project_condition
 
 return M
