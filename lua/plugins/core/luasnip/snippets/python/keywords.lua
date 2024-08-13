@@ -46,26 +46,20 @@ return {
   s({ trig = "import ..", show_condition = custom_conditions.is_in_code_empty_line }, {
     t("import "),
     i(1),
-  }),
-  s({ trig = "import .. as ..", show_condition = custom_conditions.is_in_code_empty_line }, {
-    t("import "),
-    i(1),
-    t(" as "),
-    i(2),
+    c(2, {
+      i(1),
+      sn(nil, { t(" as "), i(1) }),
+    }),
   }),
   s({ trig = "from .. import ..", show_condition = custom_conditions.is_in_code_empty_line }, {
     t("from "),
     i(1),
     t(" import "),
     i(2),
-  }),
-  s({ trig = "from .. import .. as ..", show_condition = custom_conditions.is_in_code_empty_line }, {
-    t("from "),
-    i(1),
-    t(" import "),
-    i(2),
-    t(" as "),
-    i(3),
+    c(3, {
+      i(1),
+      sn(nil, { t(" as "), i(1) }),
+    }),
   }),
 
   -- if/else/elif
