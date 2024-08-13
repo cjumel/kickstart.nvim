@@ -81,7 +81,6 @@ return {
     "williamboman/mason.nvim",
     "williamboman/mason-lspconfig.nvim",
     "hrsh7th/cmp-nvim-lsp",
-    "nvim-telescope/telescope.nvim",
     "RRethy/vim-illuminate",
     "ray-x/lsp_signature.nvim",
     "smjonas/inc-rename.nvim",
@@ -114,38 +113,39 @@ return {
     vim.api.nvim_create_autocmd("LspAttach", {
       group = vim.api.nvim_create_augroup("lsp-attach", { clear = true }),
       callback = function(event)
-        local illuminate = require("illuminate")
-        local telescope = require("telescope.builtin")
-        local telescope_custom = require("plugins.core.telescope.builtin")
         local utils = require("utils")
 
         local bufnr = event.bufnr
         local map = utils.keymap.get_buffer_local_map(bufnr)
 
-        local go_to_opts = {
-          initial_mode = "normal",
-          show_line = false, -- Don't show the whole line in the picker next to the file path
-        }
-
         map("n", "<C-s>", vim.lsp.buf.signature_help, "Signature help")
+        map("n", "gd", "<cmd>Trouble lsp_definitions<CR>", "Go to definitions")
+        map("n", "gD", "<cmd>Trouble lsp_type_definitions<CR>", "Go to type definitions")
         map("n", "gra", vim.lsp.buf.code_action, "Code action")
         map("n", "grn", function() return ":IncRename " .. vim.fn.expand("<cword>") end, "Rename", { expr = true })
-        map("n", "grr", function() telescope.lsp_references(go_to_opts) end, "Go to references")
+        map("n", "grr", "<cmd>Trouble lsp_references toggle<CR>", "References")
+        map("n", "grs", "<cmd>Trouble symbols toggle<CR>", "Symbols")
         map("n", "grx", "<cmd>LspRestart<CR>", "Restart LSP")
-        map("n", "grs", telescope_custom.lsp_document_symbols, "Symbols")
-        map("n", "grw", telescope_custom.lsp_workspace_symbols, "Workspace symbols")
 
-        -- Neovim has default keymaps for "go to definition" with gd and "go to declaration" with gD written for the C
-        --  language, let's overwrite them; Telescope has a "go to implementation" feature, but I don't use languages
-        --  where this is useful
-        map("n", "gd", function() telescope.lsp_definitions(go_to_opts) end, "Go to definition")
-        map("n", "gD", function() telescope.lsp_type_definitions(go_to_opts) end, "Go to type definition")
+        -- Find symbol keymaps
+        map(
+          "n",
+          "fs",
+          function() require("plugins.core.telescope.builtin").lsp_document_symbols() end,
+          "[F]ind: buffer [S]ymbols"
+        )
+        map(
+          "n",
+          "fS",
+          function() require("plugins.core.telescope.builtin").lsp_workspace_symbols() end,
+          "[F]ind: workspace [S]ymbols"
+        )
 
         -- Next/previous reference navigation; let's define illuminate keymaps here to benefit from the "LspAttach"
         --  behavior
         utils.keymap.set_move_pair({ "[r", "]r" }, {
-          illuminate.goto_next_reference,
-          illuminate.goto_prev_reference,
+          function() require("illuminate").goto_next_reference() end,
+          function() require("illuminate").goto_prev_reference() end,
         }, {
           { desc = "Next reference", buffer = bufnr },
           { desc = "Previous reference", buffer = bufnr },
