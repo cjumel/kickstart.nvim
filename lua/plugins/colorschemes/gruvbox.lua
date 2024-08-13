@@ -15,7 +15,7 @@ return {
     local gruvbox = require("gruvbox")
 
     gruvbox.setup(opts) -- Setup must be called before loading the color scheme
-    vim.o.background = theme.get_field("gruvbox", "background") or "dark"
+    vim.o.background = require("theme").get_field("gruvbox", "background") or "dark"
     vim.cmd.colorscheme("gruvbox")
   end,
 }
