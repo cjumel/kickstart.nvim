@@ -13,9 +13,9 @@ return {
 
   -- Within-text snippets
   -- For italic, bold & bold-italic, using asterix is more robust than underscores as it works also within words
-  s("italic", { t("*"), i(1), t("*") }),
+  s("italic", { t("_"), i(1), t("_") }),
   s("bold", { t("**"), i(1), t("**") }),
-  s("bold-italic", { t("***"), i(1), t("***") }),
+  s("bold-italic", { t("**_"), i(1), t("_**") }),
   s("link", { t("["), i(1, "name"), t("]("), i(2, "url"), t(")") }),
 
   -- Block snippets
