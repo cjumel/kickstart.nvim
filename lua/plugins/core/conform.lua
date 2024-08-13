@@ -6,8 +6,8 @@
 
 -- Define here which formatters to use for each file type; keys must be simple file types, and values must be arrays
 --  of formatter names
--- In some file types, a formatter is integrated as a language server in nvim-lspconfig; in that case, the
---  corresponding file type must be added as a key with an empty array as value, to trigger formatting on save
+-- In some file types, a formatter is integrated as a language server in nvim-lspconfig; in that case, the corresponding
+--  file type must be added as a key with at least an empty array as value to trigger formatting on save
 local formatters_by_ft = {
   gitconfig = { "trim_newlines", "trim_whitespace" },
   gitignore = { "trim_newlines", "trim_whitespace" },
@@ -19,7 +19,7 @@ local formatters_by_ft = {
   sh = { "shfmt" },
   text = { "trim_newlines", "trim_whitespace" },
   tmux = { "trim_newlines", "trim_whitespace" },
-  toml = {}, -- taplo in lspconfig
+  toml = {}, -- Use Taplo language server formatting
   vim = { "trim_newlines", "trim_whitespace" },
   yaml = { "prettier", "trim_newlines" }, -- Prettier doesn't remove trailing whitespace in YAML
   zsh = { "shfmt" }, -- Not actually for zsh, but in my use case it seems to work fine
@@ -47,8 +47,11 @@ return {
 
     local mason_ensure_installed = {}
     for _, formatters in pairs(formatters_by_ft) do
-      for _, formatter in ipairs(formatters) do
-        if not vim.tbl_contains(formatters_without_mason_package, formatter) then
+      for formatter_key, formatter in ipairs(formatters) do
+        if
+          formatter_key ~= "lsp_format" -- "lsp_format" is a special key for LSP formatter modes
+          and not vim.tbl_contains(formatters_without_mason_package, formatter)
+        then
           local mason_name = formatter_to_mason_name[formatter] or formatter
           if
             not vim.tbl_contains(mason_ensure_installed, mason_name)
