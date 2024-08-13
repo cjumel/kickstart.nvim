@@ -68,7 +68,9 @@ local servers = {
   },
 }
 
-local server_name_to_mason_name = { -- This is usually done in mason-lspconfig
+-- Translates nvim-lspconfig server names to the names used in Mason. This is usually done by the mason-lspconfig
+--  plugin, but with the implementation of the custom `MasonInstallAll` command, this needs to be done manually
+local server_name_to_mason_name = {
   lua_ls = "lua-language-server",
   yamlls = "yaml-language-server",
 }
