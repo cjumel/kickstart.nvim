@@ -45,6 +45,14 @@ return {
       },
 
       -- LSP modes (see nvim-lspconfig)
+      lsp_definitions = {
+        focus = true, -- Focus the Trouble window when opened
+        auto_refresh = false, -- Don't re-compute definitions when cursor moves in the main window
+      },
+      lsp_type_definitions = {
+        focus = true, -- Focus the Trouble window when opened
+        auto_refresh = false, -- Don't re-compute type definitions when cursor moves in the main window
+      },
       lsp_references = {
         focus = true, -- Focus the Trouble window when opened
         auto_refresh = false, -- Don't re-compute references when cursor moves in the main window
@@ -53,6 +61,8 @@ return {
         open_no_results = true, -- Open the Trouble window even when there is no item as they can appear dynamically
         groups = {}, -- Remove groups as this mode includes only current buffer items
       },
+
+      -- Todo-comment modes (see todo-comments.nvim)
       todo = {
         title = "{hl:Title}Todo-comments{hl} {count}",
         open_no_results = true, -- Open the Trouble window even when there is no item as they can appear dynamically
