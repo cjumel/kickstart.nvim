@@ -92,6 +92,15 @@ vim.keymap.set({ "n", "v" }, "_", '"_', { desc = "Black hole register" })
 vim.keymap.set("n", "<leader>y", yank_path, { desc = "[Y]ank path" })
 vim.keymap.set("n", "<leader>+", send_yanked_to_clipboard, { desc = "Send yanked to clipboard" })
 
+-- Complete "gx" (open entry under the cursor or selection with external tool, in normal or visual mode) with "gX" to
+--  open the current file with external tool in normal mode
+vim.keymap.set(
+  "n",
+  "gX",
+  function() vim.ui.open(vim.fn.expand("%")) end,
+  { desc = "Open current file with file system handler" }
+)
+
 utils.keymap.set_move_pair(
   { "[p", "]p" },
   { function() vim.cmd("normal }") end, function() vim.cmd("normal {") end },
@@ -122,11 +131,13 @@ utils.keymap.set_move_pair({ "[e", "]e" }, {
   function() vim.diagnostic.goto_next({ severity = vim.diagnostic.severity.ERROR }) end,
   function() vim.diagnostic.goto_prev({ severity = vim.diagnostic.severity.ERROR }) end,
 }, { { desc = "Next error" }, { desc = "Previous error" } })
-utils.keymap.set_move_pair({ "[w", "]w" }, {
-  function() vim.diagnostic.goto_next({ severity = vim.diagnostic.severity.WARN }) end,
-  function() vim.diagnostic.goto_prev({ severity = vim.diagnostic.severity.WARN }) end,
-}, { { desc = "Next warning" }, { desc = "Previous warning" } })
 
+local url_pattern = "http:\\/\\/\\|https:\\/\\/"
+utils.keymap.set_move_pair(
+  { "[w", "]w" },
+  { function() vim.fn.search(url_pattern) end, function() vim.fn.search(url_pattern, "b") end },
+  { { desc = "Next Web address" }, { desc = "Previous Web address" } }
+)
 -- Conflict markers have 3 forms, all at the start of a line: `<<<<<<< <text>`, ` =======`, ` >>>>>>> <text>`
 local conflict_pattern = "^<<<<<<< \\|^=======\\|^>>>>>>> "
 utils.keymap.set_move_pair({ "[x", "]x" }, {

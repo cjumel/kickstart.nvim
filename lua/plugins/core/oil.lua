@@ -19,18 +19,20 @@ return {
       --  overwrite any keymap which could be useful for editing files, to still be able to use features like macros
       --  (with "q"), visual block edition (with "<C-v>") or decrementing (with "<C-x>") for instance
 
+      -- Main actions
       ["-"] = "actions.parent",
       ["_"] = "actions.open_cwd",
       ["<CR>"] = "actions.select",
       ["<C-c>"] = "actions.close",
       ["<C-]>"] = "actions.preview",
       ["g?"] = "actions.show_help",
-
-      ["<localleader>o"] = {
+      ["gx"] = "actions.open_external",
+      ["gX"] = {
         function() vim.cmd("silent exec '!open ' . expand('%:p')[6:]") end,
-        desc = "[O]pen current directory in external tool",
+        desc = "Open the current directory in an external program",
       },
-      ["<localleader>e"] = { "actions.open_external", desc = "Open entry in [E]xternal tool" },
+
+      -- Oil buffer options
       ["<localleader>l"] = { "actions.refresh", desc = "[L]oad again" },
       ["<localleader>h"] = { "actions.toggle_hidden", desc = "Toggle [H]idden files" },
       ["<localleader>d"] = {
@@ -46,6 +48,7 @@ return {
       },
       ["<localleader>s"] = { "actions.change_sort", desc = "Change [S]ort" },
 
+      -- Other plugins integration
       ["<localleader>ff"] = {
         function() require("plugins.core.telescope.builtin").find_files_oil_directory() end,
         desc = "[F]ind: [F]iles in current directory",
