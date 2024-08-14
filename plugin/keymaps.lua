@@ -92,14 +92,33 @@ vim.keymap.set({ "n", "v" }, "_", '"_', { desc = "Black hole register" })
 vim.keymap.set("n", "<leader>y", yank_path, { desc = "[Y]ank path" })
 vim.keymap.set("n", "<leader>+", send_yanked_to_clipboard, { desc = "Send yanked to clipboard" })
 
--- Complete "gx" (open entry under the cursor or selection with external tool, in normal or visual mode) with "gX" to
---  open the current file with external tool in normal mode
+-- Complete "gx" (open entry under the cursor or selection with external tool, in normal or visual mode) with:
+--  - "gX" to open the current file with external tool, in normal mode
+--  - "g/" to search the word under the cursor or the selection in a browser, in normal or visual mode
 vim.keymap.set(
   "n",
   "gX",
   function() vim.ui.open(vim.fn.expand("%")) end,
   { desc = "Open current file with file system handler" }
 )
+local function search_in_web_browser()
+  local search_text
+  if not utils.visual.is_visual_mode() then
+    -- Retrieve the search text with the z-register as intermediary, like the smart-gx implementation of
+    --  nvim-various-textobjs
+    vim.cmd.normal({ '"zyiw', bang = true })
+    search_text = vim.fn.getreg("z")
+  else
+    local text = utils.visual.get_text()
+    local tokens = {}
+    for token in string.gmatch(text, "%S+") do
+      table.insert(tokens, token)
+    end
+    search_text = table.concat(tokens, "+")
+  end
+  vim.ui.open("https://www.google.com/search?q=" .. search_text)
+end
+vim.keymap.set({ "n", "v" }, "g/", search_in_web_browser, { desc = "Search word under the cursor in Web browser" })
 
 utils.keymap.set_move_pair(
   { "[p", "]p" },
