@@ -19,6 +19,7 @@ return {
   },
   opts = {
     keys = {
+      ["<Tab>"] = "jump",
       [","] = "next",
       [";"] = "prev",
     },
