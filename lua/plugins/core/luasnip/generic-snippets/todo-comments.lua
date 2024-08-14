@@ -44,8 +44,8 @@ end
 local function get_comment_string_start() return get_comment_strings()[1] end
 local function get_comment_string_end() return get_comment_strings()[2] end
 
--- Except for "FIX" (splitted between "FIXME" and "BUG"), these are the default keywords for todo-comments
 local todo_comment_keywords = {
+  "NOW", -- Custom keyword for stuff to do right now
   "TODO",
   "FIXME",
   "BUG",

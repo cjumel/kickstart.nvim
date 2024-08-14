@@ -53,13 +53,13 @@ return {
         groups = {}, -- Remove groups as this mode includes only current buffer items
       },
       todo = {
-        title = "{hl:Title}Todo-comments (all){hl} {count}",
+        title = "{hl:Title}Todo-comments{hl} {count}",
         open_no_results = true, -- Open the Trouble window even when there is no item as they can appear dynamically
       },
-      todo_strict = {
+      todo_now = {
         mode = "todo",
-        title = "{hl:Title}Todo-comments (strict){hl} {count}",
-        filter = { tag = { "TODO" } }, -- Only show "TODO" items
+        title = "{hl:Title}NOW Todo-comments{hl} {count}",
+        filter = { tag = { "NOW" } }, -- Only show "NOW" todo-comments
         groups = { { "filename", format = "{file_icon} {filename} {count}" } }, -- Remove tag group as we only have one
       },
     },
