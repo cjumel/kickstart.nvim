@@ -102,21 +102,24 @@ vim.keymap.set(
   { desc = "Open current file with file system handler" }
 )
 local function search_in_web_browser()
-  local search_text
-  if not utils.visual.is_visual_mode() then
+  local text
+  if utils.visual.is_visual_mode() then
+    text = utils.visual.get_text()
+  else
     -- Retrieve the search text with the z-register as intermediary, like the smart-gx implementation of
     --  nvim-various-textobjs
     vim.cmd.normal({ '"zyiw', bang = true })
-    search_text = vim.fn.getreg("z")
-  else
-    local text = utils.visual.get_text()
+    text = vim.fn.getreg("z")
+  end
+  vim.ui.input({ prompt = "Web search", default = text }, function(input)
+    -- Replace white spaces in the search text with "+" to form a valid search URL
     local tokens = {}
-    for token in string.gmatch(text, "%S+") do
+    for token in string.gmatch(input, "%S+") do
       table.insert(tokens, token)
     end
-    search_text = table.concat(tokens, "+")
-  end
-  vim.ui.open("https://www.google.com/search?q=" .. search_text)
+    local search_text = table.concat(tokens, "+")
+    vim.ui.open("https://www.google.com/search?q=" .. search_text)
+  end)
 end
 vim.keymap.set({ "n", "v" }, "g/", search_in_web_browser, { desc = "Search word under the cursor in Web browser" })
 
