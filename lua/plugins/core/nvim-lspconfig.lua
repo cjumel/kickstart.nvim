@@ -62,6 +62,16 @@ local servers = {
     filetypes = { "toml" },
   },
 
+  -- Tinymist provides many cool features for Typst, like LSP features (go to declaration, auto-completion, etc.),
+  --  diagnostics, formatting with popular Typst formatters or even compiling the PDF file on save (even though I don't
+  --  use this last feature, as it also compiles Typst modules which are not designed to be compiled)
+  tinymist = {
+    filetypes = { "typst" },
+    settings = {
+      formatterMode = "typstyle", -- Use Typstyle as default formatter
+    },
+  },
+
   -- Yamlls provides some features based on schemas from SchemaStore like completion or hovering
   yamlls = {
     filetypes = { "yaml" },

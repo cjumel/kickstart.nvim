@@ -14,6 +14,7 @@ return {
   s({ trig = ".sh", show_condition = custom_conditions.non_empty_line_end }, { t(".sh") }),
   s({ trig = ".toml", show_condition = custom_conditions.non_empty_line_end }, { t(".toml") }),
   s({ trig = ".txt", show_condition = custom_conditions.non_empty_line_end }, { t(".txt") }),
+  s({ trig = ".typ", show_condition = custom_conditions.non_empty_line_end }, { t(".typ") }),
   s({ trig = ".yaml", show_condition = custom_conditions.non_empty_line_end }, { c(1, { t(".yaml"), t(".yml") }) }),
   s({ trig = ".zsh", show_condition = custom_conditions.non_empty_line_end }, { t(".zsh") }),
 

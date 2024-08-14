@@ -34,6 +34,7 @@ return {
       "ssh_config",
       "tmux",
       "toml",
+      "typst",
       "vim",
       "vimdoc", -- For Vim help files
       "yaml",
