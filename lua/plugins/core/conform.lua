@@ -20,7 +20,7 @@ local formatters_by_ft = {
   text = { "trim_newlines", "trim_whitespace" },
   tmux = { "trim_newlines", "trim_whitespace" },
   toml = {}, -- Use Taplo language server formatting
-  typst = { lsp_format = "first", "trim_newlines" }, -- Use tinymist LSP formatting and more
+  typst = {}, -- Use tinymist language server formatting (for some reason I can't make this work with "trim_newlines")
   vim = { "trim_newlines", "trim_whitespace" },
   yaml = { "prettier", "trim_newlines" }, -- Prettier doesn't remove trailing whitespace in YAML
   zsh = { "shfmt" }, -- Not actually for zsh, but in my use case it seems to work fine
