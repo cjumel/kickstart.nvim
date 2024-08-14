@@ -2,9 +2,9 @@ local base_template = {
   params = {
     args = {
       type = "list",
-      delimiter = ", ", -- Because some arguments can have spaces (e.g. in "-m 'not slow'"), we need a comma
+      delimiter = ", ", -- Some arguments can have spaces (e.g. in "-m 'not slow'"), we need a comma for them to work
       optional = true,
-      default = { "-m", "not slow" }, -- Exclude tests marked as "slow" if there are any by default
+      default = {},
     },
   },
 }
@@ -91,7 +91,7 @@ return {
             args = vim.list_extend(params.args or {}, { path .. "::" .. function_name }),
           }
         end,
-      }, { args = { default = nil } }), -- Remove default arguments
+      }, nil),
     })
   end,
 }
