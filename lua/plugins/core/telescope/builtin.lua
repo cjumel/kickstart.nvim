@@ -391,6 +391,12 @@ function M.git_status()
   builtin.git_status(opts)
 end
 
+function M.git_branches()
+  local builtin = require("telescope.builtin")
+
+  builtin.git_branches()
+end
+
 function M.git_commits()
   local builtin = require("telescope.builtin")
 
