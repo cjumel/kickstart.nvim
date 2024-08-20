@@ -10,15 +10,13 @@ return {
   dependencies = { "nvim-lua/plenary.nvim" },
   event = { "BufNewFile", "BufReadPre" },
   keys = {
-    { "<leader>xn", "<cmd>Trouble todo_now toggle<CR>", desc = "Trouble: [N]OW todo-comments" },
-    { "<leader>xt", "<cmd>Trouble todo toggle<CR>", desc = "Trouble: [T]odo-comments" },
+    { "<leader>xt", "<cmd>Trouble todo_private toggle<CR>", desc = "Trouble: private [T]odo-comments" },
+    { "<leader>xT", "<cmd>Trouble todo toggle<CR>", desc = "Trouble: [T]odo-comments" },
   },
   opts = {
-    -- Add "NOW" as a custom keyword for stuff to do right now. This makes possible to add and and display only the
-    --  todo-comments added for the current task at hand, while not being polluted by the long-term todo-comments,
-    --  which may not be related to it. NOW todo-comments are designed as an alternative to TODO (with the same icon
-    --  & color), but which should not be shared in any way.
-    keywords = { NOW = { icon = " ", color = "info" } },
+    -- Add "_TODO" as a custom "private TODO" keyword for stuff to do right now & which should not be shared in the
+    --  codebase. This is a convenient way of separating long term TODOs and the ones for the current task at hand.
+    keywords = { _TODO = { icon = " ", color = "info" } },
     -- Include hidden files when searching for todo-comments
     search = { args = { "--color=never", "--no-heading", "--with-filename", "--line-number", "--column", "--hidden" } },
   },

@@ -45,7 +45,7 @@ local function get_comment_string_start() return get_comment_strings()[1] end
 local function get_comment_string_end() return get_comment_strings()[2] end
 
 local todo_comment_keywords = {
-  "NOW", -- Custom keyword for stuff to do right now
+  "_TODO", -- Custom "private TODO" keyword for stuff to do right now & which should not be shared in the codebase
   "TODO",
   "FIXME",
   "BUG",

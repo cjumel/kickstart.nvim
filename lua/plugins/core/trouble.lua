@@ -67,10 +67,10 @@ return {
         title = "{hl:Title}Todo-comments{hl} {count}",
         open_no_results = true, -- Open the Trouble window even when there is no item as they can appear dynamically
       },
-      todo_now = {
+      todo_private = {
         mode = "todo",
-        title = "{hl:Title}NOW Todo-comments{hl} {count}",
-        filter = { tag = { "NOW" } }, -- Only show "NOW" todo-comments
+        title = "{hl:Title}Private Todo-comments{hl} {count}",
+        filter = { tag = { "_TODO" } }, -- Only show "_TODO" todo-comments
         groups = { { "filename", format = "{file_icon} {filename} {count}" } }, -- Remove tag group as we only have one
       },
     },
