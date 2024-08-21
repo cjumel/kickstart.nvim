@@ -382,6 +382,15 @@ function M.git_status()
 
   local opts = {
     prompt_title = "Git Status",
+    git_icons = {
+      added = "+",
+      changed = "~",
+      copied = ">",
+      deleted = "-",
+      renamed = "➡",
+      unmerged = "‡",
+      untracked = "",
+    },
     attach_mappings = function(_, map)
       -- Override the <Tab> keymap to disable the stage/unstage feature of the picker
       map({ "i", "n" }, "<Tab>", actions.move_selection_next)
