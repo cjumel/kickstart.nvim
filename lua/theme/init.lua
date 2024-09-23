@@ -2,7 +2,7 @@ local M = {}
 
 local ok, theme = pcall(require, "theme.current")
 if not ok then -- The theme symlink is missing
-  theme = require("theme.catppuccin-mocha") -- Default theme
+  theme = require("theme.default") -- Default theme
 end
 
 --- Get a plugin-related field from the theme table.
