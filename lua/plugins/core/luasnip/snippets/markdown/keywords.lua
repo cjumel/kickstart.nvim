@@ -61,28 +61,4 @@ return {
     i(2, "Content"),
     t({ "", "", "</details>" }),
   }),
-
-  -- [[ Custom Markdown ]]
-
-  -- Todomojis: todo items with emojis
-  --  🎯 (:dart:) -> todo
-  --  ⌛ (:hourglass:) -> in progress
-  --  ✅ (:white_check_mark:) -> done
-  --  ❌ (:x:) -> cancelled
-  s({ trig = "todomoji", show_condition = custom_conditions.line_begin }, {
-    c(1, {
-      sn(nil, { t("- 🎯 "), i(1) }),
-      sn(nil, { t("- ⌛ "), i(1) }),
-      sn(nil, { t("- ✅ "), i(1) }),
-      sn(nil, { t("- ❌ "), i(1) }),
-    }),
-  }),
-  s({ trig = "todomoji", show_condition = -custom_conditions.line_begin }, {
-    c(1, {
-      sn(nil, { t("🎯"), i(1) }),
-      sn(nil, { t("⌛"), i(1) }),
-      sn(nil, { t("✅"), i(1) }),
-      sn(nil, { t("❌"), i(1) }),
-    }),
-  }),
 }
