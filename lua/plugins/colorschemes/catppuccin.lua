@@ -7,7 +7,7 @@
 return {
   "catppuccin/nvim",
   name = "catppuccin",
-  lazy = require("theme").get_lazyness("catppuccin"),
+  enabled = require("theme").get_field("catppuccin", "enabled", false),
   priority = 1000, -- Main UI stuff should be loaded first
   opts = require("theme").make_opts("catppuccin", {
     flavour = "mocha", -- "latte", "frappe", "macchiato", "mocha"

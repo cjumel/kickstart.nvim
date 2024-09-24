@@ -4,7 +4,7 @@
 
 return {
   "shaunsingh/nord.nvim",
-  lazy = require("theme").get_lazyness("nord"),
+  enabled = require("theme").get_field("nord", "enabled", false),
   priority = 1000, -- Main UI stuff should be loaded first
   config = function()
     vim.g.nord_disable_background = true -- Don't set a background color
