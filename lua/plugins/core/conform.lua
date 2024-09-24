@@ -12,6 +12,7 @@ local formatters_by_ft = {
   gitconfig = { "trim_newlines", "trim_whitespace" },
   gitignore = { "trim_newlines", "trim_whitespace" },
   json = { "prettier" },
+  jsonc = { "prettier" },
   lua = { "stylua" },
   make = { "trim_newlines", "trim_whitespace" },
   markdown = { "prettier" }, -- Prettier is the only popular formatter I found which supports GitHub Flavored Markdown

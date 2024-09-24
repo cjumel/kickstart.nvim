@@ -21,6 +21,7 @@ return {
       "gitcommit",
       "gitignore",
       "json",
+      "jsonc",
       "lua",
       "luadoc", -- Lua docstrings
       "luap", -- Lua search patterns
