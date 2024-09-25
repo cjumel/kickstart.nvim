@@ -1,4 +1,8 @@
-# Ignore current theme symlink
+# Neovim configuration files
+.nvim.global.lua
+.nvim.lua
+
+# Symlink for the activated terminal theme
 lua/theme/current.lua
 
 # MacOS stuff

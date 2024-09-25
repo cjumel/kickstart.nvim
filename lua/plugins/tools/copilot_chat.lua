@@ -6,6 +6,7 @@
 
 return {
   "CopilotC-Nvim/CopilotChat.nvim",
+  cond = not require("config")["disable_copilot"],
   branch = "canary",
   dependencies = {
     "github/copilot.vim",
