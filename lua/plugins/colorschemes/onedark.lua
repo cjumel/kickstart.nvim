@@ -4,7 +4,7 @@
 
 return {
   "navarasu/onedark.nvim",
-  enabled = require("theme").get_field("onedark", "enabled", false),
+  cond =  require("theme").get_field("onedark", "enabled", false),
   priority = 1000, -- Main UI stuff should be loaded first
   opts = require("theme").make_opts("onedark", {
     transparent = true, -- Don't set a background color

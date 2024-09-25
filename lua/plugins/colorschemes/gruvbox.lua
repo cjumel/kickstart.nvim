@@ -6,7 +6,7 @@
 
 return {
   "ellisonleao/gruvbox.nvim",
-  enabled = require("theme").get_field("gruvbox", "enabled", false),
+  cond =  require("theme").get_field("gruvbox", "enabled", false),
   priority = 1000, -- Main UI stuff should be loaded first
   opts = require("theme").make_opts("gruvbox", {
     transparent_mode = true, -- Don't set a background color

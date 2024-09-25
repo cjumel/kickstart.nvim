@@ -6,7 +6,7 @@
 
 return {
   "rebelot/kanagawa.nvim",
-  enabled = require("theme").get_field("kanagawa", "enabled", false),
+  cond = require("theme").get_field("kanagawa", "enabled", false),
   priority = 1000, -- Main UI stuff should be loaded first
   opts = require("theme").make_opts("kanagawa", {
     transparent = true, -- Don't set a background color
