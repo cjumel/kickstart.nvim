@@ -55,10 +55,39 @@ vim.keymap.set("n", "<C-]>", vim.diagnostic.open_float, { desc = "Expand diagnos
 vim.keymap.set({ "n", "v" }, "<C-^>", "}", { desc = "Next paragraph" })
 vim.keymap.set({ "n", "v" }, "<C-_>", "{", { desc = "Previous paragraph" })
 
-vim.keymap.set("n", "<Esc>", "<cmd>ClearNormal<CR>", { desc = "Clear" }) -- <Esc> is only available in normal mode
-vim.keymap.set("v", "<C-c>", "<cmd>ClearNormal<CR>", { desc = "Clear" })
-vim.keymap.set("i", "<C-c>", "<cmd>ClearAll<CR>", { desc = "Clear" })
-vim.keymap.set("c", "<C-c>", "<cmd>ClearInsert<CR>", { desc = "Clear" }) -- Don't clean the cmdline popup itself
+--- Clear function for normal mode: clear search highlights & Noice messages.
+---@return _ nil
+local function clear_normal()
+  vim.cmd("nohlsearch") -- Clear search highlights in case `vim.o.hlsearch` is true
+  local noice = package.loaded.noice
+  if noice ~= nil then
+    noice.cmd("dismiss") -- Dismiss Noice messages
+  end
+end
+
+--- Clear function for insert mode: clear Copilot & nvim-cmp suggestions.
+---@return _ nil
+local function clear_insert()
+  if package.loaded._copilot ~= nil then
+    vim.fn["copilot#Dismiss"]() -- Clear Copilot suggestion
+  end
+  local cmp = package.loaded.cmp
+  if cmp ~= nil then
+    cmp.abort() -- Clear nvim-cmp suggestion
+  end
+end
+
+--- Clear function for all modes: clear both normal & insert mode artifacts.
+---@return _ nil
+local function clear_all()
+  clear_normal()
+  clear_insert()
+end
+
+vim.keymap.set("n", "<Esc>", clear_normal, { desc = "Clear" }) -- <Esc> is only available in normal mode
+vim.keymap.set("v", "<C-c>", clear_normal, { desc = "Clear" })
+vim.keymap.set("i", "<C-c>", clear_all, { desc = "Clear" })
+vim.keymap.set("c", "<C-c>", clear_insert, { desc = "Clear" }) -- clean_insert avoids deleting the cmdline popup itself
 
 vim.keymap.set("v", "<Tab>", ">gv", { desc = "Indent selection" })
 vim.keymap.set("v", "<S-Tab>", "<gv", { desc = "Unindent selection" })
