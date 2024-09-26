@@ -69,14 +69,20 @@ return {
   opts = {
     formatters_by_ft = formatters_by_ft,
     format_on_save = function(_)
-      local utils = require("utils")
-
+      local config = require("config")
       if
-        vim.g.format_on_save_mode == "on"
-        or (vim.g.format_on_save_mode == "auto" and not utils.buffer.tooling_is_disabled())
+        config["disable_format_on_save_for_filetypes"]
+        and vim.tbl_contains(config["disable_format_on_save_for_filetypes"], vim.bo.filetype)
       then
-        return { lsp_fallback = true, timeout_ms = 500 }
+        return
       end
+
+      local utils = require("utils")
+      if utils.buffer.tooling_is_disabled() then
+        return
+      end
+
+      return { lsp_fallback = true, timeout_ms = 500 }
     end,
   },
 }
