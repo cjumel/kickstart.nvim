@@ -25,26 +25,6 @@ function M.tooling_is_disabled()
   return disable_tooling_by_bufnr[vim.fn.bufnr()] -- True, false or nil (unknown yet)
 end
 
---- Determine whether buffer tooling, like auto-formatting or linting, should be disabled on the current buffer, in
---- case it hasn't been checked yet and the provided callback function is evaluated to `true`.
----@param callback function(): boolean The callback to evaluate.
----@return nil
-function M.should_disable_tooling(callback)
-  if M.tooling_is_disabled() ~= nil then -- Whether tooling should be disabled has already been computed
-    return false
-  end
-
-  return callback()
-end
-
---- Disable buffer tooling, like auto-formatting or linting, on the current buffer.
----@return nil
-function M.disable_tooling()
-  local disable_tooling_by_bufnr = vim.g.disable_tooling_by_bufnr or {}
-  disable_tooling_by_bufnr[vim.fn.bufnr()] = true
-  vim.g.disable_tooling_by_bufnr = disable_tooling_by_bufnr
-end
-
 --- Output the path of the parent directory of the current buffer file, if it exists, or nil.
 ---@return string|nil
 function M.get_parent_dir()
