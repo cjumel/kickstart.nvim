@@ -50,16 +50,12 @@ return {
   opts = {
     linters_by_ft = linters_by_ft,
     should_lint = function() -- Custom option to enable/disable linting
-      local config = require("config")
       if
-        config["disable_lint_for_filetypes"]
-        and vim.tbl_contains(config["disable_lint_for_filetypes"], vim.bo.filetype)
+        (
+          require("config")["disable_linting_on_filetypes "]
+          and vim.tbl_contains(require("config")["disable_linting_on_filetypes "], vim.bo.filetype)
+        ) or require("utils").buffer.tooling_is_disabled()
       then
-        return false
-      end
-
-      local utils = require("utils")
-      if utils.buffer.tooling_is_disabled() then
         return false
       end
 

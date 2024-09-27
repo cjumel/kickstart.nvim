@@ -27,6 +27,16 @@ local formatters_by_ft = {
   zsh = { "shfmt" }, -- Not actually for zsh, but in my use case it seems to work fine
 }
 
+-- Change the configured formatter to white spaces and new lines trimmers when a formatter is disabled on a filetype
+for ft, _ in pairs(formatters_by_ft) do
+  if
+    require("config")["disable_formatter_on_filetypes"]
+    and vim.tbl_contains(require("config")["disable_formatter_on_filetypes"], ft)
+  then
+    formatters_by_ft[ft] = { "trim_newlines", "trim_whitespace" }
+  end
+end
+
 -- Specify the formatters which have no Mason package
 local formatters_without_mason_package = {
   "trim_newlines",
@@ -69,16 +79,7 @@ return {
   opts = {
     formatters_by_ft = formatters_by_ft,
     format_on_save = function(_)
-      local config = require("config")
-      if
-        config["disable_format_on_save_for_filetypes"]
-        and vim.tbl_contains(config["disable_format_on_save_for_filetypes"], vim.bo.filetype)
-      then
-        return
-      end
-
-      local utils = require("utils")
-      if utils.buffer.tooling_is_disabled() then
+      if require("utils").buffer.tooling_is_disabled() then
         return
       end
 
