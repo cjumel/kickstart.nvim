@@ -5,7 +5,10 @@
 
 return {
   "mfussenegger/nvim-dap-python",
-  dependencies = { "mfussenegger/nvim-dap" },
+  dependencies = {
+    "mfussenegger/nvim-dap",
+    "williamboman/mason.nvim",
+  },
   lazy = true, -- Lazy-loaded by nvim-dap
   init = function()
     local mason_ensure_installed = { "debugpy" }
