@@ -43,20 +43,16 @@ return {
         ["Ï"] = cmp.mapping(cmp.mapping.scroll_docs(5), { "i", "c" }), -- <M-j>
         ["È"] = cmp.mapping(cmp.mapping.scroll_docs(-5), { "i", "c" }), -- <M-k>
       },
-      -- We can define groups of sources with the `group_index` source attribute or using the `cmp.config.sources`
-      --  function; a group of sources is only enabled if the previous groups didn't return any completion items, and
-      --  within a group, sources are ordered by decreasing priority, just like the usual setup
       sources = {
-        { name = "luasnip", group_index = 1 },
-        { name = "nvim_lsp", group_index = 1 },
-        { name = "path", group_index = 1 },
-        { name = "buffer", group_index = 2 },
+        { name = "luasnip" },
+        { name = "nvim_lsp" },
+        { name = "path" },
+        { name = "buffer" },
       },
-      -- Disable menu in completion window
-      --  This menu can describe the source of the completion item (e.g. its global source like "LSP" or "Luasnip", or
-      --  the module corresponding to a completion item for languages like Python), however disabling it solves an issue
-      --  with the documentation window hiding the completion item (see https://github.com/hrsh7th/nvim-cmp/issues/1154
-      --  or https://github.com/hrsh7th/nvim-cmp/issues/1673).
+      -- Disable menu in completion window. This menu can describe the source of the completion item (e.g. its global
+      --  source like "LSP" or "Luasnip", or the module corresponding to a completion item for languages like Python),
+      --  however disabling it solves an issue with the documentation window hiding the completion item. See
+      --  https://github.com/hrsh7th/nvim-cmp/issues/1154 or https://github.com/hrsh7th/nvim-cmp/issues/1673).
       formatting = {
         format = function(_, vim_item)
           vim_item.menu = nil
@@ -67,7 +63,11 @@ return {
 
     -- Set up special configurations
     cmp.setup.cmdline(":", {
-      -- Don't show cmdline completion when path's are available to avoid duplicates
+      -- We can define groups of sources with the `group_index` source attribute or using the `cmp.config.sources`
+      --  function. A group of sources is only enabled if all the previous groups didn't return any completion items,
+      --  and within a group, sources are ordered by decreasing priority, just like the usual setup.
+      -- Here, we don't want to show cmdline completion when path's are available to avoid duplicates between the two
+      --  sources, and path completion are more user-friendly than cmdline's for paths.
       sources = {
         { name = "path", group_index = 1 },
         { name = "cmdline", group_index = 2 },
@@ -84,7 +84,7 @@ return {
         { name = "luasnip", group_index = 1 },
         { name = "nvim_lsp", group_index = 1 },
         { name = "path", group_index = 1 },
-        { name = "buffer", group_index = 2 },
+        { name = "buffer", group_index = 1 },
       },
     })
     cmp.setup.filetype("markdown", {
