@@ -8,13 +8,11 @@ local sn = ls.snippet_node
 local t = ls.text_node
 
 return {
-  s({ trig = "local .. = ..", show_condition = custom_conditions.is_in_code_empty_line }, {
-    t("local "),
-    i(1),
-    c(2, {
-      i(1),
-      sn(nil, { t(" = "), i(1) }),
-      sn(nil, { t(" = "), t([[require("]]), i(1), t([[")]]) }),
+  s({ trig = "local ..", show_condition = custom_conditions.is_in_code_empty_line }, {
+    c(1, {
+      sn(nil, { t("local "), i(1) }),
+      sn(nil, { t("local "), i(1), t(" = "), i(2) }),
+      sn(nil, { t("local "), i(1), t([[ = require("]]), i(2), t([[")]]) }),
     }),
   }),
   s({ trig = "function ()", show_condition = custom_conditions.is_in_code }, {
@@ -36,36 +34,50 @@ return {
   s({ trig = "else", show_condition = custom_conditions.is_in_code_empty_line }, { t({ "else", "\t" }), i(1) }),
 
   -- [[ Loops ]]
-  s(
-    { trig = "for .. do", show_condition = custom_conditions.is_in_code_empty_line },
-    { t("for "), i(1), t({ " do", "\t" }), i(2), t({ "", "end" }) }
-  ),
-  s({ trig = "for .. pairs ..", show_condition = custom_conditions.is_in_code_empty_line }, {
-    t("for "),
-    i(1, "k"),
-    t(", "),
-    i(2, "v"),
-    t(" in pairs("),
-    i(3, "t"),
-    t({ ") do", "\t" }),
-    i(4),
-    t({ "", "end" }),
+  s({ trig = "for .. do", show_condition = custom_conditions.is_in_code_empty_line }, {
+    c(1, {
+      sn(nil, {
+        t("for "),
+        i(1),
+        t({ " do", "\t" }),
+        i(2),
+        t({ "", "end" }),
+      }),
+      sn(nil, {
+        t("for "),
+        i(1, "k"),
+        t(", "),
+        i(2, "v"),
+        t(" in pairs("),
+        i(3, "t"),
+        t({ ") do", "\t" }),
+        i(4),
+        t({ "", "end" }),
+      }),
+      sn(nil, {
+        t("for "),
+        i(1, "_"),
+        t(", "),
+        i(2, "x"),
+        t(" in ipairs("),
+        i(3, "t"),
+        t({ ") do", "\t" }),
+        i(4),
+        t({ "", "end" }),
+      }),
+      sn(nil, {
+        t("for "),
+        i(1, "i"),
+        t(" = "),
+        i(2, "start"),
+        t(", "),
+        i(3, "end_"),
+        t({ " do", "\t" }),
+        i(4),
+        t({ "", "end" }),
+      }),
+    }),
   }),
-  s({ trig = "for .. ipairs ..", show_condition = custom_conditions.is_in_code_empty_line }, {
-    t("for "),
-    c(1, { i(1, "i"), t("_") }), -- Typing "_" to replace "i" is broken for some reason
-    t(", "),
-    i(2, "x"),
-    t(" in ipairs("),
-    i(3, "t"),
-    t({ ") do", "\t" }),
-    i(4),
-    t({ "", "end" }),
-  }),
-  s(
-    { trig = "for .. range ..", show_condition = custom_conditions.is_in_code_empty_line },
-    { t("for "), i(1, "i"), t(" = "), i(2, "start"), t(", "), i(3, "end_"), t({ " do", "\t" }), i(4), t({ "", "end" }) }
-  ),
   s(
     { trig = "while .. do", show_condition = custom_conditions.is_in_code_empty_line },
     { t("while "), i(1), t({ " do", "\t" }), i(2), t({ "", "end" }) }
