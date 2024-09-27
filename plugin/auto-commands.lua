@@ -46,7 +46,7 @@ vim.api.nvim_create_autocmd("BufReadPost", {
 --- Set the color column value according to the value of the `textwidth` buffer option.
 ---@return nil
 local function set_colorcolumn()
-  if vim.bo.textwidth ~= 0 and not utils.buffer.tooling_is_disabled() then
+  if vim.bo.textwidth ~= 0 then
     vim.opt_local.colorcolumn = tostring(vim.bo.textwidth + 1) -- Offset the column by 1 to put it just after the limit
   end
 end
