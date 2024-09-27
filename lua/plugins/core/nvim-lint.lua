@@ -56,7 +56,7 @@ return {
           and vim.tbl_contains(require("config")["disable_lint_on_filetypes "], vim.bo.filetype)
         )
         -- Check command to toggle lint
-        or (vim.g.disable_format_on_save or vim.b[vim.fn.bufnr()].disable_format_on_save)
+        or (vim.g.disable_lint or vim.b[vim.fn.bufnr()].disable_lint)
         -- Check tooling should not be globally disabled on the buffer
         or require("utils").buffer.tooling_is_disabled()
       then
