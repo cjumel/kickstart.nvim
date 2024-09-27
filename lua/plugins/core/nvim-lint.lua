@@ -51,10 +51,14 @@ return {
     linters_by_ft = linters_by_ft,
     should_lint = function() -- Custom option to enable/disable linting
       if
-        (
-          require("config")["disable_linting_on_filetypes "]
-          and vim.tbl_contains(require("config")["disable_linting_on_filetypes "], vim.bo.filetype)
-        ) or require("utils").buffer.tooling_is_disabled()
+        ( -- Check Neovim configuration option to disable lint on filetypes
+          require("config")["disable_lint_on_filetypes "]
+          and vim.tbl_contains(require("config")["disable_lint_on_filetypes "], vim.bo.filetype)
+        )
+        -- Check command to toggle lint
+        or (vim.g.disable_format_on_save or vim.b[vim.fn.bufnr()].disable_format_on_save)
+        -- Check tooling should not be globally disabled on the buffer
+        or require("utils").buffer.tooling_is_disabled()
       then
         return false
       end
@@ -78,5 +82,18 @@ return {
         end
       end,
     })
+
+    -- Used with a bang ("!"), the disable command will disable lint just for the current buffer
+    vim.api.nvim_create_user_command("LintDisable", function(args)
+      if args.bang then
+        vim.b.disable_lint = true
+      else
+        vim.g.disable_lint = true
+      end
+    end, { desc = "Disable lint", bang = true })
+    vim.api.nvim_create_user_command("LintEnable", function()
+      vim.b.disable_lint = false
+      vim.g.disable_lint = false
+    end, { desc = "Enable lint" })
   end,
 }

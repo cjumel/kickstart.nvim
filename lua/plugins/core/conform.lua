@@ -78,12 +78,33 @@ return {
   end,
   opts = {
     formatters_by_ft = formatters_by_ft,
-    format_on_save = function(_)
-      if require("utils").buffer.tooling_is_disabled() then
+    format_on_save = function(bufnr)
+      if
+        -- Check command to toggle format on save
+        (vim.g.disable_format_on_save or vim.b[bufnr].disable_format_on_save)
+        -- Check tooling should not be globally disabled on the buffer
+        or require("utils").buffer.tooling_is_disabled()
+      then
         return
       end
 
       return { lsp_fallback = true, timeout_ms = 500 }
     end,
   },
+  config = function(_, opts)
+    require("conform").setup(opts)
+
+    -- Used with a bang ("!"), the disable command will disable format on save just for the current buffer
+    vim.api.nvim_create_user_command("FormatOnSaveDisable", function(args)
+      if args.bang then
+        vim.b.disable_format_on_save = true
+      else
+        vim.g.disable_format_on_save = true
+      end
+    end, { desc = "Disable format-on-save", bang = true })
+    vim.api.nvim_create_user_command("FormatOnSaveEnable", function()
+      vim.b.disable_format_on_save = false
+      vim.g.disable_format_on_save = false
+    end, { desc = "Enable format-on-save" })
+  end,
 }
