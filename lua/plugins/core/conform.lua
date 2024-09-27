@@ -9,6 +9,8 @@
 -- In some file types, a formatter is integrated as a language server in nvim-lspconfig; in that case, the corresponding
 --  file type must be added as a key with at least an empty array as value to trigger formatting on save
 local formatters_by_ft = {
+  conf = { "trim_newlines", "trim_whitespace" },
+  editorconfig = { "trim_newlines", "trim_whitespace" },
   gitconfig = { "trim_newlines", "trim_whitespace" },
   gitignore = { "trim_newlines", "trim_whitespace" },
   json = { "prettier" },
