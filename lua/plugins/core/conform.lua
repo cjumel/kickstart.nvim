@@ -73,8 +73,11 @@ return {
     format_on_save = function(bufnr)
       if
         ( -- Check Neovim configuration option to disable format-on-save on filetypes
-          require("config")["disable_format_on_save_on_filetypes"]
-          and vim.tbl_contains(require("config")["disable_format_on_save_on_filetypes"], vim.bo.filetype)
+          require("config")["disable_format_on_save_on_filetypes"] == "*"
+          or (
+            require("config")["disable_format_on_save_on_filetypes"]
+            and vim.tbl_contains(require("config")["disable_format_on_save_on_filetypes"], vim.bo.filetype)
+          )
         )
         -- Check command to toggle format on save
         or (vim.g.disable_format_on_save or vim.b[bufnr].disable_format_on_save)

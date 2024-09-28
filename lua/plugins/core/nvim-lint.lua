@@ -52,8 +52,11 @@ return {
     should_lint = function() -- Custom option to enable/disable linting
       if
         ( -- Check Neovim configuration option to disable lint on filetypes
-          require("config")["disable_lint_on_filetypes "]
-          and vim.tbl_contains(require("config")["disable_lint_on_filetypes "], vim.bo.filetype)
+          require("config")["disable_lint_on_filetypes"] == "*"
+          or (
+            require("config")["disable_lint_on_filetypes"]
+            and vim.tbl_contains(require("config")["disable_lint_on_filetypes"], vim.bo.filetype)
+          )
         )
         -- Check command to toggle lint
         or (vim.g.disable_lint or vim.b[vim.fn.bufnr()].disable_lint)
