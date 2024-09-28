@@ -6,7 +6,19 @@
 return {
   "MagicDuck/grug-far.nvim",
   keys = {
-    { "<leader>r", require("plugins.core.grug-far.actions").grug_far, mode = { "n", "v" }, desc = "[R]eplace" },
+    {
+      "<leader>r",
+      function() require("plugins.core.grug-far.actions").grug_far() end,
+      mode = { "n", "v" },
+      desc = "[R]eplace",
+    },
   },
-  opts = {},
+  opts = {
+    keymaps = {
+      replace = { n = "<CR>" },
+      close = { n = "q" },
+      openLocation = { n = "<Tab>" }, -- Like gotoLocation but don't move the cursor
+      gotoLocation = false, -- { n = "<CR>" } by default, conflict with the replace keymap
+    },
+  },
 }
