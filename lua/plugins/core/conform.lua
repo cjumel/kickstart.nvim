@@ -29,16 +29,6 @@ local formatters_by_ft = {
   zsh = { "shfmt" }, -- Not actually for zsh, but in my use case it seems to work fine
 }
 
--- Change the configured formatter to white spaces and new lines trimmers when a formatter is disabled on a filetype
-for ft, _ in pairs(formatters_by_ft) do
-  if
-    require("config")["disable_formatter_on_filetypes"]
-    and vim.tbl_contains(require("config")["disable_formatter_on_filetypes"], ft)
-  then
-    formatters_by_ft[ft] = { "trim_newlines", "trim_whitespace" }
-  end
-end
-
 -- Specify the formatters which have no Mason package
 local formatters_without_mason_package = {
   "trim_newlines",
@@ -82,8 +72,12 @@ return {
     formatters_by_ft = formatters_by_ft,
     format_on_save = function(bufnr)
       if
+        ( -- Check Neovim configuration option to disable format-on-save on filetypes
+          require("config")["disable_format_on_save_on_filetypes"]
+          and vim.tbl_contains(require("config")["disable_format_on_save_on_filetypes"], vim.bo.filetype)
+        )
         -- Check command to toggle format on save
-        (vim.g.disable_format_on_save or vim.b[bufnr].disable_format_on_save)
+        or (vim.g.disable_format_on_save or vim.b[bufnr].disable_format_on_save)
         -- Check tooling should not be globally disabled on the buffer
         or require("utils").buffer.tooling_is_disabled()
       then
@@ -96,7 +90,8 @@ return {
   config = function(_, opts)
     require("conform").setup(opts)
 
-    -- Used with a bang ("!"), the disable command will disable format on save just for the current buffer
+    -- Create command to toggle format-on-save
+    -- Used with a bang ("!"), the disable command will disable format-on-save just for the current buffer
     vim.api.nvim_create_user_command("FormatOnSaveDisable", function(args)
       if args.bang then
         vim.b.disable_format_on_save = true

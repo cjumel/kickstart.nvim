@@ -83,6 +83,7 @@ return {
       end,
     })
 
+    -- Create command to toggle lint
     -- Used with a bang ("!"), the disable command will disable lint just for the current buffer
     vim.api.nvim_create_user_command("LintDisable", function(args)
       if args.bang then
