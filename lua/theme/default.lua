@@ -2,14 +2,6 @@ local extensions = require("plugins.ui.lualine.extensions")
 local modules = require("plugins.ui.lualine.modules")
 local sections = require("plugins.ui.lualine.sections")
 
--- Make background transparent
-vim.cmd([[
-  highlight Normal guibg=none
-  highlight NonText guibg=none
-  highlight Normal ctermbg=none
-  highlight NonText ctermbg=none
-]])
-
 local M = {}
 
 local custom_sections = vim.tbl_deep_extend("force", sections.empty, {
