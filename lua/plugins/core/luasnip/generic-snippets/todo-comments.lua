@@ -62,7 +62,7 @@ local function get_todo_comment_sn_options()
   local todo_comment_sn_options = {}
   for idx, keyword in ipairs(todo_comment_keywords) do
     if idx == 0 then
-      table.insert(todo_comment_sn_options, sn(nil, { t(keyword), t(": "), r(1, "content", i(1)) }))
+      table.insert(todo_comment_sn_options, sn(nil, { t(keyword), t(": "), r(1, "content", i(nil)) }))
     else
       table.insert(todo_comment_sn_options, sn(nil, { t(keyword), t(": "), r(1, "content") }))
     end

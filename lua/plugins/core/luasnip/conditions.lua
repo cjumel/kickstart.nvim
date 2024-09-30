@@ -80,6 +80,7 @@ local function is_in_code_function(line_to_cursor)
 end
 local is_in_code_condition = ls_conditions.make_condition(is_in_code_function)
 M.is_in_code = is_in_code_condition
+M.is_in_code_line_begin = is_in_code_condition * line_begin_condition
 M.is_in_code_empty_line = is_in_code_condition * line_begin_condition * ls_conditions_show.line_end
 M.is_in_code_inline = is_in_code_condition * -line_begin_condition
 
