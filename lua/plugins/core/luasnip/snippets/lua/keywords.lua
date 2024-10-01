@@ -19,9 +19,9 @@ return {
       "string_content",
       "table_constructor",
     }),
-    docstring = [[
-else
-  ..]],
+    desc = [[
+`else
+  ..`]],
   }, {
     t({ "else", "\t" }),
     i(1),
@@ -36,14 +36,14 @@ else
       "string_content",
       "table_constructor",
     }),
-    docstring = [[
+    desc = [[
 Multiple-choice snippet:
-- elseif .. then
-  ..
-end
-- elseif not .. then
-  ..
-end]],
+- `elseif .. then
+    ..
+  end`
+- `elseif not .. then
+    ..
+  end`]],
   }, {
     c(1, {
       sn(nil, {
@@ -72,20 +72,20 @@ end]],
       "string_content",
       "table_constructor",
     }),
-    docstring = [[
+    desc = [[
 Multiple-choice snippet:
-- for .. do
+- `for .. do
     ..
-  end
-- for .., .. in pairs(..)
+  end`
+- `for .., .. in pairs(..)
     ..
-  end
-- for .., .. in ipairs(..)
+  end`
+- `for .., .. in ipairs(..)
     ..
-  end
-- for .. = .., .. do
+  end`
+- `for .. = .., .. do
     ..
-  end]],
+  end`]],
   }, {
     c(1, {
       sn(nil, {
@@ -139,12 +139,12 @@ Multiple-choice snippet:
       "string",
       "string_content",
     }),
-    docstring = [[
+    desc = [[
 Multiple-choice snippet:
-- function ..(..)
+- `function ..(..)
     ..
-  end
-- function ..(..) .. end]],
+  end`
+- `function ..(..) .. end`]],
   }, {
     c(1, {
       sn(nil, {
@@ -177,14 +177,14 @@ Multiple-choice snippet:
       "string_content",
       "table_constructor",
     }),
-    docstring = [[
+    desc = [[
 Multiple-choice snippet:
-- if .. then
-  ..
-end
-- if not .. then
-  ..
-end]],
+- `if .. then
+    ..
+  end`
+- `if not .. then
+    ..
+  end`]],
   }, {
     c(1, {
       sn(nil, { t("if "), r(1, "condition", i(nil)), t({ " then", "\t" }), r(2, "content", i(nil)), t({ "", "end" }) }),
@@ -201,11 +201,11 @@ end]],
       "string_content",
       "table_constructor",
     }),
-    docstring = [[
+    desc = [[
 Multiple-choice snippet:
-- local ..
-- local .. = ..
-- local .. = require("..")]],
+- `local ..`
+- `local .. = ..`
+- `local .. = require("..")`]],
   }, {
     c(1, {
       sn(nil, { t("local "), r(1, "var_name", i(nil)) }),
@@ -223,10 +223,10 @@ Multiple-choice snippet:
       "string_content",
       "table_constructor",
     }),
-    docstring = [[
+    desc = [[
 Multiple-choice snippet:
-- return ..
-- return not ..]],
+- `return ..`
+- `return not ..`]],
   }, {
     c(1, {
       sn(nil, { t("return "), r(1, "content", i(nil)) }),
@@ -243,14 +243,14 @@ Multiple-choice snippet:
       "string_content",
       "table_constructor",
     }),
-    docstring = [[
+    desc = [[
 Multiple-choice snippet:
-- while .. do
-  ..
-end
-- while not .. do
-  ..
-end]],
+- `while .. do
+    ..
+  end`
+- `while not .. do
+    ..
+  end`]],
   }, {
     c(1, {
       sn(nil, {

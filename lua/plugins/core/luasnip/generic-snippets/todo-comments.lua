@@ -70,15 +70,16 @@ local function get_todo_comment_sn_options()
   return todo_comment_sn_options
 end
 
-local docstring = [[
-Supported keywords:
-- ]] .. table.concat(todo_comment_keywords, "\n- ")
+local desc = "Supported keywords:"
+for _, todo_comment_keyword in ipairs(todo_comment_keywords) do
+  desc = desc .. "\n- `" .. todo_comment_keyword .. "`"
+end
 
 return {
   no_ts = {
     s({
       trig = "todo-comment",
-      docstring = docstring,
+      desc = desc,
     }, {
       f(get_comment_string_start),
       c(1, get_todo_comment_sn_options()),
@@ -95,7 +96,7 @@ return {
         "string_start",
         "string_content",
       }),
-      docstring = docstring,
+      desc = desc,
     }, {
       f(get_comment_string_start),
       c(1, get_todo_comment_sn_options()),
@@ -107,7 +108,7 @@ return {
         "comment",
         "comment_content",
       }),
-      docstring = docstring,
+      desc = desc,
     }, {
       c(1, get_todo_comment_sn_options()),
     }),

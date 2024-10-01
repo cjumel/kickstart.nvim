@@ -12,7 +12,7 @@ return {
 
   s({
     trig = "@me",
-    docstring = [[
+    desc = [[
 `@clementjumel`
 (GitHub Flavored Markdown)]],
   }, {
@@ -22,7 +22,7 @@ return {
   s({
     trig = "checkbox",
     show_condition = conds.line_begin,
-    docstring = [[
+    desc = [[
 Multiple-choice snippet:
 - `- [ ] ..` (todo)
 - `- [-] ..` (WIP)
@@ -41,7 +41,7 @@ Multiple-choice snippet:
   s({
     trig = "toggle-block",
     show_condition = conds.empty_line,
-    docstring = [[
+    desc = [[
 `<details>`
 `<summary>..<\summary>`
 

@@ -12,7 +12,7 @@ return {
 
   s({
     trig = "bold",
-    docstring = "`**..**`",
+    desc = "`**..**`",
   }, {
     t("**"), -- Using asterix is more robust than underscores as it works also within words & is preferred by Prettier
     i(1),
@@ -21,7 +21,7 @@ return {
 
   s({
     trig = "bold-italic",
-    docstring = "`**_.._**`",
+    desc = "`**_.._**`",
   }, {
     t("**_"), -- Using asterix is more robust than underscores as it works also within words & is preferred by Prettier
     i(1),
@@ -31,7 +31,7 @@ return {
   s({
     trig = "header",
     show_condition = conds.empty_line,
-    docstring = [[
+    desc = [[
 Multiple-choice snippet:
 - `# ..`
 - `## ..`
@@ -50,7 +50,7 @@ Multiple-choice snippet:
 
   s({
     trig = "italic",
-    docstring = "`_.._`",
+    desc = "`_.._`",
   }, {
     t("_"),
     i(1),
@@ -59,7 +59,7 @@ Multiple-choice snippet:
 
   s({
     trig = "link",
-    docstring = "`[..](..)`",
+    desc = "`[..](..)`",
   }, {
     t("["),
     i(1, "name"),
@@ -71,7 +71,7 @@ Multiple-choice snippet:
   s({
     trig = "quote-block",
     show_condition = conds.empty_line,
-    docstring = [[
+    desc = [[
 Multiple-choice snippet:
 - `> ..`
 - `>> ..`
@@ -87,7 +87,7 @@ Multiple-choice snippet:
   s({
     trig = "code-block",
     show_condition = conds.empty_line,
-    docstring = [[
+    desc = [[
 \`\`\`..
 ..
 \`\`\`]],
