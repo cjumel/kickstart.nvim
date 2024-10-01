@@ -1,5 +1,6 @@
-local custom_conditions = require("plugins.core.luasnip.conditions")
+local conds = require("plugins.core.luasnip.conditions")
 local ls = require("luasnip")
+local ls_show_conds = require("luasnip.extras.conditions.show")
 
 local c = ls.choice_node
 local i = ls.insert_node
@@ -11,7 +12,13 @@ local t = ls.text_node
 return {
   s({
     trig = "else ..",
-    show_condition = custom_conditions.is_in_code_empty_line,
+    show_condition = conds.line_begin * ls_show_conds.line_end * -conds.make_treesitter_node_condition({
+      "comment",
+      "comment_content",
+      "string",
+      "string_content",
+      "table_constructor",
+    }),
     docstring = [[
 else
   ..]],
@@ -22,7 +29,13 @@ else
 
   s({
     trig = "elsif ..",
-    show_condition = custom_conditions.is_in_code_empty_line,
+    show_condition = conds.line_begin * ls_show_conds.line_end * -conds.make_treesitter_node_condition({
+      "comment",
+      "comment_content",
+      "string",
+      "string_content",
+      "table_constructor",
+    }),
     docstring = [[
 Multiple-choice snippet:
 - elseif .. then
@@ -52,7 +65,13 @@ end]],
 
   s({
     trig = "for ..",
-    show_condition = custom_conditions.is_in_code_empty_line,
+    show_condition = conds.line_begin * ls_show_conds.line_end * -conds.make_treesitter_node_condition({
+      "comment",
+      "comment_content",
+      "string",
+      "string_content",
+      "table_constructor",
+    }),
     docstring = [[
 Multiple-choice snippet:
 - for .. do
@@ -114,7 +133,12 @@ Multiple-choice snippet:
 
   s({
     trig = "function ..",
-    show_condition = custom_conditions.is_in_code,
+    show_condition = -conds.make_treesitter_node_condition({
+      "comment",
+      "comment_content",
+      "string",
+      "string_content",
+    }),
     docstring = [[
 Multiple-choice snippet:
 - function ..(..)
@@ -146,7 +170,13 @@ Multiple-choice snippet:
 
   s({
     trig = "if ..",
-    show_condition = custom_conditions.is_in_code_empty_line,
+    show_condition = conds.line_begin * ls_show_conds.line_end * -conds.make_treesitter_node_condition({
+      "comment",
+      "comment_content",
+      "string",
+      "string_content",
+      "table_constructor",
+    }),
     docstring = [[
 Multiple-choice snippet:
 - if .. then
@@ -164,7 +194,13 @@ end]],
 
   s({
     trig = "local ..",
-    show_condition = custom_conditions.is_in_code_line_begin,
+    show_condition = conds.line_begin * -conds.make_treesitter_node_condition({
+      "comment",
+      "comment_content",
+      "string",
+      "string_content",
+      "table_constructor",
+    }),
     docstring = [[
 Multiple-choice snippet:
 - local ..
@@ -179,8 +215,34 @@ Multiple-choice snippet:
   }),
 
   s({
+    trig = "return ..",
+    show_condition = conds.line_begin * -conds.make_treesitter_node_condition({
+      "comment",
+      "comment_content",
+      "string",
+      "string_content",
+      "table_constructor",
+    }),
+    docstring = [[
+Multiple-choice snippet:
+- return ..
+- return not ..]],
+  }, {
+    c(1, {
+      sn(nil, { t("return "), r(1, "content", i(nil)) }),
+      sn(nil, { t("return not "), r(1, "content") }),
+    }),
+  }),
+
+  s({
     trig = "while ..",
-    show_condition = custom_conditions.is_in_code_empty_line,
+    show_condition = conds.line_begin * ls_show_conds.line_end * -conds.make_treesitter_node_condition({
+      "comment",
+      "comment_content",
+      "string",
+      "string_content",
+      "table_constructor",
+    }),
     docstring = [[
 Multiple-choice snippet:
 - while .. do

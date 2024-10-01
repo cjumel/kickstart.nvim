@@ -3,7 +3,7 @@
 --  https://github.com/L3MON4D3/LuaSnip/wiki/Cool-Snippets#all---todo-commentsnvim-snippets
 -- It was then simplified to avoid relying on the `Comment.nvim` plugin and use only builtin Neovim features.
 
-local custom_conditions = require("plugins.core.luasnip.conditions")
+local conds = require("plugins.core.luasnip.conditions")
 local ls = require("luasnip")
 
 local c = ls.choice_node
@@ -88,7 +88,13 @@ return {
   ts = {
     s({
       trig = "todo-comment",
-      show_condition = custom_conditions.is_in_code,
+      show_condition = -conds.make_treesitter_node_condition({
+        "comment",
+        "comment_content",
+        "string",
+        "string_start",
+        "string_content",
+      }),
       docstring = docstring,
     }, {
       f(get_comment_string_start),
@@ -96,8 +102,11 @@ return {
       f(get_comment_string_end),
     }),
     s({
-      trig = "todo-comment",
-      show_condition = custom_conditions.is_in_comment,
+      trig = "todo-keyword",
+      show_condition = conds.make_treesitter_node_condition({
+        "comment",
+        "comment_content",
+      }),
       docstring = docstring,
     }, {
       c(1, get_todo_comment_sn_options()),
