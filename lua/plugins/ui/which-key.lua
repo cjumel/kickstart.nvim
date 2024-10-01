@@ -18,8 +18,11 @@ return {
       { "<leader>g", group = "[G]it", mode = { "n", "v" } },
       { "<leader>n", group = "[N]oice" },
       { "<leader>o", group = "[O]verseer" },
+      { "<leader>r", group = "[R]eplace", mode = { "n", "v" } },
       { "<leader>t", group = "[T]erminal" },
       { "<leader>x", group = "Trouble" },
+      { "<localleader>f", group = "[F]ind", mode = { "n", "v" } },
+      { "<localleader>r", group = "[R]eplace", mode = { "n", "v" } },
     },
     win = { border = "rounded" }, -- Add a border in Which Key UI to improve visibility in transparent backgrounds
     sort = { "local", "order", "alphanum", "mod" }, -- Don't sort keymap groups last

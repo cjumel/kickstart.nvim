@@ -1,34 +1,35 @@
--- Define custom actions for grug-far.nvim
-
 local utils = require("utils")
 
 local M = {}
 
-M.grug_far = function()
+M.grug_far = function(opts)
   local grug_far = require("grug-far")
 
-  local opts = { prefills = {} }
+  opts = opts or {}
+  local current_buffer_only = opts.current_buffer_only or false
+  local current_filetype_only = opts.current_filetype_only or false
+  local current_oil_directory_only = opts.current_oil_directory_only or false
+
+  local grug_far_opts = { prefills = {} }
+
   if utils.visual.is_visual_mode() then
-    opts.prefills.search = utils.visual.get_text()
+    grug_far_opts.prefills.search = utils.visual.get_text()
+  end
+  if current_buffer_only then
+    grug_far_opts.prefills.paths = vim.fn.expand("%")
+  end
+  if current_filetype_only then
+    grug_far_opts.prefills.filesFilter = "*." .. vim.bo.filetype
+  end
+  if current_oil_directory_only then
+    if vim.bo.filetype == "oil" then
+      grug_far_opts.prefills.paths = vim.fn.expand(package.loaded.oil.get_current_dir())
+    else
+      error("The current buffer is not an Oil buffer.")
+    end
   end
 
-  grug_far.grug_far(opts)
-end
-
-M.grug_far_oil_directory = function()
-  local grug_far = require("grug-far")
-
-  local opts = { prefills = {} }
-  if vim.bo.filetype == "oil" then
-    opts.prefills.paths = vim.fn.expand(package.loaded.oil.get_current_dir())
-  else
-    error("The current buffer is not an Oil buffer.")
-  end
-  if utils.visual.is_visual_mode() then
-    opts.prefills.search = utils.visual.get_text()
-  end
-
-  grug_far.grug_far(opts)
+  grug_far.grug_far(grug_far_opts)
 end
 
 return M

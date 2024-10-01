@@ -48,7 +48,7 @@ return {
       },
       ["<localleader>s"] = { "actions.change_sort", desc = "Change [S]ort" },
 
-      -- Other plugins integration
+      -- Telescope integration
       ["<localleader>ff"] = {
         function() require("plugins.core.telescope.builtin").find_files_oil_directory() end,
         desc = "[F]ind: [F]iles in current directory",
@@ -61,9 +61,11 @@ return {
         function() require("plugins.core.telescope.builtin").live_grep_oil_directory() end,
         desc = "[F]ind: by [G]rep in current directory",
       },
-      ["<localleader>r"] = {
-        function() require("plugins.core.grug-far.actions").grug_far_oil_directory() end,
-        desc = "[R]eplace in current directory",
+
+      -- Grug-far integration
+      ["<localleader>rr"] = {
+        function() require("plugins.core.grug-far.actions").grug_far({ current_oil_directory_only = true }) end,
+        desc = "[R]eplace: unrestricted in directory",
       },
     },
     use_default_keymaps = false,
