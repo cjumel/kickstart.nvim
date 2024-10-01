@@ -1,64 +1,101 @@
-local custom_conditions = require("plugins.core.luasnip.conditions")
+local conds = require("plugins.core.luasnip.conditions")
 local ls = require("luasnip")
 
 local c = ls.choice_node
 local i = ls.insert_node
+local r = ls.restore_node
 local s = ls.snippet
 local sn = ls.snippet_node
 local t = ls.text_node
 
 return {
 
-  -- [[ Vanilla Markdown ]]
+  s({
+    trig = "bold",
+    docstring = "`**..**`",
+  }, {
+    t("**"), -- Using asterix is more robust than underscores as it works also within words & is preferred by Prettier
+    i(1),
+    t("**"),
+  }),
 
-  -- Within-text snippets
-  -- For italic, bold & bold-italic, using asterix is more robust than underscores as it works also within words
-  s("italic", { t("_"), i(1), t("_") }),
-  s("bold", { t("**"), i(1), t("**") }),
-  s("bold-italic", { t("**_"), i(1), t("_**") }),
-  s("link", { t("["), i(1, "name"), t("]("), i(2, "url"), t(")") }),
+  s({
+    trig = "bold-italic",
+    docstring = "`**_.._**`",
+  }, {
+    t("**_"), -- Using asterix is more robust than underscores as it works also within words & is preferred by Prettier
+    i(1),
+    t("_**"),
+  }),
 
-  -- Block snippets
-  s({ trig = "header", show_condition = custom_conditions.empty_line }, {
+  s({
+    trig = "header",
+    show_condition = conds.empty_line,
+    docstring = [[
+Multiple-choice snippet:
+- `# ..`
+- `## ..`
+- `### ..`
+- `#### ..`
+- `##### ..`]],
+  }, {
     c(1, {
-      sn(nil, { t("# "), i(1) }),
-      sn(nil, { t("## "), i(1) }),
-      sn(nil, { t("### "), i(1) }),
-      sn(nil, { t("#### "), i(1) }),
-      sn(nil, { t("##### "), i(1) }),
+      sn(nil, { t("# "), r(1, "content", i(nil)) }),
+      sn(nil, { t("## "), r(1, "content") }),
+      sn(nil, { t("### "), r(1, "content") }),
+      sn(nil, { t("#### "), r(1, "content") }),
+      sn(nil, { t("##### "), r(1, "content") }),
     }),
   }),
-  s({ trig = "quote-block", show_condition = custom_conditions.empty_line }, {
+
+  s({
+    trig = "italic",
+    docstring = "`_.._`",
+  }, {
+    t("_"),
+    i(1),
+    t("_"),
+  }),
+
+  s({
+    trig = "link",
+    docstring = "`[..](..)`",
+  }, {
+    t("["),
+    i(1, "name"),
+    t("]("),
+    i(2, "link"),
+    t(")"),
+  }),
+
+  s({
+    trig = "quote-block",
+    show_condition = conds.empty_line,
+    docstring = [[
+Multiple-choice snippet:
+- `> ..`
+- `>> ..`
+- `>>> ..`]],
+  }, {
     c(1, {
-      sn(nil, { t("> "), i(1) }),
-      sn(nil, { t(">> "), i(1) }),
-      sn(nil, { t(">>> "), i(1) }),
+      sn(nil, { t("> "), r(1, "content", i(nil)) }),
+      sn(nil, { t(">> "), r(1, "content") }),
+      sn(nil, { t(">>> "), r(1, "content") }),
     }),
   }),
-  s({ trig = "code-block", show_condition = custom_conditions.empty_line }, {
+
+  s({
+    trig = "code-block",
+    show_condition = conds.empty_line,
+    docstring = [[
+\`\`\`..
+..
+\`\`\`]],
+  }, {
     t("```"),
     c(1, { i(nil), t("shell", "python") }),
     t({ "", "" }),
     i(2),
     t({ "", "```" }),
-  }),
-
-  -- [[ GitHub Flavored Markdown ]]
-
-  s("@me", { t("@clementjumel"), i(1) }),
-  s({ trig = "checkbox", show_condition = custom_conditions.line_begin }, {
-    c(1, {
-      sn(nil, { t("- [ ] "), i(1) }), -- Not started
-      sn(nil, { t("- [-] "), i(1) }), -- In progress
-      sn(nil, { t("- [x] "), i(1) }), -- Done
-      sn(nil, { t("- [/] "), i(1) }), -- Cancelled
-    }),
-  }),
-  s({ trig = "toggle-block", show_condition = custom_conditions.empty_line }, {
-    t({ "<details>", "<summary>" }),
-    i(1, "Summary"),
-    t({ "</summary>", "", "" }), -- Line break after the summary is important for some blocks like code-blocks
-    i(2, "Content"),
-    t({ "", "", "</details>" }),
   }),
 }
