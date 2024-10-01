@@ -65,29 +65,24 @@ local function find_files_get_base_opts()
   return opts
 end
 
-function M.find_files()
+function M.find_files(opts)
   local builtin = require("telescope.builtin")
 
-  local opts = find_files_get_base_opts()
-  vim.g.telescope_last_opts = opts -- Persist the options dynamically change them later on
+  opts = opts or {}
+  local current_oil_directory_only = opts.current_oil_directory_only or false
 
-  opts = find_files_finalize_opts(opts)
-  builtin.find_files(opts)
-end
-
-function M.find_files_oil_directory()
-  local builtin = require("telescope.builtin")
-
-  local opts = find_files_get_base_opts()
-  if vim.bo.filetype == "oil" then
-    opts.cwd = package.loaded.oil.get_current_dir()
-  else
-    error("The current buffer is not an Oil buffer.")
+  local telescope_opts = find_files_get_base_opts()
+  if current_oil_directory_only then
+    if vim.bo.filetype == "oil" then
+      telescope_opts.cwd = package.loaded.oil.get_current_dir()
+    else
+      error("The current buffer is not an Oil buffer.")
+    end
   end
-  vim.g.telescope_last_opts = opts -- Persist the options dynamically change them later on
+  vim.g.telescope_last_opts = telescope_opts -- Persist the options dynamically change them later on
 
-  opts = find_files_finalize_opts(opts)
-  builtin.find_files(opts)
+  telescope_opts = find_files_finalize_opts(telescope_opts)
+  builtin.find_files(telescope_opts)
 end
 
 --- Finalize the options for the `find_directories` custom picker. This function adds all the relevant not-persisted
@@ -161,29 +156,24 @@ local function find_directories_get_base_opts()
   return opts
 end
 
-function M.find_directories()
+function M.find_directories(opts)
   local builtin = require("telescope.builtin")
 
-  local opts = find_directories_get_base_opts()
-  vim.g.telescope_last_opts = opts -- Persist the options dynamically change them later on
+  opts = opts or {}
+  local current_oil_directory_only = opts.current_oil_directory_only or false
 
-  opts = find_directories_finalize_opts(opts)
-  builtin.find_files(opts)
-end
-
-function M.find_directories_oil_directory()
-  local builtin = require("telescope.builtin")
-
-  local opts = find_directories_get_base_opts()
-  if vim.bo.filetype == "oil" then
-    opts.cwd = package.loaded.oil.get_current_dir()
-  else
-    error("The current buffer is not an Oil buffer.")
+  local telescope_opts = find_directories_get_base_opts()
+  if current_oil_directory_only then
+    if vim.bo.filetype == "oil" then
+      telescope_opts.cwd = package.loaded.oil.get_current_dir()
+    else
+      error("The current buffer is not an Oil buffer.")
+    end
   end
-  vim.g.telescope_last_opts = opts -- Persist the options dynamically change them later on
+  vim.g.telescope_last_opts = telescope_opts -- Persist the options dynamically change them later on
 
-  opts = find_directories_finalize_opts(opts)
-  builtin.find_files(opts)
+  telescope_opts = find_directories_finalize_opts(telescope_opts)
+  builtin.find_files(telescope_opts)
 end
 
 --- Finalize the options for the `live_grep` picker. This function adds all the relevant not-persisted options to the
@@ -243,29 +233,24 @@ local function live_grep_get_base_opts()
   return opts
 end
 
-function M.live_grep()
+function M.live_grep(opts)
   local builtin = require("telescope.builtin")
 
-  local opts = live_grep_get_base_opts()
-  vim.g.telescope_last_opts = opts -- Persist the options dynamically change them later on
+  opts = opts or {}
+  local current_oil_directory_only = opts.current_oil_directory_only or false
 
-  opts = live_grep_finalize_opts(opts)
-  builtin.live_grep(opts)
-end
-
-function M.live_grep_oil_directory()
-  local builtin = require("telescope.builtin")
-
-  local opts = live_grep_get_base_opts()
-  if vim.bo.filetype == "oil" then
-    opts.cwd = package.loaded.oil.get_current_dir()
-  else
-    error("The current buffer is not an Oil buffer.")
+  local telescope_opts = live_grep_get_base_opts()
+  if current_oil_directory_only then
+    if vim.bo.filetype == "oil" then
+      telescope_opts.cwd = package.loaded.oil.get_current_dir()
+    else
+      error("The current buffer is not an Oil buffer.")
+    end
   end
-  vim.g.telescope_last_opts = opts -- Persist the options dynamically change them later on
+  vim.g.telescope_last_opts = telescope_opts -- Persist the options dynamically change them later on
 
-  opts = live_grep_finalize_opts(opts)
-  builtin.live_grep(opts)
+  telescope_opts = live_grep_finalize_opts(telescope_opts)
+  builtin.live_grep(telescope_opts)
 end
 
 function M.oldfiles()
@@ -289,7 +274,9 @@ end
 function M.current_buffer()
   local builtin = require("telescope.builtin")
 
-  local opts = {}
+  local opts = {
+    prompt_title = "Find in Buffer",
+  }
 
   if custom_utils.visual.is_visual_mode() then
     opts.default_text = custom_utils.visual.get_text()

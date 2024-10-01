@@ -50,15 +50,15 @@ return {
 
       -- Telescope integration
       ["<localleader>ff"] = {
-        function() require("plugins.core.telescope.builtin").find_files_oil_directory() end,
+        function() require("plugins.core.telescope.builtin").find_files({ current_oil_directory_only = true }) end,
         desc = "[F]ind: [F]iles in current directory",
       },
       ["<localleader>fd"] = {
-        function() require("plugins.core.telescope.builtin").find_directories_oil_directory() end,
+        function() require("plugins.core.telescope.builtin").find_directories({ current_oil_directory_only = true }) end,
         desc = "[F]ind: [D]irectories in current directory",
       },
       ["<localleader>fg"] = {
-        function() require("plugins.core.telescope.builtin").live_grep_oil_directory() end,
+        function() require("plugins.core.telescope.builtin").live_grep({ current_oil_directory_only = true }) end,
         desc = "[F]ind: by [G]rep in current directory",
       },
 
