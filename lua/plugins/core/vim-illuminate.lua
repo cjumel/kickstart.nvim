@@ -5,6 +5,7 @@
 
 return {
   "RRethy/vim-illuminate",
+  cond = not require("config")["light_mode"],
   lazy = true,
   opts = {
     providers = { "lsp" }, -- Only enable LSP to decrease false positives

@@ -5,6 +5,7 @@
 
 return {
   "mfussenegger/nvim-dap-python",
+  cond = not require("config")["light_mode"],
   dependencies = {
     "mfussenegger/nvim-dap",
     "williamboman/mason.nvim",

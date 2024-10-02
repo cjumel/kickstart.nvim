@@ -6,7 +6,7 @@
 
 return {
   "github/copilot.vim",
-  cond = not require("config")["disable_copilot"],
+  cond = not (require("config")["light_mode"] or require("config")["disable_copilot"]),
   event = { "BufNewFile", "BufReadPre" }, -- When lazy-loading on InsertEnter, the plugin doesn't work right away
   config = function()
     vim.g.copilot_filetypes = { markdown = true } -- Enable Copilot on additional filetypes

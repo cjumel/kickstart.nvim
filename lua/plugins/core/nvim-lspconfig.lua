@@ -87,10 +87,11 @@ local server_name_to_mason_name = {
 
 return {
   "neovim/nvim-lspconfig",
+  cond = not require("config")["light_mode"],
   dependencies = {
     "williamboman/mason.nvim",
-    "williamboman/mason-lspconfig.nvim",
-    "hrsh7th/cmp-nvim-lsp",
+    { "williamboman/mason-lspconfig.nvim", cond = not require("config")["light_mode"] },
+    { "hrsh7th/cmp-nvim-lsp", cond = not require("config")["light_mode"] },
     "RRethy/vim-illuminate",
     "ray-x/lsp_signature.nvim",
     "smjonas/inc-rename.nvim",

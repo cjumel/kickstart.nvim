@@ -7,6 +7,7 @@
 
 return {
   "smjonas/inc-rename.nvim",
+  cond = not require("config")["light_mode"],
   lazy = true,
   opts = { save_in_cmdline_history = false }, -- Don't save command in history, like the builtin LSP rename
 }

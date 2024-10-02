@@ -6,14 +6,20 @@
 
 return {
   "williamboman/mason.nvim",
-  cmd = { "Mason", "MasonUpdate", "MasonInstall", "MasonInstallAll", "MasonUninstall", "MasonUninstallAll" },
+  cond = not require("config")["light_mode"],
+  cmd = {
+    "Mason",
+    "MasonUpdate",
+    "MasonInstall",
+    "MasonInstallAll",
+    "MasonUninstall",
+    "MasonUninstallAll",
+  },
   opts = {
     ui = { border = "rounded" }, -- Add a border in Mason UI to improve visibility in transparent backgrounds
   },
   config = function(_, opts)
-    local mason = require("mason")
-
-    mason.setup(opts)
+    require("mason").setup(opts)
 
     -- Command to ensure that the given packages are installed. This is adapted from mason-lspconfig.ensure_installed
     --  and https://github.com/williamboman/mason.nvim/issues/1309#issuecomment-1555018732.

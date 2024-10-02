@@ -6,6 +6,7 @@
 
 return {
   "mfussenegger/nvim-dap",
+  cond = not require("config")["light_mode"],
   dependencies = { "rcarriga/nvim-dap-ui" },
   keys = {
     {

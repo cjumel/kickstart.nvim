@@ -28,6 +28,7 @@ local linter_to_mason_name = {}
 
 return {
   "mfussenegger/nvim-lint",
+  cond = not require("config")["light_mode"],
   dependencies = { "williamboman/mason.nvim" },
   ft = vim.tbl_keys(linters_by_ft),
   init = function()

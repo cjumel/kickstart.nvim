@@ -7,6 +7,7 @@
 
 return {
   "ray-x/lsp_signature.nvim",
+  cond = not require("config")["light_mode"],
   lazy = true, -- Dependency of nvim-lspconfig
   opts = {
     hint_prefix = "", -- Remove the emoji from the virual text hint

@@ -5,7 +5,10 @@
 
 return {
   "rcarriga/nvim-dap-ui",
-  dependencies = { "nvim-neotest/nvim-nio" },
+  cond = not require("config")["light_mode"],
+  dependencies = {
+    { "nvim-neotest/nvim-nio", cond = not require("config")["light_mode"] },
+  },
   lazy = true, -- Dependency of nvim-dap
   opts = {
     layouts = {
