@@ -6,7 +6,7 @@
 
 return {
   "folke/tokyonight.nvim",
-  cond =  require("theme").get_field("tokyonight", "enabled", false),
+  cond = require("theme").get_field("tokyonight", "enabled", false),
   priority = 1000, -- Main UI stuff should be loaded first
   opts = require("theme").make_opts("tokyonight", {
     style = "night", -- "night", "moon", "storm" or "day"

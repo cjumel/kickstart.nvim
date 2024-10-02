@@ -6,7 +6,7 @@
 return {
   "rose-pine/neovim",
   name = "rose-pine",
-  cond =  require("theme").get_field("rose_pine", "enabled", false),
+  cond = require("theme").get_field("rose_pine", "enabled", false),
   priority = 1000, -- Main UI stuff should be loaded first
   opts = require("theme").make_opts("rose_pine", {
     variant = "main", -- "auto", "main", "moon", or "dawn"
