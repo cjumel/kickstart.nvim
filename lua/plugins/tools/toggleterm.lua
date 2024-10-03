@@ -109,7 +109,11 @@ return {
         "<leader>tr",
         function()
           select_term_and_run(function(term)
-            local path = utils.path.get_current_file_path()
+            local path = vim.fn.expand("%:p") -- Absolute current file path
+            -- Make the path more user-friendly (relative to the cwd if in it, or absolute)
+            --  Truncating the home directory with "~" doesn't work for some of the commands below
+            path = vim.fn.fnamemodify(path, ":p:.")
+
             local line
             if vim.bo.filetype == "lua" then
               line = [[dofile("]] .. path .. [[")]]
@@ -118,6 +122,7 @@ return {
             else
               error("Unsupported filetype: " .. vim.bo.filetype)
             end
+
             require("toggleterm").exec(line, term.id)
           end, { prompt = "Select a terminal to run in: ", only_opened = true })
         end,
