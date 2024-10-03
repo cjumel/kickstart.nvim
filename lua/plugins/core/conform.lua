@@ -83,7 +83,7 @@ return {
         -- Check command to toggle format on save
         or (vim.g.disable_format_on_save or vim.b[bufnr].disable_format_on_save)
         -- Check tooling should not be globally disabled on the buffer
-        or require("utils").buffer.tooling_is_disabled()
+        or require("buffer").tooling_is_disabled()
       then
         return
       end

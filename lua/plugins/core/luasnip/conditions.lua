@@ -1,6 +1,7 @@
 -- Define custom conditions and related utilities used throughout the various snippets, similarly to
 -- `luasnip.extras.conditions` and `luasnip.extras.conditions.show`.
 
+local buffer = require("buffer")
 local ls_conds = require("luasnip.extras.conditions")
 local ls_show_conds = require("luasnip.extras.conditions.show")
 local utils = require("utils")
@@ -107,7 +108,7 @@ local function lua_project_function()
       type = "file",
       path = package.loaded.oil.get_current_dir(),
       upward = true, -- Search in the current directory and its parents
-      stop = utils.buffer.get_git_root() or vim.env.HOME, -- Stop searching at the Git root or the HOME directory
+      stop = buffer.get_git_root() or vim.env.HOME, -- Stop searching at the Git root or the HOME directory
     }
   )
   return not vim.tbl_isempty(lua_related_files)
@@ -125,7 +126,7 @@ local function python_project_function()
       type = "file",
       path = package.loaded.oil.get_current_dir(),
       upward = true, -- Search in the current directory and its parents
-      stop = utils.buffer.get_git_root() or vim.env.HOME, -- Stop searching at the Git root or the HOME directory
+      stop = buffer.get_git_root() or vim.env.HOME, -- Stop searching at the Git root or the HOME directory
     }
   )
   return not vim.tbl_isempty(lua_related_files)

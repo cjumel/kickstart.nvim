@@ -8,20 +8,15 @@ local M = {}
 ---@return boolean
 function M.is_temporary() return vim.tbl_contains(filetypes.temporary_filetypes, vim.bo.filetype) end
 
---- Determine whether buffer tooling, like auto-formatting or linting, is disabled on the current buffer.
----@return boolean|nil _ True or false if tooling is enabled or disabled, respectively, or nil if it is unknown.
+--- Determine whether buffer tooling, like auto-formatting or linting, should be disabled on the current buffer or not.
+---@return boolean
 function M.tooling_is_disabled()
-  -- Default locations where tooling is disabled
-  if vim.g.disable_tooling_callback then
-    local file_path = vim.fn.expand("%:p:~") -- Relative to $HOME with "~/" prefix
-    if vim.g.disable_tooling_callback(file_path) then
-      return true
-    end
-  end
-
-  -- Additional buffers where tooling is disabled, set by ftplugins
-  local disable_tooling_by_bufnr = vim.g.disable_tooling_by_bufnr or {}
-  return disable_tooling_by_bufnr[vim.fn.bufnr()] -- True, false or nil (unknown yet)
+  local file_path = vim.fn.expand("%:p:~") -- Relative to $HOME with "~/" prefix
+  return (
+    file_path:match("/.venv/") -- Virtual environments
+    or (file_path:match("^~/%..*/") and not file_path:match("^~/%.config/")) -- Hidden $HOME sub-directories
+    or file_path:match("^~/Library/Caches/") -- Dependencies installed by package managers like `pip` or `poetry` then
+  )
 end
 
 --- Output the path of the parent directory of the current buffer file, if it exists, or nil.

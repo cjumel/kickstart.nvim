@@ -52,13 +52,6 @@ for type, icon in pairs(signs) do
   vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
 end
 
--- Callback to disable tooling in some location
-vim.g.disable_tooling_callback = function(file_path)
-  return file_path:match("/.venv/") -- Virtual environments
-    or (file_path:match("^~/%..*/") and not file_path:match("^~/%.config/")) -- Hidden $HOME sub-directories
-    or file_path:match("^~/Library/Caches/") -- Dependencies installed by package managers like `pip` or `poetry`
-end
-
 -- [[ Filetypes ]]
 
 -- Add custom filetypes to those known by Neovim

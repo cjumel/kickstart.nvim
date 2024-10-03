@@ -62,7 +62,7 @@ return {
         -- Check command to toggle lint
         or (vim.g.disable_lint or vim.b[vim.fn.bufnr()].disable_lint)
         -- Check tooling should not be globally disabled on the buffer
-        or require("utils").buffer.tooling_is_disabled()
+        or require("buffer").tooling_is_disabled()
       then
         return false
       end

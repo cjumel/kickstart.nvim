@@ -1,3 +1,4 @@
+local buffer = require("buffer")
 local utils = require("utils")
 
 -- [[ Modify builtin keymaps ]]
@@ -8,7 +9,7 @@ local utils = require("utils")
 ---@return string
 local function smart_a_or_i(default_keymap)
   if
-    utils.buffer.is_temporary() -- File type to ignore (crash in not modifiable ones)
+    buffer.is_temporary() -- File type to ignore (crash in not modifiable ones)
     or string.match(vim.api.nvim_get_current_line(), "%g") ~= nil -- Line is not empty
   then
     return default_keymap

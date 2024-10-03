@@ -1,6 +1,6 @@
 -- The settings Hydra provides a simple interface to view and change Neovim-level settings.
 
-local utils = require("utils")
+local buffer = require("buffer")
 
 local function context_header_display()
   if vim.g.context_header_mode == "on" then
@@ -187,7 +187,7 @@ local function ruler_column_switch_next()
   else
     vim.opt.colorcolumn = vim.g.ruler_column_mode
   end
-  if not utils.buffer.is_temporary() then
+  if not buffer.is_temporary() then
     vim.cmd("edit") -- Reload the current buffer to apply the new colorcolumn setting
   end
 end
@@ -211,7 +211,7 @@ local function ruler_column_switch_prev()
   else
     vim.opt.colorcolumn = vim.g.ruler_column_mode
   end
-  if not utils.buffer.is_temporary() then
+  if not buffer.is_temporary() then
     vim.cmd("edit") -- Reload the current buffer to apply the new colorcolumn setting
   end
 end
