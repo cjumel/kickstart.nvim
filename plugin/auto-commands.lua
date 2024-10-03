@@ -1,5 +1,3 @@
-local utils = require("utils")
-
 -- [[ Highlight Yanked Text ]]
 -- This auto-command shows which part of a file has been yanked
 

@@ -1,5 +1,3 @@
-local utils = require("utils")
-
 local M = {}
 
 M.empty = { function() return "" end }

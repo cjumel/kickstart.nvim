@@ -4,7 +4,6 @@
 local buffer = require("buffer")
 local ls_conds = require("luasnip.extras.conditions")
 local ls_show_conds = require("luasnip.extras.conditions.show")
-local utils = require("utils")
 
 local M = {}
 

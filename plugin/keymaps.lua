@@ -1,5 +1,6 @@
 local buffer = require("buffer")
-local utils = require("utils")
+local keymap = require("keymap")
+local visual_mode = require("visual_mode")
 
 -- [[ Modify builtin keymaps ]]
 -- Keymaps to modify (fix or improve) the behavior of builtin keymaps
@@ -43,7 +44,7 @@ vim.keymap.set("v", "$", "$h", { desc = "End of line" })
 -- Re-implement the builtin bracket navigation keymaps (with "(", "{" & "<") and complete them (with "[" and all of the
 --  corresponding closing bracket)
 for _, char in ipairs({ "(", ")", "{", "}", "<", ">", "[", "]" }) do
-  utils.keymap.set_move_pair(
+  keymap.set_move_pair(
     { "[" .. char, "]" .. char },
     { function() vim.fn.search(char) end, function() vim.fn.search(char, "b") end },
     { { desc = "Next " .. char }, { desc = "Previous " .. char } }
@@ -133,8 +134,8 @@ vim.keymap.set(
 )
 local function search_in_web_browser()
   local text
-  if utils.visual.is_visual_mode() then
-    text = utils.visual.get_text()
+  if visual_mode.is_on() then
+    text = visual_mode.get_text()
   else
     -- Retrieve the search text with the z-register as intermediary, like the smart-gx implementation of
     --  nvim-various-textobjs
@@ -153,46 +154,46 @@ local function search_in_web_browser()
 end
 vim.keymap.set({ "n", "v" }, "g/", search_in_web_browser, { desc = "Search word under the cursor in Web browser" })
 
-utils.keymap.set_move_pair(
+keymap.set_move_pair(
   { "[p", "]p" },
   { function() vim.cmd("normal }") end, function() vim.cmd("normal {") end },
   { { desc = "Next paragraph" }, { desc = "Previous paragraph" } }
 )
-utils.keymap.set_move_pair(
+keymap.set_move_pair(
   { "[b", "]b" },
   { function() vim.cmd("bnext") end, function() vim.cmd("bprev") end },
   { { desc = "Next buffer" }, { desc = "Previous buffer" } }
 )
-utils.keymap.set_move_pair(
+keymap.set_move_pair(
   { "[l", "]l" },
   { function() vim.cmd("silent! lnext") end, function() vim.cmd("silent! lprev") end },
   { { desc = "Next loclist item" }, { desc = "Previous loclist item" } }
 )
-utils.keymap.set_move_pair(
+keymap.set_move_pair(
   { "[q", "]q" },
   { function() vim.cmd("silent! cnext") end, function() vim.cmd("silent! cprev") end },
   { { desc = "Next qflist item" }, { desc = "Previous qflist item" } }
 )
 
-utils.keymap.set_move_pair( -- Dianostics can be errors, warnings, information messages or hints
+keymap.set_move_pair( -- Dianostics can be errors, warnings, information messages or hints
   { "[d", "]d" },
   { vim.diagnostic.goto_next, vim.diagnostic.goto_prev },
   { { desc = "Next diagnostic" }, { desc = "Previous diagnostic" } }
 )
-utils.keymap.set_move_pair({ "[e", "]e" }, {
+keymap.set_move_pair({ "[e", "]e" }, {
   function() vim.diagnostic.goto_next({ severity = vim.diagnostic.severity.ERROR }) end,
   function() vim.diagnostic.goto_prev({ severity = vim.diagnostic.severity.ERROR }) end,
 }, { { desc = "Next error" }, { desc = "Previous error" } })
 
 local url_pattern = "http:\\/\\/\\|https:\\/\\/"
-utils.keymap.set_move_pair(
+keymap.set_move_pair(
   { "[w", "]w" },
   { function() vim.fn.search(url_pattern) end, function() vim.fn.search(url_pattern, "b") end },
   { { desc = "Next Web address" }, { desc = "Previous Web address" } }
 )
 -- Conflict markers have 3 forms, all at the start of a line: `<<<<<<< <text>`, ` =======`, ` >>>>>>> <text>`
 local conflict_pattern = "^<<<<<<< \\|^=======\\|^>>>>>>> "
-utils.keymap.set_move_pair({ "[x", "]x" }, {
+keymap.set_move_pair({ "[x", "]x" }, {
   function() vim.fn.search(conflict_pattern) end,
   function() vim.fn.search(conflict_pattern, "b") end,
 }, { { desc = "Next conflict" }, { desc = "Previous conflict" } })

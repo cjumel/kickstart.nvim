@@ -124,10 +124,10 @@ return {
     vim.api.nvim_create_autocmd("LspAttach", {
       group = vim.api.nvim_create_augroup("lsp-attach", { clear = true }),
       callback = function(event)
-        local utils = require("utils")
+        local keymap = require("keymap")
 
         local bufnr = event.bufnr
-        local map = utils.keymap.get_buffer_local_map(bufnr)
+        local map = keymap.get_buffer_local_map(bufnr)
 
         map("n", "<C-s>", vim.lsp.buf.signature_help, "Signature help")
         map("n", "gd", "<cmd>Trouble lsp_definitions<CR>", "Go to definitions")
@@ -154,7 +154,7 @@ return {
 
         -- Next/previous reference navigation; let's define illuminate keymaps here to benefit from the "LspAttach"
         --  behavior
-        utils.keymap.set_move_pair({ "[r", "]r" }, {
+        keymap.set_move_pair({ "[r", "]r" }, {
           function() require("illuminate").goto_next_reference() end,
           function() require("illuminate").goto_prev_reference() end,
         }, {

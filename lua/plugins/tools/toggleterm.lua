@@ -7,8 +7,6 @@
 return {
   "akinsho/toggleterm.nvim",
   keys = function()
-    local utils = require("utils")
-
     --- Output the existing terminals.
     ---@param only_opened boolean Whether to restrict the terminal to the opened ones.
     ---@return Terminal[]
@@ -133,7 +131,7 @@ return {
         "<leader>t",
         function()
           select_term_and_run(function(term)
-            local lines = utils.visual.get_lines({ trim_indent = true })
+            local lines = require("visual_mode").get_lines({ trim_indent = true })
             require("toggleterm").exec(table.concat(lines, "\n"), term.id)
           end, { prompt = "Select a terminal to send to: ", only_opened = true })
         end,

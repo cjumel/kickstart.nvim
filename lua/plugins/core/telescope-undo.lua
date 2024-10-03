@@ -12,15 +12,15 @@ return {
     {
       "<leader>fu",
       function()
-        local custom_utils = require("utils")
         local telescope = require("telescope")
+        local visual_mode = require("visual_mode")
 
         local opts = {
           -- Sort entries by recency
           tiebreak = function(current, existing, _) return current.index < existing.index end,
         }
-        if custom_utils.visual.is_visual_mode() then
-          opts.default_text = custom_utils.visual.get_text()
+        if visual_mode.is_on() then
+          opts.default_text = visual_mode.get_text()
         end
         telescope.extensions.undo.undo(opts)
       end,

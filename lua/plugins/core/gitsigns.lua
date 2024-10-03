@@ -15,9 +15,9 @@ return {
     on_attach = function(bufnr)
       local actions = require("plugins.core.gitsigns.actions")
       local gitsigns = require("gitsigns")
-      local utils = require("utils")
+      local keymap = require("keymap")
 
-      local map = utils.keymap.get_buffer_local_map(bufnr)
+      local map = keymap.get_buffer_local_map(bufnr)
 
       -- General git actions
       map("n", "<leader>gs", gitsigns.stage_buffer, "[G]it: [S]tage buffer")
@@ -27,7 +27,7 @@ return {
       map("n", "<leader>gd", function() gitsigns.diffthis("~") end, "[G]it: buffer [D]iff")
 
       -- Navigation keymaps
-      utils.keymap.set_move_pair({ "[h", "]h" }, {
+      keymap.set_move_pair({ "[h", "]h" }, {
         function() gitsigns.next_hunk({ navigation_message = false }) end,
         function() gitsigns.prev_hunk({ navigation_message = false }) end,
       }, { { desc = "Next hunk", buffer = bufnr }, { desc = "Previous hunk", buffer = bufnr } })

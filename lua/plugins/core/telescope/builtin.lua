@@ -1,7 +1,7 @@
 -- Here are defined custom wrappers around Telescope builtin pickers. It is where I implement custom options or logic
 -- for each picker I use & want to customize.
 
-local custom_utils = require("utils")
+local visual_mode = require("visual_mode")
 
 local M = {}
 
@@ -62,8 +62,8 @@ local function find_files_get_base_opts()
     _include_all_files = false,
   }
 
-  if custom_utils.visual.is_visual_mode() then
-    local text = custom_utils.visual.get_text()
+  if visual_mode.is_on() then
+    local text = visual_mode.get_text()
     -- Replace punctuation marks by spaces, to support searching from module names, like "plugins.core"
     opts.default_text = string.gsub(text, "%p", " ")
   end
@@ -159,8 +159,8 @@ local function find_directories_get_base_opts()
     _include_all_files = false,
   }
 
-  if custom_utils.visual.is_visual_mode() then
-    local text = custom_utils.visual.get_text()
+  if visual_mode.is_on() then
+    local text = visual_mode.get_text()
     -- Replace punctuation marks by spaces, to support searching from module names, like "plugins.core"
     opts.default_text = string.gsub(text, "%p", " ")
   end
@@ -244,8 +244,8 @@ local function live_grep_get_base_opts()
     _include_all_files = false,
   }
 
-  if custom_utils.visual.is_visual_mode() then
-    opts.default_text = custom_utils.visual.get_text()
+  if visual_mode.is_on() then
+    opts.default_text = visual_mode.get_text()
   end
 
   return opts
@@ -280,8 +280,8 @@ function M.oldfiles()
     prompt_title = "Find OldFiles",
   }
 
-  if custom_utils.visual.is_visual_mode() then
-    local text = custom_utils.visual.get_text()
+  if visual_mode.is_on() then
+    local text = visual_mode.get_text()
     -- Replace punctuation marks by spaces, to support searching from module names, like "plugins.core"
     opts.default_text = string.gsub(text, "%p", " ")
   end
@@ -296,8 +296,8 @@ function M.current_buffer()
     prompt_title = "Find in Buffer",
   }
 
-  if custom_utils.visual.is_visual_mode() then
-    opts.default_text = custom_utils.visual.get_text()
+  if visual_mode.is_on() then
+    opts.default_text = visual_mode.get_text()
   end
 
   builtin.current_buffer_fuzzy_find(opts)
@@ -308,8 +308,8 @@ function M.help_tags()
 
   local opts = {}
 
-  if custom_utils.visual.is_visual_mode() then
-    opts.default_text = custom_utils.visual.get_text()
+  if visual_mode.is_on() then
+    opts.default_text = visual_mode.get_text()
   end
 
   builtin.help_tags(opts)
@@ -320,8 +320,8 @@ function M.man_pages()
 
   local opts = {}
 
-  if custom_utils.visual.is_visual_mode() then
-    opts.default_text = custom_utils.visual.get_text()
+  if visual_mode.is_on() then
+    opts.default_text = visual_mode.get_text()
   end
 
   builtin.man_pages(opts)
@@ -446,8 +446,8 @@ function M.lsp_document_symbols()
 
   local opts = {}
 
-  if custom_utils.visual.is_visual_mode() then
-    opts.default_text = custom_utils.visual.get_text()
+  if visual_mode.is_on() then
+    opts.default_text = visual_mode.get_text()
   end
 
   builtin.lsp_document_symbols(opts)
@@ -458,8 +458,8 @@ function M.lsp_workspace_symbols()
 
   local opts = {}
 
-  if custom_utils.visual.is_visual_mode() then
-    opts.default_text = custom_utils.visual.get_text()
+  if visual_mode.is_on() then
+    opts.default_text = visual_mode.get_text()
   end
 
   builtin.lsp_dynamic_workspace_symbols(opts)

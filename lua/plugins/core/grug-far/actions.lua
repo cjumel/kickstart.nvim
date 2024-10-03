@@ -1,4 +1,4 @@
-local utils = require("utils")
+local visual_mode = require("visual_mode")
 
 local M = {}
 
@@ -12,8 +12,8 @@ M.grug_far = function(opts)
 
   local grug_far_opts = { prefills = {} }
 
-  if utils.visual.is_visual_mode() then
-    grug_far_opts.prefills.search = utils.visual.get_text()
+  if visual_mode.is_on() then
+    grug_far_opts.prefills.search = visual_mode.get_text()
   end
   if current_buffer_only then
     grug_far_opts.prefills.paths = vim.fn.expand("%")

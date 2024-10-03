@@ -109,11 +109,10 @@ return {
     },
   },
   config = function(_, opts)
-    local ts_config = require("nvim-treesitter.configs")
-    local ts_utils = require("nvim-treesitter.ts_utils")
-    local utils = require("utils")
+    require("nvim-treesitter.configs").setup(opts)
 
-    ts_config.setup(opts)
+    local keymap = require("keymap")
+    local ts_utils = require("nvim-treesitter.ts_utils")
 
     --- Output the current line main node, that is the top-level ancestor from the node under the
     --- cursor within the same line.
@@ -162,7 +161,7 @@ return {
       ts_utils.goto_node(sibling)
     end
 
-    utils.keymap.set_move_pair(
+    keymap.set_move_pair(
       { "[s", "]s" },
       { next_sibling_node, prev_sibling_node },
       { { desc = "Next line sibling" }, { desc = "Previous line sibling" } }

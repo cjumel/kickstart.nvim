@@ -21,14 +21,10 @@ return {
     search = { args = { "--color=never", "--no-heading", "--with-filename", "--line-number", "--column", "--hidden" } },
   },
   config = function(_, opts)
-    local tdc = require("todo-comments")
-    local utils = require("utils")
-
-    tdc.setup(opts)
-
-    utils.keymap.set_move_pair({ "[t", "]t" }, {
-      tdc.jump_next,
-      tdc.jump_prev,
+    require("todo-comments").setup(opts)
+    require("keymap").set_move_pair({ "[t", "]t" }, {
+      require("todo-comments").jump_next,
+      require("todo-comments").jump_prev,
     }, { { desc = "Next todo-comment" }, { desc = "Previous todo-comment" } })
   end,
 }

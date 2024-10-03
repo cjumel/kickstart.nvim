@@ -49,7 +49,6 @@ return {
     local actions = require("telescope.actions")
     local actions_layout = require("telescope.actions.layout")
     local custom_actions = require("plugins.core.telescope.actions")
-    local custom_utils = require("utils")
     local utils = require("telescope.utils")
 
     return {

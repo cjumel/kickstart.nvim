@@ -1,18 +1,20 @@
+-- Utilities to interact with Neovim's visual mode.
+
 local M = {}
 
---- Check if the current mode is any visual mode (regular, line, or block).
----@return boolean output True if and only if the current mode is any visual mode.
-function M.is_visual_mode()
+--- Check if the current mode is any of the visual modes (regular, line, or block).
+---@return boolean
+function M.is_on()
   local mode = vim.fn.mode()
   return mode == "v"
     or mode == "V" -- Visual line mode
     or mode == "\22" -- Visual block mode
 end
 
---- Trim leading and trailing white spaces from all lines in an array.
+--- Trim leading and trailing white spaces from all lines in an array and output them in a copy.
 ---@param lines string[] The array of lines to trim.
----@return string[] result A copy of the input array where all strings have been trimmed.
-function M.trim_lines_ws(lines)
+---@return string[]
+local function trim_lines_ws(lines)
   local result = {}
   for _, value in ipairs(lines) do
     value = value:gsub("^%s+", ""):gsub("%s+$", "")
@@ -21,13 +23,16 @@ function M.trim_lines_ws(lines)
   return result
 end
 
---- Trim global indentation from all lines in an array, but keeping the relative indentation. For instance, for
---- `{'    if True:', '        print(20)'}`, the result is `{'if True:', '    print(20)'}`.
+--- Trim global indentation from all lines in an array, but keeping the relative indentation, and output them in a copy.
+--- For instance, for input:
+---   `{'    if True:', '        print(20)'}`
+--- The result of this functions is:
+---   `{'if True:', '    print(20)'}`
 --- This function is taken from:
---- https://github.com/mfussenegger/nvim-dap-python/blob/3dffa58541d1f52c121fe58ced046268c838d802/lua/dap-python.lua
+---   https://github.com/mfussenegger/nvim-dap-python/blob/3dffa58541d1f52c121fe58ced046268c838d802/lua/dap-python.lua
 ---@param lines string[] The array of lines to trim.
----@return string[] result A copy of the input array where all strings have been trimmed.
-function M.trim_lines_indent(lines)
+---@return string[]
+local function trim_lines_indent(lines)
   local offset = nil
   for _, line in ipairs(lines) do
     local first_non_ws = line:find("[^%s]") or 0
@@ -44,9 +49,9 @@ end
 
 --- Return the lines of the visual selection as an array with an entry for each line.
 --- This function is taken from:
---- https://www.reddit.com/r/neovim/comments/1b1sv3a/function_to_get_visually_selected_text/
+---   https://www.reddit.com/r/neovim/comments/1b1sv3a/function_to_get_visually_selected_text/
 ---@param opts table<string, any>|nil Options to customize the output.
----@return string[] lines The selected text as an array of lines.
+---@return string[]
 function M.get_lines(opts)
   opts = opts or {}
   local trim_ws = opts.trim_ws or false
@@ -85,16 +90,16 @@ function M.get_lines(opts)
   end
 
   if trim_ws then
-    lines = M.trim_lines_ws(lines)
+    lines = trim_lines_ws(lines)
   elseif trim_indent then
-    lines = M.trim_lines_indent(lines)
+    lines = trim_lines_indent(lines)
   end
 
   return lines
 end
 
---- Return the text of the visual selection.
----@return string text Text of the visual selection.
+--- Return the text of the visual selection in a single line (lines are concatenated with white spaces).
+---@return string
 function M.get_text()
   local lines = M.get_lines({ trim_ws = true })
   return table.concat(lines, " ")
