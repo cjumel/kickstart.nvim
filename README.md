@@ -98,9 +98,16 @@ Finally, open Neovim with the `nvim` command, and the Neovim plugin manager I us
 [Lazy.nvim](https://github.com/folke/lazy.nvim), will automatically install all the required Neovim
 plugins. Once they are installed, the
 [nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter) plugin will automatically
-install language parsers for [Treesitter](https://tree-sitter.github.io/tree-sitter/), an essential
-tool which provides a variety of language-specific features (synthax highlighting, text-objects,
-folding, etc.) Once all of this is done, if you're not using the light mode, you can type in Neovim
-`:MasonInstallAll` and press `Enter` to install all the external tools I use. Once this final
-installation step is over, quit Neovim with `:q` and `Enter` and next time you open it, everything
-should be ready to use.
+install language parsers for [Treesitter](https://tree-sitter.github.io/tree-sitter/) (an essential
+tool providing a variety of language-specific features, like synthax highlighting, folding, etc.)
+
+If you're using the light mode, Neovim is pretty much ready to be used, so skip this paragraph.
+Otherwise a few additional steps are required. First, with my setup, Neovim uses a few
+language-specific external tools, like language servers, formatters, or debuggers, so we need to
+install them. To do so, enter the `MasonInstallAll` command (type `:` to enter command-line mode,
+then the command, and finally, press `Enter`). This will run the installation of many tools in the
+background, and you can check their progress using the `Lazy` command. Once the installation is
+over, you can then enter the `Copilot setup` command to setup GitHub Copilot credentials.
+
+Then, just enter the `q` command (or `quit`) to quit Neovim, and afterwards Neovim will be ready to
+be used with this custom configuration through the `nvim` command!
