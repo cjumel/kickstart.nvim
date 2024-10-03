@@ -12,7 +12,7 @@ M.default = {
       symbols = { modified = "●" }, -- Text to show when the buffer is modified
     },
   },
-  lualine_x = { modules.macro, "filetype" },
+  lualine_x = { modules.macro, modules.harpoon, "filetype" },
   lualine_y = { "location" },
   lualine_z = { "progress" },
 }

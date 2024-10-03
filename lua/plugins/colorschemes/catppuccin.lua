@@ -16,6 +16,7 @@ return {
       dadbod_ui = true,
       diffview = true,
       grug_far = true,
+      harpoon = true,
       hop = true,
       mason = true,
       noice = true,

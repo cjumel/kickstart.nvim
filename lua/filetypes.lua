@@ -48,6 +48,7 @@ M.temporary_filetypes = {
   "dapui_scopes",
   "dapui_watches",
   "gitcommit",
+  "harpoon",
   "lazy",
   "lspinfo",
   "mason",
