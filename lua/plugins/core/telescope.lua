@@ -129,7 +129,13 @@ return {
           },
         },
         path_display = function(_, path)
-          path = custom_utils.path.normalize(path) -- Normalize and shorten the path
+          -- Make the path more user-friendly (relative to the cwd if in the cwd, otherwise relative to the home
+          --  directory with a "~" prefix if in the home directory, otherwise absolute)
+          path = vim.fn.fnamemodify(path, ":p:~:.")
+          if path == "" then -- Case `cwd` is actually the cwd
+            path = "./"
+          end
+
           -- Apply Telescope builtin path display options (must be done after other normalizations)
           return utils.transform_path({ path_display = { truncate = true } }, path)
         end,

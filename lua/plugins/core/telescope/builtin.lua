@@ -19,7 +19,13 @@ local function find_files_finalize_opts(opts)
   end
 
   if opts.cwd then
-    opts.prompt_title = opts.prompt_title .. " - " .. custom_utils.path.normalize(opts.cwd)
+    -- Make the path more user-friendly (relative to the cwd if in the cwd, otherwise relative to the home directory
+    --  with a "~" prefix if in the home directory, otherwise absolute)
+    local cwd = vim.fn.fnamemodify(opts.cwd, ":p:~:.")
+    if cwd == "" then -- Case `cwd` is actually the cwd
+      cwd = "./"
+    end
+    opts.prompt_title = opts.prompt_title .. " - " .. cwd
   end
 
   return opts
@@ -110,7 +116,13 @@ local function find_directories_finalize_opts(opts)
   end
 
   if opts.cwd then
-    opts.prompt_title = opts.prompt_title .. " - " .. custom_utils.path.normalize(opts.cwd)
+    -- Make the path more user-friendly (relative to the cwd if in the cwd, otherwise relative to the home directory
+    --  with a "~" prefix if in the home directory, otherwise absolute)
+    local cwd = vim.fn.fnamemodify(opts.cwd, ":p:~:.")
+    if cwd == "" then -- Case `cwd` is actually the cwd
+      cwd = "./"
+    end
+    opts.prompt_title = opts.prompt_title .. " - " .. cwd
   end
 
   return opts
@@ -190,7 +202,13 @@ local function live_grep_finalize_opts(opts)
   end
 
   if opts.cwd then
-    opts.prompt_title = opts.prompt_title .. " - " .. custom_utils.path.normalize(opts.cwd)
+    -- Make the path more user-friendly (relative to the cwd if in the cwd, otherwise relative to the home directory
+    --  with a "~" prefix if in the home directory, otherwise absolute)
+    local cwd = vim.fn.fnamemodify(opts.cwd, ":p:~:.")
+    if cwd == "" then -- Case `cwd` is actually the cwd
+      cwd = "./"
+    end
+    opts.prompt_title = opts.prompt_title .. " - " .. cwd
   end
 
   return opts
