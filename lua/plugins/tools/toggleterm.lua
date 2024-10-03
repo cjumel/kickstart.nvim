@@ -107,10 +107,9 @@ return {
         "<leader>tr",
         function()
           select_term_and_run(function(term)
-            local path = vim.fn.expand("%:p") -- Absolute current file path
-            -- Make the path more user-friendly (relative to the cwd if in it, or absolute)
+            -- Get a user-friendly path of the current file (relative to the cwd if in it or absolute)
             --  Truncating the home directory with "~" doesn't work for some of the commands below
-            path = vim.fn.fnamemodify(path, ":p:.")
+            local path = vim.fn.expand("%:p:.")
 
             local line
             if vim.bo.filetype == "lua" then
