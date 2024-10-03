@@ -1,7 +1,10 @@
--- Setup custom file types
+-- Define filetype-related variables, to customize and complete filetypes known by Neovim. These tables can be updated
+-- in the future to support more and more custom filetypes.
+
+local M = {}
 
 -- Map some filenames unknown to Neovim to the relevant filetype
-local filetype_by_filename = {
+M.filetype_by_filename = {
   [".env.example"] = "sh", -- same as `.env`
   [".env.test"] = "sh", -- same as `.env`
   [".env.test.example"] = "sh", -- same as `.env`
@@ -15,11 +18,11 @@ local filetype_by_filename = {
   ["ignore"] = "conf", -- auto-detected by nvim
   ["ripgreprc"] = "conf", -- auto-detected by nvim
 }
-vim.filetype.add({ filename = filetype_by_filename })
 
--- Map some filenames unkown (or not well known) to Neovim/nvim-web-devicons to the relevant icon data
--- Icon data are taken from existing filenames with `:lua print(require("nvim-web-devicons").get_icon_colors("name"))`
-local icons = {
+-- Map some filenames unkown (or not well known) to nvim-web-devicons to the relevant icon data. In general, this table
+--  should be updated whenever the `M.filetype_by_filename` table is updated. Icon data are taken from existing
+--  filenames with `:lua print(require("nvim-web-devicons").get_icon_colors("name"))`.
+M.icon_by_filename = {
   [".env.example"] = { icon = "", color = "#faf743", cterm_color = "227", name = ".env" },
   [".env.test"] = { icon = "", color = "#faf743", cterm_color = "227", name = ".env" },
   [".env.test.example"] = { icon = "", color = "#faf743", cterm_color = "227", name = ".env" },
@@ -34,10 +37,9 @@ local icons = {
   ["tmux-pre-tpm.conf"] = { icon = "", color = "#14ba19", cterm_color = "34", name = "tmux.conf" },
   ["tmux-post-tpm.conf"] = { icon = "", color = "#14ba19", cterm_color = "34", name = "tmux.conf" },
 }
-require("nvim-web-devicons").set_icon(icons)
 
--- List filetypes associated with temporary buffers (typically plugin ones)
-vim.g.temporary_filetypes = {
+-- List filetypes associated with temporary buffers (typically plugin ones, not related to an actual file)
+M.temporary_filetypes = {
   "", -- No buffer opened
   "copilot-chat",
   "dap-repl",
@@ -62,3 +64,5 @@ vim.g.temporary_filetypes = {
   "trouble",
   "undotree",
 }
+
+return M

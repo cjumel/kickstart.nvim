@@ -1,13 +1,12 @@
 -- Utilities to interact with the current buffer.
 
+local filetypes = require("filetypes")
+
 local M = {}
 
 --- Determine whether the current buffer is temporary, that is not tied to an actual file (e.g. created by a plugin).
 ---@return boolean
-function M.is_temporary()
-  local temporary_filetypes = vim.g.temporary_filetypes or {}
-  return vim.tbl_contains(temporary_filetypes, vim.bo.filetype)
-end
+function M.is_temporary() return vim.tbl_contains(filetypes.temporary_filetypes, vim.bo.filetype) end
 
 --- Determine whether buffer tooling, like auto-formatting or linting, is disabled on the current buffer.
 ---@return boolean|nil _ True or false if tooling is enabled or disabled, respectively, or nil if it is unknown.

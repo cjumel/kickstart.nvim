@@ -6,6 +6,8 @@
 
 return {
   "nvim-tree/nvim-web-devicons",
-  lazy = true, -- Dependency of several plugins
-  opts = {}, -- Custom filetype settings are done in plugins/filetypes.lua
+  lazy = true, -- Only used by many plugins as a dpendency
+  opts = {
+    override_by_filename = require("filetypes").icon_by_filename, -- Add custom icons
+  },
 }

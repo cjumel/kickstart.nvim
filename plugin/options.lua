@@ -1,4 +1,8 @@
--- General Vim options
+-- General Vim and Neovim options.
+
+local filetypes = require("filetypes")
+
+-- [[ Options ]]
 
 -- Global user interface
 vim.opt.shortmess:append({ I = true }) -- Disable Neovim homepage on startup
@@ -33,12 +37,15 @@ vim.o.updatetime = 250 -- Decrease delay for writting swap files
 vim.o.timeout = true -- Enable timeout when receiving mapped key sequences
 vim.o.timeoutlen = 300 -- Decrease delay between keys in mapped sequences
 
--- Diagnostics
+-- [[ Diagnostics ]]
+
+-- Diagnostics configuration
 vim.diagnostic.config({
   float = { border = "rounded" }, -- Settings for the "open float diagnostic" popup
   severity_sort = true, -- Display most severe diagnostic in sign column
 })
--- Use symbols taken from lualine/components/diagnostics/config.lua in sign column
+
+-- Use symbols taken from lualine/components/diagnostics/config.lua in sign column for consistency
 local signs = { Error = "󰅚 ", Warn = "󰀪 ", Hint = "󰌶 ", Info = "󰋽 " }
 for type, icon in pairs(signs) do
   local hl = "DiagnosticSign" .. type
@@ -51,3 +58,8 @@ vim.g.disable_tooling_callback = function(file_path)
     or (file_path:match("^~/%..*/") and not file_path:match("^~/%.config/")) -- Hidden $HOME sub-directories
     or file_path:match("^~/Library/Caches/") -- Dependencies installed by package managers like `pip` or `poetry`
 end
+
+-- [[ Filetypes ]]
+
+-- Add custom filetypes to those known by Neovim
+vim.filetype.add({ filename = filetypes.filetype_by_filename })
