@@ -61,8 +61,10 @@ return {
         )
         -- Check command to toggle lint
         or (vim.g.disable_lint or vim.b[vim.fn.bufnr()].disable_lint)
-        -- Check tooling should not be globally disabled on the buffer
-        or require("buffer").tooling_is_disabled()
+        -- Check buffer is in current project (cwd or Git repository containing the cwd)
+        or not require("buffer").is_in_project()
+        -- Check buffer is not in an external dependency (e.g. installed by package managers)
+        or require("buffer").is_external_dependency()
       then
         return false
       end

@@ -82,8 +82,10 @@ return {
         )
         -- Check command to toggle format on save
         or (vim.g.disable_format_on_save or vim.b[bufnr].disable_format_on_save)
-        -- Check tooling should not be globally disabled on the buffer
-        or require("buffer").tooling_is_disabled()
+        -- Check buffer is in current project (cwd or Git repository containing the cwd)
+        or not require("buffer").is_in_project()
+        -- Check buffer is not in an external dependency (e.g. installed by package managers)
+        or require("buffer").is_external_dependency()
       then
         return
       end
