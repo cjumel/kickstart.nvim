@@ -39,7 +39,7 @@ function M.get_git_root()
 
   -- Find the path of a ".git" directory in any parent directory of the current buffer
   local git_dir_path = vim.fn.finddir(".git", parent_dir .. ";")
-  if git_dir_path == "" then
+  if git_dir_path == "" then -- ".git" directory not found
     return nil
   end
 

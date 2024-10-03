@@ -1,6 +1,3 @@
-local buffer = require("buffer")
-local utils = require("utils")
-
 return {
   name = "pre-commit run",
   condition = {
@@ -8,7 +5,7 @@ return {
       if vim.fn.executable("pre-commit") == 0 then
         return false
       end
-      local git_root_path = utils.path.get_git_root()
+      local git_root_path = require("cwd").get_git_root()
       if git_root_path == nil then
         return false
       end
@@ -31,7 +28,7 @@ return {
       },
       {
         name = "pre-commit run --files <file>",
-        condition = { callback = function(_) return not buffer.is_temporary() end },
+        condition = { callback = function(_) return not require("buffer").is_temporary() end },
         builder = function(_)
           local path = vim.fn.expand("%:p:~:.") -- Current file path relative to cwd or HOME or absolute
           return {

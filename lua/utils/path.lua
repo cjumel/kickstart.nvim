@@ -72,15 +72,4 @@ M.get_current_buffer_path = function(opts)
   return M.get_current_file_path(opts)
 end
 
---- Output the path of the root of the Git repository containing the current working directory, if any.
----@return string|nil _ The relative or absolute path of the root of the Git repository, or nil if there is none.
-function M.get_git_root()
-  -- Find the path of a ".git" directory in the cwd or its parents
-  local git_dir_path = vim.fn.finddir(".git", vim.fn.getcwd() .. ";")
-  if git_dir_path == "" then -- ".git" directory not found
-    return nil
-  end
-  return vim.fn.fnamemodify(git_dir_path, ":h") -- Parent directory of ".git/"
-end
-
 return M
