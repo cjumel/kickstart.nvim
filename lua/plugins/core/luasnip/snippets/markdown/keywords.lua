@@ -29,6 +29,21 @@ return {
   }),
 
   s({
+    trig = "code-block",
+    show_condition = conds.empty_line,
+    desc = [[
+\`\`\`..
+..
+\`\`\`]],
+  }, {
+    t("```"),
+    c(1, { i(nil), t("shell", "python") }),
+    t({ "", "" }),
+    i(2),
+    t({ "", "```" }),
+  }),
+
+  s({
     trig = "header",
     show_condition = conds.empty_line,
     desc = [[
@@ -85,17 +100,11 @@ Multiple-choice snippet:
   }),
 
   s({
-    trig = "code-block",
-    show_condition = conds.empty_line,
-    desc = [[
-\`\`\`..
-..
-\`\`\`]],
+    trig = "strikethrough",
+    desc = "~..~",
   }, {
-    t("```"),
-    c(1, { i(nil), t("shell", "python") }),
-    t({ "", "" }),
-    i(2),
-    t({ "", "```" }),
+    t("~"),
+    i(1),
+    t("~"),
   }),
 }
