@@ -333,12 +333,13 @@ function M.buffers()
   local themes = require("telescope.themes")
 
   local opts = themes.get_dropdown({
+    initial_mode = "normal",
     preview = { hide_on_startup = true },
     ignore_current_buffer = true, -- When current buffer is included & last used is selected, search doesn't work well
     sort_lastused = true, -- Sort current & last used buffer at the top & select the last used
     sort_mru = true, -- Sort all buffers after the last used
     attach_mappings = function(_, map)
-      map({ "i", "n" }, "<C-\\>", actions.delete_buffer)
+      map({ "n" }, "<BS>", actions.delete_buffer)
       return true -- Enable default mappings
     end,
   })
