@@ -126,7 +126,7 @@ return {
       callback = function(event)
         local keymap = require("keymap")
 
-        local bufnr = event.bufnr
+        local bufnr = event.buf
         local map = keymap.get_buffer_local_map(bufnr)
 
         map("n", "<C-s>", vim.lsp.buf.signature_help, "Signature help")
@@ -135,19 +135,19 @@ return {
         map("n", "gra", vim.lsp.buf.code_action, "Code action")
         map("n", "grn", function() return ":IncRename " .. vim.fn.expand("<cword>") end, "Rename", { expr = true })
         map("n", "grr", "<cmd>Trouble lsp_references toggle<CR>", "References")
-        map("n", "grs", "<cmd>Trouble symbols toggle<CR>", "Symbols")
         map("n", "grx", "<cmd>LspRestart<CR>", "Restart LSP")
 
-        -- Find symbol keymaps
+        -- Symbols keymaps
+        map("n", "<leader>xs", "<cmd>Trouble symbols toggle<CR>", "Trouble: [S]ymbols")
         map(
           "n",
-          "fs",
+          "<leader>fs",
           function() require("plugins.core.telescope.builtin").lsp_document_symbols() end,
           "[F]ind: buffer [S]ymbols"
         )
         map(
           "n",
-          "fS",
+          "<leader>fS",
           function() require("plugins.core.telescope.builtin").lsp_workspace_symbols() end,
           "[F]ind: workspace [S]ymbols"
         )
