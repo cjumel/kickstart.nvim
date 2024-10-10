@@ -193,11 +193,16 @@ end
 ---@param opts table The persisted options.
 ---@return table _ The finalized options.
 local function live_grep_finalize_opts(opts)
+  opts.prompt_title = "Find by Grep"
+
+  if opts.vimgrep_arguments and vim.tbl_contains(opts.vimgrep_arguments, "--fixed-strings") then
+    opts.prompt_title = opts.prompt_title .. " - fixed-strings"
+  end
+
   if not opts._include_all_files then
-    opts.prompt_title = "Find by Grep"
     opts.additional_args = { "--hidden" }
   else
-    opts.prompt_title = "Find by Grep (all)"
+    opts.prompt_title = opts.prompt_title .. " (all)"
     opts.additional_args = { "--hidden", "--no-ignore" }
   end
 
@@ -246,6 +251,18 @@ local function live_grep_get_base_opts()
 
   if visual_mode.is_on() then
     opts.default_text = visual_mode.get_text()
+    opts.vimgrep_arguments = {
+      -- Default values
+      "rg",
+      "--color=never",
+      "--no-heading",
+      "--with-filename",
+      "--line-number",
+      "--column",
+      "--smart-case",
+      -- New values
+      "--fixed-strings",
+    }
   end
 
   return opts
