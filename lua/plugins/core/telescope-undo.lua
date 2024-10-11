@@ -29,7 +29,7 @@ return {
     },
   },
   opts = {
-    diff_context_lines = 5, -- Number of lines to display around each change
+    vim_diff_opts = { ctxlen = 5 }, -- Number of lines to display around each change
     mappings = {
       i = {
         ["<CR>"] = function(bufnr) return require("telescope-undo.actions").yank_additions(bufnr) end,
