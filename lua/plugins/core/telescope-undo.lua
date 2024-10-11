@@ -12,17 +12,16 @@ return {
     {
       "<leader>fu",
       function()
-        local telescope = require("telescope")
-        local visual_mode = require("visual_mode")
-
         local opts = {
-          -- Sort entries by recency
-          tiebreak = function(current, existing, _) return current.index < existing.index end,
+          prompt_title = "Find Undotree",
+          layout_config = { preview_width = 0.6 }, -- Increase the preview width
+          tiebreak = function(current, existing, _) return current.index < existing.index end, -- Sort by recency
         }
+        local visual_mode = require("visual_mode")
         if visual_mode.is_on() then
           opts.default_text = visual_mode.get_text()
         end
-        telescope.extensions.undo.undo(opts)
+        require("telescope").extensions.undo.undo(opts)
       end,
       mode = { "n", "v" },
       desc = "[F]ind: [U]ndotree",

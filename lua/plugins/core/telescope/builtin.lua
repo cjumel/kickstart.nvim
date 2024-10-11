@@ -1,8 +1,6 @@
 -- Here are defined custom wrappers around Telescope builtin pickers. It is where I implement custom options or logic
 -- for each picker I use & want to customize.
 
-local visual_mode = require("visual_mode")
-
 local M = {}
 
 --- Finalize the options for the `find_files` picker. This function adds all the relevant not-persisted options to
@@ -34,10 +32,6 @@ end
 --- Get the base options for the `find_files` picker.
 ---@return table _ The `find_files` base options.
 local function find_files_get_base_opts()
-  local action_state = require("telescope.actions.state")
-  local actions = require("telescope.actions")
-  local builtin = require("telescope.builtin")
-
   local function toggle_all_files(prompt_bufnr, _)
     -- Persisted options
     local opts = vim.g.telescope_last_opts
@@ -46,15 +40,14 @@ local function find_files_get_base_opts()
 
     -- Not persisted options
     opts = find_files_finalize_opts(opts)
-    local current_picker = action_state.get_current_picker(prompt_bufnr)
+    local current_picker = require("telescope.actions.state").get_current_picker(prompt_bufnr)
     opts.default_text = current_picker:_get_prompt()
-    actions.close(prompt_bufnr)
+    require("telescope.actions").close(prompt_bufnr)
 
-    builtin.find_files(opts)
+    require("telescope.builtin").find_files(opts)
   end
 
   local opts = {
-    preview = { hide_on_startup = true },
     attach_mappings = function(_, map)
       map({ "i", "n" }, "<C-\\>", toggle_all_files)
       return true -- Enable default mappings
@@ -62,8 +55,8 @@ local function find_files_get_base_opts()
     _include_all_files = false,
   }
 
-  if visual_mode.is_on() then
-    local text = visual_mode.get_text()
+  if require("visual_mode").is_on() then
+    local text = require("visual_mode").get_text()
     -- Replace punctuation marks by spaces, to support searching from module names, like "plugins.core"
     opts.default_text = string.gsub(text, "%p", " ")
   end
@@ -72,8 +65,6 @@ local function find_files_get_base_opts()
 end
 
 function M.find_files(opts)
-  local builtin = require("telescope.builtin")
-
   opts = opts or {}
   local current_oil_directory_only = opts.current_oil_directory_only or false
 
@@ -88,7 +79,7 @@ function M.find_files(opts)
   vim.g.telescope_last_opts = telescope_opts -- Persist the options dynamically change them later on
 
   telescope_opts = find_files_finalize_opts(telescope_opts)
-  builtin.find_files(telescope_opts)
+  require("telescope.builtin").find_files(telescope_opts)
 end
 
 --- Finalize the options for the `find_directories` custom picker. This function adds all the relevant not-persisted
@@ -102,15 +93,37 @@ local function find_directories_finalize_opts(opts)
   if not opts._include_all_files then
     opts.prompt_title = "Find Directories"
     opts.find_command = { "fd", "--type", "d", "--color", "never", "--hidden" }
-    -- previwers.vim_buffer_cat can't be saved to state so let's work around this
-    opts.previewer = previewers.vim_buffer_cat.new({})
+    -- Previewers can't be saved to state so let's work around this by creating them here
+    opts.previewer = previewers.new_termopen_previewer({
+      get_command = function(entry, _)
+        return {
+          "eza",
+          "-a1",
+          "--color=always",
+          "--icons=always",
+          "--group-directories-first",
+          entry.path,
+        }
+      end,
+    })
     -- To support directory icons, use a custom entry maker (which needs to have accessed to the picker options)
     opts.entry_maker = custom_make_entry.gen_from_dir(opts)
   else
     opts.prompt_title = "Find Directories (all)"
     opts.find_command = { "fd", "--type", "d", "--color", "never", "--hidden", "--no-ignore" }
-    -- previwers.vim_buffer_cat can't be saved to state so let's work around this
-    opts.previewer = previewers.vim_buffer_cat.new({})
+    -- Previewers can't be saved to state so let's work around this by creating them here
+    opts.previewer = previewers.new_termopen_previewer({
+      get_command = function(entry, _)
+        return {
+          "eza",
+          "-a1",
+          "--color=always",
+          "--icons=always",
+          "--group-directories-first",
+          entry.path,
+        }
+      end,
+    })
     -- To support directory icons, use a custom entry maker (which needs to have accessed to the picker options)
     opts.entry_maker = custom_make_entry.gen_from_dir(opts)
   end
@@ -131,10 +144,6 @@ end
 --- Get the base options for the `find_directories` custom picker.
 ---@return table _ The `find_directories` base options.
 local function find_directories_get_base_opts()
-  local action_state = require("telescope.actions.state")
-  local actions = require("telescope.actions")
-  local builtin = require("telescope.builtin")
-
   local function toggle_all_files(prompt_bufnr, _)
     -- Persisted options
     local opts = vim.g.telescope_last_opts
@@ -143,15 +152,14 @@ local function find_directories_get_base_opts()
 
     -- Not persisted options
     opts = find_directories_finalize_opts(opts)
-    local current_picker = action_state.get_current_picker(prompt_bufnr)
+    local current_picker = require("telescope.actions.state").get_current_picker(prompt_bufnr)
     opts.default_text = current_picker:_get_prompt()
-    actions.close(prompt_bufnr)
+    require("telescope.actions").close(prompt_bufnr)
 
-    builtin.find_files(opts)
+    require("telescope.builtin").find_files(opts)
   end
 
   local opts = {
-    preview = { hide_on_startup = true },
     attach_mappings = function(_, map)
       map({ "i", "n" }, "<C-\\>", toggle_all_files)
       return true -- Enable default mappings
@@ -159,8 +167,8 @@ local function find_directories_get_base_opts()
     _include_all_files = false,
   }
 
-  if visual_mode.is_on() then
-    local text = visual_mode.get_text()
+  if require("visual_mode").is_on() then
+    local text = require("visual_mode").get_text()
     -- Replace punctuation marks by spaces, to support searching from module names, like "plugins.core"
     opts.default_text = string.gsub(text, "%p", " ")
   end
@@ -169,8 +177,6 @@ local function find_directories_get_base_opts()
 end
 
 function M.find_directories(opts)
-  local builtin = require("telescope.builtin")
-
   opts = opts or {}
   local current_oil_directory_only = opts.current_oil_directory_only or false
 
@@ -185,7 +191,7 @@ function M.find_directories(opts)
   vim.g.telescope_last_opts = telescope_opts -- Persist the options dynamically change them later on
 
   telescope_opts = find_directories_finalize_opts(telescope_opts)
-  builtin.find_files(telescope_opts)
+  require("telescope.builtin").find_files(telescope_opts)
 end
 
 --- Finalize the options for the `live_grep` picker. This function adds all the relevant not-persisted options to the
@@ -222,10 +228,6 @@ end
 --- Get the base options for the `live_grep` picker.
 ---@return table _ The `live_grep` base options.
 local function live_grep_get_base_opts()
-  local action_state = require("telescope.actions.state")
-  local actions = require("telescope.actions")
-  local builtin = require("telescope.builtin")
-
   local function toggle_all_files(prompt_bufnr, _)
     -- Persisted options
     local opts = vim.g.telescope_last_opts
@@ -234,14 +236,15 @@ local function live_grep_get_base_opts()
 
     -- Not persisted options
     opts = live_grep_finalize_opts(opts)
-    local current_picker = action_state.get_current_picker(prompt_bufnr)
+    local current_picker = require("telescope.actions.state").get_current_picker(prompt_bufnr)
     opts.default_text = current_picker:_get_prompt()
-    actions.close(prompt_bufnr)
+    require("telescope.actions").close(prompt_bufnr)
 
-    builtin.live_grep(opts)
+    require("telescope.builtin").live_grep(opts)
   end
 
   local opts = {
+    layout_strategy = "vertical",
     attach_mappings = function(_, map)
       map({ "i", "n" }, "<C-\\>", toggle_all_files)
       return true -- Enable default mappings
@@ -249,8 +252,8 @@ local function live_grep_get_base_opts()
     _include_all_files = false,
   }
 
-  if visual_mode.is_on() then
-    opts.default_text = visual_mode.get_text()
+  if require("visual_mode").is_on() then
+    opts.default_text = require("visual_mode").get_text()
     opts.vimgrep_arguments = {
       -- Default values
       "rg",
@@ -269,8 +272,6 @@ local function live_grep_get_base_opts()
 end
 
 function M.live_grep(opts)
-  local builtin = require("telescope.builtin")
-
   opts = opts or {}
   local current_oil_directory_only = opts.current_oil_directory_only or false
 
@@ -285,138 +286,101 @@ function M.live_grep(opts)
   vim.g.telescope_last_opts = telescope_opts -- Persist the options dynamically change them later on
 
   telescope_opts = live_grep_finalize_opts(telescope_opts)
-  builtin.live_grep(telescope_opts)
+  require("telescope.builtin").live_grep(telescope_opts)
 end
 
 function M.oldfiles()
-  local builtin = require("telescope.builtin")
-
   local opts = {
-    preview = { hide_on_startup = true },
-    tiebreak = function(current, existing, _) return current.index < existing.index end, -- Sort entries by recency
+    tiebreak = function(current, existing, _) return current.index < existing.index end, -- Sort by recency
     prompt_title = "Find OldFiles",
   }
-
-  if visual_mode.is_on() then
-    local text = visual_mode.get_text()
+  if require("visual_mode").is_on() then
+    local text = require("visual_mode").get_text()
     -- Replace punctuation marks by spaces, to support searching from module names, like "plugins.core"
     opts.default_text = string.gsub(text, "%p", " ")
   end
-
-  builtin.oldfiles(opts)
+  require("telescope.builtin").oldfiles(opts)
 end
 
-function M.current_buffer()
-  local builtin = require("telescope.builtin")
-
+function M.current_buffer_fuzzy_find()
   local opts = {
     prompt_title = "Find in Buffer",
+    layout_strategy = "vertical",
   }
-
-  if visual_mode.is_on() then
-    opts.default_text = visual_mode.get_text()
+  if require("visual_mode").is_on() then
+    opts.default_text = require("visual_mode").get_text()
   end
-
-  builtin.current_buffer_fuzzy_find(opts)
+  require("telescope.builtin").current_buffer_fuzzy_find(opts)
 end
 
 function M.commands()
-  local builtin = require("telescope.builtin")
-
-  local opts = {}
-
-  if visual_mode.is_on() then
-    opts.default_text = visual_mode.get_text()
+  local opts = {
+    layout_strategy = "vertical",
+    previewer = false,
+  }
+  if require("visual_mode").is_on() then
+    opts.default_text = require("visual_mode").get_text()
   end
-
-  builtin.commands(opts)
+  require("telescope.builtin").commands(opts)
 end
 
 function M.help_tags()
-  local builtin = require("telescope.builtin")
-
-  local opts = {}
-
-  if visual_mode.is_on() then
-    opts.default_text = visual_mode.get_text()
+  local opts = {
+    layout_strategy = "vertical",
+    previewer = false,
+  }
+  if require("visual_mode").is_on() then
+    opts.default_text = require("visual_mode").get_text()
   end
-
-  builtin.help_tags(opts)
+  require("telescope.builtin").help_tags(opts)
 end
 
 function M.man_pages()
-  local builtin = require("telescope.builtin")
-
-  local opts = {}
-
-  if visual_mode.is_on() then
-    opts.default_text = visual_mode.get_text()
+  local opts = {
+    layout_strategy = "vertical",
+    previewer = false,
+  }
+  if require("visual_mode").is_on() then
+    opts.default_text = require("visual_mode").get_text()
   end
-
-  builtin.man_pages(opts)
+  require("telescope.builtin").man_pages(opts)
 end
 
 function M.buffers()
-  local actions = require("telescope.actions")
-  local builtin = require("telescope.builtin")
-  local themes = require("telescope.themes")
-
-  local opts = themes.get_dropdown({
+  require("telescope.builtin").buffers(require("telescope.themes").get_dropdown({
     initial_mode = "normal",
     preview = { hide_on_startup = true },
     ignore_current_buffer = true, -- When current buffer is included & last used is selected, search doesn't work well
     sort_lastused = true, -- Sort current & last used buffer at the top & select the last used
     sort_mru = true, -- Sort all buffers after the last used
     attach_mappings = function(_, map)
-      map({ "n" }, "<BS>", actions.delete_buffer)
+      map({ "n" }, "<BS>", require("telescope.actions").delete_buffer)
       return true -- Enable default mappings
     end,
-  })
-
-  builtin.buffers(opts)
+  }))
 end
 
-function M.resume()
-  local builtin = require("telescope.builtin")
-
-  local opts = {}
-
-  builtin.resume(opts)
-end
+function M.resume() require("telescope.builtin").resume({}) end
 
 function M.command_history()
-  local builtin = require("telescope.builtin")
-  local themes = require("telescope.themes")
-
-  local opts = themes.get_dropdown({
+  require("telescope.builtin").command_history(require("telescope.themes").get_dropdown({
     previewer = false,
-    layout_config = { width = 0.7 },
-    tiebreak = function(current, existing, _) return current.index < existing.index end, -- Sort entries by recency
+    tiebreak = function(current, existing, _) return current.index < existing.index end, -- Sort by recency
     filter_fn = function(cmd) return string.len(cmd) >= 4 end, -- Filter out short commands like "w", "q", "wq", "wqa"
-  })
-
-  builtin.command_history(opts)
+  }))
 end
 
 function M.search_history()
-  local builtin = require("telescope.builtin")
-  local themes = require("telescope.themes")
-
-  local opts = themes.get_dropdown({
+  require("telescope.builtin").search_history(require("telescope.themes").get_dropdown({
     previewer = false,
-    layout_config = { width = 0.7 },
-    tiebreak = function(current, existing, _) return current.index < existing.index end, -- Sort entries by recency
-  })
-
-  builtin.search_history(opts)
+    tiebreak = function(current, existing, _) return current.index < existing.index end, -- Sort by recency
+  }))
 end
 
 function M.git_status()
-  local actions = require("telescope.actions")
-  local builtin = require("telescope.builtin")
-
-  local opts = {
+  require("telescope.builtin").git_status({
     prompt_title = "Git Status",
+    layout_config = { preview_width = 0.6 },
     git_icons = {
       added = "+",
       changed = "~",
@@ -428,71 +392,57 @@ function M.git_status()
     },
     attach_mappings = function(_, map)
       -- Override the <Tab> keymap to disable the stage/unstage feature of the picker
-      map({ "i", "n" }, "<Tab>", actions.move_selection_next)
+      map({ "i", "n" }, "<Tab>", require("telescope.actions").move_selection_next)
       return true -- Enable default mappings
     end,
-  }
-  builtin.git_status(opts)
+  })
 end
 
 function M.git_branches()
-  local builtin = require("telescope.builtin")
-
-  builtin.git_branches()
+  require("telescope.builtin").git_branches({
+    layout_strategy = "vertical",
+  })
 end
 
 function M.git_commits()
-  local builtin = require("telescope.builtin")
-
-  local opts = {
+  require("telescope.builtin").git_commits({
     prompt_title = "Git Log",
-    tiebreak = function(current, existing, _) return current.index < existing.index end, -- Sort entries by recency
-  }
-  builtin.git_commits(opts)
+    tiebreak = function(current, existing, _) return current.index < existing.index end, -- Sort by recency
+  })
 end
 
 function M.git_bcommits()
-  local builtin = require("telescope.builtin")
-
-  local opts = {
+  require("telescope.builtin").git_bcommits({
     prompt_title = "Buffer Commits",
-    tiebreak = function(current, existing, _) return current.index < existing.index end, -- Sort entries by recency
-  }
-  builtin.git_bcommits(opts)
+    tiebreak = function(current, existing, _) return current.index < existing.index end, -- Sort by recency
+  })
 end
 
 function M.git_bcommits_range()
-  local builtin = require("telescope.builtin")
-
-  local opts = {
+  require("telescope.builtin").git_bcommits_range({
     prompt_title = "Selection Commits",
-    tiebreak = function(current, existing, _) return current.index < existing.index end, -- Sort entries by recency
-  }
-  builtin.git_bcommits_range(opts)
+    tiebreak = function(current, existing, _) return current.index < existing.index end, -- Sort by recency
+  })
 end
 
 function M.lsp_document_symbols()
-  local builtin = require("telescope.builtin")
-
-  local opts = {}
-
-  if visual_mode.is_on() then
-    opts.default_text = visual_mode.get_text()
+  local opts = {
+    layout_config = { preview_width = 0.6 },
+  }
+  if require("visual_mode").is_on() then
+    opts.default_text = require("visual_mode").get_text()
   end
-
-  builtin.lsp_document_symbols(opts)
+  require("telescope.builtin").lsp_document_symbols(opts)
 end
 
 function M.lsp_workspace_symbols()
-  local builtin = require("telescope.builtin")
-
-  local opts = {}
-
-  if visual_mode.is_on() then
-    opts.default_text = visual_mode.get_text()
+  local opts = {
+    layout_config = { preview_width = 0.5 },
+  }
+  if require("visual_mode").is_on() then
+    opts.default_text = require("visual_mode").get_text()
   end
-
-  builtin.lsp_dynamic_workspace_symbols(opts)
+  require("telescope.builtin").lsp_dynamic_workspace_symbols(opts)
 end
 
 return M

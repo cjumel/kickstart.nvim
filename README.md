@@ -38,9 +38,10 @@ implements two major features:
 
 - [git](https://www.git-scm.com/), to clone this repository
 
-- (optional but recommended) [fd](https://github.com/sharkdp/fd) and
-  [ripgrep](https://github.com/BurntSushi/ripgrep) to search files or directories, or within files,
-  with the awesome [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim) plugin
+- (optional but recommended) [fd](https://github.com/sharkdp/fd),
+  [ripgrep](https://github.com/BurntSushi/ripgrep) and [eza](https://github.com/eza-community/eza)
+  to search files or directories, within files or preview directories, with the awesome
+  [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim) plugin
 
 - (optional: not needed in light-mode) [npm](https://www.npmjs.com/) and
   [Python](https://www.python.org/), especially to install external tools managed with

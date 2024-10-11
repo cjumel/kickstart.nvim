@@ -46,7 +46,7 @@ return {
     },
     {
       "<leader>fb",
-      function() require("plugins.core.telescope.builtin").current_buffer() end,
+      function() require("plugins.core.telescope.builtin").current_buffer_fuzzy_find() end,
       mode = { "n", "v" },
       desc = "[F]ind: in [B]uffer",
     },
@@ -188,29 +188,22 @@ return {
           },
         },
         file_ignore_patterns = { "%.git/" }, -- Exclude in all searches (even when hidden & ignored files are included)
-        sorting_strategy = "ascending", -- Sort results in ascending order
+        sorting_strategy = "ascending",
         layout_config = {
           horizontal = {
-            prompt_position = "top", -- Make text input at the top instead of the bottom
-            width = { 0.8, max = 180 }, -- Add a limit to the width
-            preview_width = 0.5, -- Make preview the same width as the results
+            prompt_position = "top",
+            width = { 0.9, max = 150 },
+            preview_width = 0.4,
           },
           vertical = {
-            prompt_position = "top", -- Make text input at the top instead of the bottom
-            width = { 0.8, max = 180 }, -- Add a limit to the width
+            prompt_position = "top",
             mirror = true, -- Move preview to the bottom instead of above the prompt
+            width = { 0.8, max = 150 },
+            preview_height = 0.4,
           },
         },
-        path_display = function(_, path)
-          -- Make the path more user-friendly (relative to the cwd if in the cwd, otherwise relative to the home
-          --  directory with a "~" prefix if in the home directory, otherwise absolute)
-          path = vim.fn.fnamemodify(path, ":p:~:.")
-          if path == "" then -- Case `cwd` is actually the cwd
-            path = "./"
-          end
-
-          -- Apply Telescope builtin path display options (must be done after other normalizations)
-          return utils.transform_path({ path_display = { truncate = true } }, path)
+        path_display = function(_, path) -- Make the path displayed more user-friendly
+          return utils.transform_path({ path_display = { truncate = true } }, vim.fn.fnamemodify(path, ":p:~:."))
         end,
       },
     }

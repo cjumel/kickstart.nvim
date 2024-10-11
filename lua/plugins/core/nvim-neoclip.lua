@@ -1,10 +1,12 @@
 -- neoclip
 --
--- neoclip is a clipboard manager for neovim inspired for example by clipmenu.
+-- neoclip is a clipboard manager for Neovim inspired for instance by clipmenu. It is very simple and integrates very
+-- nicely with Telescope.nvim, and enables a very user-friendly experience with Neovim's clipboard.
 
 return {
   "AckslD/nvim-neoclip.lua",
   dependencies = {
+    "nvim-telescope/telescope.nvim",
     { "kkharji/sqlite.lua", module = "sqlite" }, -- For persistent history
   },
   event = { "BufNewFile", "BufReadPre" },
@@ -12,32 +14,22 @@ return {
     {
       '<leader>"',
       function()
-        local telescope = require("telescope")
-
-        local opts = {
-          tiebreak = function(current, existing, _) return current.index < existing.index end, -- Sort entries by recency
-          previewer = false,
-          layout_strategy = "vertical",
+        require("telescope").extensions.neoclip.default({
           prompt_title = '" Register History',
-        }
-
-        telescope.extensions.neoclip.default(opts)
+          layout_strategy = "vertical",
+          tiebreak = function(current, existing, _) return current.index < existing.index end, -- Sort by recency
+        })
       end,
       desc = '" register history',
     },
     {
       "<leader>q",
       function()
-        local telescope = require("telescope")
-
-        local opts = {
-          tiebreak = function(current, existing, _) return current.index < existing.index end, -- Sort entries by recency
-          previewer = false,
-          layout_strategy = "vertical",
+        require("telescope").extensions.macroscope.default(require("telescope.themes").get_dropdown({
           prompt_title = "q Register Macro History",
-        }
-
-        telescope.extensions.macroscope.default(opts)
+          previewer = false,
+          tiebreak = function(current, existing, _) return current.index < existing.index end, -- Sort by recency
+        }))
       end,
       desc = "[Q] register macro history",
     },
