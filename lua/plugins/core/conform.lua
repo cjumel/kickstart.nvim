@@ -4,58 +4,28 @@
 -- auto-formatting due to its great flexibility and customizability, while still remaining quite simple compared to
 -- alternatives like null-ls.
 
--- Define here which formatters to use for each file type; keys must be simple file types, and values must be arrays
---  of formatter names
--- In some file types, a formatter is integrated as a language server in nvim-lspconfig; in that case, the corresponding
---  file type must be added as a key with at least an empty array as value to trigger formatting on save
-local formatters_by_ft = {
-  conf = { "trim_newlines", "trim_whitespace" },
-  editorconfig = { "trim_newlines", "trim_whitespace" },
-  gitconfig = { "trim_newlines", "trim_whitespace" },
-  gitignore = { "trim_newlines", "trim_whitespace" },
-  json = { "prettier" },
-  jsonc = { "prettier" },
-  lua = { "stylua" },
-  make = { "trim_newlines", "trim_whitespace" },
-  markdown = { "prettier" }, -- Prettier is the only popular formatter I found which supports GitHub Flavored Markdown
-  python = { "ruff_fix", "ruff_format" }, -- Lint diagnostic automatic fixes & regular formatting
-  sh = { "shfmt" },
-  text = { "trim_newlines", "trim_whitespace" },
-  tmux = { "trim_newlines", "trim_whitespace" },
-  toml = {}, -- Use Taplo language server formatting
-  typst = {}, -- Use tinymist language server formatting (for some reason I can't make this work with "trim_newlines")
-  vim = { "trim_newlines", "trim_whitespace" },
-  yaml = { "prettier", "trim_newlines" }, -- Prettier doesn't remove trailing whitespace in YAML
-  zsh = { "shfmt" }, -- Not actually for zsh, but in my use case it seems to work fine
-}
-
--- Specify the formatters which have no Mason package
-local formatters_without_mason_package = {
-  "trim_newlines",
-  "trim_whitespace",
-}
-
--- Specify the name of the Mason package for formatters where they differ
-local formatter_to_mason_name = {
-  ruff_fix = "ruff",
-  ruff_format = "ruff",
-}
-
 return {
   "stevearc/conform.nvim",
   cond = not require("config")["light_mode"],
   dependencies = { "williamboman/mason.nvim" },
-  ft = vim.tbl_keys(formatters_by_ft),
+  ft = vim.tbl_keys(require("config").formatters_by_ft),
   init = function()
     -- Enable conform formatting with Neovim's builtin formatting (see `:h gq`)
     vim.o.formatexpr = "v:lua.require'conform'.formatexpr()"
 
     local mason_ensure_installed = {}
-    for _, formatters in pairs(formatters_by_ft) do
+    local formatter_to_mason_name = { -- Specify the name of the Mason package for formatters where they differ
+      ruff_fix = "ruff",
+      ruff_format = "ruff",
+    }
+    for _, formatters in pairs(require("config").formatters_by_ft) do
       for formatter_key, formatter in ipairs(formatters) do
         if
           formatter_key ~= "lsp_format" -- "lsp_format" is a special key for LSP formatter modes
-          and not vim.tbl_contains(formatters_without_mason_package, formatter)
+          and not vim.tbl_contains(
+            { "trim_newlines", "trim_whitespace" }, -- Formatters which have no Mason package associated with
+            formatter
+          )
         then
           local mason_name = formatter_to_mason_name[formatter] or formatter
           if
@@ -70,14 +40,14 @@ return {
     vim.g.mason_ensure_installed = vim.list_extend(vim.g.mason_ensure_installed or {}, mason_ensure_installed)
   end,
   opts = {
-    formatters_by_ft = formatters_by_ft,
+    formatters_by_ft = require("config").formatters_by_ft,
     format_on_save = function(bufnr)
       if
         ( -- Check Neovim configuration option to disable format-on-save on filetypes
-          require("config")["disable_format_on_save_on_filetypes"] == "*"
+          require("config")["disable_format_on_save_on_fts"] == "*"
           or (
-            require("config")["disable_format_on_save_on_filetypes"]
-            and vim.tbl_contains(require("config")["disable_format_on_save_on_filetypes"], vim.bo.filetype)
+            require("config")["disable_format_on_save_on_fts"]
+            and vim.tbl_contains(require("config")["disable_format_on_save_on_fts"], vim.bo.filetype)
           )
         )
         -- Check command to toggle format on save
@@ -90,7 +60,7 @@ return {
         return
       end
 
-      return { lsp_fallback = true, timeout_ms = 500 }
+      return { lsp_fallback = false, timeout_ms = 500 }
     end,
   },
   config = function(_, opts)
