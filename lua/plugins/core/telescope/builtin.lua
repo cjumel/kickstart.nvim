@@ -320,6 +320,18 @@ function M.current_buffer()
   builtin.current_buffer_fuzzy_find(opts)
 end
 
+function M.commands()
+  local builtin = require("telescope.builtin")
+
+  local opts = {}
+
+  if visual_mode.is_on() then
+    opts.default_text = visual_mode.get_text()
+  end
+
+  builtin.commands(opts)
+end
+
 function M.help_tags()
   local builtin = require("telescope.builtin")
 

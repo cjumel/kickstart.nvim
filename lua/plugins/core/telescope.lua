@@ -28,6 +28,7 @@ return {
       { "<leader>fg", custom_builtin.live_grep, mode = { "n", "v" }, desc = "[F]ind: by [G]rep" },
       { "<leader>fo", custom_builtin.oldfiles, mode = { "n", "v" }, desc = "[F]ind: [O]ldfiles" },
       { "<leader>fb", custom_builtin.current_buffer, mode = { "n", "v" }, desc = "[F]ind: in [B]uffer" },
+      { "<leader>fc", custom_builtin.commands, mode = { "n", "v" }, desc = "[F]ind: [C]ommands" },
       { "<leader>fh", custom_builtin.help_tags, mode = { "n", "v" }, desc = "[F]ind: [H]elp tags" },
       { "<leader>fm", custom_builtin.man_pages, mode = { "n", "v" }, desc = "[F]ind: [M]an pages" },
 
