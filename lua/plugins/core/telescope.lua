@@ -18,34 +18,107 @@ return {
     },
   },
   cmd = { "Telescope" }, -- Especially useful for other plugins calling Telescope through a command
-  keys = function()
-    local custom_builtin = require("plugins.core.telescope.builtin")
+  keys = {
+    -- Main finders
+    {
+      "<leader>ff",
+      function() require("plugins.core.telescope.builtin").find_files() end,
+      mode = { "n", "v" },
+      desc = "[F]ind: [F]iles",
+    },
+    {
+      "<leader>fd",
+      function() require("plugins.core.telescope.builtin").find_directories() end,
+      mode = { "n", "v" },
+      desc = "[F]ind: [D]irectories",
+    },
+    {
+      "<leader>fg",
+      function() require("plugins.core.telescope.builtin").live_grep() end,
+      mode = { "n", "v" },
+      desc = "[F]ind: by [G]rep",
+    },
+    {
+      "<leader>fo",
+      function() require("plugins.core.telescope.builtin").oldfiles() end,
+      mode = { "n", "v" },
+      desc = "[F]ind: [O]ldfiles",
+    },
+    {
+      "<leader>fb",
+      function() require("plugins.core.telescope.builtin").current_buffer() end,
+      mode = { "n", "v" },
+      desc = "[F]ind: in [B]uffer",
+    },
+    {
+      "<leader>fm",
+      function() require("plugins.core.telescope.builtin").man_pages() end,
+      mode = { "n", "v" },
+      desc = "[F]ind: [M]an pages",
+    },
 
-    return {
-      -- Main finders
-      { "<leader>ff", custom_builtin.find_files, mode = { "n", "v" }, desc = "[F]ind: [F]iles" },
-      { "<leader>fd", custom_builtin.find_directories, mode = { "n", "v" }, desc = "[F]ind: [D]irectories" },
-      { "<leader>fg", custom_builtin.live_grep, mode = { "n", "v" }, desc = "[F]ind: by [G]rep" },
-      { "<leader>fo", custom_builtin.oldfiles, mode = { "n", "v" }, desc = "[F]ind: [O]ldfiles" },
-      { "<leader>fb", custom_builtin.current_buffer, mode = { "n", "v" }, desc = "[F]ind: in [B]uffer" },
-      { "<leader>fc", custom_builtin.commands, mode = { "n", "v" }, desc = "[F]ind: [C]ommands" },
-      { "<leader>fh", custom_builtin.help_tags, mode = { "n", "v" }, desc = "[F]ind: [H]elp tags" },
-      { "<leader>fm", custom_builtin.man_pages, mode = { "n", "v" }, desc = "[F]ind: [M]an pages" },
+    -- Neovim-related
+    {
+      "<leader><Tab>",
+      function() require("plugins.core.telescope.builtin").buffers() end,
+      desc = "Buffer switcher",
+    },
+    {
+      "<leader>;",
+      function() require("plugins.core.telescope.builtin").resume() end,
+      desc = "Resume Telescope",
+    },
+    {
+      "<leader>:",
+      function() require("plugins.core.telescope.builtin").command_history() end,
+      desc = "Command history",
+    },
+    {
+      "<leader>/",
+      function() require("plugins.core.telescope.builtin").search_history() end,
+      desc = "Search history",
+    },
+    {
+      "<leader>fc",
+      function() require("plugins.core.telescope.builtin").commands() end,
+      mode = { "n", "v" },
+      desc = "[F]ind: [C]ommands",
+    },
+    {
+      "<leader>fh",
+      function() require("plugins.core.telescope.builtin").help_tags() end,
+      mode = { "n", "v" },
+      desc = "[F]ind: [H]elp tags",
+    },
 
-      -- Neovim-related
-      { "<leader><Tab>", custom_builtin.buffers, desc = "Buffer switcher" },
-      { "<leader>;", custom_builtin.resume, desc = "Resume Telescope" },
-      { "<leader>:", custom_builtin.command_history, desc = "Command history" },
-      { "<leader>/", custom_builtin.search_history, desc = "Search history" },
-
-      -- Git related
-      { "<leader>gg", custom_builtin.git_status, desc = "[G]it: status" },
-      { "<leader>gb", custom_builtin.git_branches, desc = "[G]it: [B]ranches" },
-      { "<leader>gl", custom_builtin.git_commits, desc = "[G]it: [L]og" },
-      { "<leader>gc", custom_builtin.git_bcommits, desc = "[G]it: buffer [C]ommits" },
-      { "<leader>gc", custom_builtin.git_bcommits_range, mode = { "v" }, desc = "[G]it: selection [C]ommits" },
-    }
-  end,
+    -- Git related
+    {
+      "<leader>gg",
+      function() require("plugins.core.telescope.builtin").git_status() end,
+      desc = "[G]it: status",
+    },
+    {
+      "<leader>gb",
+      function() require("plugins.core.telescope.builtin").git_branches() end,
+      desc = "[G]it: [B]ranches",
+    },
+    {
+      "<leader>gl",
+      function() require("plugins.core.telescope.builtin").git_commits() end,
+      desc = "[G]it: [L]og",
+    },
+    {
+      "<leader>gc",
+      function() require("plugins.core.telescope.builtin").git_bcommits() end,
+      desc = "[G]it: buffer [C]ommits",
+    },
+    {
+      "<leader>gc",
+      function() require("plugins.core.telescope.builtin").git_bcommits_range() end,
+      mode = { "v" },
+      desc = "[G]it: selection [C]ommits",
+    },
+  },
   opts = function()
     local actions = require("telescope.actions")
     local actions_layout = require("telescope.actions.layout")
