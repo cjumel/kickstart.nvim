@@ -25,7 +25,7 @@ return {
       { "<localleader>r", group = "[R]eplace", mode = { "n", "v" } },
     },
     win = { border = "rounded" }, -- Add a border in Which Key UI to improve visibility in transparent backgrounds
-    sort = { "local", "order", "alphanum", "mod" }, -- Don't sort keymap groups last
+    sort = { "order", "alphanum", "mod" }, -- Don't sort local keymaps first and keymap groups last
     icons = { mappings = false }, -- Disable icons as they are not present consistently in my keymaps
   },
 }
