@@ -10,29 +10,18 @@ return {
   "nvimtools/hydra.nvim",
   keys = {
     { "<C-w>", desc = "Window Hydra" },
-    { "<leader>,", desc = "Settings Hydra" },
   },
-  init = function()
-    -- Initialize global variables for the settings Hydra
-    vim.g.context_header_mode = "off" -- "on", "off"
-    vim.g.format_on_save_mode = "auto" -- "on", "auto", "off"
-    vim.g.lint_mode = "auto" -- "on", "auto", "off"
-    vim.g.number_column_mode = "absolute" -- "absolute", "relative", "off"
-    vim.g.ruler_column_mode = "auto" -- "88", "100", "120", "140", "auto", "off"
-    vim.g.sign_column_mode = "number" -- "number", "yes", "off"
-  end,
   opts = {
     invoke_on_body = true, -- Invoke the Hydra directy after pressing the body key
     hint = { float_opts = { border = "rounded" } }, -- Add a border to improve visibility in transparent backgrounds
   },
   config = function(_, opts)
     local Hydra = require("hydra")
-    local hydra_configs = require("plugins.ui.hydra.configs")
 
     Hydra.setup(opts)
 
     -- Setup Hydras
+    local hydra_configs = require("plugins.ui.hydra.configs")
     Hydra(hydra_configs.window)
-    Hydra(hydra_configs.settings)
   end,
 }
