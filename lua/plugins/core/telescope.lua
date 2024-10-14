@@ -32,11 +32,11 @@ return {
 
       -- Neovim-related
       { "<leader><Tab>", custom_builtin.buffers, desc = "Buffer switcher" },
-      { "<leader>;", custom_builtin.resume, desc = "Resume Telescope" },
+      { "<leader>,", custom_builtin.resume, desc = "Resume Telescope" },
+      { "<leader>?", custom_builtin.help_tags, desc = "Help" },
+      { "<leader>;", custom_builtin.commands, desc = "Commands" },
       { "<leader>:", custom_builtin.command_history, desc = "Command history" },
       { "<leader>/", custom_builtin.search_history, desc = "Search history" },
-      { "<leader>fc", custom_builtin.commands, mode = { "n", "v" }, desc = "[F]ind: [C]ommands" },
-      { "<leader>fh", custom_builtin.help_tags, mode = { "n", "v" }, desc = "[F]ind: [H]elp tags" },
 
       -- Git related
       { "<leader>gg", custom_builtin.git_status, desc = "[G]it: status" },

@@ -314,25 +314,17 @@ function M.current_buffer_fuzzy_find()
 end
 
 function M.commands()
-  local opts = {
+  require("telescope.builtin").commands({
     layout_strategy = "vertical",
     previewer = false,
-  }
-  if require("visual_mode").is_on() then
-    opts.default_text = require("visual_mode").get_text()
-  end
-  require("telescope.builtin").commands(opts)
+  })
 end
 
 function M.help_tags()
-  local opts = {
+  require("telescope.builtin").help_tags({
     layout_strategy = "vertical",
     previewer = false,
-  }
-  if require("visual_mode").is_on() then
-    opts.default_text = require("visual_mode").get_text()
-  end
-  require("telescope.builtin").help_tags(opts)
+  })
 end
 
 function M.man_pages()
@@ -348,6 +340,7 @@ end
 
 function M.buffers()
   require("telescope.builtin").buffers(require("telescope.themes").get_dropdown({
+    prompt_title = "Buffer Switcher",
     initial_mode = "normal",
     preview = { hide_on_startup = true },
     ignore_current_buffer = true, -- When current buffer is included & last used is selected, search doesn't work well
