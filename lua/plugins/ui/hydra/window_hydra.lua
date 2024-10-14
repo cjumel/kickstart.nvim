@@ -1,7 +1,9 @@
 -- The window Hydra uses builtin keymaps and descriptions to re-implement window management keymaps in a more
 -- user-friendly way.
 
-return {
+local Hydra = require("hydra")
+
+Hydra({
   body = "<C-w>",
   config = {
     desc = "Window Hydra",
@@ -35,4 +37,4 @@ return {
     { "x", "<C-w>x" },
     { "<Esc>", nil, { exit = true, desc = false } },
   },
-}
+})

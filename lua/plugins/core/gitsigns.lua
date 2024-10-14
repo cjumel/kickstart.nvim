@@ -36,12 +36,4 @@ return {
       map({ "x", "o" }, "gh", actions.select_hunk, "Hunk")
     end,
   },
-  config = function(_, opts)
-    local gitsigns = require("gitsigns")
-    local Hydra = require("hydra")
-    local hydra_configs = require("plugins.ui.hydra.configs")
-
-    gitsigns.setup(opts)
-    Hydra(hydra_configs.hunk) -- Hunk actions are implemented with Hydra to remove the need to type the <leader> key
-  end,
 }

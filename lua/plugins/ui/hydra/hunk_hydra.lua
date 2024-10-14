@@ -1,6 +1,8 @@
 -- The hunk Hydra provides a simple interface to interact with Git hunks using Gitsigns features.
 
-return {
+local Hydra = require("hydra")
+
+Hydra({
   body = "<leader>h",
   config = {
     desc = "[H]unk Hydra",
@@ -48,4 +50,4 @@ return {
     { "q", nil, { exit = true, mode = "n", desc = false } },
     { "<Esc>", nil, { exit = true, mode = "n", desc = false } },
   },
-}
+})
