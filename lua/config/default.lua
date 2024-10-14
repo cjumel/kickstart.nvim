@@ -41,7 +41,7 @@ vim.g.neovim_config = {
 
   -- Set `linters_by_ft` to a mapping between filetypes and tables of linters to enable the corresponding linters on the
   --  filetype. Introducing a new linter will require it to be installed with Mason, but in simple cases, simply calling
-  --  the `MasonInstallAll` command should work just fine. Settings a linters table to an empty table will disable
+  --  the `MasonInstallAll` command should work just fine. Setting a linters table to an empty table will disable
   --  linting on the corresponding filetype.
   linters_by_ft = {
     json = { "jsonlint" },
