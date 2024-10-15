@@ -4,22 +4,23 @@
 -- the code of the Neovim LSP itself, nor the language servers implementations. It makes super easy setting up a LSP
 -- in Neovim, bridging the gap between the LSP client and the language servers implementations.
 
-local config = require("config")
+local keymap = require("keymap")
+local nvim_config = require("nvim_config")
 
 return {
   "neovim/nvim-lspconfig",
-  cond = not config.light_mode,
+  cond = not nvim_config.light_mode,
   dependencies = {
     "williamboman/mason.nvim",
-    { "williamboman/mason-lspconfig.nvim", cond = not config.light_mode },
-    { "hrsh7th/cmp-nvim-lsp", cond = not config.light_mode },
+    { "williamboman/mason-lspconfig.nvim", cond = not nvim_config.light_mode },
+    { "hrsh7th/cmp-nvim-lsp", cond = not nvim_config.light_mode },
     "RRethy/vim-illuminate",
     "ray-x/lsp_signature.nvim",
     "smjonas/inc-rename.nvim",
   },
   ft = function()
     local filetypes = {}
-    for _, server in pairs(config.language_servers) do
+    for _, server in pairs(nvim_config.language_servers) do
       for _, filetype in ipairs(server.filetypes) do
         table.insert(filetypes, filetype)
       end
@@ -33,7 +34,7 @@ return {
       lua_ls = "lua-language-server",
       yamlls = "yaml-language-server",
     }
-    for server_name, _ in pairs(config.language_servers) do
+    for server_name, _ in pairs(nvim_config.language_servers) do
       local mason_name = server_name_to_mason_name[server_name] or server_name
       if
         not vim.tbl_contains(mason_ensure_installed, mason_name)
@@ -50,8 +51,6 @@ return {
     vim.api.nvim_create_autocmd("LspAttach", {
       group = vim.api.nvim_create_augroup("lsp-attach", { clear = true }),
       callback = function(event)
-        local keymap = require("keymap")
-
         local bufnr = event.buf
         local map = keymap.get_buffer_local_map(bufnr)
 
@@ -103,7 +102,7 @@ return {
     require("mason-lspconfig").setup({
       handlers = {
         function(server_name)
-          local server = config.language_servers[server_name] or {}
+          local server = nvim_config.language_servers[server_name] or {}
           -- This handles overriding only values explicitly passed by the server configuration above, which can be
           --  useful when disabling certain features of a language server
           server.capabilities = vim.tbl_deep_extend("force", {}, capabilities, server.capabilities or {})

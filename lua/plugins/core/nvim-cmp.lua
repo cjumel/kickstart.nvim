@@ -3,10 +3,12 @@
 -- nvim-cmp is a lightweight and extensible completion engine for Neovim written in Lua. It is very easy to use, and
 -- integrates well with many tools, like LSP or code snippets. A must-have for Neovim, in my opinion.
 
+local nvim_config = require("nvim_config")
+
 return {
   "hrsh7th/nvim-cmp",
   dependencies = {
-    { "hrsh7th/cmp-nvim-lsp", cond = not require("config")["light_mode"] },
+    { "hrsh7th/cmp-nvim-lsp", cond = not nvim_config.light_mode },
     "hrsh7th/cmp-buffer",
     "hrsh7th/cmp-cmdline",
     "hrsh7th/cmp-path",

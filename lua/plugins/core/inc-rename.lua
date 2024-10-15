@@ -5,9 +5,11 @@
 -- it makes the renaming prompt located at the cursor position, which is more convenient than the default centered
 -- position. All in all, it makes the LSP renaming a sensibly better experience, in my opinion.
 
+local nvim_config = require("nvim_config")
+
 return {
   "smjonas/inc-rename.nvim",
-  cond = not require("config")["light_mode"],
+  cond = not nvim_config.light_mode,
   lazy = true,
   opts = { save_in_cmdline_history = false }, -- Don't save command in history, like the builtin LSP rename
 }

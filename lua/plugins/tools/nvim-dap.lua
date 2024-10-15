@@ -4,9 +4,11 @@
 -- debugging directly in Neovim, making it a great plugin in my opinion. This plugin is best used with the nvim-dap-ui
 -- plugin to provide a great user interface, and with language specific configuration, like nvim-dap-python.
 
+local nvim_config = require("nvim_config")
+
 return {
   "mfussenegger/nvim-dap",
-  cond = not require("config")["light_mode"],
+  cond = not nvim_config.light_mode,
   dependencies = { "rcarriga/nvim-dap-ui" },
   keys = {
     {

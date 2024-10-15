@@ -3,9 +3,11 @@
 -- Vim plugin for automatically highlighting other uses of the word under the cursor using either
 -- LSP, Tree-sitter, or regex matching.
 
+local nvim_config = require("nvim_config")
+
 return {
   "RRethy/vim-illuminate",
-  cond = not require("config")["light_mode"],
+  cond = not nvim_config.light_mode,
   lazy = true,
   opts = {
     providers = { "lsp" }, -- Only enable LSP to decrease false positives

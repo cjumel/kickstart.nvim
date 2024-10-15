@@ -5,9 +5,11 @@
 -- you type, and it adds a virtual text hint which brings information on the current parameter (including the parameter
 -- docstring, if the LSP supports it), which can be very nice when there are many parameters or a long docstring.
 
+local nvim_config = require("nvim_config")
+
 return {
   "ray-x/lsp_signature.nvim",
-  cond = not require("config")["light_mode"],
+  cond = not nvim_config.light_mode,
   lazy = true, -- Dependency of nvim-lspconfig
   opts = {
     hint_prefix = "", -- Remove the emoji from the virual text hint

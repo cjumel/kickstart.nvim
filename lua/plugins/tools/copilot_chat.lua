@@ -4,9 +4,11 @@
 -- Copilot.vim provides inline code suggestions and CopilotChat.nvim provides chat features, like question answering
 -- or code explanation.
 
+local nvim_config = require("nvim_config")
+
 return {
   "CopilotC-Nvim/CopilotChat.nvim",
-  cond = not (require("config")["light_mode"] or require("config")["disable_copilot"]),
+  cond = not (nvim_config.light_mode or nvim_config.disable_copilot),
   branch = "canary",
   dependencies = {
     "github/copilot.vim",

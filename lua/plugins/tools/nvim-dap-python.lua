@@ -3,9 +3,11 @@
 -- nvim-dap-python provides a Python extension for nvim-dap, with default configurations for Python and some methods
 -- to debug individual test methods or classes.
 
+local nvim_config = require("nvim_config")
+
 return {
   "mfussenegger/nvim-dap-python",
-  cond = not require("config")["light_mode"],
+  cond = not nvim_config.light_mode,
   dependencies = {
     "mfussenegger/nvim-dap",
     "williamboman/mason.nvim",

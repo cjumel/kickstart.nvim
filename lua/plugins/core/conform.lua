@@ -4,11 +4,14 @@
 -- auto-formatting due to its great flexibility and customizability, while still remaining quite simple compared to
 -- alternatives like null-ls.
 
+local buffer = require("buffer")
+local nvim_config = require("nvim_config")
+
 return {
   "stevearc/conform.nvim",
-  cond = not require("config")["light_mode"],
+  cond = not nvim_config.light_mode,
   dependencies = { "williamboman/mason.nvim" },
-  ft = vim.tbl_keys(require("config").formatters_by_ft),
+  ft = vim.tbl_keys(nvim_config.formatters_by_ft),
   init = function()
     -- Enable conform formatting with Neovim's builtin formatting (see `:h gq`)
     vim.o.formatexpr = "v:lua.require'conform'.formatexpr()"
@@ -18,7 +21,7 @@ return {
       ruff_fix = "ruff",
       ruff_format = "ruff",
     }
-    for _, formatters in pairs(require("config").formatters_by_ft) do
+    for _, formatters in pairs(nvim_config.formatters_by_ft) do
       for formatter_key, formatter in ipairs(formatters) do
         if
           formatter_key ~= "lsp_format" -- "lsp_format" is a special key for LSP formatter modes
@@ -40,22 +43,22 @@ return {
     vim.g.mason_ensure_installed = vim.list_extend(vim.g.mason_ensure_installed or {}, mason_ensure_installed)
   end,
   opts = {
-    formatters_by_ft = require("config").formatters_by_ft,
+    formatters_by_ft = nvim_config.formatters_by_ft,
     format_on_save = function(bufnr)
       if
         ( -- Check Neovim configuration option to disable format-on-save on filetypes
-          require("config")["disable_format_on_save_on_fts"] == "*"
+          nvim_config.disable_format_on_save_on_fts == "*"
           or (
-            require("config")["disable_format_on_save_on_fts"]
-            and vim.tbl_contains(require("config")["disable_format_on_save_on_fts"], vim.bo.filetype)
+            nvim_config.disable_format_on_save_on_fts
+            and vim.tbl_contains(nvim_config.disable_format_on_save_on_fts, vim.bo.filetype)
           )
         )
         -- Check command to toggle format on save
         or (vim.g.disable_format_on_save or vim.b[bufnr].disable_format_on_save)
         -- Check buffer is in current project (cwd or Git repository containing the cwd)
-        or not require("buffer").is_in_project()
+        or not buffer.is_in_project()
         -- Check buffer is not in an external dependency (e.g. installed by package managers)
-        or require("buffer").is_external_dependency()
+        or buffer.is_external_dependency()
       then
         return
       end

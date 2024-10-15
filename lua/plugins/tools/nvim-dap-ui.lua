@@ -3,12 +3,12 @@
 -- nvim-dap-ui provides a UI for nvim-dap, with a good out of the box configuration. It makes the debugging experience
 -- in Neovim as good as in any other IDE.
 
+local nvim_config = require("nvim_config")
+
 return {
   "rcarriga/nvim-dap-ui",
-  cond = not require("config")["light_mode"],
-  dependencies = {
-    { "nvim-neotest/nvim-nio", cond = not require("config")["light_mode"] },
-  },
+  cond = not nvim_config.light_mode,
+  dependencies = { { "nvim-neotest/nvim-nio", cond = not nvim_config.light_mode } },
   lazy = true, -- Dependency of nvim-dap
   opts = {
     layouts = {

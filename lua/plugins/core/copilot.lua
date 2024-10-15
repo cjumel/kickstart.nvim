@@ -4,9 +4,11 @@
 -- so it's nicely complementary with floating-window completion tools, like nvim-cmp. However, since the model is not
 -- run locally, this plugins require an active internet connection and an active subscription.
 
+local nvim_config = require("nvim_config")
+
 return {
   "github/copilot.vim",
-  cond = not (require("config")["light_mode"] or require("config")["disable_copilot"]),
+  cond = not (nvim_config.light_mode or nvim_config.disable_copilot),
   event = { "BufNewFile", "BufReadPre" }, -- When lazy-loading on InsertEnter, the plugin doesn't work right away
   config = function()
     vim.g.copilot_filetypes = { markdown = true } -- Enable Copilot on additional filetypes
