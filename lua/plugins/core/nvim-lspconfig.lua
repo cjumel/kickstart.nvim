@@ -4,107 +4,22 @@
 -- the code of the Neovim LSP itself, nor the language servers implementations. It makes super easy setting up a LSP
 -- in Neovim, bridging the gap between the LSP client and the language servers implementations.
 
--- Define the language servers and their configuration overrides
--- Available keys for overrides are:
---  - cmd (table): Override the default command used to start the server
---  - filetypes (table): Override the default list of associated filetypes for the server
---  - capabilities (table): Override fields in capabilities. Can be used to disable certain LSP
---    features.
---  - settings (table): Override the default settings passed when initializing the server.
--- In this implementation, filetypes must be defined for each server as it is used to setup Lazy, and it must be a
---  table of strings
-local servers = {
-
-  -- Provide basic language server features, like symbol navigation
-  jsonls = {
-    filetypes = { "json" },
-  },
-
-  -- For LuaLS detailed documentation, see: https://luals.github.io/wiki/settings/
-  -- Besides regular LSP features, LuaLS provides very cool diagnostics making a linter not needed, as well as some
-  --  static type checking
-  -- Additional LuaLS configuration is handled by the lazydev.nvim plugin
-  lua_ls = {
-    filetypes = { "lua" },
-    settings = {
-      Lua = {
-        completion = {
-          -- Complete with function names instead of call snippets
-          -- For a function `func` taking `a` and `b` as arguments, a call snippet is `func(a, b)` where `a` and `b`
-          --  are placeholders to fill
-          callSnippet = "Disable",
-          -- Complete with regular keyword instead of keyword snippets
-          -- Keyword snippets are snippets for keywords like `if`, `for`, `while`, etc.
-          -- Custom snippets implemented with Luasnip are noticably faster, and they don't require for the LSP
-          --  workspace to be loaded
-          keywordSnippet = "Disable",
-        },
-        diagnostics = {
-          disable = { "missing-fields" }, -- Ignore noisy `missing-fields` warnings
-        },
-      },
-    },
-  },
-
-  -- Marksman provides some basic LSP features for markdown files (like LSP symbols), as well as more refined features
-  --  to interact with links & references (completion, renaming, preview, etc.)
-  marksman = {
-    filetypes = { "markdown" },
-  },
-
-  -- Pyright provides regular LSP features, as well as static type checking, making another static type checker like
-  --  mypy redundant
-  pyright = {
-    filetypes = { "python" },
-    capabilities = {
-      -- Disable noisy `variable not accessed` diagnostics
-      textDocument = { publishDiagnostics = { tagSupport = { valueSet = { 2 } } } },
-    },
-  },
-
-  -- Taplo provides linting, formatting and some features based on schemas from SchemaStore like validation or hovering
-  taplo = {
-    filetypes = { "toml" },
-  },
-
-  -- Tinymist provides many cool features for Typst, like LSP features (go to declaration, auto-completion, etc.),
-  --  diagnostics, formatting with popular Typst formatters or even compiling the PDF file on save (even though I don't
-  --  use this last feature, as it also compiles Typst modules which are not designed to be compiled)
-  tinymist = {
-    filetypes = { "typst" },
-    settings = {
-      formatterMode = "typstyle", -- Use Typstyle as default formatter
-    },
-  },
-
-  -- Provide some features based on schemas from SchemaStore like completion or hovering
-  yamlls = {
-    filetypes = { "yaml" },
-  },
-}
-
--- Translates nvim-lspconfig server names to the names used in Mason. This is usually done by the mason-lspconfig
---  plugin, but with the implementation of the custom `MasonInstallAll` command, this needs to be done manually
-local server_name_to_mason_name = {
-  jsonls = "json-lsp",
-  lua_ls = "lua-language-server",
-  yamlls = "yaml-language-server",
-}
+local config = require("config")
 
 return {
   "neovim/nvim-lspconfig",
-  cond = not require("config")["light_mode"],
+  cond = not config.light_mode,
   dependencies = {
     "williamboman/mason.nvim",
-    { "williamboman/mason-lspconfig.nvim", cond = not require("config")["light_mode"] },
-    { "hrsh7th/cmp-nvim-lsp", cond = not require("config")["light_mode"] },
+    { "williamboman/mason-lspconfig.nvim", cond = not config.light_mode },
+    { "hrsh7th/cmp-nvim-lsp", cond = not config.light_mode },
     "RRethy/vim-illuminate",
     "ray-x/lsp_signature.nvim",
     "smjonas/inc-rename.nvim",
   },
   ft = function()
     local filetypes = {}
-    for _, server in pairs(servers) do
+    for _, server in pairs(config.language_servers) do
       for _, filetype in ipairs(server.filetypes) do
         table.insert(filetypes, filetype)
       end
@@ -113,7 +28,12 @@ return {
   end,
   init = function()
     local mason_ensure_installed = {}
-    for server_name, _ in pairs(servers) do
+    local server_name_to_mason_name = { -- Specify the name of the Mason package for LSPs where they differ
+      jsonls = "json-lsp",
+      lua_ls = "lua-language-server",
+      yamlls = "yaml-language-server",
+    }
+    for server_name, _ in pairs(config.language_servers) do
       local mason_name = server_name_to_mason_name[server_name] or server_name
       if
         not vim.tbl_contains(mason_ensure_installed, mason_name)
@@ -183,7 +103,7 @@ return {
     require("mason-lspconfig").setup({
       handlers = {
         function(server_name)
-          local server = servers[server_name] or {}
+          local server = config.language_servers[server_name] or {}
           -- This handles overriding only values explicitly passed by the server configuration above, which can be
           --  useful when disabling certain features of a language server
           server.capabilities = vim.tbl_deep_extend("force", {}, capabilities, server.capabilities or {})
