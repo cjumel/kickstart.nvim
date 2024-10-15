@@ -15,6 +15,11 @@
 --  table of strings
 local servers = {
 
+  -- Provide basic language server features, like symbol navigation
+  jsonls = {
+    filetypes = { "json" },
+  },
+
   -- For LuaLS detailed documentation, see: https://luals.github.io/wiki/settings/
   -- Besides regular LSP features, LuaLS provides very cool diagnostics making a linter not needed, as well as some
   --  static type checking
@@ -72,7 +77,7 @@ local servers = {
     },
   },
 
-  -- Yamlls provides some features based on schemas from SchemaStore like completion or hovering
+  -- Provide some features based on schemas from SchemaStore like completion or hovering
   yamlls = {
     filetypes = { "yaml" },
   },
@@ -81,6 +86,7 @@ local servers = {
 -- Translates nvim-lspconfig server names to the names used in Mason. This is usually done by the mason-lspconfig
 --  plugin, but with the implementation of the custom `MasonInstallAll` command, this needs to be done manually
 local server_name_to_mason_name = {
+  jsonls = "json-lsp",
   lua_ls = "lua-language-server",
   yamlls = "yaml-language-server",
 }
