@@ -4,13 +4,15 @@ local M = {}
 
 M.default = {
   lualine_a = { "mode" },
-  lualine_b = { "branch", "diff", "diagnostics" },
+  lualine_b = { "branch" },
   lualine_c = {
     {
       "filename",
       path = 1, -- Relative path
       symbols = { modified = "●" }, -- Text to show when the buffer is modified
     },
+    "diff",
+    "diagnostics",
   },
   lualine_x = { modules.macro, modules.harpoon, "filetype" },
   lualine_y = { "location" },
