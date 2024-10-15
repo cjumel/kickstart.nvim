@@ -1,4 +1,4 @@
-local modules = require("plugins.ui.lualine.modules")
+local lualine_modules = require("plugins.ui.lualine.modules")
 
 local M = {}
 
@@ -14,7 +14,7 @@ M.default = {
     "diff",
     "diagnostics",
   },
-  lualine_x = { modules.macro, modules.harpoon, "filetype" },
+  lualine_x = { lualine_modules.macro, lualine_modules.harpoon, "filetype" },
   lualine_y = { "location" },
   lualine_z = { "progress" },
 }

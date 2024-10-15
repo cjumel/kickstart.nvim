@@ -4,6 +4,10 @@
 -- popular plugins and can be further customized manually while remaining quite simple, making it a great choice for any
 -- configuration.
 
+local lualine_extensions = require("plugins.ui.lualine.extensions")
+local lualine_sections = require("plugins.ui.lualine.sections")
+local theme = require("theme")
+
 return {
   "nvim-lualine/lualine.nvim",
   dependencies = { "nvim-tree/nvim-web-devicons" },
@@ -14,7 +18,7 @@ return {
     --  parameter `_keep_showmode`
     vim.opt.showmode = false
   end,
-  opts = require("theme").make_opts("lualine", {
+  opts = theme.make_opts("lualine", {
     options = {
       icons_enabled = true,
       theme = "auto",
@@ -23,10 +27,8 @@ return {
       globalstatus = true, -- Use a single global status line for all splits (precedes `vim.o.laststatus`)
       refresh = { statusline = 50 }, -- Decrease refresh rate to make modules more responsive (e.g. Harpoon's)
     },
-    sections = require("plugins.ui.lualine.sections").default,
-    extensions = require("plugins.ui.lualine.extensions").build_extensions(
-      require("plugins.ui.lualine.sections").default
-    ),
+    sections = lualine_sections.default,
+    extensions = lualine_extensions.build_extensions(lualine_sections.default),
   }),
   config = function(_, opts)
     require("lualine").setup(opts)
