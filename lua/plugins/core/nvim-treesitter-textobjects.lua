@@ -7,7 +7,10 @@
 return {
   "nvim-treesitter/nvim-treesitter-textobjects",
   dependencies = { "nvim-treesitter/nvim-treesitter" },
-  event = "VeryLazy", -- Load at startup as many keymaps in the plugin config
+  event = {
+    "VeryLazy", -- Necessary to set not buffer-specific keymaps
+    "BufReadPre", -- In case Neovim directly opens a buffer, "VeryLazy" is too late to set keymaps
+  },
   opts = {
     select = {
       enable = true,

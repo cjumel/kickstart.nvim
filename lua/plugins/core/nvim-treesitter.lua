@@ -7,7 +7,10 @@
 return {
   "nvim-treesitter/nvim-treesitter",
   build = ":TSUpdate",
-  event = "VeryLazy", -- Force load on start-up to ensure all parsers are always installed
+  event = {
+    "VeryLazy", -- Force load on start-up to ensure all parsers are always installed
+    "BufReadPre", -- In case Neovim directly opens a buffer, "VeryLazy" is too late to set keymaps
+  },
   opts = {
     ensure_installed = {
       "bash",
