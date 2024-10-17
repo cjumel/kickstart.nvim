@@ -6,7 +6,6 @@
 
 return {
   "nvim-treesitter/nvim-treesitter",
-  dependencies = { "nvim-treesitter/nvim-treesitter-textobjects" },
   build = ":TSUpdate",
   event = "VeryLazy", -- Force load on start-up to ensure all parsers are always installed
   opts = {
@@ -50,61 +49,6 @@ return {
         node_incremental = "<CR>",
         scope_incremental = false,
         node_decremental = "<BS>",
-      },
-    },
-    textobjects = {
-      select = {
-        enable = true,
-        lookahead = true, -- Automatically jump forward to text-object if not on one
-        keymaps = {
-          ["aa"] = { query = "@parameter.outer", desc = "an argument" },
-          ["ia"] = { query = "@parameter.inner", desc = "inner argument" },
-          ["ac"] = { query = "@class.outer", desc = "a class" },
-          ["ic"] = { query = "@class.inner", desc = "inner class" },
-          ["af"] = { query = "@call.outer", desc = "a function call" },
-          ["if"] = { query = "@call.inner", desc = "inner function call" },
-          ["ag"] = { query = "@comment.outer", desc = "a comment" },
-          ["ig"] = { query = "@comment.inner", desc = "inner comment" },
-          ["ai"] = { query = "@conditional.outer", desc = "an if statement" },
-          ["ii"] = { query = "@conditional.inner", desc = "inner if statement" },
-          ["al"] = { query = "@loop.outer", desc = "a loop" },
-          ["il"] = { query = "@loop.inner", desc = "inner loop" },
-          ["am"] = { query = "@function.outer", desc = "a method definition" },
-          ["im"] = { query = "@function.inner", desc = "inner method definition" },
-          ["a="] = { query = "@assignment.outer", desc = "an assignment" },
-          ["i="] = { query = "@assignment.inner", desc = "inner assignment" },
-          ["gl"] = { query = "@assignment.lhs", desc = "Left-hand-side of assignment" },
-          ["gr"] = { query = "@assignment.rhs", desc = "Right-hand-side of assignment" },
-        },
-      },
-      move = {
-        enable = true,
-        set_jumps = true, -- Set jumps in the jumplist
-        goto_next_start = {
-          ["[c"] = { query = "@class.outer", desc = "Next class start" },
-          ["[m"] = { query = "@function.outer", desc = "Next method definition start" },
-        },
-        goto_next_end = {
-          ["[C"] = { query = "@class.outer", desc = "Next class end" },
-          ["[M"] = { query = "@function.outer", desc = "Next method definition end" },
-        },
-        goto_previous_start = {
-          ["]c"] = { query = "@class.outer", desc = "Previous class start" },
-          ["]m"] = { query = "@function.outer", desc = "Previous method definition start" },
-        },
-        goto_previous_end = {
-          ["]C"] = { query = "@class.outer", desc = "Previous class end" },
-          ["]M"] = { query = "@function.outer", desc = "Previous method definition end" },
-        },
-      },
-      swap = {
-        enable = true,
-        swap_next = {
-          ["ga"] = { query = "@parameter.inner", desc = "Swap argument with next" },
-        },
-        swap_previous = {
-          ["gA"] = { query = "@parameter.inner", desc = "Swap argument with previous" },
-        },
       },
     },
   },
