@@ -55,60 +55,21 @@ return {
   config = function(_, opts)
     require("nvim-treesitter.configs").setup(opts)
 
-    local keymap = require("keymap")
-    local ts_utils = require("nvim-treesitter.ts_utils")
+    -- Create buffer-specific keymaps
+    -- There are also go to next/previous sibling keymaps, but they are defined in nvim-treesitter-textobjects due
+    --  to the way the dependencies between the plugins are defined
+    local ts_actions = require("plugins.core.nvim-treesitter.actions")
+    vim.api.nvim_create_autocmd("FileType", {
+      pattern = "*",
+      callback = function()
+        -- Don't set keymaps if no Treesitter parser is installed for the buffer
+        if not require("nvim-treesitter.parsers").has_parser() then
+          return
+        end
 
-    --- Output the current line main node, that is the top-level ancestor from the node under the
-    --- cursor within the same line.
-    ---@return TSNode
-    local get_main_node = function()
-      local node = ts_utils.get_node_at_cursor()
-      if node == nil then
-        error("No Treesitter parser found.")
-      end
-      local start_row = node:start()
-      local parent = node:parent()
-      while
-        parent ~= nil
-        and parent:start() == start_row
-        -- A "block" is typically the inner part of a function or class
-        -- Excluding it makes possible to navigate to a sibling within a block from the first line
-        and parent:type() ~= "block"
-      do
-        node = parent
-        parent = node:parent()
-      end
-      return node
-    end
-
-    --- Move the cursor to the next sibling of the current line main node.
-    ---@return nil
-    local next_sibling_node = function()
-      local node = get_main_node()
-      local sibling = node:next_named_sibling()
-      -- Skip not interesting nodes to avoid jumping to them
-      while sibling ~= nil and sibling:type() == "comment" do
-        sibling = sibling:next_named_sibling()
-      end
-      ts_utils.goto_node(sibling)
-    end
-
-    --- Move the cursor to the previous sibling of the current line main node.
-    ---@return nil
-    local prev_sibling_node = function()
-      local node = get_main_node()
-      local sibling = node:prev_named_sibling()
-      -- Skip not interesting nodes to avoid jumping to them
-      while sibling ~= nil and sibling:type() == "comment" do
-        sibling = sibling:prev_named_sibling()
-      end
-      ts_utils.goto_node(sibling)
-    end
-
-    keymap.set_move_pair(
-      { "[s", "]s" },
-      { next_sibling_node, prev_sibling_node },
-      { { desc = "Next line sibling" }, { desc = "Previous line sibling" } }
-    )
+        vim.keymap.set("n", "gp", ts_actions.go_to_parent_node, { desc = "Go to line parent node", buffer = true })
+      end,
+      group = vim.api.nvim_create_augroup("NvimTreesitterKeymaps", { clear = true }),
+    })
   end,
 }

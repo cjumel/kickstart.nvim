@@ -66,18 +66,40 @@ return {
   config = function(_, opts)
     require("nvim-treesitter.configs").setup({ textobjects = opts })
 
-    local repeatable_move = require("nvim-treesitter.textobjects.repeatable_move")
+    local ts_actions = require("plugins.core.nvim-treesitter.actions")
+    local ts_repeatable_move = require("nvim-treesitter.textobjects.repeatable_move")
+
+    -- Define keymaps to repeat last moves
     vim.keymap.set(
       { "n", "x", "o" },
       ",",
-      repeatable_move.repeat_last_move_next,
+      ts_repeatable_move.repeat_last_move_next,
       { desc = 'Repeat last move in "next" direction' }
     )
     vim.keymap.set(
       { "n", "x", "o" },
       ";",
-      repeatable_move.repeat_last_move_previous,
+      ts_repeatable_move.repeat_last_move_previous,
       { desc = 'Repeat last move in "previous" direction' }
     )
+
+    -- Make repeatable move functions
+    local next_sibling_node, prev_sibling_node =
+      ts_repeatable_move.make_repeatable_move_pair(ts_actions.next_sibling_node, ts_actions.prev_sibling_node)
+
+    -- Create buffer-specific keymaps
+    vim.api.nvim_create_autocmd("FileType", {
+      pattern = "*",
+      callback = function()
+        -- Don't set keymaps if no Treesitter parser is installed for the buffer
+        if not require("nvim-treesitter.parsers").has_parser() then
+          return
+        end
+
+        vim.keymap.set({ "n", "x", "o" }, "[s", next_sibling_node, { desc = "Next line sibling", buffer = true })
+        vim.keymap.set({ "n", "x", "o" }, "]s", prev_sibling_node, { desc = "Previous line sibling", buffer = true })
+      end,
+      group = vim.api.nvim_create_augroup("NvimTreesitterTextobjectsKeymaps", { clear = true }),
+    })
   end,
 }
