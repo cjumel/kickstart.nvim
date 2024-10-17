@@ -57,13 +57,13 @@ return {
       desc = "inner value in key-value pair",
     },
     {
-      "a<Tab>",
+      "ai",
       function() require("various-textobjs").indentation("outer", "outer") end,
       mode = { "x", "o" },
       desc = "an indentation",
     },
     {
-      "i<Tab>",
+      "ii",
       function() require("various-textobjs").indentation("inner", "inner") end,
       mode = { "x", "o" },
       desc = "inner indentation",
@@ -84,7 +84,7 @@ return {
     },
 
     -- Forward-only text-objects
-    --  These text-objects are only implemented in operator-pending mode, to avoid overriding the corresponding keys
+    -- These text-objects are only implemented in operator-pending mode, to avoid overriding the corresponding keys
     --  in visual mode as their might be conflicts
     {
       "c",
