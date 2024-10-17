@@ -1,8 +1,8 @@
 -- nvim-treesitter
 --
 -- Treesitter configurations and abstraction layer for Neovim. This plugin integrates Treesitter in Neovim, providing
--- various language-aware features (e.g. syntax highlighting, indentation, incremental selection, text objects,
--- repeatable move pairs, etc.) It is a must-have for any Neovim user, in my opinion.
+-- various language-specific features (highlighting, indentation, incremental selection, etc.) It is a must-have for
+-- any Neovim user, in my opinion.
 
 return {
   "nvim-treesitter/nvim-treesitter",
@@ -110,20 +110,6 @@ return {
   },
   config = function(_, opts)
     require("nvim-treesitter.configs").setup(opts)
-
-    local repeatable_move = require("nvim-treesitter.textobjects.repeatable_move")
-    vim.keymap.set(
-      { "n", "x", "o" },
-      ",",
-      repeatable_move.repeat_last_move_next,
-      { desc = 'Repeat last move in "next" direction' }
-    )
-    vim.keymap.set(
-      { "n", "x", "o" },
-      ";",
-      repeatable_move.repeat_last_move_previous,
-      { desc = 'Repeat last move in "previous" direction' }
-    )
 
     local keymap = require("keymap")
     local ts_utils = require("nvim-treesitter.ts_utils")
