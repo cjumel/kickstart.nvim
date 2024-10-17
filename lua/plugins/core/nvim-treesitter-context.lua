@@ -1,23 +1,42 @@
 -- nvim-treesitter-context
 --
--- A simple and lightweight plugin to show code context, using Treesitter. I don't use this by default as it clutters
--- the buffer view, but through keymaps instead, since it can be very handy when exploring large unknown files.
+-- nvim-teesitter-context is a lightweight plugin to show code context, using Treesitter. It is very handy to explore
+-- very large files with a complex structure, as it provides very detailed insights on the current context while not
+-- opening new windows or navigating in the code.
 
 return {
   "nvim-treesitter/nvim-treesitter-context",
-  event = { "BufNewFile", "BufReadPre" }, -- Lazy-loading the plugin on keys doesn't work well
+  dependencies = { "nvim-treesitter/nvim-treesitter" },
+  event = { "BufNewFile", "BufReadPre" }, -- Lazy-loading on keys doesn't work for some reason
   opts = {
-    enable = false, -- Disable by default, can be enabled by the settings Hydra through a keymap
+    enable = false, -- Keep it disable by default
   },
   config = function(_, opts)
-    local treesitter_context = require("treesitter-context")
+    local ts_context = require("treesitter-context")
 
-    treesitter_context.setup(opts)
+    ts_context.setup(opts)
 
-    vim.keymap.set("n", "gp", function()
-      if treesitter_context.enabled() then -- When treesitter-context is not enabled, the keymap doesn't work well
-        treesitter_context.go_to_context()
-      end
-    end, { desc = "Go to context parent node" })
+    -- Create buffer-specific keymaps
+    vim.api.nvim_create_autocmd("FileType", {
+      pattern = "*",
+      callback = function()
+        vim.keymap.set("n", "<leader>vc", ts_context.toggle, { desc = "[V]iew: [C]ontext", buffer = true })
+        vim.keymap.set("n", "gP", function()
+          -- Plugin needs to be enabled for the `go_to_context` action to work
+          local is_disabled = not ts_context.enabled()
+          if is_disabled then
+            ts_context.enable()
+          end
+
+          ts_context.go_to_context()
+
+          -- If plugin was initially disabled, re-disable it
+          if is_disabled then
+            ts_context.disable()
+          end
+        end, { desc = "Go to context parent node", buffer = true })
+      end,
+      group = vim.api.nvim_create_augroup("NvimTreesitterContextKeymaps", { clear = true }),
+    })
   end,
 }
