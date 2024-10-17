@@ -15,11 +15,14 @@ return {
     on_attach = function(bufnr)
       local actions = require("plugins.core.gitsigns.actions")
       local gitsigns = require("gitsigns")
-      local keymap = require("keymap")
 
-      local map = keymap.get_buffer_local_map(bufnr)
+      ---@param mode string|string[] The mode(s) of the keymap.
+      ---@param lhs string The left-hand side of the keymap.
+      ---@param rhs string|function The right-hand side of the keymap.
+      ---@param desc string The description of the keymap.
+      local function map(mode, lhs, rhs, desc) vim.keymap.set(mode, lhs, rhs, { desc = desc, buffer = bufnr }) end
 
-      -- General git actions
+      -- General actions
       map("n", "<leader>gs", gitsigns.stage_buffer, "[G]it: [S]tage buffer")
       map("n", "<leader>gu", gitsigns.reset_buffer_index, "[G]it: [U]nstage buffer")
       map("n", "<leader>gx", gitsigns.reset_buffer, "[G]it: discard buffer changes")

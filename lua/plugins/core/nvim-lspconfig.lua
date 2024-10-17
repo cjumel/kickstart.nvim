@@ -4,7 +4,6 @@
 -- the code of the Neovim LSP itself, nor the language servers implementations. It makes super easy setting up a LSP
 -- in Neovim, bridging the gap between the LSP client and the language servers implementations.
 
-local keymap = require("keymap")
 local nvim_config = require("nvim_config")
 
 return {
@@ -51,8 +50,17 @@ return {
     vim.api.nvim_create_autocmd("LspAttach", {
       group = vim.api.nvim_create_augroup("NvimLspconfigKeymaps", { clear = true }),
       callback = function(event)
-        local bufnr = event.buf
-        local map = keymap.get_buffer_local_map(bufnr)
+        ---@param mode string|string[] The mode(s) of the keymap.
+        ---@param lhs string The left-hand side of the keymap.
+        ---@param rhs string|function The right-hand side of the keymap.
+        ---@param desc string The description of the keymap.
+        ---@param opts table|nil Additional options for the keymap.
+        local function map(mode, lhs, rhs, desc, opts)
+          opts = opts or {}
+          opts.desc = desc
+          opts.buffer = event.buf
+          vim.keymap.set(mode, lhs, rhs, opts)
+        end
 
         map("n", "<C-s>", vim.lsp.buf.signature_help, "Signature help")
         map("n", "gd", "<cmd>Trouble lsp_definitions<CR>", "Go to definitions")
