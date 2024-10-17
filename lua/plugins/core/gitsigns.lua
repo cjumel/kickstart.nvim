@@ -26,12 +26,6 @@ return {
       map("n", "<leader>gK", function() gitsigns.blame_line({ full = true }) end, "[G]it: hover blame")
       map("n", "<leader>gd", function() gitsigns.diffthis("~") end, "[G]it: buffer [D]iff")
 
-      -- Navigation keymaps
-      keymap.set_move_pair({ "[h", "]h" }, {
-        function() gitsigns.next_hunk({ navigation_message = false }) end,
-        function() gitsigns.prev_hunk({ navigation_message = false }) end,
-      }, { { desc = "Next hunk", buffer = bufnr }, { desc = "Previous hunk", buffer = bufnr } })
-
       -- Hunk text object (with custom look ahead feature)
       map({ "x", "o" }, "gh", actions.select_hunk, "Hunk")
     end,

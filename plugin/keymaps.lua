@@ -1,5 +1,4 @@
 local buffer = require("buffer")
-local keymap = require("keymap")
 local visual_mode = require("visual_mode")
 
 -- [[ Modify builtin keymaps ]]
@@ -40,16 +39,6 @@ vim.keymap.set({ "n", "o", "x" }, "G", "G$", { desc = "End of buffer" })
 
 -- Remap $ in visual mode to avoid selecting the newline character (consistent with other modes)
 vim.keymap.set("v", "$", "$h", { desc = "End of line" })
-
--- Re-implement the builtin bracket navigation keymaps (with "(", "{" & "<") and complete them (with "[" and all of the
---  corresponding closing bracket)
-for _, char in ipairs({ "(", ")", "{", "}", "<", ">", "[", "]" }) do
-  keymap.set_move_pair(
-    { "[" .. char, "]" .. char },
-    { function() vim.fn.search(char) end, function() vim.fn.search(char, "b") end },
-    { { desc = "Next " .. char }, { desc = "Previous " .. char } }
-  )
-end
 
 -- [[ General keymaps ]]
 
@@ -153,50 +142,6 @@ local function search_in_web_browser()
   end)
 end
 vim.keymap.set({ "n", "v" }, "g/", search_in_web_browser, { desc = "Search word under the cursor in Web browser" })
-
-keymap.set_move_pair(
-  { "[p", "]p" },
-  { function() vim.cmd("normal }") end, function() vim.cmd("normal {") end },
-  { { desc = "Next paragraph" }, { desc = "Previous paragraph" } }
-)
-keymap.set_move_pair(
-  { "[b", "]b" },
-  { function() vim.cmd("bnext") end, function() vim.cmd("bprev") end },
-  { { desc = "Next buffer" }, { desc = "Previous buffer" } }
-)
-keymap.set_move_pair(
-  { "[l", "]l" },
-  { function() vim.cmd("silent! lnext") end, function() vim.cmd("silent! lprev") end },
-  { { desc = "Next loclist item" }, { desc = "Previous loclist item" } }
-)
-keymap.set_move_pair(
-  { "[q", "]q" },
-  { function() vim.cmd("silent! cnext") end, function() vim.cmd("silent! cprev") end },
-  { { desc = "Next qflist item" }, { desc = "Previous qflist item" } }
-)
-
-keymap.set_move_pair( -- Dianostics can be errors, warnings, information messages or hints
-  { "[d", "]d" },
-  { vim.diagnostic.goto_next, vim.diagnostic.goto_prev },
-  { { desc = "Next diagnostic" }, { desc = "Previous diagnostic" } }
-)
-keymap.set_move_pair({ "[e", "]e" }, {
-  function() vim.diagnostic.goto_next({ severity = vim.diagnostic.severity.ERROR }) end,
-  function() vim.diagnostic.goto_prev({ severity = vim.diagnostic.severity.ERROR }) end,
-}, { { desc = "Next error" }, { desc = "Previous error" } })
-
-local url_pattern = "http:\\/\\/\\|https:\\/\\/"
-keymap.set_move_pair(
-  { "[w", "]w" },
-  { function() vim.fn.search(url_pattern) end, function() vim.fn.search(url_pattern, "b") end },
-  { { desc = "Next Web address" }, { desc = "Previous Web address" } }
-)
--- Conflict markers have 3 forms, all at the start of a line: `<<<<<<< <text>`, ` =======`, ` >>>>>>> <text>`
-local conflict_pattern = "^<<<<<<< \\|^=======\\|^>>>>>>> "
-keymap.set_move_pair({ "[x", "]x" }, {
-  function() vim.fn.search(conflict_pattern) end,
-  function() vim.fn.search(conflict_pattern, "b") end,
-}, { { desc = "Next conflict" }, { desc = "Previous conflict" } })
 
 -- [[ Command-line keymaps ]]
 -- Keymaps for command-line mode (also sometimes added to insert mode); these keymaps notably reproduce some shell

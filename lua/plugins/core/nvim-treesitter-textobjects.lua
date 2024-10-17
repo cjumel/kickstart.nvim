@@ -67,6 +67,7 @@ return {
     require("nvim-treesitter.configs").setup({ textobjects = opts })
 
     local ts_actions = require("plugins.core.nvim-treesitter.actions")
+    local ts_keymap = require("plugins.core.nvim-treesitter-textobjects.keymap")
     local ts_repeatable_move = require("nvim-treesitter.textobjects.repeatable_move")
 
     -- Define keymaps to repeat last moves
@@ -83,23 +84,122 @@ return {
       { desc = 'Repeat last move in "previous" direction' }
     )
 
-    -- Make repeatable move functions
-    local next_sibling_node, prev_sibling_node =
-      ts_repeatable_move.make_repeatable_move_pair(ts_actions.next_sibling_node, ts_actions.prev_sibling_node)
+    -- Create generic keymaps
+    ts_keymap.set_move_pair("b", function() vim.cmd("bnext") end, function() vim.cmd("bprev") end, "buffer")
+    ts_keymap.set_move_pair(
+      "l",
+      function() vim.cmd("silent! lnext") end,
+      function() vim.cmd("silent! lprev") end,
+      "loclist item"
+    )
+    ts_keymap.set_move_pair(
+      "q",
+      function() vim.cmd("silent! cnext") end,
+      function() vim.cmd("silent! cprev") end,
+      "qflist item"
+    )
 
     -- Create buffer-specific keymaps
+    local augroup = vim.api.nvim_create_augroup("NvimTreesitterTextobjectsKeymaps", { clear = true })
+
     vim.api.nvim_create_autocmd("FileType", {
       pattern = "*",
+      group = augroup,
       callback = function()
-        -- Don't set keymaps if no Treesitter parser is installed for the buffer
+        ts_keymap.set_local_move_pair(
+          "p",
+          function() vim.cmd("normal }") end,
+          function() vim.cmd("normal {") end,
+          "paragraph"
+        )
+        ts_keymap.set_local_move_pair( -- Dianostics can be errors, warnings, information messages or hints
+          "d",
+          vim.diagnostic.goto_next,
+          vim.diagnostic.goto_prev,
+          "diagnostic"
+        )
+        ts_keymap.set_local_move_pair(
+          "e",
+          function() vim.diagnostic.goto_next({ severity = vim.diagnostic.severity.ERROR }) end,
+          function() vim.diagnostic.goto_prev({ severity = vim.diagnostic.severity.ERROR }) end,
+          "error"
+        )
+        local url_pattern = "http:\\/\\/\\|https:\\/\\/"
+        ts_keymap.set_local_move_pair(
+          "w",
+          function() vim.fn.search(url_pattern) end,
+          function() vim.fn.search(url_pattern, "b") end,
+          "Web address"
+        )
+        -- Conflict markers have 3 forms, all at the start of a line: `<<<<<<< <text>`, ` =======`, ` >>>>>>> <text>`
+        local conflict_pattern = "^<<<<<<< \\|^=======\\|^>>>>>>> "
+        ts_keymap.set_local_move_pair(
+          "x",
+          function() vim.fn.search(conflict_pattern) end,
+          function() vim.fn.search(conflict_pattern, "b") end,
+          "conflict"
+        )
+        -- Re-implement the builtin bracket navigation keymaps (with "(", "{" & "<") and complete them (with "[" and all
+        --  of the corresponding closing bracket)
+        for _, char in ipairs({ "(", ")", "{", "}", "<", ">", "[", "]" }) do
+          ts_keymap.set_local_move_pair(
+            char,
+            function() vim.fn.search(char) end,
+            function() vim.fn.search(char, "b") end,
+            char
+          )
+        end
+        ts_keymap.set_local_move_pair(
+          "h",
+          function() require("gitsigns").next_hunk({ navigation_message = false }) end,
+          function() require("gitsigns").prev_hunk({ navigation_message = false }) end,
+          "hunk"
+        )
+        ts_keymap.set_local_move_pair(
+          "t",
+          function() require("todo-comments").jump_next() end,
+          function() require("todo-comments").jump_prev() end,
+          "todo-comment"
+        )
+        ts_keymap.set_local_move_pair(
+          "`",
+          function() require("marks").next() end,
+          function() require("marks").prev() end,
+          "mark"
+        )
+
+        -- Don't set the remaining keymaps if no Treesitter parser is installed for the buffer
         if not require("nvim-treesitter.parsers").has_parser() then
           return
         end
 
-        vim.keymap.set({ "n", "x", "o" }, "[s", next_sibling_node, { desc = "Next line sibling", buffer = true })
-        vim.keymap.set({ "n", "x", "o" }, "]s", prev_sibling_node, { desc = "Previous line sibling", buffer = true })
+        ts_keymap.set_local_move_pair("s", ts_actions.next_sibling_node, ts_actions.prev_sibling_node, "line sibling")
       end,
-      group = vim.api.nvim_create_augroup("NvimTreesitterTextobjectsKeymaps", { clear = true }),
+    })
+
+    vim.api.nvim_create_autocmd("FileType", {
+      pattern = "markdown",
+      group = augroup,
+      callback = function()
+        -- Navigate between sentences instead of line siblings with Treesitter (the latter can be replaced by header
+        --  navigation)
+        ts_keymap.set_local_move_pair(
+          "s",
+          function() vim.cmd("normal )") end,
+          function() vim.cmd("normal (") end,
+          "sentence (Markdown)"
+        )
+
+        -- Navigate between GitHub-flavored Markdown todo checkboxes (not started or in progress), instead of
+        --  todo-comments (which are not supported in Markdown by todo-comments.nvim anyway)
+        local todo_checkbox_pattern = "- \\[ ] \\|- \\[-] "
+        ts_keymap.set_local_move_pair(
+          "t",
+          function() vim.fn.search(todo_checkbox_pattern) end,
+          function() vim.fn.search(todo_checkbox_pattern, "b") end,
+          "todo checkbox (Markdown)"
+        )
+      end,
     })
   end,
 }

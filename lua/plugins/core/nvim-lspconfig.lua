@@ -49,7 +49,7 @@ return {
     -- Define a callback run each time when a language server is attached to a particular buffer where we can define
     --  buffer-local keymaps
     vim.api.nvim_create_autocmd("LspAttach", {
-      group = vim.api.nvim_create_augroup("lsp-attach", { clear = true }),
+      group = vim.api.nvim_create_augroup("NvimLspconfigKeymaps", { clear = true }),
       callback = function(event)
         local bufnr = event.buf
         local map = keymap.get_buffer_local_map(bufnr)
@@ -78,14 +78,15 @@ return {
         )
 
         -- Next/previous reference navigation; let's define illuminate keymaps here to benefit from the "LspAttach"
-        --  behavior
-        keymap.set_move_pair({ "[r", "]r" }, {
+        --  behavior. Besides, the "LspAttach" event is triggered after "BufReadPre", hence nvim-treesitter-textobjects
+        --  is already loaded at this point.
+        local ts_keymap = require("plugins.core.nvim-treesitter-textobjects.keymap")
+        ts_keymap.set_local_move_pair(
+          "r",
           function() require("illuminate").goto_next_reference() end,
           function() require("illuminate").goto_prev_reference() end,
-        }, {
-          { desc = "Next reference", buffer = bufnr },
-          { desc = "Previous reference", buffer = bufnr },
-        })
+          "reference"
+        )
       end,
     })
 
