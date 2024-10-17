@@ -9,6 +9,16 @@ return {
   dependencies = { "nvim-tree/nvim-web-devicons" },
   event = "VeryLazy",
   opts = {
+    -- Filter out builtin next/previous move keymaps, as I implemented my own in a very different way (opposite
+    --  directions and repeatable)
+    filter = function(mapping)
+      return not (
+          string.sub(mapping.lhs, 1, 1) == "[" and (not mapping.desc or string.sub(mapping.desc, 1, 5) ~= "Next ")
+        )
+        and not (
+          string.sub(mapping.lhs, 1, 1) == "]" and (not mapping.desc or string.sub(mapping.desc, 1, 9) ~= "Previous ")
+        )
+    end,
     spec = { -- Register keymap groups
       { "gr", group = "LSP" },
       { "<leader> ", group = "Local leader" },
