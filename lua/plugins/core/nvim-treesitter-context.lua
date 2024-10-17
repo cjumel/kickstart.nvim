@@ -20,6 +20,11 @@ return {
     vim.api.nvim_create_autocmd("FileType", {
       pattern = "*",
       callback = function()
+        -- Don't set keymaps if no Treesitter parser is installed for the buffer
+        if not require("nvim-treesitter.parsers").has_parser() then
+          return
+        end
+
         vim.keymap.set("n", "<leader>vc", ts_context.toggle, { desc = "[V]iew: [C]ontext", buffer = true })
         vim.keymap.set("n", "gP", function()
           -- Plugin needs to be enabled for the `go_to_context` action to work
