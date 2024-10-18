@@ -77,15 +77,15 @@ return {
       desc = "Entire buffer",
     },
     {
-      "gw",
+      "ga", -- "gu" & "gU" are taken by casing operators, "gw" by a format operator (see `:h gw`)
       function() require("various-textobjs").url() end,
       mode = { "x", "o" },
       desc = "Web address",
     },
 
     -- Forward-only text-objects
-    -- These text-objects are only implemented in operator-pending mode, to avoid overriding the corresponding keys
-    --  in visual mode as their might be conflicts
+    -- These text-objects are only implemented in operator-pending mode, to avoid overriding the corresponding keys in
+    --  visual mode as their might be conflicts
     {
       "c",
       function() require("various-textobjs").lineCharacterwise("inner") end,
