@@ -24,7 +24,10 @@ M.macro = {
 --  is in Harpoon list. This will lazy-load Harpoon as soon as a non-temporary buffer is opened.
 M.harpoon = {
   function()
-    if require("buffer").is_temporary() and vim.bo.filetype ~= "oil" then
+    if
+      vim.bo.filetype == "" -- No-name buffer
+      or (vim.bo.buftype ~= "" and vim.bo.filetype ~= "oil") -- Special buffers, except for Oil's ones
+    then
       return ""
     end
 

@@ -2,11 +2,6 @@
 
 local M = {}
 
---- Determine whether the current buffer is temporary or not. A buffer is considered as temporary when it is not tied to
---- an actual file, typically when it is created by a plugin.
----@return boolean
-function M.is_temporary() return vim.tbl_contains(require("filetypes").temporary_filetypes, vim.bo.filetype) end
-
 --- Output the path of the parent directory of the current buffer file, if it exists, or nil.
 ---@return string|nil
 function M.get_parent_dir()

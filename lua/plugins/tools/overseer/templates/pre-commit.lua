@@ -28,7 +28,7 @@ return {
       },
       {
         name = "pre-commit run --files <file>",
-        condition = { callback = function(_) return not require("buffer").is_temporary() end },
+        condition = { callback = function(_) return vim.bo.buftype == "" end },
         builder = function(_)
           local path = vim.fn.expand("%:p:~:.") -- Current file path relative to cwd or HOME or absolute
           return {
