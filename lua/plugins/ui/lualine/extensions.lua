@@ -1,4 +1,3 @@
-local filetypes = require("filetypes")
 local lualine_modules = require("plugins.ui.lualine.modules")
 
 local M = {}
@@ -8,6 +7,7 @@ local M = {}
 ---@return table
 function M.build_extensions(sections)
   return {
+    -- Custom plugin extensions
     {
       filetypes = { "oil" },
       sections = vim.tbl_deep_extend("force", sections, { lualine_c = lualine_modules.oil }),
@@ -16,12 +16,31 @@ function M.build_extensions(sections)
       filetypes = { "toggleterm" },
       sections = vim.tbl_deep_extend("force", sections, { lualine_c = lualine_modules.toggleterm }),
     },
-    -- Use an empty `lualine_c` section for all the remaining temporary filetypes
+    -- Use an empty `lualine_c` section for all the remaining temporary filetypes (filetype is still visible)
     {
-      filetypes = vim.tbl_filter(
-        function(value) return not vim.tbl_contains({ "oil", "toggleterm" }, value) end,
-        filetypes.temporary_filetypes
-      ),
+      filetypes = {
+        "copilot-chat",
+        "dap-repl",
+        "dapui_breakpoints",
+        "dapui_console",
+        "dapui_scopes",
+        "dapui_watches",
+        "gitcommit",
+        "harpoon",
+        "lazy",
+        "lspinfo",
+        "mason",
+        "NeogitCommitMessage",
+        "NeogitCommitPopup",
+        "NeogitCommitView",
+        "NeogitPopup",
+        "NeogitRebasePopup",
+        "NeogitResetPopup",
+        "NeogitStatus",
+        "TelescopePrompt",
+        "trouble",
+        "undotree",
+      },
       sections = vim.tbl_deep_extend("force", sections, { lualine_c = lualine_modules.empty }),
     },
   }

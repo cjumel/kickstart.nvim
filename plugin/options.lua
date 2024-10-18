@@ -1,6 +1,4 @@
--- General Vim and Neovim options.
-
-local filetypes = require("filetypes")
+-- General Vim and Neovim options and related configurations.
 
 -- [[ Options ]]
 
@@ -55,4 +53,19 @@ end
 -- [[ Filetypes ]]
 
 -- Add custom filetypes to those known by Neovim
-vim.filetype.add({ filename = filetypes.filetype_by_filename })
+vim.filetype.add({
+  filename = {
+    [".env.example"] = "sh", -- same as `.env`
+    [".env.test"] = "sh", -- same as `.env`
+    [".env.test.example"] = "sh", -- same as `.env`
+    [".ideavimrc"] = "vim",
+    [".markdownlintrc"] = "json", -- could also be "ini"
+    [".prettierignore"] = "conf", -- auto-detected by nvim
+    [".shellcheckrc"] = "conf", -- auto-detected by nvim
+    [".stow-global-ignore"] = "conf", -- auto-detected by nvim
+    [".stow-local-ignore"] = "conf", -- auto-detected by nvim
+    [".vimiumrc"] = "vim",
+    ["ignore"] = "conf", -- auto-detected by nvim
+    ["ripgreprc"] = "conf", -- auto-detected by nvim
+  },
+})
