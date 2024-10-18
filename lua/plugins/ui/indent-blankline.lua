@@ -5,28 +5,13 @@
 
 return {
   "lukas-reineke/indent-blankline.nvim",
+  dependencies = { "nvim-treesitter/nvim-treesitter" },
   main = "ibl",
   event = { "BufNewFile", "BufReadPre" },
   opts = {
     scope = {
       show_end = false, -- Don't underline the end of a scope
-      include = {
-        node_type = { -- Add treesitter nodes to be considered as scope
-          ["python"] = {
-            -- By default, only actual variable scopes are considered (classes & functions), let's add more
-            "if_statement",
-            "for_statement",
-            "while_statement",
-            "with_statement",
-          },
-        },
-      },
-      exclude = {
-        language = {
-          "toml", -- Works not great & very few indent levels so not very useful all in all
-          "yaml", -- Works very poorly, add more noise than value
-        },
-      },
+      exclude = { language = { "yaml" } }, -- Exclude some languages were the scope works poorly
     },
   },
 }
