@@ -10,8 +10,26 @@ return {
   branch = "harpoon2",
   dependencies = { "nvim-lua/plenary.nvim" },
   keys = {
-    { "º", function() require("harpoon"):list():prepend() end, desc = "Insert up in Harpoon list" }, -- <M-u>
-    { "î", function() require("harpoon"):list():add() end, desc = "Insert down in Harpoon list" }, -- <M-i>
+    {
+      "º", -- <M-u>
+      function()
+        require("harpoon"):list():prepend()
+        if package.loaded.lualine ~= nil then
+          package.loaded.lualine.refresh() -- Refresh Lualine right away to avoid a delay in its Harpoon module
+        end
+      end,
+      desc = "Insert up in Harpoon list",
+    },
+    {
+      "î", -- <M-i>
+      function()
+        require("harpoon"):list():add()
+        if package.loaded.lualine ~= nil then
+          package.loaded.lualine.refresh() -- Refresh Lualine right away to avoid a delay in its Harpoon module
+        end
+      end,
+      desc = "Insert down in Harpoon list",
+    },
     {
       "Ì", -- <M-h>
       function() require("harpoon").ui:toggle_quick_menu(require("harpoon"):list()) end,
