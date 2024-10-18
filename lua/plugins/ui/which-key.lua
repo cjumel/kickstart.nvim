@@ -21,6 +21,7 @@ return {
     end,
     spec = { -- Register keymap groups
       { "gr", group = "LSP" },
+      { "gs", group = "Substitute" },
       { "<leader> ", group = "Local leader" },
       { "<leader>c", group = "[C]hat", mode = { "n", "v" } },
       { "<leader>d", group = "[D]AP" },
