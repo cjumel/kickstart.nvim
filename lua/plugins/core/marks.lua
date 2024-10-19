@@ -7,30 +7,30 @@
 return {
   "chentoast/marks.nvim",
   event = { "BufNewFile", "BufReadPre" },
-  keys = { -- Defining manually keymaps (instead of in options) is the only way to add descriptions
+  keys = { -- Defining keymaps here, instead of in `opts`, seems to be the only way to add descriptions
     { "m", function() require("marks").set() end, desc = "Set mark" },
     { "m<Space>", function() require("marks").set_next() end, desc = "Set next available mark" },
     { "dm", function() require("marks").delete() end, desc = "Delete mark" },
     { "dm<Space>", function() require("marks").delete_line() end, desc = "Delete line marks" },
     { "dm<CR>", function() require("marks").delete_buf() end, desc = "Delete buffer marks" },
     {
-      "<leader>m",
+      "m<CR>",
       function()
         require("marks").mark_state:buffer_to_list()
-        require("trouble").open("loclist")
+        vim.notify("Buffer marks sent to Loclist")
       end,
-      desc = "[M]arks (buffer)",
+      desc = "Send buffer marks to Loclist",
     },
     {
-      "<leader>M",
+      "m<Tab>",
       function()
         require("marks").mark_state:all_to_list()
-        require("trouble").open("loclist")
+        vim.notify("Workspace marks sent to loclist")
       end,
-      desc = "[M]arks (workspace)",
+      desc = "Send workspace marks to Loclist",
     },
   },
   opts = {
-    default_mappings = false, -- Don't use default mappings as keymaps are defined above
+    default_mappings = false, -- Don't use default mappings as all keymaps are defined in `keys`
   },
 }
