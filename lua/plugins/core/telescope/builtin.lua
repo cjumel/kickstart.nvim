@@ -315,13 +315,21 @@ end
 
 function M.commands()
   require("telescope.builtin").commands({
+    prompt_title = "Find Commands",
     layout_strategy = "vertical",
-    previewer = false,
+  })
+end
+
+function M.keymaps()
+  require("telescope.builtin").keymaps({
+    prompt_title = "Find Keymaps",
+    layout_strategy = "vertical",
   })
 end
 
 function M.help_tags()
   require("telescope.builtin").help_tags({
+    prompt_title = "Find Help",
     layout_strategy = "vertical",
     previewer = false,
   })
@@ -329,6 +337,7 @@ end
 
 function M.man_pages()
   local opts = {
+    prompt_title = "Find Man Pages",
     layout_strategy = "vertical",
     previewer = false,
   }
@@ -420,6 +429,7 @@ end
 
 function M.lsp_document_symbols()
   local opts = {
+    prompt_title = "Find Symbols",
     layout_config = { preview_width = 0.6 },
   }
   if require("visual_mode").is_on() then
@@ -430,6 +440,7 @@ end
 
 function M.lsp_workspace_symbols()
   local opts = {
+    prompt_title = "Find Workspace Symbols",
     layout_config = { preview_width = 0.5 },
   }
   if require("visual_mode").is_on() then

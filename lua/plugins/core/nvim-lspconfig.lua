@@ -68,22 +68,12 @@ return {
         map("n", "gra", vim.lsp.buf.code_action, "Code action")
         map("n", "grn", function() return ":IncRename " .. vim.fn.expand("<cword>") end, "Rename", { expr = true })
         map("n", "grr", "<cmd>Trouble lsp_references toggle<CR>", "References")
-        map("n", "grx", "<cmd>LspRestart<CR>", "Restart LSP")
 
         -- Symbols keymaps
+        local telescope_builtin = require("plugins.core.telescope.builtin")
         map("n", "<leader>xs", "<cmd>Trouble symbols toggle<CR>", "Trouble: [S]ymbols")
-        map(
-          "n",
-          "<leader>fs",
-          function() require("plugins.core.telescope.builtin").lsp_document_symbols() end,
-          "[F]ind: buffer [S]ymbols"
-        )
-        map(
-          "n",
-          "<leader>fS",
-          function() require("plugins.core.telescope.builtin").lsp_workspace_symbols() end,
-          "[F]ind: workspace [S]ymbols"
-        )
+        map("n", "<leader>fs", telescope_builtin.lsp_document_symbols, "[F]ind: [S]ymbols")
+        map("n", "<leader>fw", telescope_builtin.lsp_workspace_symbols, "[F]ind: [W]orkspace symbols")
 
         -- Next/previous reference navigation; let's define illuminate keymaps here to benefit from the "LspAttach"
         --  behavior. Besides, the "LspAttach" event is triggered after "BufReadPre", hence nvim-treesitter-textobjects

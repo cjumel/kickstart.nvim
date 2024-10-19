@@ -28,17 +28,20 @@ return {
       { "<leader>fg", custom_builtin.live_grep, mode = { "n", "v" }, desc = "[F]ind: by [G]rep" },
       { "<leader>fo", custom_builtin.oldfiles, mode = { "n", "v" }, desc = "[F]ind: [O]ldfiles" },
       { "<leader>fb", custom_builtin.current_buffer_fuzzy_find, mode = { "n", "v" }, desc = "[F]ind: in [B]uffer" },
+
+      -- Help-related
       { "<leader>fm", custom_builtin.man_pages, mode = { "n", "v" }, desc = "[F]ind: [M]an pages" },
+      { "<leader>fh", custom_builtin.help_tags, desc = "[F]ind: [H]elp" },
+      { "<leader>fc", custom_builtin.commands, desc = "[F]ind: [C]ommands" },
+      { "<leader>fk", custom_builtin.keymaps, desc = "[F]ind: [K]eymaps" },
 
       -- Neovim-related
       { "<leader><Tab>", custom_builtin.buffers, desc = "Buffer switcher" },
       { "<leader>,", custom_builtin.resume, desc = "Resume Telescope" },
-      { "<leader>?", custom_builtin.help_tags, desc = "Help" },
-      { "<leader>;", custom_builtin.commands, desc = "Commands" },
       { "<leader>:", custom_builtin.command_history, desc = "Command history" },
       { "<leader>/", custom_builtin.search_history, desc = "Search history" },
 
-      -- Git related
+      -- Git-related
       { "<leader>gg", custom_builtin.git_status, desc = "[G]it: status" },
       { "<leader>gb", custom_builtin.git_branches, desc = "[G]it: [B]ranches" },
       { "<leader>gl", custom_builtin.git_commits, desc = "[G]it: [L]og" },
