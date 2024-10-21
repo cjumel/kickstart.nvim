@@ -7,26 +7,14 @@
 
 return {
   "MagicDuck/grug-far.nvim",
-  keys = {
-    {
-      "<leader>rr",
-      function() require("plugins.core.grug-far.actions").grug_far() end,
-      mode = { "n", "v" },
-      desc = "[R]eplace: unrestricted",
-    },
-    {
-      "<leader>rb",
-      function() require("plugins.core.grug-far.actions").grug_far({ current_buffer_only = true }) end,
-      mode = { "n", "v" },
-      desc = "[R]eplace: in [B]uffer",
-    },
-    {
-      "<leader>rf",
-      function() require("plugins.core.grug-far.actions").grug_far({ current_filetype_only = true }) end,
-      mode = { "n", "v" },
-      desc = "[R]eplace: in [F]iletype",
-    },
-  },
+  keys = function()
+    local actions = require("plugins.core.grug-far.actions")
+    return {
+      { "<leader>rr", actions.grug_far, mode = { "n", "v" }, desc = "[R]eplace: unrestricted" },
+      { "<leader>rb", actions.grug_far_buffer, mode = { "n", "v" }, desc = "[R]eplace: in [B]uffer" },
+      { "<leader>rf", actions.grug_far_filetype, mode = { "n", "v" }, desc = "[R]eplace: in [F]iletype" },
+    }
+  end,
   opts = {
     keymaps = {
       replace = { n = "<CR>" },

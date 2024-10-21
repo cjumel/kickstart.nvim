@@ -1,6 +1,8 @@
 -- Here are defined custom wrappers around Telescope builtin pickers. It is where I implement custom options or logic
 -- for each picker I use & want to customize.
 
+local visual_mode = require("visual_mode")
+
 local M = {}
 
 --- Finalize the options for the `find_files` picker. This function adds all the relevant not-persisted options to
@@ -55,8 +57,11 @@ local function find_files_get_base_opts()
     _include_all_files = false,
   }
 
-  if require("visual_mode").is_on() then
-    local text = require("visual_mode").get_text()
+  if vim.bo.filetype == "oil" then
+    opts.cwd = require("oil").get_current_dir()
+  end
+  if visual_mode.is_on() then
+    local text = visual_mode.get_text()
     -- Replace punctuation marks by spaces, to support searching from module names, like "plugins.core"
     opts.default_text = string.gsub(text, "%p", " ")
   end
@@ -64,22 +69,12 @@ local function find_files_get_base_opts()
   return opts
 end
 
-function M.find_files(opts)
-  opts = opts or {}
-  local current_oil_directory_only = opts.current_oil_directory_only or false
+function M.find_files()
+  local opts = find_files_get_base_opts()
+  vim.g.telescope_last_opts = opts -- Persist the options to be able to change them later
 
-  local telescope_opts = find_files_get_base_opts()
-  if current_oil_directory_only then
-    if vim.bo.filetype == "oil" then
-      telescope_opts.cwd = package.loaded.oil.get_current_dir()
-    else
-      error("The current buffer is not an Oil buffer.")
-    end
-  end
-  vim.g.telescope_last_opts = telescope_opts -- Persist the options dynamically change them later on
-
-  telescope_opts = find_files_finalize_opts(telescope_opts)
-  require("telescope.builtin").find_files(telescope_opts)
+  opts = find_files_finalize_opts(opts)
+  require("telescope.builtin").find_files(opts)
 end
 
 --- Finalize the options for the `find_directories` custom picker. This function adds all the relevant not-persisted
@@ -167,8 +162,11 @@ local function find_directories_get_base_opts()
     _include_all_files = false,
   }
 
-  if require("visual_mode").is_on() then
-    local text = require("visual_mode").get_text()
+  if vim.bo.filetype == "oil" then
+    opts.cwd = require("oil").get_current_dir()
+  end
+  if visual_mode.is_on() then
+    local text = visual_mode.get_text()
     -- Replace punctuation marks by spaces, to support searching from module names, like "plugins.core"
     opts.default_text = string.gsub(text, "%p", " ")
   end
@@ -176,22 +174,12 @@ local function find_directories_get_base_opts()
   return opts
 end
 
-function M.find_directories(opts)
-  opts = opts or {}
-  local current_oil_directory_only = opts.current_oil_directory_only or false
+function M.find_directories()
+  local opts = find_directories_get_base_opts()
+  vim.g.telescope_last_opts = opts -- Persist the options to be able to change them later
 
-  local telescope_opts = find_directories_get_base_opts()
-  if current_oil_directory_only then
-    if vim.bo.filetype == "oil" then
-      telescope_opts.cwd = package.loaded.oil.get_current_dir()
-    else
-      error("The current buffer is not an Oil buffer.")
-    end
-  end
-  vim.g.telescope_last_opts = telescope_opts -- Persist the options dynamically change them later on
-
-  telescope_opts = find_directories_finalize_opts(telescope_opts)
-  require("telescope.builtin").find_files(telescope_opts)
+  opts = find_directories_finalize_opts(opts)
+  require("telescope.builtin").find_files(opts)
 end
 
 --- Finalize the options for the `live_grep` picker. This function adds all the relevant not-persisted options to the
@@ -252,8 +240,11 @@ local function live_grep_get_base_opts()
     _include_all_files = false,
   }
 
-  if require("visual_mode").is_on() then
-    opts.default_text = require("visual_mode").get_text()
+  if vim.bo.filetype == "oil" then
+    opts.cwd = require("oil").get_current_dir()
+  end
+  if visual_mode.is_on() then
+    opts.default_text = visual_mode.get_text()
     opts.vimgrep_arguments = {
       -- Default values
       "rg",
@@ -271,19 +262,9 @@ local function live_grep_get_base_opts()
   return opts
 end
 
-function M.live_grep(opts)
-  opts = opts or {}
-  local current_oil_directory_only = opts.current_oil_directory_only or false
-
+function M.live_grep()
   local telescope_opts = live_grep_get_base_opts()
-  if current_oil_directory_only then
-    if vim.bo.filetype == "oil" then
-      telescope_opts.cwd = package.loaded.oil.get_current_dir()
-    else
-      error("The current buffer is not an Oil buffer.")
-    end
-  end
-  vim.g.telescope_last_opts = telescope_opts -- Persist the options dynamically change them later on
+  vim.g.telescope_last_opts = telescope_opts -- Persist the options to be able to change them later
 
   telescope_opts = live_grep_finalize_opts(telescope_opts)
   require("telescope.builtin").live_grep(telescope_opts)
@@ -294,8 +275,8 @@ function M.oldfiles()
     tiebreak = function(current, existing, _) return current.index < existing.index end, -- Sort by recency
     prompt_title = "Find OldFiles",
   }
-  if require("visual_mode").is_on() then
-    local text = require("visual_mode").get_text()
+  if visual_mode.is_on() then
+    local text = visual_mode.get_text()
     -- Replace punctuation marks by spaces, to support searching from module names, like "plugins.core"
     opts.default_text = string.gsub(text, "%p", " ")
   end
@@ -307,8 +288,8 @@ function M.current_buffer_fuzzy_find()
     prompt_title = "Find in Buffer",
     layout_strategy = "vertical",
   }
-  if require("visual_mode").is_on() then
-    opts.default_text = require("visual_mode").get_text()
+  if visual_mode.is_on() then
+    opts.default_text = visual_mode.get_text()
   end
   require("telescope.builtin").current_buffer_fuzzy_find(opts)
 end
@@ -341,8 +322,8 @@ function M.man_pages()
     layout_strategy = "vertical",
     previewer = false,
   }
-  if require("visual_mode").is_on() then
-    opts.default_text = require("visual_mode").get_text()
+  if visual_mode.is_on() then
+    opts.default_text = visual_mode.get_text()
   end
   require("telescope.builtin").man_pages(opts)
 end
@@ -432,8 +413,8 @@ function M.lsp_document_symbols()
     prompt_title = "Find Symbols",
     layout_config = { preview_width = 0.6 },
   }
-  if require("visual_mode").is_on() then
-    opts.default_text = require("visual_mode").get_text()
+  if visual_mode.is_on() then
+    opts.default_text = visual_mode.get_text()
   end
   require("telescope.builtin").lsp_document_symbols(opts)
 end
@@ -443,8 +424,8 @@ function M.lsp_workspace_symbols()
     prompt_title = "Find Workspace Symbols",
     layout_config = { preview_width = 0.5 },
   }
-  if require("visual_mode").is_on() then
-    opts.default_text = require("visual_mode").get_text()
+  if visual_mode.is_on() then
+    opts.default_text = visual_mode.get_text()
   end
   require("telescope.builtin").lsp_dynamic_workspace_symbols(opts)
 end
