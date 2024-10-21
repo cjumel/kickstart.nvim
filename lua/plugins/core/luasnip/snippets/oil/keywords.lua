@@ -8,9 +8,15 @@ local t = ls.text_node
 return {
   -- File extensions
   s({ trig = ".json", show_condition = custom_conditions.non_empty_line_end }, { t(".json") }),
-  s({ trig = ".lua", show_condition = custom_conditions.non_empty_line_end }, { t(".lua") }),
+  s(
+    { trig = ".lua", show_condition = custom_conditions.non_empty_line_end * custom_conditions.lua_project },
+    { t(".lua") }
+  ),
   s({ trig = ".md", show_condition = custom_conditions.non_empty_line_end }, { t(".md") }),
-  s({ trig = ".py", show_condition = custom_conditions.non_empty_line_end }, { t(".py") }),
+  s(
+    { trig = ".py", show_condition = custom_conditions.non_empty_line_end * custom_conditions.python_project },
+    { t(".py") }
+  ),
   s({ trig = ".sh", show_condition = custom_conditions.non_empty_line_end }, { t(".sh") }),
   s({ trig = ".toml", show_condition = custom_conditions.non_empty_line_end }, { t(".toml") }),
   s({ trig = ".txt", show_condition = custom_conditions.non_empty_line_end }, { t(".txt") }),

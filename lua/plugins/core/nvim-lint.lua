@@ -40,7 +40,7 @@ return {
         -- Check command to toggle lint
         or (vim.g.disable_lint or vim.b[vim.fn.bufnr()].disable_lint)
         -- Check buffer is in current project (cwd or Git repository containing the cwd)
-        or not buffer.is_in_project()
+        or not buffer.is_in_current_project()
         -- Check buffer is not in an external dependency (e.g. installed by package managers)
         or buffer.is_external_dependency()
       then

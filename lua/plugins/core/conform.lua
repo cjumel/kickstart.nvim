@@ -56,7 +56,7 @@ return {
         -- Check command to toggle format on save
         or (vim.g.disable_format_on_save or vim.b[bufnr].disable_format_on_save)
         -- Check buffer is in current project (cwd or Git repository containing the cwd)
-        or not buffer.is_in_project()
+        or not buffer.is_in_current_project()
         -- Check buffer is not in an external dependency (e.g. installed by package managers)
         or buffer.is_external_dependency()
       then
