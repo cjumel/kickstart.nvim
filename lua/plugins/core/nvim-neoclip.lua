@@ -1,7 +1,8 @@
 -- neoclip
 --
 -- neoclip is a clipboard manager for Neovim inspired for instance by clipmenu. It is very simple and integrates very
--- nicely with Telescope.nvim, and enables a very user-friendly experience with Neovim's clipboard.
+-- nicely with telescope.nvim. It enables a very user-friendly experience with Neovim's registers, which can be somehow
+-- not super intuitive to use at first.
 
 return {
   "AckslD/nvim-neoclip.lua",
@@ -14,24 +15,36 @@ return {
     {
       '<leader>"',
       function()
-        require("telescope").extensions.neoclip.default({
-          prompt_title = '" Register History',
+        local visual_mode = require("visual_mode")
+        local opts = {
+          prompt_title = "Yank History",
           layout_strategy = "vertical",
           tiebreak = function(current, existing, _) return current.index < existing.index end, -- Sort by recency
-        })
+        }
+        if visual_mode.is_on() then
+          opts.default_text = visual_mode.get_text()
+        end
+        require("telescope").extensions.neoclip.default(opts)
       end,
-      desc = '" register history',
+      mode = { "n", "v" },
+      desc = "Yank history",
     },
     {
-      "<leader>q",
+      "<leader>@",
       function()
-        require("telescope").extensions.macroscope.default(require("telescope.themes").get_dropdown({
-          prompt_title = "q Register Macro History",
-          previewer = false,
+        local visual_mode = require("visual_mode")
+        local opts = {
+          prompt_title = "Macro History",
+          layout_strategy = "vertical",
           tiebreak = function(current, existing, _) return current.index < existing.index end, -- Sort by recency
-        }))
+        }
+        if visual_mode.is_on() then
+          opts.default_text = visual_mode.get_text()
+        end
+        require("telescope").extensions.macroscope.default(opts)
       end,
-      desc = "[Q] register macro history",
+      mode = { "n", "v" },
+      desc = "Macro history",
     },
   },
   opts = {
@@ -48,32 +61,24 @@ return {
       return not all(data.event.regcontents, function(line) return vim.fn.match(line, [[^\s*$]]) ~= -1 end)
     end,
     content_spec_column = true,
-    on_select = {
-      move_to_front = true,
-      close_telescope = true,
-    },
-    on_paste = {
-      set_reg = true,
-      move_to_front = true,
-      close_telescope = true,
-    },
+    on_select = { move_to_front = true },
     keys = {
       telescope = {
-        i = { -- Insert mode is not the main use case for me, so let's keep only the bare necessary
+        i = {
           select = "<CR>",
           paste = false,
           paste_behind = false,
           replay = false,
           delete = false,
-          edit = false,
+          edit = "<M-CR>", -- <C-CR>
         },
         n = {
           select = "<CR>",
-          paste = "p",
-          paste_behind = "P",
+          paste = false,
+          paste_behind = false,
           replay = false,
-          delete = "d",
-          edit = "e",
+          delete = false,
+          edit = "<M-CR>", -- <C-CR>
         },
       },
     },

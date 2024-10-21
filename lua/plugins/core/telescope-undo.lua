@@ -12,12 +12,12 @@ return {
     {
       "<leader>fu",
       function()
+        local visual_mode = require("visual_mode")
         local opts = {
           prompt_title = "Find Undotree",
-          layout_config = { preview_width = 0.6 }, -- Increase the preview width
+          layout_config = { preview_width = 0.6 },
           tiebreak = function(current, existing, _) return current.index < existing.index end, -- Sort by recency
         }
-        local visual_mode = require("visual_mode")
         if visual_mode.is_on() then
           opts.default_text = visual_mode.get_text()
         end
@@ -33,7 +33,6 @@ return {
       i = {
         ["<CR>"] = function(bufnr) return require("telescope-undo.actions").yank_additions(bufnr) end,
         ["<M-CR>"] = function(bufnr) return require("telescope-undo.actions").yank_deletions(bufnr) end, -- <C-CR>
-        -- Disable default plugin keymaps
         ["<S-cr>"] = false,
         ["<C-cr>"] = false,
         ["<C-y>"] = false,
@@ -42,7 +41,6 @@ return {
       n = {
         ["<CR>"] = function(bufnr) return require("telescope-undo.actions").yank_additions(bufnr) end,
         ["<M-CR>"] = function(bufnr) return require("telescope-undo.actions").yank_deletions(bufnr) end, -- <C-CR>
-        -- Disable default plugin keymaps
         ["y"] = false,
         ["Y"] = false,
         ["u"] = false,
