@@ -308,6 +308,13 @@ function M.keymaps()
   })
 end
 
+function M.vim_options()
+  require("telescope.builtin").vim_options({
+    prompt_title = "Find Vim Options",
+    layout_strategy = "vertical",
+  })
+end
+
 function M.help_tags()
   require("telescope.builtin").help_tags({
     prompt_title = "Find Help",
@@ -350,6 +357,10 @@ function M.command_history()
     previewer = false,
     tiebreak = function(current, existing, _) return current.index < existing.index end, -- Sort by recency
     filter_fn = function(cmd) return string.len(cmd) >= 4 end, -- Filter out short commands like "w", "q", "wq", "wqa"
+    attach_mappings = function(_, map) -- Use <C-CR> instead of <C-e> to edit the command
+      map({ "i", "n" }, "<M-CR>", require("telescope.actions").edit_command_line)
+      return true -- Enable default mappings
+    end,
   }))
 end
 
@@ -357,6 +368,10 @@ function M.search_history()
   require("telescope.builtin").search_history(require("telescope.themes").get_dropdown({
     previewer = false,
     tiebreak = function(current, existing, _) return current.index < existing.index end, -- Sort by recency
+    attach_mappings = function(_, map) -- Use <C-CR> instead of <C-e> to edit the search
+      map({ "i", "n" }, "<M-CR>", require("telescope.actions").edit_search_line)
+      return true -- Enable default mappings
+    end,
   }))
 end
 
@@ -384,6 +399,10 @@ end
 function M.git_branches()
   require("telescope.builtin").git_branches({
     layout_strategy = "vertical",
+    attach_mappings = function(_, map) -- Re-implement some default keymaps to remove their overwrite
+      map({ "i", "n" }, "<C-d>", require("telescope.actions").close)
+      return true -- Enable default mappings
+    end,
   })
 end
 
@@ -391,6 +410,12 @@ function M.git_commits()
   require("telescope.builtin").git_commits({
     prompt_title = "Git Log",
     tiebreak = function(current, existing, _) return current.index < existing.index end, -- Sort by recency
+    attach_mappings = function(_, _)
+      local actions = require("telescope.actions")
+      local custom_actions = require("plugins.core.telescope.actions")
+      actions.select_default:replace(custom_actions.yank_commit_hash) -- Replace the default action (checkout to commit)
+      return true -- Enable default mappings
+    end,
   })
 end
 
@@ -398,6 +423,12 @@ function M.git_bcommits()
   require("telescope.builtin").git_bcommits({
     prompt_title = "Buffer Commits",
     tiebreak = function(current, existing, _) return current.index < existing.index end, -- Sort by recency
+    attach_mappings = function(_, _)
+      local actions = require("telescope.actions")
+      local custom_actions = require("plugins.core.telescope.actions")
+      actions.select_default:replace(custom_actions.yank_commit_hash) -- Replace the default action (checkout to commit)
+      return true -- Enable default mappings
+    end,
   })
 end
 
@@ -405,6 +436,12 @@ function M.git_bcommits_range()
   require("telescope.builtin").git_bcommits_range({
     prompt_title = "Selection Commits",
     tiebreak = function(current, existing, _) return current.index < existing.index end, -- Sort by recency
+    attach_mappings = function(_, _)
+      local actions = require("telescope.actions")
+      local custom_actions = require("plugins.core.telescope.actions")
+      actions.select_default:replace(custom_actions.yank_commit_hash) -- Replace the default action (checkout to commit)
+      return true -- Enable default mappings
+    end,
   })
 end
 

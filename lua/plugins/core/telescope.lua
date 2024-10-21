@@ -34,6 +34,7 @@ return {
       { "<leader>fh", custom_builtin.help_tags, desc = "[F]ind: [H]elp" },
       { "<leader>fc", custom_builtin.commands, desc = "[F]ind: [C]ommands" },
       { "<leader>fk", custom_builtin.keymaps, desc = "[F]ind: [K]eymaps" },
+      { "<leader>fv", custom_builtin.vim_options, desc = "[F]ind: [V]im Options" },
 
       -- Neovim-related
       { "<leader><Tab>", custom_builtin.buffers, desc = "Buffer switcher" },
@@ -68,7 +69,7 @@ return {
             ["<C-]>"] = actions_layout.toggle_preview,
             ["<C-g>"] = actions.move_to_top, -- Like "go to top"
             ["<C-s>"] = actions.toggle_selection + actions.move_selection_next,
-            ["<C-w>"] = actions.which_key,
+            ["<C-h>"] = actions.which_key, -- Like "help"
             ["<C-c>"] = actions.close,
             ["<C-d>"] = actions.close, -- Shell-style exit, consistent with command line keymaps
 
@@ -78,6 +79,10 @@ return {
             ["<C-t>"] = actions.select_tab,
             ["<C-l>"] = custom_actions.smart_open_loclist,
             ["<C-q>"] = custom_actions.smart_open_quickfix,
+
+            -- Fix delete word action in insert mode (see https://github.com/nvim-telescope/telescope.nvim/issues/1579)
+            ["<C-w>"] = { "<C-S-w>", type = "command" },
+            ["<M-BS>"] = { "<C-S-w>", type = "command" },
           },
           n = {
             -- General insert-mode actions
@@ -89,7 +94,7 @@ return {
             ["<C-]>"] = actions_layout.toggle_preview,
             ["<C-g>"] = actions.move_to_top, -- Like "go to top"
             ["<C-s>"] = actions.toggle_selection + actions.move_selection_next,
-            ["<C-w>"] = actions.which_key,
+            ["<C-h>"] = actions.which_key, -- Like "help"
             ["<C-c>"] = actions.close,
             ["<C-d>"] = actions.close, -- Shell-style exit, consistent with command line keymaps
 
