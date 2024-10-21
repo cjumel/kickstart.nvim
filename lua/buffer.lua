@@ -2,11 +2,27 @@
 
 local M = {}
 
+--- Output the path of the current buffer file, it it exists, or nil.
+---@return string|nil
+function M.get_path()
+  local file_path
+  if vim.bo.filetype ~= "oil" then
+    file_path = vim.fn.expand("%:p") -- Absolute current file path
+  else
+    file_path = require("oil").get_current_dir() -- Absolute path corresponding to Oil buffer
+  end
+
+  if file_path == "" or file_path == nil then -- Buffer is not an actual file
+    return nil
+  end
+  return file_path
+end
+
 --- Output the path of the parent directory of the current buffer file, if it exists, or nil.
 ---@return string|nil
 function M.get_parent_dir()
-  local file_path = vim.fn.expand("%:p") -- Absolute current file path
-  if file_path == "" then -- Buffer is not an actual file
+  local file_path = M.get_path()
+  if file_path == nil then -- Buffer is not an actual file
     return nil
   end
   return vim.fn.fnamemodify(file_path, ":h") -- Parent directory of the current buffer file
@@ -16,7 +32,7 @@ end
 ---@return string|nil
 function M.get_git_root()
   local parent_dir = M.get_parent_dir()
-  if parent_dir == nil then
+  if parent_dir == nil then -- Buffer is not an actual file
     return nil
   end
 
