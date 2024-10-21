@@ -39,11 +39,9 @@ return {
     desc = [[
 Multiple-choice snippet:
 - `elseif .. then
-    ..
-  end`
+    ..`
 - `elseif not .. then
-    ..
-  end`]],
+    ..`]],
   }, {
     c(1, {
       sn(nil, {
@@ -51,14 +49,12 @@ Multiple-choice snippet:
         r(1, "condition", i(nil)),
         t({ " then", "\t" }),
         r(2, "content", i(nil)),
-        t({ "", "end" }),
       }),
       sn(nil, {
         t("elseif not "),
         r(1, "condition"),
         t({ " then", "\t" }),
         r(2, "content"),
-        t({ "", "end" }),
       }),
     }),
   }),
