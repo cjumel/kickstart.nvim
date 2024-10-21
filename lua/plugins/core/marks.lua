@@ -14,14 +14,6 @@ return {
     { "dm<Space>", function() require("marks").delete_line() end, desc = "Delete line marks" },
     { "dm<CR>", function() require("marks").delete_buf() end, desc = "Delete buffer marks" },
     {
-      "m<CR>",
-      function()
-        require("marks").mark_state:buffer_to_list()
-        vim.notify("Buffer marks sent to Loclist")
-      end,
-      desc = "Send buffer marks to Loclist",
-    },
-    {
       "m<Tab>",
       function()
         require("marks").mark_state:all_to_list()
