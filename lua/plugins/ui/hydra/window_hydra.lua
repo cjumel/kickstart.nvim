@@ -5,7 +5,7 @@
 local Hydra = require("hydra")
 
 Hydra({
-  body = "<C-w>",
+  body = "<leader>;",
   config = {
     desc = "Window Hydra",
   },

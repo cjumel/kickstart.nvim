@@ -9,7 +9,7 @@
 return {
   "nvimtools/hydra.nvim",
   keys = {
-    { "<C-w>", desc = "Window Hydra" },
+    { "<leader>;", desc = "Window Hydra" },
     { "<leader>h", desc = "Hunk Hydra" },
   },
   opts = {
