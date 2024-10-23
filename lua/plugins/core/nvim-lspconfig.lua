@@ -67,7 +67,7 @@ return {
         map("n", "gD", "<cmd>Trouble lsp_type_definitions<CR>", "Go to type definitions")
         map("n", "gra", vim.lsp.buf.code_action, "Code action")
         map("n", "grn", function() return ":IncRename " .. vim.fn.expand("<cword>") end, "Rename", { expr = true })
-        map("n", "grr", "<cmd>Trouble lsp_references toggle<CR>", "References")
+        map("n", "grr", "<cmd>Trouble lsp_references<CR>", "References")
 
         -- Symbols keymaps
         local telescope_builtin = require("plugins.core.telescope.builtin")
