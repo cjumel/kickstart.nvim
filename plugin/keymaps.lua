@@ -93,18 +93,26 @@ local function yank_path()
   end
 end
 
---- Send the content of the default register to the clipboard.
+--- Send the content of the unnamed register to the system clipboard.
 ---@return nil
-local function send_yanked_to_clipboard()
-  local yank = vim.fn.getreg('"')
-  vim.fn.setreg("+", yank)
-  vim.notify('Sent "' .. yank .. '" to clipboard')
+local function send_unnamed_register_to_clipboard()
+  local content = vim.fn.getreg('"')
+  vim.fn.setreg("+", content)
+  vim.notify('Sent "' .. content .. '" to system clipboard')
 end
 
-vim.keymap.set({ "n", "v" }, "+", '"+', { desc = "System clipboard register" })
+--- Send the content of the system clipboard to the unnamed register.
+---@return nil
+local function send_clipboard_to_unnamed_register()
+  local content = vim.fn.getreg("+")
+  vim.fn.setreg('"', content)
+  vim.notify('Sent "' .. content .. '" to unnamed register')
+end
+
 vim.keymap.set({ "n", "v" }, "_", '"_', { desc = "Black hole register" })
 vim.keymap.set("n", "<leader>y", yank_path, { desc = "[Y]ank path" })
-vim.keymap.set("n", "<leader>+", send_yanked_to_clipboard, { desc = "Send yanked to clipboard" })
+vim.keymap.set("n", "<leader>=", send_unnamed_register_to_clipboard, { desc = 'Send "" content to "+' })
+vim.keymap.set("n", "<leader>+", send_clipboard_to_unnamed_register, { desc = 'Send "+ content to ""' })
 
 -- Complete "gx" (open entry under the cursor or selection with external tool, in normal or visual mode) with:
 --  - "gX" to open the current file with external tool, in normal mode
