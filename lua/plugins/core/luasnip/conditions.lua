@@ -1,7 +1,6 @@
 -- Define custom conditions and related utilities used throughout the various snippets, similarly to
 -- `luasnip.extras.conditions` and `luasnip.extras.conditions.show`.
 
-local buffer = require("buffer")
 local ls_conds = require("luasnip.extras.conditions")
 local ls_show_conds = require("luasnip.extras.conditions.show")
 
@@ -96,11 +95,5 @@ local is_in_code_condition = ls_conds.make_condition(is_in_code_function)
 M.is_in_code = is_in_code_condition
 M.is_in_code_empty_line = is_in_code_condition * line_begin_condition * ls_show_conds.line_end
 M.is_in_code_inline = is_in_code_condition * -line_begin_condition
-
-local lua_project_condition = ls_conds.make_condition(buffer.is_in_lua_project)
-M.lua_project = lua_project_condition
-
-local python_project_condition = ls_conds.make_condition(buffer.is_in_python_project)
-M.python_project = python_project_condition
 
 return M
