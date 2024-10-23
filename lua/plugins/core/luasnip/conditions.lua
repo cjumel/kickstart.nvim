@@ -68,7 +68,7 @@ end
 local line_begin_condition = ls_conds.make_condition(line_begin_function)
 M.line_begin = line_begin_condition
 M.empty_line = line_begin_condition * ls_show_conds.line_end
-M.non_emtpy_line_end = -line_begin_condition * ls_show_conds.line_end
+M.non_empty_line_end = -line_begin_condition * ls_show_conds.line_end
 
 local excluded_node_types = { -- Treesitter nodes considered to be not in actual code
   "comment",
