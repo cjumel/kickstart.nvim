@@ -135,6 +135,7 @@ return {
             mirror = true, -- Move preview to the bottom instead of above the prompt
             width = { 0.8, max = 150 },
             preview_height = 0.4,
+            preview_cutoff = 20,
           },
         },
         path_display = function(_, path) -- Make the path displayed more user-friendly
