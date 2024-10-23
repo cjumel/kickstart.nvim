@@ -127,12 +127,20 @@ function M.is_in_python_project()
 end
 
 --- Output the filetype associated with the current buffer's project, if there is one.
+---@param opts table|nil The options of the function.
 ---@return string|nil
-function M.get_project_filetype()
+function M.get_project_filetype(opts)
+  opts = opts or {}
+  local output_extension = opts.output_extension or false
+
   if M.is_in_lua_project() then
     return "lua"
   elseif M.is_in_python_project() then
-    return "python"
+    if not output_extension then
+      return "python"
+    else
+      return "py"
+    end
   end
 end
 

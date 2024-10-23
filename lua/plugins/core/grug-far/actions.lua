@@ -41,12 +41,13 @@ M.grug_far_filetype = function()
   }
 
   if vim.bo.filetype ~= "oil" then
-    opts.prefills.filesFilter = "*." .. vim.bo.filetype
+    local file_extension = vim.fn.expand("%:e")
+    opts.prefills.filesFilter = "*." .. file_extension
   else
     opts.prefills.paths = require("oil").get_current_dir()
-    local filetype = buffer.get_project_filetype()
-    if filetype ~= nil then
-      opts.prefills.filesFilter = "*." .. filetype
+    local file_extension = buffer.get_project_filetype({ output_extension = true })
+    if file_extension ~= nil then
+      opts.prefills.filesFilter = "*." .. file_extension
     end
   end
   if visual_mode.is_on() then
