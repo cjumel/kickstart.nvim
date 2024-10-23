@@ -1,3 +1,5 @@
+local cwd = require("cwd")
+
 return {
   name = "pre-commit run",
   condition = {
@@ -5,7 +7,7 @@ return {
       if vim.fn.executable("pre-commit") == 0 then
         return false
       end
-      local git_root_path = require("cwd").get_git_root()
+      local git_root_path = cwd.get_git_root()
       if git_root_path == nil then
         return false
       end

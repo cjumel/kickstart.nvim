@@ -1,8 +1,7 @@
 --- Yank the path of the current Lua module.
 ---@return nil
 local function yank_module()
-  local path = vim.fn.expand("%")
-  path = vim.fn.fnamemodify(path, ":.")
+  local path = vim.fn.expand("%:.") -- Relative file path
 
   path = path:gsub("^lua/", "") -- Remove the "lua/" prefix if it exists
   path = path:gsub("%.lua$", "") -- Remove the ".lua" extension
