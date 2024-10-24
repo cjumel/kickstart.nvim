@@ -3,6 +3,7 @@ local ls = require("luasnip")
 
 local i = ls.insert_node
 local c = ls.choice_node
+local r = ls.restore_node
 local s = ls.snippet
 local sn = ls.snippet_node
 local t = ls.text_node
@@ -99,8 +100,8 @@ for _, gitmoji_data in ipairs(gitmojis_data) do
         .. " (..) ..` (with scope)",
     }, {
       c(1, {
-        sn(nil, { t(gitmoji_data.emoji .. " "), i(1) }),
-        sn(nil, { t(gitmoji_data.emoji .. " ("), i(1), t("): ") }), -- With scope
+        sn(nil, { t(gitmoji_data.emoji .. " "), r(1, "content", i(nil)) }),
+        sn(nil, { t(gitmoji_data.emoji .. " ("), i(1), t("): "), r(2, "content") }), -- With scope
       }),
     })
   )

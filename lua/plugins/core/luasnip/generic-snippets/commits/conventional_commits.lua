@@ -3,6 +3,7 @@ local ls = require("luasnip")
 
 local i = ls.insert_node
 local c = ls.choice_node
+local r = ls.restore_node
 local s = ls.snippet
 local sn = ls.snippet_node
 local t = ls.text_node
@@ -43,10 +44,13 @@ for _, conventional_commit_data in ipairs(conventional_commits_data) do
         .. "(..)!: ..` (with scope and breaking change)",
     }, {
       c(1, {
-        sn(nil, { t(conventional_commit_data.name .. ": "), i(1) }),
-        sn(nil, { t(conventional_commit_data.name .. "("), i(1), t("): ") }), -- With scope
-        sn(nil, { t(conventional_commit_data.name .. "!: "), i(1) }), -- With breaking change
-        sn(nil, { t(conventional_commit_data.name .. "("), i(1), t(")!: ") }), -- With scope & breaking change
+        sn(nil, { t(conventional_commit_data.name .. ": "), r(1, "content", i(nil)) }),
+        -- With scope:
+        sn(nil, { t(conventional_commit_data.name .. "("), r(1, "scope", i(nil)), t("): "), r(2, "content") }),
+        -- With breaking change:
+        sn(nil, { t(conventional_commit_data.name .. "!: "), r(1, "content") }),
+        -- With scope & breaking change:
+        sn(nil, { t(conventional_commit_data.name .. "("), r(1, "scope"), t(")!: "), r(2, "content") }),
       }),
     })
   )
