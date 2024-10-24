@@ -1,21 +1,18 @@
 -- Trouble
 --
 -- Trouble provides pretty lists for showing diagnostics, references, telescope results, quickfix lists, etc., to help
--- you solve all the trouble your code is causing. With a very cool user interface and the integratation of many other
--- tools (like the Todo comments plugins), it is very complementary with plugins like Telescope, since Telescope shines
--- with fuzzy searching and for "one-time" navigation (once we select entries, the Telescope menu disappears), while
--- Trouble is better equipped for long-term navigation of items (we can select an item while keeping the Trouble window
--- open).
+-- you solve all the trouble your code is causing. With a very cool and customizable user interface and the
+-- integratation of many other tools (like the Todo Comments plugins), it is very complementary with telescope.nvim.
 
 return {
   "folke/trouble.nvim",
   dependencies = { "nvim-tree/nvim-web-devicons" },
   cmd = { "Trouble" }, -- Useful for other plugins calling Trouble through a command
   keys = {
-    { "<leader>xd", "<cmd>Trouble diagnostics_document toggle<CR>", desc = "Trouble: [D]iagnostics (document)" },
-    { "<leader>xD", "<cmd>Trouble diagnostics toggle<CR>", desc = "Trouble: [D]iagnostics (workspace)" },
-    { "<leader>xl", "<cmd>Trouble loclist toggle<CR>", desc = "Trouble: [L]ocation list" },
-    { "<leader>xq", "<cmd>Trouble qflist toggle<CR>", desc = "Trouble: [Q]uickfix list" },
+    { "<leader>vd", "<cmd>Trouble diagnostics_document toggle<CR>", desc = "[V]iew: [D]iagnostics (document)" },
+    { "<leader>vD", "<cmd>Trouble diagnostics toggle<CR>", desc = "[V]iew: [D]iagnostics (workspace)" },
+    { "<leader>vl", "<cmd>Trouble loclist toggle<CR>", desc = "[V]iew: [L]ocation list" },
+    { "<leader>vq", "<cmd>Trouble qflist toggle<CR>", desc = "[V]iew: [Q]uickfix list" },
   },
   opts = {
     keys = {
@@ -56,10 +53,6 @@ return {
       lsp_references = {
         focus = true, -- Focus the Trouble window when opened
         auto_refresh = false, -- Don't re-compute references when cursor moves in the main window
-      },
-      symbols = {
-        open_no_results = true, -- Open the Trouble window even when there is no item as they can appear dynamically
-        groups = {}, -- Remove groups as this mode includes only current buffer items
       },
 
       -- Todo-comment modes (see todo-comments.nvim)

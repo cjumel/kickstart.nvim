@@ -32,7 +32,6 @@ return {
       { "<leader>r", group = "[R]eplace", mode = { "n", "v" } },
       { "<leader>t", group = "[T]erminal" },
       { "<leader>v", group = "[V]iew" },
-      { "<leader>x", group = "Trouble" },
       { "<localleader>f", group = "[F]ind", mode = { "n", "v" } },
       { "<localleader>r", group = "[R]eplace", mode = { "n", "v" } },
     },

@@ -3,15 +3,15 @@
 -- Todo Comments is a plugin to highlight, list and search todo-comments (`TODO`, `HACK`, `BUG`, etc.), in your
 -- projects. It is very convenient to document directly in the code base the next steps to do, long-term issues left for
 -- the future like unresolved bugs or performance issues, etc. Besides, it is very nicely integrated with other plugins,
--- like Telescope, Trouble, or code snippets, to define custom todo-comment snippets.
+-- like telescope.nvim, Trouble, or even code snippets.
 
 return {
   "folke/todo-comments.nvim",
   dependencies = { "nvim-lua/plenary.nvim" },
   event = { "BufNewFile", "BufReadPre" },
   keys = {
-    { "<leader>xt", "<cmd>Trouble todo_private toggle<CR>", desc = "Trouble: private [T]odo-comments" },
-    { "<leader>xT", "<cmd>Trouble todo toggle<CR>", desc = "Trouble: [T]odo-comments" },
+    { "<leader>vt", "<cmd>Trouble todo_private toggle<CR>", desc = "[V]iew: private [T]odo-comments" },
+    { "<leader>vT", "<cmd>Trouble todo toggle<CR>", desc = "[V]iew: [T]odo-comments" },
   },
   opts = {
     -- Add "_TODO" as a custom "private TODO" keyword for stuff to do right now & which should not be shared in the
