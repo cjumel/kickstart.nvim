@@ -55,7 +55,7 @@ return {
         auto_refresh = false, -- Don't re-compute references when cursor moves in the main window
       },
 
-      -- Todo-comment modes (see todo-comments.nvim)
+      -- Todo-Comment modes (see todo-comments.nvim)
       todo = {
         title = "{hl:Title}Todo-comments{hl} {count}",
         open_no_results = true, -- Open the Trouble window even when there is no item as they can appear dynamically

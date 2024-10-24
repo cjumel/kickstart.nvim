@@ -10,6 +10,16 @@ return {
   dependencies = { "nvim-lua/plenary.nvim" },
   event = { "BufNewFile", "BufReadPre" },
   keys = {
+    {
+      "<leader>ft",
+      "<cmd>TodoTelescope layout_strategy=vertical keywords=_TODO<CR>",
+      desc = "[F]ind: private [T]odo-comments",
+    },
+    {
+      "<leader>fT",
+      "<cmd>TodoTelescope layout_strategy=vertical<CR>",
+      desc = "[F]ind: [T]odo-comments",
+    },
     { "<leader>vt", "<cmd>Trouble todo_private toggle<CR>", desc = "[V]iew: private [T]odo-comments" },
     { "<leader>vT", "<cmd>Trouble todo toggle<CR>", desc = "[V]iew: [T]odo-comments" },
   },
