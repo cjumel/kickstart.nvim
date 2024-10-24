@@ -71,7 +71,6 @@ return {
 
         -- Symbols keymaps
         local telescope_builtin = require("plugins.core.telescope.builtin")
-        map("n", "<leader>xs", "<cmd>Trouble symbols toggle<CR>", "Trouble: [S]ymbols")
         map("n", "<leader>fs", telescope_builtin.lsp_document_symbols, "[F]ind: [S]ymbols")
         map("n", "<leader>fw", telescope_builtin.lsp_workspace_symbols, "[F]ind: [W]orkspace symbols")
 

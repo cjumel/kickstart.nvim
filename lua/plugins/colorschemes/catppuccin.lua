@@ -13,6 +13,7 @@ return {
     flavour = "mocha", -- "latte", "frappe", "macchiato", "mocha"
     transparent_background = true, -- Don't set a background color
     integrations = { -- Add highlight groups for additional plugins
+      aerial = true,
       dadbod_ui = true,
       diffview = true,
       grug_far = true,

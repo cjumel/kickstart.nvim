@@ -14,6 +14,7 @@ local custom_sections = vim.tbl_deep_extend("force", sections.empty, {
     { "filename", path = 1 }, -- Relative file path
     "diff",
     "diagnostics",
+    "aerial",
   },
   lualine_x = { modules.macro, modules.harpoon, "filetype", "location", "progress" },
 })

@@ -19,6 +19,7 @@ function M.build_extensions(sections)
     -- Use an empty `lualine_c` section for all the remaining temporary filetypes (filetype is still visible)
     {
       filetypes = {
+        "aerial",
         "copilot-chat",
         "dap-repl",
         "dapui_breakpoints",
