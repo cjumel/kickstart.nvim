@@ -132,4 +132,21 @@ vim.g.nvim_config = {
     yaml = { "yamllint" },
     zsh = { "shellcheck" }, -- Not actually for zsh, but in my case it works fine when disabling a few rules
   },
+
+  -- Set `disable_lint_on_fts` to an array of filetypes to disable lint on those filetypes, or to "*" to disable it on
+  --  all files.
+  disable_lint_on_fts = false,
+
+  -- Set `tooling_blacklist_path_patterns` to a list of path patterns to exclude the files matching those patterns from
+  -- all tooling (format on save & lint).
+  tooling_blacklist_path_patterns = {
+    -- Patterns for directories inside my projects but managed by external tools, like Git or package managers (e.g.
+    -- Python virtual environements)
+    "/%.git/",
+    "/%.venv",
+
+    -- Patterns for directories managed by package managers but which I sometimes open directly with Neovim, like Tmux
+    -- plugins
+    "^~/%.tmux/",
+  },
 }

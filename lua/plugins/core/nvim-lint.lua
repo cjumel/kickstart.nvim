@@ -4,8 +4,8 @@
 -- plugin of choice for linting, as it's very simple, easily customizable, and is very complementary with conform.nvim,
 -- my formatting plugin.
 
-local buffer = require("buffer")
 local nvim_config = require("nvim_config")
+local path_utils = require("path_utils")
 
 return {
   "mfussenegger/nvim-lint",
@@ -29,20 +29,17 @@ return {
   opts = {
     linters_by_ft = nvim_config.linters_by_ft,
     should_lint = function() -- Custom option to enable/disable linting
+      local lint_is_disabled_by_nvim_config = (
+        nvim_config.disable_lint_on_fts == "*"
+        or (nvim_config.disable_lint_on_fts and vim.tbl_contains(nvim_config.disable_lint_on_fts, vim.bo.filetype))
+      )
+      local lint_is_disabled_by_command = vim.g.disable_lint or vim.b[vim.fn.bufnr()].disable_lint
+
       if
-        ( -- Check Neovim configuration option to disable lint on filetypes
-          nvim_config.disable_lint_on_filetypes == "*"
-          or (
-            nvim_config.disable_lint_on_filetypes
-            and vim.tbl_contains(nvim_config.disable_lint_on_filetypes, vim.bo.filetype)
-          )
-        )
-        -- Check command to toggle lint
-        or (vim.g.disable_lint or vim.b[vim.fn.bufnr()].disable_lint)
-        -- Check buffer is in current project (cwd or Git repository containing the cwd)
-        or not buffer.is_in_current_project()
-        -- Check buffer is not in an external dependency (e.g. installed by package managers)
-        or buffer.is_external_dependency()
+        lint_is_disabled_by_nvim_config
+        or lint_is_disabled_by_command
+        or (not path_utils.file_is_in_project())
+        or path_utils.file_matches_tooling_blacklist_patterns()
       then
         return false
       end

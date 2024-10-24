@@ -4,8 +4,8 @@
 -- auto-formatting due to its great flexibility and customizability, while still remaining quite simple compared to
 -- alternatives like null-ls.
 
-local buffer = require("buffer")
 local nvim_config = require("nvim_config")
+local path_utils = require("path_utils")
 
 return {
   "stevearc/conform.nvim",
@@ -45,20 +45,20 @@ return {
   opts = {
     formatters_by_ft = nvim_config.formatters_by_ft,
     format_on_save = function(bufnr)
-      if
-        ( -- Check Neovim configuration option to disable format-on-save on filetypes
-          nvim_config.disable_format_on_save_on_fts == "*"
-          or (
-            nvim_config.disable_format_on_save_on_fts
-            and vim.tbl_contains(nvim_config.disable_format_on_save_on_fts, vim.bo.filetype)
-          )
+      local format_on_save_is_disabled_by_nvim_config = (
+        nvim_config.disable_format_on_save_on_fts == "*"
+        or (
+          nvim_config.disable_format_on_save_on_fts
+          and vim.tbl_contains(nvim_config.disable_format_on_save_on_fts, vim.bo.filetype)
         )
-        -- Check command to toggle format on save
-        or (vim.g.disable_format_on_save or vim.b[bufnr].disable_format_on_save)
-        -- Check buffer is in current project (cwd or Git repository containing the cwd)
-        or not buffer.is_in_current_project()
-        -- Check buffer is not in an external dependency (e.g. installed by package managers)
-        or buffer.is_external_dependency()
+      )
+      local format_on_save_is_disabled_by_command = vim.g.disable_format_on_save or vim.b[bufnr].disable_format_on_save
+
+      if
+        format_on_save_is_disabled_by_nvim_config
+        or format_on_save_is_disabled_by_command
+        or (not path_utils.file_is_in_project())
+        or path_utils.file_matches_tooling_blacklist_patterns()
       then
         return
       end

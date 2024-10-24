@@ -1,4 +1,3 @@
-local buffer = require("buffer")
 local visual_mode = require("visual_mode")
 
 -- [[ Modify builtin keymaps ]]
@@ -83,11 +82,19 @@ vim.keymap.set("c", "<C-c>", clear_insert, { desc = "Clear" }) -- clean_insert a
 vim.keymap.set("v", "<Tab>", ">gv", { desc = "Indent selection" })
 vim.keymap.set("v", "<S-Tab>", "<gv", { desc = "Unindent selection" })
 
---- Yank the path of the file or directory linked to the current regular or Oil buffer.
+--- Yank the path of the file or directory linked to the current buffer (must be a regular buffer or an Oil buffer).
 ---@return nil
 local function yank_path()
-  local path = buffer.get_path(":~:.") -- Relative cwd or to HOME with "~" prefix, or absolute
+  local path = nil
+  if vim.bo.buftype == "" then -- Regular buffer
+    path = vim.fn.expand("%")
+  elseif vim.bo.filetype == "oil" then -- Oil buffer
+    local oil = require("oil")
+    path = oil.get_current_dir()
+  end
+
   if path ~= nil then
+    path = vim.fn.fnamemodify(path, ":~:.")
     vim.fn.setreg('"', path)
     vim.notify('Yanked "' .. path .. '"')
   end
