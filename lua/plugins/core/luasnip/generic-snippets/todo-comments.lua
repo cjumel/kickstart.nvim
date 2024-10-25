@@ -103,11 +103,11 @@ return {
       f(get_comment_string_end),
     }),
     s({
-      trig = "todo-keyword",
+      trig = "todo-comment",
       show_condition = conds.make_treesitter_node_condition({
         "comment",
         "comment_content",
-      }),
+      }) * conds.is_comment_start,
       desc = desc,
     }, {
       c(1, get_todo_comment_sn_options()),
