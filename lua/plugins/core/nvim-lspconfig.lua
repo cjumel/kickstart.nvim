@@ -72,7 +72,7 @@ return {
         -- Symbols keymaps
         local telescope_builtin = require("plugins.core.telescope.builtin")
         map("n", "<leader>fs", telescope_builtin.lsp_document_symbols, "[F]ind: [S]ymbols (document)")
-        map("n", "<leader>fS", telescope_builtin.lsp_workspace_symbols, "[F]ind: [S]ymbols (workspace)")
+        map("n", "<leader>fw", telescope_builtin.lsp_workspace_symbols, "[F]ind: [W]orkspace symbols")
 
         -- Next/previous reference navigation; let's define illuminate keymaps here to benefit from the "LspAttach"
         --  behavior. Besides, the "LspAttach" event is triggered after "BufReadPre", hence nvim-treesitter-textobjects
