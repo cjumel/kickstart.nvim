@@ -2,7 +2,6 @@
 -- `luasnip.extras.conditions` and `luasnip.extras.conditions.show`.
 
 local ls_conds = require("luasnip.extras.conditions")
-local ls_show_conds = require("luasnip.extras.conditions.show")
 
 local M = {}
 
@@ -45,7 +44,10 @@ local function get_treesitter_node(line_to_cursor)
   return node
 end
 
-M.make_treesitter_node_condition = function(node_types)
+--- Condition making sure the current Treesitter node's type is included in the provided node types.
+--- @param node_types string[] The node types to be included.
+--- @return table
+M.make_treesitter_node_inclusion_condition = function(node_types)
   return ls_conds.make_condition(function(line_to_cursor)
     local is_treesitter_parsable_, node = pcall(get_treesitter_node, line_to_cursor)
     if not is_treesitter_parsable_ then -- Treesitter is not available or the buffer is not parsable
@@ -55,6 +57,68 @@ M.make_treesitter_node_condition = function(node_types)
       return false
     end
     return vim.tbl_contains(node_types, node:type())
+  end)
+end
+
+--- Condition making sure the current Treesitter node's type is excluded from the provided node types.
+--- @param node_types string[] The node types to be excluded from.
+--- @return table
+M.make_treesitter_node_exclusion_condition = function(node_types)
+  return ls_conds.make_condition(function(line_to_cursor)
+    local is_treesitter_parsable_, node = pcall(get_treesitter_node, line_to_cursor)
+    if not is_treesitter_parsable_ then -- Treesitter is not available or the buffer is not parsable
+      return false
+    end
+    if not node then -- E.g. very beginning of the buffer
+      return true
+    end
+    return not vim.tbl_contains(node_types, node:type())
+  end)
+end
+
+--- Condition making sure the current Treesitter node's ancestor types don't match the provided node types.
+--- @param node_types string[] The ancestor node types to not match, bottom to top.
+--- @return table
+M.make_treesitter_node_ancestors_exclusion_condition = function(node_types)
+  return ls_conds.make_condition(function(line_to_cursor)
+    local is_treesitter_parsable_, node = pcall(get_treesitter_node, line_to_cursor)
+    if not is_treesitter_parsable_ then -- Treesitter is not available or the buffer is not parsable
+      return false
+    end
+    if not node then -- E.g. very beginning of the buffer
+      return true
+    end
+
+    for _, node_type in ipairs(node_types) do
+      if node == nil or node:type() ~= node_type then
+        return true
+      end
+      node = node:parent()
+    end
+    return false
+  end)
+end
+
+--- Condition making sure the current Treesitter node's ancestor types match the provided node types.
+--- @param node_types string[] The ancestor node types to match, bottom to top.
+--- @return table
+M.make_treesitter_node_ancestors_inclusion_condition = function(node_types)
+  return ls_conds.make_condition(function(line_to_cursor)
+    local is_treesitter_parsable_, node = pcall(get_treesitter_node, line_to_cursor)
+    if not is_treesitter_parsable_ then -- Treesitter is not available or the buffer is not parsable
+      return false
+    end
+    if not node then -- E.g. very beginning of the buffer
+      return false
+    end
+
+    for _, node_type in ipairs(node_types) do
+      if node == nil or node:type() ~= node_type then
+        return false
+      end
+      node = node:parent()
+    end
+    return true
   end)
 end
 
@@ -95,33 +159,6 @@ M.make_prefix_condition = function(prefix)
     return string.match(line_to_trigger_start, "^%s*$") ~= nil -- Like in line_begin_function
   end)
 end
-
-local excluded_node_types = { -- Treesitter nodes considered to be not in actual code
-  "comment",
-  "comment_content",
-  "string",
-  "string_start",
-  "string_content",
-}
-
---- Check whether a snippet suggestion is in actual code or not (e.g. in a string or in a comment), using Treesitter.
----@param line_to_cursor string The current line up to the current cursor position, including the matched trigger.
----@return boolean
-local function is_in_code_function(line_to_cursor)
-  local is_treesitter_parsable_, node = pcall(get_treesitter_node, line_to_cursor)
-  if not is_treesitter_parsable_ then -- Treesitter is not available or the buffer is not parsable
-    return false
-  end
-  if not node then -- E.g. very beginning of the buffer
-    return true
-  end
-
-  return not vim.tbl_contains(excluded_node_types, node:type())
-end
-local is_in_code_condition = ls_conds.make_condition(is_in_code_function)
-M.is_in_code = is_in_code_condition
-M.is_in_code_empty_line = is_in_code_condition * line_begin_condition * ls_show_conds.line_end
-M.is_in_code_inline = is_in_code_condition * -line_begin_condition
 
 --- Check whether a snippet suggestion is at the beginning of a comment or not. This does not check properly if the
 --- suggestion is actually in a comment or not, though, so this must be done as well before hand. Besides, this will

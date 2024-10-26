@@ -89,7 +89,7 @@ return {
   ts = {
     s({
       trig = "todo-comment",
-      show_condition = -conds.make_treesitter_node_condition({
+      show_condition = conds.make_treesitter_node_exclusion_condition({
         "comment",
         "comment_content",
         "string",
@@ -104,7 +104,7 @@ return {
     }),
     s({
       trig = "todo-comment",
-      show_condition = conds.make_treesitter_node_condition({
+      show_condition = conds.make_treesitter_node_inclusion_condition({
         "comment",
         "comment_content",
       }) * conds.is_comment_start,

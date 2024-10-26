@@ -12,7 +12,7 @@ return {
 
   s({
     trig = "noqa",
-    show_condition = conds.make_treesitter_node_condition({ "comment" })
+    show_condition = conds.make_treesitter_node_inclusion_condition({ "comment" })
       * conds.is_comment_start
       * ls_show_conds.line_end,
     desc = [[
@@ -29,7 +29,7 @@ Choices:
 
   s({
     trig = "pragma: no cover",
-    show_condition = conds.make_treesitter_node_condition({ "comment" })
+    show_condition = conds.make_treesitter_node_inclusion_condition({ "comment" })
       * conds.is_comment_start
       * ls_show_conds.line_end,
     desc = [[
@@ -39,7 +39,7 @@ Exclude from coverage reports (e.g. for coverage.py or pytest-cov).
 
   s({
     trig = "ruff: noqa",
-    show_condition = conds.make_treesitter_node_condition({ "comment" })
+    show_condition = conds.make_treesitter_node_inclusion_condition({ "comment" })
       * conds.is_comment_start
       * ls_show_conds.line_end
       * conds.first_line,
@@ -57,7 +57,7 @@ Choices:
 
   s({
     trig = "type: ignore",
-    show_condition = conds.make_treesitter_node_condition({ "comment" })
+    show_condition = conds.make_treesitter_node_inclusion_condition({ "comment" })
       * conds.is_comment_start
       * ls_show_conds.line_end,
     desc = [[

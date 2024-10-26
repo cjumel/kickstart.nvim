@@ -12,15 +12,14 @@ local t = ls.text_node
 return {
   s({
     trig = "else ..",
-    show_condition = conds.line_begin * ls_show_conds.line_end * -conds.make_treesitter_node_condition({
+    show_condition = conds.line_begin * ls_show_conds.line_end * conds.make_treesitter_node_exclusion_condition({
       "comment",
       "comment_content",
       "string",
       "string_content",
       "table_constructor",
     }),
-    desc = [[
-`else ..`]],
+    desc = [[`else ..`]],
   }, {
     t({ "else", "\t" }),
     i(1),
@@ -28,37 +27,24 @@ return {
 
   s({
     trig = "elseif ..",
-    show_condition = conds.line_begin * ls_show_conds.line_end * -conds.make_treesitter_node_condition({
+    show_condition = conds.line_begin * ls_show_conds.line_end * conds.make_treesitter_node_exclusion_condition({
       "comment",
       "comment_content",
       "string",
       "string_content",
       "table_constructor",
     }),
-    desc = [[
-Choices:
-- `elseif .. then ..`
-- `elseif not .. then ..`]],
+    desc = [[`elseif <../not ..> then ..`]],
   }, {
-    c(1, {
-      sn(nil, {
-        t("elseif "),
-        r(1, "condition", i(nil)),
-        t({ " then", "\t" }),
-        r(2, "content", i(nil)),
-      }),
-      sn(nil, {
-        t("elseif not "),
-        r(1, "condition"),
-        t({ " then", "\t" }),
-        r(2, "content"),
-      }),
-    }),
+    t("elseif "),
+    c(1, { r(1, "condition", i(nil)), sn(nil, { t("not "), r(1, "condition") }) }),
+    t({ " then", "\t" }),
+    i(2),
   }),
 
   s({
     trig = "for ..",
-    show_condition = conds.line_begin * ls_show_conds.line_end * -conds.make_treesitter_node_condition({
+    show_condition = conds.line_begin * ls_show_conds.line_end * conds.make_treesitter_node_exclusion_condition({
       "comment",
       "comment_content",
       "string",
@@ -118,7 +104,7 @@ Choices:
 
   s({
     trig = "function ..",
-    show_condition = -conds.make_treesitter_node_condition({
+    show_condition = conds.make_treesitter_node_exclusion_condition({
       "comment",
       "comment_content",
       "string",
@@ -153,27 +139,25 @@ Choices:
 
   s({
     trig = "if ..",
-    show_condition = conds.line_begin * ls_show_conds.line_end * -conds.make_treesitter_node_condition({
+    show_condition = conds.line_begin * ls_show_conds.line_end * conds.make_treesitter_node_exclusion_condition({
       "comment",
       "comment_content",
       "string",
       "string_content",
       "table_constructor",
     }),
-    desc = [[
-Choices:
-- `if .. then .. end`
-- `if not .. then .. end`]],
+    desc = [[`if <../not ..> then .. end`]],
   }, {
-    c(1, {
-      sn(nil, { t("if "), r(1, "condition", i(nil)), t({ " then", "\t" }), r(2, "content", i(nil)), t({ "", "end" }) }),
-      sn(nil, { t("if not "), r(1, "condition"), t({ " then", "\t" }), r(2, "content"), t({ "", "end" }) }),
-    }),
+    t("if "),
+    c(1, { r(1, "condition", i(nil)), sn(nil, { t("not "), r(1, "condition") }) }),
+    t({ " then", "\t" }),
+    i(2),
+    t({ "", "end" }),
   }),
 
   s({
     trig = "local ..",
-    show_condition = conds.line_begin * -conds.make_treesitter_node_condition({
+    show_condition = conds.line_begin * conds.make_treesitter_node_exclusion_condition({
       "comment",
       "comment_content",
       "string",
@@ -192,54 +176,20 @@ Choices:
   }),
 
   s({
-    trig = "return ..",
-    show_condition = conds.line_begin * -conds.make_treesitter_node_condition({
-      "comment",
-      "comment_content",
-      "string",
-      "string_content",
-      "table_constructor",
-    }),
-    desc = [[
-Choices:
-- `return ..`
-- `return not ..`]],
-  }, {
-    c(1, {
-      sn(nil, { t("return "), r(1, "content", i(nil)) }),
-      sn(nil, { t("return not "), r(1, "content") }),
-    }),
-  }),
-
-  s({
     trig = "while ..",
-    show_condition = conds.line_begin * ls_show_conds.line_end * -conds.make_treesitter_node_condition({
+    show_condition = conds.line_begin * ls_show_conds.line_end * conds.make_treesitter_node_exclusion_condition({
       "comment",
       "comment_content",
       "string",
       "string_content",
       "table_constructor",
     }),
-    desc = [[
-Choices:
-- `while .. do .. end`
-- `while not .. do .. end`]],
+    desc = [[`while <../not ..> do .. end`]],
   }, {
-    c(1, {
-      sn(nil, {
-        t("while "),
-        r(1, "condition", i(nil)),
-        t({ " do", "\t" }),
-        r(2, "content", i(nil)),
-        t({ "", "end" }),
-      }),
-      sn(nil, {
-        t("while not "),
-        r(1, "condition"),
-        t({ " do", "\t" }),
-        r(2, "content"),
-        t({ "", "end" }),
-      }),
-    }),
+    t("while "),
+    c(1, { r(1, "condition", i(nil)), sn(nil, { t("not "), r(1, "condition") }) }),
+    t({ " do", "\t" }),
+    i(2),
+    t({ "", "end" }),
   }),
 }
