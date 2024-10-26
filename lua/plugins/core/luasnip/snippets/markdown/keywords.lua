@@ -1,5 +1,6 @@
 local conds = require("plugins.core.luasnip.conditions")
 local ls = require("luasnip")
+local ls_show_conds = require("luasnip.extras.conditions.show")
 
 local c = ls.choice_node
 local d = ls.dynamic_node
@@ -31,7 +32,7 @@ return {
 
   s({
     trig = "code-block",
-    show_condition = conds.empty_line,
+    show_condition = conds.line_begin * ls_show_conds.line_end,
     desc = [[
 \`\`\`..
 ..
@@ -66,7 +67,7 @@ Multiple-choice snippet:
 
   s({
     trig = "header",
-    show_condition = conds.empty_line,
+    show_condition = conds.line_begin * ls_show_conds.line_end,
     desc = [[
 Multiple-choice snippet:
 - `# ..`
@@ -106,7 +107,7 @@ Multiple-choice snippet:
 
   s({
     trig = "quote-block",
-    show_condition = conds.empty_line,
+    show_condition = conds.line_begin * ls_show_conds.line_end,
     desc = [[
 Multiple-choice snippet:
 - `> ..`

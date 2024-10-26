@@ -85,13 +85,17 @@ local gitmojis_data = {
   { name = "safety_vest", emoji = "🦺", desc = "Add or update code related to validation." },
 }
 
+-- When typing a trigger with a ":" prefix, the ":" is not part of the trigger, but it is replaced by the snippet.
+--  Consequently, to enforce the line begin condition, we actually need a prefix condition instead.
+local show_condition = conds.make_strict_prefix_condition(":")
+
 local snippets = {}
 for _, gitmoji_data in ipairs(gitmojis_data) do
   table.insert(
     snippets,
     s({
       trig = ":" .. gitmoji_data.name .. ": " .. gitmoji_data.emoji,
-      show_condition = conds.line_begin,
+      show_condition = show_condition,
       desc = gitmoji_data.desc
         .. " (Gitmoji)\n\nMultiple-choice snippet:\n- `"
         .. gitmoji_data.emoji

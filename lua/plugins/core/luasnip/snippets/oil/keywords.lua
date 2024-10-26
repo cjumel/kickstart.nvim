@@ -1,6 +1,7 @@
-local custom_conds = require("plugins.core.luasnip.conditions")
+local conds = require("plugins.core.luasnip.conditions")
 local ls = require("luasnip")
 local ls_conds = require("luasnip.extras.conditions")
+local ls_show_conds = require("luasnip.extras.conditions.show")
 local path_utils = require("path_utils")
 
 local c = ls.choice_node
@@ -79,108 +80,143 @@ local function make_dynamic_file_date_node(base_name, extension)
   end
 end
 
+-- When typing a trigger with a "." prefix, the "." is not part of the trigger, but it is replaced by the snippet.
+--  Consequently, to enforce the line begin condition, we actually need a prefix condition instead, and to enforce the
+--  non-line-begin condition, we also need a non-prefix condition.
+local dot_prefix_condition = conds.make_prefix_condition(".")
+
 return {
   -- JSON
   s({
     trig = ".json",
-    show_condition = custom_conds.non_empty_line_end * make_file_extension_condition("json"),
+    show_condition = -dot_prefix_condition
+      * -conds.line_begin
+      * ls_show_conds.line_end
+      * make_file_extension_condition("json"),
   }, { t(".json") }),
 
   -- Lua
   s({
     trig = ".lua",
-    show_condition = custom_conds.non_empty_line_end * make_file_extension_condition("lua"),
+    show_condition = -dot_prefix_condition
+      * -conds.line_begin
+      * ls_show_conds.line_end
+      * make_file_extension_condition("lua"),
   }, { t(".lua") }),
   s({
     trig = "init.lua",
-    show_condition = (custom_conds.empty_line * make_file_extension_condition("lua") * make_filename_condition(
-      "init.lua"
-    )),
+    show_condition = conds.line_begin
+      * ls_show_conds.line_end
+      * make_file_extension_condition("lua")
+      * make_filename_condition("init.lua"),
   }, { t("init.lua") }),
   s({
     trig = "temp-<idx>.lua",
-    show_condition = custom_conds.empty_line * make_file_extension_condition("lua"),
+    show_condition = conds.line_begin * ls_show_conds.line_end * make_file_extension_condition("lua"),
   }, { t("temp"), d(1, make_dynamic_file_index_node("temp", ".lua")), t(".lua") }),
 
   -- Markdown
   s({
     trig = ".md",
-    show_condition = custom_conds.non_empty_line_end,
+    show_condition = -dot_prefix_condition * -conds.line_begin * ls_show_conds.line_end,
   }, { t(".md") }),
   s({
     trig = "NOTES.md",
-    show_condition = custom_conds.empty_line * make_filename_condition("NOTES.md"),
+    show_condition = conds.line_begin * ls_show_conds.line_end * make_filename_condition("NOTES.md"),
   }, { t("NOTES.md") }),
   s({
     trig = "README.md",
-    show_condition = custom_conds.empty_line * make_filename_condition("README.md"),
+    show_condition = conds.line_begin * ls_show_conds.line_end * make_filename_condition("README.md"),
   }, { t("README.md") }),
   s({
     trig = "TODO.md",
-    show_condition = custom_conds.empty_line * make_filename_condition("TODO.md"),
+    show_condition = conds.line_begin * ls_show_conds.line_end * make_filename_condition("TODO.md"),
   }, { t("TODO.md") }),
   s({
     trig = "notes-<date>.md",
-    show_condition = custom_conds.empty_line,
+    show_condition = conds.line_begin * ls_show_conds.line_end,
   }, { t("notes"), d(1, make_dynamic_file_date_node("notes", ".md")), t(".md") }),
 
   -- Python
   s({
     trig = ".py",
-    show_condition = custom_conds.non_empty_line_end * make_file_extension_condition("py"),
+    show_condition = -dot_prefix_condition
+      * -conds.line_begin
+      * ls_show_conds.line_end
+      * make_file_extension_condition("py"),
   }, { t(".py") }),
   s({
     trig = "__init__.py",
-    show_condition = custom_conds.empty_line * make_file_extension_condition("py") * make_filename_condition(
-      "__init__.py"
-    ),
+    show_condition = conds.make_prefix_condition("_") -- The snippet is triggered after the first "_"
+      * ls_show_conds.line_end
+      * make_file_extension_condition("py")
+      * make_filename_condition("__init__.py"),
   }, { t("__init__.py") }),
   s({
     trig = "temp-<idx>.py",
-    show_condition = custom_conds.empty_line * make_file_extension_condition("py"),
+    show_condition = conds.line_begin * ls_show_conds.line_end * make_file_extension_condition("py"),
   }, { t("temp"), d(1, make_dynamic_file_index_node("temp", ".py")), t(".py") }),
 
   -- Shell
   s({
     trig = ".sh",
-    show_condition = custom_conds.non_empty_line_end * make_file_extension_condition("sh"),
+    show_condition = -dot_prefix_condition
+      * -conds.line_begin
+      * ls_show_conds.line_end
+      * make_file_extension_condition("sh"),
   }, { t(".sh") }),
 
   -- TOML
   s({
     trig = ".toml",
-    show_condition = custom_conds.non_empty_line_end * make_file_extension_condition("toml"),
+    show_condition = -dot_prefix_condition
+      * -conds.line_begin
+      * ls_show_conds.line_end
+      * make_file_extension_condition("toml"),
   }, { t(".toml") }),
 
   -- Text
   s({
     trig = ".txt",
-    show_condition = custom_conds.non_empty_line_end * make_file_extension_condition("txt"),
+    show_condition = -dot_prefix_condition
+      * -conds.line_begin
+      * ls_show_conds.line_end
+      * make_file_extension_condition("txt"),
   }, { t(".txt") }),
 
   -- Typset
   s({
     trig = ".typ",
-    show_condition = custom_conds.non_empty_line_end * make_file_extension_condition("typ"),
+    show_condition = -dot_prefix_condition
+      * -conds.line_begin
+      * ls_show_conds.line_end
+      * make_file_extension_condition("typ"),
   }, { t(".typ") }),
 
   -- YAML
   s({
     trig = ".yaml",
-    show_condition = custom_conds.non_empty_line_end * make_file_extension_condition("yaml"),
+    show_condition = -dot_prefix_condition
+      * -conds.line_begin
+      * ls_show_conds.line_end
+      * make_file_extension_condition("yaml"),
   }, { c(1, { t(".yaml"), t(".yml") }) }),
 
   -- Zshell
   s({
     trig = ".zsh",
-    show_condition = custom_conds.non_empty_line_end * make_file_extension_condition("zsh"),
+    show_condition = -dot_prefix_condition
+      * -conds.line_begin
+      * ls_show_conds.line_end
+      * make_file_extension_condition("zsh"),
   }, { t(".zsh") }),
 
   -- Special files
   s({
     trig = ".gitignore",
-    show_condition = custom_conds.empty_line * make_filename_condition(".gitignore") * ls_conds.make_condition(
-      function() return path_utils.get_git_root(require("oil").get_current_dir()) ~= nil end
-    ),
+    show_condition = dot_prefix_condition
+      * ls_show_conds.line_end
+      * make_filename_condition(".gitignore")
+      * ls_conds.make_condition(function() return path_utils.get_git_root(require("oil").get_current_dir()) ~= nil end),
   }, { t(".gitignore") }),
 }

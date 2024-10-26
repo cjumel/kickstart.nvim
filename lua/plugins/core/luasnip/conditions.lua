@@ -17,6 +17,19 @@ local separator_pattern = "[%s%p]"
 --  it's greedy, it will capture everything until the last occurence).
 local matched_trigger_pattern = "(.*)" .. separator_pattern .. "(.*)$"
 
+--- Output the current line up until the matched trigger (typically the word which is being typed) but without it. This
+--- will include white spaces if any.
+---@param line_to_cursor string The current line up to the current cursor position, including the matched trigger.
+---@return string
+local function get_line_to_trigger(line_to_cursor)
+  -- We can't use the value of `_` below as it capture what's before `matched_trigger` except for the last character
+  local _, matched_trigger = string.match(line_to_cursor, matched_trigger_pattern)
+  if matched_trigger == nil then -- Happen while typing the first word of a line
+    return ""
+  end
+  return string.sub(line_to_cursor, 1, #line_to_cursor - #matched_trigger)
+end
+
 --- Get the Treesitter node at the position before the matched trigger. This is useful in conditions, to reason over
 --- the actual Treesitter node of interest instead of the one after the matched trigger (at the cursor position).
 ---@param line_to_cursor string The current line up to the current cursor position, including the matched trigger.
@@ -58,16 +71,30 @@ M.first_line = first_line_condition
 ---@param line_to_cursor string The current line up to the current cursor position, including the matched trigger.
 ---@return boolean
 local function line_begin_function(line_to_cursor)
-  local before_matched_trigger, _ = string.match(line_to_cursor, matched_trigger_pattern)
-  if before_matched_trigger == nil then
-    before_matched_trigger = ""
-  end
-  return string.match(before_matched_trigger, "^%s*$") ~= nil
+  local line_to_trigger = get_line_to_trigger(line_to_cursor)
+  return string.match(line_to_trigger, "^%s*$") ~= nil
 end
 local line_begin_condition = ls_conds.make_condition(line_begin_function)
 M.line_begin = line_begin_condition
-M.empty_line = line_begin_condition * ls_show_conds.line_end
-M.non_empty_line_end = -line_begin_condition * ls_show_conds.line_end
+
+M.make_strict_prefix_condition = function(prefix)
+  return ls_conds.make_condition(function(line_to_cursor)
+    local line_to_trigger = get_line_to_trigger(line_to_cursor)
+    return line_to_trigger == prefix
+  end)
+end
+
+M.make_prefix_condition = function(prefix)
+  return ls_conds.make_condition(function(line_to_cursor)
+    local line_to_trigger = get_line_to_trigger(line_to_cursor)
+    local line_to_trigger_end = string.sub(line_to_trigger, #line_to_trigger - #prefix + 1, #line_to_trigger)
+    if line_to_trigger_end ~= prefix then
+      return false
+    end
+    local line_to_trigger_start = string.sub(line_to_trigger, 1, #line_to_trigger - #prefix)
+    return string.match(line_to_trigger_start, "^%s*$") ~= nil -- Like in line_begin_function
+  end)
+end
 
 local excluded_node_types = { -- Treesitter nodes considered to be not in actual code
   "comment",
@@ -109,16 +136,10 @@ local function is_comment_start_function(line_to_cursor)
   end
   local commentstring_prefix = string.sub(vim.bo.commentstring, 1, #vim.bo.commentstring - 2)
 
-  -- Here we can't use the `before_matched_trigger` like elsewhere in this file, as it doesn't capture properly white
-  --  spaces
-  local _, matched_trigger = string.match(line_to_cursor, matched_trigger_pattern)
-  local line_to_cursor_without_trigger = string.sub(line_to_cursor, 1, #line_to_cursor - #matched_trigger)
-  local line_to_cursor_end = string.sub(
-    line_to_cursor_without_trigger,
-    #line_to_cursor_without_trigger - #commentstring_prefix + 1,
-    #line_to_cursor_without_trigger
-  )
-  return line_to_cursor_end == commentstring_prefix
+  local line_to_trigger = get_line_to_trigger(line_to_cursor)
+  local line_to_trigger_end =
+    string.sub(line_to_trigger, #line_to_trigger - #commentstring_prefix + 1, #line_to_trigger)
+  return line_to_trigger_end == commentstring_prefix
 end
 local is_comment_start_condition = ls_conds.make_condition(is_comment_start_function)
 M.is_comment_start = is_comment_start_condition
