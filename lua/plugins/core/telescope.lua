@@ -62,13 +62,13 @@ return {
           i = {
             -- General insert-mode actions
             ["<CR>"] = actions.select_default,
+            ["<M-CR>"] = actions.toggle_selection + actions.move_selection_next, -- <C-CR>
             ["<Tab>"] = actions.move_selection_next,
             ["<C-n>"] = actions.move_selection_next,
             ["<S-Tab>"] = actions.move_selection_previous,
             ["<C-p>"] = actions.move_selection_previous,
             ["<C-]>"] = actions_layout.toggle_preview,
             ["<C-g>"] = actions.move_to_top, -- Like "go to top"
-            ["<C-s>"] = actions.toggle_selection + actions.move_selection_next,
             ["<C-h>"] = actions.which_key, -- Like "help"
             ["<C-c>"] = actions.close,
             ["<C-d>"] = actions.close, -- Shell-style exit, consistent with command line keymaps
@@ -82,18 +82,18 @@ return {
 
             -- Fix delete word action in insert mode (see https://github.com/nvim-telescope/telescope.nvim/issues/1579)
             ["<C-w>"] = { "<C-S-w>", type = "command" },
-            ["<M-BS>"] = { "<C-S-w>", type = "command" },
+            ["<M-BS>"] = { "<C-S-w>", type = "command" }, -- <C-BS>
           },
           n = {
             -- General insert-mode actions
             ["<CR>"] = actions.select_default,
+            ["<M-CR>"] = actions.toggle_selection + actions.move_selection_next, -- <C-CR>
             ["<Tab>"] = actions.move_selection_next,
             ["<C-n>"] = actions.move_selection_next,
             ["<S-Tab>"] = actions.move_selection_previous,
             ["<C-p>"] = actions.move_selection_previous,
             ["<C-]>"] = actions_layout.toggle_preview,
             ["<C-g>"] = actions.move_to_top, -- Like "go to top"
-            ["<C-s>"] = actions.toggle_selection + actions.move_selection_next,
             ["<C-h>"] = actions.which_key, -- Like "help"
             ["<C-c>"] = actions.close,
             ["<C-d>"] = actions.close, -- Shell-style exit, consistent with command line keymaps
