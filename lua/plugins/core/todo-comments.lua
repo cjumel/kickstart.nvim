@@ -10,23 +10,19 @@ return {
   dependencies = { "nvim-lua/plenary.nvim" },
   event = { "BufNewFile", "BufReadPre" },
   keys = {
+    { "<leader>ft", "<cmd>TodoTelescope layout_strategy=vertical<CR>", desc = "[F]ind: [T]odo comments" },
     {
-      "<leader>ft",
-      "<cmd>TodoTelescope layout_strategy=vertical keywords=_TODO<CR>",
-      desc = "[F]ind: private [T]odo-comments",
+      "<leader>fn",
+      "<cmd>TodoTelescope layout_strategy=vertical keywords=TODO_<CR>",
+      desc = "[F]ind: [T]odo-now comments",
     },
-    {
-      "<leader>fT",
-      "<cmd>TodoTelescope layout_strategy=vertical<CR>",
-      desc = "[F]ind: [T]odo-comments",
-    },
-    { "<leader>vt", "<cmd>Trouble todo_private toggle<CR>", desc = "[V]iew: private [T]odo-comments" },
-    { "<leader>vT", "<cmd>Trouble todo toggle<CR>", desc = "[V]iew: [T]odo-comments" },
+    { "<leader>vt", "<cmd>Trouble todo toggle<CR>", desc = "[V]iew: [T]odo comments" },
+    { "<leader>vn", "<cmd>Trouble todo_now toggle<CR>", desc = "[V]iew: [T]odo-now comments" },
   },
   opts = {
-    -- Add "_TODO" as a custom "private TODO" keyword for stuff to do right now & which should not be shared in the
-    --  codebase. This is a convenient way of separating long term TODOs and the ones for the current task at hand.
-    keywords = { _TODO = { icon = " ", color = "info" } },
+    -- Add "TODO_" as a custom keyword for stuff to do right now & which should not be shared in the codebase. I find
+    --  this a convenient way of separating long term TODOs and the ones for the current task at hand.
+    keywords = { ["TODO_"] = { icon = " ", color = "info" } },
     -- Include hidden files when searching for todo-comments
     search = { args = { "--color=never", "--no-heading", "--with-filename", "--line-number", "--column", "--hidden" } },
   },

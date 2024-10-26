@@ -57,13 +57,13 @@ return {
 
       -- Todo-Comment modes (see todo-comments.nvim)
       todo = {
-        title = "{hl:Title}Todo-comments{hl} {count}",
+        title = "{hl:Title}Todo comments{hl} {count}",
         open_no_results = true, -- Open the Trouble window even when there is no item as they can appear dynamically
       },
-      todo_private = {
+      todo_now = {
         mode = "todo",
-        title = "{hl:Title}Private Todo-comments{hl} {count}",
-        filter = { tag = { "_TODO" } }, -- Only show "_TODO" todo-comments
+        title = "{hl:Title}Todo-now comments{hl} {count}",
+        filter = { tag = { "TODO_" } }, -- Only show "TODO_" todo-comments
         groups = { { "filename", format = "{file_icon} {filename} {count}" } }, -- Remove tag group as we only have one
       },
     },
