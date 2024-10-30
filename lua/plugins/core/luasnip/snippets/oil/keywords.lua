@@ -1,3 +1,6 @@
+-- To avoid implementing all usable file names under the sun in these snippets, let's stick to only file extensions and
+-- names of files which are likely to be used several times per project (e.g. `init.lua` or `README.md`).
+
 local conds = require("plugins.core.luasnip.conditions")
 local ls = require("luasnip")
 local ls_conds = require("luasnip.extras.conditions")
@@ -121,9 +124,9 @@ return {
     show_condition = -dot_prefix_condition * -conds.line_begin * ls_show_conds.line_end,
   }, { t(".md") }),
   s({
-    trig = "NOTES.md",
-    show_condition = conds.line_begin * ls_show_conds.line_end * make_filename_condition("NOTES.md"),
-  }, { t("NOTES.md") }),
+    trig = "notes-<date>.md",
+    show_condition = conds.line_begin * ls_show_conds.line_end,
+  }, { t("notes"), d(1, make_dynamic_file_date_node("notes", ".md")), t(".md") }),
   s({
     trig = "README.md",
     show_condition = conds.line_begin * ls_show_conds.line_end * make_filename_condition("README.md"),
@@ -132,10 +135,6 @@ return {
     trig = "TODO.md",
     show_condition = conds.line_begin * ls_show_conds.line_end * make_filename_condition("TODO.md"),
   }, { t("TODO.md") }),
-  s({
-    trig = "notes-<date>.md",
-    show_condition = conds.line_begin * ls_show_conds.line_end,
-  }, { t("notes"), d(1, make_dynamic_file_date_node("notes", ".md")), t(".md") }),
 
   -- Python
   s({
@@ -210,13 +209,4 @@ return {
       * ls_show_conds.line_end
       * make_file_extension_condition("zsh"),
   }, { t(".zsh") }),
-
-  -- Special files
-  s({
-    trig = ".gitignore",
-    show_condition = dot_prefix_condition
-      * ls_show_conds.line_end
-      * make_filename_condition(".gitignore")
-      * ls_conds.make_condition(function() return path_utils.get_git_root(require("oil").get_current_dir()) ~= nil end),
-  }, { t(".gitignore") }),
 }
