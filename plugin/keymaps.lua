@@ -117,6 +117,7 @@ local function send_clipboard_to_unnamed_register()
 end
 
 vim.keymap.set({ "n", "v" }, "_", '"_', { desc = "Black hole register" })
+vim.keymap.set({ "n", "v" }, "+", '"+', { desc = "System clipboard register" })
 vim.keymap.set("n", "<leader>y", yank_path, { desc = "[Y]ank path" })
 vim.keymap.set("n", "<leader>=", send_unnamed_register_to_clipboard, { desc = 'Send "" content to "+' })
 vim.keymap.set("n", "<leader>+", send_clipboard_to_unnamed_register, { desc = 'Send "+ content to ""' })
