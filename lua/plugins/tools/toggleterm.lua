@@ -2,13 +2,13 @@
 --
 -- toggleterm.nvim is a Neovim plugin to persist and interact with multiple terminals during an editing session. It
 -- provides several improvements over the builtin terminal integration, which make it a really nice addition to Neovim,
--- while being quite simple.
+-- while remaining quite simple to use and to configure.
 
 return {
   "akinsho/toggleterm.nvim",
   keys = function()
     --- Output the existing terminals.
-    ---@param only_opened boolean Whether to restrict the terminal to the opened ones.
+    ---@param only_opened boolean Whether to restrict the output terminals to the currently opened ones.
     ---@return Terminal[]
     local function get_terms(only_opened)
       local terms = require("toggleterm.terminal").get_all(true)
@@ -18,7 +18,7 @@ return {
       return terms
     end
 
-    --- Select a terminal and run a callback on it.
+    --- Select a terminal among existing ones, and run a callback function on the selected one.
     ---@param callback function Action to run on the selected terminal.
     ---@param opts table Options for the selection.
     ---@return nil
@@ -84,24 +84,29 @@ return {
         desc = "[T]erminal: toggle [A]ll",
       },
       {
-        "<leader>tx",
+        "<leader>tn",
         function() require("toggleterm").toggle(get_new_term_id(), nil, nil, "horizontal") end,
-        desc = "[T]erminal: new in horizontal split",
+        desc = "[T]erminal: [N]ew terminal",
       },
       {
         "<leader>tv",
         function() require("toggleterm").toggle(get_new_term_id(), nil, nil, "vertical") end,
-        desc = "[T]erminal: new in [V]ertical split",
+        desc = "[T]erminal: new terminal in [V]ertical split",
       },
       {
-        "<leader>tn",
+        "<leader>tc",
         function()
           select_term_and_run(
             function(term) vim.cmd(term.id .. "ToggleTermSetName") end,
-            { prompt = "Select a terminal to name: " }
+            { prompt = "Select a terminal to rename: " }
           )
         end,
-        desc = "[T]erminal: [N]ame",
+        desc = "[T]erminal: [C]hange name",
+      },
+      {
+        "<leader>ts",
+        function() require("toggleterm").send_lines_to_terminal("single_line", true, { args = vim.v.count }) end,
+        desc = "[T]erminal: [S]end line",
       },
       {
         "<leader>tr",
@@ -121,16 +126,17 @@ return {
             end
 
             require("toggleterm").exec(line, term.id)
-          end, { prompt = "Select a terminal to run in: ", only_opened = true })
+          end, { prompt = "Select a terminal to run the file in: ", only_opened = true })
         end,
         ft = { "lua", "python" },
-        desc = "[T]erminal: [R]un file in shell",
+        desc = "[T]erminal: [R]un file in REPL",
       },
       {
         "<leader>t",
         function()
           select_term_and_run(function(term)
-            local lines = require("visual_mode").get_lines({ trim_indent = true })
+            local visual_mode = require("visual_mode")
+            local lines = visual_mode.get_lines({ trim_indent = true })
             require("toggleterm").exec(table.concat(lines, "\n"), term.id)
           end, { prompt = "Select a terminal to send to: ", only_opened = true })
         end,
