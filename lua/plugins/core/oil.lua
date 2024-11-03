@@ -33,7 +33,7 @@ return {
       },
 
       -- Oil buffer options
-      ["<localleader>l"] = { "actions.refresh", desc = "[L]oad again" },
+      ["<localleader>r"] = { "actions.refresh", desc = "[R]efresh" },
       ["<localleader>h"] = { "actions.toggle_hidden", desc = "Toggle [H]idden files" },
       ["<localleader>d"] = {
         function() -- Function taken from Oil recipes
