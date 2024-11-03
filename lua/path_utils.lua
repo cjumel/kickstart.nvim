@@ -46,10 +46,7 @@ end
 function M.file_is_in_project()
   local absolute_file_path = vim.fn.expand("%:p")
   local absolute_project_root_path = M.get_project_root(":p")
-  if absolute_file_path:match("^" .. absolute_project_root_path) then
-    return true
-  end
-  return false
+  return string.sub(absolute_file_path, 1, #absolute_project_root_path) == absolute_project_root_path
 end
 
 --- Output whether the file opened in the current buffer matches one of the tooling blacklist path patterns.
