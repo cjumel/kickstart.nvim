@@ -56,6 +56,16 @@ return {
       json = { "Array", "Class", "Constructor", "Enum", "Function", "Interface", "Module", "Method", "Struct" },
     },
     autojump = true, -- Follow the Aerial window with the code
+    on_attach = function(bufnr)
+      local ts_keymap = require("plugins.core.nvim-treesitter-textobjects.keymap")
+      ts_keymap.set_move_pair(
+        "a",
+        function() vim.cmd("AerialNext") end,
+        function() vim.cmd("AerialPrev") end,
+        "Aerial symbol",
+        { buffer = bufnr }
+      )
+    end,
     show_guides = true, -- Show indentation guides in the Aerial window
     nav = {
       win_opts = { winblend = 0 }, -- Fix background color
