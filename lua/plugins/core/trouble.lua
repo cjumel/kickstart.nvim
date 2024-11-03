@@ -58,12 +58,35 @@ return {
       -- Todo-Comment modes (see todo-comments.nvim)
       todo = {
         title = "{hl:Title}Todo comments{hl} {count}",
+        filter = { -- Filter with default keywords + "TODO_" - "NOTE" - "INFO"
+          tag = {
+            "FIX",
+            "FIXME",
+            "BUG",
+            "FIXIT",
+            "ISSUE",
+            "TODO",
+            "TODO_",
+            "HACK",
+            "WARN",
+            "WARNING",
+            "XXX",
+            "PERF",
+            "OPTIM",
+            "PERFORMANCE",
+            "OPTIMIZE",
+            "TEST",
+            "TESTING",
+            "PASSED",
+            "FAILED",
+          },
+        },
         open_no_results = true, -- Open the Trouble window even when there is no item as they can appear dynamically
       },
       todo_now = {
         mode = "todo",
         title = "{hl:Title}Todo-now comments{hl} {count}",
-        filter = { tag = { "TODO_" } }, -- Only show "TODO_" todo-comments
+        filter = { tag = { "TODO_" } }, -- Filter with "TODO_" only
         groups = { { "filename", format = "{file_icon} {filename} {count}" } }, -- Remove tag group as we only have one
       },
     },

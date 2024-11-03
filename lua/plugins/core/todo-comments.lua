@@ -10,14 +10,20 @@ return {
   dependencies = { "nvim-lua/plenary.nvim" },
   event = { "BufNewFile", "BufReadPre" },
   keys = {
-    { "<leader>ft", "<cmd>TodoTelescope layout_strategy=vertical<CR>", desc = "[F]ind: [T]odo comments" },
+    {
+      "<leader>ft",
+      -- Filter with default keywords + "TODO_" - "NOTE" - "INFO"
+      "<cmd>TodoTelescope layout_strategy=vertical keywords=FIX,FIXME,BUG,FIXIT,ISSUE,TODO,TODO_,HACK,WARN,WARNING,"
+        .. "XXX,PERF,OPTIM,PERFORMANCE,OPTIMIZE,TEST,TESTING,PASSED,FAILED<CR>",
+      desc = "[F]ind: [T]odo comments",
+    },
     {
       "<leader>fn",
-      "<cmd>TodoTelescope layout_strategy=vertical keywords=TODO_<CR>",
-      desc = "[F]ind: [T]odo-now comments",
+      "<cmd>TodoTelescope layout_strategy=vertical keywords=TODO_<CR>", -- Filter with "TODO_" only
+      desc = "[F]ind: todo-[N]ow comments",
     },
     { "<leader>vt", "<cmd>Trouble todo toggle<CR>", desc = "[V]iew: [T]odo comments" },
-    { "<leader>vn", "<cmd>Trouble todo_now toggle<CR>", desc = "[V]iew: [T]odo-now comments" },
+    { "<leader>vn", "<cmd>Trouble todo_now toggle<CR>", desc = "[V]iew: todo-[N]ow comments" },
   },
   opts = {
     -- Add "TODO_" as a custom keyword for stuff to do right now & which should not be shared in the codebase. I find

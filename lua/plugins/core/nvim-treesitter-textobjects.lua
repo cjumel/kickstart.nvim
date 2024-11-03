@@ -167,11 +167,38 @@ return {
           function() require("gitsigns").prev_hunk({ navigation_message = false }) end,
           "hunk"
         )
+        local todo_comment_keywords = { -- Default keywords + "TODO_" - "NOTE" - "INFO"
+          "FIX",
+          "FIXME",
+          "BUG",
+          "FIXIT",
+          "ISSUE",
+          "TODO",
+          "TODO_",
+          "HACK",
+          "WARN",
+          "WARNING",
+          "XXX",
+          "PERF",
+          "OPTIM",
+          "PERFORMANCE",
+          "OPTIMIZE",
+          "TEST",
+          "TESTING",
+          "PASSED",
+          "FAILED",
+        }
         ts_keymap.set_local_move_pair(
           "t",
-          function() require("todo-comments").jump_next() end,
-          function() require("todo-comments").jump_prev() end,
-          "todo-comment"
+          function() require("todo-comments").jump_next({ keywords = todo_comment_keywords }) end,
+          function() require("todo-comments").jump_prev({ keywords = todo_comment_keywords }) end,
+          "todo comment"
+        )
+        ts_keymap.set_local_move_pair(
+          "n",
+          function() require("todo-comments").jump_next({ keywords = { "TODO_" } }) end,
+          function() require("todo-comments").jump_prev({ keywords = { "TODO_" } }) end,
+          "todo-now comment"
         )
         ts_keymap.set_local_move_pair(
           "`",
