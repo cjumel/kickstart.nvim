@@ -49,7 +49,7 @@ return {
           }, argument_node:type())
         then
           local argument_name = vim.treesitter.get_node_text(argument_node, bufnr)
-          argument_name = string.match(argument_name, "(%w+)") -- Remove type and default value
+          argument_name = string.match(argument_name, "^(%s*[_%w]+[_%w]*)") -- Remove type and default value
           if not vim.tbl_contains({ "self", "cls" }, argument_name) then
             table.insert(argument_names, argument_name)
           end
