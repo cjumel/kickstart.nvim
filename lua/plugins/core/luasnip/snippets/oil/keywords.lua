@@ -15,7 +15,10 @@ local t = ls.text_node
 
 local function make_file_extension_condition(extension)
   return ls_conds.make_condition(function()
-    return not vim.tbl_isempty(vim.fs.find(function(name, _) return name:match(".*%." .. extension .. "$") end, {
+    return not vim.tbl_isempty(vim.fs.find(function(name, _)
+      -- Exclude the special case of custom Neovim config files, as it doesn't mean there will be other Lua files
+      return name:match(".*%." .. extension .. "$") and name ~= ".nvim.lua"
+    end, {
       type = "file",
       path = require("oil").get_current_dir(),
       upward = true, -- Search in the current directory and its ancestors
