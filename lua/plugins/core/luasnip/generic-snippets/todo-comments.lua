@@ -1,10 +1,11 @@
 -- Provide todo-comment snippets, either using Treesitter to detect if we are within a comment or a string, or not, in
 -- case it's not available. The original implementation is a simpler version of:
---  https://github.com/L3MON4D3/LuaSnip/wiki/Cool-Snippets#all---todo-commentsnvim-snippets
+-- https://github.com/L3MON4D3/LuaSnip/wiki/Cool-Snippets#all---todo-commentsnvim-snippets
 -- It was then simplified to avoid relying on the `Comment.nvim` plugin and use only builtin Neovim features.
 
 local conds = require("plugins.core.luasnip.conditions")
 local ls = require("luasnip")
+local ls_show_conds = require("luasnip.extras.conditions.show")
 
 local c = ls.choice_node
 local f = ls.function_node
@@ -13,6 +14,8 @@ local r = ls.restore_node
 local s = ls.snippet
 local sn = ls.snippet_node
 local t = ls.text_node
+
+local M = {}
 
 --- Get the comment string start and end, taking the current file type into account.
 ---@return string[]
@@ -44,73 +47,89 @@ end
 local function get_comment_string_start() return get_comment_strings()[1] end
 local function get_comment_string_end() return get_comment_strings()[2] end
 
-local todo_comment_keywords = { -- List the todo-comment keywords supported by the snippets
-  "TODO_", -- Custom keyword for stuff to do right now & which should not be shared in the codebase
-  "TODO",
-  "FIXME",
-  "BUG",
-  "HACK",
-  "WARN",
-  "PERF",
-  "TEST",
-  "NOTE",
-}
+for _, mode in ipairs({ "ts", "no_ts" }) do
+  local snippets = {}
 
---- Get the todo-comment keyword option snippet nodes (without the comment string).
----@return table
-local function get_todo_comment_sn_options()
-  local todo_comment_sn_options = {}
-  for idx, keyword in ipairs(todo_comment_keywords) do
-    if idx == 0 then
-      table.insert(todo_comment_sn_options, sn(nil, { t(keyword), t(": "), r(1, "content", i(nil)) }))
-    else
-      table.insert(todo_comment_sn_options, sn(nil, { t(keyword), t(": "), r(1, "content") }))
-    end
-  end
-  return todo_comment_sn_options
-end
-
-local desc = "Supported keywords:"
-for _, todo_comment_keyword in ipairs(todo_comment_keywords) do
-  desc = desc .. "\n- `" .. todo_comment_keyword .. "`"
-end
-
-return {
-  no_ts = {
-    s({
-      trig = "todo-comment",
-      desc = desc,
-    }, {
-      f(get_comment_string_start),
-      c(1, get_todo_comment_sn_options()),
-      f(get_comment_string_end),
-    }),
-  },
-  ts = {
-    s({
-      trig = "todo-comment",
-      show_condition = conds.make_treesitter_node_exclusion_condition({
+  local todo_comment_show_condition
+  if mode == "ts" then
+    todo_comment_show_condition = ls_show_conds.line_end
+      * conds.make_treesitter_node_exclusion_condition({
         "comment",
         "comment_content",
         "string",
         "string_start",
         "string_content",
-      }),
-      desc = desc,
-    }, {
-      f(get_comment_string_start),
-      c(1, get_todo_comment_sn_options()),
-      f(get_comment_string_end),
-    }),
+      })
+  else
+    todo_comment_show_condition = ls_show_conds.line_end * -conds.is_comment_start
+  end
+  table.insert(
+    snippets,
     s({
       trig = "todo-comment",
-      show_condition = conds.make_treesitter_node_inclusion_condition({
-        "comment",
-        "comment_content",
-      }) * conds.is_comment_start,
-      desc = desc,
+      show_condition = todo_comment_show_condition,
+      desc = [[
+Choices:
+- `TODO_`
+- `TODO`]],
     }, {
-      c(1, get_todo_comment_sn_options()),
-    }),
-  },
-}
+      f(get_comment_string_start),
+      c(1, {
+        sn(nil, { t("TODO_: "), r(1, "content", i(nil)) }),
+        sn(nil, { t("TODO: "), r(1, "content") }),
+      }),
+      f(get_comment_string_end),
+    })
+  )
+
+  local todo_keyword_show_condition
+  if mode == "ts" then
+    todo_keyword_show_condition = conds.make_treesitter_node_inclusion_condition({
+      "comment",
+      "comment_content",
+    }) * conds.is_comment_start
+  else
+    todo_keyword_show_condition = conds.is_comment_start
+  end
+  table.insert(
+    snippets,
+    s({
+      trig = "TODO_: ..",
+      show_condition = todo_keyword_show_condition,
+      desc = [[
+Choices:
+- `TODO_`
+- `TODO`]],
+    }, {
+      c(1, {
+        sn(nil, { t("TODO_: "), r(1, "content", i(nil)) }),
+        sn(nil, { t("TODO: "), r(1, "content") }),
+      }),
+    })
+  )
+  for _, keyword in ipairs({ -- Let's only add the subset useful for me of keywords which are recognized
+    "FIXME",
+    "BUG",
+    "HACK",
+    "WARN",
+    "PERF",
+    "TEST",
+    "NOTE",
+  }) do
+    table.insert(
+      snippets,
+      s({
+        trig = keyword .. ": ..",
+        show_condition = todo_keyword_show_condition,
+        desc = "`" .. keyword .. ": ..`",
+      }, {
+        t(keyword .. ": "),
+        i(1),
+      })
+    )
+  end
+
+  M[mode] = snippets
+end
+
+return M
