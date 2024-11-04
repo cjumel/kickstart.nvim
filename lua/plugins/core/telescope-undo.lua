@@ -31,16 +31,16 @@ return {
     vim_diff_opts = { ctxlen = 5 }, -- Number of lines to display around each change
     mappings = {
       i = {
-        ["<CR>"] = function(bufnr) return require("telescope-undo.actions").yank_additions(bufnr) end,
-        ["<M-CR>"] = function(bufnr) return require("telescope-undo.actions").yank_deletions(bufnr) end, -- <C-CR>
+        ["<CR>"] = require("plugins.core.telescope-undo.actions").yank_additions,
+        ["<M-CR>"] = require("plugins.core.telescope-undo.actions").yank_deletions, -- <C-CR>
         ["<S-cr>"] = false,
         ["<C-cr>"] = false,
         ["<C-y>"] = false,
         ["<C-r>"] = false,
       },
       n = {
-        ["<CR>"] = function(bufnr) return require("telescope-undo.actions").yank_additions(bufnr) end,
-        ["<M-CR>"] = function(bufnr) return require("telescope-undo.actions").yank_deletions(bufnr) end, -- <C-CR>
+        ["<CR>"] = require("plugins.core.telescope-undo.actions").yank_additions,
+        ["<M-CR>"] = require("plugins.core.telescope-undo.actions").yank_deletions, -- <C-CR>
         ["y"] = false,
         ["Y"] = false,
         ["u"] = false,
