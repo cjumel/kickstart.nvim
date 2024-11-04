@@ -273,7 +273,21 @@ end
 function M.oldfiles()
   local opts = {
     tiebreak = function(current, existing, _) return current.index < existing.index end, -- Sort by recency
-    prompt_title = "Find OldFiles",
+    prompt_title = "Find Oldfiles",
+  }
+  if visual_mode.is_on() then
+    local text = visual_mode.get_text()
+    -- Replace punctuation marks by spaces, to support searching from module names, like "plugins.core"
+    opts.default_text = string.gsub(text, "%p", " ")
+  end
+  require("telescope.builtin").oldfiles(opts)
+end
+
+function M.recent_files() -- Similar to M.oldfiles but restricted to cwd
+  local opts = {
+    tiebreak = function(current, existing, _) return current.index < existing.index end, -- Sort by recency
+    prompt_title = "Find Recent Files",
+    cwd_only = true,
   }
   if visual_mode.is_on() then
     local text = visual_mode.get_text()
