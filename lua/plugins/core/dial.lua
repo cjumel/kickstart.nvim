@@ -29,6 +29,8 @@ return {
         augend.constant.new({ elements = { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" }, word = false }),
         augend.constant.new({ elements = { "true", "false" } }),
         augend.constant.new({ elements = { "==", "~=" }, word = false }),
+        augend.constant.new({ elements = { "if not", "if" } }),
+        augend.constant.new({ elements = { "elseif not", "elseif" } }),
       },
       markdown = {
         augend.constant.new({ elements = { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" }, word = false }),
@@ -49,6 +51,9 @@ return {
         augend.constant.new({ elements = { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" }, word = false }),
         augend.constant.new({ elements = { "True", "False" } }),
         augend.constant.new({ elements = { "==", "!=" }, word = false }),
+        augend.constant.new({ elements = { "is not", "is" } }),
+        augend.constant.new({ elements = { "if not", "if" } }),
+        augend.constant.new({ elements = { "elif not", "elif" } }),
       },
     })
   end,
