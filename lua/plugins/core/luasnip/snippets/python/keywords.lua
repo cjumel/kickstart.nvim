@@ -1,12 +1,10 @@
 local conds = require("plugins.core.luasnip.conditions")
 local ls = require("luasnip")
-local ls_extras = require("luasnip.extras")
 local ls_show_conds = require("luasnip.extras.conditions.show")
 
 local c = ls.choice_node
 local i = ls.insert_node
 local r = ls.restore_node
-local rep = ls_extras.rep
 local s = ls.snippet
 local sn = ls.snippet_node
 local t = ls.text_node
@@ -179,7 +177,7 @@ Choices:
         t("except "),
         r(1, "error"),
         t(" as "),
-        i(2),
+        i(2, "error"),
         t({ ":", "\t" }),
         r(3, "content"),
       }),
@@ -381,81 +379,13 @@ Choices:
 
   s({
     trig = "if .. main ..",
-    show_condition = conds.line_begin * ls_show_conds.line_end * conds.make_treesitter_node_exclusion_condition({
-      "comment",
-      "string",
-      "string_start",
-      "string_content",
-      "string_end",
+    show_condition = conds.line_begin * ls_show_conds.line_end * conds.make_treesitter_node_inclusion_condition({
+      "module",
     }),
     desc = [[`if __name__ == "__main__": <../pass>`]],
   }, {
     t({ 'if __name__ == "__main__":', "\t" }),
     c(1, { i(nil), sn(nil, { t("pass"), i(1) }) }),
-  }),
-
-  s({
-    trig = "if .. raise ..",
-    show_condition = conds.line_begin * ls_show_conds.line_end * conds.make_treesitter_node_exclusion_condition({
-      "comment",
-      "string",
-      "string_start",
-      "string_content",
-      "string_end",
-    }),
-    desc = [[
-Choices:
-- `if .. is None: raise ValueError(..)`
-- `if .. is not None: raise ValueError(..)`
-- `if isinstance(..): raise TypeError(..)`
-- `if not isinstance(..): raise TypeError(..)`]],
-  }, {
-    c(1, {
-      sn(nil, {
-        t("if "),
-        r(1, "variable", i(nil)),
-        t({ " is None:", "\t" }),
-        t([[raise ValueError("Expected ']]),
-        rep(1),
-        t([[' to be not None")]]),
-        i(2),
-      }),
-      sn(nil, {
-        t("if "),
-        r(1, "variable"),
-        t({ " is not None:", "\t" }),
-        t([[raise ValueError("Expected ']]),
-        rep(1),
-        t([[' to be None")]]),
-        i(2),
-      }),
-      sn(nil, {
-        t("if isinstance("),
-        r(1, "variable"),
-        t(", "),
-        r(2, "type", i(nil)),
-        t({ "):", "\t" }),
-        t([[raise TypeError("Expected ']]),
-        rep(1),
-        t([[' not to be of type ']]),
-        rep(2),
-        t([['")]]),
-      }),
-      sn(nil, {
-        t("if not isinstance("),
-        r(1, "variable"),
-        t(", "),
-        r(2, "type"),
-        t({ "):", "\t" }),
-        t([[raise TypeError(f"Expected ']]),
-        rep(1),
-        t([[' to be of type ']]),
-        rep(2),
-        t([[' but got '{type(]]),
-        rep(1),
-        t([[)}'")]]),
-      }),
-    }),
   }),
 
   s({
@@ -479,6 +409,17 @@ Choices:
   }),
 
   s({
+    trig = "lambda ..",
+    show_condition = -conds.line_begin,
+    desc = [[`lambda ..: ..`]],
+  }, {
+    t("lambda "),
+    i(1),
+    t(": "),
+    i(2),
+  }),
+
+  s({
     trig = "raise ..",
     show_condition = conds.line_begin * ls_show_conds.line_end * conds.make_treesitter_node_exclusion_condition({
       "comment",
@@ -490,10 +431,14 @@ Choices:
     desc = [[
 Choices:
 - `raise ..`
+- `raise ValueError`
+- `raise TypeError`
 - `raise Exception`]],
   }, {
     c(1, {
       sn(nil, { t("raise "), i(1) }),
+      sn(nil, { t("raise ValueError"), i(1) }),
+      sn(nil, { t("raise TypeError"), i(1) }),
       sn(nil, { t("raise Exception"), i(1) }),
     }),
   }),
