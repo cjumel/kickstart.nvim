@@ -100,27 +100,50 @@ local function yank_path()
   end
 end
 
---- Send the content of the unnamed register to the system clipboard.
+--- Yank the name of the file or directory linked to the current buffer (must be a regular buffer or an Oil buffer).
 ---@return nil
-local function send_unnamed_register_to_clipboard()
+local function yank_name()
+  local path = nil
+  if vim.bo.buftype == "" then -- Regular buffer
+    path = vim.fn.expand("%")
+  elseif vim.bo.filetype == "oil" then -- Oil buffer
+    local oil = require("oil")
+    path = oil.get_current_dir()
+    if path ~= nil then
+      path = path:gsub("/$", "") -- Remove the "/" prefix if it exists (necessary to get the tail below)
+    end
+  end
+
+  if path ~= nil then
+    path = vim.fn.fnamemodify(path, ":t") -- Get the tail of the path
+    vim.fn.setreg('"', path)
+    vim.notify('Yanked "' .. path .. '"')
+  end
+end
+
+--- Send yanked to the system clipboard.
+---@return nil
+local function yank_send_to_clipboard()
   local content = vim.fn.getreg('"')
   vim.fn.setreg("+", content)
   vim.notify('Sent "' .. content .. '" to system clipboard')
 end
 
---- Send the content of the system clipboard to the unnamed register.
+--- Receive yanked from the system clipboard.
 ---@return nil
-local function send_clipboard_to_unnamed_register()
+local function yank_receive_from_clipboard()
   local content = vim.fn.getreg("+")
   vim.fn.setreg('"', content)
-  vim.notify('Sent "' .. content .. '" to unnamed register')
+  vim.notify('Received "' .. content .. '" from system clipboard')
 end
 
 vim.keymap.set({ "n", "v" }, "_", '"_', { desc = "Black hole register" })
 vim.keymap.set({ "n", "v" }, "+", '"+', { desc = "System clipboard register" })
-vim.keymap.set("n", "<leader>y", yank_path, { desc = "[Y]ank path" })
-vim.keymap.set("n", "<leader>=", send_unnamed_register_to_clipboard, { desc = 'Send "" content to "+' })
-vim.keymap.set("n", "<leader>+", send_clipboard_to_unnamed_register, { desc = 'Send "+ content to ""' })
+
+vim.keymap.set("n", "<leader>yp", yank_path, { desc = "[Y]ank: [P]ath" })
+vim.keymap.set("n", "<leader>yn", yank_name, { desc = "[Y]ank: [N]ame" })
+vim.keymap.set("n", "<leader>ys", yank_send_to_clipboard, { desc = "[Y]ank: [S]end to clipboard" })
+vim.keymap.set("n", "<leader>yr", yank_receive_from_clipboard, { desc = "[Y]ank: [R]eceive from clipboard" })
 
 -- Complete "gx" (open entry under the cursor or selection with external tool, in normal or visual mode) with:
 --  - "gX" to open the current file with external tool, in normal mode

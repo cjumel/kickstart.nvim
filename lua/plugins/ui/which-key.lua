@@ -32,8 +32,7 @@ return {
       { "<leader>r", group = "[R]eplace", mode = { "n", "v" } },
       { "<leader>t", group = "[T]erminal" },
       { "<leader>v", group = "[V]iew" },
-      { "<localleader>f", group = "[F]ind", mode = { "n", "v" } },
-      { "<localleader>r", group = "[R]eplace", mode = { "n", "v" } },
+      { "<leader>y", group = "[Y]ank" },
     },
     win = { border = "rounded" }, -- Add a border in Which Key UI to improve visibility in transparent backgrounds
     sort = { "order", "alphanum", "mod" }, -- Don't sort local keymaps first and keymap groups last
