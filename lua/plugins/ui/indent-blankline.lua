@@ -13,5 +13,6 @@ return {
       show_end = false, -- Don't underline the end of a scope
       exclude = { language = { "yaml" } }, -- Exclude some languages were the scope works poorly
     },
+    exclude = { filetypes = { "markdown", "text" } }, -- Exclude non-code filetypes
   },
 }
