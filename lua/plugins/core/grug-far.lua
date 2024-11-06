@@ -7,6 +7,7 @@
 
 return {
   "MagicDuck/grug-far.nvim",
+  dependencies = { "nvim-tree/nvim-web-devicons" },
   keys = function()
     local actions = require("plugins.core.grug-far.actions")
     return {
@@ -19,8 +20,11 @@ return {
     keymaps = {
       replace = { n = "<CR>" },
       close = { n = "q" },
-      openLocation = { n = "<Tab>" }, -- Like gotoLocation but don't move the cursor
-      gotoLocation = false, -- { n = "<CR>" } by default, conflict with the replace keymap
+      openLocation = { n = "<Tab>" },
+      openNextLocation = { n = "," },
+      openPrevLocation = { n = ";" },
+      gotoLocation = false, -- Conflict with the custom replace keymap
+      previewLocation = { n = "K" },
     },
   },
 }

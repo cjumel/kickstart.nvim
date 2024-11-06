@@ -15,7 +15,7 @@ M.grug_far = function()
     opts.prefills.search = visual_mode.get_text()
   end
 
-  require("grug-far").grug_far(opts)
+  require("grug-far").open(opts)
 end
 
 M.grug_far_buffer = function()
@@ -32,7 +32,7 @@ M.grug_far_buffer = function()
     opts.prefills.search = visual_mode.get_text()
   end
 
-  require("grug-far").grug_far(opts)
+  require("grug-far").open(opts)
 end
 
 M.grug_far_filetype = function()
@@ -52,7 +52,7 @@ M.grug_far_filetype = function()
     opts.prefills.search = visual_mode.get_text()
   end
 
-  require("grug-far").grug_far(opts)
+  require("grug-far").open(opts)
 end
 
 return M
