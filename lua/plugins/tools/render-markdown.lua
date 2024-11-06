@@ -12,13 +12,15 @@ return {
   },
   ft = "markdown",
   opts = {
-    heading = {
-      sign = false, -- Turn off symbols in the sign column for headings
-    },
+    heading = { sign = false }, -- Turn off symbols in the sign column for headings
     checkbox = {
-      custom = { -- Add custom symbols for checkboxes
-        wip = { raw = "[-]", rendered = "󰥔 ", highlight = "RenderMarkdownWarn" },
-        canceled = { raw = "[/]", rendered = " ", highlight = "RenderMarkdownError" },
+      -- The white spaces at the beginning of rendered icons is useful to prevent the icons from moving horizontally
+      -- between raw and rendered modes
+      unchecked = { icon = "   󰄱 " },
+      checked = { icon = "   󰱒 " },
+      custom = {
+        wip = { raw = "[-]", rendered = "   󰥔 ", highlight = "RenderMarkdownWarn" },
+        canceled = { raw = "[/]", rendered = "    ", highlight = "RenderMarkdownError" },
       },
     },
   },
