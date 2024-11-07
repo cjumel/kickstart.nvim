@@ -12,14 +12,14 @@ return {
   keys = {
     {
       "<leader>ft",
-      -- Filter with default keywords + "TODO_" - "NOTE" - "INFO"
-      "<cmd>TodoTelescope layout_strategy=vertical keywords=FIX,FIXME,BUG,FIXIT,ISSUE,TODO,TODO_,HACK,WARN,WARNING,"
-        .. "XXX,PERF,OPTIM,PERFORMANCE,OPTIMIZE,TEST,TESTING,PASSED,FAILED<CR>",
+      -- Don't include NOTE/INFO, HACK, WARN/WARNING, as they're not actual "todo"
+      "<cmd>TodoTelescope layout_strategy=vertical keywords=FIX,FIXME,BUG,FIXIT,ISSUE,TODO,TODO_,XXX,PERF,OPTIM,"
+        .. "PERFORMANCE,OPTIMIZE,TEST,TESTING,PASSED,FAILED<CR>",
       desc = "[F]ind: [T]odo comments",
     },
     {
       "<leader>fn",
-      "<cmd>TodoTelescope layout_strategy=vertical keywords=TODO_<CR>", -- Filter with "TODO_" only
+      "<cmd>TodoTelescope layout_strategy=vertical keywords=TODO_<CR>",
       desc = "[F]ind: todo-[N]ow comments",
     },
     { "<leader>vt", "<cmd>Trouble todo toggle<CR>", desc = "[V]iew: [T]odo comments" },

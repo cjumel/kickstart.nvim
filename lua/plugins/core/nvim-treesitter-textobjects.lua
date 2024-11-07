@@ -167,7 +167,7 @@ return {
           function() require("gitsigns").prev_hunk({ navigation_message = false }) end,
           "hunk"
         )
-        local todo_comment_keywords = { -- Default keywords + "TODO_" - "NOTE" - "INFO"
+        local todo_comment_keywords = { -- Don't include NOTE/INFO, HACK, WARN/WARNING, as they're not actual "todo"
           "FIX",
           "FIXME",
           "BUG",
@@ -175,9 +175,6 @@ return {
           "ISSUE",
           "TODO",
           "TODO_",
-          "HACK",
-          "WARN",
-          "WARNING",
           "XXX",
           "PERF",
           "OPTIM",

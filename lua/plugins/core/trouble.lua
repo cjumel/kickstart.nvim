@@ -58,7 +58,7 @@ return {
       -- Todo-Comment modes (see todo-comments.nvim)
       todo = {
         title = "{hl:Title}Todo comments{hl} {count}",
-        filter = { -- Filter with default keywords + "TODO_" - "NOTE" - "INFO"
+        filter = { -- Don't include NOTE/INFO, HACK, WARN/WARNING, as they're not actual "todo"
           tag = {
             "FIX",
             "FIXME",
@@ -67,9 +67,6 @@ return {
             "ISSUE",
             "TODO",
             "TODO_",
-            "HACK",
-            "WARN",
-            "WARNING",
             "XXX",
             "PERF",
             "OPTIM",
@@ -86,7 +83,7 @@ return {
       todo_now = {
         mode = "todo",
         title = "{hl:Title}Todo-now comments{hl} {count}",
-        filter = { tag = { "TODO_" } }, -- Filter with "TODO_" only
+        filter = { tag = { "TODO_" } },
         groups = { { "filename", format = "{file_icon} {filename} {count}" } }, -- Remove tag group as we only have one
       },
     },
