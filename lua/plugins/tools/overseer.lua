@@ -1,67 +1,54 @@
 -- overseer.nvim
 --
--- Overseer is a task runner and job management plugin for Neovim. It enables to run any kind of job (build, test,
--- formatting, etc.) very easily and taking into account the project context (e.g. only suggest a `make` job if there
--- is a Makefile and suggest the relevant `make` commands based on it).
+-- Overseer is a task runner and job management plugin for Neovim. It enables running very quickly any kind of job
+-- (build, test, formatting, etc.), while also taking into account the project context (e.g. only suggest a `make` job
+-- when there is a Makefile, and suggest the relevant commands based on it). It is very easy to use and super
+-- configurable, for instance by implementing custom job templates.
 
 return {
   "stevearc/overseer.nvim",
-  keys = {
-    {
-      "<leader>oo",
-      function() require("overseer").toggle() end,
-      desc = "[O]verseer: toggle",
-    },
-    {
-      "<leader>or",
-      function() require("overseer").run_template({}, require("overseer").open) end,
-      desc = "[O]verseer: [R]un",
-    },
-    {
-      "<leader>ob",
-      function() require("overseer").run_template({}) end,
-      desc = "[O]verseer: run in [B]ackground",
-    },
-    {
-      "<leader>ol",
-      function()
-        local tasks = require("overseer").list_tasks({ recent_first = true })
-        if vim.tbl_isempty(tasks) then
-          vim.notify("No tasks found", vim.log.levels.WARN)
-        else
-          require("overseer").run_action(tasks[1], "restart")
-        end
-      end,
-      desc = "[O]verseer: rerun [L]ast task",
-    },
-  },
+  keys = function()
+    local actions = require("plugins.tools.overseer.actions")
+    return {
+      { "<leader>oo", actions.toggle, desc = "[O]verseer: toggle" },
+      { "<leader>or", actions.run, desc = "[O]verseer: [R]un" },
+      { "<leader>ob", actions.run_in_background, desc = "[O]verseer: run in [B]ackground" },
+      { "<leader>op", actions.run_with_prompt, desc = "[O]verseer: run with [P]rompt" },
+      { "<leader>ol", actions.run_last, desc = "[O]verseer: rerun [L]ast task" },
+    }
+  end,
   opts = {
-    dap = false, -- When true, this lazy-load nvim-dap but I don't use it with Overseer
+    dap = false, -- When true, this lazy-loads nvim-dap but I don't use it with overseer.nvim
     task_list = {
-      direction = "bottom", -- Instead of on the left-hand-side
-      min_height = 0.25,
-      -- Disable bindings conflicting with window navigation
+      min_height = 0.25, -- Keep a height proportional with window height
+      -- Disable the builtin keymaps in conflict with window navigation keymaps
       bindings = { ["<C-h>"] = false, ["<C-j>"] = false, ["<C-k>"] = false, ["<C-l>"] = false },
     },
     task_editor = {
       bindings = {
         i = {
           ["<CR>"] = "Submit",
-          ["<C-j>"] = "Next",
-          ["<C-k>"] = "Prev",
+          ["<C-j>"] = "Next", -- <C-n> doesn't work here
+          ["<C-k>"] = "Prev", -- <C-p> doesn't work here
           ["<C-c>"] = "Cancel",
-          ["<Tab>"] = false, -- Disable to let Copilot work
+          ["<C-s>"] = false,
+          ["<Tab>"] = false, -- Important to let Copilot work
+          ["<S-Tab>"] = false,
         },
         n = {
           ["<CR>"] = "Submit",
-          ["<C-i>"] = "Next",
-          ["<C-o>"] = "Prev",
+          [","] = "Next",
+          [";"] = "Prev",
           ["<ESC>"] = "Cancel",
+          ["q"] = "Cancel",
           ["?"] = "ShowHelp",
+          ["<C-s>"] = false,
+          ["<Tab>"] = false,
+          ["<S-Tab>"] = false,
         },
       },
     },
-    default_template_prompt = "always", -- Always ask for parameters if there are any
+    default_template_prompt = "avoid", -- Only show parameter prompt when necessary
   },
   config = function(_, opts)
     local overseer = require("overseer")
