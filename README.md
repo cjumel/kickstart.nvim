@@ -38,18 +38,22 @@ implements two major features:
 
 - [git](https://www.git-scm.com/), to clone this repository
 
-- (optional but recommended) [fd](https://github.com/sharkdp/fd),
+- (optional but strongly recommended) [fd](https://github.com/sharkdp/fd),
   [ripgrep](https://github.com/BurntSushi/ripgrep) and [eza](https://github.com/eza-community/eza)
   to search files or directories, within files or preview directories, with the awesome
   [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim) plugin
 
-- (optional: not needed in light-mode) [npm](https://www.npmjs.com/) and
+- (optional, not needed in light-mode) [npm](https://www.npmjs.com/) and
   [Python](https://www.python.org/), especially to install external tools managed with
   [mason.nvim](https://github.com/williamboman/mason.nvim), like language servers, formatters,
   debuggers, etc.
 
-- (optional: not needed in light-mode or can be disabled thourgh the custom configuration feature) a
-  GitHub Copilot subscription, for AI-assisted auto-completion and chat
+- (optional, not needed in light-mode or can be disabled) a GitHub Copilot subscription, for
+  AI-assisted auto-completion and chat
+
+- (optional, only needed for niche features) some additional features require external tools to work
+  (e.g. database interative terminal tools for the database explorer plugin), I'm not listing them
+  here but they should be mentionned in the source code directly
 
 ## Install
 
