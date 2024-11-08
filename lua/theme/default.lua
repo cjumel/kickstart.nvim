@@ -15,11 +15,24 @@ local custom_sections = vim.tbl_deep_extend("force", sections.empty, {
 })
 M.lualine_opts = {
   options = {
-    theme = "16color",
+    theme = { -- Remove Lualine colors
+      inactive = { c = {} },
+      visual = { c = {} },
+      replace = { c = {} },
+      normal = { c = {} },
+      insert = { c = {} },
+      command = { c = {} },
+    },
   },
   sections = custom_sections,
   extensions = extensions.build_extensions(custom_sections),
   _keep_showmode = true,
 }
+
+-- Remove Neovim background colors
+vim.cmd.highlight("Normal guibg=none")
+vim.cmd.highlight("NonText guibg=none")
+vim.cmd.highlight("Normal ctermbg=none")
+vim.cmd.highlight("NonText ctermbg=none")
 
 return M
