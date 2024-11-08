@@ -474,18 +474,4 @@ Choices:
     t({ ":", "\t" }),
     c(2, { i(nil), sn(nil, { t("pass"), i(1) }) }),
   }),
-
-  s({
-    trig = "*args",
-    show_condition = conds.make_treesitter_node_inclusion_condition({ "parameters", "list_splat_pattern" })
-      * conds.make_prefix_condition("*"),
-    desc = "`*args`",
-  }, { t("*args") }),
-
-  s({
-    trig = "**kwargs",
-    show_condition = conds.make_treesitter_node_inclusion_condition({ "parameters", "list_splat_pattern" })
-      * conds.make_prefix_condition("**"),
-    desc = "`**kwargs`",
-  }, { t("**kwargs") }),
 }
