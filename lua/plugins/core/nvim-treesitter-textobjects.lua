@@ -78,6 +78,7 @@ return {
   config = function(_, opts)
     require("nvim-treesitter.configs").setup({ textobjects = opts })
 
+    local tdc_actions = require("plugins.core.todo-comments.actions")
     local ts_actions = require("plugins.core.nvim-treesitter.actions")
     local ts_keymap = require("plugins.core.nvim-treesitter-textobjects.keymap")
     local ts_repeatable_move = require("nvim-treesitter.textobjects.repeatable_move")
@@ -118,12 +119,6 @@ return {
       pattern = "*",
       group = augroup,
       callback = function()
-        ts_keymap.set_local_move_pair(
-          "p",
-          function() vim.cmd("normal }") end,
-          function() vim.cmd("normal {") end,
-          "paragraph"
-        )
         ts_keymap.set_local_move_pair( -- Dianostics can be errors, warnings, information messages or hints
           "d",
           vim.diagnostic.goto_next,
@@ -167,36 +162,14 @@ return {
           function() require("gitsigns").prev_hunk({ navigation_message = false }) end,
           "hunk"
         )
-        local todo_comment_keywords = { -- Don't include NOTE/INFO, HACK, WARN/WARNING, as they're not actual "todo"
-          "FIX",
-          "FIXME",
-          "BUG",
-          "FIXIT",
-          "ISSUE",
-          "TODO",
-          "TODO_",
-          "XXX",
-          "PERF",
-          "OPTIM",
-          "PERFORMANCE",
-          "OPTIMIZE",
-          "TEST",
-          "TESTING",
-          "PASSED",
-          "FAILED",
-        }
         ts_keymap.set_local_move_pair(
-          "t",
-          function() require("todo-comments").jump_next({ keywords = todo_comment_keywords }) end,
-          function() require("todo-comments").jump_prev({ keywords = todo_comment_keywords }) end,
-          "todo comment"
+          "p",
+          tdc_actions.next_personal_todo,
+          tdc_actions.prev_personal_todo,
+          "personal todo-comment"
         )
-        ts_keymap.set_local_move_pair(
-          "n",
-          function() require("todo-comments").jump_next({ keywords = { "TODO_" } }) end,
-          function() require("todo-comments").jump_prev({ keywords = { "TODO_" } }) end,
-          "todo-now comment"
-        )
+        ts_keymap.set_local_move_pair("t", tdc_actions.next_todo, tdc_actions.prev_todo, "todo todo-comment")
+        ts_keymap.set_local_move_pair("n", tdc_actions.next_note, tdc_actions.prev_note, "note todo-comment")
         ts_keymap.set_local_move_pair(
           "`",
           function() require("marks").next() end,
