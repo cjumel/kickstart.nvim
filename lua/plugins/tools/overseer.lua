@@ -7,6 +7,7 @@
 
 return {
   "stevearc/overseer.nvim",
+  dependencies = { "williamboman/mason.nvim" }, -- Some tasks (e.g. ruff or prettier) require mason.nvim
   keys = function()
     local actions = require("plugins.tools.overseer.actions")
     return {

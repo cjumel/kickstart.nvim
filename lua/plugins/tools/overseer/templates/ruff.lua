@@ -65,7 +65,7 @@ return {
           }
         end,
       }),
-      overseer.wrap_template({
+      overseer.wrap_template(base_template, {
         name = "ruff format",
         builder = function(params)
           return {
