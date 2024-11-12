@@ -12,7 +12,8 @@ return {
   },
   ft = "markdown",
   opts = {
-    heading = { sign = false }, -- Turn off symbols in the sign column for headings
+    heading = { sign = false }, -- Turn off sign column symbols
+    code = { sign = false }, -- Turn off sign column symbols
     checkbox = {
       -- The white spaces at the beginning of rendered icons is useful to prevent the icons from moving horizontally
       -- between raw and rendered modes
