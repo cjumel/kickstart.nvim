@@ -70,7 +70,8 @@ return {
     require("conform").setup(opts)
 
     -- Create command to toggle format-on-save
-    -- Used with a bang ("!"), the disable command will disable format-on-save just for the current buffer
+    -- Used with a bang ("!"), the disable command will disable format-on-save just for the current buffer (there's no
+    -- case where the bang can be useful for the enable command)
     vim.api.nvim_create_user_command("FormatOnSaveDisable", function(args)
       if args.bang then
         vim.b.disable_format_on_save = true
@@ -82,5 +83,17 @@ return {
       vim.b.disable_format_on_save = false
       vim.g.disable_format_on_save = false
     end, { desc = "Enable format-on-save" })
+    vim.api.nvim_create_user_command("FormatOnSaveToggle", function(args)
+      if vim.b.disable_format_on_save or vim.g.disable_format_on_save then -- Format-on-save is disabled
+        vim.b.disable_format_on_save = false
+        vim.g.disable_format_on_save = false
+      else
+        if args.bang then
+          vim.b.disable_format_on_save = true
+        else
+          vim.g.disable_format_on_save = true
+        end
+      end
+    end, { desc = "Toggle format-on-save", bang = true })
   end,
 }

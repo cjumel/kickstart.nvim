@@ -65,7 +65,8 @@ return {
     })
 
     -- Create command to toggle lint
-    -- Used with a bang ("!"), the disable command will disable lint just for the current buffer
+    -- Used with a bang ("!"), the disable command will disable lint just for the current buffer (there's no
+    -- case where the bang can be useful for the enable command)
     vim.api.nvim_create_user_command("LintDisable", function(args)
       if args.bang then
         vim.b.disable_lint = true
@@ -77,5 +78,17 @@ return {
       vim.b.disable_lint = false
       vim.g.disable_lint = false
     end, { desc = "Enable lint" })
+    vim.api.nvim_create_user_command("LintToggle", function(args)
+      if vim.b.disable_lint or vim.g.disable_lint then -- Lint is disabled
+        vim.b.disable_lint = false
+        vim.g.disable_lint = false
+      else
+        if args.bang then
+          vim.b.disable_lint = true
+        else
+          vim.g.disable_lint = true
+        end
+      end
+    end, { desc = "Toggle lint", bang = true })
   end,
 }
