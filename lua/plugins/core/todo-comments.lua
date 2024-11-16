@@ -23,10 +23,14 @@ return {
     }
   end,
   opts = {
-    -- Add a personal todo keyword, for stuff to do right now & which should not be shared in the codebase. I find this
-    -- a convenient way of separating long term TODOs and the ones for the current task at hand, especially to search
-    -- them automatically.
-    keywords = { [tdc_keywords.personal_todo] = { icon = " ", color = "info" } },
+    keywords = {
+      -- Add a personal todo keyword, for stuff to do right now & which should not be shared in the codebase. I find this
+      -- a convenient way of separating long term TODOs and the ones for the current task at hand, especially to search
+      -- them automatically.
+      [tdc_keywords.personal_todo] = { icon = " ", color = "info" },
+      -- Add IMPORTANT as a NOTE (used by the Python Packaging Authority in their documentation)
+      NOTE = { icon = " ", color = "hint", alt = { "INFO", "IMPORTANT" } },
+    },
     -- Include hidden files when searching for todo-comments
     search = { args = { "--color=never", "--no-heading", "--with-filename", "--line-number", "--column", "--hidden" } },
   },
