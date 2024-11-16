@@ -149,4 +149,20 @@ vim.g.nvim_config = {
     -- plugins
     "^~/%.tmux/",
   },
+
+  -- Set `project_type_config_files` to a mapping between project types and lists of filenames associated with potential
+  -- configuration files found in the root of the corresponding project, to better detect when working in such project.
+  project_type_config_files = {
+    lua = {
+      ".stylua.toml",
+      ".styluaignore",
+      "stylua.toml",
+    },
+    python = {
+      ".ruff.toml",
+      "pyproject.toml",
+      "ruff.toml",
+      "setup.py",
+    },
+  },
 }

@@ -5,6 +5,7 @@ local conds = require("plugins.core.luasnip.conditions")
 local ls = require("luasnip")
 local ls_conds = require("luasnip.extras.conditions")
 local ls_show_conds = require("luasnip.extras.conditions.show")
+local nvim_config = require("nvim_config")
 local path_utils = require("path_utils")
 
 local c = ls.choice_node
@@ -24,6 +25,18 @@ local function make_file_extension_condition(extension)
       upward = true, -- Search in the current directory and its ancestors
       stop = path_utils.get_project_root(),
     }))
+  end)
+end
+
+local function make_project_type_condition(project_type)
+  return ls_conds.make_condition(function()
+    local root_path = path_utils.get_project_root(":p")
+    for _, config_file in ipairs(nvim_config.project_type_config_files[project_type]) do
+      if vim.fn.filereadable(root_path .. config_file) == 1 then
+        return true
+      end
+    end
+    return false
   end)
 end
 
@@ -107,18 +120,20 @@ return {
     show_condition = -dot_prefix_condition
       * -conds.line_begin
       * ls_show_conds.line_end
-      * make_file_extension_condition("lua"),
+      * (make_file_extension_condition("lua") + make_project_type_condition("lua")),
   }, { t(".lua") }),
   s({
     trig = "init.lua",
     show_condition = conds.line_begin
       * ls_show_conds.line_end
-      * make_file_extension_condition("lua")
+      * (make_file_extension_condition("lua") + make_project_type_condition("lua"))
       * make_filename_condition("init.lua"),
   }, { t("init.lua") }),
   s({
-    trig = "temp-<idx>.lua",
-    show_condition = conds.line_begin * ls_show_conds.line_end * make_file_extension_condition("lua"),
+    trig = "temp~.lua",
+    show_condition = conds.line_begin
+      * ls_show_conds.line_end
+      * (make_file_extension_condition("lua") + make_project_type_condition("lua")),
   }, { t("temp"), d(1, make_dynamic_file_index_node("temp", ".lua")), t(".lua") }),
 
   -- Markdown
@@ -145,18 +160,20 @@ return {
     show_condition = -dot_prefix_condition
       * -conds.line_begin
       * ls_show_conds.line_end
-      * make_file_extension_condition("py"),
+      * (make_file_extension_condition("py") + make_project_type_condition("python")),
   }, { t(".py") }),
   s({
     trig = "__init__.py",
     show_condition = conds.make_prefix_condition("_") -- The snippet is triggered after the first "_"
       * ls_show_conds.line_end
-      * make_file_extension_condition("py")
+      * (make_file_extension_condition("py") + make_project_type_condition("python"))
       * make_filename_condition("__init__.py"),
   }, { t("__init__.py") }),
   s({
-    trig = "temp-<idx>.py",
-    show_condition = conds.line_begin * ls_show_conds.line_end * make_file_extension_condition("py"),
+    trig = "temp~.py",
+    show_condition = conds.line_begin
+      * ls_show_conds.line_end
+      * (make_file_extension_condition("py") + make_project_type_condition("python")),
   }, { t("temp"), d(1, make_dynamic_file_index_node("temp", ".py")), t(".py") }),
 
   -- Shell
