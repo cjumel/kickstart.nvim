@@ -20,7 +20,7 @@ return {
       unchecked = { icon = "   󰄱 " },
       checked = { icon = "   󰱒 " },
       custom = {
-        wip = { raw = "[-]", rendered = "   󰦖 ", highlight = "RenderMarkdownWarn" },
+        todo = { raw = "[-]", rendered = "   󰦖 ", highlight = "RenderMarkdownWarn" }, -- Overwrite the default "todo"
         canceled = { raw = "[/]", rendered = "    ", highlight = "RenderMarkdownError" },
       },
     },
