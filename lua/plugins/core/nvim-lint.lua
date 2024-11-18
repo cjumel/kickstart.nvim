@@ -5,7 +5,6 @@
 -- my formatting plugin.
 
 local nvim_config = require("nvim_config")
-local path_utils = require("path_utils")
 
 return {
   "mfussenegger/nvim-lint",
@@ -31,17 +30,29 @@ return {
     should_lint = function() -- Custom option to enable/disable linting
       local lint_is_disabled_by_nvim_config = (
         nvim_config.disable_lint_on_fts == "*"
-        or (nvim_config.disable_lint_on_fts and vim.tbl_contains(nvim_config.disable_lint_on_fts, vim.bo.filetype))
+        or vim.tbl_contains(nvim_config.disable_lint_on_fts or {}, vim.bo.filetype)
       )
-      local lint_is_disabled_by_command = vim.g.disable_lint or vim.b[vim.fn.bufnr()].disable_lint
-
-      if
-        lint_is_disabled_by_nvim_config
-        or lint_is_disabled_by_command
-        or (not path_utils.file_is_in_project())
-        or path_utils.file_matches_tooling_blacklist_patterns()
-      then
+      if lint_is_disabled_by_nvim_config then
         return false
+      end
+
+      local lint_is_disabled_by_command = vim.g.disable_lint or vim.b[vim.fn.bufnr()].disable_lint
+      if lint_is_disabled_by_command then
+        return false
+      end
+
+      local absolute_file_path = vim.fn.expand("%:p")
+      local absolute_cwd_path = vim.fn.fnamemodify(vim.fn.getcwd(), ":p")
+      local file_is_in_cwd = string.sub(absolute_file_path, 1, #absolute_cwd_path) == absolute_cwd_path
+      if not file_is_in_cwd then
+        return false
+      end
+
+      for _, path_pattern in ipairs(nvim_config.tooling_blacklist_path_patterns or {}) do
+        local file_matches_tooling_blacklist_pattern = absolute_file_path:match(path_pattern)
+        if file_matches_tooling_blacklist_pattern then
+          return false
+        end
       end
 
       return true

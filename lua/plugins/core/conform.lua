@@ -5,7 +5,6 @@
 -- alternatives like null-ls.
 
 local nvim_config = require("nvim_config")
-local path_utils = require("path_utils")
 
 return {
   "stevearc/conform.nvim",
@@ -47,20 +46,29 @@ return {
     format_on_save = function(bufnr)
       local format_on_save_is_disabled_by_nvim_config = (
         nvim_config.disable_format_on_save_on_fts == "*"
-        or (
-          nvim_config.disable_format_on_save_on_fts
-          and vim.tbl_contains(nvim_config.disable_format_on_save_on_fts, vim.bo.filetype)
-        )
+        or vim.tbl_contains(nvim_config.disable_format_on_save_on_fts or {}, vim.bo.filetype)
       )
-      local format_on_save_is_disabled_by_command = vim.g.disable_format_on_save or vim.b[bufnr].disable_format_on_save
-
-      if
-        format_on_save_is_disabled_by_nvim_config
-        or format_on_save_is_disabled_by_command
-        or (not path_utils.file_is_in_project())
-        or path_utils.file_matches_tooling_blacklist_patterns()
-      then
+      if format_on_save_is_disabled_by_nvim_config then
         return
+      end
+
+      local format_on_save_is_disabled_by_command = vim.g.disable_format_on_save or vim.b[bufnr].disable_format_on_save
+      if format_on_save_is_disabled_by_command then
+        return
+      end
+
+      local absolute_file_path = vim.fn.expand("%:p")
+      local absolute_cwd_path = vim.fn.fnamemodify(vim.fn.getcwd(), ":p")
+      local file_is_in_cwd = string.sub(absolute_file_path, 1, #absolute_cwd_path) == absolute_cwd_path
+      if not file_is_in_cwd then
+        return
+      end
+
+      for _, path_pattern in ipairs(nvim_config.tooling_blacklist_path_patterns or {}) do
+        local file_matches_tooling_blacklist_pattern = absolute_file_path:match(path_pattern)
+        if file_matches_tooling_blacklist_pattern then
+          return
+        end
       end
 
       return { lsp_fallback = false, timeout_ms = 500 }

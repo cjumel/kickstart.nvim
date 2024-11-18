@@ -41,27 +41,4 @@ function M.get_project_root(mods)
   return cwd_path
 end
 
---- Output whether the file opened in the current buffer is in the current project or not.
----@return boolean
-function M.file_is_in_project()
-  local absolute_file_path = vim.fn.expand("%:p")
-  local absolute_project_root_path = M.get_project_root(":p")
-  return string.sub(absolute_file_path, 1, #absolute_project_root_path) == absolute_project_root_path
-end
-
---- Output whether the file opened in the current buffer matches one of the tooling blacklist path patterns.
----@return boolean
-function M.file_matches_tooling_blacklist_patterns()
-  if nvim_config.tooling_blacklist_path_patterns then
-    local absolute_file_path = vim.fn.expand("%:p")
-    for _, path_pattern in ipairs(nvim_config.tooling_blacklist_path_patterns) do
-      if absolute_file_path:match(path_pattern) then
-        return true
-      end
-    end
-  end
-
-  return false
-end
-
 return M
