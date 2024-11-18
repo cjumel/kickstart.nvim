@@ -474,4 +474,42 @@ Choices:
     t({ ":", "\t" }),
     c(2, { i(nil), sn(nil, { t("pass"), i(1) }) }),
   }),
+
+  s({
+    trig = "with .. as ..",
+    show_condition = (conds.line_begin + conds.make_prefix_condition("async "))
+      * ls_show_conds.line_end
+      * conds.make_treesitter_node_exclusion_condition({
+        "comment",
+        "string",
+        "string_start",
+        "string_content",
+        "string_end",
+      }),
+    desc = [[
+Choices:
+- `with .. as ..: <../pass>`
+- `with open(..) as ..: <../pass>`]],
+  }, {
+    c(1, {
+      sn(nil, {
+        t("with "),
+        i(1),
+        t(" as "),
+        r(2, "variable", i(nil)),
+        t({ ":", "\t" }),
+        r(3, "content", c(nil, { i(nil), sn(nil, { t("pass"), i(1) }) })),
+      }),
+      sn(nil, {
+        t("with open("),
+        i(1),
+        t(", "),
+        i(2),
+        t(") as "),
+        r(3, "variable"),
+        t({ ":", "\t" }),
+        r(4, "content"),
+      }),
+    }),
+  }),
 }

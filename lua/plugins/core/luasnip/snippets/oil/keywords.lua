@@ -219,7 +219,14 @@ return {
       * -conds.line_begin
       * ls_show_conds.line_end
       * make_file_extension_condition("yaml"),
-  }, { c(1, { t(".yaml"), t(".yml") }) }),
+  }, { t(".yaml") }),
+  s({
+    trig = ".yml",
+    show_condition = -dot_prefix_condition
+      * -conds.line_begin
+      * ls_show_conds.line_end
+      * make_file_extension_condition("yml"),
+  }, { t(".yml") }),
 
   -- Zshell
   s({
