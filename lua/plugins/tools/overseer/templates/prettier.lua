@@ -1,5 +1,3 @@
-local path_utils = require("path_utils")
-
 local base_template = {
   params = {
     options = {

@@ -26,16 +26,8 @@ local function make_file_extension_condition(extension)
   end)
 end
 
-local function make_project_type_condition(project_type)
-  return ls_conds.make_condition(function()
-    local absolute_cwd_path = vim.fn.fnamemodify(vim.fn.getcwd(), ":p")
-    for _, config_file in ipairs(nvim_config.project_type_config_files[project_type]) do
-      if vim.fn.filereadable(absolute_cwd_path .. config_file) == 1 then
-        return true
-      end
-    end
-    return false
-  end)
+local function make_project_type_markers_condition(project_type)
+  return ls_conds.make_condition(nvim_config.project_type_markers_callback[project_type])
 end
 
 local function make_filename_condition(filename)
@@ -118,20 +110,20 @@ return {
     show_condition = -dot_prefix_condition
       * -conds.line_begin
       * ls_show_conds.line_end
-      * (make_file_extension_condition("lua") + make_project_type_condition("lua")),
+      * (make_file_extension_condition("lua") + make_project_type_markers_condition("lua")),
   }, { t(".lua") }),
   s({
     trig = "init.lua",
     show_condition = conds.line_begin
       * ls_show_conds.line_end
-      * (make_file_extension_condition("lua") + make_project_type_condition("lua"))
+      * (make_file_extension_condition("lua") + make_project_type_markers_condition("lua"))
       * make_filename_condition("init.lua"),
   }, { t("init.lua") }),
   s({
     trig = "temp~.lua",
     show_condition = conds.line_begin
       * ls_show_conds.line_end
-      * (make_file_extension_condition("lua") + make_project_type_condition("lua")),
+      * (make_file_extension_condition("lua") + make_project_type_markers_condition("lua")),
   }, { t("temp"), d(1, make_dynamic_file_index_node("temp", ".lua")), t(".lua") }),
 
   -- Markdown
@@ -158,20 +150,20 @@ return {
     show_condition = -dot_prefix_condition
       * -conds.line_begin
       * ls_show_conds.line_end
-      * (make_file_extension_condition("py") + make_project_type_condition("python")),
+      * (make_file_extension_condition("py") + make_project_type_markers_condition("python")),
   }, { t(".py") }),
   s({
     trig = "__init__.py",
     show_condition = conds.make_prefix_condition("_") -- The snippet is triggered after the first "_"
       * ls_show_conds.line_end
-      * (make_file_extension_condition("py") + make_project_type_condition("python"))
+      * (make_file_extension_condition("py") + make_project_type_markers_condition("python"))
       * make_filename_condition("__init__.py"),
   }, { t("__init__.py") }),
   s({
     trig = "temp~.py",
     show_condition = conds.line_begin
       * ls_show_conds.line_end
-      * (make_file_extension_condition("py") + make_project_type_condition("python")),
+      * (make_file_extension_condition("py") + make_project_type_markers_condition("python")),
   }, { t("temp"), d(1, make_dynamic_file_index_node("temp", ".py")), t(".py") }),
 
   -- Shell
@@ -207,7 +199,7 @@ return {
     show_condition = -dot_prefix_condition
       * -conds.line_begin
       * ls_show_conds.line_end
-      * make_file_extension_condition("typ"),
+      * (make_file_extension_condition("typ") + make_project_type_markers_condition("typst")),
   }, { t(".typ") }),
 
   -- YAML
@@ -232,6 +224,6 @@ return {
     show_condition = -dot_prefix_condition
       * -conds.line_begin
       * ls_show_conds.line_end
-      * make_file_extension_condition("zsh"),
+      * (make_file_extension_condition("zsh") + make_project_type_markers_condition("zsh")),
   }, { t(".zsh") }),
 }
