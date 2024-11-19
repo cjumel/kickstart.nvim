@@ -6,9 +6,7 @@ local ls = require("luasnip")
 local ls_conds = require("luasnip.extras.conditions")
 local ls_show_conds = require("luasnip.extras.conditions.show")
 local nvim_config = require("nvim_config")
-local path_utils = require("path_utils")
 
-local c = ls.choice_node
 local d = ls.dynamic_node
 local s = ls.snippet
 local sn = ls.snippet_node
@@ -23,16 +21,16 @@ local function make_file_extension_condition(extension)
       type = "file",
       path = require("oil").get_current_dir(),
       upward = true, -- Search in the current directory and its ancestors
-      stop = path_utils.get_project_root(),
+      stop = vim.fn.getcwd(),
     }))
   end)
 end
 
 local function make_project_type_condition(project_type)
   return ls_conds.make_condition(function()
-    local root_path = path_utils.get_project_root(":p")
+    local absolute_cwd_path = vim.fn.fnamemodify(vim.fn.getcwd(), ":p")
     for _, config_file in ipairs(nvim_config.project_type_config_files[project_type]) do
-      if vim.fn.filereadable(root_path .. config_file) == 1 then
+      if vim.fn.filereadable(absolute_cwd_path .. config_file) == 1 then
         return true
       end
     end

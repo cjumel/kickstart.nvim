@@ -24,13 +24,14 @@ return {
       -- sure it doesn't always appear in all the projects: look for any potential Ruff configuration file, or any
       -- Python file in the current project (or an approximation of this)
 
-      local root_path = path_utils.get_project_root(":p")
-      local potential_ruff_config_file_names = { "pyproject.toml", "ruff.toml", ".ruff.toml" }
-      for _, config_file_name in ipairs(potential_ruff_config_file_names) do
-        if vim.fn.filereadable(root_path .. config_file_name) == 1 then
-          return true
-        end
-      end
+      -- TODO: change this to avoid using get_project_root
+      -- local root_path = path_utils.get_project_root(":p")
+      -- local potential_ruff_config_file_names = { "pyproject.toml", "ruff.toml", ".ruff.toml" }
+      -- for _, config_file_name in ipairs(potential_ruff_config_file_names) do
+      --   if vim.fn.filereadable(root_path .. config_file_name) == 1 then
+      --     return true
+      --   end
+      -- end
 
       local current_path = nil
       if vim.bo.buftype == "" and vim.bo.filetype ~= "" then -- A regular buffer is opened
@@ -44,7 +45,7 @@ return {
           type = "file",
           path = current_path,
           upward = true,
-          stop = root_path,
+          stop = vim.fn.getcwd(),
         }))
       then
         return true

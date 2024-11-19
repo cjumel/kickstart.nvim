@@ -1,7 +1,5 @@
 -- Utilities to interact with paths.
 
-local nvim_config = require("nvim_config")
-
 local M = {}
 
 --- Output the root path of the Git repository containing the directory whose path is provided, or nil if there is none.
@@ -22,23 +20,6 @@ function M.get_git_root(dir_path, mods)
     git_root_path = vim.fn.fnamemodify(git_root_path, mods)
   end
   return git_root_path
-end
-
---- Output the root path of the current project. The current project is considered to be the Git repository containing
---- the cwd, if there is one, or the cwd itself.
----@param mods string|nil The modifiers to apply to the output path.
----@return string
-function M.get_project_root(mods)
-  local git_root_path = M.get_git_root(nil, mods)
-  if git_root_path then
-    return git_root_path
-  end
-
-  local cwd_path = vim.fn.getcwd()
-  if mods then
-    cwd_path = vim.fn.fnamemodify(cwd_path, mods)
-  end
-  return cwd_path
 end
 
 return M

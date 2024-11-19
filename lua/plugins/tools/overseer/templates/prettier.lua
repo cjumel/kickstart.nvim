@@ -23,21 +23,22 @@ return {
       -- When installed in Neovim with Mason.nvim, Prettier is always executable, so let's add a smarter condition to
       -- make sure it doesn't always appear in all the projects: look for any Prettier configuration file
 
-      local root_path = path_utils.get_project_root(":p")
-      local potential_prettier_config_file_names = {
-        ".prettierrc",
-        ".prettierrc.json",
-        ".prettierrc.yml",
-        ".prettierrc.yaml",
-        ".prettierrc.json5",
-        ".prettierrc.toml",
-        ".prettierignore",
-      }
-      for _, config_file_name in ipairs(potential_prettier_config_file_names) do
-        if vim.fn.filereadable(root_path .. config_file_name) == 1 then
-          return true
-        end
-      end
+      -- TODO: change this to avoid using get_project_root
+      -- local root_path = path_utils.get_project_root(":p")
+      -- local potential_prettier_config_file_names = {
+      --   ".prettierrc",
+      --   ".prettierrc.json",
+      --   ".prettierrc.yml",
+      --   ".prettierrc.yaml",
+      --   ".prettierrc.json5",
+      --   ".prettierrc.toml",
+      --   ".prettierignore",
+      -- }
+      -- for _, config_file_name in ipairs(potential_prettier_config_file_names) do
+      --   if vim.fn.filereadable(root_path .. config_file_name) == 1 then
+      --     return true
+      --   end
+      -- end
 
       return false
     end,
