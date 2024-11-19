@@ -15,7 +15,6 @@ return {
     integrations = { -- Add highlight groups for additional plugins
       aerial = true,
       dadbod_ui = true,
-      diffview = true,
       grug_far = true,
       harpoon = true,
       hop = true,
