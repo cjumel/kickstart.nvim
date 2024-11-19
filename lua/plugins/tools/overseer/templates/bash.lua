@@ -5,6 +5,7 @@ return {
     cb({
       {
         name = "bash <file>",
+        tags = { "RUN" },
         condition = { filetype = "sh" },
         builder = function(_)
           return {

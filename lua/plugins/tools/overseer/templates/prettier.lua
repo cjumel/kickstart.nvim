@@ -18,27 +18,26 @@ return {
         return false
       end
 
-      -- When installed in Neovim with Mason.nvim, Prettier is always executable, so let's add a smarter condition to
-      -- make sure it doesn't always appear in all the projects: look for any Prettier configuration file
-
-      -- TODO: change this to avoid using get_project_root
-      -- local root_path = path_utils.get_project_root(":p")
-      -- local potential_prettier_config_file_names = {
-      --   ".prettierrc",
-      --   ".prettierrc.json",
-      --   ".prettierrc.yml",
-      --   ".prettierrc.yaml",
-      --   ".prettierrc.json5",
-      --   ".prettierrc.toml",
-      --   ".prettierignore",
-      -- }
-      -- for _, config_file_name in ipairs(potential_prettier_config_file_names) do
-      --   if vim.fn.filereadable(root_path .. config_file_name) == 1 then
-      --     return true
-      --   end
-      -- end
-
-      return false
+      -- When installed in Neovim with Mason.nvim, Prettier is always executable, so let's make sure it doesn't always
+      -- appear in all the projects by checking if there is a file with a relevant filetype in the current working
+      -- directory
+      return not vim.tbl_isempty(
+        vim.fs.find(
+          function(name, _)
+            return name:match(".*%.json$")
+              or name:match(".*%.jsonc$")
+              or name:match(".*%.md$")
+              or name:match(".*%.yaml$")
+              or name:match(".*%.yml$")
+          end,
+          {
+            type = "file",
+            path = vim.fn.getcwd(),
+            upward = true, -- Otherwise this doesn't work
+            stop = vim.fn.getcwd(),
+          }
+        )
+      )
     end,
   },
   generator = function(_, cb)
@@ -46,7 +45,8 @@ return {
 
     cb({
       overseer.wrap_template(base_template, {
-        name = "prettier <cwd>",
+        name = "prettier --write <cwd>",
+        tags = { "FORMAT" },
         builder = function(params)
           return {
             cmd = { "prettier" },

@@ -7,15 +7,20 @@
 
 return {
   "stevearc/overseer.nvim",
-  dependencies = { "williamboman/mason.nvim" }, -- Some tasks (e.g. ruff or prettier) require mason.nvim
+  dependencies = { "williamboman/mason.nvim" }, -- Some tools (e.g. ruff or prettier) require mason.nvim
   keys = function()
     local actions = require("plugins.tools.overseer.actions")
     return {
-      { "<leader>oo", actions.toggle, desc = "[O]verseer: toggle" },
-      { "<leader>or", actions.run, desc = "[O]verseer: [R]un" },
-      { "<leader>ob", actions.run_in_background, desc = "[O]verseer: run in [B]ackground" },
-      { "<leader>op", actions.run_with_prompt, desc = "[O]verseer: run with [P]rompt" },
-      { "<leader>ol", actions.run_last, desc = "[O]verseer: rerun [L]ast task" },
+      { "<leader>oo", actions.toggle_task_list, desc = "[O]verseer: toggle task list" },
+      { "<leader>oa", actions.all_templates, desc = "[O]verseer: [A]ll templates" },
+      { "<leader>op", actions.all_templates_with_prompt, desc = "[O]verseer: all templates with [P]rompt" },
+      { "<leader>os", actions.shell_template, desc = "[O]verseer: [S]hell template" },
+      { "<leader>or", actions.run_templates, desc = "[O]verseer: [R]un templates" },
+      { "<leader>ot", actions.test_templates, desc = "[O]verseer: [T]est templates" },
+      { "<leader>oc", actions.check_templates, desc = "[O]verseer: [C]heck templates" },
+      { "<leader>of", actions.format_templates, desc = "[O]verseer: [F]ormat templates" },
+      { "<leader>ob", actions.build_templates, desc = "[O]verseer: [B]uild templates" },
+      { "<leader>ol", actions.rerun_last_task, desc = "[O]verseer: rerun [L]ast task" },
     }
   end,
   opts = {

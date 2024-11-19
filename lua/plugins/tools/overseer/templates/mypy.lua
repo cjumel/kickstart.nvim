@@ -18,6 +18,7 @@ return {
     cb({
       overseer.wrap_template(base_template, {
         name = "mypy <cwd>",
+        tags = { "CHECK" },
         builder = function(params)
           return {
             cmd = "mypy",
@@ -27,6 +28,7 @@ return {
       }),
       overseer.wrap_template(base_template, {
         name = "mypy <file>",
+        tags = { "CHECK" },
         condition = { filetype = "python" },
         builder = function(params)
           return {

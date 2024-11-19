@@ -5,6 +5,7 @@ return {
     cb({
       {
         name = "typst compile <file>",
+        tags = { "BUILD" },
         condition = { filetype = "typst" },
         builder = function(_)
           return {
@@ -15,6 +16,7 @@ return {
       },
       {
         name = "typst watch <file>",
+        tags = { "BUILD" },
         condition = { filetype = "typst" },
         builder = function(_)
           return {

@@ -46,6 +46,7 @@ return {
     cb({
       overseer.wrap_template(base_template, {
         name = "pytest",
+        tags = { "TEST" },
         builder = function(params)
           return {
             cmd = "pytest",
@@ -55,6 +56,7 @@ return {
       }),
       overseer.wrap_template(base_template, {
         name = "pytest <file>",
+        tags = { "TEST" },
         condition = { callback = function(_) return vim.fn.expand("%:p"):match("_test.py$") end },
         builder = function(params)
           return {
@@ -65,6 +67,7 @@ return {
       }),
       overseer.wrap_template(base_template, {
         name = "pytest <function>",
+        tags = { "TEST" },
         condition = { callback = function(_) return python_test_function_name ~= nil end },
         builder = function(params)
           return {

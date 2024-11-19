@@ -5,6 +5,7 @@ return {
     cb({
       {
         name = "luajit <file>",
+        tags = { "RUN" },
         condition = { filetype = "lua" },
         builder = function(_)
           return {

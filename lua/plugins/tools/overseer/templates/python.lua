@@ -5,6 +5,7 @@ return {
     cb({
       {
         name = "python <file>",
+        tags = { "RUN" },
         condition = { filetype = "python" },
         builder = function(_)
           return {

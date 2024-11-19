@@ -1,3 +1,5 @@
+local nvim_config = require("nvim_config")
+
 local base_template = {
   params = {
     options = {
@@ -18,38 +20,16 @@ return {
         return false
       end
 
-      -- When installed in Neovim with Mason.nvim, Ruff is always executable, so let's add a smarter condition to make
-      -- sure it doesn't always appear in all the projects: look for any potential Ruff configuration file, or any
-      -- Python file in the current project (or an approximation of this)
-
-      -- TODO: change this to avoid using get_project_root
-      -- local root_path = path_utils.get_project_root(":p")
-      -- local potential_ruff_config_file_names = { "pyproject.toml", "ruff.toml", ".ruff.toml" }
-      -- for _, config_file_name in ipairs(potential_ruff_config_file_names) do
-      --   if vim.fn.filereadable(root_path .. config_file_name) == 1 then
-      --     return true
-      --   end
-      -- end
-
-      local current_path = nil
-      if vim.bo.buftype == "" and vim.bo.filetype ~= "" then -- A regular buffer is opened
-        current_path = vim.fn.expand("%")
-      elseif vim.bo.filetype == "oil" then -- An Oil buffer is opened
-        current_path = require("oil").get_current_dir()
-      end
-      if
-        current_path ~= nil
-        and not vim.tbl_isempty(vim.fs.find(function(name, _) return name:match(".*%.py$") end, {
+      -- When installed in Neovim with Mason.nvim, Ruff is always executable, so let's make sure it doesn't always
+      -- appear in all the projects by making sure we're in a Python project or there are Python files in the current
+      -- working directory
+      return nvim_config.project_type_markers_callback["python"]()
+        or not vim.tbl_isempty(vim.fs.find(function(name, _) return name:match(".*%.py$") end, {
           type = "file",
-          path = current_path,
-          upward = true,
+          path = vim.fn.getcwd(),
+          upward = true, -- Otherwise this doesn't work
           stop = vim.fn.getcwd(),
         }))
-      then
-        return true
-      end
-
-      return false
     end,
   },
   generator = function(_, cb)
@@ -57,6 +37,7 @@ return {
     cb({
       overseer.wrap_template(base_template, {
         name = "ruff check",
+        tags = { "CHECK" },
         builder = function(params)
           return {
             cmd = { "ruff", "check" },
@@ -66,6 +47,7 @@ return {
       }),
       overseer.wrap_template(base_template, {
         name = "ruff format",
+        tags = { "FORMAT" },
         builder = function(params)
           return {
             cmd = { "ruff", "format" },
