@@ -476,7 +476,7 @@ Choices:
   }),
 
   s({
-    trig = "with .. as ..",
+    trig = "with ..",
     show_condition = (conds.line_begin + conds.make_prefix_condition("async "))
       * ls_show_conds.line_end
       * conds.make_treesitter_node_exclusion_condition({
@@ -489,12 +489,13 @@ Choices:
     desc = [[
 Choices:
 - `with .. as ..: <../pass>`
-- `with open(..) as ..: <../pass>`]],
+- `with open(..) as ..: <../pass>`,
+- `with ..: <../pass>`]],
   }, {
     c(1, {
       sn(nil, {
         t("with "),
-        i(1),
+        r(1, "expression", i(nil)),
         t(" as "),
         r(2, "variable", i(nil)),
         t({ ":", "\t" }),
@@ -509,6 +510,12 @@ Choices:
         r(3, "variable"),
         t({ ":", "\t" }),
         r(4, "content"),
+      }),
+      sn(nil, {
+        t("with "),
+        r(1, "expression"),
+        t({ ":", "\t" }),
+        r(2, "content"),
       }),
     }),
   }),
