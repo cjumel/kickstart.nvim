@@ -9,7 +9,6 @@ return {
   dependencies = { "nvim-tree/nvim-web-devicons" },
   keys = {
     { "<leader>va", function() require("aerial").toggle() end, desc = "[V]iew: [A]erial outline" },
-    { "<leader>a", function() require("aerial").nav_toggle() end, desc = "[A]erial navigation" },
     { "<leader>fa", function() require("telescope").extensions.aerial.aerial() end, desc = "[F]ind: [A]erial symbols" },
   },
   opts = {
