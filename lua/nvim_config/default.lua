@@ -69,25 +69,4 @@ vim.g.nvim_config = {
     -- plugins
     "^~/%.tmux/",
   },
-
-  -- Set `project_type_markers` to a mapping between project types and lists of file names or directory names (ending
-  -- with "/"), which, when found in the current working directory, indicate that the project is of the corresponding
-  -- type. There's no need to specify files which have the filetype corresponding to the project type, as they should be
-  -- checked separately. This is useful for project types like Python, which can be detected by the presence of
-  -- non-Python files in the current working directory (like `pyproject.toml`) but not by Python files (there is none of
-  -- them when working with Poetry).
-  project_type_markers = {
-    lua = {
-      "lua/",
-    },
-    python = {
-      ".venv/",
-      "pyproject.toml",
-      "requirements.txt",
-    },
-    typst = {},
-    zsh = {
-      ".zshrc",
-    },
-  },
 }

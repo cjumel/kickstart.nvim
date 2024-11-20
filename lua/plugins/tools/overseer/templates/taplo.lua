@@ -12,22 +12,7 @@ local base_template = {
 
 return {
   name = "taplo",
-  condition = {
-    callback = function(_)
-      if vim.fn.executable("taplo") == 0 then
-        return false
-      end
-
-      -- When installed in Neovim with Mason.nvim, Taplo is always executable, so let's make sure it doesn't always
-      -- appear in all the projects by checking if there is any TOML file in the current working directory
-      return not vim.tbl_isempty(vim.fs.find(function(name, _) return name:match(".*%.toml$") end, {
-        type = "file",
-        path = vim.fn.getcwd(),
-        upward = true, -- Otherwise this doesn't work
-        stop = vim.fn.getcwd(),
-      }))
-    end,
-  },
+  condition = { callback = function(_) return vim.fn.executable("taplo") == 1 end },
   generator = function(_, cb)
     local overseer = require("overseer")
     cb({

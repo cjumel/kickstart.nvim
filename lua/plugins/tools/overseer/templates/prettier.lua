@@ -12,34 +12,7 @@ local base_template = {
 
 return {
   name = "prettier",
-  condition = {
-    callback = function(_)
-      if vim.fn.executable("prettier") == 0 then
-        return false
-      end
-
-      -- When installed in Neovim with Mason.nvim, Prettier is always executable, so let's make sure it doesn't always
-      -- appear in all the projects by checking if there is a file with a relevant filetype in the current working
-      -- directory
-      return not vim.tbl_isempty(
-        vim.fs.find(
-          function(name, _)
-            return name:match(".*%.json$")
-              or name:match(".*%.jsonc$")
-              or name:match(".*%.md$")
-              or name:match(".*%.yaml$")
-              or name:match(".*%.yml$")
-          end,
-          {
-            type = "file",
-            path = vim.fn.getcwd(),
-            upward = true, -- Otherwise this doesn't work
-            stop = vim.fn.getcwd(),
-          }
-        )
-      )
-    end,
-  },
+  condition = { callback = function(_) return vim.fn.executable("prettier") == 1 end },
   generator = function(_, cb)
     local overseer = require("overseer")
 

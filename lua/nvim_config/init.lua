@@ -76,29 +76,4 @@ end
 vim.g.nvim_config = nvim_config
 vim.g.found_nvim_configs = found_nvim_configs
 
--- Everything below corresponds to dynamic configuration which is not persisted in the global variables
-
-local function get_project_type_markers_callback(markers)
-  return function()
-    local cwd = vim.fn.getcwd()
-    for _, marker in ipairs(markers) do
-      local is_dir_marker = string.sub(marker, -1) == "/"
-      if is_dir_marker then
-        if vim.fn.isdirectory(cwd .. "/" .. marker) == 1 then
-          return true
-        end
-      else
-        if vim.fn.filereadable(cwd .. "/" .. marker) == 1 then
-          return true
-        end
-      end
-    end
-    return false
-  end
-end
-nvim_config.project_type_markers_callback = {}
-for project_type, markers in pairs(nvim_config.project_type_markers) do
-  nvim_config.project_type_markers_callback[project_type] = get_project_type_markers_callback(markers)
-end
-
 return nvim_config

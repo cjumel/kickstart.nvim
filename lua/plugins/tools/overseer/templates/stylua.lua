@@ -1,5 +1,3 @@
-local nvim_config = require("nvim_config")
-
 local base_template = {
   params = {
     options = {
@@ -14,27 +12,7 @@ local base_template = {
 
 return {
   name = "stylua",
-  condition = {
-    callback = function(_)
-      if vim.fn.executable("stylua") == 0 then
-        return false
-      end
-
-      -- When installed in Neovim with Mason.nvim, Stylua is always executable, so let's make sure it doesn't always
-      -- appear in all the projects by making sure we're in a Lua project or there are Lua files in the current working
-      -- directory
-      return nvim_config.project_type_markers_callback["lua"]()
-        or not vim.tbl_isempty(vim.fs.find(function(name, _)
-          -- Exclude the special case of custom Neovim config files, as it doesn't mean there will be other Lua files
-          return name:match(".*%.lua$") and name ~= ".nvim.lua"
-        end, {
-          type = "file",
-          path = vim.fn.getcwd(),
-          upward = true, -- Otherwise this doesn't work
-          stop = vim.fn.getcwd(),
-        }))
-    end,
-  },
+  condition = { callback = function(_) return vim.fn.executable("stylua") == 1 end },
   generator = function(_, cb)
     local overseer = require("overseer")
     cb({
