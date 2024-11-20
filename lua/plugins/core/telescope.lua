@@ -130,13 +130,14 @@ return {
             prompt_position = "top",
             width = { 0.9, max = 150 },
             preview_width = 0.4,
+            preview_cutoff = 100, -- Number of columns below which the preview is always hidden
           },
           vertical = {
             prompt_position = "top",
             mirror = true, -- Move preview to the bottom instead of above the prompt
             width = { 0.8, max = 150 },
             preview_height = 0.4,
-            preview_cutoff = 20,
+            preview_cutoff = 20, -- Number of lines below which the preview is always hidden
           },
         },
         path_display = function(_, path) -- Make the path displayed more user-friendly
