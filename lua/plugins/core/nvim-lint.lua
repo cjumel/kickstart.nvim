@@ -6,14 +6,24 @@
 
 local nvim_config = require("nvim_config")
 
+local linters_by_ft = {}
+for ft, linters in pairs(nvim_config.linters_by_ft) do
+  local linter_is_disabled = (
+    nvim_config.disable_lint_on_fts == "*" or vim.tbl_contains(nvim_config.disable_lint_on_fts or {}, ft)
+  )
+  if not linter_is_disabled then
+    linters_by_ft[ft] = linters
+  end
+end
+
 return {
   "mfussenegger/nvim-lint",
   cond = not nvim_config.light_mode,
   dependencies = { "williamboman/mason.nvim" },
-  ft = vim.tbl_keys(nvim_config.linters_by_ft),
+  ft = vim.tbl_keys(linters_by_ft),
   init = function()
     local mason_ensure_installed = {}
-    for _, linters in pairs(nvim_config.linters_by_ft) do
+    for _, linters in pairs(linters_by_ft) do
       for _, mason_name in ipairs(linters) do
         if
           not vim.tbl_contains(mason_ensure_installed, mason_name)
@@ -26,16 +36,8 @@ return {
     vim.g.mason_ensure_installed = vim.list_extend(vim.g.mason_ensure_installed or {}, mason_ensure_installed)
   end,
   opts = {
-    linters_by_ft = nvim_config.linters_by_ft,
+    linters_by_ft = linters_by_ft,
     should_lint = function() -- Custom option to enable/disable linting
-      local lint_is_disabled_by_nvim_config = (
-        nvim_config.disable_lint_on_fts == "*"
-        or vim.tbl_contains(nvim_config.disable_lint_on_fts or {}, vim.bo.filetype)
-      )
-      if lint_is_disabled_by_nvim_config then
-        return false
-      end
-
       local lint_is_disabled_by_command = vim.g.disable_lint or vim.b[vim.fn.bufnr()].disable_lint
       if lint_is_disabled_by_command then
         return false
