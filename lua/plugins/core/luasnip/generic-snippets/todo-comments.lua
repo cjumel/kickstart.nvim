@@ -91,23 +91,9 @@ Choices:
   else
     todo_keyword_show_condition = conds.is_comment_start
   end
-  table.insert(
-    snippets,
-    s({
-      trig = "TODO_: ..",
-      show_condition = todo_keyword_show_condition,
-      desc = [[
-Choices:
-- `TODO_`
-- `TODO`]],
-    }, {
-      c(1, {
-        sn(nil, { t("TODO_: "), r(1, "content", i(nil)) }),
-        sn(nil, { t("TODO: "), r(1, "content") }),
-      }),
-    })
-  )
   for _, keyword in ipairs({ -- Let's only add the subset useful for me of keywords which are recognized
+    "TODO_",
+    "TODO",
     "FIXME",
     "BUG",
     "HACK",
@@ -119,7 +105,7 @@ Choices:
     table.insert(
       snippets,
       s({
-        trig = keyword .. ": ..",
+        trig = keyword .. ": ",
         show_condition = todo_keyword_show_condition,
         desc = "`" .. keyword .. ": ..`",
       }, {
