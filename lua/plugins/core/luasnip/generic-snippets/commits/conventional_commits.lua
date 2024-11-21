@@ -30,7 +30,7 @@ for _, conventional_commit_data in ipairs(conventional_commits_data) do
   table.insert(
     snippets,
     s({
-      trig = conventional_commit_data.name,
+      trig = conventional_commit_data.name .. ": ",
       show_condition = conds.line_begin,
       desc = conventional_commit_data.desc
         .. " (Conventional Commits)\n\nMultiple-choice snippet:\n- `"
