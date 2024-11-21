@@ -49,14 +49,7 @@ return {
       ["<localleader>s"] = { "actions.change_sort", desc = "Change [S]ort" },
     },
     use_default_keymaps = false,
-    view_options = {
-      is_hidden_file = function(name, _)
-        if name == "__pycache__" then -- Make Python cache files considered as hidden
-          return true
-        end
-        return vim.startswith(name, ".") -- Default condition
-      end,
-      is_always_hidden = function(name, _) return name == ".." end, -- Don't show ".." when showing hidden files
-    },
+    -- Don't show ".." when showing hidden files
+    view_options = { is_always_hidden = function(name, _) return name == ".." end },
   },
 }
