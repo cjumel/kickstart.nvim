@@ -18,7 +18,7 @@ Hydra({
   mode = { "n", "v" },
   hint = [[
                                     Hunk Hydra
-   _K_ ➜ Hover hunk               _u_ ➜ [U]nstage staged hunk    _,_ ➜ Next hunk    
+   _p_ ➜ [P]review hunk           _u_ ➜ [U]nstage staged hunk    _,_ ➜ Next hunk    
    _s_ ➜ [S]tage hunk/selection   _x_ ➜ Discard hunk/selection   _;_ ➜ Previous hunk    
 ]],
   heads = {
@@ -26,7 +26,7 @@ Hydra({
     --  text selection ("v", or any key involved in a text object), that way we can use them to navigate between hunks
     --  and select part of them, before staging, discarding, etc. while remaining in the Hydra.
 
-    { "K", function() require("gitsigns").preview_hunk() end },
+    { "p", function() require("gitsigns").preview_hunk() end },
     {
       -- "a" (like in `git add`) doesn't work well in visual mode, there is a delay due to text-objects keymaps
       --  starting with `a`, so let's avoid using it

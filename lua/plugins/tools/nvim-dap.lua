@@ -24,9 +24,10 @@ return {
     { "<leader>dl", function() require("dap").run_last() end, desc = "[D]AP: run [L]ast" },
     { "<leader>dt", function() require("dap").terminate() end, desc = "[D]AP: [T]erminate" },
     { "<leader>db", function() require("dap").toggle_breakpoint() end, desc = "[D]AP: [B]reakpoint" },
-    { "<leader>dK", function() require("dap.ui.widgets").hover() end, desc = "[D]AP: Hover" },
+    { "<leader>dp", function() require("dap.ui.widgets").hover() end, desc = "[D]AP: [P]review variable" },
+    { "<leader>dc", function() require("dap").continue() end, desc = "[D]AP: [C]ontinue" },
     {
-      "<leader>dc",
+      "<leader>dC",
       function()
         require("dapui").close() -- Close the UI if it's open
         require("dap").repl.toggle()
