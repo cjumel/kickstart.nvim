@@ -1,10 +1,21 @@
+--- Check if the current file is a Python test file.
+---@return boolean
+local function check_is_python_test_file()
+  local file_name = vim.fn.expand("%:t") -- File base name and its extension
+  local file_starts_with_test = file_name:match("^test_") and file_name:match("%.py$")
+  if file_starts_with_test then
+    return true
+  end
+  local file_ends_with_test = file_name:match("_test%.py$")
+  if file_ends_with_test then
+    return true
+  end
+  return false
+end
+
 --- Output the name of the current Python test function using Treesitter, or nil if none can be found.
 ---@return string|nil
 local function get_python_test_function_name()
-  if not vim.fn.expand("%:p"):match("_test.py$") then -- Not a Python test file
-    return nil
-  end
-
   local node = vim.treesitter.get_node() -- Get the Teesitter node under the cursor
   while node ~= nil do
     if node:type() == "function_definition" then
@@ -41,7 +52,11 @@ return {
   generator = function(_, cb)
     local overseer = require("overseer")
 
-    local python_test_function_name = get_python_test_function_name()
+    local is_python_test_file = check_is_python_test_file()
+    local python_test_function_name = nil
+    if is_python_test_file then
+      python_test_function_name = get_python_test_function_name()
+    end
 
     cb({
       overseer.wrap_template(base_template, {
@@ -57,7 +72,7 @@ return {
       overseer.wrap_template(base_template, {
         name = "pytest <file>",
         tags = { "TEST" },
-        condition = { callback = function(_) return vim.fn.expand("%:p"):match("_test.py$") end },
+        condition = { callback = function(_) return is_python_test_file end },
         builder = function(params)
           return {
             cmd = "pytest",
