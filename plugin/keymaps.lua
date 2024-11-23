@@ -41,43 +41,42 @@ vim.keymap.set("v", "$", "$h", { desc = "End of line" })
 
 -- [[ General keymaps ]]
 
-vim.keymap.set("n", "<C-]>", vim.diagnostic.open_float, { desc = "Expand diagnostics" }) -- Like preview in plugins
+vim.keymap.set({ "n", "i" }, "<C-]>", vim.diagnostic.open_float, { desc = "Expand diagnostics" })
 vim.keymap.set({ "n", "v" }, "<C-^>", "}", { desc = "Next paragraph" })
 vim.keymap.set({ "n", "v" }, "<C-_>", "{", { desc = "Previous paragraph" })
 
---- Clear function for normal mode: clear search highlights & Noice messages.
----@return _ nil
-local function clear_normal()
-  vim.cmd("nohlsearch") -- Clear search highlights in case `vim.o.hlsearch` is true
-  local noice = package.loaded.noice
-  if noice ~= nil then
-    noice.cmd("dismiss") -- Dismiss Noice messages
+--- Clear normal-mode artifacts, like Noice notifications. This will close the Noice command-line popup if it's open,
+--- so this should not be used in command-line mode when using Noice.
+---@return nil
+local function clear_normal_mode_artifacts()
+  -- Clear search highlights in case `vim.o.hlsearch` is true
+  vim.cmd("nohlsearch")
+
+  -- Clear Noice messages
+  if package.loaded.noice ~= nil then
+    require("noice").cmd("dismiss")
   end
 end
 
---- Clear function for insert mode: clear Copilot & nvim-cmp suggestions.
----@return _ nil
-local function clear_insert()
-  if package.loaded._copilot ~= nil then
-    vim.fn["copilot#Dismiss"]() -- Clear Copilot suggestion
+--- Clear insert-mode artifacts, like nvim-cmp completion suggestions.
+---@return nil
+local function clear_insert_mode_artifacts()
+  -- Clear nvim-cmp suggestion
+  if package.loaded.cmp ~= nil then
+    require("cmp").abort()
   end
-  local cmp = package.loaded.cmp
-  if cmp ~= nil then
-    cmp.abort() -- Clear nvim-cmp suggestion
+
+  -- Clear copilot.lua suggestion
+  if package.loaded.copilot ~= nil then
+    if require("copilot.suggestion").is_visible() then
+      require("copilot.suggestion").dismiss()
+    end
   end
 end
 
---- Clear function for all modes: clear both normal & insert mode artifacts.
----@return _ nil
-local function clear_all()
-  clear_normal()
-  clear_insert()
-end
-
-vim.keymap.set("n", "<Esc>", clear_normal, { desc = "Clear" }) -- <Esc> is only available in normal mode
-vim.keymap.set("v", "<C-c>", clear_normal, { desc = "Clear" })
-vim.keymap.set("i", "<C-c>", clear_all, { desc = "Clear" })
-vim.keymap.set("c", "<C-c>", clear_insert, { desc = "Clear" }) -- clean_insert avoids deleting the cmdline popup itself
+vim.keymap.set("n", "<Esc>", clear_normal_mode_artifacts, { desc = "Clear" }) -- <Esc> is only available in normal mode
+vim.keymap.set({ "n", "v" }, "<C-c>", clear_normal_mode_artifacts, { desc = "Clear" })
+vim.keymap.set({ "i", "c" }, "<C-c>", clear_insert_mode_artifacts, { desc = "Clear" })
 
 vim.keymap.set("v", "<Tab>", ">gv", { desc = "Indent selection" })
 vim.keymap.set("v", "<S-Tab>", "<gv", { desc = "Unindent selection" })
@@ -147,7 +146,7 @@ vim.keymap.set("n", "<leader>yr", yank_receive_from_clipboard, { desc = "[Y]ank:
 
 -- Complete "gx" (open entry under the cursor or selection with external tool, in normal or visual mode) with:
 --  - "gX" to open the current file with external tool, in normal mode
---  - "g/" to search the word under the cursor or the selection in a browser, in normal or visual mode
+--  - "gb" to search the word under the cursor or the selection in a browser, in normal or visual mode
 vim.keymap.set(
   "n",
   "gX",
@@ -174,7 +173,7 @@ local function search_in_web_browser()
     vim.ui.open("https://www.google.com/search?q=" .. search_text)
   end)
 end
-vim.keymap.set({ "n", "v" }, "g/", search_in_web_browser, { desc = "Search word under the cursor in Web browser" })
+vim.keymap.set({ "n", "v" }, "gb", search_in_web_browser, { desc = "Search word under the cursor in Web browser" })
 
 -- [[ Command-line keymaps ]]
 -- Keymaps for command-line mode (also sometimes added to insert mode); these keymaps notably reproduce some shell
@@ -190,13 +189,52 @@ vim.keymap.set("c", "<C-d>", "<C-c>", { desc = "Exit cmdline" })
 
 vim.keymap.set({ "i", "c" }, "<M-BS>", "<C-w>", { desc = "Delete word" }) -- <C-BS>
 
-vim.keymap.set({ "i", "c" }, "<C-b>", "<Left>", { desc = "Move cursor one character left" })
-vim.keymap.set({ "i", "c" }, "<C-f>", "<Right>", { desc = "Move cursor one character right" })
+-- Define functions to mix insert- and command-line-mode navigation with accepting copilot.lua suggestions, just like
+-- how zsh-autosuggestions handle the similar situation in zsh
+local function right_improved()
+  if package.loaded.copilot ~= nil and require("copilot.suggestion").is_visible() then
+    require("copilot.suggestion").accept()
+  else
+    vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Right>", true, false, true), "n", false)
+  end
+end
+local function c_right_improved()
+  if package.loaded.copilot ~= nil and require("copilot.suggestion").is_visible() then
+    require("copilot.suggestion").accept_word()
+  else
+    vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<C-Right>", true, false, true), "n", false)
+  end
+end
+local function end_improved()
+  if package.loaded.copilot ~= nil and require("copilot.suggestion").is_visible() then
+    require("copilot.suggestion").accept_line()
+  else
+    vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<End>", true, false, true), "n", false)
+  end
+end
 
-vim.keymap.set({ "i", "c" }, "<C-^>", "<C-Right>", { desc = "Move cursor to next word" }) -- <C-,>
+vim.keymap.set(
+  { "i", "c" },
+  "<C-f>",
+  right_improved,
+  { desc = "Accept Copilot suggestions or move cursor one character right" }
+)
+vim.keymap.set({ "i", "c" }, "<C-b>", "<Left>", { desc = "Move cursor one character left" })
+
+vim.keymap.set(
+  { "i", "c" },
+  "<C-^>", -- <C-,>
+  c_right_improved,
+  { desc = "Accept word in Copilot suggestion or move cursor to next word" }
+)
 vim.keymap.set({ "i", "c" }, "<C-_>", "<C-Left>", { desc = "Move cursor to previous word" }) -- <C-;>
 
-vim.keymap.set({ "i", "c" }, "<C-e>", "<End>", { desc = "Move cursor to end of line" })
+vim.keymap.set(
+  { "i", "c" },
+  "<C-e>",
+  end_improved,
+  { desc = "Accept line in Copilot suggestion or move cursor to end of line" }
+)
 vim.keymap.set({ "i", "c" }, "<C-a>", "<Home>", { desc = "Move cursor to beginning of line" })
 
 -- [[ Terminal keymaps ]]

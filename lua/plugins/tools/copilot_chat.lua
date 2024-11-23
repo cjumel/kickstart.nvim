@@ -1,8 +1,8 @@
 -- CopilotChat.nvim
 --
--- CopilotChat.nvim is a plugin to chat with GitHub Copilot in Neovim. It is a great complement to Copilot.vim, as
--- Copilot.vim provides inline code suggestions and CopilotChat.nvim provides chat features, like question answering
--- or code explanation.
+-- CopilotChat.nvim is a plugin to chat with GitHub Copilot in Neovim. It is a great complement to default Copilot ghost
+-- completion, as the later provides inline code suggestions and CopilotChat.nvim provides chat features, like
+-- question answering or code explanation.
 
 local nvim_config = require("nvim_config")
 
@@ -11,7 +11,7 @@ return {
   cond = not (nvim_config.light_mode or nvim_config.disable_copilot),
   branch = "canary",
   dependencies = {
-    "github/copilot.vim",
+    "zbirenbaum/copilot.lua",
     "nvim-lua/plenary.nvim",
   },
   keys = {
