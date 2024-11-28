@@ -79,10 +79,22 @@ local language_servers = {
     },
   },
 
+  ts_ls = {
+    filetypes = { "javascript", "typescript" },
+  },
+
   -- Provide some features based on schemas from SchemaStore like completion or hovering
   yamlls = {
     filetypes = { "yaml" },
   },
+}
+
+-- Specify the name of the Mason package corresponding to language servers when they differ
+local server_name_to_mason_name = {
+  jsonls = "json-lsp",
+  lua_ls = "lua-language-server",
+  ts_ls = "typescript-language-server",
+  yamlls = "yaml-language-server",
 }
 
 return {
@@ -107,11 +119,6 @@ return {
   end,
   init = function()
     local mason_ensure_installed = {}
-    local server_name_to_mason_name = { -- Specify the name of the Mason package for LSPs where they differ
-      jsonls = "json-lsp",
-      lua_ls = "lua-language-server",
-      yamlls = "yaml-language-server",
-    }
     for server_name, _ in pairs(language_servers) do
       local mason_name = server_name_to_mason_name[server_name] or server_name
       if

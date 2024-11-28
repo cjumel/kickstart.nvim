@@ -19,6 +19,7 @@ vim.g.nvim_config = {
     editorconfig = { "trim_newlines", "trim_whitespace" },
     gitconfig = { "trim_newlines", "trim_whitespace" },
     gitignore = { "trim_newlines", "trim_whitespace" },
+    javascript = { "prettier" },
     json = { "prettier" },
     jsonc = { "prettier" },
     lua = { "stylua" },
@@ -29,6 +30,7 @@ vim.g.nvim_config = {
     text = { "trim_newlines", "trim_whitespace" },
     tmux = { "trim_newlines", "trim_whitespace" },
     toml = { lsp_format = "first" }, -- Use Taplo LSP formatting
+    typescript = { "prettier" },
     typst = { lsp_format = "first" }, -- Use tinymist LSP formatting (don't work with "trim_newlines")
     vim = { "trim_newlines", "trim_whitespace" },
     yaml = { "prettier", "trim_newlines" }, -- Prettier doesn't remove trailing new lines in YAML

@@ -6,6 +6,12 @@
 
 local nvim_config = require("nvim_config")
 
+-- Specify the name of the Mason package corresponding to formatters when they differ
+local formatter_to_mason_name = {
+  ruff_fix = "ruff",
+  ruff_format = "ruff",
+}
+
 local formatters_by_ft = {}
 for ft, formatters in pairs(nvim_config.formatters_by_ft) do
   local formatter_is_disabled = (
@@ -26,10 +32,6 @@ return {
     vim.o.formatexpr = "v:lua.require'conform'.formatexpr()"
 
     local mason_ensure_installed = {}
-    local formatter_to_mason_name = { -- Specify the name of the Mason package for formatters where they differ
-      ruff_fix = "ruff",
-      ruff_format = "ruff",
-    }
     for _, formatters in pairs(formatters_by_ft) do
       for formatter_key, formatter in ipairs(formatters) do
         if

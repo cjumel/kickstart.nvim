@@ -23,6 +23,7 @@ return {
       "gitattributes",
       "gitcommit",
       "gitignore",
+      "javascript",
       "json",
       "jsonc",
       "lua",
@@ -38,6 +39,7 @@ return {
       "ssh_config",
       "tmux",
       "toml",
+      "typescript",
       "typst",
       "vim",
       "vimdoc", -- For Vim help files

@@ -6,6 +6,9 @@
 
 local nvim_config = require("nvim_config")
 
+-- Specify the name of the Mason package corresponding to linters when they differ
+local linter_to_mason_name = {}
+
 local linters_by_ft = {}
 for ft, linters in pairs(nvim_config.linters_by_ft) do
   local linter_is_disabled = (
@@ -24,7 +27,8 @@ return {
   init = function()
     local mason_ensure_installed = {}
     for _, linters in pairs(linters_by_ft) do
-      for _, mason_name in ipairs(linters) do
+      for _, linter in ipairs(linters) do
+        local mason_name = linter_to_mason_name[linter] or linter
         if
           not vim.tbl_contains(mason_ensure_installed, mason_name)
           and not vim.tbl_contains(vim.g.mason_ensure_installed or {}, mason_name)
