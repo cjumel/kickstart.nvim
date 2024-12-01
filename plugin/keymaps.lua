@@ -41,9 +41,9 @@ vim.keymap.set("v", "$", "$h", { desc = "End of line" })
 
 -- [[ General keymaps ]]
 
-vim.keymap.set({ "n", "i" }, "<C-]>", vim.diagnostic.open_float, { desc = "Expand diagnostics" })
-vim.keymap.set({ "n", "v" }, "<C-^>", "}", { desc = "Next paragraph" })
-vim.keymap.set({ "n", "v" }, "<C-_>", "{", { desc = "Previous paragraph" })
+vim.keymap.set({ "n", "i" }, "<C-]>", vim.diagnostic.open_float, { desc = "Expand diagnostics" }) -- <C-$>
+vim.keymap.set({ "n", "v" }, "<C-^>", "}", { desc = "Next paragraph" }) -- <C-,>
+vim.keymap.set({ "n", "v" }, "<C-_>", "{", { desc = "Previous paragraph" }) -- <C-;>
 
 --- Clear normal-mode artifacts, like Noice notifications. This will close the Noice command-line popup if it's open,
 --- so this should not be used in command-line mode when using Noice.

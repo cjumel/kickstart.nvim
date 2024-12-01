@@ -18,24 +18,18 @@ return {
       keymaps = {
         ["aa"] = { query = "@parameter.outer", desc = "an argument" },
         ["ia"] = { query = "@parameter.inner", desc = "inner argument" },
-        ["ac"] = { query = "@conditional.outer", desc = "a conditional" },
-        ["ic"] = { query = "@conditional.inner", desc = "inner conditional" },
+        ["ac"] = { query = "@class.outer", desc = "a class" },
+        ["ic"] = { query = "@class.inner", desc = "inner class" },
+        ["ad"] = { query = "@function.outer", desc = "a function definition" },
+        ["id"] = { query = "@function.inner", desc = "inner function definition" },
         ["af"] = { query = "@call.outer", desc = "a function call" },
         ["if"] = { query = "@call.inner", desc = "inner function call" },
-        -- "g" for "comment" reminds the builtin "gc" operator to comment code. It is not a great mnemonic, but it is
-        --  very simple to type compared to alternatives (like "#" for Unix or Python comments, or "-" for Lua
-        --  comments), so I find it good enough.
-        ["ag"] = { query = "@comment.outer", desc = "a comment" },
-        ["ig"] = { query = "@comment.inner", desc = "inner comment" },
+        ["ag"] = { query = "@comment.outer", desc = "a comment" }, -- "g" like builtin "gc" operator
+        ["ig"] = { query = "@comment.inner", desc = "inner comment" }, -- "g" like builtin "gc" operator
+        ["ai"] = { query = "@conditional.outer", desc = "an if/else if/else statement" },
+        ["ii"] = { query = "@conditional.inner", desc = "inner if/else if/else statement" },
         ["al"] = { query = "@loop.outer", desc = "a loop" },
         ["il"] = { query = "@loop.inner", desc = "inner loop" },
-        ["am"] = { query = "@function.outer", desc = "a method definition" },
-        ["im"] = { query = "@function.inner", desc = "inner method definition" },
-        -- "o" for "class (OOP)" is not a great mnemonic, but "[" & "]" are already taken for the corresponding bracket
-        --  blocks, and I prefer to dedicate "c" to "conditional" as I use it more often. Besides, alternatives like "C"
-        --  are harder to type so I prefer to avoid such keys.
-        ["ao"] = { query = "@class.outer", desc = "a class (OOP)" },
-        ["io"] = { query = "@class.inner", desc = "inner class (OOP)" },
         ["ar"] = { query = "@return.outer", desc = "a return statement" },
         ["ir"] = { query = "@return.inner", desc = "inner return statement" },
         ["a="] = { query = "@assignment.outer", desc = "an assignment" },
@@ -47,22 +41,21 @@ return {
     move = {
       enable = true,
       set_jumps = true, -- Set jumps in the jumplist
-      -- Here let's only override some builtin keymaps with the more-powerful Treesitter equivalent
       goto_next_start = {
-        ["[["] = { query = "@class.outer", desc = "Next class start" },
-        ["[m"] = { query = "@function.outer", desc = "Next method definition start" },
+        ["[c"] = { query = "@class.outer", desc = "Next class start" },
+        ["[d"] = { query = "@function.outer", desc = "Next function definition start" },
       },
       goto_next_end = {
-        ["[]"] = { query = "@class.outer", desc = "Next class end" },
-        ["[M"] = { query = "@function.outer", desc = "Next method definition end" },
+        ["[C"] = { query = "@class.outer", desc = "Next class end" },
+        ["[D"] = { query = "@function.outer", desc = "Next function definition end" },
       },
       goto_previous_start = {
-        ["]["] = { query = "@class.outer", desc = "Previous class start" },
-        ["]m"] = { query = "@function.outer", desc = "Previous method definition start" },
+        ["]c"] = { query = "@class.outer", desc = "Previous class start" },
+        ["]d"] = { query = "@function.outer", desc = "Previous function definition start" },
       },
       goto_previous_end = {
-        ["]]"] = { query = "@class.outer", desc = "Previous class end" },
-        ["]M"] = { query = "@function.outer", desc = "Previous method definition end" },
+        ["]C"] = { query = "@class.outer", desc = "Previous class end" },
+        ["]D"] = { query = "@function.outer", desc = "Previous function definition end" },
       },
     },
     swap = {
@@ -120,20 +113,14 @@ return {
       group = augroup,
       callback = function()
         ts_keymap.set_local_move_pair( -- Dianostics can be errors, warnings, information messages or hints
-          "d",
+          "$", -- Like <C-$> to open diagnostic
           vim.diagnostic.goto_next,
           vim.diagnostic.goto_prev,
           "diagnostic"
         )
-        ts_keymap.set_local_move_pair(
-          "e",
-          function() vim.diagnostic.goto_next({ severity = vim.diagnostic.severity.ERROR }) end,
-          function() vim.diagnostic.goto_prev({ severity = vim.diagnostic.severity.ERROR }) end,
-          "error"
-        )
         local url_pattern = "http:\\/\\/\\|https:\\/\\/"
         ts_keymap.set_local_move_pair(
-          "w",
+          "a", -- Like "ga" text-object for web addresses
           function() vim.fn.search(url_pattern) end,
           function() vim.fn.search(url_pattern, "b") end,
           "Web address"
@@ -141,14 +128,14 @@ return {
         -- Conflict markers have 3 forms, all at the start of a line: `<<<<<<< <text>`, ` =======`, ` >>>>>>> <text>`
         local conflict_pattern = "^<<<<<<< \\|^=======\\|^>>>>>>> "
         ts_keymap.set_local_move_pair(
-          "x",
+          "=",
           function() vim.fn.search(conflict_pattern) end,
           function() vim.fn.search(conflict_pattern, "b") end,
           "conflict"
         )
         -- Re-implement the builtin bracket navigation keymaps (with "(", "{" & "<") and complete them with the
-        --  corresponding closing brackets
-        for _, char in ipairs({ "(", ")", "{", "}", "<", ">" }) do
+        -- corresponding closing brackets and the square bracket equivalents
+        for _, char in ipairs({ "(", ")", "{", "}", "<", ">", "[", "]" }) do
           ts_keymap.set_local_move_pair(
             char,
             function() vim.fn.search(char) end,
@@ -171,7 +158,7 @@ return {
         ts_keymap.set_local_move_pair("t", tdc_actions.next_todo, tdc_actions.prev_todo, "todo todo-comment")
         ts_keymap.set_local_move_pair("n", tdc_actions.next_note, tdc_actions.prev_note, "note todo-comment")
         ts_keymap.set_local_move_pair(
-          "`",
+          "m",
           function() require("marks").next() end,
           function() require("marks").prev() end,
           "mark"
@@ -190,15 +177,6 @@ return {
       pattern = "markdown",
       group = augroup,
       callback = function()
-        -- Navigate between sentences instead of line siblings with Treesitter (the latter can be replaced by header
-        --  navigation)
-        ts_keymap.set_local_move_pair(
-          "s",
-          function() vim.cmd("normal )") end,
-          function() vim.cmd("normal (") end,
-          "sentence (Markdown)"
-        )
-
         -- Navigate between GitHub-flavored Markdown todo checkboxes (not started or in progress), instead of
         --  todo-comments (which are not supported in Markdown by todo-comments.nvim anyway)
         local todo_checkbox_pattern = "- \\[ ] \\|- \\[-] "
