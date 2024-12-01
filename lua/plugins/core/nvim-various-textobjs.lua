@@ -57,13 +57,13 @@ return {
       desc = "inner value in key-value pair",
     },
     {
-      "ai",
+      "a<Tab>",
       function() require("various-textobjs").indentation("outer", "outer") end,
       mode = { "x", "o" },
       desc = "an indentation",
     },
     {
-      "ii",
+      "i<Tab>",
       function() require("various-textobjs").indentation("inner", "inner") end,
       mode = { "x", "o" },
       desc = "inner indentation",
