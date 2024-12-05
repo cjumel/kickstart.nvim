@@ -62,7 +62,7 @@ First of all, install [Neovim](https://neovim.io/).
 <details>
 <summary>MacOS</summary>
 
-```shell
+```sh
 # to install the latest stable version:
 brew install neovim
 # or, to install the nightly version (with the latest features but less stable):
@@ -73,7 +73,7 @@ brew install neovim
 <details>
 <summary>Ubuntu</summary>
 
-```shell
+```sh
 # to install the nightly version (with the latest features but less stable):
 apt install software-properties-common
 add-apt-repository ppa:neovim-ppa/unstable
@@ -87,7 +87,7 @@ Then, if you already have used Neovim previously with a custom configuration, yo
 back-up this existing configuration and delete Neovim's temporary files, with the following commands
 for instance:
 
-```shell
+```sh
 mv ~/.config/nvim ~/.config/nvim-old
 rm -rf ~/.local/share/nvim
 ```
@@ -95,7 +95,7 @@ rm -rf ~/.local/share/nvim
 After having managed any existing Neovim configuration, clone this repository in the Neovim
 configuration repository, with:
 
-```shell
+```sh
 git clone --depth=1 https://github.com/clementjumel/kickstart.nvim ~/.config/nvim
 ```
 
