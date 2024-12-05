@@ -12,6 +12,7 @@ return {
     --  from existing filenames with `:lua print(require("nvim-web-devicons").get_icon_colors("name"))`.
     override_by_filename = {
       [".env.example"] = { icon = "", color = "#faf743", cterm_color = "227", name = ".env" },
+      [".env.sample"] = { icon = "", color = "#faf743", cterm_color = "227", name = ".env" },
       [".env.test"] = { icon = "", color = "#faf743", cterm_color = "227", name = ".env" },
       [".env.test.example"] = { icon = "", color = "#faf743", cterm_color = "227", name = ".env" },
       [".ideavimrc"] = { icon = "", color = "#019833", cterm_color = 28, name = "vim" },

@@ -56,6 +56,7 @@ end
 vim.filetype.add({
   filename = {
     [".env.example"] = "sh", -- same as `.env`
+    [".env.sample"] = "sh", -- same as `.env`
     [".env.test"] = "sh", -- same as `.env`
     [".env.test.example"] = "sh", -- same as `.env`
     [".ideavimrc"] = "vim",
