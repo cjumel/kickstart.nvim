@@ -41,7 +41,7 @@ vim.keymap.set("v", "$", "$h", { desc = "End of line" })
 
 -- [[ General keymaps ]]
 
-vim.keymap.set({ "n", "i" }, "<C-]>", vim.diagnostic.open_float, { desc = "Expand diagnostics" }) -- <C-$>
+vim.keymap.set("n", "<leader>$", vim.diagnostic.open_float, { desc = "Expand diagnostics" })
 vim.keymap.set({ "n", "v" }, "<C-^>", "}", { desc = "Next paragraph" }) -- <C-,>
 vim.keymap.set({ "n", "v" }, "<C-_>", "{", { desc = "Previous paragraph" }) -- <C-;>
 
@@ -81,27 +81,10 @@ vim.keymap.set({ "i", "c" }, "<C-c>", clear_insert_mode_artifacts, { desc = "Cle
 vim.keymap.set("v", "<Tab>", ">gv", { desc = "Indent selection" })
 vim.keymap.set("v", "<S-Tab>", "<gv", { desc = "Unindent selection" })
 
---- Yank the path of the file or directory linked to the current buffer (must be a regular buffer or an Oil buffer).
+--- Fetch the path of the file or directory linked to the current buffer (must be a regular buffer or an Oil buffer),
+--- apply the provided modifiers to it and yank it to the default register.
 ---@return nil
-local function yank_path()
-  local path = nil
-  if vim.bo.buftype == "" then -- Regular buffer
-    path = vim.fn.expand("%")
-  elseif vim.bo.filetype == "oil" then -- Oil buffer
-    local oil = require("oil")
-    path = oil.get_current_dir()
-  end
-
-  if path ~= nil then
-    path = vim.fn.fnamemodify(path, ":~:.")
-    vim.fn.setreg('"', path)
-    vim.notify('Yanked "' .. path .. '"')
-  end
-end
-
---- Yank the name of the file or directory linked to the current buffer (must be a regular buffer or an Oil buffer).
----@return nil
-local function yank_name()
+local function yank_path(mods)
   local path = nil
   if vim.bo.buftype == "" then -- Regular buffer
     path = vim.fn.expand("%")
@@ -109,12 +92,12 @@ local function yank_name()
     local oil = require("oil")
     path = oil.get_current_dir()
     if path ~= nil then
-      path = path:gsub("/$", "") -- Remove the "/" prefix if it exists (necessary to get the tail below)
+      path = path:gsub("/$", "") -- Remove the "/" prefix if it exists (necessary to get the tail with `mods`)
     end
   end
 
   if path ~= nil then
-    path = vim.fn.fnamemodify(path, ":t") -- Get the tail of the path
+    path = vim.fn.fnamemodify(path, mods)
     vim.fn.setreg('"', path)
     vim.notify('Yanked "' .. path .. '"')
   end
@@ -139,8 +122,9 @@ end
 vim.keymap.set({ "n", "v" }, "_", '"_', { desc = "Black hole register" })
 vim.keymap.set({ "n", "v" }, "+", '"+', { desc = "System clipboard register" })
 
-vim.keymap.set("n", "<leader>yp", yank_path, { desc = "[Y]ank: [P]ath" })
-vim.keymap.set("n", "<leader>yn", yank_name, { desc = "[Y]ank: [N]ame" })
+vim.keymap.set("n", "<leader>yp", function() yank_path(":~:.") end, { desc = "[Y]ank: [P]ath" })
+vim.keymap.set("n", "<leader>ya", function() yank_path(":p") end, { desc = "[Y]ank: [A]bsolute path" })
+vim.keymap.set("n", "<leader>yn", function() yank_path(":t") end, { desc = "[Y]ank: [N]ame" })
 vim.keymap.set("n", "<leader>ys", yank_send_to_clipboard, { desc = "[Y]ank: [S]end to clipboard" })
 vim.keymap.set("n", "<leader>yr", yank_receive_from_clipboard, { desc = "[Y]ank: [R]eceive from clipboard" })
 
@@ -175,27 +159,19 @@ local function search_in_web_browser()
 end
 vim.keymap.set({ "n", "v" }, "gb", search_in_web_browser, { desc = "Search word under the cursor in Web browser" })
 
--- [[ Command-line keymaps ]]
--- Keymaps for command-line mode (also sometimes added to insert mode); these keymaps notably reproduce some shell
--- behaviors in insert and command-line modes
-
--- Disable builtin auto-completion, to avoid triggering it by mistake
-vim.keymap.set("c", "<Tab>", "<Nop>", { silent = true })
-vim.keymap.set("c", "<S-Tab>", "<Nop>", { silent = true })
-
--- In insert mode, the builtin <C-d> deindents the line so let's not override it
--- For some reason, using `<ESC>` as `rhs` runs the command instead of exiting the cmdline
-vim.keymap.set("c", "<C-d>", "<C-c>", { desc = "Exit cmdline" })
+-- [[ Insert and command-line keymaps ]]
+-- Keymaps for insert and command-line modes, notably reproducing some shell keymaps
 
 vim.keymap.set({ "i", "c" }, "<M-BS>", "<C-w>", { desc = "Delete word" }) -- <C-BS>
 
--- Define functions to mix insert- and command-line-mode navigation with accepting copilot.lua suggestions, just like
--- how zsh-autosuggestions handle the similar situation in zsh
-local function right_improved()
+-- Define functions to mix insert-mode navigation and accepting Copilot.lua suggestions, just like how the
+-- zsh-autosuggestions plugin handles the similar situation in Zsh (except for <C-f>, as in Neovim it remains useful to
+-- move the cursor while Copilot suggestion is visible)
+local function tab_improved()
   if package.loaded.copilot ~= nil and require("copilot.suggestion").is_visible() then
     require("copilot.suggestion").accept()
   else
-    vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Right>", true, false, true), "n", false)
+    vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Tab>", true, false, true), "n", false)
   end
 end
 local function c_right_improved()
@@ -205,6 +181,7 @@ local function c_right_improved()
     vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<C-Right>", true, false, true), "n", false)
   end
 end
+local c_right_improved_desc = "Accept word in Copilot suggestion or move cursor to next word"
 local function end_improved()
   if package.loaded.copilot ~= nil and require("copilot.suggestion").is_visible() then
     require("copilot.suggestion").accept_line()
@@ -212,33 +189,29 @@ local function end_improved()
     vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<End>", true, false, true), "n", false)
   end
 end
+local end_improved_desc = "Accept line in Copilot suggestion or move cursor to end of line"
 
-vim.keymap.set(
-  { "i", "c" },
-  "<C-f>",
-  right_improved,
-  { desc = "Accept Copilot suggestions or move cursor one character right" }
-)
+vim.keymap.set("i", "<Tab>", tab_improved, { desc = "Accept Copilot suggestion or insert Tab" })
+
+vim.keymap.set({ "i", "c" }, "<C-f>", "<Right>", { desc = "Move cursor one character right" })
 vim.keymap.set({ "i", "c" }, "<C-b>", "<Left>", { desc = "Move cursor one character left" })
 
-vim.keymap.set(
-  { "i", "c" },
-  "<C-^>", -- <C-,>
-  c_right_improved,
-  { desc = "Accept word in Copilot suggestion or move cursor to next word" }
-)
+vim.keymap.set("i", "<C-^>", c_right_improved, { desc = c_right_improved_desc }) -- <C-,>
+vim.keymap.set("c", "<C-^>", "<C-Right>", { desc = "Move cursor to next word" }) -- <C-,>
 vim.keymap.set({ "i", "c" }, "<C-_>", "<C-Left>", { desc = "Move cursor to previous word" }) -- <C-;>
 
-vim.keymap.set(
-  { "i", "c" },
-  "<C-e>",
-  end_improved,
-  { desc = "Accept line in Copilot suggestion or move cursor to end of line" }
-)
+vim.keymap.set("i", "<C-e>", end_improved, { desc = end_improved_desc })
+vim.keymap.set("c", "<C-e>", "<End>", { desc = "Move cursor to end of line" })
 vim.keymap.set({ "i", "c" }, "<C-a>", "<Home>", { desc = "Move cursor to beginning of line" })
 
+vim.keymap.set("c", "<C-d>", "<C-c>", { desc = "Exit cmdline" })
+
+-- Disable builtin auto-completion in command-line mode, to avoid triggering it by mistake
+vim.keymap.set("c", "<Tab>", "<Nop>", { silent = true })
+vim.keymap.set("c", "<S-Tab>", "<Nop>", { silent = true })
+
 -- [[ Terminal keymaps ]]
--- Keymaps for terminal mode, when using the builtin terminal emulator or in ToggleTerm, for instance
+-- Keymaps for terminal mode, when using the builtin terminal emulator or toggleterm.nvim for instance
 
 -- Builtin keymap to exit terminal mode is <C-\\><C-n>, let's simplify it
 vim.keymap.set({ "t" }, "<C-\\>", "<C-\\><C-n>", { desc = "Exit terminal mode" })

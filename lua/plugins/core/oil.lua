@@ -24,7 +24,6 @@ return {
       ["_"] = "actions.open_cwd",
       ["<CR>"] = "actions.select",
       ["<C-c>"] = "actions.close",
-      ["<C-]>"] = "actions.preview",
       ["g?"] = "actions.show_help",
       ["gx"] = "actions.open_external",
       ["gX"] = {
@@ -32,9 +31,7 @@ return {
         desc = "Open the current directory in an external program",
       },
 
-      -- Oil buffer options
-      ["<localleader>r"] = { "actions.refresh", desc = "[R]efresh" },
-      ["<localleader>h"] = { "actions.toggle_hidden", desc = "Toggle [H]idden files" },
+      -- Oil buffer actions
       ["<localleader>d"] = {
         function() -- Function taken from Oil recipes
           DETAIL = not DETAIL
@@ -46,10 +43,12 @@ return {
         end,
         desc = "Toggle [D]etails",
       },
+      ["<localleader>h"] = { "actions.toggle_hidden", desc = "Toggle [H]idden files" },
+      ["<localleader>p"] = { "actions.preview", desc = "Toggle [P]review" },
+      ["<localleader>r"] = { "actions.refresh", desc = "[R]efresh" },
       ["<localleader>s"] = { "actions.change_sort", desc = "Change [S]ort" },
     },
     use_default_keymaps = false,
-    -- Don't show ".." when showing hidden files
     view_options = { is_always_hidden = function(name, _) return name == ".." end },
   },
 }
