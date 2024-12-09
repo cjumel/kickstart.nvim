@@ -270,10 +270,10 @@ function M.live_grep()
   require("telescope.builtin").live_grep(telescope_opts)
 end
 
-function M.oldfiles()
+function M.old_files()
   local opts = {
     tiebreak = function(current, existing, _) return current.index < existing.index end, -- Sort by recency
-    prompt_title = "Find Oldfiles",
+    prompt_title = "Find Old files",
   }
   if visual_mode.is_on() then
     local text = visual_mode.get_text()
