@@ -76,4 +76,20 @@ end
 vim.g.nvim_config = nvim_config
 vim.g.found_nvim_configs = found_nvim_configs
 
+-- Create commands to manage the Neovim configuration files
+vim.api.nvim_create_user_command("NvimConfigShow", function(args)
+  if not args.bang then
+    vim.notify(vim.inspect(vim.g.nvim_config))
+  else
+    vim.notify(vim.inspect(vim.g.found_nvim_configs))
+  end
+end, { desc = "Show the Neovim configuration", bang = true })
+vim.api.nvim_create_user_command("NvimConfigEditFile", function(args)
+  if not args.bang and project_nvim_config_path ~= "" then -- Not bang & project configuration file is found
+    vim.cmd("edit " .. project_nvim_config_path)
+  else
+    vim.cmd("edit " .. global_nvim_config_path)
+  end
+end, { desc = "Edit the Neovim configuration file", bang = true })
+
 return nvim_config
