@@ -47,10 +47,40 @@ end
 local function get_comment_string_start() return get_comment_strings()[1] end
 local function get_comment_string_end() return get_comment_strings()[2] end
 
+-- Let's only support a useful subset of keywords, instead of all the recognized keywords
+local todo_keywords = {
+  "TODO_",
+  "TODO",
+  "FIXME",
+  "BUG",
+  "HACK",
+  "WARN",
+  "PERF",
+  "TEST",
+  "NOTE",
+}
+
+local todo_keywords_description = [[
+Keywords:]]
+for _, todo_keyword in ipairs(todo_keywords) do
+  todo_keywords_description = todo_keywords_description .. "\n- `" .. todo_keyword .. "`"
+end
+
+-- For some reason, defining todo_keyword_snippet_choices directly as a local variable (instead of in a function)
+-- doesn't work
+local function get_todo_keyword_snippet_choices()
+  local todo_keyword_snippet_choices = {}
+  for _, todo_keyword in ipairs(todo_keywords) do
+    table.insert(todo_keyword_snippet_choices, sn(nil, { t(todo_keyword .. ": "), r(1, "content", i(nil)) }))
+  end
+  return todo_keyword_snippet_choices
+end
+
 for _, mode in ipairs({ "ts", "no_ts" }) do
   local snippets = {}
 
   local todo_comment_show_condition
+  local todo_keyword_show_condition
   if mode == "ts" then
     todo_comment_show_condition = ls_show_conds.line_end
       * conds.make_treesitter_node_exclusion_condition({
@@ -60,56 +90,47 @@ for _, mode in ipairs({ "ts", "no_ts" }) do
         "string_start",
         "string_content",
       })
-  else
-    todo_comment_show_condition = ls_show_conds.line_end * -conds.is_comment_start
-  end
-  table.insert(
-    snippets,
-    s({
-      trig = "todo-comment",
-      show_condition = todo_comment_show_condition,
-      desc = [[
-Choices:
-- `TODO_`
-- `TODO`]],
-    }, {
-      f(get_comment_string_start),
-      c(1, {
-        sn(nil, { t("TODO_: "), r(1, "content", i(nil)) }),
-        sn(nil, { t("TODO: "), r(1, "content") }),
-      }),
-      f(get_comment_string_end),
-    })
-  )
-
-  local todo_keyword_show_condition
-  if mode == "ts" then
     todo_keyword_show_condition = conds.make_treesitter_node_inclusion_condition({
       "comment",
       "comment_content",
     }) * conds.is_comment_start
   else
+    todo_comment_show_condition = ls_show_conds.line_end * -conds.is_comment_start
     todo_keyword_show_condition = conds.is_comment_start
   end
-  for _, keyword in ipairs({ -- Let's only add the subset useful for me of keywords which are recognized
-    "TODO_",
-    "TODO",
-    "FIXME",
-    "BUG",
-    "HACK",
-    "WARN",
-    "PERF",
-    "TEST",
-    "NOTE",
-  }) do
+
+  table.insert(
+    snippets,
+    s({
+      trig = "todo-comment",
+      show_condition = todo_comment_show_condition,
+      desc = todo_keywords_description,
+    }, {
+      f(get_comment_string_start),
+      c(1, get_todo_keyword_snippet_choices()),
+      f(get_comment_string_end),
+    })
+  )
+  table.insert(
+    snippets,
+    s({
+      trig = "todo-keyword",
+      show_condition = todo_keyword_show_condition,
+      desc = todo_keywords_description,
+    }, {
+      c(1, get_todo_keyword_snippet_choices()),
+    })
+  )
+
+  for _, todo_keyword in ipairs(todo_keywords) do
     table.insert(
       snippets,
       s({
-        trig = keyword .. ": ",
+        trig = todo_keyword .. ": ",
         show_condition = todo_keyword_show_condition,
-        desc = "`" .. keyword .. ": ..`",
+        desc = "`" .. todo_keyword .. ": ..`",
       }, {
-        t(keyword .. ": "),
+        t(todo_keyword .. ": "),
         i(1),
       })
     )
