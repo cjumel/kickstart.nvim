@@ -10,19 +10,9 @@ return {
   dependencies = {
     "MunifTanjim/nui.nvim",
     "nvim-treesitter/nvim-treesitter",
-    {
-      "rcarriga/nvim-notify",
-      opts = { background_colour = "#000000" }, -- Disable warnings with some color schemes when lacking this option
-    },
+    "folke/snacks.nvim",
   },
   event = "VeryLazy",
-  keys = {
-    -- When defining `keys` as a function with `noice = require("noice")` in it, Noice is not properly very-lazy-loaded
-    { "<leader>nh", function() require("noice").cmd("history") end, desc = "[N]oice: [H]istory" },
-    { "<leader>nl", function() require("noice").cmd("last") end, desc = "[N]oice: [L]ast message" },
-    { "<leader>ne", function() require("noice").cmd("errors") end, desc = "[N]oice: [E]rrors" },
-    { "<leader>na", function() require("noice").cmd("all") end, desc = "[N]oice: [A]ll messages" },
-  },
   opts = {
     lsp = {
       override = { -- Override markdown rendering so that cmp and other plugins use Treesitter
