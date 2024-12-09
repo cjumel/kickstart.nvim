@@ -30,32 +30,6 @@ return {
       lsp_doc_border = true, -- Add a border to hover documentations and signature help
       inc_rename = true, -- Enable an input dialog for inc-rename.nvim
     },
-    routes = { -- Disable some kind of messages
-      {
-        filter = { -- Buffer is written, by ":w" for instance
-          event = "msg_show",
-          kind = "",
-          find = "written",
-        },
-        opts = { skip = true },
-      },
-      {
-        filter = { -- Copilot.lua tries to suggest completion but there's no Internet connection
-          event = "msg_show",
-          kind = "",
-          find = "Request getCompletions failed with message: getaddrinfo ENOTFOUND api.github.com",
-        },
-        opts = { skip = true },
-      },
-    },
-    commands = { -- Override builtin command options
-      history = { view = "popup" },
-      last = { view = "popup" },
-      errors = { view = "popup", filter_opts = { reverse = false } },
-      all = { view = "popup" },
-    },
-    views = {
-      mini = { win_options = { winblend = 0 } }, -- Fix color issue in LSP progress bar with transparency
-    },
+    views = { mini = { win_options = { winblend = 0 } } }, -- Fix color in LSP progress bar with transparency
   },
 }
