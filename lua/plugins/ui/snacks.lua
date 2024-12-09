@@ -6,10 +6,12 @@ local telescope_builtin = require("plugins.core.telescope.builtin")
 
 return {
   "folke/snacks.nvim",
-  priority = 1000,
+  dependencies = { "nvim-tree/nvim-web-devicons" },
+  priority = 1000, -- Main UI stuff should be loaded first
   lazy = false,
   keys = {
-    { "<leader>n", function() require("snacks").notifier.show_history() end, desc = "[N]otifications" },
+    { "<leader>;", function() require("snacks").notifier.show_history() end, desc = "Notification history" },
+    { "<leader><BS>", function() require("snacks").bufdelete() end, desc = "Delete buffer" },
   },
   opts = {
     dashboard = {
