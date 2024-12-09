@@ -13,6 +13,30 @@ return {
     { "<leader>;", function() require("snacks").notifier.show_history() end, desc = "Notification history" },
     { "<leader><BS>", function() require("snacks").bufdelete() end, desc = "Delete buffer" },
   },
+  init = function()
+    -- Automatically open the dashboard when all buffers are deleted
+    local group = vim.api.nvim_create_augroup("SnacksDashboardOpenWhenBuffersAreClosed", { clear = true })
+    vim.api.nvim_create_autocmd("BufDelete", {
+      group = group,
+      callback = function()
+        vim.schedule(function() vim.api.nvim_exec_autocmds("User", { pattern = "BufDeletePost" }) end)
+      end,
+    })
+    vim.api.nvim_create_autocmd("User", {
+      group = group,
+      pattern = "BufDeletePost",
+      callback = function(event)
+        local deleted_name = vim.api.nvim_buf_get_name(event.buf)
+        local deleted_filetype = vim.api.nvim_get_option_value("filetype", { buf = event.buf })
+        local deleted_buftype = vim.api.nvim_get_option_value("buftype", { buf = event.buf })
+        local dashboard_on_empty = deleted_name == "" and deleted_filetype == "" and deleted_buftype == ""
+
+        if dashboard_on_empty then
+          require("snacks").dashboard()
+        end
+      end,
+    })
+  end,
   opts = {
     dashboard = {
       enabled = true,
