@@ -41,6 +41,7 @@ vim.keymap.set("v", "$", "$h", { desc = "End of line" })
 
 -- [[ General keymaps ]]
 
+vim.keymap.set("n", "<leader><CR>", function() vim.cmd("w") end, { desc = "Write buffer" })
 vim.keymap.set("n", "<leader>$", vim.diagnostic.open_float, { desc = "Expand diagnostics" })
 vim.keymap.set({ "n", "v" }, "<C-^>", "}", { desc = "Next paragraph" }) -- <C-,>
 vim.keymap.set({ "n", "v" }, "<C-_>", "{", { desc = "Previous paragraph" }) -- <C-;>
