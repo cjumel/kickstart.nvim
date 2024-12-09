@@ -25,8 +25,9 @@ return {
     },
   },
   opts = {
-    commit_view = { kind = "tab" }, -- Decrease visual clutter when using this view
-    rebase_editor = { kind = "tab" }, -- Decrease visual clutter when using this view
+    commit_editor = { spell_check = false },
+    commit_view = { kind = "tab" }, -- Decrease visual clutter
+    rebase_editor = { kind = "tab" }, -- Decrease visual clutter
     mappings = {
       rebase_editor = {
         -- Change the "move commit" keymaps for something easier to type repeatedly
