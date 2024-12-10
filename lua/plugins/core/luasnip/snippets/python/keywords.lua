@@ -53,70 +53,27 @@ Choices:
         "string_start",
         "string_content",
         "string_end",
-      })
-      -- Exclude cases where the method version should be used instead
-      * ( -- Inside a class definition can correspond to "class_definition" nodes (top of class body), or "block"
-        conds.make_treesitter_node_exclusion_condition({ "class_definition" })
-        * conds.make_treesitter_node_ancestors_exclusion_condition({ "block", "class_definition" })
-      ),
-    desc = [[`def ..(..) -> <../None/Any>: <../pass>`]],
+      }),
+    desc = [[`def ..(<../self../cls..>) -> <../None/Any>: <../pass>`]],
   }, {
     t("def "),
     i(1),
     t("("),
-    i(2),
+    c(2, {
+      r(nil, "args", i(nil)),
+      sn(nil, { t("self"), r(1, "args") }),
+      sn(nil, { t("cls"), r(1, "args") }),
+    }),
     t(") -> "),
-    c(3, { i(nil), sn(nil, { t("None"), i(1) }), sn(nil, { t("Any"), i(1) }) }),
+    c(3, {
+      i(nil),
+      sn(nil, { t("None"), i(1) }),
+      sn(nil, { t("Any"), i(1) }),
+    }),
     t({ ":", "\t" }),
-    c(4, { i(nil), sn(nil, { t("pass"), i(1) }) }),
-  }),
-  s({
-    trig = "def ..", -- Method version
-    show_condition = (conds.line_begin + conds.make_prefix_condition("async "))
-      * ls_show_conds.line_end
-      * conds.make_treesitter_node_exclusion_condition({
-        "comment",
-        "string",
-        "string_start",
-        "string_content",
-        "string_end",
-      })
-      * ( -- Inside a class definition can correspond to "class_definition" nodes (top of class body), or "block"
-        conds.make_treesitter_node_ancestors_inclusion_condition({ "class_definition" })
-        + conds.make_treesitter_node_ancestors_inclusion_condition({ "block", "class_definition" })
-      ),
-    desc = [[
-Choices:
-- `def ..(<self../cls../..>) -> <../None/Any>: <../pass>`
-- `def __..__(<self..>) -> <../None/Any>: <../pass>`]],
-  }, {
-    c(1, {
-      sn(nil, {
-        t("def "),
-        r(1, "name", i(nil)),
-        t("("),
-        c(2, {
-          sn(nil, { t("self"), r(1, "args", i(nil)) }),
-          sn(nil, { t("cls"), r(1, "args") }),
-          r(nil, "args"),
-        }),
-        t(") -> "),
-        r(3, "type", c(nil, { i(nil), sn(nil, { t("None"), i(1) }), sn(nil, { t("Any"), i(1) }) })),
-        t({ ":", "\t" }),
-        r(4, "body", c(nil, { i(nil), sn(nil, { t("pass"), i(1) }) })),
-      }),
-      sn(nil, {
-        t("def __"),
-        r(1, "name"),
-        t("__("),
-        c(2, {
-          sn(nil, { t("self"), r(1, "args") }),
-        }),
-        t(") -> "),
-        r(3, "type"),
-        t({ ":", "\t" }),
-        r(4, "body"),
-      }),
+    c(4, {
+      i(nil),
+      sn(nil, { t("pass"), i(1) }),
     }),
   }),
 
