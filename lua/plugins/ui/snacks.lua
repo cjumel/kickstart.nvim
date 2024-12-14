@@ -32,6 +32,13 @@ return {
         { icon = " ", key = "q", desc = "Quit", action = ":qa" },
       },
     },
+    indent = {
+      enabled = true,
+      animate = { enabled = false },
+      filter = function(buf)
+        return vim.bo[buf].buftype == "" and not vim.tbl_contains({ "markdown" }, vim.bo[buf].filetype)
+      end,
+    },
     input = { enabled = true },
     notifier = { enabled = true },
     quickfile = { enabled = true },
