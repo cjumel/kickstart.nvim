@@ -5,30 +5,28 @@
 -- the future like unresolved bugs, performance issues, or simply important notes for the readers. Besides, it is very
 -- nicely integrated with other plugins, like telescope.nvim, Trouble, making it super useful.
 
-local tdc_keywords = require("plugins.core.todo-comments.keywords")
-
 return {
   "folke/todo-comments.nvim",
   dependencies = { "nvim-lua/plenary.nvim" },
   event = { "BufNewFile", "BufReadPre" },
-  keys = function()
-    local actions = require("plugins.core.todo-comments.actions")
-    return {
-      { "<leader>fp", actions.find_personal_todos, desc = "[F]ind: [P]ersonal todo-comments" },
-      { "<leader>ft", actions.find_todos, desc = "[F]ind: [T]odo todo-comments" },
-      { "<leader>fn", actions.find_notes, desc = "[F]ind: [N]ote todo-comments" },
-      { "<leader>vp", actions.view_personal_todos, desc = "[V]iew: [P]ersonal todo-comments" },
-      { "<leader>vt", actions.view_todos, desc = "[V]iew: [T]odo todo-comments" },
-      { "<leader>vn", actions.view_notes, desc = "[V]iew: [N]ote todo-comments" },
-    }
-  end,
+  keys = {
+    {
+      "<leader>ft",
+      function() vim.cmd("TodoTelescope layout_strategy=vertical") end,
+      desc = "[F]ind: [T]odo-comments",
+    },
+    {
+      "<leader>fn",
+      function() vim.cmd("TodoTelescope layout_strategy=vertical keywords=NOW") end,
+      desc = "[F]ind: [N]ow todo-comments",
+    },
+    { "<leader>vt", function() vim.cmd("Trouble todo toggle") end, desc = "[V]iew: [T]odo-comments" },
+    { "<leader>vn", function() vim.cmd("Trouble todo_now toggle") end, desc = "[V]iew: [N]ow todo-comments" },
+  },
   opts = {
+    -- Add more keyword and keyword alternatives
     keywords = {
-      -- Add a personal todo keyword, for stuff to do right now & which should not be shared in the codebase. I find this
-      -- a convenient way of separating long term TODOs and the ones for the current task at hand, especially to search
-      -- them automatically.
-      [tdc_keywords.personal_todo] = { icon = " ", color = "info" },
-      -- Add IMPORTANT as a NOTE (used by the Python Packaging Authority in their documentation)
+      TODO = { icon = " ", color = "info", alt = { "NOW" } },
       NOTE = { icon = " ", color = "hint", alt = { "INFO", "IMPORTANT" } },
     },
     -- Include hidden files when searching for todo-comments

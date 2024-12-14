@@ -49,7 +49,7 @@ local function get_comment_string_end() return get_comment_strings()[2] end
 
 -- Let's only support a useful subset of keywords, instead of all the recognized keywords
 local todo_keywords = {
-  "TODO_",
+  "NOW",
   "TODO",
   "FIXME",
   "BUG",

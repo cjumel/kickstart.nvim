@@ -71,7 +71,6 @@ return {
   config = function(_, opts)
     require("nvim-treesitter.configs").setup({ textobjects = opts })
 
-    local tdc_actions = require("plugins.core.todo-comments.actions")
     local ts_actions = require("plugins.core.nvim-treesitter.actions")
     local ts_keymap = require("plugins.core.nvim-treesitter-textobjects.keymap")
     local ts_repeatable_move = require("nvim-treesitter.textobjects.repeatable_move")
@@ -140,13 +139,17 @@ return {
           "hunk"
         )
         ts_keymap.set_local_move_pair(
-          "p",
-          tdc_actions.next_personal_todo,
-          tdc_actions.prev_personal_todo,
-          "personal todo-comment"
+          "t",
+          function() require("todo-comments").jump_next() end,
+          function() require("todo-comments").jump_prev() end,
+          "todo-comment"
         )
-        ts_keymap.set_local_move_pair("t", tdc_actions.next_todo, tdc_actions.prev_todo, "todo todo-comment")
-        ts_keymap.set_local_move_pair("n", tdc_actions.next_note, tdc_actions.prev_note, "note todo-comment")
+        ts_keymap.set_local_move_pair(
+          "n",
+          function() require("todo-comments").jump_next({ keywords = { "NOW" } }) end,
+          function() require("todo-comments").jump_prev({ keywords = { "NOW" } }) end,
+          "now todo-comment"
+        )
         ts_keymap.set_local_move_pair(
           "m",
           function() require("marks").next() end,

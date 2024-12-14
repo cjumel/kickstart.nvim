@@ -4,8 +4,6 @@
 -- you solve all the trouble your code is causing. With a very cool and customizable user interface and the
 -- integratation of many other tools (like the Todo Comments plugins), it is very complementary with telescope.nvim.
 
-local tdc_keywords = require("plugins.core.todo-comments.keywords")
-
 return {
   "folke/trouble.nvim",
   dependencies = { "nvim-tree/nvim-web-devicons" },
@@ -60,22 +58,14 @@ return {
       -- Todo-Comment modes (see todo-comments.nvim)
       todo = {
         open_no_results = true, -- Open the Trouble window even when there is no item as they can appear dynamically
-      },
-      todo_personal = {
         mode = "todo",
-        title = "{hl:Title}Personal todo-comments{hl} {count}",
-        filter = { tag = { tdc_keywords.personal_todo } },
+        title = "{hl:Title}Todo-comments{hl} {count}",
+      },
+      todo_now = {
+        mode = "todo",
+        title = "{hl:Title}Now todo-comments{hl} {count}",
+        filter = { tag = { "NOW" } },
         groups = { { "filename", format = "{file_icon} {filename} {count}" } }, -- Remove tag group as we only have one
-      },
-      todo_todo = {
-        mode = "todo",
-        title = "{hl:Title}Todo todo-comments{hl} {count}",
-        filter = { tag = tdc_keywords.todo },
-      },
-      todo_note = {
-        mode = "todo",
-        title = "{hl:Title}Note todo-comments{hl} {count}",
-        filter = { tag = tdc_keywords.note },
       },
     },
   },
