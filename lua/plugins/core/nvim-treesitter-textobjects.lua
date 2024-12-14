@@ -113,7 +113,7 @@ return {
       group = augroup,
       callback = function()
         ts_keymap.set_local_move_pair( -- Dianostics can be errors, warnings, information messages or hints
-          "$", -- Like <C-$> to open diagnostic
+          "!",
           vim.diagnostic.goto_next,
           vim.diagnostic.goto_prev,
           "diagnostic"
@@ -133,16 +133,6 @@ return {
           function() vim.fn.search(conflict_pattern, "b") end,
           "conflict"
         )
-        -- Re-implement the builtin bracket navigation keymaps (with "(", "{" & "<") and complete them with the
-        -- corresponding closing brackets and the square bracket equivalents
-        for _, char in ipairs({ "(", ")", "{", "}", "<", ">", "[", "]" }) do
-          ts_keymap.set_local_move_pair(
-            char,
-            function() vim.fn.search(char) end,
-            function() vim.fn.search(char, "b") end,
-            char
-          )
-        end
         ts_keymap.set_local_move_pair(
           "h",
           function() require("gitsigns").next_hunk({ navigation_message = false }) end,
