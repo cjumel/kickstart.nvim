@@ -104,7 +104,6 @@ return {
     "williamboman/mason.nvim",
     { "williamboman/mason-lspconfig.nvim", cond = not nvim_config.light_mode },
     { "hrsh7th/cmp-nvim-lsp", cond = not nvim_config.light_mode },
-    "RRethy/vim-illuminate",
   },
   ft = function()
     local filetypes = {}
@@ -158,16 +157,15 @@ return {
         map({ "n", "v" }, "<leader>fs", telescope_builtin.lsp_document_symbols, "[F]ind: [S]ymbols (document)")
         map({ "n", "v" }, "<leader>fw", telescope_builtin.lsp_workspace_symbols, "[F]ind: [W]orkspace symbols")
 
-        -- Next/previous reference navigation; let's define illuminate keymaps here to benefit from the "LspAttach"
-        --  behavior. Besides, the "LspAttach" event is triggered after "BufReadPre", hence nvim-treesitter-textobjects
-        --  is already loaded at this point.
-        local ts_keymap = require("plugins.core.nvim-treesitter-textobjects.keymap")
-        ts_keymap.set_local_move_pair(
-          "r",
-          function() require("illuminate").goto_next_reference() end,
-          function() require("illuminate").goto_prev_reference() end,
-          "reference"
+        -- Next/previous reference navigation; let's define these keymaps here to benefit from the "LspAttach" behavior
+        -- (nvim-treesitter-textobjects is already loaded at this point)
+        local ts_repeatable_move = require("nvim-treesitter.textobjects.repeatable_move")
+        local forward_move_fn, backward_move_fn = ts_repeatable_move.make_repeatable_move_pair(
+          function() require("snacks").words.jump(vim.v.count1, true) end,
+          function() require("snacks").words.jump(-vim.v.count1, true) end
         )
+        vim.keymap.set({ "n", "x", "o" }, "[[", forward_move_fn, { desc = "Next reference", buffer = true })
+        vim.keymap.set({ "n", "x", "o" }, "]]", backward_move_fn, { desc = "Previous reference", buffer = true })
       end,
     })
 

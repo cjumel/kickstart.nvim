@@ -36,6 +36,7 @@ return {
     notifier = { enabled = true },
     quickfile = { enabled = true },
     scroll = { enabled = true },
+    words = { enabled = true },
     zen = {
       toggles = { dim = false },
       win = { width = 130 }, -- To support up until 120 line length
