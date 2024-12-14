@@ -30,6 +30,5 @@ return {
       lsp_doc_border = true, -- Add a border to hover documentations and signature help
       inc_rename = true, -- Enable an input dialog for inc-rename.nvim
     },
-    views = { mini = { win_options = { winblend = 0 } } }, -- Fix color in LSP progress bar with transparency
   },
 }

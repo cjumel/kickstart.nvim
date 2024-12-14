@@ -10,7 +10,6 @@ local nvim_config = require("nvim_config")
 return {
   "CopilotC-Nvim/CopilotChat.nvim",
   cond = not (nvim_config.light_mode or nvim_config.disable_copilot),
-  branch = "canary",
   dependencies = {
     "zbirenbaum/copilot.lua",
     "nvim-lua/plenary.nvim",
@@ -30,15 +29,14 @@ return {
       close = { normal = "q", insert = "<C-c>" },
       reset = { normal = "<localleader>r", insert = "" },
       submit_prompt = { normal = "<CR>", insert = "<M-CR>" }, -- <C-CR>
-      toggle_sticky = { normal = "<localleader>t" },
+      toggle_sticky = { normal = "<localleader>s" },
       accept_diff = { normal = "<localleader>a", insert = "" },
       jump_to_diff = { normal = "<localleader>j" },
       quickfix_diffs = { normal = "<localleader>q" },
       yank_diff = { normal = "<localleader>y" },
       show_diff = { normal = "<localleader>d" },
-      show_system_prompt = { normal = "<localleader>p" },
-      show_user_selection = { normal = "<localleader>s" },
-      show_user_context = { normal = "<localleader>c" },
+      show_info = { normal = "<localleader>i" },
+      show_context = { normal = "<localleader>c" },
       show_help = { normal = "g?" },
     },
   },

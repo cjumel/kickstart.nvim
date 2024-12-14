@@ -24,6 +24,7 @@ return {
       nvim_surround = true,
       overseer = true,
       lsp_trouble = true,
+      snacks = true,
       which_key = true,
     },
   }),
