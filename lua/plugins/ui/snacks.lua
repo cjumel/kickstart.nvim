@@ -1,6 +1,7 @@
 -- snacks.nvim
 --
--- Meta plugin providing a collection of small quality-of-life plugins for Neovim.
+-- Meta plugin providing a collection of small quality-of-life plugins for Neovim. All these plugigns work very nicely
+-- out-of-the-box, with great default behaviors, and bring many UI improvements as well as new cool atomic features.
 
 local telescope_builtin = require("plugins.core.telescope.builtin")
 
@@ -10,10 +11,12 @@ return {
   priority = 1000, -- Main UI stuff should be loaded first
   lazy = false,
   keys = {
-    { "<leader>;", function() require("snacks").notifier.show_history() end, desc = "Notification history" },
+    { "<leader>n", function() require("snacks").notifier.show_history() end, desc = "[N]otifications" },
     { "<leader><BS>", function() require("snacks").bufdelete() end, desc = "Delete buffer" },
+    { "<leader>go", function() require("snacks").gitbrowse() end, desc = "[G]it: [O]pen in browser" },
   },
   opts = {
+    bigfile = { enabled = true },
     dashboard = {
       enabled = true,
       sections = {
@@ -28,6 +31,8 @@ return {
         { icon = " ", key = "q", desc = "Quit", action = ":qa" },
       },
     },
+    input = { enabled = true },
     notifier = { enabled = true },
+    quickfile = { enabled = true },
   },
 }

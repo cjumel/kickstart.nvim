@@ -10,23 +10,21 @@ return {
   dependencies = {
     "MunifTanjim/nui.nvim",
     "nvim-treesitter/nvim-treesitter",
-    "folke/snacks.nvim",
   },
   event = "VeryLazy",
   opts = {
     lsp = {
-      override = { -- Override markdown rendering so that cmp and other plugins use Treesitter
+      override = { -- Override markdown rendering so that nvim-cmp & other plugins use Treesitter
         ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
         ["vim.lsp.util.stylize_markdown"] = true,
         ["cmp.entry.get_documentation"] = true,
       },
-      -- Hide "No information available" LSP messages (don't bring much information & when 2 LSPs are attached, e.g.
-      -- in Python with Pyright & Ruff, the message is always shown because Ruff doesn't provide any information)
+      -- Hide annoying messages when a language server is attached but doesn't provide information, e.g. Ruff in Python
       hover = { silent = true },
       signature = { enabled = false }, -- Disable Noice's signature feature in favor of lsp_signature.nvim
     },
     presets = {
-      bottom_search = true, -- Move the search command at the bottom (decreases visual clutter on screen)
+      bottom_search = true, -- Move the search command at the bottom
       lsp_doc_border = true, -- Add a border to hover documentations and signature help
       inc_rename = true, -- Enable an input dialog for inc-rename.nvim
     },
