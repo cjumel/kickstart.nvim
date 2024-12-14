@@ -106,7 +106,6 @@ return {
     { "hrsh7th/cmp-nvim-lsp", cond = not nvim_config.light_mode },
     "RRethy/vim-illuminate",
     "ray-x/lsp_signature.nvim",
-    "smjonas/inc-rename.nvim",
   },
   ft = function()
     local filetypes = {}
@@ -152,7 +151,7 @@ return {
         map("n", "gd", "<cmd>Trouble lsp_definitions<CR>", "Go to definitions")
         map("n", "gD", "<cmd>Trouble lsp_type_definitions<CR>", "Go to type definitions")
         map("n", "gra", vim.lsp.buf.code_action, "Code action")
-        map("n", "grn", function() return ":IncRename " .. vim.fn.expand("<cword>") end, "Rename", { expr = true })
+        map("n", "grn", vim.lsp.buf.rename, "Rename")
         map("n", "grr", "<cmd>Trouble lsp_references<CR>", "References")
 
         -- Symbols keymaps
