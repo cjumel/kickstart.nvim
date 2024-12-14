@@ -12,6 +12,7 @@ return {
   lazy = false,
   keys = {
     { "<leader>n", function() require("snacks").notifier.show_history() end, desc = "[N]otifications" },
+    { "<leader>z", function() require("snacks").zen() end, desc = "[Z]en mode" },
     { "<leader><BS>", function() require("snacks").bufdelete() end, desc = "Delete buffer" },
     { "<leader>go", function() require("snacks").gitbrowse() end, desc = "[G]it: [O]pen in browser" },
   },
@@ -34,5 +35,9 @@ return {
     input = { enabled = true },
     notifier = { enabled = true },
     quickfile = { enabled = true },
+    zen = {
+      toggles = { dim = false },
+      win = { width = 130 }, -- To support up until 120 line length
+    },
   },
 }
