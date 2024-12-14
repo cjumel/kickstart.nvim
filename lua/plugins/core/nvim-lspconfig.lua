@@ -105,7 +105,6 @@ return {
     { "williamboman/mason-lspconfig.nvim", cond = not nvim_config.light_mode },
     { "hrsh7th/cmp-nvim-lsp", cond = not nvim_config.light_mode },
     "RRethy/vim-illuminate",
-    "ray-x/lsp_signature.nvim",
   },
   ft = function()
     local filetypes = {}
@@ -147,7 +146,7 @@ return {
           vim.keymap.set(mode, lhs, rhs, opts)
         end
 
-        map("n", "<C-s>", vim.lsp.buf.signature_help, "Signature help")
+        map({ "n", "i" }, "<C-s>", vim.lsp.buf.signature_help, "Signature help")
         map("n", "gd", "<cmd>Trouble lsp_definitions<CR>", "Go to definitions")
         map("n", "gD", "<cmd>Trouble lsp_type_definitions<CR>", "Go to type definitions")
         map("n", "gra", vim.lsp.buf.code_action, "Code action")

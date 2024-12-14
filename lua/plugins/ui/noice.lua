@@ -21,7 +21,6 @@ return {
       },
       -- Hide annoying messages when a language server is attached but doesn't provide information, e.g. Ruff in Python
       hover = { silent = true },
-      signature = { enabled = false }, -- Disable Noice's signature feature in favor of lsp_signature.nvim
     },
     presets = {
       bottom_search = true, -- Move the search command at the bottom
