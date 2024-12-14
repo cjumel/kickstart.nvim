@@ -71,12 +71,6 @@ return {
 
     -- Simple text-objects
     {
-      "gG",
-      function() require("various-textobjs").entireBuffer() end,
-      mode = { "x", "o" },
-      desc = "Entire buffer",
-    },
-    {
       "ga", -- "gu" & "gU" are taken by casing operators, "gw" by a format operator (see `:h gw`)
       function() require("various-textobjs").url() end,
       mode = { "x", "o" },
