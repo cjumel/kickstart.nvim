@@ -134,8 +134,8 @@ return {
         )
         ts_keymap.set_local_move_pair(
           "h",
-          function() require("gitsigns").next_hunk({ navigation_message = false }) end,
-          function() require("gitsigns").prev_hunk({ navigation_message = false }) end,
+          function() require("gitsigns").nav_hunk("next") end,
+          function() require("gitsigns").nav_hunk("prev") end,
           "hunk"
         )
         ts_keymap.set_local_move_pair(
