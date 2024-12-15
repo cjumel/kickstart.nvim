@@ -19,7 +19,7 @@ return {
     cb({
       {
         name = "pre-commit run --all-files",
-        tags = { "CHECK", "FORMAT" },
+        tags = { "CHECK" },
         builder = function(_)
           return {
             cmd = { "pre-commit", "run" },
@@ -29,7 +29,7 @@ return {
       },
       {
         name = "pre-commit run --files <file>",
-        tags = { "CHECK", "FORMAT" },
+        tags = { "CHECK" },
         condition = { callback = function(_) return vim.bo.buftype == "" end },
         builder = function(_)
           return {

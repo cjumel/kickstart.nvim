@@ -43,11 +43,6 @@ function M.check_templates()
   overseer.run_template({ tags = { "CHECK" }, first = false })
 end
 
-function M.format_templates()
-  local overseer = require("overseer")
-  overseer.run_template({ tags = { "FORMAT" }, first = false })
-end
-
 function M.build_templates()
   local overseer = require("overseer")
   overseer.run_template({ tags = { "BUILD" }, first = false })

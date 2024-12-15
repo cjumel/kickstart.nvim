@@ -18,7 +18,6 @@ return {
       { "<leader>or", actions.run_templates, desc = "[O]verseer: [R]un templates" },
       { "<leader>ot", actions.test_templates, desc = "[O]verseer: [T]est templates" },
       { "<leader>oc", actions.check_templates, desc = "[O]verseer: [C]heck templates" },
-      { "<leader>of", actions.format_templates, desc = "[O]verseer: [F]ormat templates" },
       { "<leader>ob", actions.build_templates, desc = "[O]verseer: [B]uild templates" },
       { "<leader>ol", actions.rerun_last_task, desc = "[O]verseer: rerun [L]ast task" },
     }
