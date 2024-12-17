@@ -81,7 +81,11 @@ return {
             ["<C-l>"] = custom_actions.smart_open_loclist,
             ["<C-q>"] = custom_actions.smart_open_quickfix,
 
-            -- Fix delete word action in insert mode (see https://github.com/nvim-telescope/telescope.nvim/issues/1579)
+            -- Preview actions
+            ["<C-j>"] = actions.preview_scrolling_down,
+            ["<C-k>"] = actions.preview_scrolling_up,
+
+            -- Fix isert-mode delete word action
             ["<C-w>"] = { "<C-S-w>", type = "command" },
             ["<M-BS>"] = { "<C-S-w>", type = "command" }, -- <C-BS>
           },
@@ -117,10 +121,12 @@ return {
             ["<C-q>"] = custom_actions.smart_open_quickfix,
 
             -- Preview actions
-            ["Ì"] = actions.preview_scrolling_left, -- <M-h>
-            ["Ï"] = actions.preview_scrolling_down, -- <M-j>
-            ["È"] = actions.preview_scrolling_up, -- <M-k>
-            ["|"] = actions.preview_scrolling_right, -- <M-l>
+            ["<C-j>"] = actions.preview_scrolling_down,
+            ["<C-k>"] = actions.preview_scrolling_up,
+            ["H"] = actions.preview_scrolling_left,
+            ["J"] = actions.preview_scrolling_down,
+            ["K"] = actions.preview_scrolling_up,
+            ["L"] = actions.preview_scrolling_right,
           },
         },
         file_ignore_patterns = { "%.git/" }, -- Exclude in all searches (even when hidden & ignored files are included)
