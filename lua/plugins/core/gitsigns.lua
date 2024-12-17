@@ -6,14 +6,12 @@
 
 return {
   "lewis6991/gitsigns.nvim",
-  dependencies = { "nvimtools/hydra.nvim" },
   event = { "BufNewFile", "BufReadPre" },
   opts = {
-    signs = { add = { text = "+" }, change = { text = "~" }, untracked = { text = "" } }, -- Simplify some of the signs
-    signs_staged_enable = false, -- Don't show signs for staged changes
-    attach_to_untracked = true, -- Attach on untracked files to enable keymaps (even if corresponding sign is disabled)
+    signs = { add = { text = "+" }, change = { text = "~" }, untracked = { text = "" } },
+    signs_staged_enable = false,
+    attach_to_untracked = true,
     on_attach = function(bufnr)
-      local actions = require("plugins.core.gitsigns.actions")
       local gitsigns = require("gitsigns")
 
       ---@param mode string|string[] The mode(s) of the keymap.
@@ -22,15 +20,12 @@ return {
       ---@param desc string The description of the keymap.
       local function map(mode, lhs, rhs, desc) vim.keymap.set(mode, lhs, rhs, { desc = desc, buffer = bufnr }) end
 
-      -- General actions
       map("n", "<leader>gs", gitsigns.stage_buffer, "[G]it: [S]tage buffer")
       map("n", "<leader>gu", gitsigns.reset_buffer_index, "[G]it: [U]nstage buffer")
       map("n", "<leader>gx", gitsigns.reset_buffer, "[G]it: discard buffer changes")
       map("n", "<leader>gp", function() gitsigns.blame_line({ full = true }) end, "[G]it: [P]reviw blame")
       map("n", "<leader>gd", function() gitsigns.diffthis("~") end, "[G]it: buffer [D]iff")
-
-      -- Hunk text object (with custom look ahead feature)
-      map({ "x", "o" }, "gh", actions.select_hunk, "Hunk")
+      map({ "x", "o" }, "gh", ":<C-U>Gitsigns select_hunk<CR>", "Hunk")
     end,
   },
 }
