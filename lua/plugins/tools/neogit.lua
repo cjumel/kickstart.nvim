@@ -10,8 +10,19 @@ return {
     "nvim-lua/plenary.nvim",
     "nvim-telescope/telescope.nvim",
   },
-  -- The "&" key is similar (in terms of key position, character nature and usage) to "-", used for Oil
-  keys = { { "&", function() require("neogit").open() end, desc = "Neogit" } },
+  keys = {
+    {
+      "&", -- The "&" key is similar (in terms of key position, character nature and usage) to "-", used for Oil
+      function()
+        -- When called from the zen-mode, the Neogit opening failed, so let's make sure the zen-mode is closed first
+        if package.loaded["zen-mode"] ~= nil then
+          require("zen-mode").close()
+        end
+        require("neogit").open()
+      end,
+      desc = "Neogit",
+    },
+  },
   opts = {
     commit_editor = { spell_check = false },
     commit_view = { kind = "tab" }, -- Decrease visual clutter
