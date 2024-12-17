@@ -5,7 +5,8 @@ return {
       if vim.fn.executable("pre-commit") == 0 then
         return false
       end
-      local git_root_path = require("snacks").git.get_root(vim.fn.getcwd())
+      local dir_path = vim.fn.getcwd() .. "/.git" -- Without "/.git", the git root path detection below won't work
+      local git_root_path = require("snacks").git.get_root(dir_path)
       if git_root_path == nil then -- Not in a Git repository
         return false
       end
