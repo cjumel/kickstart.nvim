@@ -1,7 +1,3 @@
--- The window Hydra provides an almost-exhaustive menu to interact with windows and tabs using most of the builtin
--- keymaps without modification, without having to press repeatedly a keymap prefix ("<C-w>" by default) to perform
--- several actions.
-
 local Hydra = require("hydra")
 
 Hydra({
