@@ -11,7 +11,7 @@ local t = ls.text_node
 return {
 
   s({
-    trig = "Args ..",
+    trig = "Args",
     show_condition = conds.line_begin
       * ls_show_conds.line_end
       * conds.make_treesitter_node_ancestors_inclusion_condition({
@@ -65,7 +65,7 @@ return {
   }),
 
   s({
-    trig = "Attributes ..",
+    trig = "Attributes",
     show_condition = conds.line_begin
       * ls_show_conds.line_end
       * conds.make_treesitter_node_ancestors_inclusion_condition({
@@ -152,7 +152,7 @@ return {
   }),
 
   s({
-    trig = "Raises ..",
+    trig = "Raises",
     show_condition = conds.line_begin
       * ls_show_conds.line_end
       * conds.make_treesitter_node_ancestors_inclusion_condition({
@@ -167,7 +167,7 @@ return {
   }),
 
   s({
-    trig = "Returns ..",
+    trig = "Returns",
     show_condition = conds.line_begin
       * ls_show_conds.line_end
       * conds.make_treesitter_node_ancestors_inclusion_condition({
@@ -182,7 +182,7 @@ return {
   }),
 
   s({
-    trig = "Yields ..",
+    trig = "Yields",
     show_condition = conds.line_begin
       * ls_show_conds.line_end
       * conds.make_treesitter_node_ancestors_inclusion_condition({

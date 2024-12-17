@@ -12,7 +12,7 @@ local t = ls.text_node
 return {
 
   s({
-    trig = "class ..",
+    trig = "class",
     show_condition = conds.line_begin * ls_show_conds.line_end * conds.make_treesitter_node_exclusion_condition({
       "comment",
       "string",
@@ -44,7 +44,7 @@ Choices:
   }),
 
   s({
-    trig = "def ..",
+    trig = "def",
     show_condition = (conds.line_begin + conds.make_prefix_condition("async "))
       * ls_show_conds.line_end
       * conds.make_treesitter_node_exclusion_condition({
@@ -78,7 +78,7 @@ Choices:
   }),
 
   s({
-    trig = "elif ..",
+    trig = "elif",
     show_condition = conds.line_begin * ls_show_conds.line_end * conds.make_treesitter_node_exclusion_condition({
       "comment",
       "string",
@@ -95,7 +95,7 @@ Choices:
   }),
 
   s({
-    trig = "else ..",
+    trig = "else",
     show_condition = conds.line_begin * ls_show_conds.line_end * conds.make_treesitter_node_exclusion_condition({
       "comment",
       "string",
@@ -110,7 +110,7 @@ Choices:
   }),
 
   s({
-    trig = "except ..",
+    trig = "except",
     show_condition = conds.line_begin * ls_show_conds.line_end * conds.make_treesitter_node_exclusion_condition({
       "comment",
       "string",
@@ -142,7 +142,7 @@ Choices:
   }),
 
   s({
-    trig = "finally ..",
+    trig = "finally",
     show_condition = conds.line_begin * ls_show_conds.line_end * conds.make_treesitter_node_exclusion_condition({
       "comment",
       "string",
@@ -157,7 +157,7 @@ Choices:
   }),
 
   s({
-    trig = "for ..",
+    trig = "for",
     show_condition = (conds.line_begin + conds.make_prefix_condition("async "))
       * ls_show_conds.line_end
       * conds.make_treesitter_node_exclusion_condition({
@@ -216,7 +216,7 @@ Choices:
     }),
   }),
   s({
-    trig = "for ..", -- Inline version
+    trig = "for", -- Inline version
     show_condition = -(conds.line_begin + conds.make_prefix_condition("async "))
       * conds.make_treesitter_node_exclusion_condition({
         "comment",
@@ -270,7 +270,7 @@ Choices:
   }),
 
   s({
-    trig = "from ..",
+    trig = "from",
     show_condition = conds.line_begin * ls_show_conds.line_end * conds.make_treesitter_node_exclusion_condition({
       "comment",
       "string",
@@ -302,7 +302,7 @@ Choices:
   }),
 
   s({
-    trig = "if ..",
+    trig = "if",
     show_condition = conds.line_begin * ls_show_conds.line_end * conds.make_treesitter_node_exclusion_condition({
       "comment",
       "string",
@@ -318,7 +318,7 @@ Choices:
     c(2, { i(nil), sn(nil, { t("pass"), i(1) }) }),
   }),
   s({
-    trig = "if ..", -- Inline version
+    trig = "if", -- Inline version
     show_condition = -conds.line_begin * conds.make_treesitter_node_exclusion_condition({
       "comment",
       "string",
@@ -335,7 +335,7 @@ Choices:
   }),
 
   s({
-    trig = "if .. main ..",
+    trig = "if .. main",
     show_condition = conds.line_begin * ls_show_conds.line_end * conds.make_treesitter_node_inclusion_condition({
       "module",
     }),
@@ -346,7 +346,7 @@ Choices:
   }),
 
   s({
-    trig = "import ..",
+    trig = "import",
     show_condition = conds.line_begin * ls_show_conds.line_end * conds.make_treesitter_node_exclusion_condition({
       "comment",
       "string",
@@ -366,7 +366,7 @@ Choices:
   }),
 
   s({
-    trig = "lambda ..",
+    trig = "lambda",
     show_condition = -conds.line_begin,
     desc = [[`lambda ..: ..`]],
   }, {
@@ -377,7 +377,7 @@ Choices:
   }),
 
   s({
-    trig = "raise ..",
+    trig = "raise",
     show_condition = conds.line_begin * ls_show_conds.line_end * conds.make_treesitter_node_exclusion_condition({
       "comment",
       "string",
@@ -401,7 +401,7 @@ Choices:
   }),
 
   s({
-    trig = "try ..",
+    trig = "try",
     show_condition = conds.line_begin * ls_show_conds.line_end * conds.make_treesitter_node_exclusion_condition({
       "comment",
       "string",
@@ -416,7 +416,7 @@ Choices:
   }),
 
   s({
-    trig = "while ..",
+    trig = "while",
     show_condition = conds.line_begin * ls_show_conds.line_end * conds.make_treesitter_node_exclusion_condition({
       "comment",
       "string",
@@ -433,7 +433,7 @@ Choices:
   }),
 
   s({
-    trig = "with ..",
+    trig = "with",
     show_condition = (conds.line_begin + conds.make_prefix_condition("async "))
       * ls_show_conds.line_end
       * conds.make_treesitter_node_exclusion_condition({

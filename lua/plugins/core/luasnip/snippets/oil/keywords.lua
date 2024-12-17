@@ -115,7 +115,7 @@ return {
       * make_filename_condition("init.lua"),
   }, { t("init.lua") }),
   s({
-    trig = "temp~.lua",
+    trig = "temp.lua",
     show_condition = conds.line_begin * ls_show_conds.line_end * make_file_extension_condition("lua"),
   }, { t("temp"), d(1, make_dynamic_file_index_node("temp", ".lua")), t(".lua") }),
 
@@ -153,7 +153,7 @@ return {
       * make_filename_condition("__init__.py"),
   }, { t("__init__.py") }),
   s({
-    trig = "temp~.py",
+    trig = "temp.py",
     show_condition = conds.line_begin * ls_show_conds.line_end * make_file_extension_condition("py"),
   }, { t("temp"), d(1, make_dynamic_file_index_node("temp", ".py")), t(".py") }),
 

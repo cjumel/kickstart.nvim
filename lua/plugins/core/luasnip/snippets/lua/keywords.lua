@@ -11,7 +11,7 @@ local t = ls.text_node
 
 return {
   s({
-    trig = "else ..",
+    trig = "else",
     show_condition = conds.line_begin * ls_show_conds.line_end * conds.make_treesitter_node_exclusion_condition({
       "comment",
       "comment_content",
@@ -26,7 +26,7 @@ return {
   }),
 
   s({
-    trig = "elseif ..",
+    trig = "elseif",
     show_condition = conds.line_begin * ls_show_conds.line_end * conds.make_treesitter_node_exclusion_condition({
       "comment",
       "comment_content",
@@ -43,7 +43,7 @@ return {
   }),
 
   s({
-    trig = "for ..",
+    trig = "for",
     show_condition = conds.line_begin * ls_show_conds.line_end * conds.make_treesitter_node_exclusion_condition({
       "comment",
       "comment_content",
@@ -103,7 +103,7 @@ Choices:
   }),
 
   s({
-    trig = "function ..",
+    trig = "function",
     show_condition = conds.make_treesitter_node_exclusion_condition({
       "comment",
       "comment_content",
@@ -138,7 +138,7 @@ Choices:
   }),
 
   s({
-    trig = "if ..",
+    trig = "if",
     show_condition = conds.line_begin * ls_show_conds.line_end * conds.make_treesitter_node_exclusion_condition({
       "comment",
       "comment_content",
@@ -156,7 +156,7 @@ Choices:
   }),
 
   s({
-    trig = "local ..",
+    trig = "local",
     show_condition = conds.line_begin * conds.make_treesitter_node_exclusion_condition({
       "comment",
       "comment_content",
@@ -166,17 +166,31 @@ Choices:
     }),
     desc = [[
 Choices:
-- `local ..`
-- `local .. = require("..")`]],
+- `local .. = <../require("..")>`
+- `local function() .. end`]],
   }, {
+    t("local "),
     c(1, {
-      sn(nil, { t("local "), r(1, "var_name", i(nil)) }),
-      sn(nil, { t("local "), r(1, "var_name"), t([[ = require("]]), i(2), t([[")]]) }),
+      sn(nil, {
+        i(1),
+        t(" = "),
+        c(2, {
+          i(1),
+          sn(nil, { t('require("'), i(1), t('")') }),
+        }),
+      }),
+      sn(nil, {
+        t("function("),
+        i(1),
+        t({ ")", "\t" }),
+        i(2),
+        t({ "", "end" }),
+      }),
     }),
   }),
 
   s({
-    trig = "while ..",
+    trig = "while",
     show_condition = conds.line_begin * ls_show_conds.line_end * conds.make_treesitter_node_exclusion_condition({
       "comment",
       "comment_content",
