@@ -48,5 +48,9 @@ return {
       toggles = { dim = false },
       win = { width = 130 }, -- To support up until 120 line length
     },
+    styles = {
+      notification = { wo = { wrap = true } }, -- Don't truncate notifications
+      notification_history = { wo = { number = false, relativenumber = false } },
+    },
   },
 }
