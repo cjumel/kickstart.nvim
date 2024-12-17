@@ -87,23 +87,29 @@ return {
     vim.api.nvim_create_user_command("LintDisable", function(args)
       if args.bang then
         vim.b.disable_lint = true
+        vim.notify("Lint disabled for current buffer")
       else
         vim.g.disable_lint = true
+        vim.notify("Lint disabled globally")
       end
     end, { desc = "Disable lint", bang = true })
     vim.api.nvim_create_user_command("LintEnable", function()
       vim.b.disable_lint = false
       vim.g.disable_lint = false
+      vim.notify("Lint enabled")
     end, { desc = "Enable lint" })
     vim.api.nvim_create_user_command("LintToggle", function(args)
       if vim.b.disable_lint or vim.g.disable_lint then -- Lint is disabled
         vim.b.disable_lint = false
         vim.g.disable_lint = false
+        vim.notify("Lint enabled")
       else
         if args.bang then
           vim.b.disable_lint = true
+          vim.notify("Lint disabled for current buffer")
         else
           vim.g.disable_lint = true
+          vim.notify("Lint disabled globally")
         end
       end
     end, { desc = "Toggle lint", bang = true })

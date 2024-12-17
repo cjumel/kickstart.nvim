@@ -87,23 +87,29 @@ return {
     vim.api.nvim_create_user_command("FormatOnSaveDisable", function(args)
       if args.bang then
         vim.b.disable_format_on_save = true
+        vim.notify("Format-on-save disabled for current buffer")
       else
         vim.g.disable_format_on_save = true
+        vim.notify("Format-on-save disabled globally")
       end
     end, { desc = "Disable format-on-save", bang = true })
     vim.api.nvim_create_user_command("FormatOnSaveEnable", function()
       vim.b.disable_format_on_save = false
       vim.g.disable_format_on_save = false
+      vim.notify("Format-on-save enabled")
     end, { desc = "Enable format-on-save" })
     vim.api.nvim_create_user_command("FormatOnSaveToggle", function(args)
       if vim.b.disable_format_on_save or vim.g.disable_format_on_save then -- Format-on-save is disabled
         vim.b.disable_format_on_save = false
         vim.g.disable_format_on_save = false
+        vim.notify("Format-on-save enabled")
       else
         if args.bang then
           vim.b.disable_format_on_save = true
+          vim.notify("Format-on-save disabled for current buffer")
         else
           vim.g.disable_format_on_save = true
+          vim.notify("Format-on-save disabled globally")
         end
       end
     end, { desc = "Toggle format-on-save", bang = true })
