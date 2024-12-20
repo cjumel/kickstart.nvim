@@ -8,17 +8,19 @@ return {
   "nvimtools/hydra.nvim",
   keys = {
     { "<C-w>", desc = "Window Hydra" },
+    { "<leader>d", desc = "Debug Hydra" },
     { "<leader>h", desc = "Hunk Hydra" },
   },
   opts = {
-    invoke_on_body = true, -- Invoke the Hydra directy after pressing the body key
-    hint = { float_opts = { border = "rounded" } }, -- Add a border to improve visibility in transparent backgrounds
+    invoke_on_body = true,
+    hint = { float_opts = { border = "rounded" } }, -- Improve visibility in transparent backgrounds
   },
   config = function(_, opts)
     require("hydra").setup(opts)
 
     -- Setup the different Hydras
     require("plugins.ui.hydra.window_hydra")
+    require("plugins.ui.hydra.debug_hydra")
     require("plugins.ui.hydra.hunk_hydra")
   end,
 }

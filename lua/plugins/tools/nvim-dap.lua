@@ -2,59 +2,39 @@
 --
 -- nvim-dap provides a Neovim implemetation of the Debug Adapter Protocol (DAP), enabling a great experience for
 -- debugging directly in Neovim, making it a great plugin in my opinion. This plugin is best used with the nvim-dap-ui
--- plugin to provide a great user interface, and with language specific configuration, like nvim-dap-python.
+-- plugin to provide a great user interface, and with language specific configuration, handled manually or with a plugin
+-- like nvim-dap-python.
 
 local nvim_config = require("nvim_config")
 
 return {
   "mfussenegger/nvim-dap",
   cond = not nvim_config.light_mode,
-  dependencies = { "rcarriga/nvim-dap-ui" },
-  keys = {
-    {
-      "<leader>dr",
-      function()
-        if vim.bo.filetype == "python" and package.loaded["dap-python"] == nil then
-          require("dap-python") -- Setup DAP configurations for Python
-        end
-        require("dap").continue()
-      end,
-      desc = "[D]AP: [R]un",
-    },
-    { "<leader>dl", function() require("dap").run_last() end, desc = "[D]AP: run [L]ast" },
-    { "<leader>dt", function() require("dap").terminate() end, desc = "[D]AP: [T]erminate" },
-    { "<leader>db", function() require("dap").toggle_breakpoint() end, desc = "[D]AP: [B]reakpoint" },
-    { "<leader>dp", function() require("dap.ui.widgets").hover() end, desc = "[D]AP: [P]review variable" },
-    { "<leader>dc", function() require("dap").continue() end, desc = "[D]AP: [C]ontinue" },
-    {
-      "<leader>dC",
-      function()
-        require("dapui").close() -- Close the UI if it's open
-        require("dap").repl.toggle()
-      end,
-      desc = "[D]AP: toggle REPL [C]onsole",
-    },
-    {
-      "<leader>du",
-      function()
-        require("dap").repl.close() -- Close the REPL console if it's open
-        require("dapui").toggle()
-      end,
-      desc = "[D]AP: toggle [U]I",
-    },
-    { "<leader>dU", function() require("dapui").open({ reset = true }) end, desc = "[D]AP: reset [U]I" },
+  dependencies = {
+    "rcarriga/nvim-dap-ui",
+    "williamboman/mason.nvim",
   },
-  config = function(_, _)
+  init = function()
+    local mason_ensure_installed = { "debugpy" }
+    vim.g.mason_ensure_installed = vim.list_extend(vim.g.mason_ensure_installed or {}, mason_ensure_installed)
+  end,
+  config = function()
     local dap = require("dap")
     local dapui = require("dapui")
 
-    -- Setup DAP-UI to open with DAP
+    -- Open nvim-dap-ui along with nvim-dap
     dap.listeners.after.event_initialized["dapui_config"] = dapui.open
 
-    -- Define a column sign & a highlight for each type of breakpoint
-    local sign = vim.fn.sign_define
-    sign("DapBreakpoint", { text = "●", texthl = "DapBreakpoint", linehl = "", numhl = "" })
-    sign("DapBreakpointCondition", { text = "●", texthl = "DapBreakpointCondition", linehl = "", numhl = "" })
-    sign("DapLogPoint", { text = "◆", texthl = "DapLogPoint", linehl = "", numhl = "" })
+    -- Define a column sign & text highlight for each type of breakpoints
+    vim.fn.sign_define("DapBreakpoint", { text = "●", texthl = "DapBreakpoint", linehl = "", numhl = "" })
+    vim.fn.sign_define(
+      "DapBreakpointCondition",
+      { text = "●", texthl = "DapBreakpointCondition", linehl = "", numhl = "" }
+    )
+    vim.fn.sign_define("DapLogPoint", { text = "◆", texthl = "DapLogPoint", linehl = "", numhl = "" })
+
+    -- Setup language-specific DAP configurations
+    local dap_python = require("plugins.tools.nvim-dap.python")
+    dap_python.setup()
   end,
 }
