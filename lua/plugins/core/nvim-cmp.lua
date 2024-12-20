@@ -98,7 +98,7 @@ return {
         { name = "buffer" },
       },
     })
-    cmp.setup.filetype({ "oil", "gitcommit", "NeogitCommitMessage" }, {
+    cmp.setup.filetype({ "oil", "gitcommit" }, {
       sources = {
         { name = "luasnip" },
         { name = "buffer" },

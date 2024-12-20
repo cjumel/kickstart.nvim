@@ -16,7 +16,7 @@ function M.build_extensions(sections)
       filetypes = { "toggleterm" },
       sections = vim.tbl_deep_extend("force", sections, { lualine_c = lualine_modules.toggleterm }),
     },
-    -- Use an empty `lualine_c` section for all the remaining temporary filetypes (filetype is still visible)
+    -- Use an empty `lualine_c` section for remaining plugin temporary filetypes, as filetype is still visible
     {
       filetypes = {
         "aerial",
@@ -26,12 +26,10 @@ function M.build_extensions(sections)
         "dapui_console",
         "dapui_scopes",
         "dapui_watches",
-        "gitcommit",
         "harpoon",
         "lazy",
         "lspinfo",
         "mason",
-        "NeogitCommitMessage",
         "NeogitCommitPopup",
         "NeogitCommitView",
         "NeogitPopup",
