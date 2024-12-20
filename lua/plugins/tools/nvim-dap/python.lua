@@ -48,40 +48,45 @@ M.setup = function()
     end
   end
 
-  dap.configurations.python = {
-    {
-      type = "python",
-      request = "launch",
-      name = "python <file>",
-      program = "${file}",
-      console = "integratedTerminal",
-    },
-  }
-  if vim.fn.executable("pytest") == 1 then
-    vim.list_extend(dap.configurations.python, {
+  dap.providers.configs["dap-python"] = function(bufnr)
+    if vim.bo[bufnr].filetype ~= "python" then
+      return {}
+    end
+
+    local configs = {
       {
+        type = "python",
+        request = "launch",
+        name = "python <file>",
+        program = "${file}",
+        console = "integratedTerminal",
+      },
+    }
+
+    if vim.fn.executable("pytest") == 1 and lang_utils.python.is_python_test_file() then
+      table.insert(configs, {
         type = "python",
         request = "launch",
         name = "pytest <file>",
         module = "pytest",
         args = { "${file}" },
         console = "integratedTerminal",
-      },
-      {
-        type = "python",
-        request = "launch",
-        name = "pytest <function>",
-        module = "pytest",
-        args = function()
-          local function_name = lang_utils.python.get_python_test_function_name()
-          if function_name == nil then
-            error("No function found")
-          end
-          return { "${file}::" .. function_name }
-        end,
-        console = "integratedTerminal",
-      },
-    })
+      })
+
+      local test_function_name = lang_utils.python.get_python_test_function_name()
+      if test_function_name ~= nil then
+        table.insert(configs, {
+          type = "python",
+          request = "launch",
+          name = "pytest <function>",
+          module = "pytest",
+          args = { "${file}::" .. test_function_name },
+          console = "integratedTerminal",
+        })
+      end
+    end
+
+    return configs
   end
 
   -- Enable debugpy to detect errors caught by pytest and break
