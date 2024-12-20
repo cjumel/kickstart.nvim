@@ -44,7 +44,7 @@ return {
     styles = {
       notification = { wo = { wrap = true } }, -- Don't truncate notifications
       notification_history = { wo = { number = false, relativenumber = false } },
-      zen = { wo = { number = false, relativenumber = false, signcolumn = "yes" } },
+      zen = { wo = { number = false, relativenumber = false, signcolumn = "no", colorcolumn = "" } },
     },
   },
 }
