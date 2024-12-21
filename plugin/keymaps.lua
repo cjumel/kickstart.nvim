@@ -149,6 +149,10 @@ local function search_in_web_browser()
     text = vim.fn.getreg("z")
   end
   vim.ui.input({ prompt = "Web search", default = text }, function(input)
+    if input == nil or input == "" then
+      return
+    end
+
     -- Replace white spaces in the search text with "+" to form a valid search URL
     local tokens = {}
     for token in string.gmatch(input, "%S+") do
