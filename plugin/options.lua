@@ -12,6 +12,7 @@ vim.opt.cursorline = true -- Enable hilighting of line where cursor is
 vim.opt.cursorlineopt = "both" -- The cursorline highlights both the line background and the line number foreground
 vim.opt.colorcolumn = "" -- No colorcolumn by default; ftplugins might change this for specific file types
 vim.opt.conceallevel = 0 -- No concealing by default; ftplugins might change this for specific file types
+vim.opt.fillchars = { eob = " " } -- Hide "~" symbols at the end of buffers
 
 -- Side column
 vim.wo.number = true -- Enable line numbering
