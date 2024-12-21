@@ -8,13 +8,13 @@ return {
   dependencies = { "nvim-lua/plenary.nvim" },
   keys = {
     {
-      "ls",
+      "<leader>ls",
       function() require("linkup").standard_search() end,
       mode = { "n", "v" },
       desc = "[L]inkup: [S]tandard search",
     },
     {
-      "ld",
+      "<leader>ld",
       function() require("linkup").deep_search() end,
       mode = { "n", "v" },
       desc = "[L]inkup: [D]eep search",
