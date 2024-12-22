@@ -26,7 +26,7 @@ return {
   opts = {
     -- Add more keyword and keyword alternatives
     keywords = {
-      TODO = { icon = " ", color = "info", alt = { "NOW" } },
+      NOW = { icon = " ", color = "info" }, -- Like TODO, but not in `alt` to be able to search for them directly
       NOTE = { icon = " ", color = "hint", alt = { "INFO", "IMPORTANT" } },
     },
     -- Include hidden files when searching for todo-comments
