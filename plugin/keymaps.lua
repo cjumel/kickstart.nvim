@@ -50,27 +50,21 @@ vim.keymap.set({ "n", "v" }, "<C-_>", "{", { desc = "Previous paragraph" }) -- <
 --- so this should not be used in command-line mode when using Noice.
 ---@return nil
 local function clear_normal_mode_artifacts()
-  -- Clear search highlights in case `vim.o.hlsearch` is true
-  vim.cmd("nohlsearch")
-
-  -- Clear Noice messages
+  vim.cmd("nohlsearch") -- Clear search highlights in case `vim.o.hlsearch` is true
   if package.loaded.noice ~= nil then
-    require("noice").cmd("dismiss")
+    require("noice").cmd("dismiss") -- Clear Noice messages
   end
 end
 
 --- Clear insert-mode artifacts, like nvim-cmp completion suggestions.
 ---@return nil
 local function clear_insert_mode_artifacts()
-  -- Clear nvim-cmp suggestion
-  if package.loaded.cmp ~= nil then
+  if package.loaded.cmp ~= nil then -- Clear nvim-cmp suggestion
     require("cmp").abort()
   end
-
-  -- Clear copilot.lua suggestion
   if package.loaded.copilot ~= nil then
     if require("copilot.suggestion").is_visible() then
-      require("copilot.suggestion").dismiss()
+      require("copilot.suggestion").dismiss() -- Clear copilot.lua suggestion
     end
   end
 end
@@ -81,6 +75,9 @@ vim.keymap.set({ "i", "c" }, "<C-c>", clear_insert_mode_artifacts, { desc = "Cle
 
 vim.keymap.set("v", "<Tab>", ">gv", { desc = "Indent selection" })
 vim.keymap.set("v", "<S-Tab>", "<gv", { desc = "Unindent selection" })
+
+vim.keymap.set({ "n", "v" }, "_", '"_', { desc = "Black hole register" })
+vim.keymap.set({ "n", "v" }, "+", '"+', { desc = "System clipboard register" })
 
 --- Fetch the path of the file or directory linked to the current buffer (must be a regular buffer or an Oil buffer),
 --- apply the provided modifiers to it and yank it to the default register.
@@ -96,7 +93,6 @@ local function yank_path(mods)
       path = path:gsub("/$", "") -- Remove the "/" prefix if it exists (necessary to get the tail with `mods`)
     end
   end
-
   if path ~= nil then
     path = vim.fn.fnamemodify(path, mods)
     vim.fn.setreg('"', path)
@@ -120,39 +116,40 @@ local function yank_receive_from_clipboard()
   vim.notify('Received "' .. content .. '" from system clipboard')
 end
 
-vim.keymap.set({ "n", "v" }, "_", '"_', { desc = "Black hole register" })
-vim.keymap.set({ "n", "v" }, "+", '"+', { desc = "System clipboard register" })
+--- Yank the content of the last notification.
+---@return nil
+local function yank_last_notification()
+  local notification_history = require("snacks").notifier.get_history({ reverse = true })
+  local content = notification_history[1].msg
+  vim.fn.setreg('"', content)
+  vim.notify('Yanked "' .. content .. '"')
+end
 
-vim.keymap.set("n", "<leader>yp", function() yank_path(":~:.") end, { desc = "[Y]ank: [P]ath" })
-vim.keymap.set("n", "<leader>ya", function() yank_path(":p") end, { desc = "[Y]ank: [A]bsolute path" })
-vim.keymap.set("n", "<leader>yn", function() yank_path(":t") end, { desc = "[Y]ank: [N]ame" })
+vim.keymap.set("n", "<leader>yp", function() yank_path(":~:.") end, { desc = "[Y]ank: file [P]ath" })
+vim.keymap.set("n", "<leader>ya", function() yank_path(":p") end, { desc = "[Y]ank: file [A]bsolute path" })
+vim.keymap.set("n", "<leader>yn", function() yank_path(":t") end, { desc = "[Y]ank: file [N]ame" })
 vim.keymap.set("n", "<leader>ys", yank_send_to_clipboard, { desc = "[Y]ank: [S]end to clipboard" })
 vim.keymap.set("n", "<leader>yr", yank_receive_from_clipboard, { desc = "[Y]ank: [R]eceive from clipboard" })
+vim.keymap.set("n", "<leader>yl", yank_last_notification, { desc = "[Y]ank: [L]ast notification" })
 
--- Complete "gx" (open entry under the cursor or selection with external tool, in normal or visual mode) with:
---  - "gX" to open the current file with external tool, in normal mode
---  - "gb" to search the word under the cursor or the selection in a browser, in normal or visual mode
+-- Like "gx", bur for the current file instead of the link under the cursor
 vim.keymap.set(
   "n",
   "gX",
   function() vim.ui.open(vim.fn.expand("%")) end,
   { desc = "Open current file with file system handler" }
 )
-local function search_in_web_browser()
+
+-- Introduce a browser search keymap with "gb", to launch a simple Web search
+local function browser_search()
   local text
   if visual_mode.is_on() then
     text = visual_mode.get_text()
-  else
-    -- Retrieve the search text with the z-register as intermediary, like the smart-gx implementation of
-    --  nvim-various-textobjs
-    vim.cmd.normal({ '"zyiw', bang = true })
-    text = vim.fn.getreg("z")
   end
   vim.ui.input({ prompt = "Web search", default = text }, function(input)
     if input == nil or input == "" then
       return
     end
-
     -- Replace white spaces in the search text with "+" to form a valid search URL
     local tokens = {}
     for token in string.gmatch(input, "%S+") do
@@ -162,7 +159,7 @@ local function search_in_web_browser()
     vim.ui.open("https://www.google.com/search?q=" .. search_text)
   end)
 end
-vim.keymap.set({ "n", "v" }, "gb", search_in_web_browser, { desc = "Search word under the cursor in Web browser" })
+vim.keymap.set({ "n", "v" }, "gb", browser_search, { desc = "Search in Web browser" })
 
 -- [[ Insert and command-line keymaps ]]
 -- Keymaps for insert and command-line modes, notably reproducing some shell keymaps
