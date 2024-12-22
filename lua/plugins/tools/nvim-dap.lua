@@ -12,6 +12,7 @@ return {
     "rcarriga/nvim-dap-ui",
     "williamboman/mason.nvim",
   },
+  lazy = true, -- Loaded by keymaps in the debug Hydra
   init = function()
     local mason_ensure_installed = { "debugpy" }
     vim.g.mason_ensure_installed = vim.list_extend(vim.g.mason_ensure_installed or {}, mason_ensure_installed)
