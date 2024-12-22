@@ -5,11 +5,9 @@
 -- plugin to provide a great user interface, and with language specific configuration, handled manually or with a plugin
 -- like nvim-dap-python.
 
-local nvim_config = require("nvim_config")
-
 return {
   "mfussenegger/nvim-dap",
-  cond = not nvim_config.light_mode,
+  cond = not require("conf").get("light_mode"),
   dependencies = {
     "rcarriga/nvim-dap-ui",
     "williamboman/mason.nvim",

@@ -4,8 +4,6 @@
 -- the code of the Neovim LSP itself, nor the language servers implementations. It makes super easy setting up a LSP
 -- in Neovim, bridging the gap between the LSP client and the language servers implementations.
 
-local nvim_config = require("nvim_config")
-
 -- In `language_servers`, define the language servers to use and their configuration overrides.
 -- Available keys for overrides are:
 --  - cmd (table): Override the default command used to start the server
@@ -99,11 +97,11 @@ local server_name_to_mason_name = {
 
 return {
   "neovim/nvim-lspconfig",
-  cond = not nvim_config.light_mode,
+  cond = not require("conf").get("light_mode"),
   dependencies = {
     "williamboman/mason.nvim",
-    { "williamboman/mason-lspconfig.nvim", cond = not nvim_config.light_mode },
-    { "hrsh7th/cmp-nvim-lsp", cond = not nvim_config.light_mode },
+    { "williamboman/mason-lspconfig.nvim", cond = not require("conf").get("light_mode") },
+    { "hrsh7th/cmp-nvim-lsp", cond = not require("conf").get("light_mode") },
   },
   ft = function()
     local filetypes = {}

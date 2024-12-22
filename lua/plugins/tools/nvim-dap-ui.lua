@@ -2,12 +2,10 @@
 --
 -- nvim-dap-ui provides a UI for nvim-dap, making the debugging experience in Neovim as good as in an IDE.
 
-local nvim_config = require("nvim_config")
-
 return {
   "rcarriga/nvim-dap-ui",
-  cond = not nvim_config.light_mode,
-  dependencies = { { "nvim-neotest/nvim-nio", cond = not nvim_config.light_mode } },
+  cond = not require("conf").get("light_mode"),
+  dependencies = { { "nvim-neotest/nvim-nio", cond = not require("conf").get("light_mode") } },
   lazy = true, -- Dependency of nvim-dap
   opts = {
     layouts = { -- Remove the "stacks" element, move the "repl" to the sidebar, and move the sidebar on the right

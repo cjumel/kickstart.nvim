@@ -4,11 +4,9 @@
 -- LSP servers, DAP servers, linters, and formatters, for instance. It covers all the tools I need, and thus occupies a
 -- central role in my configuration to integrate tools in Neovim.
 
-local nvim_config = require("nvim_config")
-
 return {
   "williamboman/mason.nvim",
-  cond = not nvim_config.light_mode,
+  cond = not require("conf").get("light_mode"),
   cmd = {
     "Mason",
     "MasonUpdate",

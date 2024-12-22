@@ -1,4 +1,4 @@
-vim.g.nvim_config = {
+return {
 
   -- Set `light_mode` to true to disable all the plugins related to GitHub's Copilot or to external tools managed with
   --  Mason. Consequently, if this mode is activated, all the options below have no effect.

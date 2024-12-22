@@ -6,11 +6,9 @@
 -- not run locally, this plugin requires an active internet connection, in addition of an active GitHub Copilot
 -- subscription to work.
 
-local nvim_config = require("nvim_config")
-
 return {
   "zbirenbaum/copilot.lua",
-  cond = not (nvim_config.light_mode or nvim_config.disable_copilot),
+  cond = not (require("conf").get("light_mode") or require("conf").get("disable_copilot")),
   -- Spinning the Copilot server a bit before entering insert mode helps to provide suggestions right away
   event = { "InsertEnter", "BufNewFile", "BufReadPre" },
   cmd = "Copilot",

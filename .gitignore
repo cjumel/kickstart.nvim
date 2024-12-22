@@ -1,5 +1,5 @@
 # Global Neovim configuration file
-.nvim.global.lua
+lua/conf/global.lua
 
 # Symlink for the activated terminal theme
 lua/theme/current.lua
