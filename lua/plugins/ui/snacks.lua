@@ -32,7 +32,6 @@ return {
         { icon = " ", key = "q", desc = "Quit", action = ":qa" },
       },
     },
-    input = { enabled = true },
     notifier = { enabled = true },
     quickfile = { enabled = true },
     scroll = { enabled = true },
