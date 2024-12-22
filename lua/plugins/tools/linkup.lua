@@ -19,6 +19,12 @@ return {
       mode = { "n", "v" },
       desc = "[L]inkup: [D]eep search",
     },
+    {
+      "<leader>lw",
+      function() require("linkup").open_website() end,
+      mode = { "n", "v" },
+      desc = "[L]inkup: open [W]ebsite",
+    },
   },
   opts = {},
 }
