@@ -39,6 +39,10 @@ vim.keymap.set({ "n", "o", "x" }, "G", "G$", { desc = "End of buffer" })
 -- Remap $ in visual mode to avoid selecting the newline character (consistent with other modes)
 vim.keymap.set("v", "$", "$h", { desc = "End of line" })
 
+-- Increase the amount of scrolling with <C-e> and <C-y>
+vim.keymap.set({ "n", "v" }, "<C-e>", "3<C-e>", { desc = "Scroll down a few lines" })
+vim.keymap.set({ "n", "v" }, "<C-y>", "3<C-y>", { desc = "Scroll up a few lines" })
+
 -- [[ General keymaps ]]
 
 vim.keymap.set("n", "<leader><CR>", function() vim.cmd("w") end, { desc = "Write buffer" })
