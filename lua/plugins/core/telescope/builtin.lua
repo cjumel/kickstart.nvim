@@ -427,7 +427,7 @@ function M.git_commits()
     attach_mappings = function(_, _)
       local actions = require("telescope.actions")
       local custom_actions = require("plugins.core.telescope.actions")
-      actions.select_default:replace(custom_actions.yank_commit_hash) -- Replace the default action (checkout to commit)
+      actions.select_default:replace(custom_actions.copy_commit_hash) -- Replace the default checkout-to-commit action
       return true -- Enable default mappings
     end,
   })
@@ -440,7 +440,7 @@ function M.git_bcommits()
     attach_mappings = function(_, _)
       local actions = require("telescope.actions")
       local custom_actions = require("plugins.core.telescope.actions")
-      actions.select_default:replace(custom_actions.yank_commit_hash) -- Replace the default action (checkout to commit)
+      actions.select_default:replace(custom_actions.copy_commit_hash) -- Replace the default checkout-to-commit action
       return true -- Enable default mappings
     end,
   })
@@ -453,7 +453,7 @@ function M.git_bcommits_range()
     attach_mappings = function(_, _)
       local actions = require("telescope.actions")
       local custom_actions = require("plugins.core.telescope.actions")
-      actions.select_default:replace(custom_actions.yank_commit_hash) -- Replace the default action (checkout to commit)
+      actions.select_default:replace(custom_actions.copy_commit_hash) -- Replace the default checkout-to-commit action
       return true -- Enable default mappings
     end,
   })
