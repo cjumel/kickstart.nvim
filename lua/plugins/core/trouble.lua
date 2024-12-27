@@ -9,8 +9,8 @@ return {
   dependencies = { "nvim-tree/nvim-web-devicons" },
   cmd = { "Trouble" }, -- Useful for other plugins calling Trouble through a command
   keys = {
-    { "<leader>vd", "<cmd>Trouble diagnostics_document toggle<CR>", desc = "[V]iew: [D]iagnostics" },
-    { "<leader>vw", "<cmd>Trouble diagnostics toggle<CR>", desc = "[V]iew: [W]orspace diagnostics" },
+    { "<leader>vd", "<cmd>Trouble diagnostics_document toggle<CR>", desc = "[V]iew: buffer [D]iagnostics" },
+    { "<leader>vD", "<cmd>Trouble diagnostics toggle<CR>", desc = "[V]iew: workspace [D]iagnostics" },
     { "<leader>vl", "<cmd>Trouble loclist toggle<CR>", desc = "[V]iew: [L]ocation list" },
     { "<leader>vq", "<cmd>Trouble qflist toggle<CR>", desc = "[V]iew: [Q]uickfix list" },
   },

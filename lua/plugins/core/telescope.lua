@@ -46,9 +46,9 @@ return {
       -- Git-related
       { "<leader>gg", custom_builtin.git_status, desc = "[G]it: status" },
       { "<leader>gb", custom_builtin.git_branches, desc = "[G]it: [B]ranches" },
-      { "<leader>gl", custom_builtin.git_commits, desc = "[G]it: [L]og" },
-      { "<leader>gc", custom_builtin.git_bcommits, desc = "[G]it: buffer [C]ommits" },
-      { "<leader>gc", custom_builtin.git_bcommits_range, mode = { "v" }, desc = "[G]it: selection [C]ommits" },
+      { "<leader>gl", custom_builtin.git_commits, mode = { "n" }, desc = "[G]it: [L]og" },
+      { "<leader>gL", custom_builtin.git_bcommits, mode = { "n" }, desc = "[G]it: buffer [L]og" },
+      { "<leader>gl", custom_builtin.git_bcommits_range, mode = { "v" }, desc = "[G]it: selection [L]og" },
     }
   end,
   opts = function()

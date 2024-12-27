@@ -152,8 +152,8 @@ return {
 
         -- Symbols keymaps
         local telescope_builtin = require("plugins.core.telescope.builtin")
-        map({ "n", "v" }, "<leader>fs", telescope_builtin.lsp_document_symbols, "[F]ind: [S]ymbols (document)")
-        map({ "n", "v" }, "<leader>fw", telescope_builtin.lsp_workspace_symbols, "[F]ind: [W]orkspace symbols")
+        map({ "n", "v" }, "<leader>fs", telescope_builtin.lsp_document_symbols, "[F]ind: buffer [S]ymbols")
+        map({ "n", "v" }, "<leader>fS", telescope_builtin.lsp_workspace_symbols, "[F]ind: workspace [S]ymbols")
 
         -- Next/previous reference navigation; let's define these keymaps here to benefit from the "LspAttach" behavior
         -- (nvim-treesitter-textobjects is already loaded at this point)
