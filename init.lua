@@ -21,11 +21,12 @@ vim.g.maplocalleader = "  "
 
 -- Setup lazy.nvim
 require("lazy").setup({
-  spec = { -- Define plugins specifications
-    { import = "plugins.colorschemes" }, -- Plugins for the various color schemes available
-    { import = "plugins.core" }, -- Plugins to edit buffers efficiently (text objects, motions, LSP, formatters, etc.)
-    { import = "plugins.tools" }, -- External tools plugins, to bring extra features (DAP, database explorer, etc.)
-    { import = "plugins.ui" }, -- UI-related plugins (status line, zen mode, etc.)
+  spec = { -- Define the plugin specification groups to import
+    { import = "plugins.colorschemes" },
+    { import = "plugins.ui" }, -- User-Interface plugins (status line, icons, etc.)
+    { import = "plugins.core" },
+    { import = "plugins.vcs" }, -- Version-Control-System plugins (Git signs, Git conflicts, etc.)
+    { import = "plugins.tools" }, -- External tool plugins, to bring extra features (debugger, database explorer, etc.)
   },
   rocks = { enabled = false }, -- Disable luarocks as it's not installed on my machine & I don't need it
   ui = { border = "rounded" }, -- Add a border in Lazy UI to improve visibility in transparent backgrounds
