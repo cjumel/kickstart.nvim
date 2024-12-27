@@ -16,7 +16,6 @@ return {
       aerial = true,
       dadbod_ui = true,
       grug_far = true,
-      harpoon = true,
       hop = true,
       mason = true,
       noice = true,

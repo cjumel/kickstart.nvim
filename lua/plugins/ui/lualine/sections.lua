@@ -15,7 +15,7 @@ M.default = {
     "diagnostics",
     "aerial",
   },
-  lualine_x = { lualine_modules.macro, lualine_modules.harpoon, "filetype" },
+  lualine_x = { lualine_modules.macro, "filetype" },
   lualine_y = { "location" },
   lualine_z = { "progress" },
 }

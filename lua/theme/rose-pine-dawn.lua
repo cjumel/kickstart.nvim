@@ -16,7 +16,7 @@ local custom_sections = vim.tbl_deep_extend("force", sections.empty, {
     "diagnostics",
     "aerial",
   },
-  lualine_x = { modules.macro, modules.harpoon, "filetype", "location", "progress" },
+  lualine_x = { modules.macro, "filetype", "location", "progress" },
 })
 M.lualine_opts = {
   sections = custom_sections,

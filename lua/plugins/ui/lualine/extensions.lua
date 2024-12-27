@@ -26,7 +26,6 @@ function M.build_extensions(sections)
         "dapui_console",
         "dapui_scopes",
         "dapui_watches",
-        "harpoon",
         "lazy",
         "lspinfo",
         "mason",
