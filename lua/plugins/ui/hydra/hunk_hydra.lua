@@ -15,8 +15,8 @@ Hydra({
   -- objects in visual mode, to still be able to use them while the Hydra is open
   hint = [[
                                     Hunk Hydra
-   _p_ ➜ [P]review hunk           _u_ ➜ [U]nstage staged hunk    _,_ ➜ Next hunk    
-   _s_ ➜ [S]tage hunk/selection   _x_ ➜ Discard hunk/selection   _;_ ➜ Previous hunk    
+   _p_ ➜ [P]review hunk           _u_ ➜ [U]nstage staged hunk    _,_ ➜ Next hunk   
+   _s_ ➜ [S]tage hunk/selection   _x_ ➜ Discard hunk/selection   _;_ ➜ Previous hunk   
 ]],
   heads = {
     { "p", function() require("gitsigns").preview_hunk() end },

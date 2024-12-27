@@ -10,6 +10,7 @@ return {
     { "<C-w>", desc = "Window Hydra" },
     { "<leader>d", desc = "Debug Hydra" },
     { "<leader>h", desc = "Hunk Hydra" },
+    { "<leader>gc", desc = "Git conflict Hydra" },
   },
   opts = {
     invoke_on_body = true,
@@ -22,5 +23,6 @@ return {
     require("plugins.ui.hydra.window_hydra")
     require("plugins.ui.hydra.debug_hydra")
     require("plugins.ui.hydra.hunk_hydra")
+    require("plugins.ui.hydra.git_conflict_hydra")
   end,
 }
