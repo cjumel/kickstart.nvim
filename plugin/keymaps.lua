@@ -83,6 +83,13 @@ vim.keymap.set("v", "<S-Tab>", "<gv", { desc = "Unindent selection" })
 vim.keymap.set({ "n", "v" }, "_", '"_', { desc = "Black hole register" })
 vim.keymap.set({ "n", "v" }, "+", '"+', { desc = "System clipboard register" })
 
+--- Display the diff between the buffer content and the corresponding local file. Code is taken from `:h DiffOrig`.
+---@return nil
+local function view_diff_with_file()
+  vim.cmd([[vert new | set buftype=nofile | read ++edit # | 0d_ | diffthis | wincmd p | diffthis]])
+end
+vim.keymap.set("n", "<leader>vd", view_diff_with_file, { desc = "[V]iew: [D]iff with file" })
+
 --- Fetch the path of the file or directory linked to the current buffer (must be a regular buffer or an Oil buffer),
 --- apply the provided modifiers to it and yank it to the default register.
 ---@return nil
