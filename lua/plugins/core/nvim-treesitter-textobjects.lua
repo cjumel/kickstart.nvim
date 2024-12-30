@@ -89,8 +89,7 @@ return {
       { desc = 'Repeat last move in "previous" direction' }
     )
 
-    -- Create generic keymaps
-    ts_keymap.set_move_pair("b", function() vim.cmd("bnext") end, function() vim.cmd("bprev") end, "buffer")
+    -- Generic keymaps
     ts_keymap.set_move_pair(
       "l",
       function() vim.cmd("silent! lnext") end,
@@ -104,7 +103,7 @@ return {
       "qflist item"
     )
 
-    -- Create buffer-specific keymaps
+    -- Buffer-specific keymaps
     local augroup = vim.api.nvim_create_augroup("NvimTreesitterTextobjectsKeymaps", { clear = true })
 
     vim.api.nvim_create_autocmd("FileType", {
@@ -123,14 +122,6 @@ return {
           function() vim.fn.search(url_pattern) end,
           function() vim.fn.search(url_pattern, "b") end,
           "Web address"
-        )
-        -- Conflict markers have 3 forms, all at the start of a line: `<<<<<<< <text>`, ` =======`, ` >>>>>>> <text>`
-        local conflict_pattern = "^<<<<<<< \\|^=======\\|^>>>>>>> "
-        ts_keymap.set_local_move_pair(
-          "=",
-          function() vim.fn.search(conflict_pattern) end,
-          function() vim.fn.search(conflict_pattern, "b") end,
-          "conflict"
         )
         ts_keymap.set_local_move_pair(
           "h",
