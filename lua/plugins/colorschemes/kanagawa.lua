@@ -12,9 +12,7 @@ return {
     transparent = true,
   }, require("theme").kanagawa_opts or {}),
   config = function(_, opts)
-    local kanagawa = require("kanagawa")
-
-    kanagawa.setup(opts) -- Setup must be called before loading the color scheme
+    require("kanagawa").setup(opts) -- Must be called before loading the color scheme
     local kanagawa_theme = opts.theme or "wave"
     vim.cmd.colorscheme("kanagawa-" .. kanagawa_theme)
   end,

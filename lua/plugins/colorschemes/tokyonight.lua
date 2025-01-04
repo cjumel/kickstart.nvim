@@ -13,9 +13,7 @@ return {
     transparent = true,
   }, require("theme").tokyonight_opts or {}),
   config = function(_, opts)
-    local tokyonight = require("tokyonight")
-
-    tokyonight.setup(opts) -- Setup must be called before loading the color scheme
+    require("tokyonight").setup(opts) -- Must be called before loading the color scheme
     vim.cmd.colorscheme("tokyonight")
   end,
 }

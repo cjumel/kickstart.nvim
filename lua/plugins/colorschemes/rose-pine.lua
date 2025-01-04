@@ -13,9 +13,7 @@ return {
     styles = { transparency = true },
   }, require("theme").rose_pine_opts or {}),
   config = function(_, opts)
-    local rose_pine = require("rose-pine")
-
-    rose_pine.setup(opts) -- Setup must be called before loading the color scheme
+    require("rose-pine").setup(opts) -- Must be called before loading the color scheme
     vim.cmd.colorscheme("rose-pine")
   end,
 }

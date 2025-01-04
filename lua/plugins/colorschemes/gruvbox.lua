@@ -12,9 +12,7 @@ return {
     transparent_mode = true,
   }, require("theme").gruvbox_opts or {}),
   config = function(_, opts)
-    local gruvbox = require("gruvbox")
-
-    gruvbox.setup(opts) -- Setup must be called before loading the color scheme
+    require("gruvbox").setup(opts) -- Must be called before loading the color scheme
     vim.o.background = require("theme").gruvbox_background or "dark"
     vim.cmd.colorscheme("gruvbox")
   end,

@@ -1,10 +1,10 @@
 local M = {}
 
-M.nord_enabled = true
+M.nordic_enabled = true
 
 M.lualine_opts = {
   options = {
-    theme = "nord",
+    theme = "nordic",
     section_separators = { left = "", right = "" },
   },
 }

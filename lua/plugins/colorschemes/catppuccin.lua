@@ -28,9 +28,7 @@ return {
     },
   }, require("theme").catppuccin_opts or {}),
   config = function(_, opts)
-    local catppuccin = require("catppuccin")
-
-    catppuccin.setup(opts) -- Setup must be called before loading the color scheme
+    require("catppuccin").setup(opts) -- Must be called before loading the color scheme
     vim.cmd.colorscheme("catppuccin")
   end,
 }

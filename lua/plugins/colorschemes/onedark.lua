@@ -10,9 +10,7 @@ return {
     transparent = true,
   }, require("theme").onedark_opts or {}),
   config = function(_, opts)
-    local onedark = require("onedark")
-
-    onedark.setup(opts)
-    vim.cmd.colorscheme("onedark") -- Setup must be called before loading the color scheme
+    require("onedark").setup(opts) -- Must be called before loading the color scheme
+    vim.cmd.colorscheme("onedark")
   end,
 }
