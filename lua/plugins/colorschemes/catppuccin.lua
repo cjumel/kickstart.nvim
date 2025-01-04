@@ -7,11 +7,11 @@
 return {
   "catppuccin/nvim",
   name = "catppuccin",
-  cond = require("theme").get_field("catppuccin", "enabled", false),
+  cond = require("theme").catppuccin_enabled or false,
   priority = 1000, -- Main UI stuff should be loaded first
-  opts = require("theme").make_opts("catppuccin", {
+  opts = vim.tbl_deep_extend("force", {
     flavour = "mocha", -- "latte", "frappe", "macchiato", "mocha"
-    transparent_background = true, -- Don't set a background color
+    transparent_background = true,
     integrations = { -- Add highlight groups for additional plugins
       aerial = true,
       dadbod_ui = true,
@@ -26,7 +26,7 @@ return {
       snacks = true,
       which_key = true,
     },
-  }),
+  }, require("theme").catppuccin_opts or {}),
   config = function(_, opts)
     local catppuccin = require("catppuccin")
 

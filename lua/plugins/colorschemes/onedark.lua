@@ -4,11 +4,11 @@
 
 return {
   "navarasu/onedark.nvim",
-  cond = require("theme").get_field("onedark", "enabled", false),
+  cond = require("theme").onedark_enabled or false,
   priority = 1000, -- Main UI stuff should be loaded first
-  opts = require("theme").make_opts("onedark", {
-    transparent = true, -- Don't set a background color
-  }),
+  opts = vim.tbl_deep_extend("force", {
+    transparent = true,
+  }, require("theme").onedark_opts or {}),
   config = function(_, opts)
     local onedark = require("onedark")
 

@@ -6,11 +6,11 @@
 
 return {
   "rebelot/kanagawa.nvim",
-  cond = require("theme").get_field("kanagawa", "enabled", false),
+  cond = require("theme").kanagawa_enabled or false,
   priority = 1000, -- Main UI stuff should be loaded first
-  opts = require("theme").make_opts("kanagawa", {
-    transparent = true, -- Don't set a background color
-  }),
+  opts = vim.tbl_deep_extend("force", {
+    transparent = true,
+  }, require("theme").kanagawa_opts or {}),
   config = function(_, opts)
     local kanagawa = require("kanagawa")
 

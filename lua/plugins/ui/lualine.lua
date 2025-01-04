@@ -18,7 +18,7 @@ return {
     --  parameter `_keep_showmode`
     vim.opt.showmode = false
   end,
-  opts = theme.make_opts("lualine", {
+  opts = vim.tbl_deep_extend("force", {
     options = {
       icons_enabled = true,
       theme = "auto",
@@ -28,7 +28,7 @@ return {
     },
     sections = lualine_sections.default,
     extensions = lualine_extensions.build_extensions(lualine_sections.default),
-  }),
+  }, theme.lualine_opts or {}),
   config = function(_, opts)
     require("lualine").setup(opts)
 
