@@ -34,8 +34,8 @@ return {
         ["ir"] = { query = "@return.inner", desc = "inner return statement" },
         ["a="] = { query = "@assignment.outer", desc = "an assignment" },
         ["i="] = { query = "@assignment.inner", desc = "inner assignment" },
-        ["gl"] = { query = "@assignment.lhs", desc = "Left-hand-side of assignment" },
-        ["gr"] = { query = "@assignment.rhs", desc = "Right-hand-side of assignment" },
+        ["=l"] = { query = "@assignment.lhs", desc = "Assignment left-hand-side" },
+        ["=r"] = { query = "@assignment.rhs", desc = "Assignment right-hand-side" },
       },
     },
     move = {
@@ -118,10 +118,10 @@ return {
         )
         local url_pattern = "http:\\/\\/\\|https:\\/\\/"
         ts_keymap.set_local_move_pair(
-          "a", -- Like "ga" text-object for web addresses
+          "u", -- Like the URL text-object in the nvim-various-textobjs plugin
           function() vim.fn.search(url_pattern) end,
           function() vim.fn.search(url_pattern, "b") end,
-          "Web address"
+          "URL"
         )
         ts_keymap.set_local_move_pair(
           "h",
