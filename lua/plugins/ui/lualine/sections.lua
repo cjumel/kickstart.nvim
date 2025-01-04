@@ -13,7 +13,6 @@ M.default = {
     },
     "diff",
     "diagnostics",
-    "aerial",
   },
   lualine_x = { lualine_modules.macro, "filetype" },
   lualine_y = { "location" },
