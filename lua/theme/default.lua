@@ -1,18 +1,8 @@
 local extensions = require("plugins.ui.lualine.extensions")
-local modules = require("plugins.ui.lualine.modules")
 local sections = require("plugins.ui.lualine.sections")
 
 local M = {}
 
-local custom_sections = vim.tbl_deep_extend("force", sections.empty, {
-  lualine_c = {
-    { "filename", path = 1 }, -- Relative file path
-    "diff",
-    "diagnostics",
-    "aerial",
-  },
-  lualine_x = { modules.macro, "filetype", "location", "progress" },
-})
 M.lualine_opts = {
   options = {
     theme = { -- Remove Lualine colors
@@ -24,15 +14,17 @@ M.lualine_opts = {
       command = { c = {} },
     },
   },
-  sections = custom_sections,
-  extensions = extensions.build_extensions(custom_sections),
-  _keep_showmode = true,
+  sections = sections.minimalist,
+  extensions = extensions.build_extensions(sections.minimalist),
 }
+M.lualine_post_setup = function()
+  vim.opt.showmode = true -- Show mode in status line
 
--- Remove Neovim background colors
-vim.cmd.highlight("Normal guibg=none")
-vim.cmd.highlight("NonText guibg=none")
-vim.cmd.highlight("Normal ctermbg=none")
-vim.cmd.highlight("NonText ctermbg=none")
+  -- Remove Neovim background colors
+  vim.cmd.highlight("Normal guibg=none")
+  vim.cmd.highlight("NonText guibg=none")
+  vim.cmd.highlight("Normal ctermbg=none")
+  vim.cmd.highlight("NonText ctermbg=none")
+end
 
 return M

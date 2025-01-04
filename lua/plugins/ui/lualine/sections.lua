@@ -20,11 +20,15 @@ M.default = {
   lualine_z = { "progress" },
 }
 
-M.empty = {
+M.minimalist = {
   lualine_a = {},
   lualine_b = {},
-  lualine_c = {},
-  lualine_x = {},
+  lualine_c = {
+    { "filename", path = 1 }, -- Relative file path
+    "diff",
+    "diagnostics",
+  },
+  lualine_x = { lualine_modules.macro, "filetype", "location", "progress" },
   lualine_y = {},
   lualine_z = {},
 }

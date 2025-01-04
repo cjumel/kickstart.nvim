@@ -4,36 +4,34 @@
 -- popular plugins and can be further customized manually while remaining quite simple, making it a great choice for any
 -- configuration.
 
-local lualine_extensions = require("plugins.ui.lualine.extensions")
-local lualine_sections = require("plugins.ui.lualine.sections")
-local theme = require("theme")
-
 return {
   "nvim-lualine/lualine.nvim",
   dependencies = { "nvim-tree/nvim-web-devicons" },
   priority = 100, -- Main UI stuff should be loaded first
   init = function()
-    -- Don't show Neovim mode in status line as it is redundant with Lualine's onw feature
-    --  This can be re-enabled in the `config` for status lines missing the corresponding feature, with the custom
-    --  parameter `_keep_showmode`
-    vim.opt.showmode = false
+    vim.opt.showmode = false -- Don't show mode in status line
   end,
-  opts = vim.tbl_deep_extend("force", {
-    options = {
-      icons_enabled = true,
-      theme = "auto",
-      component_separators = "",
-      section_separators = "",
-      globalstatus = true, -- Use a single global status line for all splits (precedes `vim.o.laststatus`)
-    },
-    sections = lualine_sections.default,
-    extensions = lualine_extensions.build_extensions(lualine_sections.default),
-  }, theme.lualine_opts or {}),
+  opts = function()
+    local lualine_extensions = require("plugins.ui.lualine.extensions")
+    local lualine_sections = require("plugins.ui.lualine.sections")
+
+    return vim.tbl_deep_extend("force", {
+      options = {
+        icons_enabled = true,
+        theme = "auto",
+        component_separators = "",
+        section_separators = "",
+        globalstatus = true, -- Use a single global status line for all splits (precedes `vim.o.laststatus`)
+      },
+      sections = lualine_sections.default,
+      extensions = lualine_extensions.build_extensions(lualine_sections.default),
+    }, require("theme").lualine_opts or {})
+  end,
   config = function(_, opts)
     require("lualine").setup(opts)
 
-    if opts._keep_showmode then
-      vim.opt.showmode = true -- Show Neovim status in status line
+    if require("theme").lualine_post_setup then
+      require("theme").lualine_post_setup()
     end
   end,
 }
