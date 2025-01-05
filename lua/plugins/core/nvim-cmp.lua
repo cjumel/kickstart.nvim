@@ -10,7 +10,6 @@ return {
     "hrsh7th/cmp-buffer",
     "hrsh7th/cmp-cmdline",
     "hrsh7th/cmp-path",
-    "hrsh7th/cmp-emoji",
     "saadparwaiz1/cmp_luasnip",
   },
   event = { "InsertEnter", "CmdlineEnter" }, -- CmdlineEnter is not covered by InsertEnter
@@ -84,15 +83,6 @@ return {
         { name = "nvim_lsp", group_index = 1 },
         { name = "path", group_index = 1 },
         { name = "buffer", group_index = 1 },
-      },
-    })
-    cmp.setup.filetype("markdown", {
-      sources = {
-        { name = "luasnip" },
-        { name = "nvim_lsp" },
-        { name = "path" },
-        { name = "emoji" },
-        { name = "buffer" },
       },
     })
     cmp.setup.filetype({ "oil", "gitcommit" }, {
