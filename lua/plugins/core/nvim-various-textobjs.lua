@@ -79,7 +79,7 @@ return {
       desc = "Current line characterwise",
     },
     {
-      "u",
+      "gu",
       function() require("various-textobjs").url() end,
       mode = { "o" },
       desc = "URL",

@@ -25,7 +25,7 @@ return {
       map("n", "<leader>gx", gitsigns.reset_buffer, "[G]it: discard buffer changes")
       map("n", "<leader>gp", function() gitsigns.blame_line({ full = true }) end, "[G]it: [P]reviw blame")
       map("n", "<leader>gd", function() gitsigns.diffthis("~") end, "[G]it: buffer [D]iff")
-      map("o", "h", ":<C-U>Gitsigns select_hunk<CR>", "Hunk") -- This replaces "h" as text-object but I don't use it
+      map("o", "gh", ":<C-U>Gitsigns select_hunk<CR>", "Hunk")
     end,
   },
 }

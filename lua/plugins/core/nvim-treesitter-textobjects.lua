@@ -34,8 +34,8 @@ return {
         ["ir"] = { query = "@return.inner", desc = "inner return statement" },
         ["a="] = { query = "@assignment.outer", desc = "an assignment" },
         ["i="] = { query = "@assignment.inner", desc = "inner assignment" },
-        ["=l"] = { query = "@assignment.lhs", desc = "Assignment left-hand-side" },
-        ["=r"] = { query = "@assignment.rhs", desc = "Assignment right-hand-side" },
+        ["gl"] = { query = "@assignment.lhs", desc = "Left-hand-side of assignment" },
+        ["gr"] = { query = "@assignment.rhs", desc = "Right-hand-side of assignment" },
       },
     },
     move = {
