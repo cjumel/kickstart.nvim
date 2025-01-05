@@ -12,7 +12,6 @@ return {
     "hrsh7th/cmp-path",
     "hrsh7th/cmp-emoji",
     "saadparwaiz1/cmp_luasnip",
-    "L3MON4D3/LuaSnip",
   },
   event = { "InsertEnter", "CmdlineEnter" }, -- CmdlineEnter is not covered by InsertEnter
   config = function()

@@ -7,7 +7,23 @@
 return {
   "L3MON4D3/LuaSnip",
   version = "v2.*",
-  lazy = true, -- Dependency of nvim-cmp
+  ft = {
+    "conf",
+    "gitcommit",
+    "gitignore",
+    "lua",
+    "make",
+    "markdown",
+    "oil",
+    "python",
+    "sh",
+    "tmux",
+    "toml",
+    "typst",
+    "vim",
+    "yaml",
+    "zsh",
+  },
   opts = {},
   config = function(_, opts)
     local ls = require("luasnip")
