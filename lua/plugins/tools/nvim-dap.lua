@@ -6,7 +6,10 @@
 return {
   "mfussenegger/nvim-dap",
   cond = not require("conf").get("light_mode"),
-  dependencies = { "williamboman/mason.nvim" },
+  dependencies = {
+    "williamboman/mason.nvim",
+    "rcarriga/cmp-dap",
+  },
   lazy = true, -- Dependency of nvim-dap-ui
   init = function()
     local mason_ensure_installed = { "debugpy" }

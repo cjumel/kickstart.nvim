@@ -17,6 +17,18 @@ return {
     local cmp = require("cmp")
 
     cmp.setup({
+      enabled = function()
+        -- Support new filetypes
+        if vim.tbl_contains({ "dap-repl", "dapui_watches", "dapui_hover" }, vim.bo.filetype) then
+          return true
+        end
+        -- Default implementation
+        local disabled = false
+        disabled = disabled or (vim.api.nvim_get_option_value("buftype", { buf = 0 }) == "prompt")
+        disabled = disabled or (vim.fn.reg_recording() ~= "")
+        disabled = disabled or (vim.fn.reg_executing() ~= "")
+        return not disabled
+      end,
       snippet = { expand = function(args) require("luasnip").lsp_expand(args.body) end },
       completion = { completeopt = "menu,menuone,noinsert" }, -- Directly select the first sugggestion
       window = { completion = cmp.config.window.bordered(), documentation = cmp.config.window.bordered() },
@@ -80,6 +92,12 @@ return {
     cmp.setup.filetype("sql", {
       sources = {
         { name = "vim-dadbod-completion" },
+        { name = "buffer" },
+      },
+    })
+    cmp.setup.filetype({ "dap-repl", "dapui_watches", "dapui_hover" }, {
+      sources = {
+        { name = "dap" },
         { name = "buffer" },
       },
     })
