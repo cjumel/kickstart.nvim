@@ -10,9 +10,9 @@ Hydra({
   -- Keys like "d" or "c", which can take a text-object, introduce a latency when using them as Neovim waits for the
   -- optional text-object before triggering the keymap, so they are not great either
   hint = [[
-                           Debug Hydra
+                              Debug Hydra
    _b_ ➜ Toggle [B]reakpoint   _r_ ➜ [R]un         _u_ ➜ Toggle [U]I   
-   _p_ ➜ [P]review variable    _t_ ➜ [T]erminate   
+   _p_ ➜ [P]review variable    _t_ ➜ [T]erminate   _z_ ➜ Toggle [Z]oom REPL   
 ]],
   heads = {
     { "b", function() require("dap").toggle_breakpoint() end },
@@ -28,6 +28,7 @@ Hydra({
     },
     { "t", function() require("dap").terminate() end },
     { "u", function() require("dapui").toggle() end },
+    { "z", function() require("dap").repl.toggle() end },
 
     -- Exit heads
     { "q", nil, { exit = true, mode = "n", desc = false } },
