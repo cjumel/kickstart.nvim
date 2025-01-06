@@ -22,7 +22,7 @@ return {
         if vim.tbl_contains({ "dap-repl", "dapui_watches", "dapui_hover" }, vim.bo.filetype) then
           return true
         end
-        -- Default implementation
+        -- Default implementation (see `cmp.config.default`)
         local disabled = false
         disabled = disabled or (vim.api.nvim_get_option_value("buftype", { buf = 0 }) == "prompt")
         disabled = disabled or (vim.fn.reg_recording() ~= "")
@@ -92,7 +92,6 @@ return {
     cmp.setup.filetype("sql", {
       sources = {
         { name = "vim-dadbod-completion" },
-        { name = "buffer" },
       },
     })
     cmp.setup.filetype({ "dap-repl", "dapui_watches", "dapui_hover" }, {
