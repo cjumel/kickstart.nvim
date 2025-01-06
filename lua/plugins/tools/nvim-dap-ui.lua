@@ -10,7 +10,7 @@ return {
     "mfussenegger/nvim-dap",
     { "nvim-neotest/nvim-nio", cond = not require("conf").get("light_mode") },
   },
-  keys = { { "<leader>d", desc = "[D]ebug Hydra" } }, -- Lazy load along with the debug hydra
+  lazy = true, -- Lazy-loaded by the debug Hydra
   opts = {
     layouts = { -- Remove the "stacks" element, move the "repl" to the sidebar, and move the sidebar on the right
       {

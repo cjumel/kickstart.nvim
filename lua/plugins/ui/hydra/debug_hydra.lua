@@ -17,7 +17,15 @@ Hydra({
   heads = {
     { "b", function() require("dap").toggle_breakpoint() end },
     { "p", function() require("dap.ui.widgets").hover() end },
-    { "r", function() require("dap").continue() end },
+    {
+      "r",
+      function()
+        if not package.loaded.dapui then -- Lazy-load dapui if necessary
+          require("dapui")
+        end
+        require("dap").continue()
+      end,
+    },
     { "t", function() require("dap").terminate() end },
     { "u", function() require("dapui").toggle() end },
 
