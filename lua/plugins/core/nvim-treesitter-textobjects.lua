@@ -42,18 +42,22 @@ return {
       enable = true,
       set_jumps = true, -- Set jumps in the jumplist
       goto_next_start = {
+        ["[a"] = { query = "@parameter.inner", desc = "Next argument start" },
         ["[c"] = { query = "@class.outer", desc = "Next class start" },
         ["[d"] = { query = "@function.outer", desc = "Next function definition start" },
       },
       goto_next_end = {
+        ["[A"] = { query = "@parameter.inner", desc = "Next argument end" },
         ["[C"] = { query = "@class.outer", desc = "Next class end" },
         ["[D"] = { query = "@function.outer", desc = "Next function definition end" },
       },
       goto_previous_start = {
+        ["]a"] = { query = "@parameter.inner", desc = "Previous argument start" },
         ["]c"] = { query = "@class.outer", desc = "Previous class start" },
         ["]d"] = { query = "@function.outer", desc = "Previous function definition start" },
       },
       goto_previous_end = {
+        ["]A"] = { query = "@parameter.inner", desc = "Previous argument end" },
         ["]C"] = { query = "@class.outer", desc = "Previous class end" },
         ["]D"] = { query = "@function.outer", desc = "Previous function definition end" },
       },
