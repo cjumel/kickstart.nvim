@@ -13,6 +13,7 @@ M.yank_additions = function(prompt_bufnr)
     local entry = actions_state.get_selected_entry()
     if entry ~= nil then
       vim.fn.setreg('"', entry.value.additions, "V")
+      vim.notify("Yanked additions:\n" .. table.concat(entry.value.additions, "\n"))
       actions.close(prompt_bufnr)
       return entry.value.additions
     end
@@ -32,6 +33,7 @@ M.yank_deletions = function(prompt_bufnr)
     local entry = actions_state.get_selected_entry()
     if entry ~= nil then
       vim.fn.setreg('"', entry.value.deletions, "V")
+      vim.notify("Yanked deletions:\n" .. table.concat(entry.value.deletions, "\n"))
       actions.close(prompt_bufnr)
       return entry.value.deletions
     end
