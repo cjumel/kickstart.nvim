@@ -23,7 +23,6 @@ return {
       { "gr", group = "LSP" },
       { "<leader> ", group = "Local leader" },
       { "<leader>c", group = "[C]hat", mode = { "n", "v" } },
-      { "<leader>d", group = "[D]AP" },
       { "<leader>f", group = "[F]ind", mode = { "n", "v" } },
       { "<leader>g", group = "[G]it", mode = { "n", "v" } },
       { "<leader>l", group = "[L]inkup", mode = { "n", "v" } },

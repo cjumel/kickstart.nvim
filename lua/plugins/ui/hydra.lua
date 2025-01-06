@@ -8,9 +8,9 @@ return {
   "nvimtools/hydra.nvim",
   keys = {
     { "<C-w>", desc = "Window Hydra" },
-    { "<leader>d", desc = "Debug Hydra" },
-    { "<leader>h", desc = "Hunk Hydra" },
-    { "<leader>gc", desc = "Git conflict Hydra" },
+    { "<leader>d", desc = "[D]ebug Hydra" },
+    { "<leader>h", desc = "[H]unk Hydra" },
+    { "<leader>gc", desc = "[G]it: [C]onflict Hydra" },
   },
   opts = {
     invoke_on_body = true,
