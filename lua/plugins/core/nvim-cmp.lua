@@ -10,15 +10,13 @@ return {
     "hrsh7th/cmp-buffer",
     "hrsh7th/cmp-cmdline",
     "hrsh7th/cmp-path",
-    "saadparwaiz1/cmp_luasnip",
   },
   event = { "InsertEnter", "CmdlineEnter" }, -- CmdlineEnter is not covered by InsertEnter
   config = function()
     local cmp = require("cmp")
-    local ls = require("luasnip")
 
     cmp.setup({
-      snippet = { expand = function(args) ls.lsp_expand(args.body) end },
+      snippet = { expand = function(args) require("luasnip").lsp_expand(args.body) end },
       completion = { completeopt = "menu,menuone,noinsert" }, -- Directly select the first sugggestion
       window = { completion = cmp.config.window.bordered(), documentation = cmp.config.window.bordered() },
       mapping = {
