@@ -1,12 +1,13 @@
 -- nvim-cmp
 --
--- nvim-cmp is a lightweight and extensible completion engine for Neovim written in Lua. It is very easy to use, and
--- integrates well with many tools, like LSP or code snippets. A must-have for Neovim, in my opinion.
+-- nvim-cmp is a lightweight and extensible completion engine for Neovim written in Lua. It is fairly easy to use
+-- (admittedly not as much as alternatives like blink.cmp, but I have issues with the later), and integrates well with
+-- many tools, like LSP or code snippets. Having a plugin like this one in a Neovim configuration is really a must-have
+-- in my opinion.
 
 return {
   "hrsh7th/nvim-cmp",
   dependencies = {
-    { "hrsh7th/cmp-nvim-lsp", cond = not require("conf").get("light_mode") },
     "hrsh7th/cmp-buffer",
     "hrsh7th/cmp-cmdline",
     "hrsh7th/cmp-path",
@@ -36,8 +37,6 @@ return {
             cmp.complete()
           end
         end, { "i", "c" }),
-        ["Ï"] = cmp.mapping(cmp.mapping.scroll_docs(5), { "i", "c" }), -- <M-j>
-        ["È"] = cmp.mapping(cmp.mapping.scroll_docs(-5), { "i", "c" }), -- <M-k>
       },
       sources = {
         { name = "luasnip" },
@@ -45,48 +44,37 @@ return {
         { name = "path" },
         { name = "buffer" },
       },
-      -- Disable menu in completion window. This menu can describe the source of the completion item (e.g. its global
-      --  source like "LSP" or "Luasnip", or the module corresponding to a completion item for languages like Python),
-      --  however disabling it solves an issue with the documentation window hiding the completion item. See
-      --  https://github.com/hrsh7th/nvim-cmp/issues/1154 or https://github.com/hrsh7th/nvim-cmp/issues/1673).
+      -- Fix issue with too long menus in completion window (see https://github.com/hrsh7th/nvim-cmp/issues/1154)
       formatting = {
         format = function(_, vim_item)
-          vim_item.menu = nil
+          local menu = vim_item.menu and vim_item.menu or ""
+          if #menu > 20 then
+            vim_item.menu = string.sub(menu, 1, 20) .. "..."
+          end
           return vim_item
         end,
       },
     })
 
-    -- Set up special configurations
+    -- Set up special sources
     cmp.setup.cmdline(":", {
-      -- We can define groups of sources with the `group_index` source attribute or using the `cmp.config.sources`
-      --  function. A group of sources is only enabled if all the previous groups didn't return any completion items,
-      --  and within a group, sources are ordered by decreasing priority, just like the usual setup.
-      -- Here, we don't want to show cmdline completion when path's are available to avoid duplicates between the two
-      --  sources, and path completion are more user-friendly than cmdline's for paths.
       sources = {
-        { name = "path", group_index = 1 },
-        { name = "cmdline", group_index = 2 },
+        -- Only show `path` completions when available, to avoid redundancies with `cmdline`
+        { name = "path", group_index = 0 },
+        { name = "cmdline", group_index = 1 },
       },
     })
     cmp.setup.cmdline({ "/", "?" }, { sources = {
       { name = "buffer" },
     } })
-
-    -- Set up filetype-specific configurations
     cmp.setup.filetype("lua", {
       sources = {
-        { name = "lazydev", group_index = 0 }, -- `group_index = 0` is recommended by lazydev
+        -- Only show `lazydev` completions when available, to skip loading lua_ls completions
+        { name = "lazydev", group_index = 0 },
         { name = "luasnip", group_index = 1 },
         { name = "nvim_lsp", group_index = 1 },
         { name = "path", group_index = 1 },
         { name = "buffer", group_index = 1 },
-      },
-    })
-    cmp.setup.filetype({ "oil", "gitcommit" }, {
-      sources = {
-        { name = "luasnip" },
-        { name = "buffer" },
       },
     })
     cmp.setup.filetype("sql", {
