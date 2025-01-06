@@ -16,13 +16,13 @@ return {
     "MasonUninstallAll",
   },
   opts = {
-    ui = { border = "rounded" }, -- Add a border in Mason UI to improve visibility in transparent backgrounds
+    ui = { border = "rounded" }, -- Better for transparent backgrounds
   },
   config = function(_, opts)
     require("mason").setup(opts)
 
     -- Command to ensure that the given packages are installed. This is adapted from mason-lspconfig.ensure_installed
-    --  and https://github.com/williamboman/mason.nvim/issues/1309#issuecomment-1555018732.
+    -- and https://github.com/williamboman/mason.nvim/issues/1309#issuecomment-1555018732.
     vim.api.nvim_create_user_command("MasonInstallAll", function()
       local mason_registry = require("mason-registry")
       mason_registry.refresh(function()
