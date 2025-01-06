@@ -1,7 +1,7 @@
 -- vim-dadbod-ui
 --
--- Simple UI for vim-dadbod, allowing simple navigation through databases and saving queries for later use. This plugin
--- makes Neovim suited to explore databases like an actual database explorer.
+-- Plugin providing a simple UI for vim-dadbod, allowing simple navigation through databases and saving queries for
+-- later use. This plugin makes Neovim suited to explore databases like an actual database explorer.
 
 -- NOTE: to interact with a PostgreSQL database, `psql`, the Postgres interactive terminal, must be installed as well
 -- for instance with `brew install postgresql@14`
