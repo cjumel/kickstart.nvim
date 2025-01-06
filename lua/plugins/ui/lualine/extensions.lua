@@ -20,6 +20,7 @@ function M.build_extensions(sections)
     {
       filetypes = {
         "aerial",
+        "checkhealth",
         "copilot-chat",
         "dap-repl",
         "dapui_breakpoints",
