@@ -17,10 +17,9 @@ return {
 
     return vim.tbl_deep_extend("force", {
       options = {
-        icons_enabled = true,
-        theme = "auto",
         component_separators = "",
         section_separators = "",
+        disabled_filetypes = { "snacks_dashboard" },
         globalstatus = true, -- Use a single global status line for all splits (precedes `vim.o.laststatus`)
       },
       sections = lualine_sections.default,
