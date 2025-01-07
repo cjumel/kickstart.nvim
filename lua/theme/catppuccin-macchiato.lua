@@ -8,12 +8,15 @@ M.catppuccin_opts = {
   flavour = "macchiato", -- latte, frappe, macchiato, mocha
 }
 
+local custom_sections = vim.tbl_deep_extend("force", sections.default, {
+  lualine_a = { { "mode", separator = { left = "" } } },
+  lualine_z = { { "progress", separator = { right = "" } } },
+})
+
 M.lualine_opts = {
-  sections = sections.minimalist,
-  extensions = extensions.build_extensions(sections.minimalist),
+  options = { section_separators = { left = "", right = "" } },
+  sections = custom_sections,
+  extensions = extensions.build_extensions(custom_sections),
 }
-M.lualine_post_setup = function()
-  vim.opt.showmode = true -- Show mode in status line
-end
 
 return M
