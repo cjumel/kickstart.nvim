@@ -9,7 +9,7 @@ return {
   keys = {
     { "<C-w>", desc = "Window Hydra" },
     { "<leader>d", desc = "[D]ebug Hydra" },
-    { "<leader>h", desc = "[H]unk Hydra" },
+    { "<leader>h", mode = { "n", "v" }, desc = "[H]unk Hydra" },
     { "<leader>gc", desc = "[G]it: [C]onflict Hydra" },
   },
   opts = {
