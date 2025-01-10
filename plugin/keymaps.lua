@@ -140,7 +140,6 @@ vim.keymap.set("n", "<leader>yp", function() yank_path(":~:.") end, { desc = "[Y
 vim.keymap.set("n", "<leader>ya", function() yank_path(":p") end, { desc = "[Y]ank: file [A]bsolute path" })
 vim.keymap.set("n", "<leader>yn", function() yank_path(":t") end, { desc = "[Y]ank: file [N]ame" })
 vim.keymap.set("n", "<leader>ys", yank_send_to_clipboard, { desc = "[Y]ank: [S]end to clipboard" })
-vim.keymap.set("n", "<leader>yr", yank_receive_from_clipboard, { desc = "[Y]ank: [R]eceive from clipboard" })
 vim.keymap.set("n", "<leader>yl", yank_last_notification, { desc = "[Y]ank: [L]ast notification" })
 
 -- Like "gx", bur for the current file instead of the link under the cursor
