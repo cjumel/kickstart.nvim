@@ -32,6 +32,7 @@ function M.build_extensions(sections)
         "mason",
         "NeogitCommitPopup",
         "NeogitCommitView",
+        "NeogitConsole",
         "NeogitPopup",
         "NeogitRebasePopup",
         "NeogitResetPopup",
