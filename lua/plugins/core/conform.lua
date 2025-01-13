@@ -11,6 +11,7 @@ local formatter_to_mason_name = { -- Names of the Mason package corresponding to
   ruff_format = "ruff",
 }
 local formatters_without_mason = { -- Names of the formatters which have no Mason package associated with
+  "rustfmt", -- Should be installed with rustup
   "trim_newlines",
   "trim_whitespace",
 }

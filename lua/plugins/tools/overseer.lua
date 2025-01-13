@@ -22,6 +22,10 @@ return {
     { "<leader>ol", actions.rerun_last_task, desc = "[O]verseer: rerun [L]ast task" },
   },
   opts = {
+    templates = {
+      "shell",
+      "make",
+    },
     dap = false, -- When true, this lazy-loads nvim-dap but I don't use it with overseer.nvim
     task_list = {
       min_height = 0.25, -- Keep a height proportional with window height

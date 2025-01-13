@@ -10,6 +10,7 @@ local conf = require("conf")
 local server_name_to_mason_name = {
   jsonls = "json-lsp",
   lua_ls = "lua-language-server",
+  rust_analyzer = "rust-analyzer",
   ts_ls = "typescript-language-server",
   yamlls = "yaml-language-server",
 }

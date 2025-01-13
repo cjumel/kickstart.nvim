@@ -59,6 +59,10 @@ return {
       },
     },
 
+    rust_analyzer = {
+      filetypes = { "rust" },
+    },
+
     -- Taplo provides linting, formatting and some features based on schemas from SchemaStore like validation or
     -- hovering
     taplo = {
@@ -101,6 +105,7 @@ return {
     make = { "trim_newlines", "trim_whitespace" },
     markdown = { "prettier" }, -- Prettier is the only formatter I found which supports GitHub Flavored Markdown
     python = { "ruff_fix", "ruff_format" }, -- Lint diagnostic automatic fixes & regular formatting
+    rust = { "rustfmt" },
     sh = { "shfmt" },
     text = { "trim_newlines", "trim_whitespace" },
     tmux = { "trim_newlines", "trim_whitespace" },

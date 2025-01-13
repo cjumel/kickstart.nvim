@@ -35,6 +35,7 @@ return {
       "python",
       "regex",
       "requirements",
+      "rust",
       "sql",
       "ssh_config",
       "tmux",
