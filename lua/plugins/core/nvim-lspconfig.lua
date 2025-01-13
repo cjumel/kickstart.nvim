@@ -4,6 +4,8 @@
 -- the code of the Neovim LSP itself, nor the language servers implementations. It makes super easy setting up a LSP
 -- in Neovim, bridging the gap between the LSP client and the language servers implementations.
 
+local conf = require("conf")
+
 -- Specify the name of the Mason package corresponding to language servers when they differ
 local server_name_to_mason_name = {
   jsonls = "json-lsp",
@@ -12,34 +14,35 @@ local server_name_to_mason_name = {
   yamlls = "yaml-language-server",
 }
 
+local fts = {}
+for _, server in pairs(conf.get("language_servers")) do
+  for _, filetype in ipairs(server.filetypes) do
+    table.insert(fts, filetype)
+  end
+end
+
+local mason_ensure_installed = {}
+for server_name, _ in pairs(conf.get("language_servers")) do
+  local mason_name = server_name_to_mason_name[server_name] or server_name
+  if
+    not vim.tbl_contains(mason_ensure_installed, mason_name)
+    and not vim.tbl_contains(vim.g.mason_ensure_installed or {}, mason_name)
+  then
+    table.insert(mason_ensure_installed, mason_name)
+  end
+end
+
 return {
   "neovim/nvim-lspconfig",
-  cond = not require("conf").get("light_mode"),
+  cond = not conf.get("light_mode"),
   dependencies = {
     "williamboman/mason.nvim",
-    { "williamboman/mason-lspconfig.nvim", cond = not require("conf").get("light_mode") },
-    { "hrsh7th/cmp-nvim-lsp", cond = not require("conf").get("light_mode") },
+    { "williamboman/mason-lspconfig.nvim", cond = not conf.get("light_mode") },
+    { "hrsh7th/cmp-nvim-lsp", cond = not conf.get("light_mode") },
   },
-  ft = function()
-    local filetypes = {}
-    for _, server in pairs(require("conf").get("language_servers")) do
-      for _, filetype in ipairs(server.filetypes) do
-        table.insert(filetypes, filetype)
-      end
-    end
-    return filetypes
-  end,
+  ft = fts,
   init = function()
-    local mason_ensure_installed = {}
-    for server_name, _ in pairs(require("conf").get("language_servers")) do
-      local mason_name = server_name_to_mason_name[server_name] or server_name
-      if
-        not vim.tbl_contains(mason_ensure_installed, mason_name)
-        and not vim.tbl_contains(vim.g.mason_ensure_installed or {}, mason_name)
-      then
-        table.insert(mason_ensure_installed, mason_name)
-      end
-    end
+    -- Make sure all required dependencies can be installed with the `MasonInstallAll` command
     vim.g.mason_ensure_installed = vim.list_extend(vim.g.mason_ensure_installed or {}, mason_ensure_installed)
   end,
   config = function()
@@ -96,7 +99,7 @@ return {
     require("mason-lspconfig").setup({
       handlers = {
         function(server_name)
-          local server = require("conf").get("language_servers")[server_name] or {}
+          local server = conf.get("language_servers")[server_name] or {}
           -- This handles overriding only values explicitly passed by the server configuration above, which can be
           -- useful when disabling certain features of a language server
           server.capabilities = vim.tbl_deep_extend("force", {}, capabilities, server.capabilities or {})
