@@ -330,11 +330,15 @@ function M.vim_options()
 end
 
 function M.help_tags()
-  require("telescope.builtin").help_tags({
+  local opts = {
     prompt_title = "Find Help",
     layout_strategy = "vertical",
     previewer = false,
-  })
+  }
+  if visual_mode.is_on() then
+    opts.default_text = visual_mode.get_text()
+  end
+  require("telescope.builtin").help_tags(opts)
 end
 
 function M.man_pages()

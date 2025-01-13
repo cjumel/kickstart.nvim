@@ -5,6 +5,9 @@
 -- suited for many use-cases beyond fuzzy-finding files, like LSP reference navigation, or user input selection.
 -- Besides, it is very easily customizable, easier by crafting complex options or by creating extensions.
 
+local custom_actions = require("plugins.core.telescope.actions")
+local custom_builtin = require("plugins.core.telescope.builtin")
+
 return {
   "nvim-telescope/telescope.nvim",
   dependencies = {
@@ -14,49 +17,42 @@ return {
     {
       "nvim-telescope/telescope-fzf-native.nvim", -- Fuzzy finder algorithm requiring local dependencies to be built
       build = "make",
-      cond = function() return vim.fn.executable("make") == 1 end, -- Only load if make is available
+      cond = function() return vim.fn.executable("make") == 1 end,
     },
   },
   cmd = { "Telescope" }, -- Especially useful for other plugins calling Telescope through a command
-  keys = function()
-    local custom_builtin = require("plugins.core.telescope.builtin")
-    return {
+  keys = {
+    -- Main finders
+    { "<leader>ff", custom_builtin.find_files, mode = { "n", "v" }, desc = "[F]ind: [F]iles" },
+    { "<leader>fd", custom_builtin.find_directories, mode = { "n", "v" }, desc = "[F]ind: [D]irectories" },
+    { "<leader>fg", custom_builtin.live_grep, mode = { "n", "v" }, desc = "[F]ind: by [G]rep" },
+    { "<leader>fo", custom_builtin.old_files, mode = { "n", "v" }, desc = "[F]ind: [O]ld files" },
+    { "<leader>fr", custom_builtin.recent_files, mode = { "n", "v" }, desc = "[F]ind: [R]ecent files" },
+    { "<leader>fb", custom_builtin.current_buffer_fuzzy_find, mode = { "n", "v" }, desc = "[F]ind: in [B]uffer" },
 
-      -- Main finders
-      { "<leader>ff", custom_builtin.find_files, mode = { "n", "v" }, desc = "[F]ind: [F]iles" },
-      { "<leader>fd", custom_builtin.find_directories, mode = { "n", "v" }, desc = "[F]ind: [D]irectories" },
-      { "<leader>fg", custom_builtin.live_grep, mode = { "n", "v" }, desc = "[F]ind: by [G]rep" },
-      { "<leader>fo", custom_builtin.old_files, mode = { "n", "v" }, desc = "[F]ind: [O]ld files" },
-      { "<leader>fr", custom_builtin.recent_files, mode = { "n", "v" }, desc = "[F]ind: [R]ecent files" },
-      { "<leader>fb", custom_builtin.current_buffer_fuzzy_find, mode = { "n", "v" }, desc = "[F]ind: in [B]uffer" },
+    -- Help-related
+    { "<leader>fm", custom_builtin.man_pages, mode = { "n", "v" }, desc = "[F]ind: [M]an pages" },
+    { "<leader>fh", custom_builtin.help_tags, mode = { "n", "v" }, desc = "[F]ind: [H]elp" },
+    { "<leader>fc", custom_builtin.commands, desc = "[F]ind: [C]ommands" },
+    { "<leader>fk", custom_builtin.keymaps, desc = "[F]ind: [K]eymaps" },
+    { "<leader>fv", custom_builtin.vim_options, desc = "[F]ind: [V]im Options" },
 
-      -- Help-related
-      { "<leader>fm", custom_builtin.man_pages, mode = { "n", "v" }, desc = "[F]ind: [M]an pages" },
-      { "<leader>fh", custom_builtin.help_tags, desc = "[F]ind: [H]elp" },
-      { "<leader>fc", custom_builtin.commands, desc = "[F]ind: [C]ommands" },
-      { "<leader>fk", custom_builtin.keymaps, desc = "[F]ind: [K]eymaps" },
-      { "<leader>fv", custom_builtin.vim_options, desc = "[F]ind: [V]im Options" },
+    -- Neovim-related
+    { "<leader><Tab>", custom_builtin.buffers, desc = "Buffer switcher" },
+    { "<leader>,", custom_builtin.resume, desc = "Resume Telescope" },
+    { "<leader>:", custom_builtin.command_history, desc = "Command history" },
+    { "<leader>/", custom_builtin.search_history, desc = "Search history" },
 
-      -- Neovim-related
-      { "<leader><Tab>", custom_builtin.buffers, desc = "Buffer switcher" },
-      { "<leader>,", custom_builtin.resume, desc = "Resume Telescope" },
-      { "<leader>:", custom_builtin.command_history, desc = "Command history" },
-      { "<leader>/", custom_builtin.search_history, desc = "Search history" },
-
-      -- Git-related
-      { "<leader>gg", custom_builtin.git_status, desc = "[G]it: status" },
-      { "<leader>gb", custom_builtin.git_branches, desc = "[G]it: [B]ranches" },
-      { "<leader>gl", custom_builtin.git_commits, mode = { "n" }, desc = "[G]it: [L]og" },
-      { "<leader>gL", custom_builtin.git_bcommits, mode = { "n" }, desc = "[G]it: buffer [L]og" },
-      { "<leader>gl", custom_builtin.git_bcommits_range, mode = { "v" }, desc = "[G]it: selection [L]og" },
-    }
-  end,
+    -- Git-related
+    { "<leader>gg", custom_builtin.git_status, desc = "[G]it: status" },
+    { "<leader>gb", custom_builtin.git_branches, desc = "[G]it: [B]ranches" },
+    { "<leader>gl", custom_builtin.git_commits, mode = { "n" }, desc = "[G]it: [L]og" },
+    { "<leader>gL", custom_builtin.git_bcommits, mode = { "n" }, desc = "[G]it: buffer [L]og" },
+    { "<leader>gl", custom_builtin.git_bcommits_range, mode = { "v" }, desc = "[G]it: selection [L]og" },
+  },
   opts = function()
     local actions = require("telescope.actions")
-    local actions_layout = require("telescope.actions.layout")
-    local custom_actions = require("plugins.core.telescope.actions")
-    local utils = require("telescope.utils")
-
+    local layout_actions = require("telescope.actions.layout")
     return {
       defaults = {
         default_mappings = {
@@ -68,7 +64,7 @@ return {
             ["<C-n>"] = actions.move_selection_next,
             ["<S-Tab>"] = actions.move_selection_previous,
             ["<C-p>"] = actions.move_selection_previous,
-            ["<C-]>"] = actions_layout.toggle_preview,
+            ["<C-]>"] = layout_actions.toggle_preview,
             ["<C-g>"] = actions.move_to_top, -- Like "go to top"
             ["<C-h>"] = actions.which_key, -- Like "help"
             ["<C-c>"] = actions.close,
@@ -97,7 +93,7 @@ return {
             ["<C-n>"] = actions.move_selection_next,
             ["<S-Tab>"] = actions.move_selection_previous,
             ["<C-p>"] = actions.move_selection_previous,
-            ["<C-]>"] = actions_layout.toggle_preview,
+            ["<C-]>"] = layout_actions.toggle_preview,
             ["<C-g>"] = actions.move_to_top, -- Like "go to top"
             ["<C-h>"] = actions.which_key, -- Like "help"
             ["<C-c>"] = actions.close,
@@ -147,15 +143,16 @@ return {
           },
         },
         path_display = function(_, path) -- Make the path displayed more user-friendly
-          return utils.transform_path({ path_display = { truncate = true } }, vim.fn.fnamemodify(path, ":p:~:."))
+          return require("telescope.utils").transform_path(
+            { path_display = { truncate = true } },
+            vim.fn.fnamemodify(path, ":p:~:.")
+          )
         end,
       },
     }
   end,
   config = function(_, opts)
-    local telescope = require("telescope")
-
-    telescope.setup(opts)
-    pcall(telescope.load_extension, "fzf") -- Enable telescope fzf native, if installed
+    require("telescope").setup(opts)
+    pcall(require("telescope").load_extension, "fzf") -- Enable telescope fzf native, if installed
   end,
 }
