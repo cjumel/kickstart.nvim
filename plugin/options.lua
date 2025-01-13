@@ -1,5 +1,7 @@
 -- [[ Options ]]
 
+local theme = require("theme")
+
 -- Global UI
 vim.o.mouse = "a" -- Enable mouse mode in all modes
 vim.o.breakindent = true -- After a line wrap, indent the part on the new virtual line
@@ -7,6 +9,9 @@ vim.o.splitright = true -- Open new vertical split window on the right
 vim.o.splitbelow = true -- Open new horizontal split window below
 vim.opt.cursorline = true -- Highlight the cursor line
 vim.o.matchpairs = vim.o.matchpairs .. ",<:>" -- Add recognized character pair
+if theme.options_callback then -- Additional theme options setting
+  theme.options_callback()
+end
 
 -- Side column
 vim.wo.number = true -- Enable absolute line numbering
