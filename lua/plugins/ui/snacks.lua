@@ -38,12 +38,12 @@ return {
     words = { enabled = true },
     zen = {
       toggles = { dim = false },
-      win = { width = 120 },
+      win = { width = 125 }, -- Support line-length up until 120
     },
     styles = {
       notification = { wo = { wrap = true } }, -- Don't truncate notifications
       notification_history = { wo = { number = false, relativenumber = false } },
-      zen = { wo = { number = false, relativenumber = false, signcolumn = "no", colorcolumn = "" } },
+      zen = { wo = { number = false, relativenumber = false, signcolumn = "yes" } },
     },
   },
 }
