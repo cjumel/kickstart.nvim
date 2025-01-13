@@ -58,8 +58,9 @@ return {
         return false
       end
 
+      local relative_file_path = vim.fn.expand("%:p:~")
       for _, path_pattern in ipairs(conf.get("tooling_blacklist_path_patterns") or {}) do
-        local file_matches_tooling_blacklist_pattern = absolute_file_path:match(path_pattern)
+        local file_matches_tooling_blacklist_pattern = relative_file_path:match(path_pattern)
         if file_matches_tooling_blacklist_pattern then
           return false
         end
