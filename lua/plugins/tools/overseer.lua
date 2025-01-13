@@ -5,23 +5,22 @@
 -- when there is a Makefile, and suggest the relevant commands based on it). It is very easy to use and super
 -- configurable, for instance by implementing custom job templates.
 
+local actions = require("plugins.tools.overseer.actions")
+
 return {
   "stevearc/overseer.nvim",
   dependencies = { "williamboman/mason.nvim" }, -- Some tools (e.g. ruff or prettier) require mason.nvim
-  keys = function()
-    local actions = require("plugins.tools.overseer.actions")
-    return {
-      { "<leader>oo", actions.toggle_task_list, desc = "[O]verseer: toggle task list" },
-      { "<leader>oa", actions.all_templates, desc = "[O]verseer: [A]ll templates" },
-      { "<leader>op", actions.all_templates_with_prompt, desc = "[O]verseer: all templates with [P]rompt" },
-      { "<leader>os", actions.shell_template, desc = "[O]verseer: [S]hell template" },
-      { "<leader>or", actions.run_templates, desc = "[O]verseer: [R]un templates" },
-      { "<leader>ot", actions.test_templates, desc = "[O]verseer: [T]est templates" },
-      { "<leader>oc", actions.check_templates, desc = "[O]verseer: [C]heck templates" },
-      { "<leader>ob", actions.build_templates, desc = "[O]verseer: [B]uild templates" },
-      { "<leader>ol", actions.rerun_last_task, desc = "[O]verseer: rerun [L]ast task" },
-    }
-  end,
+  keys = {
+    { "<leader>oo", actions.toggle_task_list, desc = "[O]verseer: toggle task list" },
+    { "<leader>oa", actions.all_templates, desc = "[O]verseer: [A]ll templates" },
+    { "<leader>op", actions.all_templates_with_prompt, desc = "[O]verseer: all templates with [P]rompt" },
+    { "<leader>os", actions.shell_template, desc = "[O]verseer: [S]hell template" },
+    { "<leader>or", actions.run_templates, desc = "[O]verseer: [R]un templates" },
+    { "<leader>ot", actions.test_templates, desc = "[O]verseer: [T]est templates" },
+    { "<leader>oc", actions.check_templates, desc = "[O]verseer: [C]heck templates" },
+    { "<leader>ob", actions.build_templates, desc = "[O]verseer: [B]uild templates" },
+    { "<leader>ol", actions.rerun_last_task, desc = "[O]verseer: rerun [L]ast task" },
+  },
   opts = {
     dap = false, -- When true, this lazy-loads nvim-dap but I don't use it with overseer.nvim
     task_list = {
@@ -56,9 +55,7 @@ return {
     default_template_prompt = "avoid", -- Only show parameter prompt when necessary
   },
   config = function(_, opts)
-    local overseer = require("overseer")
-
-    overseer.setup(opts)
+    require("overseer").setup(opts)
 
     -- Register custom templates
     local template_file_paths = vim.split(vim.fn.glob("./lua/plugins/tools/overseer/templates/*"), "\n")
@@ -66,7 +63,7 @@ return {
       local template_file_path_split = vim.split(template_file_path, "/")
       local template_name = template_file_path_split[#template_file_path_split]:gsub("%.lua$", "")
       local template = require("plugins.tools.overseer.templates." .. template_name)
-      overseer.register_template(template)
+      require("overseer").register_template(template)
     end
   end,
 }

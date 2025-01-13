@@ -4,38 +4,43 @@
 -- plugin of choice for linting, as it's very simple, easily customizable, and is very complementary with conform.nvim,
 -- my formatting plugin.
 
--- Specify the name of the Mason package corresponding to linters when they differ
-local linter_to_mason_name = {}
+local conf = require("conf")
+
+local linter_to_mason_name = {} -- Names of the Mason package corresponding to linters when they differ
+local linters_without_mason = {} -- Names of the linters which have no Mason package associated with
 
 local linters_by_ft = {}
-for ft, linters in pairs(require("conf").get("linters_by_ft")) do
+for ft, linters in pairs(conf.get("linters_by_ft")) do
   local linter_is_disabled = (
-    require("conf").get("disable_lint_on_fts") == "*"
-    or vim.tbl_contains(require("conf").get("disable_lint_on_fts") or {}, ft)
+    conf.get("disable_lint_on_fts") == "*" or vim.tbl_contains(conf.get("disable_lint_on_fts") or {}, ft)
   )
   if not linter_is_disabled then
     linters_by_ft[ft] = linters
   end
 end
 
+local mason_ensure_installed = {}
+for _, linters in pairs(linters_by_ft) do
+  for _, linter in ipairs(linters) do
+    if not vim.tbl_contains(linters_without_mason, linter) then
+      local mason_name = linter_to_mason_name[linter] or linter
+      if
+        not vim.tbl_contains(mason_ensure_installed, mason_name)
+        and not vim.tbl_contains(vim.g.mason_ensure_installed or {}, mason_name)
+      then
+        table.insert(mason_ensure_installed, mason_name)
+      end
+    end
+  end
+end
+
 return {
   "mfussenegger/nvim-lint",
-  cond = not require("conf").get("light_mode"),
+  cond = not conf.get("light_mode"),
   dependencies = { "williamboman/mason.nvim" },
   ft = vim.tbl_keys(linters_by_ft),
   init = function()
-    local mason_ensure_installed = {}
-    for _, linters in pairs(linters_by_ft) do
-      for _, linter in ipairs(linters) do
-        local mason_name = linter_to_mason_name[linter] or linter
-        if
-          not vim.tbl_contains(mason_ensure_installed, mason_name)
-          and not vim.tbl_contains(vim.g.mason_ensure_installed or {}, mason_name)
-        then
-          table.insert(mason_ensure_installed, mason_name)
-        end
-      end
-    end
+    -- Make sure all required dependencies can be installed with the `MasonInstallAll` command
     vim.g.mason_ensure_installed = vim.list_extend(vim.g.mason_ensure_installed or {}, mason_ensure_installed)
   end,
   opts = {
@@ -53,7 +58,7 @@ return {
         return false
       end
 
-      for _, path_pattern in ipairs(require("conf").get("tooling_blacklist_path_patterns") or {}) do
+      for _, path_pattern in ipairs(conf.get("tooling_blacklist_path_patterns") or {}) do
         local file_matches_tooling_blacklist_pattern = absolute_file_path:match(path_pattern)
         if file_matches_tooling_blacklist_pattern then
           return false

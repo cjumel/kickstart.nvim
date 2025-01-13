@@ -4,52 +4,55 @@
 -- auto-formatting due to its great flexibility and customizability, while still remaining quite simple compared to
 -- alternatives like null-ls.
 
--- Specify the name of the Mason package corresponding to formatters when they differ
-local formatter_to_mason_name = {
+local conf = require("conf")
+
+local formatter_to_mason_name = { -- Names of the Mason package corresponding to formatters when they differ
   ruff_fix = "ruff",
   ruff_format = "ruff",
 }
+local formatters_without_mason = { -- Names of the formatters which have no Mason package associated with
+  "trim_newlines",
+  "trim_whitespace",
+}
 
 local formatters_by_ft = {}
-for ft, formatters in pairs(require("conf").get("formatters_by_ft")) do
+for ft, formatters in pairs(conf.get("formatters_by_ft")) do
   local formatter_is_disabled = (
-    require("conf").get("disable_format_on_fts") == "*"
-    or vim.tbl_contains(require("conf").get("disable_format_on_fts") or {}, ft)
+    conf.get("disable_format_on_fts") == "*" or vim.tbl_contains(conf.get("disable_format_on_fts") or {}, ft)
   )
   if not formatter_is_disabled then
     formatters_by_ft[ft] = formatters
   end
 end
 
+local mason_ensure_installed = {}
+for _, formatters in pairs(formatters_by_ft) do
+  for formatter_key, formatter in ipairs(formatters) do
+    if
+      formatter_key ~= "lsp_format" -- "lsp_format" is a special key for LSP formatter modes
+      and not vim.tbl_contains(formatters_without_mason, formatter)
+    then
+      local mason_name = formatter_to_mason_name[formatter] or formatter
+      if
+        not vim.tbl_contains(mason_ensure_installed, mason_name)
+        and not vim.tbl_contains(vim.g.mason_ensure_installed or {}, mason_name)
+      then
+        table.insert(mason_ensure_installed, mason_name)
+      end
+    end
+  end
+end
+
 return {
   "stevearc/conform.nvim",
-  cond = not require("conf").get("light_mode"),
+  cond = not conf.get("light_mode"),
   dependencies = { "williamboman/mason.nvim" },
   ft = vim.tbl_keys(formatters_by_ft),
   init = function()
     -- Enable conform formatting with Neovim's builtin formatting (see `:h gq`)
     vim.o.formatexpr = "v:lua.require'conform'.formatexpr()"
 
-    local mason_ensure_installed = {}
-    for _, formatters in pairs(formatters_by_ft) do
-      for formatter_key, formatter in ipairs(formatters) do
-        if
-          formatter_key ~= "lsp_format" -- "lsp_format" is a special key for LSP formatter modes
-          and not vim.tbl_contains(
-            { "trim_newlines", "trim_whitespace" }, -- Formatters which have no Mason package associated with
-            formatter
-          )
-        then
-          local mason_name = formatter_to_mason_name[formatter] or formatter
-          if
-            not vim.tbl_contains(mason_ensure_installed, mason_name)
-            and not vim.tbl_contains(vim.g.mason_ensure_installed or {}, mason_name)
-          then
-            table.insert(mason_ensure_installed, mason_name)
-          end
-        end
-      end
-    end
+    -- Make sure all required dependencies can be installed with the `MasonInstallAll` command
     vim.g.mason_ensure_installed = vim.list_extend(vim.g.mason_ensure_installed or {}, mason_ensure_installed)
   end,
   opts = {
@@ -67,7 +70,7 @@ return {
         return
       end
 
-      for _, path_pattern in ipairs(require("conf").get("tooling_blacklist_path_patterns") or {}) do
+      for _, path_pattern in ipairs(conf.get("tooling_blacklist_path_patterns") or {}) do
         local file_matches_tooling_blacklist_pattern = absolute_file_path:match(path_pattern)
         if file_matches_tooling_blacklist_pattern then
           return
