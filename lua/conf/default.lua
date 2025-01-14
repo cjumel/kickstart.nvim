@@ -35,10 +35,6 @@ return {
             -- Complete with function names instead of call snippets. For a function `func` taking `a` and `b` as
             -- arguments, a call snippet is `func(a, b)` where `a` and `b` are placeholders to fill.
             callSnippet = "Disable",
-            -- Complete with regular keyword instead of keyword snippets. Keyword snippets are snippets for keywords
-            -- like `if`, `for`, `while`, etc. Custom snippets implemented with Luasnip are noticably faster, and they
-            -- don't require for the LSP workspace to be loadedq;
-            keywordSnippet = "Disable",
           },
           diagnostics = { disable = { "missing-fields" } }, -- Ignore noisy warnings
         },

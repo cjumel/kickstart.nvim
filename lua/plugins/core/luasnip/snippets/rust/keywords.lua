@@ -9,7 +9,6 @@ local s = ls.snippet
 local t = ls.text_node
 
 return {
-
   -- Rust-analyzer provides a `fn` snippet for function definition without return type
   s({
     trig = "fn-typed-return",
