@@ -29,6 +29,7 @@ return {
         disabled = disabled or (vim.fn.reg_executing() ~= "")
         return not disabled
       end,
+      preselect = cmp.PreselectMode.None, -- Always select the first item by default
       snippet = { expand = function(args) require("luasnip").lsp_expand(args.body) end },
       completion = { completeopt = "menu,menuone,noinsert" }, -- Directly select the first sugggestion
       window = { completion = cmp.config.window.bordered(), documentation = cmp.config.window.bordered() },
@@ -59,9 +60,10 @@ return {
       -- Fix issue with too long menus in completion window (see https://github.com/hrsh7th/nvim-cmp/issues/1154)
       formatting = {
         format = function(_, vim_item)
+          local menu_len = 40
           local menu = vim_item.menu and vim_item.menu or ""
-          if #menu > 20 then
-            vim_item.menu = string.sub(menu, 1, 20) .. "..."
+          if #menu > menu_len then
+            vim_item.menu = string.sub(menu, 1, menu_len) .. "…"
           end
           return vim_item
         end,
