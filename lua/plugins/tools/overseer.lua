@@ -62,7 +62,8 @@ return {
     require("overseer").setup(opts)
 
     -- Register custom templates
-    local template_file_paths = vim.split(vim.fn.glob("./lua/plugins/tools/overseer/templates/*"), "\n")
+    local template_dir_path = vim.fn.stdpath("config") .. "/lua/plugins/tools/overseer/templates"
+    local template_file_paths = vim.split(vim.fn.glob(template_dir_path .. "/*"), "\n")
     for _, template_file_path in ipairs(template_file_paths) do
       local template_file_path_split = vim.split(template_file_path, "/")
       local template_name = template_file_path_split[#template_file_path_split]:gsub("%.lua$", "")

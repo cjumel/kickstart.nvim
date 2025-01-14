@@ -12,10 +12,11 @@ return {
   opts = {},
   config = function(_, opts)
     local ls = require("luasnip")
-    local ls_lua_loader = require("luasnip.loaders.from_lua")
-
     ls.setup(opts)
-    ls_lua_loader.lazy_load({ paths = { "./lua/plugins/core/luasnip/snippets" } }) -- Lazy load custom snippets
+
+    -- Lazy load custom snippets
+    local ls_lua_loader = require("luasnip.loaders.from_lua")
+    ls_lua_loader.lazy_load({ paths = { vim.fn.stdpath("config") .. "/lua/plugins/core/luasnip/snippets" } })
 
     vim.keymap.set({ "i", "s" }, "<C-l>", function() ls.jump(1) end, { desc = "Move to next snippet node" })
     vim.keymap.set({ "i", "s" }, "<C-h>", function() ls.jump(-1) end, { desc = "Move to previous snippet node" })
