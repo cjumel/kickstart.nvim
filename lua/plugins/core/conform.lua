@@ -26,24 +26,6 @@ for ft, formatters in pairs(conf.get("formatters_by_ft")) do
   end
 end
 
-local mason_ensure_installed = {}
-for _, formatters in pairs(formatters_by_ft) do
-  for formatter_key, formatter in ipairs(formatters) do
-    if
-      formatter_key ~= "lsp_format" -- "lsp_format" is a special key for LSP formatter modes
-      and not vim.tbl_contains(formatters_without_mason, formatter)
-    then
-      local mason_name = formatter_to_mason_name[formatter] or formatter
-      if
-        not vim.tbl_contains(mason_ensure_installed, mason_name)
-        and not vim.tbl_contains(vim.g.mason_ensure_installed or {}, mason_name)
-      then
-        table.insert(mason_ensure_installed, mason_name)
-      end
-    end
-  end
-end
-
 return {
   "stevearc/conform.nvim",
   cond = not conf.get("light_mode"),
@@ -54,6 +36,23 @@ return {
     vim.o.formatexpr = "v:lua.require'conform'.formatexpr()"
 
     -- Make sure all required dependencies can be installed with the `MasonInstallAll` command
+    local mason_ensure_installed = {}
+    for _, formatters in pairs(formatters_by_ft) do
+      for formatter_key, formatter in ipairs(formatters) do
+        if
+          formatter_key ~= "lsp_format" -- "lsp_format" is a special key for LSP formatter modes
+          and not vim.tbl_contains(formatters_without_mason, formatter)
+        then
+          local mason_name = formatter_to_mason_name[formatter] or formatter
+          if
+            not vim.tbl_contains(mason_ensure_installed, mason_name)
+            and not vim.tbl_contains(vim.g.mason_ensure_installed or {}, mason_name)
+          then
+            table.insert(mason_ensure_installed, mason_name)
+          end
+        end
+      end
+    end
     vim.g.mason_ensure_installed = vim.list_extend(vim.g.mason_ensure_installed or {}, mason_ensure_installed)
   end,
   opts = {

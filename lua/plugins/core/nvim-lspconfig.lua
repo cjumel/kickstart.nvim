@@ -22,17 +22,6 @@ for _, server in pairs(conf.get("language_servers")) do
   end
 end
 
-local mason_ensure_installed = {}
-for server_name, _ in pairs(conf.get("language_servers")) do
-  local mason_name = server_name_to_mason_name[server_name] or server_name
-  if
-    not vim.tbl_contains(mason_ensure_installed, mason_name)
-    and not vim.tbl_contains(vim.g.mason_ensure_installed or {}, mason_name)
-  then
-    table.insert(mason_ensure_installed, mason_name)
-  end
-end
-
 return {
   "neovim/nvim-lspconfig",
   cond = not conf.get("light_mode"),
@@ -44,6 +33,16 @@ return {
   ft = fts,
   init = function()
     -- Make sure all required dependencies can be installed with the `MasonInstallAll` command
+    local mason_ensure_installed = {}
+    for server_name, _ in pairs(conf.get("language_servers")) do
+      local mason_name = server_name_to_mason_name[server_name] or server_name
+      if
+        not vim.tbl_contains(mason_ensure_installed, mason_name)
+        and not vim.tbl_contains(vim.g.mason_ensure_installed or {}, mason_name)
+      then
+        table.insert(mason_ensure_installed, mason_name)
+      end
+    end
     vim.g.mason_ensure_installed = vim.list_extend(vim.g.mason_ensure_installed or {}, mason_ensure_installed)
   end,
   config = function()
