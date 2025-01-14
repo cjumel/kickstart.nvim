@@ -61,6 +61,14 @@ return {
 
     rust_analyzer = {
       filetypes = { "rust" },
+      settings = {
+        ["rust-analyzer"] = {
+          -- Add parentheses when completing with a function instead of call snippets (with parentheses and argument
+          -- placeholders), as replacing the argument placeholders creates a bit of unecessary complexity, and it
+          -- doesn't work well with Copilot completion
+          completion = { callable = { snippets = "add_parentheses" } },
+        },
+      },
     },
 
     -- Taplo provides linting, formatting and some features based on schemas from SchemaStore like validation or
