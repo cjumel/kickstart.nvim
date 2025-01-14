@@ -24,19 +24,12 @@ return {
       filetypes = { "json" },
     },
 
-    -- Besides regular LSP features, LuaLS provides very cool diagnostics making a linter not needed, as well as some
-    -- static type checking. Additional LuaLS configuration is handled by the lazydev.nvim plugin. For LuaLS detailed
-    -- documentation, see: https://luals.github.io/wiki/settings/.
     lua_ls = {
       filetypes = { "lua" },
       settings = {
         Lua = {
-          completion = {
-            -- Complete with function names instead of call snippets. For a function `func` taking `a` and `b` as
-            -- arguments, a call snippet is `func(a, b)` where `a` and `b` are placeholders to fill.
-            callSnippet = "Disable",
-          },
-          diagnostics = { disable = { "missing-fields" } }, -- Ignore noisy warnings
+          -- Settings go here, see https://luals.github.io/wiki/settings/
+          -- Some configuration for the Neovim development environment is done directly by the lazydev.nvim plugin
         },
       },
     },
