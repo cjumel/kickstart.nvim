@@ -15,6 +15,13 @@ return {
     { "<leader>z", function() require("snacks").zen() end, desc = "[Z]en mode" },
     { "<leader><BS>", function() require("snacks").bufdelete() end, desc = "Delete buffer" },
     { "<leader>go", function() require("snacks").gitbrowse() end, desc = "[G]it: [O]pen in browser" },
+    {
+      "<leader>;",
+      function() require("snacks").scratch.open({ name = "Note", ft = "markdown" }) end,
+      desc = "Scratch note",
+    },
+    { "<leader>.", function() require("snacks").scratch.open() end, desc = "Scratch file" },
+    { "<leader>=", function() require("snacks").scratch.select() end, desc = "Select scratch file" },
   },
   opts = {
     bigfile = { enabled = true },
@@ -34,6 +41,29 @@ return {
     },
     notifier = { enabled = true },
     quickfile = { enabled = true },
+    scratch = {
+      win = {
+        keys = {
+          ["delete"] = {
+            "<C-q>",
+            function(self)
+              vim.ui.select(
+                { "yes", "no" },
+                { prompt = "Do you want to delete the scratch file definitely?" },
+                function(item)
+                  if item == "yes" then
+                    local fname = vim.api.nvim_buf_get_name(self.buf)
+                    vim.cmd([[close]]) -- Close the scratch buffer
+                    vim.fn.delete(fname) -- Delete the scratch file
+                  end
+                end
+              )
+            end,
+            desc = "delete scratch",
+          },
+        },
+      },
+    },
     scroll = { enabled = true },
     words = { enabled = true },
     zen = {
