@@ -96,7 +96,6 @@ return {
 
     -- Make sure the language servers are installed and set them up. Mason is responsible for installing and managing
     -- language servers, so it must be setup before mason-lspconfig.
-    ---@diagnostic disable-next-line: missing-fields
     require("mason-lspconfig").setup({
       handlers = {
         function(server_name)

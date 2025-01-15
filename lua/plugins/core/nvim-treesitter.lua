@@ -4,6 +4,8 @@
 -- various language-specific features (highlighting, indentation, incremental selection, etc.) It is a must-have for
 -- any Neovim user, in my opinion.
 
+local conf = require("conf")
+
 return {
   "nvim-treesitter/nvim-treesitter",
   build = ":TSUpdate",
@@ -12,40 +14,7 @@ return {
     "BufReadPre", -- In case Neovim directly opens a buffer, "VeryLazy" is too late to set keymaps
   },
   opts = {
-    ensure_installed = {
-      "bash",
-      "csv",
-      "diff",
-      "dockerfile",
-      "editorconfig",
-      "git_config",
-      "git_rebase",
-      "gitattributes",
-      "gitcommit",
-      "gitignore",
-      "javascript",
-      "json",
-      "jsonc",
-      "lua",
-      "luadoc", -- Lua docstrings
-      "luap", -- Lua search patterns
-      "make",
-      "markdown",
-      "markdown_inline", -- For advanced Markdown stuff, like concealing
-      "python",
-      "regex",
-      "requirements",
-      "rust",
-      "sql",
-      "ssh_config",
-      "tmux",
-      "toml",
-      "typescript",
-      "typst",
-      "vim",
-      "vimdoc", -- For Vim help files
-      "yaml",
-    },
+    ensure_installed = conf.get("treesitter_ensure_installed"),
     highlight = { enable = true },
     indent = { enable = true },
     incremental_selection = {

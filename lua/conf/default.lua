@@ -8,6 +8,43 @@ return {
   -- when no GitHub Copilot subscription is available.
   disable_copilot = false,
 
+  -- Set `treesitter_ensure_installed` to a list of Treesitter languages which are automatically installed on Neovim
+  -- startup, if missing
+  treesitter_ensure_installed = {
+    "bash",
+    "csv",
+    "diff",
+    "dockerfile",
+    "editorconfig",
+    "git_config",
+    "git_rebase",
+    "gitattributes",
+    "gitcommit",
+    "gitignore",
+    "javascript",
+    "json",
+    "jsonc",
+    "lua",
+    "luadoc", -- Lua docstrings
+    "luap", -- Lua search patterns
+    "make",
+    "markdown",
+    "markdown_inline", -- For advanced Markdown stuff, like concealing
+    "python",
+    "regex",
+    "requirements",
+    "rust",
+    "sql",
+    "ssh_config",
+    "tmux",
+    "toml",
+    "typescript",
+    "typst",
+    "vim",
+    "vimdoc", -- For Vim help files
+    "yaml",
+  },
+
   -- In `language_servers`, define the language servers to use and their configuration overrides.
   -- Available keys for overrides are:
   --  - cmd (table): Override the default command used to start the server
@@ -27,9 +64,10 @@ return {
     lua_ls = {
       filetypes = { "lua" },
       settings = {
-        Lua = {
-          -- Settings go here, see https://luals.github.io/wiki/settings/
-          -- Some configuration for the Neovim development environment is done directly by the lazydev.nvim plugin
+        Lua = { -- Language server settings go here (see https://luals.github.io/wiki/settings/)
+          -- Disable diagnostics when passing to a function a table without the full expected type (e.g. when leaving
+          -- some values to their default)
+          diagnostics = { disable = { "missing-fields" } },
         },
       },
     },
@@ -51,10 +89,9 @@ return {
     rust_analyzer = {
       filetypes = { "rust" },
       settings = {
-        ["rust-analyzer"] = {
+        ["rust-analyzer"] = { -- Language server settings go here (see https://rust-analyzer.github.io/manual.html)
           -- Add parentheses when completing with a function instead of call snippets (with parentheses and argument
-          -- placeholders), as replacing the argument placeholders creates a bit of unecessary complexity, and it
-          -- doesn't work well with Copilot completion
+          -- placeholders)
           completion = { callable = { snippets = "add_parentheses" } },
         },
       },
@@ -137,15 +174,14 @@ return {
   disable_lint_on_fts = false,
 
   -- Set `tooling_blacklist_path_patterns` to a list of path patterns to exclude the files matching those patterns from
-  -- all tooling (format on save & lint).
+  -- all tooling (format on save and lint).
   tooling_blacklist_path_patterns = {
-    -- Patterns for directories inside my projects but managed by external tools, like Git or package managers (e.g.
-    -- Python virtual environements)
+    -- Directories inside projects but managed by external tools
     "/%.git/",
     "/%.venv",
 
-    -- Patterns for directories managed by package managers but which I sometimes open directly with Neovim, like Tmux
-    -- plugins
+    -- Global directories managed by package managers
     "^~/%.tmux/",
+    "^~/%.local/share/nvim/",
   },
 }
