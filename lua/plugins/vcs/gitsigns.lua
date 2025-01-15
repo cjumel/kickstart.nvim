@@ -23,8 +23,8 @@ return {
       map("n", "<leader>gs", gitsigns.stage_buffer, "[G]it: [S]tage buffer")
       map("n", "<leader>gu", gitsigns.reset_buffer_index, "[G]it: [U]nstage buffer")
       map("n", "<leader>gx", gitsigns.reset_buffer, "[G]it: discard buffer changes")
-      map("n", "<leader>gp", function() gitsigns.blame_line({ full = true }) end, "[G]it: [P]reviw blame")
-      map("n", "<leader>gd", function() gitsigns.diffthis("~") end, "[G]it: buffer [D]iff")
+      map("n", "<leader>gb", function() gitsigns.blame_line({ full = true }) end, "[G]it: [B]lame line")
+      map("n", "<leader>gd", function() gitsigns.diffthis("~") end, "[G]it: [D]iff buffer")
       map("o", "gh", ":<C-U>Gitsigns select_hunk<CR>", "Hunk")
     end,
   },

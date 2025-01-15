@@ -14,7 +14,7 @@ return {
     { "<leader>n", function() require("snacks").notifier.show_history() end, desc = "[N]otifications" },
     { "<leader>z", function() require("snacks").zen() end, desc = "[Z]en mode" },
     { "<leader><BS>", function() require("snacks").bufdelete() end, desc = "Delete buffer" },
-    { "<leader>go", function() require("snacks").gitbrowse() end, desc = "[G]it: [O]pen in browser" },
+    { "<leader>gr", function() require("snacks").gitbrowse() end, desc = "[G]it: open [R]epository" },
     {
       "<leader>;",
       function() require("snacks").scratch.open({ name = "Note", ft = "markdown" }) end,

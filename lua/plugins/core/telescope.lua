@@ -31,7 +31,6 @@ return {
     { "<leader>fb", custom_builtin.current_buffer_fuzzy_find, mode = { "n", "v" }, desc = "[F]ind: in [B]uffer" },
 
     -- Help-related
-    { "<leader>fm", custom_builtin.man_pages, mode = { "n", "v" }, desc = "[F]ind: [M]an pages" },
     { "<leader>fh", custom_builtin.help_tags, mode = { "n", "v" }, desc = "[F]ind: [H]elp" },
     { "<leader>fc", custom_builtin.commands, desc = "[F]ind: [C]ommands" },
     { "<leader>fk", custom_builtin.keymaps, desc = "[F]ind: [K]eymaps" },
@@ -45,9 +44,8 @@ return {
 
     -- Git-related
     { "<leader>gg", custom_builtin.git_status, desc = "[G]it: status" },
-    { "<leader>gb", custom_builtin.git_branches, desc = "[G]it: [B]ranches" },
-    { "<leader>gl", custom_builtin.git_commits, mode = { "n" }, desc = "[G]it: [L]og" },
-    { "<leader>gL", custom_builtin.git_bcommits, mode = { "n" }, desc = "[G]it: buffer [L]og" },
+    { "<leader>gl", custom_builtin.git_commits, desc = "[G]it: [L]og" },
+    { "<leader>gL", custom_builtin.git_bcommits, desc = "[G]it: buffer [L]og" },
     { "<leader>gl", custom_builtin.git_bcommits_range, mode = { "v" }, desc = "[G]it: selection [L]og" },
   },
   opts = function()
