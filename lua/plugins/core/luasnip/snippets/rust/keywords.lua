@@ -11,7 +11,7 @@ local t = ls.text_node
 return {
   -- Rust-analyzer provides a `fn` snippet for function definition without return type
   s({
-    trig = "fn-typed-return",
+    trig = "fnr", -- `fn` with return type
     desc = [[`fn ..(..) -> .. { .. }`]],
   }, {
     t("fn "),

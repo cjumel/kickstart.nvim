@@ -10,6 +10,7 @@ local sn = ls.snippet_node
 local t = ls.text_node
 
 return {
+  -- lua-ls provides a `local function` snippet
   s({
     trig = "local .. = ..",
     show_condition = conds.make_treesitter_node_exclusion_condition({
