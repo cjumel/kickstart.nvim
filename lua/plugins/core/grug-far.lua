@@ -8,14 +8,21 @@
 return {
   "MagicDuck/grug-far.nvim",
   dependencies = { "nvim-tree/nvim-web-devicons" },
-  keys = function()
-    local actions = require("plugins.core.grug-far.actions")
-    return {
-      { "<leader>rr", actions.grug_far, mode = { "n", "v" }, desc = "[R]eplace: unrestricted" },
-      { "<leader>rb", actions.grug_far_buffer, mode = { "n", "v" }, desc = "[R]eplace: in [B]uffer" },
-      { "<leader>rf", actions.grug_far_filetype, mode = { "n", "v" }, desc = "[R]eplace: in [F]iletype" },
-    }
-  end,
+  keys = {
+    { "<leader>r", function() require("grug-far").open() end, desc = "[R]eplace" },
+    { "<leader>r", function() require("grug-far").with_visual_selection() end, mode = { "v" }, desc = "[R]eplace" },
+    {
+      "<leader>R",
+      function() require("grug-far").open({ prefills = { paths = vim.fn.expand("%") } }) end,
+      desc = "[R]eplace in buffer",
+    },
+    {
+      "<leader>R",
+      function() require("grug-far").with_visual_selection({ prefills = { paths = vim.fn.expand("%") } }) end,
+      mode = { "v" },
+      desc = "[R]eplace in buffer",
+    },
+  },
   opts = {
     keymaps = {
       replace = { n = "<CR>" },

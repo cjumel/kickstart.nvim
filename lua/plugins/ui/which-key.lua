@@ -27,7 +27,6 @@ return {
       { "<leader>g", group = "[G]it", mode = { "n", "v" } },
       { "<leader>l", group = "[L]inkup", mode = { "n", "v" } },
       { "<leader>o", group = "[O]verseer" },
-      { "<leader>r", group = "[R]eplace", mode = { "n", "v" } },
       { "<leader>v", group = "[V]iew" },
       { "<leader>y", group = "[Y]ank" },
     },
