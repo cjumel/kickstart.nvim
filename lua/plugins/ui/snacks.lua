@@ -20,8 +20,7 @@ return {
       function() require("snacks").scratch.open({ name = "Note", ft = "markdown" }) end,
       desc = "Scratch note",
     },
-    { "<leader>.", function() require("snacks").scratch.open() end, desc = "Scratch file" },
-    { "<leader>=", function() require("snacks").scratch.select() end, desc = "Select scratch file" },
+    { "<leader>=", function() require("snacks").scratch.select() end, desc = "Select scratch" },
   },
   opts = {
     bigfile = { enabled = true },
