@@ -99,7 +99,7 @@ return {
     require("mason-lspconfig").setup({
       handlers = {
         function(server_name)
-          local server = conf.language_servers[server_name] or {}
+          local server = vim.deepcopy(conf.language_servers[server_name] or {}) -- Avoid updating the conf table later
           -- This handles overriding only values explicitly passed by the server configuration above, which can be
           -- useful when disabling certain features of a language server
           server.capabilities = vim.tbl_deep_extend("force", {}, capabilities, server.capabilities or {})
