@@ -20,8 +20,7 @@ sensible/not-exotic way, this configuration essentially implements two major fea
   managed with [mason.nvim](https://github.com/williamboman/mason.nvim), thus requiring less
   additional setup. This is convenient when working on a new machine on which I don't want to
   install all the tools my configuration support, but I still want to be able to benefit from the
-  simpler features of my configuration. This modular configuration feature is powered by the
-  [conf.nvim](https://github.com/cjumel/conf.nvim) plugin I developped.
+  simpler features of my configuration.
 
 - **Terminal-wide themes**, with various color schemes I can change at once through a simple shell
   command (`ct`, for "change theme") for the main terminal softwares I use: a terminal emulator
