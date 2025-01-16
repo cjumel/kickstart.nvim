@@ -28,16 +28,4 @@ M.oil = {
   end,
 }
 
--- Show the index & name of the ToggleTerm opened in a window instead of the ToggleTerm buffer path
-M.toggleterm = {
-  function()
-    local terms = require("toggleterm.terminal")
-    local term = terms.get(vim.b.toggle_number)
-    if term == nil then
-      return ""
-    end
-    return "Terminal " .. term.id .. ": " .. term:_display_name()
-  end,
-}
-
 return M
