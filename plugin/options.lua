@@ -1,5 +1,4 @@
--- [[ Options ]]
-
+local conf = require("conf")
 local theme = require("theme")
 
 -- Global UI
@@ -78,37 +77,17 @@ vim.o.undofile = true -- Save undo history to file
 vim.o.updatetime = 250 -- Decrease delay for writting swap files
 vim.o.timeoutlen = 300 -- Decrease delay between keys in mapped sequences
 
--- [[ Diagnostics ]]
-
 -- Diagnostics configuration
 vim.diagnostic.config({
   float = { border = "rounded" }, -- Better for transparent backgrounds
   severity_sort = true, -- Display most severe diagnostic in sign column
 })
 
--- Use symbols taken from lualine/components/diagnostics/config.lua in sign column
+-- Diagnostics symbols (taken from lualine/components/diagnostics/config.lua)
 for type, icon in pairs({ Error = "󰅚 ", Warn = "󰀪 ", Hint = "󰌶 ", Info = "󰋽 " }) do
   local hl = "DiagnosticSign" .. type
   vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
 end
 
--- [[ Filetypes ]]
-
--- Add custom filetypes to those known by Neovim
-vim.filetype.add({
-  filename = {
-    [".env.example"] = "sh", -- same as `.env`
-    [".env.sample"] = "sh", -- same as `.env`
-    [".env.test"] = "sh", -- same as `.env`
-    [".env.test.example"] = "sh", -- same as `.env`
-    [".ideavimrc"] = "vim",
-    [".markdownlintrc"] = "json", -- could also be "ini"
-    [".prettierignore"] = "conf", -- auto-detected by nvim
-    [".shellcheckrc"] = "conf", -- auto-detected by nvim
-    [".stow-global-ignore"] = "conf", -- auto-detected by nvim
-    [".stow-local-ignore"] = "conf", -- auto-detected by nvim
-    [".vimiumrc"] = "vim",
-    ["ignore"] = "conf", -- auto-detected by nvim
-    ["ripgreprc"] = "conf", -- auto-detected by nvim
-  },
-})
+-- Extra filetypes detection
+vim.filetype.add({ filename = conf.extra_filename_to_filetype })

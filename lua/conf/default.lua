@@ -184,4 +184,36 @@ return {
     "^~/%.tmux/",
     "^~/%.local/share/nvim/",
   },
+
+  -- Set `extra_filename_to_filetype` to a dictionary mapping file names to their corresponding file types, to support
+  -- additional filetype detection for files whose name is not known by Neovim.
+  extra_filename_to_filetype = {
+    [".env.example"] = "sh", -- same as `.env`
+    [".env.sample"] = "sh", -- same as `.env`
+    [".env.test"] = "sh", -- same as `.env`
+    [".env.test.example"] = "sh", -- same as `.env`
+    [".ideavimrc"] = "vim",
+    [".markdownlintrc"] = "json", -- could also be "ini" but I use `json`
+    [".prettierignore"] = "conf", -- auto-detected by nvim
+    [".shellcheckrc"] = "conf", -- auto-detected by nvim
+    [".stow-global-ignore"] = "conf", -- auto-detected by nvim
+    [".stow-local-ignore"] = "conf", -- auto-detected by nvim
+    [".vimiumrc"] = "vim",
+    ["ignore"] = "conf", -- auto-detected by nvim
+    ["ripgreprc"] = "conf", -- auto-detected by nvim
+  },
+
+  -- Set `extra_filename_to_icon_name` to a dictionnary mapping file names to their corresponding nvim-web-devicons
+  -- icon name, to support additional icon detection for files whose name is not known by Neovim. The filetypes defined
+  -- in `extra_filename_to_filetype` will be used automatically to define the corresponding icons, so there is not
+  -- need to repeat them here, but `extra_filename_to_icon_name` will overwrite any value found in
+  -- `extra_filename_to_filetype`.
+  extra_filename_to_icon_name = {
+    [".env.example"] = ".env",
+    [".env.sample"] = ".env",
+    [".env.test"] = ".env",
+    [".env.test.example"] = ".env",
+    ["tmux-pre-tpm.conf"] = "tmux",
+    ["tmux-post-tpm.conf"] = "tmux",
+  },
 }
