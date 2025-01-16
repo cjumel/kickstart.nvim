@@ -5,10 +5,10 @@
 
 return {
   "rcarriga/nvim-dap-ui",
-  cond = not require("conf").get("light_mode"),
+  cond = not require("conf").light_mode,
   dependencies = {
     "mfussenegger/nvim-dap",
-    { "nvim-neotest/nvim-nio", cond = not require("conf").get("light_mode") },
+    { "nvim-neotest/nvim-nio", cond = not require("conf").light_mode },
   },
   lazy = true, -- Lazy-loaded by the debug Hydra
   opts = {

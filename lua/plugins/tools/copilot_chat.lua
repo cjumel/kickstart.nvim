@@ -6,7 +6,7 @@
 
 return {
   "CopilotC-Nvim/CopilotChat.nvim",
-  cond = not (require("conf").get("light_mode") or require("conf").get("disable_copilot")),
+  cond = not (require("conf").light_mode or require("conf").disable_copilot),
   dependencies = {
     "zbirenbaum/copilot.lua",
     "nvim-lua/plenary.nvim",

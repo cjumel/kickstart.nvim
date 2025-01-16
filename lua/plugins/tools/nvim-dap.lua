@@ -5,7 +5,7 @@
 
 return {
   "mfussenegger/nvim-dap",
-  cond = not require("conf").get("light_mode"),
+  cond = not require("conf").light_mode,
   dependencies = {
     "williamboman/mason.nvim",
     "rcarriga/cmp-dap",

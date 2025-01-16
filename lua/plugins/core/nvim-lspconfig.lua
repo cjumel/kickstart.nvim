@@ -16,7 +16,7 @@ local server_name_to_mason_name = {
 }
 
 local fts = {}
-for _, server in pairs(conf.get("language_servers")) do
+for _, server in pairs(conf.language_servers) do
   for _, filetype in ipairs(server.filetypes) do
     table.insert(fts, filetype)
   end
@@ -24,17 +24,17 @@ end
 
 return {
   "neovim/nvim-lspconfig",
-  cond = not conf.get("light_mode"),
+  cond = not conf.light_mode,
   dependencies = {
     "williamboman/mason.nvim",
-    { "williamboman/mason-lspconfig.nvim", cond = not conf.get("light_mode") },
-    { "hrsh7th/cmp-nvim-lsp", cond = not conf.get("light_mode") },
+    { "williamboman/mason-lspconfig.nvim", cond = not conf.light_mode },
+    { "hrsh7th/cmp-nvim-lsp", cond = not conf.light_mode },
   },
   ft = fts,
   init = function()
     -- Make sure all required dependencies can be installed with the `MasonInstallAll` command
     local mason_ensure_installed = {}
-    for server_name, _ in pairs(conf.get("language_servers")) do
+    for server_name, _ in pairs(conf.language_servers) do
       local mason_name = server_name_to_mason_name[server_name] or server_name
       if
         not vim.tbl_contains(mason_ensure_installed, mason_name)
@@ -99,7 +99,7 @@ return {
     require("mason-lspconfig").setup({
       handlers = {
         function(server_name)
-          local server = conf.get("language_servers")[server_name] or {}
+          local server = conf.language_servers[server_name] or {}
           -- This handles overriding only values explicitly passed by the server configuration above, which can be
           -- useful when disabling certain features of a language server
           server.capabilities = vim.tbl_deep_extend("force", {}, capabilities, server.capabilities or {})

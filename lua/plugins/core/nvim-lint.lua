@@ -10,10 +10,8 @@ local linter_to_mason_name = {} -- Names of the Mason package corresponding to l
 local linters_without_mason = {} -- Names of the linters which have no Mason package associated with
 
 local linters_by_ft = {}
-for ft, linters in pairs(conf.get("linters_by_ft")) do
-  local linter_is_disabled = (
-    conf.get("disable_lint_on_fts") == "*" or vim.tbl_contains(conf.get("disable_lint_on_fts") or {}, ft)
-  )
+for ft, linters in pairs(conf.linters_by_ft) do
+  local linter_is_disabled = (conf.disable_lint_on_fts == "*" or vim.tbl_contains(conf.disable_lint_on_fts or {}, ft))
   if not linter_is_disabled then
     linters_by_ft[ft] = linters
   end
@@ -21,7 +19,7 @@ end
 
 return {
   "mfussenegger/nvim-lint",
-  cond = not conf.get("light_mode"),
+  cond = not conf.light_mode,
   dependencies = { "williamboman/mason.nvim" },
   ft = vim.tbl_keys(linters_by_ft),
   init = function()
@@ -58,7 +56,7 @@ return {
       end
 
       local relative_file_path = vim.fn.expand("%:p:~")
-      for _, path_pattern in ipairs(conf.get("tooling_blacklist_path_patterns") or {}) do
+      for _, path_pattern in ipairs(conf.tooling_blacklist_path_patterns or {}) do
         local file_matches_tooling_blacklist_pattern = relative_file_path:match(path_pattern)
         if file_matches_tooling_blacklist_pattern then
           return false
