@@ -157,6 +157,19 @@ return {
     show_condition = conds.line_begin * ls_show_conds.line_end * make_file_extension_condition("py"),
   }, { t("temp"), d(1, make_dynamic_file_index_node("temp", ".py")), t(".py") }),
 
+  -- Rust
+  s({
+    trig = ".rs",
+    show_condition = -dot_prefix_condition
+      * -conds.line_begin
+      * ls_show_conds.line_end
+      * make_file_extension_condition("rs"),
+  }, { t(".rs") }),
+  s({
+    trig = "temp.rs",
+    show_condition = conds.line_begin * ls_show_conds.line_end * make_file_extension_condition("rs"),
+  }, { t("temp"), d(1, make_dynamic_file_index_node("temp", ".rs")), t(".rs") }),
+
   -- Shell
   s({
     trig = ".sh",
