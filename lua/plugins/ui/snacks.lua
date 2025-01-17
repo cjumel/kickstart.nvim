@@ -41,6 +41,7 @@ return {
     notifier = { enabled = true },
     quickfile = { enabled = true },
     scratch = {
+      autowrite = false, -- Prevent untimely scratch file creation
       win = {
         keys = {
           ["delete"] = {
