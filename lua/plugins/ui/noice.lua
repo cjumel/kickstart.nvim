@@ -7,10 +7,7 @@
 
 return {
   "folke/noice.nvim",
-  dependencies = {
-    "MunifTanjim/nui.nvim",
-    "nvim-treesitter/nvim-treesitter",
-  },
+  dependencies = { "MunifTanjim/nui.nvim" },
   event = "VeryLazy",
   opts = {
     lsp = {
