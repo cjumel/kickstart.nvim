@@ -39,6 +39,17 @@ return {
       },
     },
     notifier = { enabled = true },
+    picker = {
+      enabled = true,
+      win = {
+        input = {
+          keys = {
+            ["<Tab>"] = { "list_down", mode = { "n", "i" } },
+            ["<S-Tab>"] = { "list_up", mode = { "n", "i" } },
+          },
+        },
+      },
+    },
     quickfile = { enabled = true },
     scratch = {
       autowrite = false, -- Prevent untimely scratch file creation

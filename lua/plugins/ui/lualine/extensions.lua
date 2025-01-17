@@ -34,6 +34,7 @@ function M.build_extensions(sections)
         "NeogitResetPopup",
         "NeogitStatus",
         "snacks_dashboard",
+        "snacks_picker_input",
         "TelescopePrompt",
         "trouble",
         "undotree",
