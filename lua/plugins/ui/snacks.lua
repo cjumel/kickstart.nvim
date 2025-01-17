@@ -20,6 +20,7 @@ return {
       function() require("snacks").scratch.open({ name = "Note", ft = "markdown" }) end,
       desc = "Scratch note",
     },
+    { "<leader>.", function() require("snacks").scratch.open() end, desc = "Scratch file" },
     { "<leader>=", function() require("snacks").scratch.select() end, desc = "Select scratch" },
   },
   opts = {
@@ -70,7 +71,45 @@ return {
                 end
               )
             end,
-            desc = "delete scratch",
+            desc = "delete",
+          },
+        },
+      },
+      win_by_ft = {
+        lua = {
+          keys = {
+            ["source"] = {
+              "<M-CR>",
+              function(self)
+                local command = "luajit"
+                local fname = vim.api.nvim_buf_get_name(self.buf)
+                local res = vim.system({ command, fname }, { text = true }):wait()
+                if res.code ~= 0 then
+                  require("snacks").notify.error(res.stderr or "Unknown error.")
+                else
+                  require("snacks").notify(res.stdout)
+                end
+              end,
+              desc = "source",
+            },
+          },
+        },
+        python = {
+          keys = {
+            ["source"] = {
+              "<M-CR>",
+              function(self)
+                local command = "python"
+                local fname = vim.api.nvim_buf_get_name(self.buf)
+                local res = vim.system({ command, fname }, { text = true }):wait()
+                if res.code ~= 0 then
+                  require("snacks").notify.error(res.stderr or "Unknown error.")
+                else
+                  require("snacks").notify(res.stdout)
+                end
+              end,
+              desc = "source",
+            },
           },
         },
       },
