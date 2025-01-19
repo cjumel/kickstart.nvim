@@ -23,7 +23,6 @@ return {
       ["-"] = "actions.parent",
       ["_"] = "actions.open_cwd",
       ["<CR>"] = "actions.select",
-      ["<C-c>"] = "actions.close",
       ["g?"] = "actions.show_help",
       ["gx"] = "actions.open_external",
       ["gX"] = {

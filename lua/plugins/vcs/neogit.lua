@@ -44,8 +44,6 @@ return {
         [";"] = "GoToPreviousHunkHeader",
         ["}"] = false, -- Formerly "GoToNextHunkHeader"
         [","] = "GoToNextHunkHeader",
-        -- Add new keymaps
-        ["<C-c>"] = "Close",
       },
     },
   },
