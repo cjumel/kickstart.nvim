@@ -25,7 +25,13 @@ return {
     vim.fn.sign_define("DapLogPoint", { text = "◆", texthl = "DapLogPoint", linehl = "", numhl = "" })
 
     -- Setup language-specific DAP configurations
-    local dap_python = require("plugins.tools.nvim-dap.python")
-    dap_python.setup()
+    local dap_config_dir_path = vim.fn.stdpath("config") .. "/lua/plugins/tools/nvim-dap/configs"
+    local dap_config_file_paths = vim.split(vim.fn.glob(dap_config_dir_path .. "/*"), "\n")
+    for _, dap_config_file_path in ipairs(dap_config_file_paths) do
+      local dap_config_file_path_split = vim.split(dap_config_file_path, "/")
+      local dap_config_name = dap_config_file_path_split[#dap_config_file_path_split]:gsub("%.lua$", "")
+      local dap_config = require("plugins.tools.nvim-dap.configs." .. dap_config_name)
+      dap_config.setup()
+    end
   end,
 }
