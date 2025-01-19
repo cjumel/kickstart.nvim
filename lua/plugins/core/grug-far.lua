@@ -9,8 +9,25 @@ return {
   "MagicDuck/grug-far.nvim",
   dependencies = { "nvim-tree/nvim-web-devicons" },
   keys = {
-    { "<leader>r", function() require("grug-far").open() end, desc = "[R]eplace" },
-    { "<leader>r", function() require("grug-far").with_visual_selection() end, mode = { "v" }, desc = "[R]eplace" },
+    {
+      "<leader>r",
+      function()
+        require("grug-far").open({
+          prefills = { paths = vim.bo.filetype == "oil" and require("oil").get_current_dir() or nil },
+        })
+      end,
+      desc = "[R]eplace",
+    },
+    {
+      "<leader>r",
+      function()
+        require("grug-far").with_visual_selection({
+          prefills = { paths = vim.bo.filetype == "oil" and require("oil").get_current_dir() or nil },
+        })
+      end,
+      mode = { "v" },
+      desc = "[R]eplace",
+    },
     {
       "<leader>R",
       function() require("grug-far").open({ prefills = { paths = vim.fn.expand("%") } }) end,
