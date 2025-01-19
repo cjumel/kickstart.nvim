@@ -1,6 +1,8 @@
 -- Here are defined custom wrappers around Telescope builtin pickers. It is where I implement custom options or logic
 -- for each picker I use & want to customize.
 
+local custom_actions = require("custom.telescope.actions")
+local custom_make_entry = require("custom.telescope.make_entry")
 local visual_mode = require("visual_mode")
 
 local M = {}
@@ -82,7 +84,6 @@ end
 ---@param opts table The persisted options.
 ---@return table _ The finalized options.
 local function find_directories_finalize_opts(opts)
-  local custom_make_entry = require("plugins.core.telescope.make_entry")
   local previewers = require("telescope.previewers")
 
   if not opts._include_all_files then
@@ -415,7 +416,6 @@ function M.git_commits()
     tiebreak = function(current, existing, _) return current.index < existing.index end, -- Sort by recency
     attach_mappings = function(_, _)
       local actions = require("telescope.actions")
-      local custom_actions = require("plugins.core.telescope.actions")
       actions.select_default:replace(custom_actions.copy_commit_hash) -- Replace the default checkout-to-commit action
       return true -- Enable default mappings
     end,
@@ -428,7 +428,6 @@ function M.git_bcommits()
     tiebreak = function(current, existing, _) return current.index < existing.index end, -- Sort by recency
     attach_mappings = function(_, _)
       local actions = require("telescope.actions")
-      local custom_actions = require("plugins.core.telescope.actions")
       actions.select_default:replace(custom_actions.copy_commit_hash) -- Replace the default checkout-to-commit action
       return true -- Enable default mappings
     end,
@@ -441,7 +440,6 @@ function M.git_bcommits_range()
     tiebreak = function(current, existing, _) return current.index < existing.index end, -- Sort by recency
     attach_mappings = function(_, _)
       local actions = require("telescope.actions")
-      local custom_actions = require("plugins.core.telescope.actions")
       actions.select_default:replace(custom_actions.copy_commit_hash) -- Replace the default checkout-to-commit action
       return true -- Enable default mappings
     end,

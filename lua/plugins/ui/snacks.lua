@@ -3,7 +3,7 @@
 -- Meta plugin providing a collection of small quality-of-life plugins for Neovim. All these plugigns work very nicely
 -- out-of-the-box, with great default behaviors, and bring many UI improvements as well as new cool atomic features.
 
-local telescope_builtin = require("plugins.core.telescope.builtin")
+local custom_telescope_builtin = require("custom.telescope.builtin")
 
 return {
   "folke/snacks.nvim",
@@ -31,11 +31,11 @@ return {
         { section = "header" },
         { icon = " ", key = "c", desc = "Current directory", action = function() require("oil").open() end },
         { icon = "󰊢 ", key = "n", desc = "Neogit", action = function() require("neogit").open() end },
-        { icon = "󰚰 ", key = "g", desc = "Find Git Status Files", action = telescope_builtin.git_status },
-        { icon = " ", key = "f", desc = "Find Files", action = telescope_builtin.find_files },
-        { icon = " ", key = "d", desc = "Find Directories", action = telescope_builtin.find_directories },
-        { icon = " ", key = "r", desc = "Find Recent files", action = telescope_builtin.recent_files },
-        { icon = " ", key = "o", desc = "Find Old files", action = telescope_builtin.old_files },
+        { icon = "󰚰 ", key = "g", desc = "Find Git Status Files", action = custom_telescope_builtin.git_status },
+        { icon = " ", key = "f", desc = "Find Files", action = custom_telescope_builtin.find_files },
+        { icon = " ", key = "d", desc = "Find Directories", action = custom_telescope_builtin.find_directories },
+        { icon = " ", key = "r", desc = "Find Recent files", action = custom_telescope_builtin.recent_files },
+        { icon = " ", key = "o", desc = "Find Old files", action = custom_telescope_builtin.old_files },
         { icon = " ", key = "q", desc = "Quit", action = ":qa" },
       },
     },
