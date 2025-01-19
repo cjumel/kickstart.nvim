@@ -3,7 +3,7 @@
 -- Meta plugin providing a collection of small quality-of-life plugins for Neovim. All these plugigns work very nicely
 -- out-of-the-box, with great default behaviors, and bring many UI improvements as well as new cool atomic features.
 
-local custom_telescope_builtin = require("custom.telescope.builtin")
+local custom_telescope_builtin = require("plugins.core.telescope.builtin")
 
 return {
   "folke/snacks.nvim",

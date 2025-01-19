@@ -1,8 +1,8 @@
 -- Here are defined custom wrappers around Telescope builtin pickers. It is where I implement custom options or logic
 -- for each picker I use & want to customize.
 
-local custom_actions = require("custom.telescope.actions")
-local custom_make_entry = require("custom.telescope.make_entry")
+local custom_actions = require("plugins.core.telescope.actions")
+local custom_make_entry = require("plugins.core.telescope.make_entry")
 local visual_mode = require("visual_mode")
 
 local M = {}

@@ -5,8 +5,8 @@
 -- suited for many use-cases beyond fuzzy-finding files, like LSP reference navigation, or user input selection.
 -- Besides, it is very easily customizable, easier by crafting complex options or by creating extensions.
 
-local custom_actions = require("custom.telescope.actions")
-local custom_builtin = require("custom.telescope.builtin")
+local custom_actions = require("plugins.core.telescope.actions")
+local custom_builtin = require("plugins.core.telescope.builtin")
 
 return {
   "nvim-telescope/telescope.nvim",

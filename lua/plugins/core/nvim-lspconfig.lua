@@ -71,7 +71,7 @@ return {
         map("n", "grr", "<cmd>Trouble lsp_references<CR>", "References")
 
         -- Symbols keymaps
-        local custom_telescope_builtin = require("custom.telescope.builtin")
+        local custom_telescope_builtin = require("plugins.core.telescope.builtin")
         map({ "n", "v" }, "<leader>fs", custom_telescope_builtin.lsp_document_symbols, "[F]ind: buffer [S]ymbols")
         map({ "n", "v" }, "<leader>fS", custom_telescope_builtin.lsp_workspace_symbols, "[F]ind: workspace [S]ymbols")
 
