@@ -182,6 +182,20 @@ function M.find_directories()
   require("telescope.builtin").find_files(opts)
 end
 
+function M.find_lines()
+  local opts = {
+    prompt_title = "Find Lines",
+    layout_strategy = "vertical",
+    previewer = false, -- Doesn't work in some buffers
+    tiebreak = function(current, existing, _) return current.index < existing.index end, -- Sort by line number
+  }
+  if visual_mode.is_on() then
+    opts.default_text = visual_mode.get_text()
+  end
+
+  require("telescope.builtin").current_buffer_fuzzy_find(opts)
+end
+
 --- Finalize the options for the `live_grep` picker. This function adds all the relevant not-persisted options to the
 --- persisted ones.
 ---@param opts table The persisted options.
@@ -295,17 +309,6 @@ function M.recent_files() -- Similar to M.oldfiles but restricted to cwd
     opts.default_text = string.gsub(text, "%p", " ")
   end
   require("telescope.builtin").oldfiles(opts)
-end
-
-function M.current_buffer_fuzzy_find()
-  local opts = {
-    prompt_title = "Find in Buffer",
-    layout_strategy = "vertical",
-  }
-  if visual_mode.is_on() then
-    opts.default_text = visual_mode.get_text()
-  end
-  require("telescope.builtin").current_buffer_fuzzy_find(opts)
 end
 
 function M.commands()
