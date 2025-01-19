@@ -2,7 +2,7 @@ local M = {}
 
 --- Check if the current file is a Python test file.
 ---@return boolean
-function M.is_python_test_file()
+function M.is_test_file()
   local file_name = vim.fn.expand("%:t") -- File base name and its extension
   local file_starts_with_test = file_name:match("^test_") and file_name:match("%.py$")
   if file_starts_with_test then
@@ -17,7 +17,7 @@ end
 
 --- Output the name of the current Python test function using Treesitter, or nil if none can be found.
 ---@return string|nil
-function M.get_python_test_function_name()
+function M.get_test_function_name()
   local node = vim.treesitter.get_node() -- Get the Teesitter node under the cursor
   while node ~= nil do
     if node:type() == "function_definition" then

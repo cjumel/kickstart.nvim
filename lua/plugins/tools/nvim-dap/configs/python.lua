@@ -2,7 +2,7 @@
 -- https://github.com/mfussenegger/nvim-dap/wiki/Debug-Adapter-installation#python
 -- https://github.com/mfussenegger/nvim-dap-python/blob/34282820bb713b9a5fdb120ae8dd85c2b3f49b51/lua/dap-python.lua
 
-local lang_utils = require("lang_utils")
+local python_utils = require("lang_utils.python")
 
 local M = {}
 
@@ -63,7 +63,7 @@ M.setup = function()
       },
     }
 
-    if vim.fn.executable("pytest") == 1 and lang_utils.python.is_python_test_file() then
+    if vim.fn.executable("pytest") == 1 and python_utils.is_test_file() then
       table.insert(configs, {
         type = "python",
         request = "launch",
@@ -73,7 +73,7 @@ M.setup = function()
         console = "integratedTerminal",
       })
 
-      local test_function_name = lang_utils.python.get_python_test_function_name()
+      local test_function_name = python_utils.get_test_function_name()
       if test_function_name ~= nil then
         table.insert(configs, {
           type = "python",

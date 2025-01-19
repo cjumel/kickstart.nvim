@@ -1,4 +1,4 @@
-local lang_utils = require("lang_utils")
+local python_utils = require("lang_utils.python")
 
 local base_template = {
   params = {
@@ -18,10 +18,10 @@ return {
   generator = function(_, cb)
     local overseer = require("overseer")
 
-    local is_python_test_file = lang_utils.python.is_python_test_file()
+    local is_python_test_file = python_utils.is_test_file()
     local python_test_function_name = nil
     if is_python_test_file then
-      python_test_function_name = lang_utils.python.get_python_test_function_name()
+      python_test_function_name = python_utils.get_test_function_name()
     end
 
     cb({
