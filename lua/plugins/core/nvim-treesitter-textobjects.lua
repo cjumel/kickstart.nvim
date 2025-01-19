@@ -76,7 +76,6 @@ return {
     require("nvim-treesitter.configs").setup({ textobjects = opts })
 
     local ts_actions = require("plugins.core.nvim-treesitter.actions")
-    local ts_keymap = require("plugins.core.nvim-treesitter-textobjects.keymap")
     local ts_repeatable_move = require("nvim-treesitter.textobjects.repeatable_move")
 
     -- Define keymaps to repeat last moves
@@ -93,71 +92,70 @@ return {
       { desc = 'Repeat last move in "previous" direction' }
     )
 
+    ---@param key string The keymap key, to use in addition to "[" or "]" to define the keymaps lhs.
+    ---@param forward_move_fn function The function to move in the forward direction to define one of the keymaps rhs.
+    ---@param backward_move_fn function The function to move in the backward direction to define the other keymap rhs.
+    ---@param name string The keymap name, to use in addition to "Next " or "Previous " to define keymap descriptions.
+    ---@return nil
+    local function map(key, forward_move_fn, backward_move_fn, name)
+      forward_move_fn, backward_move_fn =
+        ts_repeatable_move.make_repeatable_move_pair(forward_move_fn, backward_move_fn)
+      vim.keymap.set({ "n", "x", "o" }, "[" .. key, forward_move_fn, { desc = "Next " .. name })
+      vim.keymap.set({ "n", "x", "o" }, "]" .. key, backward_move_fn, { desc = "Previous " .. name })
+    end
+
     -- Generic keymaps
-    ts_keymap.set_move_pair(
-      "l",
-      function() vim.cmd("silent! lnext") end,
-      function() vim.cmd("silent! lprev") end,
-      "loclist item"
-    )
-    ts_keymap.set_move_pair(
-      "q",
-      function() vim.cmd("silent! cnext") end,
-      function() vim.cmd("silent! cprev") end,
-      "qflist item"
-    )
+    map("l", function() vim.cmd("silent! lnext") end, function() vim.cmd("silent! lprev") end, "loclist item")
+    map("q", function() vim.cmd("silent! cnext") end, function() vim.cmd("silent! cprev") end, "qflist item")
 
     -- Buffer-specific keymaps
     local augroup = vim.api.nvim_create_augroup("NvimTreesitterTextobjectsKeymaps", { clear = true })
+
+    ---@param key string The keymap key, to use in addition to "[" or "]" to define the keymaps lhs.
+    ---@param forward_move_fn function The function to move in the forward direction to define one of the keymaps rhs.
+    ---@param backward_move_fn function The function to move in the backward direction to define the other keymap rhs.
+    ---@param name string The keymap name, to use in addition to "Next " or "Previous " to define keymap descriptions.
+    ---@return nil
+    function map(key, forward_move_fn, backward_move_fn, name)
+      forward_move_fn, backward_move_fn =
+        ts_repeatable_move.make_repeatable_move_pair(forward_move_fn, backward_move_fn)
+      vim.keymap.set({ "n", "x", "o" }, "[" .. key, forward_move_fn, { desc = "Next " .. name, buffer = true })
+      vim.keymap.set({ "n", "x", "o" }, "]" .. key, backward_move_fn, { desc = "Previous " .. name, buffer = true })
+    end
 
     vim.api.nvim_create_autocmd("FileType", {
       pattern = "*",
       group = augroup,
       callback = function()
-        ts_keymap.set_local_move_pair( -- Dianostics can be errors, warnings, information messages or hints
-          "!",
-          vim.diagnostic.goto_next,
-          vim.diagnostic.goto_prev,
-          "diagnostic"
-        )
+        map("!", vim.diagnostic.goto_next, vim.diagnostic.goto_prev, "diagnostic")
         local url_pattern = "http:\\/\\/\\|https:\\/\\/"
-        ts_keymap.set_local_move_pair(
-          "u", -- Like the URL text-object in the nvim-various-textobjs plugin
-          function() vim.fn.search(url_pattern) end,
-          function() vim.fn.search(url_pattern, "b") end,
-          "URL"
-        )
-        ts_keymap.set_local_move_pair(
+        map("u", function() vim.fn.search(url_pattern) end, function() vim.fn.search(url_pattern, "b") end, "URL")
+        map(
           "h",
           function() require("gitsigns").nav_hunk("next") end,
           function() require("gitsigns").nav_hunk("prev") end,
           "hunk"
         )
-        ts_keymap.set_local_move_pair(
+        map(
           "t",
           function() require("todo-comments").jump_next() end,
           function() require("todo-comments").jump_prev() end,
           "todo-comment"
         )
-        ts_keymap.set_local_move_pair(
+        map(
           "n",
           function() require("todo-comments").jump_next({ keywords = { "NOW" } }) end,
           function() require("todo-comments").jump_prev({ keywords = { "NOW" } }) end,
           "now todo-comment"
         )
-        ts_keymap.set_local_move_pair(
-          "m",
-          function() require("marks").next() end,
-          function() require("marks").prev() end,
-          "mark"
-        )
+        map("m", function() require("marks").next() end, function() require("marks").prev() end, "mark")
 
         -- Don't set the remaining keymaps if no Treesitter parser is installed for the buffer
         if not require("nvim-treesitter.parsers").has_parser() then
           return
         end
 
-        ts_keymap.set_local_move_pair("s", ts_actions.next_sibling_node, ts_actions.prev_sibling_node, "line sibling")
+        map("s", ts_actions.next_sibling_node, ts_actions.prev_sibling_node, "line sibling")
       end,
     })
 
@@ -168,7 +166,7 @@ return {
         -- Navigate between GitHub-flavored Markdown todo checkboxes (not started or in progress), instead of
         --  todo-comments (which are not supported in Markdown by todo-comments.nvim anyway)
         local todo_checkbox_pattern = "- \\[ ] \\|- \\[-] "
-        ts_keymap.set_local_move_pair(
+        map(
           "t",
           function() vim.fn.search(todo_checkbox_pattern) end,
           function() vim.fn.search(todo_checkbox_pattern, "b") end,

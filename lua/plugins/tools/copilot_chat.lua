@@ -11,16 +11,18 @@ return {
     "zbirenbaum/copilot.lua",
     "nvim-lua/plenary.nvim",
   },
-  keys = function()
-    local custom_actions = require("plugins.tools.copilot_chat.actions")
-    return {
-      { "<leader>cc", custom_actions.toggle, mode = { "n", "v" }, desc = "[C]hat: toggle" },
-      { "<leader>cs", custom_actions.stop, mode = { "n", "v" }, desc = "[C]hat: [S]top" },
-      { "<leader>cr", custom_actions.reset, mode = { "n", "v" }, desc = "[C]hat: [R]eset" },
-      { "<leader>cm", custom_actions.select_model, desc = "[C]hat: select [M]odel" },
-      { "<leader>ca", custom_actions.select_action, mode = { "n", "v" }, desc = "[C]hat: select [A]ction" },
-    }
-  end,
+  keys = {
+    { "<leader>cc", function() require("CopilotChat").toggle() end, mode = { "n", "v" }, desc = "[C]hat: toggle" },
+    { "<leader>cs", function() require("CopilotChat").stop() end, mode = { "n", "v" }, desc = "[C]hat: [S]top" },
+    { "<leader>cr", function() require("CopilotChat").reset() end, mode = { "n", "v" }, desc = "[C]hat: [R]eset" },
+    { "<leader>cm", function() require("CopilotChat").select_model() end, desc = "[C]hat: select [M]odel" },
+    {
+      "<leader>ca",
+      function() require("CopilotChat.actions").pick(require("CopilotChat.actions").prompt_actions()) end,
+      mode = { "n", "v" },
+      desc = "[C]hat: select [A]ction",
+    },
+  },
   opts = {
     show_folds = false, -- I find the folds a bit ugly and out of place
     chat_autocomplete = false, -- Auto-complete is not integrated with nvim-cmp, and I don't like how it works
