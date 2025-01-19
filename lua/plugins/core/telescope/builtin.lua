@@ -183,17 +183,13 @@ function M.find_directories()
 end
 
 function M.find_lines()
-  local opts = {
+  require("telescope.builtin").current_buffer_fuzzy_find({
     prompt_title = "Find Lines",
     layout_strategy = "vertical",
-    previewer = false, -- Doesn't work in some buffers
+    previewer = false, -- Doesn't work in all buffers
     tiebreak = function(current, existing, _) return current.index < existing.index end, -- Sort by line number
-  }
-  if visual_mode.is_on() then
-    opts.default_text = visual_mode.get_text()
-  end
-
-  require("telescope.builtin").current_buffer_fuzzy_find(opts)
+    default_text = visual_mode.is_on() and visual_mode.get_text() or nil,
+  })
 end
 
 --- Finalize the options for the `live_grep` picker. This function adds all the relevant not-persisted options to the
@@ -285,30 +281,22 @@ function M.live_grep()
 end
 
 function M.old_files()
-  local opts = {
+  require("telescope.builtin").oldfiles({
     tiebreak = function(current, existing, _) return current.index < existing.index end, -- Sort by recency
     prompt_title = "Find Old files",
-  }
-  if visual_mode.is_on() then
-    local text = visual_mode.get_text()
     -- Replace punctuation marks by spaces, to support searching from module names, like "plugins.core"
-    opts.default_text = string.gsub(text, "%p", " ")
-  end
-  require("telescope.builtin").oldfiles(opts)
+    default_text = visual_mode.is_on() and string.gsub(visual_mode.get_text(), "%p", " ") or nil,
+  })
 end
 
-function M.recent_files() -- Similar to M.oldfiles but restricted to cwd
-  local opts = {
+function M.recent_files()
+  require("telescope.builtin").oldfiles({
     tiebreak = function(current, existing, _) return current.index < existing.index end, -- Sort by recency
     prompt_title = "Find Recent Files",
-    cwd_only = true,
-  }
-  if visual_mode.is_on() then
-    local text = visual_mode.get_text()
     -- Replace punctuation marks by spaces, to support searching from module names, like "plugins.core"
-    opts.default_text = string.gsub(text, "%p", " ")
-  end
-  require("telescope.builtin").oldfiles(opts)
+    default_text = visual_mode.is_on() and string.gsub(visual_mode.get_text(), "%p", " ") or nil,
+    cwd_only = true,
+  })
 end
 
 function M.commands()
@@ -333,27 +321,21 @@ function M.vim_options()
 end
 
 function M.help_tags()
-  local opts = {
+  require("telescope.builtin").help_tags({
     prompt_title = "Find Help",
     layout_strategy = "vertical",
     previewer = false,
-  }
-  if visual_mode.is_on() then
-    opts.default_text = visual_mode.get_text()
-  end
-  require("telescope.builtin").help_tags(opts)
+    default_text = visual_mode.is_on() and visual_mode.get_text() or nil,
+  })
 end
 
 function M.man_pages()
-  local opts = {
+  require("telescope.builtin").man_pages({
     prompt_title = "Find Man Pages",
     layout_strategy = "vertical",
     previewer = false,
-  }
-  if visual_mode.is_on() then
-    opts.default_text = visual_mode.get_text()
-  end
-  require("telescope.builtin").man_pages(opts)
+    default_text = visual_mode.is_on() and visual_mode.get_text() or nil,
+  })
 end
 
 function M.buffers()
@@ -467,25 +449,19 @@ function M.git_bcommits_range()
 end
 
 function M.lsp_document_symbols()
-  local opts = {
+  require("telescope.builtin").lsp_document_symbols({
     prompt_title = "Find Symbols",
     layout_config = { preview_width = 0.6 },
-  }
-  if visual_mode.is_on() then
-    opts.default_text = visual_mode.get_text()
-  end
-  require("telescope.builtin").lsp_document_symbols(opts)
+    default_text = visual_mode.is_on() and visual_mode.get_text() or nil,
+  })
 end
 
 function M.lsp_workspace_symbols()
-  local opts = {
+  require("telescope.builtin").lsp_dynamic_workspace_symbols({
     prompt_title = "Find Workspace Symbols",
     layout_config = { preview_width = 0.5 },
-  }
-  if visual_mode.is_on() then
-    opts.default_text = visual_mode.get_text()
-  end
-  require("telescope.builtin").lsp_dynamic_workspace_symbols(opts)
+    default_text = visual_mode.is_on() and visual_mode.get_text() or nil,
+  })
 end
 
 return M
