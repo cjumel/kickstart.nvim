@@ -1,4 +1,5 @@
-local custom_lualine = require("lualine.custom")
+local extensions = require("plugins.ui.lualine.extensions")
+local sections = require("plugins.ui.lualine.sections")
 
 local M = {}
 
@@ -8,8 +9,8 @@ M.rose_pine_opts = {
 }
 
 M.lualine_opts = {
-  sections = custom_lualine.sections.minimalist,
-  extensions = custom_lualine.build_extensions(custom_lualine.sections.minimalist),
+  sections = sections.minimalist,
+  extensions = extensions.build_extensions(sections.minimalist),
 }
 M.lualine_callback = function()
   vim.opt.showmode = true -- Show mode in status line

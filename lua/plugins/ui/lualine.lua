@@ -4,7 +4,8 @@
 -- popular plugins and can be further customized manually while remaining quite simple, making it a great choice for any
 -- configuration.
 
-local custom_lualine = require("custom.lualine")
+local extensions = require("plugins.ui.lualine.extensions")
+local sections = require("plugins.ui.lualine.sections")
 local theme = require("theme")
 
 return {
@@ -21,8 +22,8 @@ return {
       disabled_filetypes = { "snacks_dashboard" },
       globalstatus = true, -- Use a single global status line for all splits (precedes `vim.o.laststatus`)
     },
-    sections = custom_lualine.preset_sections.default,
-    extensions = custom_lualine.build_extensions(custom_lualine.preset_sections.default),
+    sections = sections.default,
+    extensions = extensions.build_extensions(sections.default),
   }, theme.lualine_opts or {}),
   config = function(_, opts)
     require("lualine").setup(opts)

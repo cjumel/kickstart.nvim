@@ -1,4 +1,5 @@
-local custom_lualine = require("custom.lualine")
+local extensions = require("plugins.ui.lualine.extensions")
+local sections = require("plugins.ui.lualine.sections")
 
 local M = {}
 
@@ -22,8 +23,8 @@ M.lualine_opts = {
       command = { c = {} },
     },
   },
-  sections = custom_lualine.sections.minimalist,
-  extensions = custom_lualine.build_extensions(custom_lualine.sections.minimalist),
+  sections = sections.minimalist,
+  extensions = extensions.build_extensions(sections.minimalist),
 }
 M.lualine_callback = function()
   vim.opt.showmode = true -- Show mode in status line
