@@ -1,9 +1,6 @@
 -- Here is defined a custom entry maker tailored specifically for directories. The vast majority of this code is
 -- directly taken from `telescope.make_entry`. The main purpose of this is to support directory icons in the picker.
 
-local Path = require("plenary.path")
-local utils = require("telescope.utils")
-
 local M = {}
 
 local handle_entry_index = function(opts, t, k)
@@ -27,8 +24,11 @@ local lookup_keys = {
 }
 
 function M.gen_from_dir(opts)
+  local utils = require("telescope.utils")
+
   opts = opts or {}
 
+  ---@diagnostic disable-next-line: undefined-field
   local cwd = opts.cwd or vim.loop.cwd()
   if cwd ~= nil then
     cwd = utils.path_expand(cwd)
@@ -62,7 +62,8 @@ function M.gen_from_dir(opts)
     end
 
     if k == "path" then
-      local retpath = Path:new({ t.cwd, t.value }):absolute()
+      local retpath = require("plenary.path"):new({ t.cwd, t.value }):absolute()
+      ---@diagnostic disable-next-line: undefined-field
       if not vim.loop.fs_access(retpath, "R", function() end) then
         retpath = t.value
       end
