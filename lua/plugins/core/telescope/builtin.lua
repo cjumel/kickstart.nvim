@@ -314,16 +314,9 @@ function M.keymaps()
   })
 end
 
-function M.vim_options()
-  require("telescope.builtin").vim_options({
-    prompt_title = "Find Vim Options",
-    layout_strategy = "vertical",
-  })
-end
-
 function M.help_tags()
   require("telescope.builtin").help_tags({
-    prompt_title = "Find Help",
+    prompt_title = "Help",
     layout_strategy = "vertical",
     previewer = false,
     default_text = visual_mode.is_on() and visual_mode.get_text() or nil,
