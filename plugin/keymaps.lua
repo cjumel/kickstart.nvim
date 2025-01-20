@@ -82,11 +82,10 @@ vim.keymap.set("v", "<S-Tab>", "<gv", { desc = "Unindent selection" })
 
 vim.keymap.set({ "n", "v" }, "_", '"_', { desc = "Black hole register" })
 vim.keymap.set({ "n", "v" }, "+", '"+', { desc = "System clipboard register" })
-vim.keymap.set("n", "<leader>+", function()
-  local content = vim.fn.getreg('"')
-  vim.fn.setreg("+", content)
-  vim.notify('Sent "' .. content .. '" to system clipboard')
-end, { desc = "Send yanked to clipboard" })
+vim.keymap.set("n", "g=", function()
+  vim.fn.setreg("+", vim.fn.getreg('"'))
+  vim.notify("Clipboard synchronized with main register")
+end, { desc = "Synchronize clipboard with main register" })
 
 --- Display the diff between the buffer content and the corresponding local file. Code is taken from `:h DiffOrig`.
 ---@return nil
