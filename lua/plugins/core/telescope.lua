@@ -29,13 +29,15 @@ return {
     { "<leader>fg", custom_builtin.live_grep, mode = { "n", "v" }, desc = "[F]ind: by [G]rep" },
     { "<leader>fo", custom_builtin.old_files, mode = { "n", "v" }, desc = "[F]ind: [O]ld files" },
     { "<leader>fr", custom_builtin.recent_files, mode = { "n", "v" }, desc = "[F]ind: [R]ecent files" },
-    { "<leader>fc", custom_builtin.commands, desc = "[F]ind: [C]ommands" },
-    { "<leader>fk", custom_builtin.keymaps, desc = "[F]ind: [K]eymaps" },
+
+    -- Help-related
+    { "<leader>?h", custom_builtin.help_tags, desc = "Help: help tags" },
+    { "<leader>?c", custom_builtin.commands, desc = "Help: commands" },
+    { "<leader>?k", custom_builtin.keymaps, desc = "Help: keymaps" },
 
     -- Neovim-related
     { "<leader><Tab>", custom_builtin.buffers, desc = "Buffer switcher" },
     { "<leader>,", custom_builtin.resume, desc = "Resume Telescope" },
-    { "<leader>?", custom_builtin.help_tags, mode = { "n", "v" }, desc = "Help" },
     { "<leader>:", custom_builtin.command_history, desc = "Command history" },
     { "<leader>/", custom_builtin.search_history, desc = "Search history" },
 

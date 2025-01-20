@@ -300,35 +300,25 @@ function M.recent_files()
   })
 end
 
+function M.help_tags()
+  require("telescope.builtin").help_tags({
+    prompt_title = "Help tags",
+    layout_strategy = "vertical",
+    previewer = false,
+  })
+end
+
 function M.commands()
   require("telescope.builtin").commands({
-    prompt_title = "Find Commands",
+    prompt_title = "Commands",
     layout_strategy = "vertical",
   })
 end
 
 function M.keymaps()
   require("telescope.builtin").keymaps({
-    prompt_title = "Find Keymaps",
+    prompt_title = "Keymaps",
     layout_strategy = "vertical",
-  })
-end
-
-function M.help_tags()
-  require("telescope.builtin").help_tags({
-    prompt_title = "Help",
-    layout_strategy = "vertical",
-    previewer = false,
-    default_text = visual_mode.is_on() and visual_mode.get_text() or nil,
-  })
-end
-
-function M.man_pages()
-  require("telescope.builtin").man_pages({
-    prompt_title = "Find Man Pages",
-    layout_strategy = "vertical",
-    previewer = false,
-    default_text = visual_mode.is_on() and visual_mode.get_text() or nil,
   })
 end
 
