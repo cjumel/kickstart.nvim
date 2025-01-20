@@ -119,14 +119,6 @@ local function yank_send_to_clipboard()
   vim.notify('Sent "' .. content .. '" to system clipboard')
 end
 
---- Receive yanked from the system clipboard.
----@return nil
-local function yank_receive_from_clipboard()
-  local content = vim.fn.getreg("+")
-  vim.fn.setreg('"', content)
-  vim.notify('Received "' .. content .. '" from system clipboard')
-end
-
 --- Yank the content of the last notification.
 ---@return nil
 local function yank_last_notification()
