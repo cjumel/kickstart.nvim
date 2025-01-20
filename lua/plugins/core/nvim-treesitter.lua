@@ -4,15 +4,15 @@
 -- various language-specific features (highlighting, indentation, incremental selection, etc.) It is a must-have for
 -- any Neovim user, in my opinion.
 
+local conf = require("conf")
+
 return {
   "nvim-treesitter/nvim-treesitter",
   build = ":TSUpdate",
-  event = {
-    "VeryLazy", -- Force load on start-up to ensure all parsers are always installed
-    "BufReadPre", -- In case Neovim directly opens a buffer, "VeryLazy" is too late to set keymaps
-  },
+  event = { "BufNewFile", "BufReadPre" },
+  cmd = { "TSInstallInfo" }, -- To trigger the parsers automatic install directly from a command
   opts = {
-    ensure_installed = require("conf").treesitter_ensure_installed,
+    ensure_installed = conf.treesitter_ensure_installed,
     highlight = { enable = true },
     indent = { enable = true },
     incremental_selection = {
@@ -29,17 +29,13 @@ return {
     require("nvim-treesitter.configs").setup(opts)
 
     -- Create buffer-specific keymaps
-    -- There are also go to next/previous sibling keymaps, but they are defined in nvim-treesitter-textobjects due
-    --  to the way the dependencies between the plugins are defined
     local ts_actions = require("plugins.core.nvim-treesitter.actions")
     vim.api.nvim_create_autocmd("FileType", {
       pattern = "*",
       callback = function()
-        -- Don't set keymaps if no Treesitter parser is installed for the buffer
-        if not require("nvim-treesitter.parsers").has_parser() then
+        if not require("nvim-treesitter.parsers").has_parser() then -- No parser is installed for the buffer
           return
         end
-
         vim.keymap.set("n", "gp", ts_actions.go_to_parent_node, { desc = "Go to line parent node", buffer = true })
       end,
       group = vim.api.nvim_create_augroup("NvimTreesitterKeymaps", { clear = true }),

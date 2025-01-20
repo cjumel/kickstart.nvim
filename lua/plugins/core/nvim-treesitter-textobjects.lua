@@ -7,9 +7,12 @@
 return {
   "nvim-treesitter/nvim-treesitter-textobjects",
   dependencies = { "nvim-treesitter/nvim-treesitter" },
-  event = {
-    "VeryLazy", -- Necessary to set not buffer-specific keymaps
-    "BufReadPre", -- In case Neovim directly opens a buffer, "VeryLazy" is too late to set keymaps
+  event = { "BufNewFile", "BufReadPre" },
+  keys = { -- We only need to specify the non buffer-specific keymaps
+    { "[l", desc = "Next loclist item" },
+    { "]l", desc = "Previous loclist item" },
+    { "[q", desc = "Next qflist item" },
+    { "]q", desc = "Previous qflist item" },
   },
   opts = {
     select = {
