@@ -194,12 +194,12 @@ return {
     [".env.test.example"] = "sh", -- same as `.env`
     [".ideavimrc"] = "vim",
     [".markdownlintrc"] = "json", -- could also be "ini" but I use `json`
-    [".prettierignore"] = "conf", -- auto-detected by nvim
+    [".prettierignore"] = "gitignore",
     [".shellcheckrc"] = "conf", -- auto-detected by nvim
     [".stow-global-ignore"] = "conf", -- auto-detected by nvim
     [".stow-local-ignore"] = "conf", -- auto-detected by nvim
     [".vimiumrc"] = "vim",
-    ["ignore"] = "conf", -- auto-detected by nvim
+    ["ignore"] = "gitignore",
     ["ripgreprc"] = "conf", -- auto-detected by nvim
   },
 
@@ -215,7 +215,6 @@ return {
     [".env.test.example"] = ".env",
     [".ideavimrc"] = "vim",
     [".markdownlintrc"] = "json", -- could also be "ini" but I use `json`
-    [".prettierignore"] = "conf", -- auto-detected by nvim
     [".shellcheckrc"] = "conf", -- auto-detected by nvim
     [".stow-global-ignore"] = "conf", -- auto-detected by nvim
     [".stow-local-ignore"] = "conf", -- auto-detected by nvim
