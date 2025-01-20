@@ -29,6 +29,7 @@ return {
       { "<leader>o", group = "[O]verseer" },
       { "<leader>v", group = "[V]iew" },
       { "<leader>y", group = "[Y]ank" },
+      { "<leader>yf", group = "[Y]ank [F]ile" },
     },
     win = { border = "rounded" }, -- Add a border in Which Key UI to improve visibility in transparent backgrounds
     sort = { "order", "alphanum", "mod" }, -- Don't sort local keymaps first and keymap groups last

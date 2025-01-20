@@ -82,6 +82,11 @@ vim.keymap.set("v", "<S-Tab>", "<gv", { desc = "Unindent selection" })
 
 vim.keymap.set({ "n", "v" }, "_", '"_', { desc = "Black hole register" })
 vim.keymap.set({ "n", "v" }, "+", '"+', { desc = "System clipboard register" })
+vim.keymap.set("n", "<leader>+", function()
+  local content = vim.fn.getreg('"')
+  vim.fn.setreg("+", content)
+  vim.notify('Sent "' .. content .. '" to system clipboard')
+end, { desc = "Send yanked to clipboard" })
 
 --- Display the diff between the buffer content and the corresponding local file. Code is taken from `:h DiffOrig`.
 ---@return nil
@@ -93,7 +98,7 @@ vim.keymap.set("n", "<leader>vc", diff_buffer_with_file, { desc = "[V]iew: buffe
 --- Fetch the path of the file or directory linked to the current buffer (must be a regular buffer or an Oil buffer),
 --- apply the provided modifiers to it and yank it to the default register.
 ---@return nil
-local function yank_path(mods)
+local function yank_file_path(mods)
   local path = nil
   if vim.bo.buftype == "" then -- Regular buffer
     path = vim.fn.expand("%")
@@ -111,28 +116,17 @@ local function yank_path(mods)
   end
 end
 
---- Send yanked to the system clipboard.
----@return nil
-local function yank_send_to_clipboard()
-  local content = vim.fn.getreg('"')
-  vim.fn.setreg("+", content)
-  vim.notify('Sent "' .. content .. '" to system clipboard')
-end
+vim.keymap.set("n", "<leader>yfn", function() yank_file_path(":t") end, { desc = "[Y]ank [F]ile: [N]ame" })
+vim.keymap.set("n", "<leader>yfc", function() yank_file_path(":~:.") end, { desc = "[Y]ank [F]ile: path in [C]wd" })
+vim.keymap.set("n", "<leader>yfh", function() yank_file_path(":~") end, { desc = "[Y]ank [F]ile: path in [H]ome" })
+vim.keymap.set("n", "<leader>yfa", function() yank_file_path(":p") end, { desc = "[Y]ank [F]ile: [A]bsolute path" })
 
---- Yank the content of the last notification.
----@return nil
-local function yank_last_notification()
+vim.keymap.set("n", "<leader>yn", function()
   local notification_history = require("snacks").notifier.get_history({ reverse = true })
   local content = notification_history[1].msg
   vim.fn.setreg('"', content)
   vim.notify('Yanked "' .. content .. '"')
-end
-
-vim.keymap.set("n", "<leader>yp", function() yank_path(":~:.") end, { desc = "[Y]ank: file [P]ath" })
-vim.keymap.set("n", "<leader>ya", function() yank_path(":p") end, { desc = "[Y]ank: file [A]bsolute path" })
-vim.keymap.set("n", "<leader>yn", function() yank_path(":t") end, { desc = "[Y]ank: file [N]ame" })
-vim.keymap.set("n", "<leader>ys", yank_send_to_clipboard, { desc = "[Y]ank: [S]end to clipboard" })
-vim.keymap.set("n", "<leader>yl", yank_last_notification, { desc = "[Y]ank: [L]ast notification" })
+end, { desc = "[Y]ank: [N]otification" })
 
 -- Like "gx", bur for the current file instead of the link under the cursor
 vim.keymap.set(
