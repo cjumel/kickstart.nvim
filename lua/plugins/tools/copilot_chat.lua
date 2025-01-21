@@ -30,7 +30,7 @@ return {
       complete = { insert = "" }, -- Disable auto-complete altogether
       close = { normal = "q", insert = "<C-c>" },
       reset = { normal = "<localleader>r", insert = "" },
-      submit_prompt = { normal = "<CR>", insert = "<M-CR>" }, -- <C-CR>
+      submit_prompt = { normal = "<CR>", insert = "<S-CR>" },
       toggle_sticky = { normal = "<localleader>s" },
       accept_diff = { normal = "<localleader>a", insert = "" },
       jump_to_diff = { normal = "<localleader>j" },

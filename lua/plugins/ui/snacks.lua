@@ -79,7 +79,7 @@ return {
         lua = {
           keys = {
             ["source"] = {
-              "<M-CR>",
+              "<S-CR>",
               function(self)
                 local command = "luajit"
                 local fname = vim.api.nvim_buf_get_name(self.buf)
@@ -97,7 +97,7 @@ return {
         python = {
           keys = {
             ["source"] = {
-              "<M-CR>",
+              "<S-CR>",
               function(self)
                 local command = "python"
                 local fname = vim.api.nvim_buf_get_name(self.buf)

@@ -70,7 +70,7 @@ return {
     mappings = {
       i = {
         ["<CR>"] = yank_additions,
-        ["<M-CR>"] = yank_deletions, -- <C-CR>
+        ["<S-CR>"] = yank_deletions,
         ["<S-cr>"] = false,
         ["<C-cr>"] = false,
         ["<C-y>"] = false,
@@ -78,7 +78,7 @@ return {
       },
       n = {
         ["<CR>"] = yank_additions,
-        ["<M-CR>"] = yank_deletions, -- <C-CR>
+        ["<S-CR>"] = yank_deletions,
         ["y"] = false,
         ["Y"] = false,
         ["u"] = false,

@@ -61,7 +61,7 @@ return {
       swapEngine = false,
       previewLocation = false,
       swapReplacementInterpreter = false,
-      applyNext = { n = "<M-CR>" }, -- <C-CR>
+      applyNext = { n = "<S-CR>" },
       applyPrev = false,
     },
   },

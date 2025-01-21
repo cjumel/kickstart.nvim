@@ -56,7 +56,7 @@ return {
           i = {
             -- General insert-mode actions
             ["<CR>"] = actions.select_default,
-            ["<M-CR>"] = actions.toggle_selection + actions.move_selection_next, -- <C-CR>
+            ["<S-CR>"] = actions.toggle_selection + actions.move_selection_next,
             ["<Tab>"] = actions.move_selection_next,
             ["<C-n>"] = actions.move_selection_next,
             ["<S-Tab>"] = actions.move_selection_previous,
@@ -85,7 +85,7 @@ return {
           n = {
             -- General insert-mode actions
             ["<CR>"] = actions.select_default,
-            ["<M-CR>"] = actions.toggle_selection + actions.move_selection_next, -- <C-CR>
+            ["<S-CR>"] = actions.toggle_selection + actions.move_selection_next,
             ["<Tab>"] = actions.move_selection_next,
             ["<C-n>"] = actions.move_selection_next,
             ["<S-Tab>"] = actions.move_selection_previous,

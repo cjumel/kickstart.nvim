@@ -344,8 +344,8 @@ function M.command_history()
     previewer = false,
     tiebreak = function(current, existing, _) return current.index < existing.index end, -- Sort by recency
     filter_fn = function(cmd) return string.len(cmd) >= 4 end, -- Filter out short commands like "w", "q", "wq", "wqa"
-    attach_mappings = function(_, map) -- Use <C-CR> instead of <C-e> to edit the command
-      map({ "i", "n" }, "<M-CR>", require("telescope.actions").edit_command_line)
+    attach_mappings = function(_, map)
+      map({ "i", "n" }, "<S-CR>", require("telescope.actions").edit_command_line)
       return true -- Enable default mappings
     end,
   }))
@@ -355,8 +355,8 @@ function M.search_history()
   require("telescope.builtin").search_history(require("telescope.themes").get_dropdown({
     previewer = false,
     tiebreak = function(current, existing, _) return current.index < existing.index end, -- Sort by recency
-    attach_mappings = function(_, map) -- Use <C-CR> instead of <C-e> to edit the search
-      map({ "i", "n" }, "<M-CR>", require("telescope.actions").edit_search_line)
+    attach_mappings = function(_, map)
+      map({ "i", "n" }, "<S-CR>", require("telescope.actions").edit_search_line)
       return true -- Enable default mappings
     end,
   }))

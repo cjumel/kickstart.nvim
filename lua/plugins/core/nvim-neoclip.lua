@@ -70,7 +70,7 @@ return {
           paste_behind = false,
           replay = false,
           delete = false,
-          edit = "<M-CR>", -- <C-CR>
+          edit = "<S-CR>",
         },
         n = {
           select = "<CR>",
@@ -78,7 +78,7 @@ return {
           paste_behind = false,
           replay = false,
           delete = false,
-          edit = "<M-CR>", -- <C-CR>
+          edit = "<S-CR>",
         },
       },
     },
