@@ -80,7 +80,7 @@ return {
 
             -- Fix isert-mode delete word action
             ["<C-w>"] = { "<C-S-w>", type = "command" },
-            ["<M-BS>"] = { "<C-S-w>", type = "command" }, -- <C-BS>
+            ["<M-BS>"] = { "<C-S-w>", type = "command" },
           },
           n = {
             -- General insert-mode actions
