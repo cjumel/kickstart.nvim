@@ -14,10 +14,10 @@ return {
   s({
     trig = "@me",
     desc = [[
-`@clementjumel`
+`@cjumel`
 (GitHub Flavored Markdown)]],
   }, {
-    t("@clementjumel"),
+    t("@cjumel"),
   }),
 
   s({

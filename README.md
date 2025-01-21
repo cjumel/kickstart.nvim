@@ -96,7 +96,7 @@ After having managed any existing Neovim configuration, clone this repository in
 configuration repository, with:
 
 ```bash
-git clone --depth=1 https://github.com/clementjumel/kickstart.nvim ~/.config/nvim
+git clone --depth=1 https://github.com/cjumel/kickstart.nvim ~/.config/nvim
 ```
 
 ### Install Neovim tools
