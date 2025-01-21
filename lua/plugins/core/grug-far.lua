@@ -61,8 +61,8 @@ return {
       swapEngine = false,
       previewLocation = false,
       swapReplacementInterpreter = false,
-      applyNext = { n = "<localleader>a" },
-      applyPrev = { n = "<localleader>A" },
+      applyNext = { n = "<M-CR>" }, -- <C-CR>
+      applyPrev = false,
     },
   },
   config = function(_, opts)
