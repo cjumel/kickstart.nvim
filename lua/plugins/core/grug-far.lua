@@ -43,12 +43,52 @@ return {
   opts = {
     keymaps = {
       replace = { n = "<CR>" },
+      qflist = false, -- Doesn't use Trouble's quickfix, so it's not great
+      syncLocations = false,
+      syncLine = false,
       close = { n = "q" },
-      openLocation = { n = "<Tab>" },
+      historyOpen = false,
+      historyAdd = false,
+      refresh = { n = "<localleader>r" },
+      openLocation = false, -- Can be replaced by `openLocation` and `openPrevLocation`
       openNextLocation = { n = "," },
       openPrevLocation = { n = ";" },
-      gotoLocation = false, -- Conflict with the custom replace keymap
-      previewLocation = { n = "K" },
+      gotoLocation = { n = "<Tab>" },
+      pickHistoryEntry = false,
+      abort = false,
+      help = { n = "g?" },
+      toggleShowCommand = { n = "<localleader>c" },
+      swapEngine = false,
+      previewLocation = false,
+      swapReplacementInterpreter = false,
+      applyNext = { n = "<localleader>a" },
+      applyPrev = { n = "<localleader>A" },
     },
   },
+  config = function(_, opts)
+    local grug_far = require("grug-far")
+    grug_far.setup(opts)
+
+    vim.api.nvim_create_autocmd("FileType", {
+      group = vim.api.nvim_create_augroup("GrugFarKeymaps", { clear = true }),
+      pattern = { "grug-far" },
+      callback = function()
+        ---@param lhs string The left-hand side of the keymap.
+        ---@param rhs string|function The right-hand side of the keymap.
+        ---@param desc string The description of the keymap.
+        local function map(lhs, rhs, desc) vim.keymap.set("n", lhs, rhs, { desc = desc, buffer = true }) end
+
+        map("<localleader>h", function()
+          ---@diagnostic disable-next-line: param-type-mismatch
+          local state = unpack(grug_far.toggle_flags({ "--hidden" }))
+          vim.notify("grug-far: toggled --hidden " .. (state and "ON" or "OFF"))
+        end, "Toggle --hidden flag")
+        map("<localleader>f", function()
+          ---@diagnostic disable-next-line: param-type-mismatch
+          local state = unpack(grug_far.toggle_flags({ "--fixed-strings" }))
+          vim.notify("grug-far: toggled --fixed-strings " .. (state and "ON" or "OFF"))
+        end, "Toggle --fixed-strings flag")
+      end,
+    })
+  end,
 }
