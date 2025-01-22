@@ -19,7 +19,7 @@ local formatters_without_mason = { -- Names of the formatters which have no Maso
 local formatters_by_ft = {}
 for ft, formatters in pairs(conf.formatters_by_ft) do
   local formatter_is_disabled = (
-    conf.disable_format_on_fts == "*" or vim.tbl_contains(conf.disable_format_on_fts or {}, ft)
+    conf.disable_format_on_save_on_fts == "*" or vim.tbl_contains(conf.disable_format_on_save_on_fts or {}, ft)
   )
   if not formatter_is_disabled then
     formatters_by_ft[ft] = formatters
