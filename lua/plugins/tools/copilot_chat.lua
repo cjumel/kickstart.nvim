@@ -27,10 +27,10 @@ return {
     show_folds = false, -- I find the folds a bit ugly and out of place
     chat_autocomplete = false, -- Auto-complete is not integrated with nvim-cmp, and I don't like how it works
     mappings = {
-      complete = { insert = "" }, -- Disable auto-complete altogether
-      close = { normal = "q", insert = "<C-c>" },
+      complete = { insert = "" }, -- Disable auto-complete altogether as it doesn't work well for me
+      close = { normal = "q", insert = "" },
       reset = { normal = "<localleader>r", insert = "" },
-      submit_prompt = { normal = "<CR>", insert = "<S-CR>" },
+      submit_prompt = { normal = "<CR>", insert = "" },
       toggle_sticky = { normal = "<localleader>s" },
       accept_diff = { normal = "<localleader>a", insert = "" },
       jump_to_diff = { normal = "<localleader>j" },
