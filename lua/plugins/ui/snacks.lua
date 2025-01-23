@@ -39,6 +39,18 @@ return {
         { icon = " ", key = "b", desc = "View Git Branch", action = custom_telescope_builtin.git_branches },
         { icon = " ", key = "l", desc = "View Git Log", action = custom_telescope_builtin.git_commits },
         { icon = "󰊢 ", key = "&", desc = "Open Neogit", action = function() require("neogit").open() end },
+        {
+          icon = " ",
+          key = ";",
+          desc = "Open Scratch Note",
+          action = function() require("snacks").scratch.open() end,
+        },
+        {
+          icon = "󱅅 ",
+          key = "=",
+          desc = "View Scratch Files",
+          action = function() require("snacks").scratch.select() end,
+        },
         { icon = " ", key = "q", desc = "Quit", action = ":qa" },
       },
     },
