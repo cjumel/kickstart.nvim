@@ -192,15 +192,8 @@ return {
     [".env.sample"] = "sh", -- same as `.env`
     [".env.test"] = "sh", -- same as `.env`
     [".env.test.example"] = "sh", -- same as `.env`
-    [".ideavimrc"] = "vim",
-    [".markdownlintrc"] = "json", -- could also be "ini" but I use `json`
     [".prettierignore"] = "gitignore",
-    [".shellcheckrc"] = "conf", -- auto-detected by nvim
-    [".stow-global-ignore"] = "conf", -- auto-detected by nvim
-    [".stow-local-ignore"] = "conf", -- auto-detected by nvim
-    [".vimiumrc"] = "vim",
     ["ignore"] = "gitignore",
-    ["ripgreprc"] = "conf", -- auto-detected by nvim
   },
 
   -- Set `extra_filename_to_icon_name` to a dictionnary mapping file names to their corresponding nvim-web-devicons
@@ -213,15 +206,6 @@ return {
     [".env.sample"] = ".env",
     [".env.test"] = ".env",
     [".env.test.example"] = ".env",
-    [".ideavimrc"] = "vim",
-    [".markdownlintrc"] = "json", -- could also be "ini" but I use `json`
-    [".shellcheckrc"] = "conf", -- auto-detected by nvim
-    [".stow-global-ignore"] = "conf", -- auto-detected by nvim
-    [".stow-local-ignore"] = "conf", -- auto-detected by nvim
-    [".vimiumrc"] = "vim",
-    ["ignore"] = "conf", -- auto-detected by nvim
-    ["ripgreprc"] = "conf", -- auto-detected by nvim
-    ["tmux-pre-tpm.conf"] = "tmux",
-    ["tmux-post-tpm.conf"] = "tmux",
+    ["ignore"] = "ignore",
   },
 }

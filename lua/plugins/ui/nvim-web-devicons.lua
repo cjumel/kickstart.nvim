@@ -10,6 +10,7 @@ local conf = require("conf")
 local icon_names_to_icon_data = {
   [".env"] = { icon = "", color = "#faf743", cterm_color = "227", name = ".env" },
   ["conf"] = { icon = "", color = "#6d8086", cterm_color = 66, name = "conf" },
+  ["ignore"] = { icon = "", color = "#51a0cf", cterm_color = 74, name = "ignore" },
   ["json"] = { icon = "", color = "#cbcb41", cterm_color = 185, name = "json" },
   ["tmux"] = { icon = "", color = "#14ba19", cterm_color = "34", name = "tmux" },
   ["vim"] = { icon = "", color = "#019833", cterm_color = 28, name = "vim" },
