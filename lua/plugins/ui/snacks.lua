@@ -32,7 +32,7 @@ return {
         { icon = " ", key = "-", desc = "Open current directory", action = function() require("oil").open() end },
         { icon = " ", key = "f", desc = "Find Files", action = custom_telescope_builtin.find_files },
         { icon = " ", key = "d", desc = "Find Directories", action = custom_telescope_builtin.find_directories },
-        { icon = "󱎸 ", key = "g", desc = "Find with Grep", action = custom_telescope_builtin.live_grep },
+        { icon = "󱎸 ", key = "g", desc = "Find by Grep", action = custom_telescope_builtin.live_grep },
         { icon = " ", key = "r", desc = "Find Recent files", action = custom_telescope_builtin.recent_files },
         { icon = " ", key = "o", desc = "Find Old files", action = custom_telescope_builtin.old_files },
         { icon = "󰚰 ", key = "s", desc = "View Git Status", action = custom_telescope_builtin.git_status },
