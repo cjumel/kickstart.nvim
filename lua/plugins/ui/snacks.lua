@@ -36,6 +36,7 @@ return {
         { icon = " ", key = "r", desc = "Find Recent files", action = custom_telescope_builtin.recent_files },
         { icon = " ", key = "o", desc = "Find Old files", action = custom_telescope_builtin.old_files },
         { icon = "󰚰 ", key = "s", desc = "View Git Status", action = custom_telescope_builtin.git_status },
+        { icon = " ", key = "b", desc = "View Git Branch", action = custom_telescope_builtin.git_branches },
         { icon = " ", key = "l", desc = "View Git Log", action = custom_telescope_builtin.git_commits },
         { icon = "󰊢 ", key = "&", desc = "Open Neogit", action = function() require("neogit").open() end },
         { icon = " ", key = "q", desc = "Quit", action = ":qa" },

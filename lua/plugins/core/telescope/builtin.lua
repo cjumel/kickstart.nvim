@@ -385,6 +385,7 @@ end
 
 function M.git_branches()
   require("telescope.builtin").git_branches({
+    prompt_title = "Git Branch",
     layout_strategy = "vertical",
     attach_mappings = function(_, map) -- Re-implement some default keymaps to remove their overwrite
       map({ "i", "n" }, "<C-d>", require("telescope.actions").close)
