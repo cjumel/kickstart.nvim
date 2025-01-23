@@ -25,10 +25,10 @@ return {
     -- Main finders
     { "<leader>ff", custom_builtin.find_files, mode = { "n", "v" }, desc = "[F]ind: [F]iles" },
     { "<leader>fd", custom_builtin.find_directories, mode = { "n", "v" }, desc = "[F]ind: [D]irectories" },
-    { "<leader>fl", custom_builtin.find_lines, mode = { "n", "v" }, desc = "[F]ind: [L]ines" },
-    { "<leader>fg", custom_builtin.live_grep, mode = { "n", "v" }, desc = "[F]ind: by [G]rep" },
-    { "<leader>fo", custom_builtin.old_files, mode = { "n", "v" }, desc = "[F]ind: [O]ld files" },
+    { "<leader>fg", custom_builtin.live_grep, mode = { "n", "v" }, desc = "[F]ind: with [G]rep" },
     { "<leader>fr", custom_builtin.recent_files, mode = { "n", "v" }, desc = "[F]ind: [R]ecent files" },
+    { "<leader>fo", custom_builtin.old_files, mode = { "n", "v" }, desc = "[F]ind: [O]ld files" },
+    { "<leader>fl", custom_builtin.find_lines, mode = { "n", "v" }, desc = "[F]ind: [L]ines" },
 
     -- Help-related
     { "<leader>?h", custom_builtin.help_tags, desc = "Help: help tags" },
