@@ -47,10 +47,10 @@ for _, conventional_commit_data in ipairs(conventional_commits_data) do
         sn(nil, { t(conventional_commit_data.name .. ": "), r(1, "content", i(nil)) }),
         -- With scope:
         sn(nil, { t(conventional_commit_data.name .. "("), r(1, "scope", i(nil)), t("): "), r(2, "content") }),
-        -- With breaking change:
-        sn(nil, { t(conventional_commit_data.name .. "!: "), r(1, "content") }),
         -- With scope & breaking change:
         sn(nil, { t(conventional_commit_data.name .. "("), r(1, "scope"), t(")!: "), r(2, "content") }),
+        -- With breaking change:
+        sn(nil, { t(conventional_commit_data.name .. "!: "), r(1, "content") }),
       }),
     })
   )
