@@ -16,7 +16,7 @@ local server_name_to_mason_name = {
 }
 
 local fts = {}
-for _, server in pairs(conf.language_servers) do
+for _, server in pairs(conf.language_servers or {}) do
   for _, filetype in ipairs(server.filetypes) do
     table.insert(fts, filetype)
   end
@@ -34,7 +34,7 @@ return {
   init = function()
     -- Make sure all required dependencies can be installed with the `MasonInstallAll` command
     local mason_ensure_installed = {}
-    for server_name, _ in pairs(conf.language_servers) do
+    for server_name, _ in pairs(conf.language_servers or {}) do
       local mason_name = server_name_to_mason_name[server_name] or server_name
       if
         not vim.tbl_contains(mason_ensure_installed, mason_name)

@@ -10,7 +10,7 @@ local linter_to_mason_name = {} -- Names of the Mason package corresponding to l
 local linters_without_mason = {} -- Names of the linters which have no Mason package associated with
 
 local linters_by_ft = {}
-for ft, linters in pairs(conf.linters_by_ft) do
+for ft, linters in pairs(conf.linters_by_ft  or {}) do
   local linter_is_disabled = (conf.disable_lint_on_fts == "*" or vim.tbl_contains(conf.disable_lint_on_fts or {}, ft))
   if not linter_is_disabled then
     linters_by_ft[ft] = linters
