@@ -43,7 +43,7 @@ return {
           icon = " ",
           key = ";",
           desc = "Open Scratch Note",
-          action = function() require("snacks").scratch.open() end,
+          action = function() require("snacks").scratch.open({ name = "Note", ft = "markdown" }) end,
         },
         {
           icon = "󱅅 ",
