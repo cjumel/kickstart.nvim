@@ -151,7 +151,6 @@ return {
           function() require("todo-comments").jump_prev({ keywords = { "NOW" } }) end,
           "now todo-comment"
         )
-        map("m", function() require("marks").next() end, function() require("marks").prev() end, "mark")
 
         -- Don't set the remaining keymaps if no Treesitter parser is installed for the buffer
         if not require("nvim-treesitter.parsers").has_parser() then
