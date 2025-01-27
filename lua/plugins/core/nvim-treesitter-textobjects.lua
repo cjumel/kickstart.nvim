@@ -45,40 +45,28 @@ return {
       enable = true,
       set_jumps = true, -- Set jumps in the jumplist
       goto_next_start = {
-        ["[a"] = { query = "@parameter.inner", desc = "Next argument start" },
         ["[c"] = { query = "@class.outer", desc = "Next class start" },
         ["[d"] = { query = "@function.outer", desc = "Next function definition start" },
+        ["[g"] = { query = "@comment.outer", desc = "Next comment" },
       },
       goto_next_end = {
-        ["[A"] = { query = "@parameter.inner", desc = "Next argument end" },
         ["[C"] = { query = "@class.outer", desc = "Next class end" },
         ["[D"] = { query = "@function.outer", desc = "Next function definition end" },
       },
       goto_previous_start = {
-        ["]a"] = { query = "@parameter.inner", desc = "Previous argument start" },
         ["]c"] = { query = "@class.outer", desc = "Previous class start" },
         ["]d"] = { query = "@function.outer", desc = "Previous function definition start" },
+        ["]g"] = { query = "@comment.outer", desc = "Previous comment" },
       },
       goto_previous_end = {
-        ["]A"] = { query = "@parameter.inner", desc = "Previous argument end" },
         ["]C"] = { query = "@class.outer", desc = "Previous class end" },
         ["]D"] = { query = "@function.outer", desc = "Previous function definition end" },
-      },
-    },
-    swap = {
-      enable = true,
-      swap_next = {
-        ["ga"] = { query = "@parameter.inner", desc = "Swap argument with next" },
-      },
-      swap_previous = {
-        ["gA"] = { query = "@parameter.inner", desc = "Swap argument with previous" },
       },
     },
   },
   config = function(_, opts)
     require("nvim-treesitter.configs").setup({ textobjects = opts })
 
-    local ts_actions = require("plugins.core.nvim-treesitter.actions")
     local ts_repeatable_move = require("nvim-treesitter.textobjects.repeatable_move")
 
     -- Define keymaps to repeat last moves
@@ -151,13 +139,6 @@ return {
           function() require("todo-comments").jump_prev({ keywords = { "NOW" } }) end,
           "now todo-comment"
         )
-
-        -- Don't set the remaining keymaps if no Treesitter parser is installed for the buffer
-        if not require("nvim-treesitter.parsers").has_parser() then
-          return
-        end
-
-        map("s", ts_actions.next_sibling_node, ts_actions.prev_sibling_node, "line sibling")
       end,
     })
 

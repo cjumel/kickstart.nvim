@@ -23,20 +23,5 @@ return {
       },
     },
   },
-  config = function(_, opts)
-    require("nvim-treesitter.configs").setup(opts)
-
-    -- Create buffer-specific keymaps
-    local ts_actions = require("plugins.core.nvim-treesitter.actions")
-    vim.api.nvim_create_autocmd("FileType", {
-      pattern = "*",
-      callback = function()
-        if not require("nvim-treesitter.parsers").has_parser() then -- No parser is installed for the buffer
-          return
-        end
-        vim.keymap.set("n", "gp", ts_actions.go_to_parent_node, { desc = "Go to line parent node", buffer = true })
-      end,
-      group = vim.api.nvim_create_augroup("NvimTreesitterKeymaps", { clear = true }),
-    })
-  end,
+  config = function(_, opts) require("nvim-treesitter.configs").setup(opts) end,
 }
