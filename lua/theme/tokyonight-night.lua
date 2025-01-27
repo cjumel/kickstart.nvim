@@ -1,8 +1,6 @@
 local M = {}
 
 M.tokyonight_enabled = true
-M.tokyonight_opts = {
-  style = "night", -- night, moon, storm or day
-}
+M.tokyonight_style = "night"
 
 return M

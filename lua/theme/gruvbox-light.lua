@@ -1,7 +1,7 @@
 local M = {}
 
 M.gruvbox_enabled = true
-M.gruvbox_background = "light"
+M.gruvbox_style = "light"
 
 M.lualine_opts = {
   options = {

@@ -6,7 +6,7 @@
 
 return {
   "williamboman/mason.nvim",
-  cond = not require("conf").light_mode,
+  cond = not Metaconfig.light_mode,
   cmd = {
     "Mason",
     "MasonUpdate",

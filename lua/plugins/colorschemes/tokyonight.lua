@@ -6,12 +6,12 @@
 
 return {
   "folke/tokyonight.nvim",
-  cond = require("theme").tokyonight_enabled or false,
+  cond = Theme.tokyonight_enabled or false,
   priority = 1000, -- Main UI stuff should be loaded first
-  opts = vim.tbl_deep_extend("force", {
-    style = "night", -- "night", "moon", "storm" or "day"
+  opts = {
+    style = Theme.tokyonight_style or "night",
     transparent = true,
-  }, require("theme").tokyonight_opts or {}),
+  },
   config = function(_, opts)
     require("tokyonight").setup(opts) -- Must be called before loading the color scheme
     vim.cmd.colorscheme("tokyonight")

@@ -4,8 +4,6 @@
 -- plugin is a very standard plugin to use, as it is used by many other plugins, to provide many user-friendly and
 -- customizable icons out-of-the-box.
 
-local conf = require("conf")
-
 -- Icon data is defined using the command `lua print(require("nvim-web-devicons").get_icon_colors("<icon-name>"))`
 local icon_names_to_icon_data = {
   [".env"] = { icon = "", color = "#faf743", cterm_color = "227", name = ".env" },
@@ -17,7 +15,7 @@ local icon_names_to_icon_data = {
 }
 
 local override_by_filename = {}
-for filename, filetype in pairs(conf.extra_filename_to_icon_name or {}) do
+for filename, filetype in pairs(Metaconfig.extra_filename_to_icon_name or {}) do
   override_by_filename[filename] = icon_names_to_icon_data[filetype]
 end
 

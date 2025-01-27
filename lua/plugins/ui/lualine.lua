@@ -6,15 +6,11 @@
 
 local extensions = require("plugins.ui.lualine.extensions")
 local sections = require("plugins.ui.lualine.sections")
-local theme = require("theme")
 
 return {
   "nvim-lualine/lualine.nvim",
   dependencies = { "nvim-tree/nvim-web-devicons" },
   priority = 100, -- Main UI stuff should be loaded first
-  init = function()
-    vim.opt.showmode = false -- Don't show mode in status line
-  end,
   opts = vim.tbl_deep_extend("force", {
     options = {
       component_separators = "",
@@ -24,12 +20,11 @@ return {
     },
     sections = sections.default,
     extensions = extensions.build_extensions(sections.default),
-  }, theme.lualine_opts or {}),
+  }, Theme.lualine_opts or {}),
   config = function(_, opts)
     require("lualine").setup(opts)
-
-    if theme.lualine_callback then -- Additional theme options setting
-      theme.lualine_callback()
+    if Theme.lualine_callback then -- Additional theme options setting
+      Theme.lualine_callback()
     end
   end,
 }

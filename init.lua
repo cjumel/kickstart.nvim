@@ -20,6 +20,10 @@ vim.opt.rtp:prepend(lazypath)
 vim.g.mapleader = " "
 vim.g.maplocalleader = "  "
 
+-- Setup global variables for main configuration modules
+Metaconfig = require("meta_config")
+Theme = require("theme")
+
 -- Setup lazy.nvim
 require("lazy").setup({
   spec = {

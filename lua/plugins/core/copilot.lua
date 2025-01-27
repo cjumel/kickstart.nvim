@@ -8,7 +8,7 @@
 
 return {
   "zbirenbaum/copilot.lua",
-  cond = not (require("conf").light_mode or require("conf").disable_copilot),
+  cond = not (Metaconfig.light_mode or Metaconfig.disable_copilot),
   -- Spinning the Copilot server a bit before entering insert mode helps to provide suggestions right away
   event = { "InsertEnter", "BufNewFile", "BufReadPre" },
   cmd = "Copilot",

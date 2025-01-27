@@ -4,14 +4,14 @@
 -- plugin of choice for linting, as it's very simple, easily customizable, and is very complementary with conform.nvim,
 -- my formatting plugin.
 
-local conf = require("conf")
-
 local linter_to_mason_name = {} -- Names of the Mason package corresponding to linters when they differ
 local linters_without_mason = {} -- Names of the linters which have no Mason package associated with
 
 local linters_by_ft = {}
-for ft, linters in pairs(conf.linters_by_ft  or {}) do
-  local linter_is_disabled = (conf.disable_lint_on_fts == "*" or vim.tbl_contains(conf.disable_lint_on_fts or {}, ft))
+for ft, linters in pairs(Metaconfig.linters_by_ft or {}) do
+  local linter_is_disabled = (
+    Metaconfig.disable_lint_on_fts == "*" or vim.tbl_contains(Metaconfig.disable_lint_on_fts or {}, ft)
+  )
   if not linter_is_disabled then
     linters_by_ft[ft] = linters
   end
@@ -19,7 +19,7 @@ end
 
 return {
   "mfussenegger/nvim-lint",
-  cond = not conf.light_mode,
+  cond = not Metaconfig.light_mode,
   dependencies = { "williamboman/mason.nvim" },
   ft = vim.tbl_keys(linters_by_ft),
   init = function()
@@ -56,7 +56,7 @@ return {
       end
 
       local relative_file_path = vim.fn.expand("%:p:~")
-      for _, path_pattern in ipairs(conf.tooling_blacklist_path_patterns or {}) do
+      for _, path_pattern in ipairs(Metaconfig.tooling_blacklist_path_patterns or {}) do
         local file_matches_tooling_blacklist_pattern = relative_file_path:match(path_pattern)
         if file_matches_tooling_blacklist_pattern then
           return false

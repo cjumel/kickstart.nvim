@@ -4,9 +4,7 @@ local sections = require("plugins.ui.lualine.sections")
 local M = {}
 
 M.rose_pine_enabled = true
-M.rose_pine_opts = {
-  variant = "main", -- auto, main, moon, or dawn
-}
+M.rose_pine_style = "main"
 
 M.lualine_opts = {
   sections = sections.minimalist,

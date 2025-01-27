@@ -6,14 +6,11 @@
 
 return {
   "rebelot/kanagawa.nvim",
-  cond = require("theme").kanagawa_enabled or false,
+  cond = Theme.kanagawa_enabled or false,
   priority = 1000, -- Main UI stuff should be loaded first
-  opts = vim.tbl_deep_extend("force", {
-    transparent = true,
-  }, require("theme").kanagawa_opts or {}),
+  opts = { transparent = true },
   config = function(_, opts)
     require("kanagawa").setup(opts) -- Must be called before loading the color scheme
-    local kanagawa_theme = opts.theme or "wave"
-    vim.cmd.colorscheme("kanagawa-" .. kanagawa_theme)
+    vim.cmd.colorscheme("kanagawa-" .. (Theme.kanagawa_style or "wave"))
   end,
 }

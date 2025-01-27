@@ -1,15 +1,13 @@
-local conf = require("conf")
-local theme = require("theme")
-
 -- Global UI
 vim.o.mouse = "a" -- Enable mouse mode in all modes
 vim.o.breakindent = true -- After a line wrap, indent the part on the new virtual line
 vim.o.splitright = true -- Open new vertical split window on the right
 vim.o.splitbelow = true -- Open new horizontal split window below
 vim.opt.cursorline = true -- Highlight the cursor line
+vim.opt.showmode = false -- Don't show mode in status line (this is handled by lualine.nvim)
 vim.o.matchpairs = vim.o.matchpairs .. ",<:>" -- Add recognized character pair
-if theme.options_callback then -- Additional theme options setting
-  theme.options_callback()
+if Theme.options_callback then -- Additional theme options setting
+  Theme.options_callback()
 end
 
 -- Side column
@@ -90,4 +88,4 @@ for type, icon in pairs({ Error = "󰅚 ", Warn = "󰀪 ", Hint = "󰌶 ", Info 
 end
 
 -- Extra filetypes detection
-vim.filetype.add({ filename = conf.extra_filename_to_filetype })
+vim.filetype.add({ filename = Metaconfig.extra_filename_to_filetype })

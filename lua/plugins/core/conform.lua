@@ -4,8 +4,6 @@
 -- auto-formatting due to its great flexibility and customizability, while still remaining quite simple compared to
 -- alternatives like null-ls.
 
-local conf = require("conf")
-
 local formatter_to_mason_name = { -- Names of the Mason package corresponding to formatters when they differ
   ruff_fix = "ruff",
   ruff_format = "ruff",
@@ -17,9 +15,10 @@ local formatters_without_mason = { -- Names of the formatters which have no Maso
 }
 
 local formatters_by_ft = {}
-for ft, formatters in pairs(conf.formatters_by_ft or {}) do
+for ft, formatters in pairs(Metaconfig.formatters_by_ft or {}) do
   local formatter_is_disabled = (
-    conf.disable_format_on_save_on_fts == "*" or vim.tbl_contains(conf.disable_format_on_save_on_fts or {}, ft)
+    Metaconfig.disable_format_on_save_on_fts == "*"
+    or vim.tbl_contains(Metaconfig.disable_format_on_save_on_fts or {}, ft)
   )
   if not formatter_is_disabled then
     formatters_by_ft[ft] = formatters
@@ -28,7 +27,7 @@ end
 
 return {
   "stevearc/conform.nvim",
-  cond = not conf.light_mode,
+  cond = not Metaconfig.light_mode,
   dependencies = { "williamboman/mason.nvim" },
   ft = vim.tbl_keys(formatters_by_ft),
   init = function()
@@ -71,7 +70,7 @@ return {
       end
 
       local relative_file_path = vim.fn.expand("%:p:~")
-      for _, path_pattern in ipairs(conf.tooling_blacklist_path_patterns or {}) do
+      for _, path_pattern in ipairs(Metaconfig.tooling_blacklist_path_patterns or {}) do
         local file_matches_tooling_blacklist_pattern = relative_file_path:match(path_pattern)
         if file_matches_tooling_blacklist_pattern then
           return

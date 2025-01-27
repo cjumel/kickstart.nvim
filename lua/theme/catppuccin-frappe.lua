@@ -4,9 +4,7 @@ local sections = require("plugins.ui.lualine.sections")
 local M = {}
 
 M.catppuccin_enabled = true
-M.catppuccin_opts = {
-  flavour = "frappe", -- latte, frappe, macchiato, mocha
-}
+M.catppuccin_style = "frappe"
 
 local custom_sections = vim.tbl_deep_extend("force", sections.default, {
   lualine_a = { { "mode", separator = { left = "", right = "" } } },

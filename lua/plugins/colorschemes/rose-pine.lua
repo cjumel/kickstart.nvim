@@ -6,12 +6,12 @@
 return {
   "rose-pine/neovim",
   name = "rose-pine",
-  cond = require("theme").rose_pine_enabled or false,
+  cond = Theme.rose_pine_enabled or false,
   priority = 1000, -- Main UI stuff should be loaded first
-  opts = vim.tbl_deep_extend("force", {
-    variant = "main", -- "auto", "main", "moon", or "dawn"
+  opts = {
+    variant = Theme.rose_pine_style or "main",
     styles = { transparency = true },
-  }, require("theme").rose_pine_opts or {}),
+  },
   config = function(_, opts)
     require("rose-pine").setup(opts) -- Must be called before loading the color scheme
     vim.cmd.colorscheme("rose-pine")

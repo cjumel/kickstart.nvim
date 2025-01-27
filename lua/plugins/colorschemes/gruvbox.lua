@@ -6,14 +6,12 @@
 
 return {
   "ellisonleao/gruvbox.nvim",
-  cond = require("theme").gruvbox_enabled or false,
+  cond = Theme.gruvbox_enabled or false,
   priority = 1000, -- Main UI stuff should be loaded first
-  opts = vim.tbl_deep_extend("force", {
-    transparent_mode = true,
-  }, require("theme").gruvbox_opts or {}),
+  opts = { transparent_mode = true },
   config = function(_, opts)
     require("gruvbox").setup(opts) -- Must be called before loading the color scheme
-    vim.o.background = require("theme").gruvbox_background or "dark"
+    vim.o.background = Theme.gruvbox_style or "dark"
     vim.cmd.colorscheme("gruvbox")
   end,
 }

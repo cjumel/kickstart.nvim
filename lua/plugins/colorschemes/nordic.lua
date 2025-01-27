@@ -4,13 +4,11 @@
 
 return {
   "AlexvZyl/nordic.nvim",
-  cond = require("theme").nordic_enabled or false,
+  cond = Theme.nordic_enabled or false,
   priority = 1000, -- Main UI stuff should be loaded first
-  opts = {
-    transparent = { bg = true },
-  },
+  opts = { transparent = { bg = true } },
   config = function(_, opts)
-    require("nordic").setup(opts)
+    require("nordic").setup(opts) -- Must be called before loading the color scheme
     require("nordic").load()
   end,
 }
