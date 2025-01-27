@@ -29,3 +29,10 @@ vim.api.nvim_create_user_command("Bd", function(args)
     vim.cmd("bufdo bd")
   end
 end, { desc = "Close all opened buffers", bang = true })
+vim.api.nvim_create_user_command("Bde", function(args)
+  if args.bang then
+    vim.cmd(":%bd!|e#")
+  else
+    vim.cmd(":%bd|e#")
+  end
+end, { desc = "Close all opened buffers except the current one", bang = true })
