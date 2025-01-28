@@ -3,8 +3,6 @@
 -- Meta plugin providing a collection of small quality-of-life plugins for Neovim. All these plugigns work very nicely
 -- out-of-the-box, with great default behaviors, and bring many UI improvements as well as new cool atomic features.
 
-local telescope_pickers = require("plugins.core.telescope.pickers")
-
 return {
   "folke/snacks.nvim",
   dependencies = { "nvim-tree/nvim-web-devicons" },
@@ -31,13 +29,48 @@ return {
       sections = {
         { section = "header" },
         { icon = " ", key = "c", desc = "Open current directory", action = function() require("oil").open() end },
-        { icon = " ", key = "f", desc = "Find Files", action = telescope_pickers.find_files },
-        { icon = " ", key = "d", desc = "Find Directories", action = telescope_pickers.find_directories },
-        { icon = " ", key = "r", desc = "Find Recent files", action = telescope_pickers.recent_files },
-        { icon = " ", key = "o", desc = "Find Old files", action = telescope_pickers.old_files },
-        { icon = "󰚰 ", key = "g", desc = "View Git Status", action = telescope_pickers.git_status },
-        { icon = " ", key = "b", desc = "View Git Branch", action = telescope_pickers.git_branches },
-        { icon = " ", key = "l", desc = "View Git Log", action = telescope_pickers.git_commits },
+        {
+          icon = " ",
+          key = "f",
+          desc = "Find Files",
+          action = function() require("plugins.core.telescope.pickers").find_files() end,
+        },
+        {
+          icon = " ",
+          key = "d",
+          desc = "Find Directories",
+          action = function() require("plugins.core.telescope.pickers").find_directories() end,
+        },
+        {
+          icon = " ",
+          key = "r",
+          desc = "Find Recent files",
+          action = function() require("plugins.core.telescope.pickers").recent_files() end,
+        },
+        {
+          icon = " ",
+          key = "o",
+          desc = "Find Old files",
+          action = function() require("plugins.core.telescope.pickers").old_files() end,
+        },
+        {
+          icon = "󰚰 ",
+          key = "g",
+          desc = "View Git Status",
+          action = function() require("plugins.core.telescope.pickers").git_status() end,
+        },
+        {
+          icon = " ",
+          key = "b",
+          desc = "View Git Branch",
+          action = function() require("plugins.core.telescope.pickers").git_branches() end,
+        },
+        {
+          icon = " ",
+          key = "l",
+          desc = "View Git Log",
+          action = function() require("plugins.core.telescope.pickers").git_commits() end,
+        },
         { icon = "󰊢 ", key = "n", desc = "Open Neogit", action = function() require("neogit").open() end },
         { icon = " ", key = "q", desc = "Quit", action = ":qa" },
       },

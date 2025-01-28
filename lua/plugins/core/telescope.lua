@@ -5,9 +5,6 @@
 -- suited for many use-cases beyond fuzzy-finding files, like LSP reference navigation, or user input selection.
 -- Besides, it is very easily customizable, easier by crafting complex options or by creating extensions.
 
-local custom_actions = require("plugins.core.telescope.actions")
-local pickers = require("plugins.core.telescope.pickers")
-
 return {
   "nvim-telescope/telescope.nvim",
   dependencies = {
@@ -22,33 +19,108 @@ return {
   },
   cmd = { "Telescope" }, -- Especially useful for other plugins calling Telescope through a command
   keys = {
-    -- Main finders
-    { "<leader>ff", pickers.find_files, mode = { "n", "v" }, desc = "[F]ind: [F]iles" },
-    { "<leader>fd", pickers.find_directories, mode = { "n", "v" }, desc = "[F]ind: [D]irectories" },
-    { "<leader>fg", pickers.live_grep, mode = { "n", "v" }, desc = "[F]ind: by [G]rep" },
-    { "<leader>fr", pickers.recent_files, mode = { "n", "v" }, desc = "[F]ind: [R]ecent files" },
-    { "<leader>fo", pickers.old_files, mode = { "n", "v" }, desc = "[F]ind: [O]ld files" },
+    -- Main pickers
+    {
+      "<leader>ff",
+      function() require("plugins.core.telescope.pickers").find_files() end,
+      mode = { "n", "v" },
+      desc = "[F]ind: [F]iles",
+    },
+    {
+      "<leader>fd",
+      function() require("plugins.core.telescope.pickers").find_directories() end,
+      mode = { "n", "v" },
+      desc = "[F]ind: [D]irectories",
+    },
+    {
+      "<leader>fg",
+      function() require("plugins.core.telescope.pickers").live_grep() end,
+      mode = { "n", "v" },
+      desc = "[F]ind: by [G]rep",
+    },
+    {
+      "<leader>fr",
+      function() require("plugins.core.telescope.pickers").recent_files() end,
+      mode = { "n", "v" },
+      desc = "[F]ind: [R]ecent files",
+    },
+    {
+      "<leader>fo",
+      function() require("plugins.core.telescope.pickers").old_files() end,
+      mode = { "n", "v" },
+      desc = "[F]ind: [O]ld files",
+    },
 
     -- Help-related
-    { "<leader>?h", pickers.help_tags, desc = "Help: help tags" },
-    { "<leader>?c", pickers.commands, desc = "Help: commands" },
-    { "<leader>?k", pickers.keymaps, desc = "Help: keymaps" },
+    {
+      "<leader>?h",
+      function() require("plugins.core.telescope.pickers").help_tags() end,
+      desc = "Help: help tags",
+    },
+    {
+      "<leader>?c",
+      function() require("plugins.core.telescope.pickers").commands() end,
+      desc = "Help: commands",
+    },
+    {
+      "<leader>?k",
+      function() require("plugins.core.telescope.pickers").keymaps() end,
+      desc = "Help: keymaps",
+    },
 
     -- Neovim-related
-    { "<leader><Tab>", pickers.buffers, desc = "Buffer switcher" },
-    { "<leader>,", pickers.resume, desc = "Resume Telescope" },
-    { "<leader>:", pickers.command_history, desc = "Command history" },
-    { "<leader>/", pickers.search_history, desc = "Search history" },
+    {
+      "<leader><Tab>",
+      function() require("plugins.core.telescope.pickers").buffers() end,
+      desc = "Buffer switcher",
+    },
+    {
+      "<leader>,",
+      function() require("plugins.core.telescope.pickers").resume() end,
+      desc = "Resume Telescope",
+    },
+    {
+      "<leader>:",
+      function() require("plugins.core.telescope.pickers").command_history() end,
+      desc = "Command history",
+    },
+    {
+      "<leader>/",
+      function() require("plugins.core.telescope.pickers").search_history() end,
+      desc = "Search history",
+    },
 
     -- Git-related
-    { "<leader>gg", pickers.git_status, desc = "[G]it: status" },
-    { "<leader>gb", pickers.git_branches, desc = "[G]it: [B]ranch" },
-    { "<leader>gl", pickers.git_commits, desc = "[G]it: [L]og" },
-    { "<leader>gL", pickers.git_bcommits, desc = "[G]it: buffer [L]og" },
-    { "<leader>gl", pickers.git_bcommits_range, mode = { "v" }, desc = "[G]it: selection [L]og" },
+    {
+      "<leader>gg",
+      function() require("plugins.core.telescope.pickers").git_status() end,
+      desc = "[G]it: status",
+    },
+    {
+      "<leader>gb",
+      function() require("plugins.core.telescope.pickers").git_branches() end,
+      desc = "[G]it: [B]ranch",
+    },
+    {
+      "<leader>gl",
+      function() require("plugins.core.telescope.pickers").git_commits() end,
+      desc = "[G]it: [L]og",
+    },
+    {
+      "<leader>gL",
+      function() require("plugins.core.telescope.pickers").git_bcommits() end,
+      desc = "[G]it: buffer [L]og",
+    },
+    {
+      "<leader>gl",
+      function() require("plugins.core.telescope.pickers").git_bcommits_range() end,
+      mode = { "v" },
+      desc = "[G]it: selection [L]og",
+    },
   },
   opts = function()
     local actions = require("telescope.actions")
+    local custom_actions = require("plugins.core.telescope.actions")
     local layout_actions = require("telescope.actions.layout")
     return {
       defaults = {

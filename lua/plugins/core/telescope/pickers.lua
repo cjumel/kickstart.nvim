@@ -1,6 +1,15 @@
 -- Custom pickers for Telescope. These are mainly wrappers around Telescope's builtin pickers, for additional
 -- customization.
 
+local action_state = require("telescope.actions.state")
+local actions = require("telescope.actions")
+local builtin = require("telescope.builtin")
+local custom_actions = require("plugins.core.telescope.actions")
+local custom_make_entry = require("plugins.core.telescope.make_entry")
+local previewers = require("telescope.previewers")
+local themes = require("telescope.themes")
+local visual_mode = require("visual_mode")
+
 local M = {}
 
 --- Finalize the options for the `find_files` picker. This function adds all the relevant not-persisted options to
@@ -32,7 +41,6 @@ end
 --- Get the base options for the `find_files` picker.
 ---@return table _ The `find_files` base options.
 local function find_files_get_base_opts()
-  local visual_mode = require("visual_mode")
   local function toggle_all_files(prompt_bufnr, _)
     -- Persisted options
     local opts = vim.g.telescope_last_opts
@@ -41,11 +49,11 @@ local function find_files_get_base_opts()
 
     -- Not persisted options
     opts = find_files_finalize_opts(opts)
-    local current_picker = require("telescope.actions.state").get_current_picker(prompt_bufnr)
+    local current_picker = action_state.get_current_picker(prompt_bufnr)
     opts.default_text = current_picker:_get_prompt()
-    require("telescope.actions").close(prompt_bufnr)
+    actions.close(prompt_bufnr)
 
-    require("telescope.builtin").find_files(opts)
+    builtin.find_files(opts)
   end
 
   local opts = {
@@ -73,7 +81,7 @@ function M.find_files()
   vim.g.telescope_last_opts = opts -- Persist the options to be able to change them later
 
   opts = find_files_finalize_opts(opts)
-  require("telescope.builtin").find_files(opts)
+  builtin.find_files(opts)
 end
 
 --- Finalize the options for the `find_directories` custom picker. This function adds all the relevant not-persisted
@@ -81,9 +89,6 @@ end
 ---@param opts table The persisted options.
 ---@return table _ The finalized options.
 local function find_directories_finalize_opts(opts)
-  local custom_make_entry = require("plugins.core.telescope.make_entry")
-  local previewers = require("telescope.previewers")
-
   if not opts._include_all_files then
     opts.prompt_title = "Find Directories"
     opts.find_command = { "fd", "--type", "d", "--color", "never", "--hidden" }
@@ -138,7 +143,6 @@ end
 --- Get the base options for the `find_directories` custom picker.
 ---@return table _ The `find_directories` base options.
 local function find_directories_get_base_opts()
-  local visual_mode = require("visual_mode")
   local function toggle_all_files(prompt_bufnr, _)
     -- Persisted options
     local opts = vim.g.telescope_last_opts
@@ -147,11 +151,11 @@ local function find_directories_get_base_opts()
 
     -- Not persisted options
     opts = find_directories_finalize_opts(opts)
-    local current_picker = require("telescope.actions.state").get_current_picker(prompt_bufnr)
+    local current_picker = action_state.get_current_picker(prompt_bufnr)
     opts.default_text = current_picker:_get_prompt()
-    require("telescope.actions").close(prompt_bufnr)
+    actions.close(prompt_bufnr)
 
-    require("telescope.builtin").find_files(opts)
+    builtin.find_files(opts)
   end
 
   local opts = {
@@ -179,7 +183,7 @@ function M.find_directories()
   vim.g.telescope_last_opts = opts -- Persist the options to be able to change them later
 
   opts = find_directories_finalize_opts(opts)
-  require("telescope.builtin").find_files(opts)
+  builtin.find_files(opts)
 end
 
 --- Finalize the options for the `live_grep` picker. This function adds all the relevant not-persisted options to the
@@ -216,7 +220,6 @@ end
 --- Get the base options for the `live_grep` picker.
 ---@return table _ The `live_grep` base options.
 local function live_grep_get_base_opts()
-  local visual_mode = require("visual_mode")
   local function toggle_all_files(prompt_bufnr, _)
     -- Persisted options
     local opts = vim.g.telescope_last_opts
@@ -225,11 +228,11 @@ local function live_grep_get_base_opts()
 
     -- Not persisted options
     opts = live_grep_finalize_opts(opts)
-    local current_picker = require("telescope.actions.state").get_current_picker(prompt_bufnr)
+    local current_picker = action_state.get_current_picker(prompt_bufnr)
     opts.default_text = current_picker:_get_prompt()
-    require("telescope.actions").close(prompt_bufnr)
+    actions.close(prompt_bufnr)
 
-    require("telescope.builtin").live_grep(opts)
+    builtin.live_grep(opts)
   end
 
   local opts = {
@@ -268,12 +271,11 @@ function M.live_grep()
   vim.g.telescope_last_opts = telescope_opts -- Persist the options to be able to change them later
 
   telescope_opts = live_grep_finalize_opts(telescope_opts)
-  require("telescope.builtin").live_grep(telescope_opts)
+  builtin.live_grep(telescope_opts)
 end
 
 function M.old_files()
-  local visual_mode = require("visual_mode")
-  require("telescope.builtin").oldfiles({
+  builtin.oldfiles({
     tiebreak = function(current, existing, _) return current.index < existing.index end, -- Sort by recency
     prompt_title = "Find Old files",
     -- Replace punctuation marks by spaces, to support searching from module names, like "plugins.core"
@@ -282,8 +284,7 @@ function M.old_files()
 end
 
 function M.recent_files()
-  local visual_mode = require("visual_mode")
-  require("telescope.builtin").oldfiles({
+  builtin.oldfiles({
     tiebreak = function(current, existing, _) return current.index < existing.index end, -- Sort by recency
     prompt_title = "Find Recent Files",
     -- Replace punctuation marks by spaces, to support searching from module names, like "plugins.core"
@@ -293,7 +294,7 @@ function M.recent_files()
 end
 
 function M.help_tags()
-  require("telescope.builtin").help_tags({
+  builtin.help_tags({
     prompt_title = "Help tags",
     layout_strategy = "vertical",
     previewer = false,
@@ -301,21 +302,21 @@ function M.help_tags()
 end
 
 function M.commands()
-  require("telescope.builtin").commands({
+  builtin.commands({
     prompt_title = "Commands",
     layout_strategy = "vertical",
   })
 end
 
 function M.keymaps()
-  require("telescope.builtin").keymaps({
+  builtin.keymaps({
     prompt_title = "Keymaps",
     layout_strategy = "vertical",
   })
 end
 
 function M.buffers()
-  require("telescope.builtin").buffers(require("telescope.themes").get_dropdown({
+  builtin.buffers(themes.get_dropdown({
     prompt_title = "Buffer Switcher",
     initial_mode = "normal",
     preview = { hide_on_startup = true },
@@ -323,39 +324,39 @@ function M.buffers()
     sort_lastused = true, -- Sort current & last used buffer at the top & select the last used
     sort_mru = true, -- Sort all buffers after the last used
     attach_mappings = function(_, map)
-      map({ "n" }, "<BS>", require("telescope.actions").delete_buffer)
+      map({ "n" }, "<BS>", actions.delete_buffer)
       return true -- Enable default mappings
     end,
   }))
 end
 
-function M.resume() require("telescope.builtin").resume({}) end
+function M.resume() builtin.resume({}) end
 
 function M.command_history()
-  require("telescope.builtin").command_history(require("telescope.themes").get_dropdown({
+  builtin.command_history(themes.get_dropdown({
     previewer = false,
     tiebreak = function(current, existing, _) return current.index < existing.index end, -- Sort by recency
     filter_fn = function(cmd) return string.len(cmd) >= 4 end, -- Filter out short commands like "w", "q", "wq", "wqa"
     attach_mappings = function(_, map)
-      map({ "i", "n" }, "<S-CR>", require("telescope.actions").edit_command_line)
+      map({ "i", "n" }, "<S-CR>", actions.edit_command_line)
       return true -- Enable default mappings
     end,
   }))
 end
 
 function M.search_history()
-  require("telescope.builtin").search_history(require("telescope.themes").get_dropdown({
+  builtin.search_history(themes.get_dropdown({
     previewer = false,
     tiebreak = function(current, existing, _) return current.index < existing.index end, -- Sort by recency
     attach_mappings = function(_, map)
-      map({ "i", "n" }, "<S-CR>", require("telescope.actions").edit_search_line)
+      map({ "i", "n" }, "<S-CR>", actions.edit_search_line)
       return true -- Enable default mappings
     end,
   }))
 end
 
 function M.git_status()
-  require("telescope.builtin").git_status({
+  builtin.git_status({
     prompt_title = "Git Status",
     layout_config = { preview_width = 0.6 },
     git_icons = {
@@ -369,30 +370,28 @@ function M.git_status()
     },
     attach_mappings = function(_, map)
       -- Override the <Tab> keymap to disable the stage/unstage feature of the picker
-      map({ "i", "n" }, "<Tab>", require("telescope.actions").move_selection_next)
+      map({ "i", "n" }, "<Tab>", actions.move_selection_next)
       return true -- Enable default mappings
     end,
   })
 end
 
 function M.git_branches()
-  require("telescope.builtin").git_branches({
+  builtin.git_branches({
     prompt_title = "Git Branch",
     layout_strategy = "vertical",
     attach_mappings = function(_, map) -- Re-implement some default keymaps to remove their overwrite
-      map({ "i", "n" }, "<C-d>", require("telescope.actions").close)
+      map({ "i", "n" }, "<C-d>", actions.close)
       return true -- Enable default mappings
     end,
   })
 end
 
 function M.git_commits()
-  local custom_actions = require("plugins.core.telescope.actions")
-  require("telescope.builtin").git_commits({
+  builtin.git_commits({
     prompt_title = "Git Log",
     tiebreak = function(current, existing, _) return current.index < existing.index end, -- Sort by recency
     attach_mappings = function(_, _)
-      local actions = require("telescope.actions")
       actions.select_default:replace(custom_actions.copy_commit_hash) -- Replace the default checkout-to-commit action
       return true -- Enable default mappings
     end,
@@ -400,12 +399,10 @@ function M.git_commits()
 end
 
 function M.git_bcommits()
-  local custom_actions = require("plugins.core.telescope.actions")
-  require("telescope.builtin").git_bcommits({
+  builtin.git_bcommits({
     prompt_title = "Buffer Commits",
     tiebreak = function(current, existing, _) return current.index < existing.index end, -- Sort by recency
     attach_mappings = function(_, _)
-      local actions = require("telescope.actions")
       actions.select_default:replace(custom_actions.copy_commit_hash) -- Replace the default checkout-to-commit action
       return true -- Enable default mappings
     end,
@@ -413,12 +410,10 @@ function M.git_bcommits()
 end
 
 function M.git_bcommits_range()
-  local custom_actions = require("plugins.core.telescope.actions")
-  require("telescope.builtin").git_bcommits_range({
+  builtin.git_bcommits_range({
     prompt_title = "Selection Commits",
     tiebreak = function(current, existing, _) return current.index < existing.index end, -- Sort by recency
     attach_mappings = function(_, _)
-      local actions = require("telescope.actions")
       actions.select_default:replace(custom_actions.copy_commit_hash) -- Replace the default checkout-to-commit action
       return true -- Enable default mappings
     end,
@@ -426,8 +421,7 @@ function M.git_bcommits_range()
 end
 
 function M.lsp_document_symbols()
-  local visual_mode = require("visual_mode")
-  require("telescope.builtin").lsp_document_symbols({
+  builtin.lsp_document_symbols({
     prompt_title = "Find Symbols",
     layout_config = { preview_width = 0.6 },
     default_text = visual_mode.is_on() and visual_mode.get_text() or nil,
@@ -435,8 +429,7 @@ function M.lsp_document_symbols()
 end
 
 function M.lsp_workspace_symbols()
-  local visual_mode = require("visual_mode")
-  require("telescope.builtin").lsp_dynamic_workspace_symbols({
+  builtin.lsp_dynamic_workspace_symbols({
     prompt_title = "Find Workspace Symbols",
     layout_config = { preview_width = 0.5 },
     default_text = visual_mode.is_on() and visual_mode.get_text() or nil,
