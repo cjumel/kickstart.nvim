@@ -28,6 +28,10 @@ return {
     {
       "<C-CR>",
       function()
+        -- Avoid using the keymap in telescope.nvim as it doesn't work there (close the current picker)
+        if vim.bo.filetype == "TelescopePrompt" then
+          return
+        end
         require("telescope").extensions.neoclip.default({
           prompt_title = "Yank History",
           layout_strategy = "vertical",
