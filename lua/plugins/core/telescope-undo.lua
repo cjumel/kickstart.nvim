@@ -5,8 +5,6 @@
 -- issues with telescope-undo.nvim to restore some past states, but it enables fuzzy-searching changes in it, which is a
 -- super nice feature and makes it nicely complementary with undotree.
 
-local visual_mode = require("visual_mode")
-
 --- Custom version of the `yank_additions` action, where we always yank the additions in line-wise mode.
 --- See `lua/telescope-undo/actions.lua` in the telescope-undo.nvim repository for the initial implementation.
 ---@param prompt_bufnr integer The buffer number of the prompt buffer.
@@ -54,6 +52,7 @@ return {
     {
       "<leader>fu",
       function()
+        local visual_mode = require("visual_mode")
         require("telescope").extensions.undo.undo({
           prompt_title = "Find Undotree",
           layout_config = { preview_width = 0.6 },

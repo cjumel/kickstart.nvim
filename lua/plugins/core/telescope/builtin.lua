@@ -1,10 +1,6 @@
 -- Here are defined custom wrappers around Telescope builtin pickers. It is where I implement custom options or logic
 -- for each picker I use & want to customize.
 
-local custom_actions = require("plugins.core.telescope.actions")
-local custom_make_entry = require("plugins.core.telescope.make_entry")
-local visual_mode = require("visual_mode")
-
 local M = {}
 
 --- Finalize the options for the `find_files` picker. This function adds all the relevant not-persisted options to
@@ -36,6 +32,7 @@ end
 --- Get the base options for the `find_files` picker.
 ---@return table _ The `find_files` base options.
 local function find_files_get_base_opts()
+  local visual_mode = require("visual_mode")
   local function toggle_all_files(prompt_bufnr, _)
     -- Persisted options
     local opts = vim.g.telescope_last_opts
@@ -84,6 +81,7 @@ end
 ---@param opts table The persisted options.
 ---@return table _ The finalized options.
 local function find_directories_finalize_opts(opts)
+  local custom_make_entry = require("plugins.core.telescope.make_entry")
   local previewers = require("telescope.previewers")
 
   if not opts._include_all_files then
@@ -140,6 +138,7 @@ end
 --- Get the base options for the `find_directories` custom picker.
 ---@return table _ The `find_directories` base options.
 local function find_directories_get_base_opts()
+  local visual_mode = require("visual_mode")
   local function toggle_all_files(prompt_bufnr, _)
     -- Persisted options
     local opts = vim.g.telescope_last_opts
@@ -184,6 +183,7 @@ function M.find_directories()
 end
 
 function M.find_lines()
+  local visual_mode = require("visual_mode")
   require("telescope.builtin").current_buffer_fuzzy_find({
     prompt_title = "Find Lines",
     layout_strategy = "vertical",
@@ -227,6 +227,7 @@ end
 --- Get the base options for the `live_grep` picker.
 ---@return table _ The `live_grep` base options.
 local function live_grep_get_base_opts()
+  local visual_mode = require("visual_mode")
   local function toggle_all_files(prompt_bufnr, _)
     -- Persisted options
     local opts = vim.g.telescope_last_opts
@@ -282,6 +283,7 @@ function M.live_grep()
 end
 
 function M.old_files()
+  local visual_mode = require("visual_mode")
   require("telescope.builtin").oldfiles({
     tiebreak = function(current, existing, _) return current.index < existing.index end, -- Sort by recency
     prompt_title = "Find Old files",
@@ -291,6 +293,7 @@ function M.old_files()
 end
 
 function M.recent_files()
+  local visual_mode = require("visual_mode")
   require("telescope.builtin").oldfiles({
     tiebreak = function(current, existing, _) return current.index < existing.index end, -- Sort by recency
     prompt_title = "Find Recent Files",
@@ -395,6 +398,7 @@ function M.git_branches()
 end
 
 function M.git_commits()
+  local custom_actions = require("plugins.core.telescope.actions")
   require("telescope.builtin").git_commits({
     prompt_title = "Git Log",
     tiebreak = function(current, existing, _) return current.index < existing.index end, -- Sort by recency
@@ -407,6 +411,7 @@ function M.git_commits()
 end
 
 function M.git_bcommits()
+  local custom_actions = require("plugins.core.telescope.actions")
   require("telescope.builtin").git_bcommits({
     prompt_title = "Buffer Commits",
     tiebreak = function(current, existing, _) return current.index < existing.index end, -- Sort by recency
@@ -419,6 +424,7 @@ function M.git_bcommits()
 end
 
 function M.git_bcommits_range()
+  local custom_actions = require("plugins.core.telescope.actions")
   require("telescope.builtin").git_bcommits_range({
     prompt_title = "Selection Commits",
     tiebreak = function(current, existing, _) return current.index < existing.index end, -- Sort by recency
@@ -431,6 +437,7 @@ function M.git_bcommits_range()
 end
 
 function M.lsp_document_symbols()
+  local visual_mode = require("visual_mode")
   require("telescope.builtin").lsp_document_symbols({
     prompt_title = "Find Symbols",
     layout_config = { preview_width = 0.6 },
@@ -439,6 +446,7 @@ function M.lsp_document_symbols()
 end
 
 function M.lsp_workspace_symbols()
+  local visual_mode = require("visual_mode")
   require("telescope.builtin").lsp_dynamic_workspace_symbols({
     prompt_title = "Find Workspace Symbols",
     layout_config = { preview_width = 0.5 },

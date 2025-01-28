@@ -1,5 +1,3 @@
-local visual_mode = require("visual_mode")
-
 -- [[ Modify builtin keymaps ]]
 -- Keymaps to modify (fix or improve) the behavior of builtin keymaps
 
@@ -137,11 +135,9 @@ vim.keymap.set(
 
 -- Introduce a browser search keymap with "gb", to launch a simple Web search
 local function browser_search()
-  local text
-  if visual_mode.is_on() then
-    text = visual_mode.get_text()
-  end
-  vim.ui.input({ prompt = "Web search", default = text }, function(input)
+  local visual_mode = require("visual_mode")
+  local default_text = visual_mode.is_on() and visual_mode.get_text() or nil
+  vim.ui.input({ prompt = "Web search", default = default_text }, function(input)
     if input == nil or input == "" then
       return
     end
