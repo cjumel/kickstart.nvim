@@ -6,13 +6,22 @@
 return {
   "folke/snacks.nvim",
   dependencies = { "nvim-tree/nvim-web-devicons" },
-  priority = 500, -- Main UI stuff should be loaded first (but after the colorscheme)
   lazy = false,
+  priority = 500, -- Main UI stuff should be loaded first (but after the colorscheme)
   keys = {
+    -- Bufdelete
+    { "<leader><BS>", function() require("snacks").bufdelete.delete() end, desc = "Delete buffer" },
+
+    -- Gitbrowse
+    { "<leader>gr", function() require("snacks").gitbrowse.open() end, desc = "[G]it: open [R]epository" },
+
+    -- Notifier
     { "<leader>n", function() require("snacks").notifier.show_history() end, desc = "[N]otifications" },
-    { "<leader>z", function() require("snacks").zen() end, desc = "[Z]en mode" },
-    { "<leader><BS>", function() require("snacks").bufdelete() end, desc = "Delete buffer" },
-    { "<leader>gr", function() require("snacks").gitbrowse() end, desc = "[G]it: open [R]epository" },
+
+    -- Picker
+    { "<leader>l", function() require("snacks").picker.lines() end, desc = "Search [L]ines" },
+
+    -- Scratch buffers
     {
       "<leader>;",
       function() require("snacks").scratch.open({ name = "Note", ft = "markdown" }) end,
@@ -20,10 +29,13 @@ return {
     },
     { "<leader>.", function() require("snacks").scratch.open() end, desc = "Scratch file" },
     { "<leader>=", function() require("snacks").scratch.select() end, desc = "Select scratch" },
-    { "<leader>l", function() require("snacks").picker.lines() end, desc = "Search [L]ines" },
+
+    -- Zen mode
+    { "<leader>z", function() require("snacks").zen() end, desc = "[Z]en mode" },
   },
   opts = {
     bigfile = { enabled = true },
+
     dashboard = {
       enabled = true,
       sections = {
@@ -75,7 +87,9 @@ return {
         { icon = " ", key = "q", desc = "Quit", action = ":qa" },
       },
     },
+
     notifier = { enabled = true },
+
     picker = {
       enabled = true,
       win = {
@@ -87,7 +101,9 @@ return {
         },
       },
     },
+
     quickfile = { enabled = true },
+
     scratch = {
       autowrite = false, -- Prevent untimely scratch file creation
       win = {
@@ -150,12 +166,16 @@ return {
         },
       },
     },
+
     scroll = { enabled = true },
+
     words = { enabled = true },
+
     zen = {
       toggles = { dim = false },
       win = { width = 125 }, -- Support line-length up until 120
     },
+
     styles = {
       notification = { wo = { wrap = true } }, -- Don't truncate notifications
       notification_history = { wo = { number = false, relativenumber = false } },
