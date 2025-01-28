@@ -21,18 +21,7 @@ vim.api.nvim_create_user_command("Wqa", function(args)
   end
 end, { desc = "Write all buffers and quit without auto-commands", bang = true })
 
--- Command to close all buffers at once
-vim.api.nvim_create_user_command("Bd", function(args)
-  if args.bang then
-    vim.cmd("bufdo bd!")
-  else
-    vim.cmd("bufdo bd")
-  end
-end, { desc = "Close all opened buffers", bang = true })
-vim.api.nvim_create_user_command("Bde", function(args)
-  if args.bang then
-    vim.cmd(":%bd!|e#")
-  else
-    vim.cmd(":%bd|e#")
-  end
-end, { desc = "Close all opened buffers except the current one", bang = true })
+-- Command to close buffers (preserve splits)
+vim.api.nvim_create_user_command("Bd", function() Snacks.bufdelete.delete() end, { desc = "Close buffer" })
+vim.api.nvim_create_user_command("Bda", function() Snacks.bufdelete.all() end, { desc = "Close all buffers" })
+vim.api.nvim_create_user_command("Bdo", function() Snacks.bufdelete.other() end, { desc = "Close all other buffers" })
