@@ -51,24 +51,24 @@ return {
       desc = "[F]ind: [O]ld files",
     },
 
-    -- Help-related
+    -- Help-related pickers
     {
-      "<leader>?h",
+      "<leader>fh",
       function() require("plugins.core.telescope.pickers").help_tags() end,
-      desc = "Help: help tags",
+      desc = "[F]ind: [H]elp tags",
     },
     {
-      "<leader>?c",
+      "<leader>fc",
       function() require("plugins.core.telescope.pickers").commands() end,
-      desc = "Help: commands",
+      desc = "[F]ind: [C]ommands",
     },
     {
-      "<leader>?k",
+      "<leader>fk",
       function() require("plugins.core.telescope.pickers").keymaps() end,
-      desc = "Help: keymaps",
+      desc = "[F]ind: [K]eymaps",
     },
 
-    -- Neovim-related
+    -- Neovim-related pickers
     {
       "<leader><Tab>",
       function() require("plugins.core.telescope.pickers").buffers() end,
@@ -90,7 +90,7 @@ return {
       desc = "Search history",
     },
 
-    -- Git-related
+    -- Git-related pickers
     {
       "<leader>gg",
       function() require("plugins.core.telescope.pickers").git_status() end,
