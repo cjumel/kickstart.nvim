@@ -67,17 +67,17 @@ return {
   opts = {
     vim_diff_opts = { ctxlen = 5 }, -- Number of lines to display around each change
     mappings = {
+      -- In the mappings below, let's use the same keys capitalizationas as the defaults, to actually override them
       i = {
-        ["<CR>"] = yank_additions,
-        ["<S-CR>"] = yank_deletions,
-        ["<S-cr>"] = false,
+        ["<cr>"] = yank_additions,
+        ["<S-cr>"] = yank_deletions,
         ["<C-cr>"] = false,
         ["<C-y>"] = false,
         ["<C-r>"] = false,
       },
       n = {
-        ["<CR>"] = yank_additions,
-        ["<S-CR>"] = yank_deletions,
+        ["<cr>"] = yank_additions,
+        ["<S-cr>"] = yank_deletions,
         ["y"] = false,
         ["Y"] = false,
         ["u"] = false,
