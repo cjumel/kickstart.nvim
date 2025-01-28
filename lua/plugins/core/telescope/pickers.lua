@@ -1,5 +1,5 @@
--- Here are defined custom wrappers around Telescope builtin pickers. It is where I implement custom options or logic
--- for each picker I use & want to customize.
+-- Custom pickers for Telescope. These are mainly wrappers around Telescope's builtin pickers, for additional
+-- customization.
 
 local M = {}
 

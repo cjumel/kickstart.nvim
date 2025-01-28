@@ -1,4 +1,4 @@
--- Here are defined custom actions for Telescope, used through general or spicker-specific mappings.
+-- Custom actions for Telescope, to be used within pickers.
 
 local M = {}
 

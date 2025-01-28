@@ -1,5 +1,5 @@
--- Here is defined a custom entry maker tailored specifically for directories. The vast majority of this code is
--- directly taken from `telescope.make_entry`. The main purpose of this is to support directory icons in the picker.
+-- Custom entry maker, tailored specifically for a custom directory picker. The vast majority of this code is directly
+-- taken from `telescope.make_entry`.
 
 local M = {}
 

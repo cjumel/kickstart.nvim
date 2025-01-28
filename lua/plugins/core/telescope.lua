@@ -6,7 +6,7 @@
 -- Besides, it is very easily customizable, easier by crafting complex options or by creating extensions.
 
 local custom_actions = require("plugins.core.telescope.actions")
-local custom_builtin = require("plugins.core.telescope.builtin")
+local pickers = require("plugins.core.telescope.pickers")
 
 return {
   "nvim-telescope/telescope.nvim",
@@ -23,29 +23,29 @@ return {
   cmd = { "Telescope" }, -- Especially useful for other plugins calling Telescope through a command
   keys = {
     -- Main finders
-    { "<leader>ff", custom_builtin.find_files, mode = { "n", "v" }, desc = "[F]ind: [F]iles" },
-    { "<leader>fd", custom_builtin.find_directories, mode = { "n", "v" }, desc = "[F]ind: [D]irectories" },
-    { "<leader>fg", custom_builtin.live_grep, mode = { "n", "v" }, desc = "[F]ind: by [G]rep" },
-    { "<leader>fr", custom_builtin.recent_files, mode = { "n", "v" }, desc = "[F]ind: [R]ecent files" },
-    { "<leader>fo", custom_builtin.old_files, mode = { "n", "v" }, desc = "[F]ind: [O]ld files" },
+    { "<leader>ff", pickers.find_files, mode = { "n", "v" }, desc = "[F]ind: [F]iles" },
+    { "<leader>fd", pickers.find_directories, mode = { "n", "v" }, desc = "[F]ind: [D]irectories" },
+    { "<leader>fg", pickers.live_grep, mode = { "n", "v" }, desc = "[F]ind: by [G]rep" },
+    { "<leader>fr", pickers.recent_files, mode = { "n", "v" }, desc = "[F]ind: [R]ecent files" },
+    { "<leader>fo", pickers.old_files, mode = { "n", "v" }, desc = "[F]ind: [O]ld files" },
 
     -- Help-related
-    { "<leader>?h", custom_builtin.help_tags, desc = "Help: help tags" },
-    { "<leader>?c", custom_builtin.commands, desc = "Help: commands" },
-    { "<leader>?k", custom_builtin.keymaps, desc = "Help: keymaps" },
+    { "<leader>?h", pickers.help_tags, desc = "Help: help tags" },
+    { "<leader>?c", pickers.commands, desc = "Help: commands" },
+    { "<leader>?k", pickers.keymaps, desc = "Help: keymaps" },
 
     -- Neovim-related
-    { "<leader><Tab>", custom_builtin.buffers, desc = "Buffer switcher" },
-    { "<leader>,", custom_builtin.resume, desc = "Resume Telescope" },
-    { "<leader>:", custom_builtin.command_history, desc = "Command history" },
-    { "<leader>/", custom_builtin.search_history, desc = "Search history" },
+    { "<leader><Tab>", pickers.buffers, desc = "Buffer switcher" },
+    { "<leader>,", pickers.resume, desc = "Resume Telescope" },
+    { "<leader>:", pickers.command_history, desc = "Command history" },
+    { "<leader>/", pickers.search_history, desc = "Search history" },
 
     -- Git-related
-    { "<leader>gg", custom_builtin.git_status, desc = "[G]it: status" },
-    { "<leader>gb", custom_builtin.git_branches, desc = "[G]it: [B]ranch" },
-    { "<leader>gl", custom_builtin.git_commits, desc = "[G]it: [L]og" },
-    { "<leader>gL", custom_builtin.git_bcommits, desc = "[G]it: buffer [L]og" },
-    { "<leader>gl", custom_builtin.git_bcommits_range, mode = { "v" }, desc = "[G]it: selection [L]og" },
+    { "<leader>gg", pickers.git_status, desc = "[G]it: status" },
+    { "<leader>gb", pickers.git_branches, desc = "[G]it: [B]ranch" },
+    { "<leader>gl", pickers.git_commits, desc = "[G]it: [L]og" },
+    { "<leader>gL", pickers.git_bcommits, desc = "[G]it: buffer [L]og" },
+    { "<leader>gl", pickers.git_bcommits_range, mode = { "v" }, desc = "[G]it: selection [L]og" },
   },
   opts = function()
     local actions = require("telescope.actions")

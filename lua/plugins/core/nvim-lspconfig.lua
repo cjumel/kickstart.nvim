@@ -69,9 +69,9 @@ return {
         map("n", "grr", "<cmd>Trouble lsp_references<CR>", "References")
 
         -- Symbols keymaps
-        local custom_telescope_builtin = require("plugins.core.telescope.builtin")
-        map({ "n", "v" }, "<leader>fs", custom_telescope_builtin.lsp_document_symbols, "[F]ind: buffer [S]ymbols")
-        map({ "n", "v" }, "<leader>fS", custom_telescope_builtin.lsp_workspace_symbols, "[F]ind: workspace [S]ymbols")
+        local telescope_pickers = require("plugins.core.telescope.pickers")
+        map({ "n", "v" }, "<leader>fs", telescope_pickers.lsp_document_symbols, "[F]ind: buffer [S]ymbols")
+        map({ "n", "v" }, "<leader>fS", telescope_pickers.lsp_workspace_symbols, "[F]ind: workspace [S]ymbols")
 
         -- Next/previous reference navigation; let's define these keymaps here to benefit from the "LspAttach" behavior
         -- (nvim-treesitter-textobjects is already loaded at this point)
