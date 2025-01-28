@@ -22,6 +22,7 @@ return {
     },
     { "<leader>.", function() require("snacks").scratch.open() end, desc = "Scratch file" },
     { "<leader>=", function() require("snacks").scratch.select() end, desc = "Select scratch" },
+    { "<leader>l", function() require("snacks").picker.lines() end, desc = "Search [L]ines" },
   },
   opts = {
     bigfile = { enabled = true },

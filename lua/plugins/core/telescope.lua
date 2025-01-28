@@ -28,7 +28,6 @@ return {
     { "<leader>fg", custom_builtin.live_grep, mode = { "n", "v" }, desc = "[F]ind: by [G]rep" },
     { "<leader>fr", custom_builtin.recent_files, mode = { "n", "v" }, desc = "[F]ind: [R]ecent files" },
     { "<leader>fo", custom_builtin.old_files, mode = { "n", "v" }, desc = "[F]ind: [O]ld files" },
-    { "<leader>fl", custom_builtin.find_lines, mode = { "n", "v" }, desc = "[F]ind: [L]ines" },
 
     -- Help-related
     { "<leader>?h", custom_builtin.help_tags, desc = "Help: help tags" },
