@@ -6,6 +6,7 @@
 return {
   "cjumel/linkup.nvim",
   dependencies = { "nvim-lua/plenary.nvim" },
+  lazy = true,
   init = function()
     vim.api.nvim_create_user_command(
       "LinkupStandardSearch",
