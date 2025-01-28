@@ -5,21 +5,66 @@
 -- when there is a Makefile, and suggest the relevant commands based on it). It is very easy to use and super
 -- configurable, for instance by implementing custom job templates.
 
-local actions = require("plugins.tools.overseer.actions")
-
 return {
   "stevearc/overseer.nvim",
   dependencies = { "williamboman/mason.nvim" }, -- Some tools (e.g. ruff or prettier) require mason.nvim
   keys = {
-    { "<leader>oo", actions.toggle_task_list, desc = "[O]verseer: toggle task list" },
-    { "<leader>oa", actions.all_templates, desc = "[O]verseer: [A]ll templates" },
-    { "<leader>op", actions.all_templates_with_prompt, desc = "[O]verseer: all templates with [P]rompt" },
-    { "<leader>os", actions.shell_template, desc = "[O]verseer: [S]hell template" },
-    { "<leader>or", actions.run_templates, desc = "[O]verseer: [R]un templates" },
-    { "<leader>ot", actions.test_templates, desc = "[O]verseer: [T]est templates" },
-    { "<leader>oc", actions.check_templates, desc = "[O]verseer: [C]heck templates" },
-    { "<leader>ob", actions.build_templates, desc = "[O]verseer: [B]uild templates" },
-    { "<leader>ol", actions.rerun_last_task, desc = "[O]verseer: rerun [L]ast task" },
+    { "<leader>oo", function() require("overseer").toggle() end, desc = "[O]verseer: toggle task list" },
+    { "<leader>oa", function() require("overseer").run_template() end, desc = "[O]verseer: [A]ll templates" },
+    {
+      "<leader>op",
+      function() require("overseer").run_template({ prompt = "always" }) end,
+      desc = "[O]verseer: all templates with [P]rompt",
+    },
+    {
+      "<leader>os",
+      function()
+        require("overseer").run_template({ name = "shell" }, function(task, _)
+          if task ~= nil then
+            require("overseer").open()
+          end
+        end)
+      end,
+      desc = "[O]verseer: [S]hell template",
+    },
+    {
+      "<leader>or",
+      function()
+        require("overseer").run_template({ tags = { "RUN" }, first = false }, function(task, _)
+          if task ~= nil then
+            require("overseer").open()
+          end
+        end)
+      end,
+      desc = "[O]verseer: [R]un templates",
+    },
+    {
+      "<leader>ot",
+      function() require("overseer").run_template({ tags = { "TEST" }, first = false }) end,
+      desc = "[O]verseer: [T]est templates",
+    },
+    {
+      "<leader>oc",
+      function() require("overseer").run_template({ tags = { "CHECK" }, first = false }) end,
+      desc = "[O]verseer: [C]heck templates",
+    },
+    {
+      "<leader>ob",
+      function() require("overseer").run_template({ tags = { "BUILD" }, first = false }) end,
+      desc = "[O]verseer: [B]uild templates",
+    },
+    {
+      "<leader>ol",
+      function()
+        local tasks = require("overseer").list_tasks({ recent_first = true })
+        if vim.tbl_isempty(tasks) then
+          vim.notify("No tasks found", vim.log.levels.WARN)
+        else
+          require("overseer").run_action(tasks[1], "restart")
+        end
+      end,
+      desc = "[O]verseer: rerun [L]ast task",
+    },
   },
   opts = {
     templates = {
