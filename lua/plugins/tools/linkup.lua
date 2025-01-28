@@ -6,25 +6,22 @@
 return {
   "cjumel/linkup.nvim",
   dependencies = { "nvim-lua/plenary.nvim" },
-  keys = {
-    {
-      "<leader>ls",
+  init = function()
+    vim.api.nvim_create_user_command(
+      "LinkupStandardSearch",
       function() require("linkup").standard_search() end,
-      mode = { "n", "v" },
-      desc = "[L]inkup: [S]tandard search",
-    },
-    {
-      "<leader>ld",
+      { desc = "Run a Linkup API standard search" }
+    )
+    vim.api.nvim_create_user_command(
+      "LinkupDeepSearch",
       function() require("linkup").deep_search() end,
-      mode = { "n", "v" },
-      desc = "[L]inkup: [D]eep search",
-    },
-    {
-      "<leader>lw",
+      { desc = "Run a Linkup API deep search" }
+    )
+    vim.api.nvim_create_user_command(
+      "LinkupOpenWebiste",
       function() require("linkup").open_website() end,
-      mode = { "n", "v" },
-      desc = "[L]inkup: open [W]ebsite",
-    },
-  },
+      { desc = "Open a website with Linkup API" }
+    )
+  end,
   opts = {},
 }
