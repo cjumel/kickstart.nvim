@@ -86,8 +86,8 @@ return {
         -- (nvim-treesitter-textobjects is already loaded at this point)
         local ts_repeatable_move = require("nvim-treesitter.textobjects.repeatable_move")
         local forward_move_fn, backward_move_fn = ts_repeatable_move.make_repeatable_move_pair(
-          function() require("snacks").words.jump(vim.v.count1, true) end,
-          function() require("snacks").words.jump(-vim.v.count1, true) end
+          function() Snacks.words.jump(vim.v.count1, true) end,
+          function() Snacks.words.jump(-vim.v.count1, true) end
         )
         map({ "n", "x", "o" }, "[[", forward_move_fn, "Next reference")
         map({ "n", "x", "o" }, "]]", backward_move_fn, "Previous reference")

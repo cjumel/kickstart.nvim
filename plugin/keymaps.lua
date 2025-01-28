@@ -119,7 +119,7 @@ vim.keymap.set("n", "<leader>yfh", function() yank_file_path(":~") end, { desc =
 vim.keymap.set("n", "<leader>yfa", function() yank_file_path(":p") end, { desc = "[Y]ank [F]ile: [A]bsolute path" })
 
 vim.keymap.set("n", "<leader>yn", function()
-  local notification_history = require("snacks").notifier.get_history({ reverse = true })
+  local notification_history = Snacks.notifier.get_history({ reverse = true })
   local content = notification_history[1].msg
   vim.fn.setreg('"', content)
   vim.notify('Yanked "' .. content .. '"')

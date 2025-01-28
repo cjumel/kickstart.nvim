@@ -10,28 +10,28 @@ return {
   priority = 500, -- Main UI stuff should be loaded first (but after the colorscheme)
   keys = {
     -- Bufdelete
-    { "<leader><BS>", function() require("snacks").bufdelete.delete() end, desc = "Delete buffer" },
+    { "<leader><BS>", function() Snacks.bufdelete.delete() end, desc = "Delete buffer" },
 
     -- Gitbrowse
-    { "<leader>gr", function() require("snacks").gitbrowse.open() end, desc = "[G]it: open [R]epository" },
+    { "<leader>gr", function() Snacks.gitbrowse.open() end, desc = "[G]it: open [R]epository" },
 
     -- Notifier
-    { "<leader>n", function() require("snacks").notifier.show_history() end, desc = "[N]otifications" },
+    { "<leader>n", function() Snacks.notifier.show_history() end, desc = "[N]otifications" },
 
     -- Picker
-    { "<leader>l", function() require("snacks").picker.lines() end, desc = "Search [L]ines" },
+    { "<leader>l", function() Snacks.picker.lines() end, desc = "Search [L]ines" },
 
     -- Scratch buffers
     {
       "<leader>;",
-      function() require("snacks").scratch.open({ name = "Note", ft = "markdown" }) end,
+      function() Snacks.scratch.open({ name = "Note", ft = "markdown" }) end,
       desc = "Scratch note",
     },
-    { "<leader>.", function() require("snacks").scratch.open() end, desc = "Scratch file" },
-    { "<leader>=", function() require("snacks").scratch.select() end, desc = "Select scratch" },
+    { "<leader>.", function() Snacks.scratch.open() end, desc = "Scratch file" },
+    { "<leader>=", function() Snacks.scratch.select() end, desc = "Select scratch" },
 
     -- Zen mode
-    { "<leader>z", function() require("snacks").zen() end, desc = "[Z]en mode" },
+    { "<leader>z", function() Snacks.zen() end, desc = "[Z]en mode" },
   },
   opts = {
     bigfile = { enabled = true },
@@ -137,9 +137,9 @@ return {
                 local fname = vim.api.nvim_buf_get_name(self.buf)
                 local res = vim.system({ command, fname }, { text = true }):wait()
                 if res.code ~= 0 then
-                  require("snacks").notify.error(res.stderr or "Unknown error.")
+                  Snacks.notify.error(res.stderr or "Unknown error.")
                 else
-                  require("snacks").notify(res.stdout)
+                  Snacks.notify(res.stdout)
                 end
               end,
               desc = "source",
@@ -155,9 +155,9 @@ return {
                 local fname = vim.api.nvim_buf_get_name(self.buf)
                 local res = vim.system({ command, fname }, { text = true }):wait()
                 if res.code ~= 0 then
-                  require("snacks").notify.error(res.stderr or "Unknown error.")
+                  Snacks.notify.error(res.stderr or "Unknown error.")
                 else
-                  require("snacks").notify(res.stdout)
+                  Snacks.notify(res.stdout)
                 end
               end,
               desc = "source",
