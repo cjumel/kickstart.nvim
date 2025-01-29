@@ -84,6 +84,25 @@ function M.find_files()
   builtin.find_files(opts)
 end
 
+function M.recent_files()
+  builtin.oldfiles({
+    tiebreak = function(current, existing, _) return current.index < existing.index end, -- Sort by recency
+    prompt_title = "Find Recent Files",
+    -- Replace punctuation marks by spaces, to support searching from module names, like "plugins.core"
+    default_text = visual_mode.is_on() and string.gsub(visual_mode.get_text(), "%p", " ") or nil,
+    cwd_only = true,
+  })
+end
+
+function M.old_files()
+  builtin.oldfiles({
+    tiebreak = function(current, existing, _) return current.index < existing.index end, -- Sort by recency
+    prompt_title = "Find Old files",
+    -- Replace punctuation marks by spaces, to support searching from module names, like "plugins.core"
+    default_text = visual_mode.is_on() and string.gsub(visual_mode.get_text(), "%p", " ") or nil,
+  })
+end
+
 --- Finalize the options for the `find_directories` custom picker. This function adds all the relevant not-persisted
 --- options to the persisted ones.
 ---@param opts table The persisted options.
@@ -281,25 +300,6 @@ function M.live_grep()
 
   telescope_opts = live_grep_finalize_opts(telescope_opts)
   builtin.live_grep(telescope_opts)
-end
-
-function M.old_files()
-  builtin.oldfiles({
-    tiebreak = function(current, existing, _) return current.index < existing.index end, -- Sort by recency
-    prompt_title = "Find Old files",
-    -- Replace punctuation marks by spaces, to support searching from module names, like "plugins.core"
-    default_text = visual_mode.is_on() and string.gsub(visual_mode.get_text(), "%p", " ") or nil,
-  })
-end
-
-function M.recent_files()
-  builtin.oldfiles({
-    tiebreak = function(current, existing, _) return current.index < existing.index end, -- Sort by recency
-    prompt_title = "Find Recent Files",
-    -- Replace punctuation marks by spaces, to support searching from module names, like "plugins.core"
-    default_text = visual_mode.is_on() and string.gsub(visual_mode.get_text(), "%p", " ") or nil,
-    cwd_only = true,
-  })
 end
 
 function M.help_tags()

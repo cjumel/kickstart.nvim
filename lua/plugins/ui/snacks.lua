@@ -47,12 +47,6 @@ return {
           action = function() require("plugins.core.telescope.pickers").find_files() end,
         },
         {
-          icon = " ",
-          key = "d",
-          desc = "Find Directories",
-          action = function() require("plugins.core.telescope.pickers").find_directories() end,
-        },
-        {
           icon = " ",
           key = "r",
           desc = "Find Recent files",
@@ -63,6 +57,12 @@ return {
           key = "o",
           desc = "Find Old files",
           action = function() require("plugins.core.telescope.pickers").old_files() end,
+        },
+        {
+          icon = " ",
+          key = "d",
+          desc = "Find Directories",
+          action = function() require("plugins.core.telescope.pickers").find_directories() end,
         },
         {
           icon = "󰚰 ",
