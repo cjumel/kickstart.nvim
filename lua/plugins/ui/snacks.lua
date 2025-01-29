@@ -10,7 +10,9 @@ return {
   priority = 500, -- Main UI stuff should be loaded first (but after the colorscheme)
   keys = {
     -- Bufdelete
-    { "<leader><BS>", function() Snacks.bufdelete.delete() end, desc = "Delete buffer" },
+    { "<leader><BS>", function() Snacks.bufdelete.delete() end, desc = "Delete current buffer" },
+    { "<leader><S-BS>", function() Snacks.bufdelete.all() end, desc = "Delete all buffers" },
+    { "<leader><M-BS>", function() Snacks.bufdelete.other() end, desc = "Delete other buffers" },
 
     -- Gitbrowse
     { "<leader>gr", function() Snacks.gitbrowse.open() end, desc = "[G]it: open [R]epository" },
