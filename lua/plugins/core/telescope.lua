@@ -50,6 +50,12 @@ return {
       mode = { "n", "v" },
       desc = "[F]ind: [O]ld files",
     },
+    {
+      "<leader>fl",
+      function() require("plugins.core.telescope.pickers").find_lines() end,
+      mode = { "n", "v" },
+      desc = "[F]ind: [L]ines",
+    },
 
     -- Help-related pickers
     {
