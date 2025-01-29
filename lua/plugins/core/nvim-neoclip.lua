@@ -28,8 +28,8 @@ return {
     {
       "<C-CR>",
       function()
-        -- Avoid using the keymap in telescope.nvim as it doesn't work there (close the current picker)
-        if vim.bo.filetype == "TelescopePrompt" then
+        -- Avoid using the keymap in Telescope or Snacks pickers, as it doesn't work there (close the picker)
+        if vim.tbl_contains({ "TelescopePrompt", "snacks_picker_input" }, vim.bo.filetype) then
           return
         end
         require("telescope").extensions.neoclip.default({

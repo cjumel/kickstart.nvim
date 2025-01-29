@@ -19,7 +19,7 @@ return {
     { "<leader>n", function() Snacks.notifier.show_history() end, desc = "[N]otifications" },
 
     -- Picker
-    { "<leader>l", function() Snacks.picker.lines() end, desc = "Search [L]ines" },
+    { "<leader>l", function() Snacks.picker.lines() end, desc = "Pick [L]ines" },
 
     -- Scratch buffers
     {
