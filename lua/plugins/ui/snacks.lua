@@ -87,7 +87,18 @@ return {
       },
     },
 
-    input = { enabled = true },
+    input = {
+      enabled = true,
+      win = {
+        keys = {
+          i_ctrl_n = { "<C-n>", "hist_down", mode = "i" },
+          i_ctrl_p = { "<C-p>", "hist_up", mode = "i" },
+          i_meta_bs = { "<M-BS>", "<c-s-w>", mode = "i", expr = true },
+          i_esc = { "<Esc>", "cancel", mode = "i" },
+          i_ctrl_c = { "<C-C>", "cancel", mode = "i" },
+        },
+      },
+    },
 
     notifier = { enabled = true },
 
@@ -178,19 +189,8 @@ return {
     },
 
     styles = {
-      input = {
-        keys = {
-          i_ctrl_n = { "<C-n>", "hist_down", mode = "i" },
-          i_ctrl_p = { "<C-p>", "hist_up", mode = "i" },
-          i_meta_bs = { "<M-BS>", "<c-s-w>", mode = "i", expr = true },
-          i_esc = { "<Esc>", "cancel", mode = "i" },
-          i_ctrl_c = { "<C-C>", "cancel", mode = "i" },
-        },
-      },
-
       notification = { wo = { wrap = true } }, -- Don't truncate notifications
       notification_history = { wo = { number = false, relativenumber = false } },
-
       zen = { wo = { number = false, relativenumber = false, signcolumn = "yes" } },
     },
   },
