@@ -38,8 +38,14 @@ vim.keymap.set({ "n", "o", "x" }, "G", "G$", { desc = "End of buffer" })
 vim.keymap.set("v", "$", "$h", { desc = "End of line" })
 
 -- Increase the amount of scrolling with <C-e> and <C-y>
-vim.keymap.set({ "n", "v" }, "<C-e>", "3<C-e>", { desc = "Scroll down a few lines" })
 vim.keymap.set({ "n", "v" }, "<C-y>", "3<C-y>", { desc = "Scroll up a few lines" })
+vim.keymap.set({ "n", "v" }, "<C-e>", "3<C-e>", { desc = "Scroll down a few lines" })
+
+-- Remap arrow keys to be able to scroll with only one hand on the keyboard
+vim.keymap.set("n", "<Left>", "<C-u>", { desc = "Scroll up half a sreen" })
+vim.keymap.set("n", "<Right>", "<C-d>", { desc = "Scroll down half a sreen" })
+vim.keymap.set("n", "<Up>", "3<C-y>", { desc = "Scroll up a few lines" })
+vim.keymap.set("n", "<Down>", "3<C-e>", { desc = "Scroll down a few lines" })
 
 -- [[ General keymaps ]]
 
