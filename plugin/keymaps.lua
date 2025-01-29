@@ -177,33 +177,29 @@ local function tab_improved()
   end
 end
 local function c_right_improved()
-  if package.loaded.copilot ~= nil and require("copilot.suggestion").is_visible() then
+  if vim.fn.mode() == "i" and package.loaded.copilot ~= nil and require("copilot.suggestion").is_visible() then
     require("copilot.suggestion").accept_word()
   else
     vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<C-Right>", true, false, true), "n", false)
   end
 end
-local c_right_improved_desc = "Accept word in Copilot suggestion or move cursor to next word"
 local function end_improved()
-  if package.loaded.copilot ~= nil and require("copilot.suggestion").is_visible() then
+  if vim.fn.mode() == "i" and package.loaded.copilot ~= nil and require("copilot.suggestion").is_visible() then
     require("copilot.suggestion").accept_line()
   else
     vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<End>", true, false, true), "n", false)
   end
 end
-local end_improved_desc = "Accept line in Copilot suggestion or move cursor to end of line"
 
 vim.keymap.set("i", "<Tab>", tab_improved, { desc = "Accept Copilot suggestion or insert Tab" })
 
 vim.keymap.set({ "i", "c" }, "<C-f>", "<Right>", { desc = "Move cursor one character right" })
 vim.keymap.set({ "i", "c" }, "<C-b>", "<Left>", { desc = "Move cursor one character left" })
 
-vim.keymap.set("i", "<C-^>", c_right_improved, { desc = c_right_improved_desc }) -- <C-,>
-vim.keymap.set("c", "<C-^>", "<C-Right>", { desc = "Move cursor to next word" }) -- <C-,>
+vim.keymap.set({ "i", "c" }, "<C-^>", c_right_improved, { desc = "Move cursor to next word" }) -- <C-,>
 vim.keymap.set({ "i", "c" }, "<C-_>", "<C-Left>", { desc = "Move cursor to previous word" }) -- <C-;>
 
-vim.keymap.set("i", "<C-e>", end_improved, { desc = end_improved_desc })
-vim.keymap.set("c", "<C-e>", "<End>", { desc = "Move cursor to end of line" })
+vim.keymap.set({ "i", "c" }, "<C-e>", end_improved, { desc = "Move cursor to end of line" })
 vim.keymap.set({ "i", "c" }, "<C-a>", "<Home>", { desc = "Move cursor to beginning of line" })
 
 vim.keymap.set("c", "<C-d>", "<C-c>", { desc = "Exit cmdline" })
