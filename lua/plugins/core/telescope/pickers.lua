@@ -367,7 +367,6 @@ end
 function M.git_status()
   builtin.git_status({
     prompt_title = "Git Status",
-    layout_config = { preview_width = 0.6 },
     git_icons = {
       added = "+",
       changed = "~",
@@ -428,7 +427,6 @@ end
 function M.lsp_document_symbols()
   builtin.lsp_document_symbols({
     prompt_title = "Find Symbols",
-    layout_config = { preview_width = 0.6 },
     default_text = visual_mode.is_on() and visual_mode.get_text() or nil,
   })
 end
@@ -436,7 +434,6 @@ end
 function M.lsp_workspace_symbols()
   builtin.lsp_dynamic_workspace_symbols({
     prompt_title = "Find Workspace Symbols",
-    layout_config = { preview_width = 0.5 },
     default_text = visual_mode.is_on() and visual_mode.get_text() or nil,
   })
 end

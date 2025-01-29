@@ -55,7 +55,7 @@ return {
         local visual_mode = require("visual_mode")
         require("telescope").extensions.undo.undo({
           prompt_title = "Find Undotree",
-          layout_config = { preview_width = 0.6 },
+          layout_config = { preview_width = 0.7 },
           tiebreak = function(current, existing, _) return current.index < existing.index end, -- Sort by recency
           default_text = visual_mode.is_on() and visual_mode.get_text() or nil,
         })
