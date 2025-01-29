@@ -202,8 +202,6 @@ vim.keymap.set({ "i", "c" }, "<C-_>", "<C-Left>", { desc = "Move cursor to previ
 vim.keymap.set({ "i", "c" }, "<C-e>", end_improved, { desc = "Move cursor to end of line" })
 vim.keymap.set({ "i", "c" }, "<C-a>", "<Home>", { desc = "Move cursor to beginning of line" })
 
-vim.keymap.set("c", "<C-d>", "<C-c>", { desc = "Exit cmdline" })
-
 -- Disable builtin auto-completion in command-line mode, to avoid triggering it by mistake
 vim.keymap.set("c", "<Tab>", "<Nop>", { silent = true })
 vim.keymap.set("c", "<S-Tab>", "<Nop>", { silent = true })

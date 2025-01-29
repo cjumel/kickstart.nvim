@@ -137,7 +137,6 @@ return {
             ["<C-g>"] = actions.move_to_top, -- Like "go to top"
             ["<C-h>"] = actions.which_key, -- Like "help"
             ["<C-c>"] = actions.close,
-            ["<C-d>"] = actions.close, -- Shell-style exit, consistent with command line keymaps
 
             -- Open actions
             ["<C-x>"] = actions.select_horizontal,
