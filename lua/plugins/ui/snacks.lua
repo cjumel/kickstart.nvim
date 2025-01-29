@@ -103,12 +103,19 @@ return {
     notifier = { enabled = true },
 
     picker = {
-      enabled = true,
+      enabled = true, -- Use Snacks picker for vim.ui.select
       win = {
         input = {
           keys = {
-            ["<Tab>"] = { "list_down", mode = { "n", "i" } },
-            ["<S-Tab>"] = { "list_up", mode = { "n", "i" } },
+            ["<Tab>"] = { "list_down", mode = "i" },
+            ["<S-Tab>"] = { "list_up", mode = "i" },
+            ["<M-BS>"] = { "<c-s-w>", mode = "i", expr = true },
+            ["<Esc>"] = { "cancel", mode = "i" },
+            ["<C-a>"] = false, -- Prefer insert-mode keymap
+            ["<C-e>"] = false, -- Prefer insert-mode keymap
+            ["<C-b>"] = false, -- Prefer insert-mode keymap
+            ["<C-f>"] = false, -- Prefer insert-mode keymap
+            ["<C-u>"] = false, -- Prefer insert-mode keymap
           },
         },
       },
