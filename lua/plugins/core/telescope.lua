@@ -135,7 +135,7 @@ return {
             -- Actions
             -- <C-t> is reserved for picker-specific toggle action
             ["<CR>"] = actions.select_default,
-            ["<S-CR>"] = actions.toggle_selection + actions.move_selection_next,
+            ["<C-s>"] = actions.toggle_selection + actions.move_selection_next,
             ["<Tab>"] = actions.move_selection_next,
             ["<S-Tab>"] = actions.move_selection_previous,
             ["<C-n>"] = actions.move_selection_next,
