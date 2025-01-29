@@ -18,7 +18,7 @@ end
 --- Output the name of the current Python test function using Treesitter, or nil if none can be found.
 ---@return string|nil
 function M.get_test_function_name()
-  local node = vim.treesitter.get_node() -- Get the Teesitter node under the cursor
+  local node = vim.treesitter.get_node() -- Get the Treesitter node under the cursor
   while node ~= nil do
     if node:type() == "function_definition" then
       local name_nodes = node:field("name")
