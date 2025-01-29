@@ -58,7 +58,7 @@ local function find_files_get_base_opts()
 
   local opts = {
     attach_mappings = function(_, map)
-      map({ "i", "n" }, "<C-\\>", toggle_all_files)
+      map({ "i", "n" }, "<C-t>", toggle_all_files)
       return true -- Enable default mappings
     end,
     _include_all_files = false,
@@ -179,7 +179,7 @@ local function find_directories_get_base_opts()
 
   local opts = {
     attach_mappings = function(_, map)
-      map({ "i", "n" }, "<C-\\>", toggle_all_files)
+      map({ "i", "n" }, "<C-t>", toggle_all_files)
       return true -- Enable default mappings
     end,
     _include_all_files = false,
@@ -266,7 +266,7 @@ local function live_grep_get_base_opts()
   local opts = {
     layout_strategy = "vertical",
     attach_mappings = function(_, map)
-      map({ "i", "n" }, "<C-\\>", toggle_all_files)
+      map({ "i", "n" }, "<C-t>", toggle_all_files)
       return true -- Enable default mappings
     end,
     _include_all_files = false,

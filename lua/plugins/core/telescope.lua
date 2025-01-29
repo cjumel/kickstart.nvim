@@ -132,71 +132,39 @@ return {
       defaults = {
         default_mappings = {
           i = {
-            -- General insert-mode actions
+            -- Actions
+            -- <C-t> is reserved for picker-specific toggle action
             ["<CR>"] = actions.select_default,
             ["<S-CR>"] = actions.toggle_selection + actions.move_selection_next,
             ["<Tab>"] = actions.move_selection_next,
-            ["<C-n>"] = actions.move_selection_next,
             ["<S-Tab>"] = actions.move_selection_previous,
+            ["<C-n>"] = actions.move_selection_next,
             ["<C-p>"] = actions.move_selection_previous,
-            ["<C-]>"] = layout_actions.toggle_preview,
+            ["<C-c>"] = actions.close,
+            ["<Esc>"] = actions.close,
+            ["<C-v>"] = layout_actions.toggle_preview, -- Like "toggle view"
             ["<C-g>"] = actions.move_to_top, -- Like "go to top"
             ["<C-h>"] = actions.which_key, -- Like "help"
-            ["<C-c>"] = actions.close,
-
-            -- Open actions
-            ["<C-x>"] = actions.select_horizontal,
-            ["<C-v>"] = actions.select_vertical,
-            ["<C-t>"] = actions.select_tab,
             ["<C-l>"] = custom_actions.smart_open_loclist,
             ["<C-q>"] = custom_actions.smart_open_quickfix,
-
-            -- Preview actions
             ["<C-j>"] = actions.preview_scrolling_down,
             ["<C-k>"] = actions.preview_scrolling_up,
 
-            -- Fix isert-mode delete word action
+            -- Fix delete word keymap
             ["<C-w>"] = { "<C-S-w>", type = "command" },
             ["<M-BS>"] = { "<C-S-w>", type = "command" },
           },
           n = {
-            -- General insert-mode actions
+            -- Actions
+            -- The normal mode is only used for the buffers picker, so let's keep the minimum amount of actions
             ["<CR>"] = actions.select_default,
-            ["<S-CR>"] = actions.toggle_selection + actions.move_selection_next,
             ["<Tab>"] = actions.move_selection_next,
-            ["<C-n>"] = actions.move_selection_next,
             ["<S-Tab>"] = actions.move_selection_previous,
-            ["<C-p>"] = actions.move_selection_previous,
-            ["<C-]>"] = layout_actions.toggle_preview,
-            ["<C-g>"] = actions.move_to_top, -- Like "go to top"
-            ["<C-h>"] = actions.which_key, -- Like "help"
-            ["<C-c>"] = actions.close,
-            ["<C-d>"] = actions.close, -- Shell-style exit, consistent with command line keymaps
-
-            -- General normal-mode actions
             ["j"] = actions.move_selection_next,
             ["k"] = actions.move_selection_previous,
-            ["G"] = actions.move_to_bottom,
-            ["gg"] = actions.move_to_top,
-            ["s"] = actions.toggle_selection + actions.move_selection_next,
-            ["?"] = actions.which_key,
             ["q"] = actions.close,
             ["<Esc>"] = actions.close,
-
-            -- Open actions
-            ["<C-x>"] = actions.select_horizontal,
-            ["<C-v>"] = actions.select_vertical,
-            ["<C-t>"] = actions.select_tab,
-            ["<C-l>"] = custom_actions.smart_open_loclist,
-            ["<C-q>"] = custom_actions.smart_open_quickfix,
-
-            -- Preview actions
-            ["<C-j>"] = actions.preview_scrolling_down,
-            ["<C-k>"] = actions.preview_scrolling_up,
-            ["H"] = actions.preview_scrolling_left,
-            ["J"] = actions.preview_scrolling_down,
-            ["K"] = actions.preview_scrolling_up,
-            ["L"] = actions.preview_scrolling_right,
+            ["?"] = actions.which_key,
           },
         },
         file_ignore_patterns = { "%.git/" }, -- Exclude in all searches (even when hidden & ignored files are included)
