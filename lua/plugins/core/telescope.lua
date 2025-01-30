@@ -180,7 +180,7 @@ return {
             prompt_position = "top",
             mirror = true, -- Move preview to the bottom instead of above the prompt
             width = { 0.8, max = 150 },
-            preview_height = 0.5,
+            preview_height = 0.4, -- Make results & preview windows approximately the same size
             preview_cutoff = 20,
           },
         },
