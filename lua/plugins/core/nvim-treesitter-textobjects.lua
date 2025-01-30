@@ -128,6 +128,12 @@ return {
           "hunk"
         )
         map(
+          "x",
+          function() require("git-conflict").find_next("ours") end,
+          function() require("git-conflict").find_prev("ours") end,
+          "conflict"
+        )
+        map(
           "t",
           function() require("todo-comments").jump_next() end,
           function() require("todo-comments").jump_prev() end,

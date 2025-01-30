@@ -10,7 +10,7 @@ return {
     { "<C-w>", desc = "Window Hydra" },
     { "<leader>d", desc = "[D]ebug Hydra" },
     { "<leader>h", mode = { "n", "v" }, desc = "[H]unk Hydra" },
-    { "<leader>gc", desc = "[G]it: [C]onflict Hydra" },
+    { "<leader>x", desc = "Conflict Hydra" },
   },
   opts = {
     invoke_on_body = true,
@@ -143,13 +143,13 @@ return {
     })
 
     Hydra({
-      body = "<leader>gc",
+      body = "<leader>x",
       config = {
-        desc = "[G]it: [C]onflict Hydra",
+        desc = "Conflict Hydra",
         color = "pink", -- Enable other keymaps while the Hydra is open
       },
       hint = [[
-                         Git conflict Hydra
+                           Conflict Hydra
    _b_ ➜ Choose [B]oth   _o_ ➜ Choose [O]urs    _,_ ➜ Next conflict   
    _n_ ➜ Choose [N]one   _t_ ➜ Choose [T]eirs   _;_ ➜ Previous conflict   
 ]],
