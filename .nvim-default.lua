@@ -173,6 +173,13 @@ return {
   -- all files.
   disable_lint_on_fts = false,
 
+  -- Set `documentation_convention_by_ft` to a mapping between filetypes and names of documentation convention to use.
+  -- See Neogen (https://github.com/danymat/neogen) for the builtin available conventions, and
+  -- lua/plugins/core/neogen.lua for the custom ones.
+  documentation_convention_by_ft = {
+    python = "google_docstrings_custom",
+  },
+
   -- Set `tooling_blacklist_path_patterns` to a list of path patterns to exclude the files matching those patterns from
   -- all tooling (format on save and lint).
   tooling_blacklist_path_patterns = {
