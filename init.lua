@@ -24,6 +24,11 @@ vim.g.maplocalleader = "  "
 Metaconfig = require("meta_config")
 Theme = require("theme")
 
+-- Setup environment variables defined in `Metaconfig`
+for key, value in pairs(Metaconfig.environment_variables or {}) do
+  vim.fn.setenv(key, value)
+end
+
 -- Setup lazy.nvim
 require("lazy").setup({
   spec = {

@@ -8,6 +8,10 @@ return {
   -- when no GitHub Copilot subscription is available.
   disable_copilot = false,
 
+  -- Set `environment_variables` to a mapping between environment variable names and their values to automatically set
+  -- them.
+  environment_variables = {},
+
   -- Set `treesitter_ensure_installed` to a list of Treesitter languages which are automatically installed on Neovim
   -- startup, if missing
   treesitter_ensure_installed = {
