@@ -1,9 +1,15 @@
 local conds = require("plugins.core.luasnip.conditions")
+
 local ls = require("luasnip")
+local ls_extras = require("luasnip.extras")
 local ls_show_conds = require("luasnip.extras.conditions.show")
 
+local c = ls.choice_node
 local i = ls.insert_node
+local r = ls.restore_node
+local rep = ls_extras.rep
 local s = ls.snippet
+local sn = ls.snippet_node
 local t = ls.text_node
 
 -- Condition to avoid triggering a snippet inside a string or a comment
@@ -177,6 +183,76 @@ return {
     i(1),
     t(" else "),
     i(2),
+  }),
+  s({
+    trig = "if .. isinstance .. raise",
+    show_condition = conds.line_begin * ls_show_conds.line_end * is_in_code_condition,
+    desc = [[
+Choices:
+- `if isinstance(..): raise TypeError(..)`
+- `if not isinstance(..): raise TypeError(..)`]],
+  }, {
+    c(1, {
+      sn(nil, {
+        t("if isinstance("),
+        r(1, "variable", i(nil)),
+        t(", "),
+        r(2, "type", i(nil)),
+        t({ "):", "\t" }),
+        t([[raise TypeError("Expected ']]),
+        rep(1),
+        t([[' not to be of type ']]),
+        rep(2),
+        t([['")]]),
+        i(3), -- To be able to switch choice node while at the end
+      }),
+      sn(nil, {
+        t("if not isinstance("),
+        r(1, "variable"),
+        t(", "),
+        r(2, "type"),
+        t({ "):", "\t" }),
+        t([[raise TypeError(f"Expected ']]),
+        rep(1),
+        t([[' to be of type ']]),
+        rep(2),
+        t([[' but got '{type(]]),
+        rep(1),
+        t([[)}'")]]),
+        i(3), -- To be able to switch choice node while at the end
+      }),
+    }),
+  }),
+  s({
+    trig = "if .. None .. raise",
+    show_condition = conds.line_begin * ls_show_conds.line_end * is_in_code_condition,
+    desc = [[
+Choices:
+- `if .. is None: raise ValueError(..)`
+- `if .. is not None: raise ValueError(..)`]],
+  }, {
+    c(1, {
+      sn(nil, {
+        t("if "),
+        r(1, "variable", i(nil)),
+        t({ " is None:", "\t" }),
+        t([[raise ValueError("Expected ']]),
+        rep(1),
+        t([[' to be not None")]]),
+        i(2), -- To be able to switch choice node while at the end
+      }),
+      sn(nil, {
+        t("if "),
+        r(1, "variable"),
+        t({ " is not None:", "\t" }),
+        t([[raise ValueError(f"Expected ']]),
+        rep(1),
+        t([[' to be None but got '{]]),
+        rep(1),
+        t([[}'")]]),
+        i(2), -- To be able to switch choice node while at the end
+      }),
+    }),
   }),
 
   s({
