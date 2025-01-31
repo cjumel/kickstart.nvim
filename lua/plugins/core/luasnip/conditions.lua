@@ -1,4 +1,4 @@
--- Define custom conditions and related utilities used throughout the various snippets, similarly to
+-- Define custom conditions and related utilities, to use throughout the various custom snippets, similarly to
 -- `luasnip.extras.conditions` and `luasnip.extras.conditions.show`.
 
 local ls_conds = require("luasnip.extras.conditions")
@@ -7,13 +7,12 @@ local M = {}
 
 -- During a completion suggestion, the trigger is the string that triggered the suggestion (typically a few letters).
 -- Here, a matched trigger is considered to be everything after the last white space or punctuation mark in the current
---  line, before the cursor (this is true as long as the matched trigger doesn't have white spaces or punctuation marks
---  itself, which is a good assumption as `nvim-cmp` doesn't take them into account when completing).
+-- line, before the cursor (this is true as long as the matched trigger doesn't have white spaces or punctuation marks
+-- itself, which is a good assumption as `nvim-cmp` doesn't take them into account when completing).
 local separator_pattern = "[%s%p]"
 -- The matched trigger pattern can be used to filter out the matched trigger from the current line when evaluating show
---  conditions.
--- In the following pattern, the first capturing group captures greedily everything until a separator is found (since
---  it's greedy, it will capture everything until the last occurence).
+-- conditions. In the following pattern, the first capturing group captures greedily everything until a separator is
+-- found (since it's greedy, it will capture everything until the last occurence).
 local matched_trigger_pattern = "(.*)" .. separator_pattern .. "(.*)$"
 
 --- Output the current line up until the matched trigger (typically the word which is being typed) but without it. This
@@ -38,15 +37,14 @@ local function get_treesitter_node(line_to_cursor)
   if matched_trigger == nil then
     matched_trigger = ""
   end
-
   local _, row, col, _, _ = unpack(vim.fn.getcurpos())
   local node = vim.treesitter.get_node({ pos = { row - 1, col - #matched_trigger - 1 } })
   return node
 end
 
 --- Condition making sure the current Treesitter node's type is included in the provided node types.
---- @param node_types string[] The node types to be included.
---- @return table
+---@param node_types string[] The node types to be included.
+---@return table
 M.make_treesitter_node_inclusion_condition = function(node_types)
   return ls_conds.make_condition(function(line_to_cursor)
     local is_treesitter_parsable_, node = pcall(get_treesitter_node, line_to_cursor)
@@ -61,8 +59,8 @@ M.make_treesitter_node_inclusion_condition = function(node_types)
 end
 
 --- Condition making sure the current Treesitter node's type is excluded from the provided node types.
---- @param node_types string[] The node types to be excluded from.
---- @return table
+---@param node_types string[] The node types to be excluded from.
+---@return table
 M.make_treesitter_node_exclusion_condition = function(node_types)
   return ls_conds.make_condition(function(line_to_cursor)
     local is_treesitter_parsable_, node = pcall(get_treesitter_node, line_to_cursor)
@@ -77,8 +75,8 @@ M.make_treesitter_node_exclusion_condition = function(node_types)
 end
 
 --- Condition making sure the current Treesitter node's ancestor types don't match the provided node types.
---- @param node_types string[] The ancestor node types to not match, bottom to top.
---- @return table
+---@param node_types string[] The ancestor node types to not match, bottom to top.
+---@return table
 M.make_treesitter_node_ancestors_exclusion_condition = function(node_types)
   return ls_conds.make_condition(function(line_to_cursor)
     local is_treesitter_parsable_, node = pcall(get_treesitter_node, line_to_cursor)
@@ -88,7 +86,6 @@ M.make_treesitter_node_ancestors_exclusion_condition = function(node_types)
     if not node then -- E.g. very beginning of the buffer
       return true
     end
-
     for _, node_type in ipairs(node_types) do
       if node == nil or node:type() ~= node_type then
         return true
@@ -100,8 +97,8 @@ M.make_treesitter_node_ancestors_exclusion_condition = function(node_types)
 end
 
 --- Condition making sure the current Treesitter node's ancestor types match the provided node types.
---- @param node_types string[] The ancestor node types to match, bottom to top.
---- @return table
+---@param node_types string[] The ancestor node types to match, bottom to top.
+---@return table
 M.make_treesitter_node_ancestors_inclusion_condition = function(node_types)
   return ls_conds.make_condition(function(line_to_cursor)
     local is_treesitter_parsable_, node = pcall(get_treesitter_node, line_to_cursor)
@@ -172,7 +169,6 @@ local function is_comment_start_function(line_to_cursor)
     return false
   end
   local commentstring_prefix = string.sub(vim.bo.commentstring, 1, #vim.bo.commentstring - 2)
-
   local line_to_trigger = get_line_to_trigger(line_to_cursor)
   local line_to_trigger_end =
     string.sub(line_to_trigger, #line_to_trigger - #commentstring_prefix + 1, #line_to_trigger)

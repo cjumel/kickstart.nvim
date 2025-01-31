@@ -9,8 +9,8 @@ local sn = ls.snippet_node
 local t = ls.text_node
 
 -- Names are taken from https://www.conventionalcommits.org/en/v1.0.0/#specification, but descriptions are a mix from
---  the Gitmoji equivalent, in https://gitmoji.dev/, and a Conventional Commits cheat sheet, in
---  https://kapeli.com/cheat_sheets/Conventional_Commits.docset/Contents/Resources/Documents/index
+-- the Gitmoji equivalent, in https://gitmoji.dev/, and a Conventional Commits cheat sheet, in
+-- https://kapeli.com/cheat_sheets/Conventional_Commits.docset/Contents/Resources/Documents/index
 local conventional_commits_data = {
   { name = "build", desc = "Add or update the build system or external dependencies." },
   { name = "chore", desc = "Other changes." },

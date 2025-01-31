@@ -9,25 +9,25 @@ local s = ls.snippet
 local sn = ls.snippet_node
 local t = ls.text_node
 
+-- Condition to avoid triggering a snippet inside a string or a comment
+local is_in_code_condition = conds.make_treesitter_node_exclusion_condition({
+  "comment",
+  "comment_content",
+  "string",
+  "string_content",
+  "table_constructor",
+})
+
 return {
   -- lua-ls provides a `local function` snippet
   s({
     trig = "local .. = ..",
-    show_condition = conds.make_treesitter_node_exclusion_condition({
-      "comment",
-      "comment_content",
-      "string",
-      "string_content",
-      "table_constructor",
-    }),
+    show_condition = is_in_code_condition,
     desc = [[`local .. = <../require("..")>`]],
   }, {
     t("local "),
     i(1),
     t(" = "),
-    c(2, {
-      i(1),
-      sn(nil, { t('require("'), i(1), t('")') }),
-    }),
+    c(2, { i(1), sn(nil, { t('require("'), i(1), t('")') }) }),
   }),
 }

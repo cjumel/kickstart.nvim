@@ -1,6 +1,7 @@
 local ls = require("luasnip")
 
-local custom_conditions = require("plugins.core.luasnip.conditions")
+local conds = require("plugins.core.luasnip.conditions")
+local ls_show_conds = require("luasnip.extras.conditions.show")
 
 local i = ls.insert_node
 local s = ls.snippet
@@ -8,16 +9,19 @@ local t = ls.text_node
 
 return {
   s(
-    { trig = "alias", show_condition = custom_conditions.line_begin },
+    { trig = "alias", show_condition = conds.line_begin * ls_show_conds.line_end },
     { t("alias "), i(1, "name"), t("='"), i(2), t("'") }
   ),
   s(
-    { trig = "export", show_condition = custom_conditions.line_begin },
+    { trig = "export", show_condition = conds.line_begin * ls_show_conds.line_end },
     { t("export "), i(1, "name"), t("='"), i(2), t("'") }
   ),
   s(
-    { trig = "function", show_condition = custom_conditions.line_begin },
+    { trig = "function", show_condition = conds.line_begin * ls_show_conds.line_end },
     { t("function "), i(1, "name"), t("("), i(2), t({ ") { ", "\t" }), i(3), t({ "", "}" }) }
   ),
-  s({ trig = "local", show_condition = custom_conditions.line_begin }, { t("local "), i(1, "name"), t("="), i(2) }),
+  s(
+    { trig = "local", show_condition = conds.line_begin * ls_show_conds.line_end },
+    { t("local "), i(1, "name"), t("="), i(2) }
+  ),
 }

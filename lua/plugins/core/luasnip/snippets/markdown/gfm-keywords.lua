@@ -1,3 +1,5 @@
+-- Additional keywords for GitHub Flavored Markdown
+
 local conds = require("plugins.core.luasnip.conditions")
 local ls = require("luasnip")
 local ls_show_conds = require("luasnip.extras.conditions.show")
@@ -10,15 +12,12 @@ local sn = ls.snippet_node
 local t = ls.text_node
 
 return {
-
   s({
     trig = "@me",
     desc = [[
 `@cjumel`
 (GitHub Flavored Markdown)]],
-  }, {
-    t("@cjumel"),
-  }),
+  }, { t("@cjumel") }),
 
   s({
     trig = "checkbox",

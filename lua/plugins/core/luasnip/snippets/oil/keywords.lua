@@ -1,6 +1,3 @@
--- To avoid implementing all usable file names under the sun in these snippets, let's stick to only file extensions and
--- names of files which are likely to be used several times per project (e.g. `init.lua` or `README.md`).
-
 local conds = require("plugins.core.luasnip.conditions")
 local ls = require("luasnip")
 local ls_conds = require("luasnip.extras.conditions")
@@ -11,6 +8,10 @@ local s = ls.snippet
 local sn = ls.snippet_node
 local t = ls.text_node
 
+--- Output a Luasnip condition for file extensions. This condition is true if it exists at least one file with the same
+--- extension in the Oil directory, or any parent of this directly up until the current working directory.
+---@param extension string The file extension.
+---@return table
 local function make_file_extension_condition(extension)
   return ls_conds.make_condition(function()
     return not vim.tbl_isempty(vim.fs.find(function(name, _)
@@ -25,6 +26,10 @@ local function make_file_extension_condition(extension)
   end)
 end
 
+--- Output a Luasnip condition for file names. This condition is true if no file with the same name exists in the Oil
+--- directory.
+---@param filename string The file name (including the extension).
+---@return table
 local function make_filename_condition(filename)
   return ls_conds.make_condition(function()
     local oil = require("oil")
@@ -36,6 +41,12 @@ local function make_filename_condition(filename)
   end)
 end
 
+--- Output a function creating a Luasnip snippet node for a dynamic file index. The index is an empty string if no file
+--- with the base name and extension already exists, otherwise, it is a string with "_" and the first index which makes
+--- the combination of base name, index and extension a non-existing file.
+---@param base_name string The base name of the file (without the extension).
+---@param extension string The file extension.
+---@return function
 local function make_dynamic_file_index_node(base_name, extension)
   return function(_)
     local oil = require("oil")
@@ -43,22 +54,25 @@ local function make_dynamic_file_index_node(base_name, extension)
     if dir_path == nil then
       return sn(nil, {})
     end
-
     if vim.fn.filereadable(dir_path .. base_name .. extension) == 0 then
       return sn(nil, {})
     end
-
     for i = 1, 99 do
       local suffix = "_" .. tostring(i)
       if vim.fn.filereadable(dir_path .. base_name .. suffix .. extension) == 0 then
         return sn(nil, { t(suffix) })
       end
     end
-
     return sn(nil, {})
   end
 end
 
+--- Output a function creating a Luasnip snippet node for a dynamic file date. The date is made of a raw date string,
+--- if no file with the base name and extension already exists, otherwise, it is concatenated with a string with "_" and
+--- the first index which makes the combination of base name, date (with index) and extension a non-existing file.
+---@param base_name string The base name of the file (without the extension).
+---@param extension string The file extension.
+---@return function
 local function make_dynamic_file_date_node(base_name, extension)
   return function(_)
     local oil = require("oil")
@@ -66,31 +80,27 @@ local function make_dynamic_file_date_node(base_name, extension)
     if dir_path == nil then
       return sn(nil, {})
     end
-
     local date = os.date("%Y-%m-%d")
     local suffix = "_" .. date -- Format suitable for alphanumeric order
     if vim.fn.filereadable(dir_path .. base_name .. suffix .. extension) == 0 then
       return sn(nil, { t(suffix) })
     end
-
     for i = 1, 99 do
       suffix = "_" .. date .. "_" .. tostring(i)
       if vim.fn.filereadable(dir_path .. base_name .. suffix .. extension) == 0 then
         return sn(nil, { t(suffix) })
       end
     end
-
     return sn(nil, {})
   end
 end
 
 -- When typing a trigger with a "." prefix, the "." is not part of the trigger, but it is replaced by the snippet.
---  Consequently, to enforce the line begin condition, we actually need a prefix condition instead, and to enforce the
---  non-line-begin condition, we also need a non-prefix condition.
+-- Consequently, to enforce the line begin condition, we actually need a prefix condition instead, and to enforce the
+-- non-line-begin condition, we also need a non-prefix condition.
 local dot_prefix_condition = conds.make_prefix_condition(".")
 
 return {
-  -- JSON
   s({
     trig = ".json",
     show_condition = -dot_prefix_condition
@@ -99,7 +109,6 @@ return {
       * make_file_extension_condition("json"),
   }, { t(".json") }),
 
-  -- Lua
   s({
     trig = ".lua",
     show_condition = -dot_prefix_condition
@@ -119,7 +128,6 @@ return {
     show_condition = conds.line_begin * ls_show_conds.line_end * make_file_extension_condition("lua"),
   }, { t("temp"), d(1, make_dynamic_file_index_node("temp", ".lua")), t(".lua") }),
 
-  -- Markdown
   s({
     trig = ".md",
     show_condition = -dot_prefix_condition * -conds.line_begin * ls_show_conds.line_end,
@@ -137,7 +145,6 @@ return {
     show_condition = conds.line_begin * ls_show_conds.line_end * make_filename_condition("TODO.md"),
   }, { t("TODO.md") }),
 
-  -- Python
   s({
     trig = ".py",
     show_condition = -dot_prefix_condition
@@ -157,7 +164,6 @@ return {
     show_condition = conds.line_begin * ls_show_conds.line_end * make_file_extension_condition("py"),
   }, { t("temp"), d(1, make_dynamic_file_index_node("temp", ".py")), t(".py") }),
 
-  -- Rust
   s({
     trig = ".rs",
     show_condition = -dot_prefix_condition
@@ -170,7 +176,6 @@ return {
     show_condition = conds.line_begin * ls_show_conds.line_end * make_file_extension_condition("rs"),
   }, { t("temp"), d(1, make_dynamic_file_index_node("temp", ".rs")), t(".rs") }),
 
-  -- Shell
   s({
     trig = ".sh",
     show_condition = -dot_prefix_condition
@@ -179,7 +184,6 @@ return {
       * make_file_extension_condition("sh"),
   }, { t(".sh") }),
 
-  -- TOML
   s({
     trig = ".toml",
     show_condition = -dot_prefix_condition
@@ -188,7 +192,6 @@ return {
       * make_file_extension_condition("toml"),
   }, { t(".toml") }),
 
-  -- Text
   s({
     trig = ".txt",
     show_condition = -dot_prefix_condition
@@ -197,7 +200,6 @@ return {
       * make_file_extension_condition("txt"),
   }, { t(".txt") }),
 
-  -- Typset
   s({
     trig = ".typ",
     show_condition = -dot_prefix_condition
@@ -206,7 +208,6 @@ return {
       * make_file_extension_condition("typ"),
   }, { t(".typ") }),
 
-  -- YAML
   s({
     trig = ".yaml",
     show_condition = -dot_prefix_condition
@@ -222,7 +223,6 @@ return {
       * make_file_extension_condition("yml"),
   }, { t(".yml") }),
 
-  -- Zshell
   s({
     trig = ".zsh",
     show_condition = -dot_prefix_condition

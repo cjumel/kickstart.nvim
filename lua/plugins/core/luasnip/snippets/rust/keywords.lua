@@ -36,7 +36,6 @@ return {
     i(2),
     t(";"),
   }),
-
   s({
     trig = "let mut",
     show_condition = conds.line_begin * ls_show_conds.line_end,

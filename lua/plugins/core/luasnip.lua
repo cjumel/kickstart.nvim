@@ -1,8 +1,8 @@
 -- LuaSnip
 --
--- Luasnip is a snippet Engine for Neovim. It is very easy to use and configure, and has a lot of powerful features like
--- choice, dynamic or repeat nodes, making possible to add custom logic to snippets. Overall, it makes really great the
--- experience of creating heavily customized snippets, like smart docstrings, to generic todo-comment snippets.
+-- Snippet Engine for Neovim written in Lua. This plugin is quite easy to use and customize while also being very
+-- powerful (e.g. with choice, dynamic or repeat nodes). It really improves the experience with snippets over the
+-- builtin Neovim ones.
 
 return {
   "L3MON4D3/LuaSnip",
@@ -14,7 +14,6 @@ return {
     local ls = require("luasnip")
     ls.setup(opts)
 
-    -- Lazy load custom snippets
     local ls_lua_loader = require("luasnip.loaders.from_lua")
     ls_lua_loader.lazy_load({ paths = { vim.fn.stdpath("config") .. "/lua/plugins/core/luasnip/snippets" } })
 
