@@ -56,32 +56,30 @@ vim.keymap.set("n", "<leader>!", vim.diagnostic.open_float, { desc = "Expand dia
 vim.keymap.set({ "n", "v" }, "<C-^>", "}", { desc = "Next paragraph" }) -- <C-,>
 vim.keymap.set({ "n", "v" }, "<C-_>", "{", { desc = "Previous paragraph" }) -- <C-;>
 
---- Clear normal-mode artifacts, like Noice notifications. This will close the Noice command-line popup if it's open,
---- so this should not be used in command-line mode when using Noice.
----@return nil
-local function clear_normal_mode_artifacts()
+vim.keymap.set("n", "<Esc>", function()
   vim.cmd("nohlsearch") -- Clear search highlights in case `vim.o.hlsearch` is true
   if package.loaded.noice ~= nil then
     require("noice").cmd("dismiss") -- Clear Noice messages
   end
-end
-
---- Clear insert-mode artifacts, like nvim-cmp completion suggestions.
----@return nil
-local function clear_insert_mode_artifacts()
-  if package.loaded.cmp ~= nil then -- Clear nvim-cmp suggestion
-    require("cmp").abort()
+end, { desc = "Clear" })
+vim.keymap.set("i", "<C-c>", function()
+  if package.loaded.noice ~= nil then
+    require("noice").cmd("dismiss") -- Clear Noice messages (especially useful for LSP signature)
+  end
+  if package.loaded.cmp ~= nil then
+    require("cmp").abort() -- Clear nvim-cmp suggestion
   end
   if package.loaded.copilot ~= nil then
     if require("copilot.suggestion").is_visible() then
       require("copilot.suggestion").dismiss() -- Clear copilot.lua suggestion
     end
   end
-end
-
-vim.keymap.set("n", "<Esc>", clear_normal_mode_artifacts, { desc = "Clear" }) -- <Esc> is only available in normal mode
-vim.keymap.set({ "n", "v" }, "<C-c>", clear_normal_mode_artifacts, { desc = "Clear" })
-vim.keymap.set({ "i", "c" }, "<C-c>", clear_insert_mode_artifacts, { desc = "Clear" })
+end, { desc = "Clear" })
+vim.keymap.set("c", "<C-c>", function()
+  if package.loaded.cmp ~= nil then
+    require("cmp").abort() -- Clear nvim-cmp suggestion
+  end
+end, { desc = "Clear" })
 
 vim.keymap.set("v", "<Tab>", ">gv", { desc = "Indent selection" })
 vim.keymap.set("v", "<S-Tab>", "<gv", { desc = "Unindent selection" })
