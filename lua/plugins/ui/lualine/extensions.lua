@@ -33,6 +33,7 @@ function M.build_extensions(sections)
         "NeogitRebasePopup",
         "NeogitResetPopup",
         "NeogitStatus",
+        "OverseerList",
         "snacks_dashboard",
         "snacks_picker_input",
         "TelescopePrompt",
