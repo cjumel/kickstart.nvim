@@ -24,17 +24,17 @@ return {
     show_condition = conds.line_begin,
     desc = [[
 Multiple-choice snippet:
-- `- [ ] ..` (todo)
-- `- [-] ..` (WIP)
-- `- [x] ..` (done)
-- `- [/] ..` (cancelled)
+- `- [ ] …` (todo)
+- `- [-] …` (WIP)
+- `- [x] …` (done)
+- `- [/] …` (cancelled)
 (GitHub Flavored Markdown)]],
   }, {
     c(1, {
-      sn(nil, { t("- [ ] "), r(1, "content", i(nil)) }), -- Todo
-      sn(nil, { t("- [-] "), r(1, "content") }), -- Wip
-      sn(nil, { t("- [x] "), r(1, "content") }), -- Done
-      sn(nil, { t("- [/] "), r(1, "content") }), -- Cancelled
+      sn(nil, { t("- [ ] "), r(1, "content", i(nil)) }),
+      sn(nil, { t("- [-] "), r(1, "content") }),
+      sn(nil, { t("- [x] "), r(1, "content") }),
+      sn(nil, { t("- [/] "), r(1, "content") }),
     }),
   }),
 
@@ -43,9 +43,9 @@ Multiple-choice snippet:
     show_condition = conds.line_begin * ls_show_conds.line_end,
     desc = [[
 `<details>`
-`<summary>..<\summary>`
+`<summary>…<\summary>`
 
-`..`
+`…`
 
 `<\details>`
 (GitHub Flavored Markdown)]],

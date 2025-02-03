@@ -27,7 +27,7 @@ return {
     show_condition = (conds.line_begin + conds.make_prefix_condition("async "))
       * ls_show_conds.line_end
       * is_in_code_condition,
-    desc = [[`def ..(..) -> ..: ..`]],
+    desc = [[`def …(…) -> …: …`]],
   }, {
     t("def "),
     i(1),
@@ -40,11 +40,11 @@ return {
   }),
 
   s({
-    trig = "for .. in",
+    trig = "for",
     show_condition = (conds.line_begin + conds.make_prefix_condition("async "))
       * ls_show_conds.line_end
       * is_in_code_condition,
-    desc = [[`for .. in ..: ..`]],
+    desc = [[`for … in …: …`]],
   }, {
     t("for "),
     i(1),
@@ -54,9 +54,9 @@ return {
     i(3),
   }),
   s({
-    trig = "for .. in", -- Inline version
+    trig = "for", -- Inline version
     show_condition = -(conds.line_begin + conds.make_prefix_condition("async ")) * is_in_code_condition,
-    desc = [[`for .. in ..`]],
+    desc = [[`for … in …`]],
   }, {
     t("for "),
     i(1),
@@ -64,11 +64,11 @@ return {
     i(2),
   }),
   s({
-    trig = "for .. enumerate",
+    trig = "for … enumerate",
     show_condition = (conds.line_begin + conds.make_prefix_condition("async "))
       * ls_show_conds.line_end
       * is_in_code_condition,
-    desc = [[`for .. in enumerate(..): ..`]],
+    desc = [[`for … in enumerate(…): …`]],
   }, {
     t("for "),
     i(1),
@@ -80,9 +80,9 @@ return {
     i(4),
   }),
   s({
-    trig = "for .. enumerate", -- Inline version
+    trig = "for … enumerate", -- Inline version
     show_condition = -(conds.line_begin + conds.make_prefix_condition("async ")) * is_in_code_condition,
-    desc = [[`for .. in enumerate(..)`]],
+    desc = [[`for … in enumerate(…)`]],
   }, {
     t("for "),
     i(1),
@@ -93,11 +93,11 @@ return {
     t(")"),
   }),
   s({
-    trig = "for .. range",
+    trig = "for … range",
     show_condition = (conds.line_begin + conds.make_prefix_condition("async "))
       * ls_show_conds.line_end
       * is_in_code_condition,
-    desc = [[`for .. in range(..): ..`]],
+    desc = [[`for … in range(…): …`]],
   }, {
     t("for "),
     i(1),
@@ -107,9 +107,9 @@ return {
     i(3),
   }),
   s({
-    trig = "for .. range", -- Inline version
+    trig = "for … range", -- Inline version
     show_condition = -(conds.line_begin + conds.make_prefix_condition("async ")) * is_in_code_condition,
-    desc = [[`for .. in range(..)`]],
+    desc = [[`for … in range(…)`]],
   }, {
     t("for "),
     i(1),
@@ -118,11 +118,11 @@ return {
     t(")"),
   }),
   s({
-    trig = "for .. zip",
+    trig = "for … zip",
     show_condition = (conds.line_begin + conds.make_prefix_condition("async "))
       * ls_show_conds.line_end
       * is_in_code_condition,
-    desc = [[`for .. in zip(..): ..`]],
+    desc = [[`for … in zip(…): …`]],
   }, {
     t("for "),
     i(1),
@@ -136,9 +136,9 @@ return {
     i(5),
   }),
   s({
-    trig = "for .. zip", -- Inline version
+    trig = "for … zip", -- Inline version
     show_condition = -(conds.line_begin + conds.make_prefix_condition("async ")) * is_in_code_condition,
-    desc = [[`for .. in zip(..)`]],
+    desc = [[`for … in zip(…)`]],
   }, {
     t("for "),
     i(1),
@@ -152,9 +152,9 @@ return {
   }),
 
   s({
-    trig = "from .. import",
+    trig = "from … import",
     show_condition = conds.line_begin * ls_show_conds.line_end * is_in_code_condition,
-    desc = [[`from .. import ..`]],
+    desc = [[`from … import …`]],
   }, {
     t("from "),
     i(1),
@@ -162,9 +162,9 @@ return {
     i(2),
   }),
   s({
-    trig = "from .. import .. as",
+    trig = "from … import … as",
     show_condition = conds.line_begin * ls_show_conds.line_end * is_in_code_condition,
-    desc = [[`from .. import .. as`]],
+    desc = [[`from … import … as`]],
   }, {
     t("from "),
     i(1),
@@ -175,9 +175,9 @@ return {
   }),
 
   s({
-    trig = "if .. else", -- Inline version
+    trig = "if … else", -- Inline version
     show_condition = -conds.line_begin * is_in_code_condition,
-    desc = [[`if .. else ..`]],
+    desc = [[`if … else …`]],
   }, {
     t("if "),
     i(1),
@@ -185,12 +185,22 @@ return {
     i(2),
   }),
   s({
-    trig = "if .. isinstance .. raise",
+    trig = "if … main",
+    show_condition = conds.line_begin * ls_show_conds.line_end * conds.make_treesitter_node_inclusion_condition({
+      "module",
+    }),
+    desc = [[`if __name__ == "__main__": …`]],
+  }, {
+    t({ 'if __name__ == "__main__":', "\t" }),
+    i(1),
+  }),
+  s({
+    trig = "if … isinstance … raise",
     show_condition = conds.line_begin * ls_show_conds.line_end * is_in_code_condition,
     desc = [[
 Choices:
-- `if isinstance(..): raise TypeError(..)`
-- `if not isinstance(..): raise TypeError(..)`]],
+- `if isinstance(…): raise TypeError(…)`
+- `if not isinstance(…): raise TypeError(…)`]],
   }, {
     c(1, {
       sn(nil, {
@@ -224,12 +234,12 @@ Choices:
     }),
   }),
   s({
-    trig = "if .. None .. raise",
+    trig = "if … None … raise",
     show_condition = conds.line_begin * ls_show_conds.line_end * is_in_code_condition,
     desc = [[
 Choices:
-- `if .. is None: raise ValueError(..)`
-- `if .. is not None: raise ValueError(..)`]],
+- `if … is None: raise ValueError(…)`
+- `if … is not None: raise ValueError(…)`]],
   }, {
     c(1, {
       sn(nil, {
@@ -239,7 +249,7 @@ Choices:
         t([[raise ValueError("Expected ']]),
         rep(1),
         t([[' to be not None")]]),
-        i(2), -- To be able to switch choice node while at the end
+        i(2),
       }),
       sn(nil, {
         t("if "),
@@ -250,7 +260,7 @@ Choices:
         t([[' to be None but got '{]]),
         rep(1),
         t([[}'")]]),
-        i(2), -- To be able to switch choice node while at the end
+        i(2),
       }),
     }),
   }),
@@ -258,30 +268,19 @@ Choices:
   s({
     trig = "import",
     show_condition = conds.line_begin * ls_show_conds.line_end * is_in_code_condition,
-    desc = [[`import ..`]],
+    desc = [[`import …`]],
   }, {
     t("import "),
     i(1),
   }),
   s({
-    trig = "import .. as",
+    trig = "import … as",
     show_condition = conds.line_begin * ls_show_conds.line_end * is_in_code_condition,
-    desc = [[`import .. as ..`]],
+    desc = [[`import … as …`]],
   }, {
     t("import "),
     i(1),
     t(" as "),
     i(2),
-  }),
-
-  s({
-    trig = "main",
-    show_condition = conds.line_begin * ls_show_conds.line_end * conds.make_treesitter_node_inclusion_condition({
-      "module",
-    }),
-    desc = [[`if __name__ == "__main__": <../pass>`]],
-  }, {
-    t({ 'if __name__ == "__main__":', "\t" }),
-    i(1),
   }),
 }

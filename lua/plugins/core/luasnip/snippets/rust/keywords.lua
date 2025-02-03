@@ -9,10 +9,10 @@ local s = ls.snippet
 local t = ls.text_node
 
 return {
-  -- Rust-analyzer provides a `fn` snippet for function definition without return type
+  -- Rust-analyzer already provides a `fn` snippet for function definition without return type
   s({
     trig = "fnr", -- `fn` with return type
-    desc = [[`fn ..(..) -> .. { .. }`]],
+    desc = [[`fn …(…) -> … { … }`]],
   }, {
     t("fn "),
     i(1),
@@ -28,7 +28,7 @@ return {
   s({
     trig = "let",
     show_condition = conds.line_begin * ls_show_conds.line_end,
-    desc = [[`let .. = ..;]],
+    desc = [[`let … = …;]],
   }, {
     t("let "),
     i(1),
@@ -39,7 +39,7 @@ return {
   s({
     trig = "let mut",
     show_condition = conds.line_begin * ls_show_conds.line_end,
-    desc = [[`let mut .. = ..;]],
+    desc = [[`let mut … = …;]],
   }, {
     t("let mut "),
     i(1),

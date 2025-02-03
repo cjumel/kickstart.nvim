@@ -15,7 +15,7 @@ local callout_condition = conds.make_prefix_condition("[!") + conds.make_prefix_
 return {
   s({
     trig = "bold",
-    desc = "`**..**`",
+    desc = "`**…**`",
   }, {
     t("**"), -- Using asterix is more robust than underscores as it works also within words & is preferred by Prettier
     i(1),
@@ -24,7 +24,7 @@ return {
 
   s({
     trig = "bold-italic",
-    desc = "`**_.._**`",
+    desc = "`**_…_**`",
   }, {
     t("**_"), -- Using asterix is more robust than underscores as it works also within words & is preferred by Prettier
     i(1),
@@ -35,9 +35,9 @@ return {
     trig = "callout",
     show_condition = conds.line_begin * ls_show_conds.line_end,
     desc = [[
-`> [! ..]`
+`> [! …]`
 `>`
-`> ..`]],
+`> …`]],
   }, {
     t("> [!"),
     i(1),
@@ -77,8 +77,8 @@ return {
     trig = "code-block",
     show_condition = conds.line_begin * ls_show_conds.line_end,
     desc = [[
-\`\`\`..
-..
+\`\`\`…
+…
 \`\`\`]],
   }, {
     t("```"),
@@ -113,11 +113,11 @@ Multiple-choice snippet:
     show_condition = conds.line_begin * ls_show_conds.line_end,
     desc = [[
 Multiple-choice snippet:
-- `# ..`
-- `## ..`
-- `### ..`
-- `#### ..`
-- `##### ..`]],
+- `# …`
+- `## …`
+- `### …`
+- `#### …`
+- `##### …`]],
   }, {
     c(1, {
       sn(nil, { t("# "), r(1, "content", i(nil)) }),
@@ -130,7 +130,7 @@ Multiple-choice snippet:
 
   s({
     trig = "italic",
-    desc = "`_.._`",
+    desc = "`_…_`",
   }, {
     t("_"),
     i(1),
@@ -139,7 +139,7 @@ Multiple-choice snippet:
 
   s({
     trig = "link",
-    desc = "`[..](..)`",
+    desc = "`[…](…)`",
   }, {
     t("["),
     i(1, "name"),
@@ -153,9 +153,9 @@ Multiple-choice snippet:
     show_condition = conds.line_begin * ls_show_conds.line_end,
     desc = [[
 Multiple-choice snippet:
-- `> ..`
-- `>> ..`
-- `>>> ..`]],
+- `> …`
+- `>> …`
+- `>>> …`]],
   }, {
     c(1, {
       sn(nil, { t("> "), r(1, "content", i(nil)) }),
@@ -166,7 +166,7 @@ Multiple-choice snippet:
 
   s({
     trig = "strikethrough",
-    desc = "~..~",
+    desc = "~…~",
   }, {
     t("~"),
     i(1),

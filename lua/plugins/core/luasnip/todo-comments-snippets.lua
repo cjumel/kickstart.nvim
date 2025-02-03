@@ -61,7 +61,7 @@ local todo_keywords = {
 }
 
 local todo_keywords_description = [[
-Keywords:]]
+Supported keywords:]]
 for _, todo_keyword in ipairs(todo_keywords) do
   todo_keywords_description = todo_keywords_description .. "\n- `" .. todo_keyword .. "`"
 end
@@ -130,7 +130,7 @@ for _, mode in ipairs({ "ts", "no_ts" }) do
       s({
         trig = todo_keyword .. ": ",
         show_condition = todo_keyword_show_condition,
-        desc = "`" .. todo_keyword .. ": ..`",
+        desc = "`" .. todo_keyword .. ": …`",
       }, {
         t(todo_keyword .. ": "),
         i(1),

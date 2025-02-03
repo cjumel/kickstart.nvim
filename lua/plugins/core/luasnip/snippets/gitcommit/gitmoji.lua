@@ -99,13 +99,13 @@ for _, gitmoji_data in ipairs(gitmojis_data) do
       desc = gitmoji_data.desc
         .. " (Gitmoji)\n\nMultiple-choice snippet:\n- `"
         .. gitmoji_data.emoji
-        .. " ..`\n- `"
+        .. " …`\n- `"
         .. gitmoji_data.emoji
-        .. " (..) ..` (with scope)",
+        .. " (…) …` (with scope)",
     }, {
       c(1, {
         sn(nil, { t(gitmoji_data.emoji .. " "), r(1, "content", i(nil)) }),
-        sn(nil, { t(gitmoji_data.emoji .. " ("), i(1), t("): "), r(2, "content") }), -- With scope
+        sn(nil, { t(gitmoji_data.emoji .. " ("), i(1), t("): "), r(2, "content") }),
       }),
     })
   )

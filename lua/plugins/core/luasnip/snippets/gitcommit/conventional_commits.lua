@@ -35,21 +35,18 @@ for _, conventional_commit_data in ipairs(conventional_commits_data) do
       desc = conventional_commit_data.desc
         .. " (Conventional Commits)\n\nMultiple-choice snippet:\n- `"
         .. conventional_commit_data.name
-        .. ": ..`\n- `"
+        .. ": …`\n- `"
         .. conventional_commit_data.name
-        .. "(..): ..` (with scope)\n- `"
+        .. "(…): …` (with scope)\n- `"
         .. conventional_commit_data.name
-        .. "!: ..` (with breaking change)\n- `"
+        .. "(…)!: …` (with scope and breaking change)\n- `"
         .. conventional_commit_data.name
-        .. "(..)!: ..` (with scope and breaking change)",
+        .. "!: …` (with breaking change)",
     }, {
       c(1, {
         sn(nil, { t(conventional_commit_data.name .. ": "), r(1, "content", i(nil)) }),
-        -- With scope:
         sn(nil, { t(conventional_commit_data.name .. "("), r(1, "scope", i(nil)), t("): "), r(2, "content") }),
-        -- With scope & breaking change:
         sn(nil, { t(conventional_commit_data.name .. "("), r(1, "scope"), t(")!: "), r(2, "content") }),
-        -- With breaking change:
         sn(nil, { t(conventional_commit_data.name .. "!: "), r(1, "content") }),
       }),
     })

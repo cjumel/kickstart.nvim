@@ -3,10 +3,8 @@
 local conds = require("plugins.core.luasnip.conditions")
 local ls = require("luasnip")
 
-local c = ls.choice_node
 local i = ls.insert_node
 local s = ls.snippet
-local sn = ls.snippet_node
 local t = ls.text_node
 
 -- Condition to avoid triggering a snippet inside a string or a comment
@@ -19,15 +17,26 @@ local is_in_code_condition = conds.make_treesitter_node_exclusion_condition({
 })
 
 return {
-  -- lua-ls provides a `local function` snippet
+  -- lua-ls already provides a `local function` snippet
   s({
-    trig = "local .. = ..",
+    trig = "local … = …",
     show_condition = is_in_code_condition,
-    desc = [[`local .. = <../require("..")>`]],
+    desc = [[`local … = …`]],
   }, {
     t("local "),
     i(1),
     t(" = "),
-    c(2, { i(1), sn(nil, { t('require("'), i(1), t('")') }) }),
+    i(2),
+  }),
+  s({
+    trig = "local … require",
+    show_condition = is_in_code_condition,
+    desc = [[`local … = require("…")`]],
+  }, {
+    t("local "),
+    i(1),
+    t(' = require("'),
+    i(2),
+    t('")'),
   }),
 }
