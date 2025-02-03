@@ -20,6 +20,9 @@ return {
     -- Notifier
     { "<leader>n", function() Snacks.notifier.show_history() end, desc = "[N]otifications" },
 
+    -- Picker
+    { "<leader>u", function() Snacks.picker.undo() end, desc = "[U]ndo tree" },
+
     -- Scratch buffers
     {
       "<leader>;",
