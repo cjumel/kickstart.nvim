@@ -21,6 +21,9 @@
 -- At each of these steps, the newly found configuration options are used to update the meta configuration table,
 -- overriding any shared configuration values, to define the final meta configuration table which is then returned by
 -- the module.
+--
+-- This module implements the same features as conf.nvim in https://github.com/cjumel/conf.nvim, but using a local
+-- module, instead of the plugin, enables additional syntactic suggar with the use of a global `Metaconfig` variable.
 
 local meta_config = {}
 

@@ -21,7 +21,7 @@ vim.g.mapleader = " "
 vim.g.maplocalleader = "  "
 
 -- Setup global variables for main configuration modules
-Metaconfig = require("meta_config")
+Metaconfig = require("metaconfig")
 Theme = require("theme")
 
 -- Setup environment variables defined in `Metaconfig`
