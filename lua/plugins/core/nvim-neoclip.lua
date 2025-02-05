@@ -26,22 +26,6 @@ return {
       desc = "Yank history",
     },
     {
-      "<C-CR>",
-      function()
-        -- Avoid using the keymap in Telescope or Snacks pickers, as it doesn't work there (close the picker)
-        if vim.tbl_contains({ "TelescopePrompt", "snacks_picker_input" }, vim.bo.filetype) then
-          return
-        end
-        require("telescope").extensions.neoclip.default({
-          prompt_title = "Yank History",
-          layout_strategy = "vertical",
-          tiebreak = function(current, existing, _) return current.index < existing.index end, -- Sort by recency
-        })
-      end,
-      mode = "i",
-      desc = "Yank history",
-    },
-    {
       "<leader>@",
       function()
         local visual_mode = require("visual_mode")
@@ -71,20 +55,11 @@ return {
     end,
     content_spec_column = true,
     on_select = { move_to_front = true },
-    on_paste = { set_reg = true, move_to_front = true },
     keys = {
       telescope = {
         i = {
           select = "<CR>",
-          paste = "<C-CR>",
-          paste_behind = false,
-          replay = false,
-          delete = false,
-          edit = "<S-CR>",
-        },
-        n = {
-          select = "<CR>",
-          paste = "<C-CR>",
+          paste = false,
           paste_behind = false,
           replay = false,
           delete = false,
