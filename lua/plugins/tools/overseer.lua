@@ -9,23 +9,28 @@ return {
   "stevearc/overseer.nvim",
   dependencies = { "williamboman/mason.nvim" }, -- Some tools (e.g. ruff or prettier) require mason.nvim
   keys = {
+    -- General actions
     { "<leader>oo", function() require("overseer").toggle() end, desc = "[O]verseer: toggle task list" },
+    { "<leader>os", function() require("overseer").run_template({ name = "shell" }) end, desc = "[O]verseer: [S]hell" },
+    {
+      "<leader>ol",
+      function()
+        local tasks = require("overseer").list_tasks({ recent_first = true })
+        if vim.tbl_isempty(tasks) then
+          vim.notify("No tasks found", vim.log.levels.WARN)
+        else
+          require("overseer").run_action(tasks[1], "restart")
+        end
+      end,
+      desc = "[O]verseer: rerun [L]ast task",
+    },
+
+    -- Actions to run templates by tags
     { "<leader>oa", function() require("overseer").run_template() end, desc = "[O]verseer: [A]ll templates" },
     {
-      "<leader>op",
+      "<leader>oA",
       function() require("overseer").run_template({ prompt = "always" }) end,
-      desc = "[O]verseer: all templates with [P]rompt",
-    },
-    {
-      "<leader>os",
-      function()
-        require("overseer").run_template({ name = "shell" }, function(task, _)
-          if task ~= nil then
-            require("overseer").open()
-          end
-        end)
-      end,
-      desc = "[O]verseer: [S]hell template",
+      desc = "[O]verseer: [A]ll templates (always prompt)",
     },
     {
       "<leader>or",
@@ -39,9 +44,25 @@ return {
       desc = "[O]verseer: [R]un templates",
     },
     {
+      "<leader>oR",
+      function()
+        require("overseer").run_template({ tags = { "RUN" }, first = false, prompt = "always" }, function(task, _)
+          if task ~= nil then
+            require("overseer").open()
+          end
+        end)
+      end,
+      desc = "[O]verseer: [R]un templates (always prompt)",
+    },
+    {
       "<leader>ot",
       function() require("overseer").run_template({ tags = { "TEST" }, first = false }) end,
       desc = "[O]verseer: [T]est templates",
+    },
+    {
+      "<leader>oT",
+      function() require("overseer").run_template({ tags = { "TEST" }, first = false, prompt = "always" }) end,
+      desc = "[O]verseer: [T]est templates (always prompt)",
     },
     {
       "<leader>oc",
@@ -49,32 +70,27 @@ return {
       desc = "[O]verseer: [C]heck templates",
     },
     {
+      "<leader>oC",
+      function() require("overseer").run_template({ tags = { "CHECK" }, first = false, prompt = "always" }) end,
+      desc = "[O]verseer: [C]heck templates (always prompt)",
+    },
+    {
       "<leader>ob",
       function() require("overseer").run_template({ tags = { "BUILD" }, first = false }) end,
       desc = "[O]verseer: [B]uild templates",
     },
     {
-      "<leader>ol",
-      function()
-        local tasks = require("overseer").list_tasks({ recent_first = true })
-        if vim.tbl_isempty(tasks) then
-          vim.notify("No tasks found", vim.log.levels.WARN)
-        else
-          require("overseer").run_action(tasks[1], "restart")
-        end
-      end,
-      desc = "[O]verseer: rerun [L]ast task",
+      "<leader>oB",
+      function() require("overseer").run_template({ tags = { "BUILD" }, first = false, prompt = "always" }) end,
+      desc = "[o]verseer: [B]uild templates (always prompt)",
     },
   },
   opts = {
-    templates = {
-      "shell",
-      "make",
-    },
+    templates = { "shell", "make" },
     dap = false, -- When true, this lazy-loads nvim-dap but I don't use it with overseer.nvim
     task_list = {
       min_height = 0.25, -- Keep a height proportional with window height
-      -- Disable the builtin keymaps in conflict with window navigation keymaps
+      -- Disable conflicting keymaps
       bindings = { ["<C-h>"] = false, ["<C-j>"] = false, ["<C-k>"] = false, ["<C-l>"] = false },
     },
     task_editor = {
