@@ -133,17 +133,11 @@ return {
           ["delete"] = {
             "<C-q>",
             function(self)
-              vim.ui.select(
-                { "yes", "no" },
-                { prompt = "Do you want to delete the scratch file definitely?" },
-                function(item)
-                  if item == "yes" then
-                    local fname = vim.api.nvim_buf_get_name(self.buf)
-                    vim.cmd([[close]]) -- Close the scratch buffer
-                    vim.fn.delete(fname) -- Delete the scratch file
-                  end
-                end
-              )
+              if vim.fn.confirm("Do you want to delete the scratch file definitely?", "&Yes\n&No") == 1 then
+                local fname = vim.api.nvim_buf_get_name(self.buf)
+                vim.cmd([[close]]) -- Close the scratch buffer
+                vim.fn.delete(fname) -- Delete the scratch file
+              end
             end,
             desc = "delete",
           },
