@@ -346,10 +346,6 @@ function M.command_history()
     previewer = false,
     tiebreak = function(current, existing, _) return current.index < existing.index end, -- Sort by recency
     filter_fn = function(cmd) return string.len(cmd) >= 4 end, -- Filter out short commands like "w", "q", "wq", "wqa"
-    attach_mappings = function(_, map)
-      map({ "i", "n" }, "<S-CR>", actions.edit_command_line)
-      return true -- Enable default mappings
-    end,
   }))
 end
 
@@ -357,10 +353,6 @@ function M.search_history()
   builtin.search_history(themes.get_dropdown({
     previewer = false,
     tiebreak = function(current, existing, _) return current.index < existing.index end, -- Sort by recency
-    attach_mappings = function(_, map)
-      map({ "i", "n" }, "<S-CR>", actions.edit_search_line)
-      return true -- Enable default mappings
-    end,
   }))
 end
 

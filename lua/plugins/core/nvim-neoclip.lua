@@ -63,7 +63,7 @@ return {
           paste_behind = false,
           replay = false,
           delete = false,
-          edit = "<S-CR>",
+          edit = "<C-e>", -- Like in some telescope.nvim builtin pickers (e.g. command history & search history)
         },
       },
     },

@@ -62,7 +62,7 @@ return {
       previewLocation = false,
       swapReplacementInterpreter = false,
       applyNext = { n = "<S-CR>" },
-      applyPrev = false,
+      applyPrev = { n = "<M-CR>" },
     },
   },
   config = function(_, opts)
