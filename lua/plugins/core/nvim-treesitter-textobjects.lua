@@ -123,8 +123,8 @@ return {
         map("u", function() vim.fn.search(url_pattern) end, function() vim.fn.search(url_pattern, "b") end, "URL")
         map(
           "h",
-          function() require("gitsigns").nav_hunk("next") end,
-          function() require("gitsigns").nav_hunk("prev") end,
+          function() require("gitsigns").nav_hunk("next", { target = "all" }) end,
+          function() require("gitsigns").nav_hunk("prev", { target = "all" }) end,
           "hunk"
         )
         map(

@@ -9,8 +9,8 @@ return {
   event = { "BufNewFile", "BufReadPre" },
   opts = {
     signs = { add = { text = "+" }, change = { text = "~" }, untracked = { text = "" } },
-    signs_staged_enable = false,
-    attach_to_untracked = true,
+    signs_staged = { add = { text = "+" }, change = { text = "~" }, untracked = { text = "" } },
+    attach_to_untracked = true, -- Enables keymap to stage untracked files or hunks
     on_attach = function(bufnr)
       local gitsigns = require("gitsigns")
 

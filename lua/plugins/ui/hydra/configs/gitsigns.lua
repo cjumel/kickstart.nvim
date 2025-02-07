@@ -14,9 +14,9 @@ return {
     -- Let's keep "h", "j", "k", "l", "w", "e", and "b" for navigation, "v" for visual mode, "a", "i" and "g" for text
     -- objects in visual mode, to still be able to use them while the Hydra is open
     hint = [[
-                                    Hunk Hydra   
-   _p_ ➜ [P]review hunk           _u_ ➜ [U]nstage staged hunk    _,_ ➜ Next hunk   
-   _s_ ➜ [S]tage hunk/selection   _x_ ➜ Discard hunk/selection   _;_ ➜ Previous hunk   
+                                       Hunk Hydra   
+   _p_ ➜ [P]review hunk                  _x_ ➜ Discard hunk/selection   _;_ ➜ Previous hunk   
+   _s_ ➜ Toggle [S]tage hunk/selection   _,_ ➜ Next hunk   
 ]],
     heads = {
       { "p", function() require("gitsigns").preview_hunk() end },
@@ -30,7 +30,6 @@ return {
           end
         end,
       },
-      { "u", function() require("gitsigns").undo_stage_hunk() end },
       {
         "x",
         function()
@@ -42,8 +41,8 @@ return {
         end,
       },
       -- "," & ";" are not made repeatable on purpose, to be able to resume the previous next/previous moves later
-      { ",", function() require("gitsigns").nav_hunk("next") end },
-      { ";", function() require("gitsigns").nav_hunk("prev") end },
+      { ",", function() require("gitsigns").nav_hunk("next", { target = "all" }) end },
+      { ";", function() require("gitsigns").nav_hunk("prev", { target = "all" }) end },
       { "q", nil, { exit = true, mode = "n", desc = false } },
       { "<Esc>", nil, { exit = true, mode = "n", desc = false } },
     },
