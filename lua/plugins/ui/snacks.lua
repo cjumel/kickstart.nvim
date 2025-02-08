@@ -21,7 +21,28 @@ return {
     { "<leader>n", function() Snacks.notifier.show_history() end, desc = "[N]otifications" },
 
     -- Picker
-    { "<leader>u", function() Snacks.picker.undo() end, desc = "[U]ndo tree" },
+    {
+      "<leader>u",
+      function()
+        Snacks.picker.undo({
+          win = {
+            input = {
+              keys = {
+                -- Customize keymaps and add "close" action
+                ["<C-y>"] = { { "yank_add", "close" }, mode = "i" }, -- Same keymap as default
+                ["Ú"] = { { "yank_del", "close" }, mode = "i" }, -- <M-y> instead of <C-M-y> I can't use
+              },
+            },
+          },
+          actions = {
+            -- Yank in main register
+            yank_add = { action = "yank", field = "added_lines", reg = '"' },
+            yank_del = { action = "yank", field = "removed_lines", reg = '"' },
+          },
+        })
+      end,
+      desc = "[U]ndo tree",
+    },
 
     -- Scratch buffers
     {
