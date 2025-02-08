@@ -1,8 +1,8 @@
 -- dial.nvim
 --
--- dial.nvim is an enhanced increment/decrement plugin. It is simple of use and can be really extensively configured,
--- for instance to increment/decrement custom patterns or emojis, e.g. to mark todo items as "in progress" or "done". I
--- find it really useful for small but cool filetype-specific additions.
+-- dial.nvim is an enhanced and customizable increment/decrement plugin. It is simple of use and can be really
+-- extensively configured, for instance to increment/decrement custom patterns, e.g. to mark todo items as "in progress"
+-- or "done".
 
 return {
   "monaqa/dial.nvim",
@@ -12,7 +12,7 @@ return {
     { "<C-x>", function() require("dial.map").manipulate("decrement", "normal") end, mode = "n", desc = "Decrement" },
     { "<C-x>", function() require("dial.map").manipulate("decrement", "visual") end, mode = "v", desc = "Decrement" },
   },
-  config = function(_, _)
+  config = function()
     local augend = require("dial.augend")
     local config = require("dial.config")
 
@@ -37,15 +37,7 @@ return {
         augend.constant.new({ elements = { "true", "false" } }),
         augend.constant.new({ elements = { "True", "False" } }),
         augend.misc.alias.markdown_header,
-        augend.constant.new({
-          elements = {
-            "- [ ] ", -- Not started
-            "- [-] ", -- In progress
-            "- [x] ", -- Done
-            "- [/] ", -- Cancelled
-          },
-          word = false,
-        }),
+        augend.constant.new({ elements = { "- [ ] ", "- [-] ", "- [x] ", "- [/] " }, word = false }),
       },
       python = {
         augend.constant.new({ elements = { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" }, word = false }),
@@ -54,6 +46,11 @@ return {
         augend.constant.new({ elements = { "is not", "is" } }),
         augend.constant.new({ elements = { "if not", "if" } }),
         augend.constant.new({ elements = { "elif not", "elif" } }),
+      },
+      rust = {
+        augend.constant.new({ elements = { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" }, word = false }),
+        augend.constant.new({ elements = { "true", "false" } }),
+        augend.constant.new({ elements = { "==", "!=" }, word = false }),
       },
     })
   end,
