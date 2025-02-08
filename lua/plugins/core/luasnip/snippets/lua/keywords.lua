@@ -19,7 +19,7 @@ local is_in_code_condition = conds.make_treesitter_node_exclusion_condition({
 return {
   -- lua-ls already provides a `local function` snippet
   s({
-    trig = "local … = …",
+    trig = "local",
     show_condition = is_in_code_condition,
     desc = [[`local … = …`]],
   }, {
