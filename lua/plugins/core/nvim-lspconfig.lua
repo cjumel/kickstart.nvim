@@ -67,23 +67,10 @@ return {
         map("n", "gra", vim.lsp.buf.code_action, "Code action")
         map("n", "grn", vim.lsp.buf.rename, "Rename")
         map("n", "grr", "<cmd>Trouble lsp_references<CR>", "References")
-
-        -- Symbols keymaps
-        map(
-          { "n", "v" },
-          "<leader>fs",
-          function() require("plugins.core.telescope.pickers").lsp_document_symbols() end,
-          "[F]ind: buffer [S]ymbols"
-        )
-        map(
-          { "n", "v" },
-          "<leader>fS",
-          function() require("plugins.core.telescope.pickers").lsp_workspace_symbols() end,
-          "[F]ind: workspace [S]ymbols"
-        )
+        map("n", "grs", Snacks.picker.lsp_symbols, "Symbols")
+        map("n", "grw", Snacks.picker.lsp_workspace_symbols, "Workspace symbols")
 
         -- Next/previous reference navigation; let's define these keymaps here to benefit from the "LspAttach" behavior
-        -- (nvim-treesitter-textobjects is already loaded at this point)
         local ts_repeatable_move = require("nvim-treesitter.textobjects.repeatable_move")
         local forward_move_fn, backward_move_fn = ts_repeatable_move.make_repeatable_move_pair(
           function() Snacks.words.jump(vim.v.count1, true) end,

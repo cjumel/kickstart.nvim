@@ -416,18 +416,4 @@ function M.git_bcommits_range()
   })
 end
 
-function M.lsp_document_symbols()
-  builtin.lsp_document_symbols({
-    prompt_title = "Find Symbols",
-    default_text = visual_mode.is_on() and visual_mode.get_text() or nil,
-  })
-end
-
-function M.lsp_workspace_symbols()
-  builtin.lsp_dynamic_workspace_symbols({
-    prompt_title = "Find Workspace Symbols",
-    default_text = visual_mode.is_on() and visual_mode.get_text() or nil,
-  })
-end
-
 return M
