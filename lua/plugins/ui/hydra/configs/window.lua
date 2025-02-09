@@ -1,16 +1,16 @@
 return {
-  key = { "<C-w>", desc = "Window Hydra" },
+  key = { "<C-w>", desc = "Window menu" },
   opts = {
     body = "<C-w>",
     config = {
-      desc = "Window Hydra",
+      desc = "Window menu",
     },
     -- A few keymaps are not re-implemented:
     --  - "d"/"<C-d>" to show the diagnostics under the cursor, as I have re-implemented it with a custom keymap
     --  - "_" to max out the height, as not supported by Hydra
     --  - "|" to max out the width, by consistency with "_"
     hint = [[
-                                        Window Hydra   
+                                           Window   
    _h_ ➜ Go to the left window    _s_ ➜ [S]plit window              _+_ ➜ Increase height   
    _j_ ➜ Go to the down window    _T_ ➜ Break window into [T]ab     _-_ ➜ Decrease height   
    _k_ ➜ Go to the up window      _v_ ➜ Split window [V]ertically   _<_ ➜ Decrease width   

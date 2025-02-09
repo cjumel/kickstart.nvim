@@ -7,12 +7,11 @@
 return {
   "smoka7/hop.nvim",
   keys = {
-    -- Buitlin "s" keymap is equivalent to "cl" and is pretty much useless
     {
-      "s",
+      "s", -- Buitlin "s" keymap is equivalent to "cl" and is pretty much useless
       function() require("hop").hint_char2({}) end,
       mode = { "n", "x", "o" },
-      desc = "Search 2 characters hop",
+      desc = "Search character jump",
     },
     {
       "f",
@@ -23,7 +22,7 @@ return {
         })
       end,
       mode = { "n", "x", "o" },
-      desc = "Find character hop",
+      desc = "Find character jump",
     },
     {
       "F",
@@ -34,7 +33,7 @@ return {
         })
       end,
       mode = { "n", "x", "o" },
-      desc = "Find character hop backward",
+      desc = "Find character jump backward",
     },
     {
       "t",
@@ -46,7 +45,7 @@ return {
         })
       end,
       mode = { "n", "x", "o" },
-      desc = "Till character hop",
+      desc = "Till character jump",
     },
     {
       "T",
@@ -58,7 +57,7 @@ return {
         })
       end,
       mode = { "n", "x", "o" },
-      desc = "Till character hop backward",
+      desc = "Till character jump backward",
     },
     {
       "<leader>w",
@@ -69,7 +68,7 @@ return {
         })
       end,
       mode = { "n", "x", "o" },
-      desc = "[W]ord hop",
+      desc = "[W]ord jump",
     },
     {
       "<leader>b",
@@ -80,7 +79,7 @@ return {
         })
       end,
       mode = { "n", "x", "o" },
-      desc = "[B]ackward word hop",
+      desc = "[B]ackward word jump",
     },
     {
       "<leader>e",
@@ -92,7 +91,7 @@ return {
         })
       end,
       mode = { "n", "x", "o" },
-      desc = "[E]nd of word hop",
+      desc = "[E]nd of word jump",
     },
     {
       "<leader>E",
@@ -104,7 +103,7 @@ return {
         })
       end,
       mode = { "n", "x", "o" },
-      desc = "[E]nd of word hop backward",
+      desc = "[E]nd of word jump backward",
     },
     {
       "<leader>s",
@@ -115,7 +114,7 @@ return {
         })
       end,
       mode = { "n", "x", "o" },
-      desc = "[S]ubword hop",
+      desc = "[S]ubword jump",
     },
     {
       "<leader>S",
@@ -126,16 +125,16 @@ return {
         })
       end,
       mode = { "n", "x", "o" },
-      desc = "[S]ubword hop backward",
+      desc = "[S]ubword jump backward",
     },
     -- In operator-pending mode, let's make line-related keymaps act linewise, like builtin operators like "y" or "d"
-    { "<leader>j", "<cmd>HopLineStartAC<CR>", mode = { "n", "x" }, desc = "Downward line start hop" },
-    { "<leader>j", "V<cmd>HopLineStartAC<CR>", mode = { "o" }, desc = "Downward line start hop" },
-    { "<leader>k", "<cmd>HopLineStartBC<CR>", mode = { "n", "x" }, desc = "Upward line start hop" },
-    { "<leader>k", "V<cmd>HopLineStartBC<CR>", mode = { "o" }, desc = "Upward line start hop" },
+    { "<leader>j", "<cmd>HopLineStartAC<CR>", mode = { "n", "x" }, desc = "Downward line jump" },
+    { "<leader>j", "V<cmd>HopLineStartAC<CR>", mode = { "o" }, desc = "Downward line jump" },
+    { "<leader>k", "<cmd>HopLineStartBC<CR>", mode = { "n", "x" }, desc = "Upward line jump" },
+    { "<leader>k", "V<cmd>HopLineStartBC<CR>", mode = { "o" }, desc = "Upward line jump" },
   },
   opts = {
     keys = "hgjfkdlsmqyturieozpabvn",
-    uppercase_labels = true, -- Make labels stand-out more and be more readable
+    uppercase_labels = true, -- Make labels stand-out more
   },
 }

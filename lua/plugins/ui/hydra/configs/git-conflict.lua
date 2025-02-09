@@ -1,13 +1,13 @@
 return {
-  key = { "<leader>x", desc = "Conflict Hydra" },
+  key = { "<leader>gc", desc = "[G]it: [C]onflict menu" },
   opts = {
-    body = "<leader>x",
+    body = "<leader>gc",
     config = {
-      desc = "Conflict Hydra",
+      desc = "[G]it: [C]onflict menu",
       color = "pink", -- Enable other keymaps while the Hydra is open
     },
     hint = [[
-                           Conflict Hydra   
+                            Git Conflict   
    _b_ ➜ Choose [B]oth   _o_ ➜ Choose [O]urs    _,_ ➜ Next conflict   
    _n_ ➜ Choose [N]one   _t_ ➜ Choose [T]eirs   _;_ ➜ Previous conflict   
 ]],

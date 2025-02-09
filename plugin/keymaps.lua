@@ -55,6 +55,12 @@ vim.keymap.set("n", "<leader><M-CR>", "<Cmd>noautocmd w!<CR>", { desc = "Force w
 vim.keymap.set("n", "<leader>!", vim.diagnostic.open_float, { desc = "Expand diagnostics" })
 vim.keymap.set({ "n", "v" }, "<C-^>", "}", { desc = "Next paragraph" }) -- <C-,>
 vim.keymap.set({ "n", "v" }, "<C-_>", "{", { desc = "Previous paragraph" }) -- <C-;>
+vim.keymap.set(
+  "n",
+  "<leader>?",
+  "<cmd>vert new | set buftype=nofile | read ++edit # | 0d_ | diffthis | wincmd p | diffthis<CR>",
+  { desc = "Show buffer changes" }
+)
 
 vim.keymap.set("n", "<Esc>", function()
   vim.cmd("nohlsearch") -- Clear search highlights in case `vim.o.hlsearch` is true
@@ -90,13 +96,6 @@ vim.keymap.set("n", "g=", function()
   vim.fn.setreg("+", vim.fn.getreg('"'))
   vim.notify("Clipboard synchronized with main register")
 end, { desc = "Synchronize clipboard with main register" })
-
---- Display the diff between the buffer content and the corresponding local file. Code is taken from `:h DiffOrig`.
----@return nil
-local function diff_buffer_with_file()
-  vim.cmd([[vert new | set buftype=nofile | read ++edit # | 0d_ | diffthis | wincmd p | diffthis]])
-end
-vim.keymap.set("n", "<leader>vc", diff_buffer_with_file, { desc = "[V]iew: buffer [C]anges" })
 
 --- Fetch the path of the file or directory linked to the current buffer (must be a regular buffer or an Oil buffer),
 --- apply the provided modifiers to it and yank it to the default register.

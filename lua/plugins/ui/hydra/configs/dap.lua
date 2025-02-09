@@ -1,16 +1,16 @@
 return {
-  key = { "<leader>d", desc = "[D]ebug Hydra" },
+  key = { "<leader>d", desc = "[D]ebug menu" },
   opts = {
     body = "<leader>d",
     config = {
-      desc = "[D]ebug Hydra",
+      desc = "[D]ebug menu",
       color = "pink", -- Enable other keymaps while the Hydra is open
     },
     -- Let's try to use as few navigation keys (e.g. "h", "j", "k", "l" or even "w", "b", "e") as possible
     -- Keys like "d" or "c", which can take a text-object, introduce a latency when using them as Neovim waits for the
     -- optional text-object before triggering the keymap, so they are not great either
     hint = [[
-                              Debug Hydra   
+                                 Debug   
    _b_ ➜ Toggle [B]reakpoint   _r_ ➜ [R]un         _u_ ➜ Toggle [U]I   
    _p_ ➜ [P]review variable    _t_ ➜ [T]erminate   _z_ ➜ Toggle [Z]oom REPL   
 ]],

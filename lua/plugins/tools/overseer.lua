@@ -10,10 +10,10 @@ return {
   dependencies = { "williamboman/mason.nvim" }, -- Some tools (e.g. ruff or prettier) require mason.nvim
   keys = {
     -- General actions
-    { "<leader>oo", function() require("overseer").toggle() end, desc = "[O]verseer: toggle task list" },
-    { "<leader>os", function() require("overseer").run_template({ name = "shell" }) end, desc = "[O]verseer: [S]hell" },
+    { "<leader>xx", function() require("overseer").toggle() end, desc = "E[X]ecute: toggle task list" },
+    { "<leader>xs", function() require("overseer").run_template({ name = "shell" }) end, desc = "E[X]ecute: [S]hell" },
     {
-      "<leader>ol",
+      "<leader>xl",
       function()
         local tasks = require("overseer").list_tasks({ recent_first = true })
         if vim.tbl_isempty(tasks) then
@@ -22,18 +22,18 @@ return {
           require("overseer").run_action(tasks[1], "restart")
         end
       end,
-      desc = "[O]verseer: rerun [L]ast task",
+      desc = "E[X]ecute: rerun [L]ast task",
     },
 
     -- Actions to run templates by tags
-    { "<leader>oa", function() require("overseer").run_template() end, desc = "[O]verseer: [A]ll templates" },
+    { "<leader>xa", function() require("overseer").run_template() end, desc = "E[X]ecute: [A]ll templates" },
     {
-      "<leader>oA",
+      "<leader>xA",
       function() require("overseer").run_template({ prompt = "always" }) end,
-      desc = "[O]verseer: [A]ll templates (always prompt)",
+      desc = "E[X]ecute: [A]ll templates (always prompt)",
     },
     {
-      "<leader>or",
+      "<leader>xr",
       function()
         require("overseer").run_template({ tags = { "RUN" }, first = false }, function(task, _)
           if task ~= nil then
@@ -41,10 +41,10 @@ return {
           end
         end)
       end,
-      desc = "[O]verseer: [R]un templates",
+      desc = "E[X]ecute: [R]un templates",
     },
     {
-      "<leader>oR",
+      "<leader>xR",
       function()
         require("overseer").run_template({ tags = { "RUN" }, first = false, prompt = "always" }, function(task, _)
           if task ~= nil then
@@ -52,35 +52,35 @@ return {
           end
         end)
       end,
-      desc = "[O]verseer: [R]un templates (always prompt)",
+      desc = "E[X]ecute: [R]un templates (always prompt)",
     },
     {
-      "<leader>ot",
+      "<leader>xt",
       function() require("overseer").run_template({ tags = { "TEST" }, first = false }) end,
-      desc = "[O]verseer: [T]est templates",
+      desc = "E[X]ecute: [T]est templates",
     },
     {
-      "<leader>oT",
+      "<leader>xT",
       function() require("overseer").run_template({ tags = { "TEST" }, first = false, prompt = "always" }) end,
-      desc = "[O]verseer: [T]est templates (always prompt)",
+      desc = "E[X]ecute: [T]est templates (always prompt)",
     },
     {
-      "<leader>oc",
+      "<leader>xc",
       function() require("overseer").run_template({ tags = { "CHECK" }, first = false }) end,
-      desc = "[O]verseer: [C]heck templates",
+      desc = "E[X]ecute: [C]heck templates",
     },
     {
-      "<leader>oC",
+      "<leader>xC",
       function() require("overseer").run_template({ tags = { "CHECK" }, first = false, prompt = "always" }) end,
-      desc = "[O]verseer: [C]heck templates (always prompt)",
+      desc = "E[X]ecute: [C]heck templates (always prompt)",
     },
     {
-      "<leader>ob",
+      "<leader>xb",
       function() require("overseer").run_template({ tags = { "BUILD" }, first = false }) end,
-      desc = "[O]verseer: [B]uild templates",
+      desc = "E[X]ecute: [B]uild templates",
     },
     {
-      "<leader>oB",
+      "<leader>xB",
       function() require("overseer").run_template({ tags = { "BUILD" }, first = false, prompt = "always" }) end,
       desc = "[o]verseer: [B]uild templates (always prompt)",
     },

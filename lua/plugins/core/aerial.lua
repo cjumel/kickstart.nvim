@@ -10,7 +10,7 @@ return {
     "nvim-tree/nvim-web-devicons",
   },
   keys = {
-    { "<leader>-", function() require("aerial").nav_toggle() end, desc = "Outline navigation" },
+    { "<leader>o", function() require("aerial").nav_toggle() end, desc = "[O]utline navigation" },
     { "<leader>vs", function() require("aerial").toggle() end, desc = "[V]iew: outline [S]ymbols" },
     {
       "<leader>fs",
