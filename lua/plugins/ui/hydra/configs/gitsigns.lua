@@ -1,9 +1,9 @@
 return {
-  key = { "<leader>h", mode = { "n", "v" }, desc = "Git [H]unk menu" },
+  key = { "<leader>h", mode = { "n", "v" }, desc = "[H]unk menu" },
   opts = {
     body = "<leader>h",
     config = {
-      desc = "Git [H]unk menu",
+      desc = "[H]unk menu",
       color = "pink", -- Enable other keymaps while the Hydra is open
       -- Setting `buffer=true` or `buffer=bufnr` makes the hunk manager keymaps only work in a single buffer, while still
       -- being able to switch buffer. In that case, the Hydra is still opened but the keymaps don't work in the new
@@ -14,7 +14,7 @@ return {
     -- Let's keep "h", "j", "k", "l", "w", "e", and "b" for navigation, "v" for visual mode, "a", "i" and "g" for text
     -- objects in visual mode, to still be able to use them while the Hydra is open
     hint = [[
-                                        Git Hunk   
+                                          Hunk   
    _p_ ➜ [P]review hunk                  _x_ ➜ Discard hunk/selection   _;_ ➜ Previous hunk   
    _s_ ➜ Toggle [S]tage hunk/selection   _,_ ➜ Next hunk   
 ]],
