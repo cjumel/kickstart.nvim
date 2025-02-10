@@ -34,7 +34,7 @@ return {
     t("("),
     i(2),
     t({ "):", "\t" }),
-    i(4),
+    i(3),
   }),
   s({
     trig = "defr", -- `def` with return type
