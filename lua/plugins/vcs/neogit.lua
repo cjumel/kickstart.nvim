@@ -10,7 +10,7 @@ return {
     "nvim-lua/plenary.nvim",
     "nvim-telescope/telescope.nvim",
   },
-  keys = { { "&", function() require("neogit").open() end, desc = "Neogit" } },
+  keys = { { "<leader>gn", function() require("neogit").open() end, desc = "[G]it: [N]eogit" } },
   opts = {
     commit_editor = { spell_check = false },
     mappings = {
