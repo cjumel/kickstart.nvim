@@ -45,13 +45,17 @@ return {
     },
 
     -- Scratch buffers
+    { "<leader>tt", function() Snacks.scratch.select() end, desc = "[T]emp: select" },
     {
-      "<leader>;",
+      "<leader>tn",
       function() Snacks.scratch.open({ name = "Note", ft = "markdown" }) end,
-      desc = "Scratch note",
+      desc = "[T]emp: [N]ote",
     },
-    { "<leader>.", function() Snacks.scratch.open() end, desc = "Scratch file" },
-    { "<leader>=", function() Snacks.scratch.select() end, desc = "Select scratch" },
+    {
+      "<leader>tf",
+      function() Snacks.scratch.open({ name = "File (" .. vim.bo.filetype .. ")" }) end,
+      desc = "[T]emp: [F]ile",
+    },
 
     -- Zen mode
     { "<leader>z", function() Snacks.zen() end, desc = "[Z]en mode" },

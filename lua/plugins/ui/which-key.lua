@@ -25,6 +25,7 @@ return {
       { "<leader>c", group = "[C]hat", mode = { "n", "v" } },
       { "<leader>f", group = "[F]ind", mode = { "n", "v" } },
       { "<leader>g", group = "[G]it", mode = { "n", "v" } },
+      { "<leader>t", group = "[T]emp" },
       { "<leader>v", group = "[V]iew" },
       { "<leader>x", group = "E[X]ecute" },
       { "<leader>y", group = "[Y]ank" },
