@@ -63,6 +63,11 @@ return {
         ["]D"] = { query = "@function.outer", desc = "Previous function definition end" },
       },
     },
+    swap = {
+      enable = true,
+      swap_next = { ["gp"] = { query = "@parameter.inner", desc = "Swap parameter with next" } },
+      swap_previous = { ["gP"] = { query = "@parameter.inner", desc = "Swap parameter with previous" } },
+    },
   },
   config = function(_, opts)
     require("nvim-treesitter.configs").setup({ textobjects = opts })
