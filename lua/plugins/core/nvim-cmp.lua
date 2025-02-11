@@ -31,18 +31,6 @@ return {
       end,
       preselect = cmp.PreselectMode.None, -- Always select the first item by default
       snippet = { expand = function(args) require("luasnip").lsp_expand(args.body) end },
-      sorting = { -- Disable sorting by most recently used (see default in `cmp.config.default`)
-        comparators = {
-          cmp.config.compare.offset,
-          cmp.config.compare.exact,
-          cmp.config.compare.score,
-          cmp.config.compare.locality,
-          cmp.config.compare.kind,
-          cmp.config.compare.sort_text,
-          cmp.config.compare.length,
-          cmp.config.compare.order,
-        },
-      },
       completion = { completeopt = "menu,menuone,noinsert" }, -- Directly select the first sugggestion
       window = { completion = cmp.config.window.bordered(), documentation = cmp.config.window.bordered() },
       mapping = {

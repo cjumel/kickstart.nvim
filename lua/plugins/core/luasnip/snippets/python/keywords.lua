@@ -27,20 +27,6 @@ return {
     show_condition = (conds.line_begin + conds.make_prefix_condition("async "))
       * ls_show_conds.line_end
       * is_in_code_condition,
-    desc = [[`def …(…): …`]],
-  }, {
-    t("def "),
-    i(1),
-    t("("),
-    i(2),
-    t({ "):", "\t" }),
-    i(3),
-  }),
-  s({
-    trig = "defr", -- `def` with return type
-    show_condition = (conds.line_begin + conds.make_prefix_condition("async "))
-      * ls_show_conds.line_end
-      * is_in_code_condition,
     desc = [[`def …(…) -> …: …`]],
   }, {
     t("def "),
