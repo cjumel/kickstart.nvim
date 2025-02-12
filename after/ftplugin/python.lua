@@ -9,14 +9,12 @@ vim.opt_local.formatoptions:append("rol")
 -- [[ Keymaps ]]
 
 vim.keymap.set("n", "<leader>ym", function()
-  local path = (
-    vim
-      .fn
-      .expand("%:.") -- Get the relative file path
-      :gsub("%.py$", "") -- Remove the ".py" extension
-      :gsub(".__init__$", "") -- Remove the ".__init__" suffix (in case in an __init__.py file)
-      :gsub("/", ".") -- Replace slashes with dots
-  )
+  local path = vim.fn.expand("%:.") -- File path relative to cwd
+  -- Remove various prefixes and suffixes, and replace "/" by "."
+  path = path:gsub("^src/", "")
+  path = path:gsub("%.py$", "")
+  path = path:gsub(".__init__$", "")
+  path = path:gsub("/", ".")
   vim.fn.setreg('"', path)
   vim.notify('Yanked "' .. path .. '"')
 end, { buffer = true, desc = "[Y]ank: [M]odule" })
