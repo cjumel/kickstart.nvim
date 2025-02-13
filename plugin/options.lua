@@ -5,6 +5,7 @@ vim.o.splitright = true -- Open new vertical split window on the right
 vim.o.splitbelow = true -- Open new horizontal split window below
 vim.opt.cursorline = true -- Highlight the cursor line
 vim.opt.showmode = false -- Don't show mode in status line (this is handled by lualine.nvim)
+vim.opt.pumheight = 40 -- Maximum number of items to show in the popup menu (e.g. for completion)
 vim.o.matchpairs = vim.o.matchpairs .. ",<:>" -- Add recognized character pair
 if Theme.options_callback then -- Additional theme options setting
   Theme.options_callback()
