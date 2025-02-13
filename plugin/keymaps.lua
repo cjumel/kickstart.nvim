@@ -163,6 +163,10 @@ vim.keymap.set({ "n", "v" }, "gb", browser_search, { desc = "Search in Web brows
 -- Make <M-BS> delete word, like in zsh and most some popular applications
 vim.keymap.set({ "i", "c" }, "<M-BS>", "<C-w>", { desc = "Delete word" })
 
+-- Define alternative keymaps to up & down arrow keys, useful to change line or cycle the command history
+vim.keymap.set({ "i", "c" }, "<C-]>", "<Up>", { desc = "Up" }) -- <C-$>
+vim.keymap.set({ "i", "c" }, "<C-\\>", "<Down>", { desc = "Down" }) -- <C-`>
+
 -- Define functions to mix insert-mode navigation and accepting Copilot.lua suggestions, just like how the
 -- zsh-autosuggestions plugin handles the similar situation in Zsh (except for <C-f>, as in Neovim it remains useful to
 -- move the cursor while Copilot suggestion is visible)
