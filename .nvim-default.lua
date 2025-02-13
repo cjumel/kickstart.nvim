@@ -67,10 +67,23 @@ return {
     },
     markdown = { marksman = {} },
     python = {
-      pyright = { -- Basic LS features with static type checking
-        -- Disable some noisy diagnostics
-        capabilities = { textDocument = { publishDiagnostics = { tagSupport = { valueSet = { 2 } } } } },
+      -- Pyright, a static type checker developped by Microsoft, provides basic LS and type checking features, but
+      -- misses some advanced LS features, which are reserved for Pylance, Microsoft dedicated and close-source LSP.
+      -- Basedpyright is built on top of Pyright to provide those more advanced LS features, as well as additional type
+      -- checking features.
+      basedpyright = {
+        settings = {
+          basedpyright = {
+            analysis = {
+              -- Relax the type checking mode. The default mode raises a lot of warnings and errors, which are more
+              -- suited when used as the main type checker of a project, similarly to Mypy's strict mode.
+              typeCheckingMode = "standard",
+            },
+          },
+        },
       },
+      -- Linting and formatting, along with related code actions
+      ruff = {},
     },
     rust = {
       rust_analyzer = {
@@ -110,7 +123,7 @@ return {
     lua = { "stylua" },
     make = { "trim_newlines", "trim_whitespace" },
     markdown = { "prettier" }, -- Prettier is the only formatter I found which supports GitHub Flavored Markdown
-    python = { "ruff_fix", "ruff_format" }, -- Lint diagnostic automatic fixes & regular formatting
+    python = { "ruff_fix", lsp_format = "last" }, -- Ruff lint fixes & Ruff LSP formatting
     rust = { "rustfmt" },
     sh = { "shfmt" },
     text = { "trim_newlines", "trim_whitespace" },
@@ -135,7 +148,6 @@ return {
     json = { "jsonlint" },
     lua = {}, -- Basic diagnostics are already integrated by the Lua_LS LSP
     markdown = { "markdownlint" },
-    python = { "ruff" },
     toml = {}, -- Basic diagnostics are already integrated by the Taplo LSP
     yaml = { "yamllint" },
     zsh = { "shellcheck" }, -- Not actually for zsh, but in my case it works fine when disabling a few rules
