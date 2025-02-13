@@ -49,81 +49,49 @@ return {
     "yaml",
   },
 
-  -- In `language_servers`, define the language servers to use and their configuration overrides.
-  -- Available keys for overrides are:
-  --  - cmd (table): Override the default command used to start the server
-  --  - filetypes (table): Override the default list of associated filetypes for the server
-  --  - capabilities (table): Override fields in capabilities. Can be used to disable certain LSP
-  --    features.
-  --  - settings (table): Override the default settings passed when initializing the server.
-  -- In this implementation, filetypes must be defined for each server as it is used to setup Lazy, and it must be a
-  -- table of strings
-  language_servers = {
-
-    -- Provide basic language server features, like symbol navigation
-    jsonls = {
-      filetypes = { "json" },
-    },
-
-    lua_ls = {
-      filetypes = { "lua" },
-      settings = {
-        Lua = { -- Language server settings go here (see https://luals.github.io/wiki/settings/)
-          -- Disable diagnostics when passing to a function a table without the full expected type (e.g. when leaving
-          -- some values to their default)
-          diagnostics = { disable = { "missing-fields" } },
+  -- Set `language_servers_by_ft` to a mapping between filetypes and tables of language server configurations to enable
+  -- the corresponding language servers on the filetype. See nvim-lsp-config for details on the language server
+  -- configuration tables.
+  language_servers_by_ft = {
+    json = { jsonls = {} },
+    lua = {
+      lua_ls = { -- Basic LS features with type annotation checking and some linting
+        settings = {
+          Lua = { -- LS settings go in there (see https://luals.github.io/wiki/settings/)
+            -- Disable diagnostics when passing to a function a table without the full expected type (e.g. when leaving
+            -- some values to their default)
+            diagnostics = { disable = { "missing-fields" } },
+          },
         },
       },
     },
-
-    -- Marksman provides some basic LSP features for markdown files (like LSP symbols), as well as more refined features
-    -- to interact with links & references (completion, renaming, preview, etc.)
-    marksman = {
-      filetypes = { "markdown" },
-    },
-
-    -- Pyright provides regular LSP features, as well as static type checking, replacing static type checkers
-    pyright = {
-      filetypes = { "python" },
-      capabilities = {
-        textDocument = { publishDiagnostics = { tagSupport = { valueSet = { 2 } } } }, -- Disable noisy diagnostics
+    markdown = { marksman = {} },
+    python = {
+      pyright = { -- Basic LS features with static type checking
+        -- Disable some noisy diagnostics
+        capabilities = { textDocument = { publishDiagnostics = { tagSupport = { valueSet = { 2 } } } } },
       },
     },
-
-    rust_analyzer = {
-      filetypes = { "rust" },
-      settings = {
-        ["rust-analyzer"] = { -- Language server settings go here (see https://rust-analyzer.github.io/manual.html)
-          -- Add parentheses when completing with a function instead of call snippets (with parentheses and argument
-          -- placeholders)
-          completion = { callable = { snippets = "add_parentheses" } },
+    rust = {
+      rust_analyzer = {
+        settings = {
+          ["rust-analyzer"] = { -- LS settings go in there (see https://rust-analyzer.github.io/manual.html)
+            -- Add parentheses when completing with a function instead of call snippets
+            completion = { callable = { snippets = "add_parentheses" } },
+          },
         },
       },
     },
-
-    -- Taplo provides linting, formatting and some features based on schemas from SchemaStore like validation or
-    -- hovering
-    taplo = {
-      filetypes = { "toml" },
-    },
-
-    -- Tinymist provides LSP basic features, like go-to-declaration, auto-completion, or diagnostics, but also
-    -- formatting with popular Typst formatters or compiling the PDF file on save
-    tinymist = {
-      filetypes = { "typst" },
-      settings = {
-        formatterMode = "typstyle", -- Default formatter
+    toml = { taplo = {} }, -- Linting, formating and known schema validation/documentation
+    typescript = { ts_ls = {} },
+    typst = {
+      tinymist = { -- Basic LS features with popular formatters support
+        settings = {
+          formatterMode = "typstyle", -- Default formatter
+        },
       },
     },
-
-    ts_ls = {
-      filetypes = { "javascript", "typescript" },
-    },
-
-    -- Provide some features based on schemas from SchemaStore like completion or hovering
-    yamlls = {
-      filetypes = { "yaml" },
-    },
+    yaml = { yamlls = {} }, -- Validation, completion and documentation for knwon schemas
   },
 
   -- Set `formatters_by_ft` to a mapping between filetypes and tables of formatters to enable the corresponding

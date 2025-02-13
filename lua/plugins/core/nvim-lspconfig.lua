@@ -13,10 +13,11 @@ local server_name_to_mason_name = {
   yamlls = "yaml-language-server",
 }
 
-local fts = {}
-for _, server in pairs(Metaconfig.language_servers or {}) do
-  for _, filetype in ipairs(server.filetypes) do
-    table.insert(fts, filetype)
+-- Reformat the language server configurations to match the one expected by nvim-lspconfig
+local language_servers = {}
+for _, ft_language_servers in pairs(Metaconfig.language_servers_by_ft or {}) do
+  for language_server_name, language_server_config in pairs(ft_language_servers) do
+    language_servers[language_server_name] = language_server_config
   end
 end
 
@@ -28,11 +29,11 @@ return {
     { "williamboman/mason-lspconfig.nvim", cond = not Metaconfig.light_mode },
     { "hrsh7th/cmp-nvim-lsp", cond = not Metaconfig.light_mode },
   },
-  ft = fts,
+  ft = vim.tbl_keys(Metaconfig.language_servers_by_ft or {}),
   init = function()
     -- Make sure all required dependencies can be installed with the `MasonInstallAll` command
     local mason_ensure_installed = {}
-    for server_name, _ in pairs(Metaconfig.language_servers or {}) do
+    for server_name, _ in pairs(language_servers) do
       local mason_name = server_name_to_mason_name[server_name] or server_name
       if
         not vim.tbl_contains(mason_ensure_installed, mason_name)
@@ -93,7 +94,7 @@ return {
     require("mason-lspconfig").setup({
       handlers = {
         function(server_name)
-          local server = vim.deepcopy(Metaconfig.language_servers[server_name] or {}) -- Avoid updating the conf table later
+          local server = vim.deepcopy(language_servers[server_name] or {}) -- Make sure the Metaconfig doesn't change
           -- This handles overriding only values explicitly passed by the server configuration above, which can be
           -- useful when disabling certain features of a language server
           server.capabilities = vim.tbl_deep_extend("force", {}, capabilities, server.capabilities or {})
