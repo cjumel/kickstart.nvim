@@ -18,7 +18,7 @@ return {
 Ignore lint warnings (e.g. for Flake8 or Ruff).
 Choices:
 - `noqa`
-- `noqa: ..`]],
+- `noqa: …`]],
   }, {
     c(1, {
       sn(nil, { t("noqa"), i(1) }),
@@ -38,13 +38,28 @@ Exclude from coverage reports (e.g. for coverage.py or pytest-cov).
   }),
 
   s({
+    trig = "pyright: ignore",
+    show_condition = is_in_comment_condition * conds.is_comment_start * ls_show_conds.line_end,
+    desc = [[
+Ignore a specific pyright warning.
+Choices:
+- `pyright: ignore`
+- `pyright: ignore[…]`]],
+  }, {
+    c(1, {
+      sn(nil, { t("pyright: ignore"), i(1) }),
+      sn(nil, { t("pyright: ignore["), i(1), t("]") }),
+    }),
+  }),
+
+  s({
     trig = "ruff: noqa",
     show_condition = is_in_comment_condition * conds.is_comment_start * ls_show_conds.line_end * conds.first_line,
     desc = [[
 Ignore ruff warnings for the entire file.
 Choices:
 - `ruff: noqa`
-- `ruff: noqa: ..`]],
+- `ruff: noqa: …`]],
   }, {
     c(1, {
       sn(nil, { t("ruff: noqa"), i(1) }),
@@ -59,7 +74,7 @@ Choices:
 Ignore typing warnings (e.g. for mypy or Pyright).
 Choices:
 - `type: ignore`
-- `type: ignore[..]`]],
+- `type: ignore[…]`]],
   }, {
     c(1, {
       sn(nil, { t("type: ignore"), i(1) }),
