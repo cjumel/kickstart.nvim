@@ -33,5 +33,16 @@ return {
       local dap_config = require("plugins.tools.nvim-dap.configs." .. dap_config_name)
       dap_config.setup()
     end
+
+    -- Setup keymaps for DAP buffers
+    vim.api.nvim_create_autocmd("FileType", {
+      group = vim.api.nvim_create_augroup("NvimDapKeymaps", { clear = true }),
+      pattern = { "dap-repl", "dapui_watches" },
+      callback = function()
+        -- Keymaps to go through history like with the arrow keys (<C-n> & <C-p> are taken by nvim-cmp)
+        vim.keymap.set("i", "<C-]>", require("dap.repl").on_up, { desc = "Previous history item", buffer = true }) -- <C-$>
+        vim.keymap.set("i", "<C-\\>", require("dap.repl").on_down, { desc = "Next history item", buffer = true }) -- <C-`>
+      end,
+    })
   end,
 }

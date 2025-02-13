@@ -19,7 +19,7 @@ return {
     cmp.setup({
       enabled = function()
         -- Support new filetypes
-        if vim.tbl_contains({ "dap-repl", "dapui_watches", "dapui_hover" }, vim.bo.filetype) then
+        if vim.tbl_contains({ "dap-repl", "dapui_watches" }, vim.bo.filetype) then
           return true
         end
         -- Default implementation (see `cmp.config.default`)
