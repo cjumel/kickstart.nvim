@@ -20,6 +20,17 @@ return {
     -- Substitute: substitute every instance of a target within a range
     { "gs", function() require("substitute.range").operator() end, desc = "Substitute" },
     { "gs", function() require("substitute.range").visual() end, mode = "x", desc = "Substitute" },
+    {
+      "gS",
+      function() require("substitute.range").operator({ register = "0", auto_apply = true }) end,
+      desc = "Substitute with register content",
+    },
+    {
+      "gS",
+      function() require("substitute.range").visual({ register = "0", auto_apply = true }) end,
+      mode = "x",
+      desc = "Substitute with register content",
+    },
 
     -- Exchange: substitute two targets with one another
     -- This overwrite the builtin "ge" keymap, which corresponds to "end of word" backward, but I don't use it much
