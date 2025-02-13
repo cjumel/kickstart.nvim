@@ -124,6 +124,12 @@ return {
       group = augroup,
       callback = function()
         map("!", vim.diagnostic.goto_next, vim.diagnostic.goto_prev, "diagnostic")
+        map(
+          "e",
+          function() vim.diagnostic.goto_next({ severity = "ERROR" }) end,
+          function() vim.diagnostic.goto_prev({ severity = "ERROR" }) end,
+          "error"
+        )
         local url_pattern = "http:\\/\\/\\|https:\\/\\/"
         map("u", function() vim.fn.search(url_pattern) end, function() vim.fn.search(url_pattern, "b") end, "URL")
         map(
