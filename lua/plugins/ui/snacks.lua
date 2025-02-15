@@ -22,7 +22,7 @@ return {
 
     -- Picker
     {
-      "<leader>u",
+      "<leader>fu",
       function()
         Snacks.picker.undo({
           win = {
@@ -41,7 +41,7 @@ return {
           },
         })
       end,
-      desc = "[U]ndo tree",
+      desc = "[F]ind: [U]ndo tree",
     },
 
     -- Scratch buffers
