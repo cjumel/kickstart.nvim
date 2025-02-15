@@ -1,6 +1,11 @@
 -- [[ Modify builtin keymaps ]]
 -- Keymaps to modify (fix or improve) the behavior of builtin keymaps
 
+-- By default, the keymap for "end of word backward" is "ge", which is not convenient to type and I prefer to remap with
+-- substitute.nvim, so let's use "E" instead, which is originally mapped to "end of WORD (including punctuation),
+-- similarly to "W" and "B", but I almost never use those
+vim.keymap.set({ "n", "x", "o" }, "E", "ge", { desc = "End of word backward" })
+
 --- Smart version of `a` & `i` keymaps to automatically indent when used on empty line.
 ---@param default_keymap string "a" or "i", the action to perform by default.
 ---@return string
