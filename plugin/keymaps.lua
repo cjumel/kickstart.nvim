@@ -80,11 +80,6 @@ vim.keymap.set("i", "<C-c>", function()
   if package.loaded.cmp ~= nil then
     require("cmp").abort() -- Clear nvim-cmp suggestion
   end
-  if package.loaded.copilot ~= nil then
-    if require("copilot.suggestion").is_visible() then
-      require("copilot.suggestion").dismiss() -- Clear copilot.lua suggestion
-    end
-  end
 end, { desc = "Clear" })
 vim.keymap.set("c", "<C-c>", function()
   if package.loaded.cmp ~= nil then
