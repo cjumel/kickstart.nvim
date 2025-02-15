@@ -1,19 +1,18 @@
 return {
 
-  -- Set `light_mode` to true to disable all the plugins related to GitHub's Copilot or to external tools managed with
-  -- Mason. Consequently, if this mode is activated, all the options below have no effect.
+  -- Set `light_mode` to true to disable all the plugins related to GitHub Copilot or to external tools managed with
+  -- Mason.nvim. Consequently, if this mode is activated, all the options become irrelevant.
   light_mode = false,
 
-  -- Set `disable_copilot` to true to disable GitHub's Copilot & its related plugins. This is particularly important
-  -- when no GitHub Copilot subscription is available.
+  -- Set `disable_copilot` to true to disable GitHub Copilot related plugins. This is particularly useful when no GitHub
+  -- Copilot subscription is available, to prevent the spam of warning messages.
   disable_copilot = false,
 
-  -- Set `environment_variables` to a mapping between environment variable names and their values to automatically set
-  -- them.
+  -- Set `environment_variables` to a mapping between environment variable names and values to set.
   environment_variables = {},
 
-  -- Set `treesitter_ensure_installed` to a list of Treesitter languages which are automatically installed on Neovim
-  -- startup, if missing
+  -- Set `treesitter_ensure_installed` to a list of Treesitter languages to enable. They will be automatically installed
+  -- on Neovim startup when missing.
   treesitter_ensure_installed = {
     "bash",
     "csv",
@@ -33,7 +32,7 @@ return {
     "luap", -- Lua search patterns
     "make",
     "markdown",
-    "markdown_inline", -- For advanced Markdown stuff, like concealing
+    "markdown_inline", -- Advanced Markdown features (e.g. concealing)
     "python",
     "regex",
     "requirements",
@@ -45,13 +44,15 @@ return {
     "typescript",
     "typst",
     "vim",
-    "vimdoc", -- For Vim help files
+    "vimdoc", -- Vim help files
     "yaml",
   },
 
-  -- Set `language_servers_by_ft` to a mapping between filetypes and tables of language server configurations to enable
-  -- the corresponding language servers on the filetype. See nvim-lsp-config for details on the language server
-  -- configuration tables.
+  -- Set `language_servers_by_ft` to a mapping between filetypes and tables of language server configurations to enable.
+  -- See nvim-lsp-config for details on the language server configuration tables. Introducing a new language server will
+  -- likely require to install it with Mason.nvim, which can be done by calling the `MasonInstallAll` command. Setting a
+  -- language server configuration table to false will disable the language server, while setting the whole
+  -- `language_servers_by_ft` table to false will disable all language servers.
   language_servers_by_ft = {
     json = { jsonls = {} },
     lua = {
@@ -67,23 +68,26 @@ return {
     },
     markdown = { marksman = {} },
     python = {
-      -- Pyright, a static type checker developped by Microsoft, provides basic LS and type checking features, but
-      -- misses some advanced LS features, which are reserved for Pylance, Microsoft dedicated and close-source LSP.
-      -- Basedpyright is built on top of Pyright to provide those more advanced LS features, as well as additional type
-      -- checking features.
+      -- Basedpyright is built on top of Pyright to provide the more advanced LS features Pyright is missing, as well as
+      -- additional type checking features.
       basedpyright = {
         settings = {
           basedpyright = {
             analysis = {
               -- Relax the type checking mode. The default mode raises a lot of warnings and errors, which are more
-              -- suited when used as the main type checker of a project, similarly to Mypy's strict mode.
+              -- suited when used as the main type checker of a project, similarly to Mypy's strict mode. Stricter modes
+              -- can be used on a per-project basis where basedpyright is used as the main type checker.
               typeCheckingMode = "standard",
             },
           },
         },
       },
-      -- Linting and formatting, along with related code actions
-      ruff = {},
+
+      -- Pyright provides basic LS and advanced type checking features. However, it misses some more advanced LS
+      -- features, which are reserved for Pylance, Microsoft's dedicated and close-source LSP.
+      -- pyright = {},
+
+      ruff = {}, -- Linting and formatting, integrated with code actions
     },
     rust = {
       rust_analyzer = {
@@ -107,11 +111,13 @@ return {
     yaml = { yamlls = {} }, -- Validation, completion and documentation for knwon schemas
   },
 
-  -- Set `formatters_by_ft` to a mapping between filetypes and tables of formatters to enable the corresponding
-  -- formatters on the filetype, in the provided order. Introducing a new formatter will require it to be installed with
-  -- Mason, but in simple cases, simply calling the `MasonInstallAll` command should work just fine. In the formatter
-  -- table, you can use `lsp_format = "first"` or `"callback"` to enable formatting through the corresponding LSP.
-  -- Setting a formatter table to an empty table will disable formatting on the corresponding filetype.
+  -- Set `formatters_by_ft` to a mapping between filetypes and tables of formatters to enable in the given order.
+  -- Introducing a new formatter will likely require to install it with Mason.nvim, which can be done by calling the
+  -- `MasonInstallAll` command. In the formatters table, you can set `lsp_format` to `"first"`, `"last"`, or
+  -- `"callback"` to enable LSP formatting. Setting a formatters table to false will disable formatting on the
+  -- corresponding filetype while setting the whole `formatters_by_ft` table to false will disable formatting
+  -- altogether. To disable auto-formatting but enable manual formatting (with `gq`), use
+  -- `disable_format_on_save_on_fts` below.
   formatters_by_ft = {
     conf = { "trim_newlines", "trim_whitespace" },
     editorconfig = { "trim_newlines", "trim_whitespace" },
@@ -123,39 +129,45 @@ return {
     lua = { "stylua" },
     make = { "trim_newlines", "trim_whitespace" },
     markdown = { "prettier" }, -- Prettier is the only formatter I found which supports GitHub Flavored Markdown
-    python = { "ruff_fix", lsp_format = "last" }, -- Ruff lint fixes & Ruff LSP formatting
+    python = {
+      -- "ruff_fix", -- Apply all Ruff fixes, e.g. import organization and unused imports removal
+      "ruff_organize_imports", -- Apply Ruff import organization
+      lsp_format = "last", -- If enabled, the Ruff LSP will provide formatting
+    },
     rust = { "rustfmt" },
     sh = { "shfmt" },
     text = { "trim_newlines", "trim_whitespace" },
     tmux = { "trim_newlines", "trim_whitespace" },
-    toml = { lsp_format = "first" }, -- Use Taplo LSP formatting
+    toml = { lsp_format = "first" }, -- If enabled, the taplo LSP will provide formatting
     typescript = { "prettier" },
-    typst = { lsp_format = "first" }, -- Use tinymist LSP formatting (don't work with "trim_newlines")
+    typst = { lsp_format = "first" }, -- If enabled, the tinymist LSP will provide formatting
     vim = { "trim_newlines", "trim_whitespace" },
-    yaml = { "prettier", "trim_newlines" }, -- Prettier doesn't remove trailing new lines in YAML
+    yaml = {
+      "prettier",
+      "trim_newlines", -- Prettier doesn't remove trailing new lines in YAML
+    },
     zsh = { "shfmt" }, -- Not actually for zsh, but in my use case it works fine
   },
 
-  -- Set `disable_format_on_save_on_fts` to an array of filetypes to disable format-on-save on those filetypes, or to
-  -- "*" to disable it on all files.
+  -- Set `disable_format_on_save_on_fts` to an array of filetypes on which to disable format-on-save, or to "*" to
+  -- disable it on all file types.
   disable_format_on_save_on_fts = false,
 
-  -- Set `linters_by_ft` to a mapping between filetypes and tables of linters to enable the corresponding linters on the
-  -- filetype. Introducing a new linter will require it to be installed with Mason, but in simple cases, simply calling
-  -- the `MasonInstallAll` command should work just fine. Setting a linters table to an empty table will disable linting
-  -- on the corresponding filetype.
+  -- Set `linters_by_ft` to a mapping between filetypes and tables of linters to enable. Introducing a new linter will
+  -- likely require to install it with Mason.nvim, which can be done by calling the `MasonInstallAll` command. Setting a
+  -- linters table to false will disable linting on the corresponding filetype, while setting the whole `linters_by_ft`
+  -- table to false will disable linting altogether.
   linters_by_ft = {
     json = { "jsonlint" },
-    lua = {}, -- Basic diagnostics are already integrated by the Lua_LS LSP
+    lua = {}, -- If enabled, the lua_ls LSP will provide basic linting
     markdown = { "markdownlint" },
-    toml = {}, -- Basic diagnostics are already integrated by the Taplo LSP
+    python = { -- If enabled, the ruff LSP will provide linting
+      -- "mypy", -- A static type checker (could be used in projects where it is used as the main one)
+    },
+    toml = {}, -- If enabled, the taplo LSP will provide linting
     yaml = { "yamllint" },
     zsh = { "shellcheck" }, -- Not actually for zsh, but in my case it works fine when disabling a few rules
   },
-
-  -- Set `disable_lint_on_fts` to an array of filetypes to disable lint on those filetypes, or to "*" to disable it on
-  -- all files.
-  disable_lint_on_fts = false,
 
   -- Set `documentation_convention_by_ft` to a mapping between filetypes and names of documentation convention to use.
   -- See Neogen (https://github.com/danymat/neogen) for the builtin available conventions, and
@@ -185,6 +197,8 @@ return {
     [".env.test.example"] = "sh", -- same as `.env`
     [".prettierignore"] = "gitignore",
     ["ignore"] = "gitignore",
+    ["uv.lock"] = "toml",
+    ["poetry.lock"] = "toml",
   },
 
   -- Set `extra_filename_to_icon_name` to a dictionnary mapping file names to their corresponding nvim-web-devicons

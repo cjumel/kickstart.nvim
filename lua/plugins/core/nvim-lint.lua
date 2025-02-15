@@ -9,10 +9,7 @@ local linters_without_mason = {} -- Names of the linters which have no Mason pac
 
 local linters_by_ft = {}
 for ft, linters in pairs(Metaconfig.linters_by_ft or {}) do
-  local linter_is_disabled = (
-    Metaconfig.disable_lint_on_fts == "*" or vim.tbl_contains(Metaconfig.disable_lint_on_fts or {}, ft)
-  )
-  if not linter_is_disabled then
+  if linters then
     linters_by_ft[ft] = linters
   end
 end

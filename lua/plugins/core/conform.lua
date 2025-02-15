@@ -7,6 +7,7 @@
 local formatter_to_mason_name = { -- Names of the Mason package corresponding to formatters when they differ
   ruff_fix = "ruff",
   ruff_format = "ruff",
+  ruff_organize_imports = "ruff",
 }
 local formatters_without_mason = { -- Names of the formatters which have no Mason package associated with
   "rustfmt", -- Should be installed with rustup
@@ -16,11 +17,7 @@ local formatters_without_mason = { -- Names of the formatters which have no Maso
 
 local formatters_by_ft = {}
 for ft, formatters in pairs(Metaconfig.formatters_by_ft or {}) do
-  local formatter_is_disabled = (
-    Metaconfig.disable_format_on_save_on_fts == "*"
-    or vim.tbl_contains(Metaconfig.disable_format_on_save_on_fts or {}, ft)
-  )
-  if not formatter_is_disabled then
+  if formatters then
     formatters_by_ft[ft] = formatters
   end
 end
@@ -57,6 +54,14 @@ return {
   opts = {
     formatters_by_ft = formatters_by_ft,
     format_on_save = function(bufnr)
+      local format_on_save_is_disabled_by_config = (
+        Metaconfig.disable_format_on_save_on_fts == "*"
+        or vim.tbl_contains(Metaconfig.disable_format_on_save_on_fts or {}, vim.bo.filetype)
+      )
+      if format_on_save_is_disabled_by_config then
+        return
+      end
+
       local format_on_save_is_disabled_by_command = vim.g.disable_format_on_save or vim.b[bufnr].disable_format_on_save
       if format_on_save_is_disabled_by_command then
         return

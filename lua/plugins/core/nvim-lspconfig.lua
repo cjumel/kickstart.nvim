@@ -15,9 +15,15 @@ local server_name_to_mason_name = {
 
 -- Reformat the language server configurations to match the one expected by nvim-lspconfig
 local language_servers = {}
-for _, ft_language_servers in pairs(Metaconfig.language_servers_by_ft or {}) do
+local fts = {}
+for ft, ft_language_servers in pairs(Metaconfig.language_servers_by_ft or {}) do
   for language_server_name, language_server_config in pairs(ft_language_servers) do
-    language_servers[language_server_name] = language_server_config
+    if language_server_config then
+      language_servers[language_server_name] = language_server_config
+      if not vim.tbl_contains(fts, ft) then
+        table.insert(fts, ft)
+      end
+    end
   end
 end
 
@@ -29,7 +35,7 @@ return {
     { "williamboman/mason-lspconfig.nvim", cond = not Metaconfig.light_mode },
     { "hrsh7th/cmp-nvim-lsp", cond = not Metaconfig.light_mode },
   },
-  ft = vim.tbl_keys(Metaconfig.language_servers_by_ft or {}),
+  ft = fts,
   init = function()
     -- Make sure all required dependencies can be installed with the `MasonInstallAll` command
     local mason_ensure_installed = {}
