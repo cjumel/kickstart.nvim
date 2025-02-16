@@ -1,25 +1,34 @@
--- Which Key
+-- which-key.nvim
 --
--- Which Key is a plugin which helps you remember your Neovim keymaps, by showing available keybindings in a popup as
--- you type, to be able to create keybindings that actually stick. It is, for me, a must to learn and use both builtin
--- and your own keybindings for Neovim.
+-- which-key.nvim is a plugin which helps you remember your Neovim keymaps, by showing available keybindings in a popup
+-- as you type, to be able to create keybindings that actually stick. It is, for me, a must to learn and use builtin and
+-- custom keybindings in Neovim.
 
 return {
   "folke/which-key.nvim",
   dependencies = { "nvim-tree/nvim-web-devicons" },
   event = "VeryLazy",
   opts = {
-    -- Filter out builtin next/previous move keymaps, as I implemented my own in a very different way (opposite
-    --  directions and repeatable)
     filter = function(mapping)
-      return not (
-          string.sub(mapping.lhs, 1, 1) == "[" and (not mapping.desc or string.sub(mapping.desc, 1, 5) ~= "Next ")
-        )
-        and not (
-          string.sub(mapping.lhs, 1, 1) == "]" and (not mapping.desc or string.sub(mapping.desc, 1, 9) ~= "Previous ")
-        )
+      -- Filter out builtin next/previous move keymaps, as I implemented them in a very different way
+      if string.sub(mapping.lhs, 1, 1) == "[" and (not mapping.desc or string.sub(mapping.desc, 1, 5) ~= "Next ") then
+        return false
+      end
+      if
+        string.sub(mapping.lhs, 1, 1) == "]"
+        and (not mapping.desc or string.sub(mapping.desc, 1, 9) ~= "Previous ")
+      then
+        return false
+      end
+      return true
     end,
-    spec = { -- Register keymap groups
+    spec = {
+      -- Set or modify the description of builtin keymaps
+      { "gc", desc = "Comment", mode = { "n", "x" } },
+      { "gcc", desc = "Comment line", mode = { "n", "x" } },
+      { "gq", desc = "Format (formatexpr)", mode = { "n", "x" } },
+      { "gw", desc = "Format", mode = { "n", "x" } },
+      -- Register keymap groups
       { "gr", group = "LSP" },
       { "<leader> ", group = "Local leader" },
       { "<leader>c", group = "[C]hat", mode = { "n", "v" } },
@@ -30,9 +39,11 @@ return {
       { "<leader>x", group = "E[X]ecute" },
       { "<leader>y", group = "[Y]ank" },
       { "<leader>yf", group = "[Y]ank [F]ile" },
+      { "[", group = "Next" },
+      { "]", group = "Previous" },
     },
-    win = { border = "rounded" }, -- Add a border in Which Key UI to improve visibility in transparent backgrounds
-    sort = { "order", "alphanum", "mod" }, -- Don't sort local keymaps first and keymap groups last
-    icons = { mappings = false }, -- Disable icons as they are not present consistently in my keymaps
+    win = { border = "rounded" }, -- Better for transparent backgrounds
+    sort = { "order", "alphanum", "mod" },
+    icons = { mappings = false },
   },
 }
