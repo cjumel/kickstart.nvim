@@ -1,8 +1,8 @@
--- Hop
+-- hop.nvim
 --
--- Hop provides Neovim motions on speed. It adds many simple but powerful features to simplify navigating in a file
--- using only the keyboard. I find this plugin essential in my workflow, especially since I don't use counts as, using
--- an azerty keyboard, typing numbers is far from the home row and requires the use of the shift key at the same time.
+-- hop.nvim is an EasyMotion-like plugin, providing Neovim motions on speed. It adds many simple but powerful and
+-- customizable improved motions, to simplify navigating in a buffer. I find this plugin essential as, using an azerty
+-- keyboard layout, counts with motions are really cumbersome to use.
 
 return {
   "smoka7/hop.nvim",
@@ -53,7 +53,7 @@ return {
         require("hop").hint_char1({
           direction = require("hop.hint").HintDirection.BEFORE_CURSOR,
           current_line_only = true,
-          hint_offset = 1,
+          hint_offset = 1, -- Due to this offset, we can't setup a single bidirecionnal "t/T" keymap
         })
       end,
       mode = { "n", "x", "o" },
@@ -63,7 +63,6 @@ return {
       "<leader>w",
       function()
         require("hop").hint_words({
-          direction = require("hop.hint").HintDirection.AFTER_CURSOR,
           current_line_only = true,
         })
       end,
@@ -71,22 +70,10 @@ return {
       desc = "[W]ord jump",
     },
     {
-      "<leader>b",
-      function()
-        require("hop").hint_words({
-          direction = require("hop.hint").HintDirection.BEFORE_CURSOR,
-          current_line_only = true,
-        })
-      end,
-      mode = { "n", "x", "o" },
-      desc = "[B]ackward word jump",
-    },
-    {
       "<leader>e",
       function()
         require("hop").hint_words({
           hint_position = require("hop.hint").HintPosition.END,
-          direction = require("hop.hint").HintDirection.AFTER_CURSOR,
           current_line_only = true,
         })
       end,
@@ -94,38 +81,14 @@ return {
       desc = "[E]nd of word jump",
     },
     {
-      "<leader>E",
-      function()
-        require("hop").hint_words({
-          hint_position = require("hop.hint").HintPosition.END,
-          direction = require("hop.hint").HintDirection.BEFORE_CURSOR,
-          current_line_only = true,
-        })
-      end,
-      mode = { "n", "x", "o" },
-      desc = "[E]nd of word jump backward",
-    },
-    {
       "<leader>s",
       function()
         require("hop").hint_camel_case({
-          direction = require("hop.hint").HintDirection.AFTER_CURSOR,
           current_line_only = true,
         })
       end,
       mode = { "n", "x", "o" },
       desc = "[S]ubword jump",
-    },
-    {
-      "<leader>S",
-      function()
-        require("hop").hint_camel_case({
-          direction = require("hop.hint").HintDirection.BEFORE_CURSOR,
-          current_line_only = true,
-        })
-      end,
-      mode = { "n", "x", "o" },
-      desc = "[S]ubword jump backward",
     },
     -- In operator-pending mode, let's make line-related keymaps act linewise, like builtin operators like "y" or "d"
     { "<leader>j", "<cmd>HopLineStartAC<CR>", mode = { "n", "x" }, desc = "Downward line jump" },
