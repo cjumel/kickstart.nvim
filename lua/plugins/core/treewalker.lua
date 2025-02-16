@@ -1,58 +1,19 @@
 -- treewalker.nvim
 --
--- A neovim plugin for moving around your code in a syntax tree aware manner.
+-- A neovim plugin for moving around your code in a syntax tree aware manner. It provides a very ice way to navigate
+-- through the code and move pieces around, fully using the power of Treesitter.
 
 return {
   "aaronik/treewalker.nvim",
   keys = {
-    {
-      "Ì", -- <M-h>
-      "<cmd>Treewalker Left<cr>",
-      mode = { "n", "v" },
-      desc = "Move to the line first ancestor node",
-    },
-    {
-      "Ï", -- <M-j>
-      "<cmd>Treewalker Down<cr>",
-      mode = { "n", "v" },
-      desc = "Move to the line next neighboring node",
-    },
-    {
-      "È", -- <M-k>
-      "<cmd>Treewalker Up<cr>",
-      mode = { "n", "v" },
-      desc = "Move to the line previous neighboring node",
-    },
-    {
-      "|", -- <M-l>
-      "<cmd>Treewalker Right<cr>",
-      mode = { "n", "v" },
-      desc = "Move to the line first child node",
-    },
-    {
-      "Î", -- <M-S-h>
-      "<cmd>Treewalker SwapLeft<cr>",
-      mode = { "n", "v" },
-      desc = "Swap the cursor node with its previous neighbor",
-    },
-    {
-      "Í", -- <M-S-j>
-      "<cmd>Treewalker SwapDown<cr>",
-      mode = { "n", "v" },
-      desc = "Swap the line node downward",
-    },
-    {
-      "Ë", -- <M-S-k>
-      "<cmd>Treewalker SwapUp<cr>",
-      mode = { "n", "v" },
-      desc = "Swap the line node upward",
-    },
-    {
-      "¬", -- <M-S-l>
-      "<cmd>Treewalker SwapRight<cr>",
-      mode = { "n", "v" },
-      desc = "Swap the cursor node with its next neighbor",
-    },
+    { "Ì", "<cmd>Treewalker Left<CR>", mode = { "n", "v" }, desc = "Move to the line first ancestor node" }, -- <M-h>
+    { "Ï", "<cmd>Treewalker Down<CR>", mode = { "n", "v" }, desc = "Move to the line next neighboring node" }, -- <M-j>
+    { "È", "<cmd>Treewalker Up<CR>", mode = { "n", "v" }, desc = "Move to the line previous neighboring node" }, -- <M-k>
+    { "|", "<cmd>Treewalker Right<CR>", mode = { "n", "v" }, desc = "Move to the line first child node" }, -- <M-l>
+    { "Î", "<cmd>Treewalker SwapLeft<CR>", desc = "Swap the cursor node with its previous neighbor" }, -- <M-S-h>
+    { "Í", "<cmd>Treewalker SwapDown<CR>", desc = "Swap the line node downward" }, -- <M-S-j>
+    { "Ë", "<cmd>Treewalker SwapUp<CR>", desc = "Swap the line node upward" }, -- <M-S-k>
+    { "¬", "<cmd>Treewalker SwapRight<CR>", desc = "Swap the cursor node with its next neighbor" }, -- <M-S-l>
   },
   opts = {},
 }
