@@ -1,11 +1,6 @@
 -- [[ Modify builtin keymaps ]]
 -- Keymaps to modify (fix or improve) the behavior of builtin keymaps
 
--- By default, the keymap for "end of word backward" is "ge", which is not convenient to type and I prefer to remap with
--- substitute.nvim, so let's use "E" instead, which is originally mapped to "end of WORD (including punctuation),
--- similarly to "W" and "B", but I almost never use those
-vim.keymap.set({ "n", "x", "o" }, "E", "ge", { desc = "End of word backward" })
-
 --- Smart version of `a` & `i` keymaps to automatically indent when used on empty line.
 ---@param default_keymap string "a" or "i", the action to perform by default.
 ---@return string
@@ -92,10 +87,10 @@ vim.keymap.set("v", "<S-Tab>", "<gv", { desc = "Unindent selection" })
 
 vim.keymap.set({ "n", "v" }, "_", '"_', { desc = "Black hole register" })
 vim.keymap.set({ "n", "v" }, "+", '"+', { desc = "System clipboard register" })
-vim.keymap.set("n", "g=", function()
+vim.keymap.set("n", "gy", function()
   vim.fn.setreg("+", vim.fn.getreg('"'))
-  vim.notify("Clipboard synchronized with main register")
-end, { desc = "Synchronize clipboard with main register" })
+  vim.notify("Yanked sent to clipboard")
+end, { desc = "Send yanked to clipboard" })
 
 --- Fetch the path of the file or directory linked to the current buffer (must be a regular buffer or an Oil buffer),
 --- apply the provided modifiers to it and yank it to the default register.
@@ -118,10 +113,9 @@ local function yank_file_path(mods)
   end
 end
 
+vim.keymap.set("n", "<leader>yfp", function() yank_file_path(":~:.") end, { desc = "[Y]ank [F]ile: [P]ath" })
+vim.keymap.set("n", "<leader>yfa", function() yank_file_path(":~") end, { desc = "[Y]ank [F]ile: [A]bsolute path" })
 vim.keymap.set("n", "<leader>yfn", function() yank_file_path(":t") end, { desc = "[Y]ank [F]ile: [N]ame" })
-vim.keymap.set("n", "<leader>yfc", function() yank_file_path(":~:.") end, { desc = "[Y]ank [F]ile: path in [C]wd" })
-vim.keymap.set("n", "<leader>yfh", function() yank_file_path(":~") end, { desc = "[Y]ank [F]ile: path in [H]ome" })
-vim.keymap.set("n", "<leader>yfa", function() yank_file_path(":p") end, { desc = "[Y]ank [F]ile: [A]bsolute path" })
 
 vim.keymap.set("n", "<leader>yn", function()
   local notification_history = Snacks.notifier.get_history({ reverse = true })
