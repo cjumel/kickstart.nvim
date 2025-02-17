@@ -7,29 +7,29 @@
 return {
   "gbprod/substitute.nvim",
   keys = {
-    -- Overwrite: like paste, but as an operator and without yanking the replaced text
-    { "go", function() require("substitute").operator() end, desc = "Overwrite" },
-    { "go", function() require("substitute").visual() end, mode = "x", desc = "Overwrite" },
-    { "goc", function() require("substitute").line({ modifiers = { "reindent" } }) end, desc = "Overwrite line" },
+    -- Paste: paste operator, to paste over a target, but without yanking the target text
+    { "gp", function() require("substitute").operator() end, desc = "Paste" },
+    { "gp", function() require("substitute").visual() end, mode = "x", desc = "Paste" },
+    { "gpc", function() require("substitute").line({ modifiers = { "reindent" } }) end, desc = "Paste on line" },
 
-    -- Substitute: substitute every instance of a target within a range
-    { "gs", function() require("substitute.range").operator() end, desc = "Substitute" },
-    { "gs", function() require("substitute.range").visual() end, mode = "x", desc = "Substitute" },
+    -- Overwrite: overwrite every instance of a target within a target range
+    { "go", function() require("substitute.range").operator() end, desc = "Overwrite" },
+    { "go", function() require("substitute.range").visual() end, mode = "x", desc = "Overwrite" },
     {
-      "gS",
+      "gO",
       function() require("substitute.range").operator({ register = "0", auto_apply = true }) end,
-      desc = "Substitute by register",
+      desc = "Overwrite by register",
     },
     {
-      "gS",
+      "gO",
       function() require("substitute.range").visual({ register = "0", auto_apply = true }) end,
       mode = "x",
-      desc = "Substitute by register",
+      desc = "Overwrite by register",
     },
 
-    -- Exchange: substitute two targets with one another
-    { "g=", function() require("substitute.exchange").operator() end, desc = "Exchange" },
-    { "g=", function() require("substitute.exchange").visual() end, mode = "x", desc = "Exchange" },
+    -- Swap: swap together two targets
+    { "gs", function() require("substitute.exchange").operator() end, desc = "Swap" },
+    { "gs", function() require("substitute.exchange").visual() end, mode = "x", desc = "Swap" },
   },
   opts = {},
 }
