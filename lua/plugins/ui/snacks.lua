@@ -22,7 +22,28 @@ return {
 
     -- Picker
     {
-      "<leader>u",
+      "<leader>fs",
+      function() Snacks.picker.lsp_symbols({ title = "Document Symbols" }) end,
+      desc = "[F]ind: document [S]ymbols",
+    },
+    {
+      "<leader>fS",
+      function() Snacks.picker.lsp_symbols({ title = "Document Symbols (all)", filter = { default = true } }) end,
+      desc = "[F]ind: document [S]ymbols (all)",
+    },
+    {
+      "<leader>fw",
+      function() Snacks.picker.lsp_workspace_symbols({ title = "Workspace Symbols" }) end,
+      desc = "[F]ind: workspace [S]ymbols",
+    },
+    {
+      "<leader>fW",
+      function()
+        Snacks.picker.lsp_workspace_symbols({ title = "Workspace Symbols (all)", filter = { default = true } })
+      end,
+      desc = "[F]ind: workspace [S]ymbols (all)",
+    },
+    {
       function()
         Snacks.picker.undo({
           win = {

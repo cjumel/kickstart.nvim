@@ -74,8 +74,6 @@ return {
         map("n", "gra", vim.lsp.buf.code_action, "Code action")
         map("n", "grn", vim.lsp.buf.rename, "Rename")
         map("n", "grr", "<cmd>Trouble lsp_references<CR>", "References")
-        map("n", "grs", Snacks.picker.lsp_symbols, "Symbols")
-        map("n", "grw", Snacks.picker.lsp_workspace_symbols, "Workspace symbols")
 
         -- Next/previous reference navigation; let's define these keymaps here to benefit from the "LspAttach" behavior
         local ts_repeatable_move = require("nvim-treesitter.textobjects.repeatable_move")

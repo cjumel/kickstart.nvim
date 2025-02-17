@@ -13,6 +13,7 @@ return {
     { "<leader>vD", "<cmd>Trouble diagnostics toggle<CR>", desc = "[V]iew: workspace [D]iagnostics" },
     { "<leader>vl", "<cmd>Trouble loclist toggle<CR>", desc = "[V]iew: [L]ocation list" },
     { "<leader>vq", "<cmd>Trouble qflist toggle<CR>", desc = "[V]iew: [Q]uickfix list" },
+    { "<leader>vs", "<cmd>Trouble symbols toggle<CR>", desc = "[V]iew: document [S]ymbols" },
   },
   opts = {
     keys = {
@@ -41,18 +42,23 @@ return {
         focus = true, -- Focus the Trouble window when opened
       },
 
-      -- LSP modes (see nvim-lspconfig)
+      -- LSP (see nvim-lspconfig)
       lsp_definitions = {
         focus = true, -- Focus the Trouble window when opened
-        auto_refresh = false, -- Don't re-compute definitions when cursor moves in the main window
+        auto_refresh = false, -- Don't refresh Trouble window when cursor moves in the main window
       },
       lsp_type_definitions = {
         focus = true, -- Focus the Trouble window when opened
-        auto_refresh = false, -- Don't re-compute type definitions when cursor moves in the main window
+        auto_refresh = false, -- Don't refresh Trouble window when cursor moves in the main window
       },
       lsp_references = {
         focus = true, -- Focus the Trouble window when opened
-        auto_refresh = false, -- Don't re-compute references when cursor moves in the main window
+        auto_refresh = false, -- Don't refresh Trouble window when cursor moves in the main window
+      },
+      symbols = {
+        open_no_results = true, -- Open the Trouble window even when there is no item as the LSP can be slow
+        groups = {}, -- Remove the file name as there is only one
+        format = "{kind_icon} {symbol.name}", -- Simplify the displayed information
       },
 
       -- Todo-comments (see todo-comments.nvim)
