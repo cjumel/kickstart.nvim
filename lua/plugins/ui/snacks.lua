@@ -44,6 +44,7 @@ return {
       desc = "[F]ind: workspace [S]ymbols (all)",
     },
     {
+      "<leader>fu",
       function()
         Snacks.picker.undo({
           win = {
@@ -51,7 +52,7 @@ return {
               keys = {
                 -- Customize keymaps and add "close" action
                 ["<C-y>"] = { { "yank_add", "close" }, mode = "i" }, -- Same keymap as default
-                ["Ú"] = { { "yank_del", "close" }, mode = "i" }, -- <M-y> instead of <C-M-y> I can't use
+                ["Ú"] = { { "yank_del", "close" }, mode = "i" }, -- <M-y> instead of <C-S-y> I can't use
               },
             },
           },
@@ -62,7 +63,7 @@ return {
           },
         })
       end,
-      desc = "[U]ndo tree",
+      desc = "[F]ind: [U]ndo tree",
     },
 
     -- Scratch buffers
