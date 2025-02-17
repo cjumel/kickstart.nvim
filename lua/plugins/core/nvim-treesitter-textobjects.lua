@@ -103,21 +103,30 @@ return {
     local augroup = vim.api.nvim_create_augroup("NvimTreesitterTextobjectsKeymaps", { clear = true })
 
     ---@param key string The keymap key, to use in addition to "[" or "]" to define the keymaps lhs.
-    ---@param forward_move_fn function The function to move in the forward direction to define one of the keymaps rhs.
-    ---@param backward_move_fn function The function to move in the backward direction to define the other keymap rhs.
+    ---@param next_fn function The function to move in the forward direction to define one of the keymaps rhs.
+    ---@param prev_fn function The function to move in the backward direction to define the other keymap rhs.
     ---@param name string The keymap name, to use in addition to "Next " or "Previous " to define keymap descriptions.
+    ---@param other_key string The keymap key to use in addition to "]" to define the keymap lhs, if different of `key`.
     ---@return nil
-    function map(key, forward_move_fn, backward_move_fn, name)
-      forward_move_fn, backward_move_fn =
-        ts_repeatable_move.make_repeatable_move_pair(forward_move_fn, backward_move_fn)
-      vim.keymap.set({ "n", "x", "o" }, "[" .. key, forward_move_fn, { desc = "Next " .. name, buffer = true })
-      vim.keymap.set({ "n", "x", "o" }, "]" .. key, backward_move_fn, { desc = "Previous " .. name, buffer = true })
+    function map(key, next_fn, prev_fn, name, other_key)
+      other_key = other_key or key
+      local mode = { "n", "x", "o" }
+      next_fn, prev_fn = ts_repeatable_move.make_repeatable_move_pair(next_fn, prev_fn)
+      vim.keymap.set(mode, "[" .. key, next_fn, { desc = "Next " .. name, buffer = true })
+      vim.keymap.set(mode, "]" .. other_key, prev_fn, { desc = "Previous " .. name, buffer = true })
     end
 
     vim.api.nvim_create_autocmd("FileType", {
       pattern = "*",
       group = augroup,
       callback = function()
+        map(
+          "[",
+          function() Snacks.words.jump(vim.v.count1, true) end,
+          function() Snacks.words.jump(-vim.v.count1, true) end,
+          "reference",
+          "]"
+        )
         map("!", vim.diagnostic.goto_next, vim.diagnostic.goto_prev, "diagnostic")
         map(
           "e",
