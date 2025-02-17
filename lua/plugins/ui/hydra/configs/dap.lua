@@ -2,7 +2,8 @@
 local hint = [[
                                    Debug   
    _b_ ➜ Toggle [B]reakpoint     _p_ ➜ [P]review variable   _t_ ➜ [T]erminate   
-   _c_ ➜ Toggle REPL [C]onsole   _r_ ➜ [R]un                _u_ ➜ Toggle [U]I   
+   _B_ ➜ Clear [B]reakpoints     _r_ ➜ [R]un                _u_ ➜ Toggle [U]I   
+   _c_ ➜ Toggle REPL [C]onsole   
 ]]
 
 return {
@@ -16,6 +17,7 @@ return {
     hint = hint,
     heads = {
       { "b", function() require("dap").toggle_breakpoint() end },
+      { "B", function() require("dap").clear_breakpoints() end },
       { "c", function() require("dap").repl.toggle() end },
       { "p", function() require("dap.ui.widgets").hover() end },
       {
