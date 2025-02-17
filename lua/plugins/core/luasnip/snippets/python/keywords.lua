@@ -30,11 +30,21 @@ return {
     desc = [[`def …(…) -> …: …`]],
   }, {
     t("def "),
-    i(1),
+    c(1, {
+      r(1, "name", i(nil)),
+      sn(nil, { t("__"), r(1, "name"), t("__") }),
+    }),
     t("("),
-    i(2),
+    c(2, {
+      r(1, "args", i(nil)),
+      sn(nil, { t("self"), r(1, "args") }),
+      sn(nil, { t("cls"), r(1, "args") }),
+    }),
     t(") -> "),
-    i(3),
+    c(3, {
+      i(1),
+      sn(nil, { t("None"), i(1) }),
+    }),
     t({ ":", "\t" }),
     i(4),
   }),
@@ -240,7 +250,7 @@ Choices:
         t({ " is None:", "\t" }),
         t([[raise ValueError("Expected ']]),
         rep(1),
-        t([[' to be not None")]]),
+        t([[' not to be None")]]),
         i(2),
       }),
       sn(nil, {
@@ -274,5 +284,16 @@ Choices:
     i(1),
     t(" as "),
     i(2),
+  }),
+
+  s({
+    trig = "or None",
+    show_condition = -conds.line_begin * is_in_code_condition,
+    desc = [[`| None`]],
+  }, {
+    c(1, {
+      sn(nil, { t("| None"), i(1) }),
+      sn(nil, { t("| None = None"), i(1) }),
+    }),
   }),
 }
