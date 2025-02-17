@@ -20,7 +20,7 @@ return {
       function() vim.cmd("TodoTelescope layout_strategy=vertical keywords=NOW") end,
       desc = "[F]ind: [N]ow todo-comments",
     },
-    { "<leader>vt", function() vim.cmd("Trouble todo toggle") end, desc = "[V]iew: [T]odo-comments" },
+    { "<leader>vt", function() vim.cmd("Trouble todo_custom toggle") end, desc = "[V]iew: [T]odo-comments" },
     { "<leader>vn", function() vim.cmd("Trouble todo_now toggle") end, desc = "[V]iew: [N]ow todo-comments" },
   },
   opts = {

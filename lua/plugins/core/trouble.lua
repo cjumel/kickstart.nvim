@@ -55,16 +55,15 @@ return {
         auto_refresh = false, -- Don't re-compute references when cursor moves in the main window
       },
 
-      -- Todo-Comment modes (see todo-comments.nvim)
-      todo = {
-        open_no_results = true, -- Open the Trouble window even when there is no item as they can appear dynamically
+      -- Todo-comments (see todo-comments.nvim)
+      todo_all = {
         mode = "todo",
-        title = "{hl:Title}Todo-comments{hl} {count}",
+        title = "{hl:Title}Todo-comments{hl} {count}", -- Add a title
       },
       todo_now = {
-        mode = "todo",
-        title = "{hl:Title}Now todo-comments{hl} {count}",
-        filter = { tag = { "NOW" } },
+        mode = "todo_all",
+        title = "{hl:Title}Now todo-comments{hl} {count}", -- Add a title
+        filter = { tag = { "NOW" } }, -- Filter todo-comment tags
         groups = { { "filename", format = "{file_icon} {filename} {count}" } }, -- Remove tag group as we only have one
       },
     },
