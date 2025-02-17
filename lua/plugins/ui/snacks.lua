@@ -137,7 +137,10 @@ return {
           keys = {
             ["<Tab>"] = { "list_down", mode = "i" },
             ["<S-Tab>"] = { "list_up", mode = "i" },
-            ["<M-BS>"] = { "<c-s-w>", mode = "i", expr = true },
+            ["<C-v>"] = { "toggle_preview", mode = "i" },
+            ["<C-j>"] = { "preview_scroll_down", mode = "i" },
+            ["<C-k>"] = { "preview_scroll_up", mode = "i" },
+            ["<M-BS>"] = { "<C-S-w>", mode = "i", expr = true },
             ["<Esc>"] = { "cancel", mode = "i" },
             ["<C-a>"] = false, -- Prefer insert-mode keymap
             ["<C-e>"] = false, -- Prefer insert-mode keymap
