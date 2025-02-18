@@ -47,19 +47,14 @@ return {
       "<leader>fu",
       function()
         Snacks.picker.undo({
+          title = "Undo Tree",
           win = {
             input = {
               keys = {
-                -- Customize keymaps and add "close" action
-                ["<C-y>"] = { { "yank_add", "close" }, mode = "i" }, -- Same keymap as default
-                ["Ú"] = { { "yank_del", "close" }, mode = "i" }, -- <M-y> instead of <C-S-y> I can't use
+                ["<C-y>"] = { { "yank_add", "close" }, mode = "i" }, -- Add close action
+                ["Ú"] = { { "yank_del", "close" }, mode = "i" }, -- <M-y> (instead of <C-S-y>), add close action
               },
             },
-          },
-          actions = {
-            -- Yank in main register
-            yank_add = { action = "yank", field = "added_lines", reg = '"' },
-            yank_del = { action = "yank", field = "removed_lines", reg = '"' },
           },
         })
       end,
