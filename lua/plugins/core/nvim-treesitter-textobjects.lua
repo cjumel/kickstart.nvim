@@ -23,8 +23,6 @@ return {
         ["ia"] = { query = "@parameter.inner", desc = "inner argument" },
         ["ac"] = { query = "@class.outer", desc = "a class" },
         ["ic"] = { query = "@class.inner", desc = "inner class" },
-        ["ad"] = { query = "@function.outer", desc = "a function definition" },
-        ["id"] = { query = "@function.inner", desc = "inner function definition" },
         ["af"] = { query = "@call.outer", desc = "a function call" },
         ["if"] = { query = "@call.inner", desc = "inner function call" },
         ["ag"] = { query = "@comment.outer", desc = "a comment" }, -- "g" like builtin "gc" operator
@@ -33,6 +31,8 @@ return {
         ["ii"] = { query = "@conditional.inner", desc = "inner if/else if/else statement" },
         ["al"] = { query = "@loop.outer", desc = "a loop" },
         ["il"] = { query = "@loop.inner", desc = "inner loop" },
+        ["am"] = { query = "@function.outer", desc = "a method definition" },
+        ["im"] = { query = "@function.inner", desc = "inner method definition" },
         ["ar"] = { query = "@return.outer", desc = "a return statement" },
         ["ir"] = { query = "@return.inner", desc = "inner return statement" },
         ["a="] = { query = "@assignment.outer", desc = "an assignment" },
@@ -46,21 +46,21 @@ return {
       set_jumps = true, -- Set jumps in the jumplist
       goto_next_start = {
         ["[c"] = { query = "@class.outer", desc = "Next class start" },
-        ["[d"] = { query = "@function.outer", desc = "Next function definition start" },
         ["[g"] = { query = "@comment.outer", desc = "Next comment" },
+        ["[m"] = { query = "@function.outer", desc = "Next function definition start" },
       },
       goto_next_end = {
         ["[C"] = { query = "@class.outer", desc = "Next class end" },
-        ["[D"] = { query = "@function.outer", desc = "Next function definition end" },
+        ["[M"] = { query = "@function.outer", desc = "Next function definition end" },
       },
       goto_previous_start = {
         ["]c"] = { query = "@class.outer", desc = "Previous class start" },
-        ["]d"] = { query = "@function.outer", desc = "Previous function definition start" },
         ["]g"] = { query = "@comment.outer", desc = "Previous comment" },
+        ["]m"] = { query = "@function.outer", desc = "Previous function definition start" },
       },
       goto_previous_end = {
         ["]C"] = { query = "@class.outer", desc = "Previous class end" },
-        ["]D"] = { query = "@function.outer", desc = "Previous function definition end" },
+        ["]M"] = { query = "@function.outer", desc = "Previous function definition end" },
       },
     },
   },
@@ -127,7 +127,7 @@ return {
           "reference",
           "]"
         )
-        map("!", vim.diagnostic.goto_next, vim.diagnostic.goto_prev, "diagnostic")
+        map("d", vim.diagnostic.goto_next, vim.diagnostic.goto_prev, "diagnostic")
         map(
           "e",
           function() vim.diagnostic.goto_next({ severity = "ERROR" }) end,

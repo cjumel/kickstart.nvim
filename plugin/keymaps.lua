@@ -52,7 +52,7 @@ vim.keymap.set("n", "<Down>", "3<C-e>", { desc = "Scroll down a few lines" })
 vim.keymap.set("n", "<leader><CR>", "<Cmd>w<CR>", { desc = "Write buffer" })
 vim.keymap.set("n", "<leader><S-CR>", "<Cmd>noautocmd w<CR>", { desc = "Write buffer without auto-commands" })
 vim.keymap.set("n", "<leader><M-CR>", "<Cmd>noautocmd w!<CR>", { desc = "Force write buffer without auto-commands" })
-vim.keymap.set("n", "<leader>!", vim.diagnostic.open_float, { desc = "Expand diagnostics" })
+vim.keymap.set("n", "<leader>p", vim.diagnostic.open_float, { desc = "[P]review diagnostics" })
 vim.keymap.set({ "n", "v" }, "<C-^>", "}", { desc = "Next paragraph" }) -- <C-,>
 vim.keymap.set({ "n", "v" }, "<C-_>", "{", { desc = "Previous paragraph" }) -- <C-;>
 vim.keymap.set(
