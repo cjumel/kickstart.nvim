@@ -12,7 +12,7 @@ return {
       "aq",
       function() require("various-textobjs").anyQuote("outer") end,
       mode = { "x", "o" },
-      desc = "a quote",
+      desc = "quote",
     },
     {
       "iq",
@@ -24,7 +24,7 @@ return {
       "as",
       function() require("various-textobjs").subword("outer") end,
       mode = { "x", "o" },
-      desc = "a subword",
+      desc = "subword",
     },
     {
       "is",
@@ -36,7 +36,7 @@ return {
       "ak",
       function() require("various-textobjs").key("outer") end,
       mode = { "x", "o" },
-      desc = "a key in key-value pair",
+      desc = "key in key-value pair",
     },
     {
       "ik",
@@ -48,7 +48,7 @@ return {
       "av",
       function() require("various-textobjs").value("outer") end,
       mode = { "x", "o" },
-      desc = "a value in key-value pair",
+      desc = "value in key-value pair",
     },
     {
       "iv",
@@ -60,7 +60,7 @@ return {
       "a<Tab>",
       function() require("various-textobjs").indentation("outer", "outer") end,
       mode = { "x", "o" },
-      desc = "an indentation",
+      desc = "indentation",
     },
     {
       "i<Tab>",
