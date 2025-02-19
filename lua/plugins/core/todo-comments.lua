@@ -12,22 +12,31 @@ return {
   keys = {
     {
       "<leader>ft",
-      function() vim.cmd("TodoTelescope layout_strategy=vertical") end,
-      desc = "[F]ind: [T]odo-comments",
+      function() vim.cmd("TodoTelescope layout_strategy=vertical keywords=NOW") end,
+      desc = "[F]ind: [T]odo-comments (personal)",
     },
     {
-      "<leader>fn",
-      function() vim.cmd("TodoTelescope layout_strategy=vertical keywords=NOW") end,
-      desc = "[F]ind: [N]ow todo-comments",
+      "<leader>fT",
+      function() vim.cmd("TodoTelescope layout_strategy=vertical") end,
+      desc = "[F]ind: [T]odo-comments (all)",
     },
-    { "<leader>vt", function() vim.cmd("Trouble todo toggle") end, desc = "[V]iew: [T]odo-comments" },
-    { "<leader>vn", function() vim.cmd("Trouble todo_now toggle") end, desc = "[V]iew: [N]ow todo-comments" },
+    {
+      "<leader>vt",
+      function() vim.cmd("Trouble todo_personal toggle") end,
+      desc = "[V]iew: [T]odo-comments (personal)",
+    },
+    {
+      "<leader>vT",
+      function() vim.cmd("Trouble todo toggle") end,
+      desc = "[V]iew: [T]odo-comments (all)",
+    },
   },
   opts = {
-    -- Add more keyword and keyword alternatives
     keywords = {
-      NOW = { icon = " ", color = "info" }, -- Like TODO, but not in `alt` to be able to search for them directly
+      -- Update builtin keywords
       NOTE = { icon = " ", color = "hint", alt = { "INFO", "IMPORTANT" } },
+      -- Add personal keywords (must be separated to be able to search for them)
+      NOW = { icon = " ", color = "info" }, -- Like TODO
     },
     -- Include hidden files when searching for todo-comments
     search = { args = { "--color=never", "--no-heading", "--with-filename", "--line-number", "--column", "--hidden" } },

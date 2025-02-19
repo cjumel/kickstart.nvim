@@ -62,11 +62,11 @@ return {
 
       -- Todo-comments (see todo-comments.nvim)
       todo = {
-        title = "{hl:Title}Todo-comments{hl} {count}", -- Add a title
+        title = "{hl:Title}Todo-comments (all) {hl} {count}", -- Add a title
       },
-      todo_now = {
+      todo_personal = {
         mode = "todo",
-        title = "{hl:Title}Now todo-comments{hl} {count}", -- Add a title
+        title = "{hl:Title}Todo-comments (personal) {hl} {count}", -- Add a title
         filter = { tag = { "NOW" } }, -- Filter todo-comment tags
         groups = { { "filename", format = "{file_icon} {filename} {count}" } }, -- Remove tag group as there is only one
       },

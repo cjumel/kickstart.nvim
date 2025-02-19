@@ -34,14 +34,14 @@ return {
     {
       "<leader>fw",
       function() Snacks.picker.lsp_workspace_symbols({ title = "Workspace Symbols" }) end,
-      desc = "[F]ind: workspace [S]ymbols",
+      desc = "[F]ind: [W]orkspace symbols",
     },
     {
       "<leader>fW",
       function()
         Snacks.picker.lsp_workspace_symbols({ title = "Workspace Symbols (all)", filter = { default = true } })
       end,
-      desc = "[F]ind: workspace [S]ymbols (all)",
+      desc = "[F]ind: [W]orkspace symbols (all)",
     },
     {
       "<leader>fu",
