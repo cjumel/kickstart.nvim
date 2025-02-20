@@ -100,6 +100,7 @@ function M.old_files()
     prompt_title = "Find Old files",
     -- Replace punctuation marks by spaces, to support searching from module names, like "plugins.core"
     default_text = visual_mode.is_on() and string.gsub(visual_mode.get_text(), "%p", " ") or nil,
+    previewer = false, -- File paths can be super long so let's git them some room
   })
 end
 
