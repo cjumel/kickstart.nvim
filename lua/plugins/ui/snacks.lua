@@ -22,6 +22,11 @@ return {
 
     -- Picker
     {
+      "<leader>fl",
+      function() Snacks.picker.lines() end,
+      desc = "[F]ind: [L]ines",
+    },
+    {
       "<leader>fs",
       function() Snacks.picker.lsp_symbols({ title = "Document Symbols" }) end,
       desc = "[F]ind: document [S]ymbols",

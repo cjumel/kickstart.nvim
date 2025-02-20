@@ -206,15 +206,6 @@ function M.find_directories()
   builtin.find_files(opts)
 end
 
-function M.find_lines()
-  builtin.current_buffer_fuzzy_find({
-    prompt_title = "Find Lines",
-    layout_strategy = "vertical",
-    tiebreak = function(current, existing, _) return current.index < existing.index end, -- Sort by line number
-    default_text = visual_mode.is_on() and visual_mode.get_text() or nil,
-  })
-end
-
 --- Finalize the options for the `live_grep` picker. This function adds all the relevant not-persisted options to the
 --- persisted ones.
 ---@param opts table The persisted options.

@@ -45,12 +45,6 @@ return {
       desc = "[F]ind: [D]irectories",
     },
     {
-      "<leader>fl",
-      function() require("plugins.core.telescope.pickers").find_lines() end,
-      mode = { "n", "v" },
-      desc = "[F]ind: [L]ines",
-    },
-    {
       "<leader>fg",
       function() require("plugins.core.telescope.pickers").live_grep() end,
       mode = { "n", "v" },
