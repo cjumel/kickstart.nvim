@@ -154,6 +154,7 @@ return {
           keys = {
             ["<Tab>"] = { "list_down", mode = "i" },
             ["<S-Tab>"] = { "list_up", mode = "i" },
+            ["<C-g>"] = { "list_top", mode = "i" },
             ["<C-v>"] = { "toggle_preview", mode = "i" },
             ["<C-j>"] = { "preview_scroll_down", mode = "i" },
             ["<C-k>"] = { "preview_scroll_up", mode = "i" },
@@ -176,7 +177,7 @@ return {
       win = {
         keys = {
           ["delete"] = {
-            "<C-q>",
+            "<C-BS>",
             function(self)
               if vim.fn.confirm("Do you want to delete the scratch file definitely?", "&Yes\n&No") == 1 then
                 local fname = vim.api.nvim_buf_get_name(self.buf)
