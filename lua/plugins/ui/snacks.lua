@@ -3,6 +3,40 @@
 -- Meta plugin providing a collection of small quality-of-life plugins for Neovim. All these plugigns work very nicely
 -- out-of-the-box, with great default behaviors, and bring many UI improvements as well as new cool atomic features.
 
+-- Define custom layouts. This is not done in the `opts` table, as it may have side effects in some pickers there.
+local horizontal_layout = { -- Adapted from the "telescope" preset layout
+  layout = {
+    box = "horizontal",
+    backdrop = false,
+    width = 0.9,
+    height = 0.9,
+    border = "none",
+    {
+      box = "vertical",
+      {
+        win = "input",
+        height = 1,
+        border = "rounded",
+        title = "{title} {live} {flags}",
+        title_pos = "center",
+      },
+      {
+        win = "list",
+        title = " Results ",
+        title_pos = "center",
+        border = "rounded",
+      },
+    },
+    {
+      win = "preview",
+      title = "{preview:Preview}",
+      width = 0.5,
+      border = "rounded",
+      title_pos = "center",
+    },
+  },
+}
+
 return {
   "folke/snacks.nvim",
   dependencies = { "nvim-tree/nvim-web-devicons" },
@@ -23,28 +57,38 @@ return {
     -- Picker
     {
       "<leader>fl",
-      function() Snacks.picker.lines() end,
+      function() Snacks.picker.lines({ title = "Lines" }) end,
       desc = "[F]ind: [L]ines",
     },
     {
       "<leader>fs",
-      function() Snacks.picker.lsp_symbols({ title = "Document Symbols" }) end,
+      function() Snacks.picker.lsp_symbols({ title = "Document Symbols", layout = horizontal_layout }) end,
       desc = "[F]ind: document [S]ymbols",
     },
     {
       "<leader>fS",
-      function() Snacks.picker.lsp_symbols({ title = "Document Symbols (all)", filter = { default = true } }) end,
+      function()
+        Snacks.picker.lsp_symbols({
+          title = "Document Symbols (all)",
+          filter = { default = true },
+          layout = horizontal_layout,
+        })
+      end,
       desc = "[F]ind: document [S]ymbols (all)",
     },
     {
       "<leader>fw",
-      function() Snacks.picker.lsp_workspace_symbols({ title = "Workspace Symbols" }) end,
+      function() Snacks.picker.lsp_workspace_symbols({ title = "Workspace Symbols", layout = horizontal_layout }) end,
       desc = "[F]ind: [W]orkspace symbols",
     },
     {
       "<leader>fW",
       function()
-        Snacks.picker.lsp_workspace_symbols({ title = "Workspace Symbols (all)", filter = { default = true } })
+        Snacks.picker.lsp_workspace_symbols({
+          title = "Workspace Symbols (all)",
+          filter = { default = true },
+          layout = horizontal_layout,
+        })
       end,
       desc = "[F]ind: [W]orkspace symbols (all)",
     },
@@ -61,6 +105,7 @@ return {
               },
             },
           },
+          layout = horizontal_layout,
         })
       end,
       desc = "[F]ind: [U]ndo tree",
@@ -154,28 +199,6 @@ return {
 
     picker = {
       enabled = true, -- Use Snacks picker for vim.ui.select
-      layout = { -- Taken and adapted from the "telescope" layout
-        reverse = false,
-        layout = {
-          box = "horizontal",
-          backdrop = false,
-          width = 0.8,
-          height = 0.9,
-          border = "none",
-          {
-            box = "vertical",
-            { win = "input", height = 1, border = "rounded", title = "{title} {live} {flags}", title_pos = "center" },
-            { win = "list", title = " Results ", title_pos = "center", border = "rounded" },
-          },
-          {
-            win = "preview",
-            title = "{preview:Preview}",
-            width = 0.5,
-            border = "rounded",
-            title_pos = "center",
-          },
-        },
-      },
       win = {
         input = {
           keys = {
