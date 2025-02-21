@@ -154,22 +154,46 @@ return {
 
     picker = {
       enabled = true, -- Use Snacks picker for vim.ui.select
+      layout = { -- Taken and adapted from the "telescope" layout
+        reverse = false,
+        layout = {
+          box = "horizontal",
+          backdrop = false,
+          width = 0.8,
+          height = 0.9,
+          border = "none",
+          {
+            box = "vertical",
+            { win = "input", height = 1, border = "rounded", title = "{title} {live} {flags}", title_pos = "center" },
+            { win = "list", title = " Results ", title_pos = "center", border = "rounded" },
+          },
+          {
+            win = "preview",
+            title = "{preview:Preview}",
+            width = 0.5,
+            border = "rounded",
+            title_pos = "center",
+          },
+        },
+      },
       win = {
         input = {
           keys = {
             ["<Tab>"] = { "list_down", mode = "i" },
             ["<S-Tab>"] = { "list_up", mode = "i" },
+            ["<C-s>"] = { "select_and_next", mode = "i" },
             ["<C-g>"] = { "list_top", mode = "i" },
             ["<C-v>"] = { "toggle_preview", mode = "i" },
             ["<C-j>"] = { "preview_scroll_down", mode = "i" },
             ["<C-k>"] = { "preview_scroll_up", mode = "i" },
             ["<M-BS>"] = { "<C-S-w>", mode = "i", expr = true },
             ["<Esc>"] = { "cancel", mode = "i" },
-            ["<C-a>"] = false, -- Prefer insert-mode keymap
-            ["<C-e>"] = false, -- Prefer insert-mode keymap
-            ["<C-b>"] = false, -- Prefer insert-mode keymap
-            ["<C-f>"] = false, -- Prefer insert-mode keymap
-            ["<C-u>"] = false, -- Prefer insert-mode keymap
+            -- Prefer some native insert-mode keymaps
+            ["<C-a>"] = false,
+            ["<C-e>"] = false,
+            ["<C-b>"] = false,
+            ["<C-f>"] = false,
+            ["<C-u>"] = false,
           },
         },
       },
