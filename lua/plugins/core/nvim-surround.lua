@@ -12,6 +12,7 @@ return {
     { "ga", "<Plug>(nvim-surround-normal)", desc = "Add surrounds" },
     { "ga", "<Plug>(nvim-surround-visual)", mode = "x", desc = "Add surrounds" },
     { "gA", "<Plug>(nvim-surround-normal-line)", desc = "Add surrounds on new lines" },
+    { "gA", "<Plug>(nvim-surround-visual-line)", mode = "x", desc = "Add surrounds on new lines" },
     { "gm", "<Plug>(nvim-surround-change)", desc = "Modify surrounds" },
     { "gl", "<Plug>(nvim-surround-delete)", desc = "Lose surrounds" },
   },
