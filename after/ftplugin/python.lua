@@ -13,6 +13,7 @@ vim.keymap.set("n", "<leader>ym", function()
   -- Remove various prefixes and suffixes, and replace "/" by "."
   path = path:gsub("^src/", "")
   path = path:gsub("%.py$", "")
+  path = path:gsub("%.pyi$", "")
   path = path:gsub(".__init__$", "")
   path = path:gsub("/", ".")
   vim.fn.setreg('"', path)
