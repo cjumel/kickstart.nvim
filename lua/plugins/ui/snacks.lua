@@ -56,6 +56,40 @@ return {
 
     -- Picker
     {
+      "<leader>ff",
+      function()
+        if vim.bo.filetype ~= "oil" then
+          Snacks.picker.files({ title = "Files", hidden = true, layout = horizontal_layout })
+        else
+          local dir = vim.fn.fnamemodify(require("oil").get_current_dir() or vim.fn.expand("%"), ":p:~:.")
+          Snacks.picker.files({ title = "Files (" .. dir .. ")", hidden = true, cwd = dir, layout = horizontal_layout })
+        end
+      end,
+      desc = "[F]ind: [F]iles",
+    },
+    {
+      "<leader>fr",
+      function() Snacks.picker.recent({ title = "Recent Files", filter = { cwd = true }, layout = horizontal_layout }) end,
+      desc = "[F]ind: [R]ecent files",
+    },
+    {
+      "<leader>fo",
+      function() Snacks.picker.recent({ title = "Recent Old Files", layout = horizontal_layout }) end,
+      desc = "[F]ind: [O]ld files",
+    },
+    {
+      "<leader>fg",
+      function() Snacks.picker.grep({ title = "Grep", hidden = true, layout = horizontal_layout }) end,
+      mode = "n",
+      desc = "[F]ind: [G]rep",
+    },
+    {
+      "<leader>fg",
+      function() Snacks.picker.grep_word({ title = "Grep", hidden = true, layout = horizontal_layout }) end,
+      mode = "x",
+      desc = "[F]ind: [G]rep",
+    },
+    {
       "<leader>fl",
       function() Snacks.picker.lines({ title = "Lines" }) end,
       desc = "[F]ind: [L]ines",
@@ -139,19 +173,21 @@ return {
           icon = " ",
           key = "f",
           desc = "Find Files",
-          action = function() require("plugins.core.telescope.pickers").find_files() end,
+          action = function() Snacks.picker.files({ title = "Files", hidden = true, layout = horizontal_layout }) end,
         },
         {
           icon = " ",
           key = "r",
           desc = "Find Recent files",
-          action = function() require("plugins.core.telescope.pickers").recent_files() end,
+          action = function()
+            Snacks.picker.recent({ title = "Recent Files", filter = { cwd = true }, layout = horizontal_layout })
+          end,
         },
         {
           icon = " ",
           key = "o",
           desc = "Find Old files",
-          action = function() require("plugins.core.telescope.pickers").old_files() end,
+          action = function() Snacks.picker.recent({ title = "Recent Old Files", layout = horizontal_layout }) end,
         },
         {
           icon = " ",
@@ -199,6 +235,11 @@ return {
 
     picker = {
       enabled = true, -- Use Snacks picker for vim.ui.select
+      formatters = {
+        file = {
+          truncate = 60, -- Increase the displayed file path length
+        },
+      },
       win = {
         input = {
           keys = {
@@ -206,6 +247,7 @@ return {
             ["<S-Tab>"] = { "list_up", mode = "i" },
             ["<C-s>"] = { "select_and_next", mode = "i" },
             ["<C-g>"] = { "list_top", mode = "i" },
+            ["<C-t>"] = { "toggle_ignored", mode = "i" },
             ["<C-v>"] = { "toggle_preview", mode = "i" },
             ["<C-j>"] = { "preview_scroll_down", mode = "i" },
             ["<C-k>"] = { "preview_scroll_up", mode = "i" },
@@ -296,4 +338,10 @@ return {
       zen = { wo = { number = false, relativenumber = false, signcolumn = "yes" } },
     },
   },
+  config = function(_, opts)
+    Snacks.setup(opts)
+
+    -- Use same highlight group for file path and file name in file pickers
+    vim.api.nvim_set_hl(0, "SnacksPickerDir", { link = "SnacksPickerFile" })
+  end,
 }

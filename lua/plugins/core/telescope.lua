@@ -21,34 +21,10 @@ return {
   keys = {
     -- Main pickers
     {
-      "<leader>ff",
-      function() require("plugins.core.telescope.pickers").find_files() end,
-      mode = { "n", "v" },
-      desc = "[F]ind: [F]iles",
-    },
-    {
-      "<leader>fr",
-      function() require("plugins.core.telescope.pickers").recent_files() end,
-      mode = { "n", "v" },
-      desc = "[F]ind: [R]ecent files",
-    },
-    {
-      "<leader>fo",
-      function() require("plugins.core.telescope.pickers").old_files() end,
-      mode = { "n", "v" },
-      desc = "[F]ind: [O]ld files",
-    },
-    {
       "<leader>fd",
       function() require("plugins.core.telescope.pickers").find_directories() end,
       mode = { "n", "v" },
       desc = "[F]ind: [D]irectories",
-    },
-    {
-      "<leader>fg",
-      function() require("plugins.core.telescope.pickers").live_grep() end,
-      mode = { "n", "v" },
-      desc = "[F]ind: by [G]rep",
     },
 
     -- Help-related pickers
