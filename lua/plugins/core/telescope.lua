@@ -51,11 +51,6 @@ return {
       desc = "Buffer switcher",
     },
     {
-      "<leader>,",
-      function() require("plugins.core.telescope.pickers").resume() end,
-      desc = "Resume Telescope",
-    },
-    {
       "<leader>:",
       function() require("plugins.core.telescope.pickers").command_history() end,
       desc = "Command history",

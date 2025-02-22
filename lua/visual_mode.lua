@@ -52,4 +52,8 @@ function M.get_text()
   return table.concat(trimmed_lines, " ")
 end
 
+--- Return the text of the visual selection in a single line if the visual mode is on, otherwise return nil.
+---@return string | nil
+function M.get_text_if_on() return M.is_on() and M.get_text() or nil end
+
 return M

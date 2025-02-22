@@ -55,44 +55,68 @@ return {
     { "<leader>n", function() Snacks.notifier.show_history() end, desc = "[N]otifications" },
 
     -- Picker
+    { "<leader>=", function() Snacks.picker.lines({ title = "" }) end, desc = "Pick lines" },
+    { "<leader>+", function() Snacks.picker.resume() end, desc = "Resume picker" },
+    { "<leader>-", function() Snacks.picker.explorer({ title = "" }) end, desc = "File Explorer" },
     {
       "<leader>ff",
       function()
-        if vim.bo.filetype ~= "oil" then
-          Snacks.picker.files({ title = "Files", hidden = true, layout = horizontal_layout })
-        else
-          local dir = vim.fn.fnamemodify(require("oil").get_current_dir() or vim.fn.expand("%"), ":p:~:.")
-          Snacks.picker.files({ title = "Files (" .. dir .. ")", hidden = true, cwd = dir, layout = horizontal_layout })
+        local opts = { title = "Files", search = require("visual_mode").get_text_if_on(), layout = horizontal_layout }
+        if vim.bo.filetype == "oil" then
+          local dir = vim.fn.fnamemodify(require("oil").get_current_dir() --[[@as string]], ":p:~:.")
+          opts.title = opts.title .. " (" .. dir .. ")"
+          opts.cwd = dir
         end
+        Snacks.picker.files(opts)
       end,
+      mode = { "n", "x" },
       desc = "[F]ind: [F]iles",
     },
     {
       "<leader>fr",
-      function() Snacks.picker.recent({ title = "Recent Files", filter = { cwd = true }, layout = horizontal_layout }) end,
+      function()
+        local opts = { title = "Recent Files", filter = { cwd = true }, layout = horizontal_layout }
+        if vim.bo.filetype == "oil" then
+          local dir = vim.fn.fnamemodify(require("oil").get_current_dir() --[[@as string]], ":p:~:.")
+          opts.title = opts.title .. " (" .. dir .. ")"
+          opts.cwd = dir
+        end
+        Snacks.picker.recent(opts)
+      end,
       desc = "[F]ind: [R]ecent files",
     },
     {
       "<leader>fo",
-      function() Snacks.picker.recent({ title = "Recent Old Files", layout = horizontal_layout }) end,
+      function() Snacks.picker.recent({ title = "Old Files", layout = horizontal_layout }) end,
       desc = "[F]ind: [O]ld files",
     },
     {
       "<leader>fg",
-      function() Snacks.picker.grep({ title = "Grep", hidden = true, layout = horizontal_layout }) end,
+      function()
+        local opts = { title = "Grep", layout = horizontal_layout }
+        if vim.bo.filetype == "oil" then
+          local dir = vim.fn.fnamemodify(require("oil").get_current_dir() --[[@as string]], ":p:~:.")
+          opts.title = opts.title .. " (" .. dir .. ")"
+          opts.cwd = dir
+        end
+        Snacks.picker.grep(opts)
+      end,
       mode = "n",
       desc = "[F]ind: [G]rep",
     },
     {
       "<leader>fg",
-      function() Snacks.picker.grep_word({ title = "Grep", hidden = true, layout = horizontal_layout }) end,
+      function()
+        local opts = { title = "Grep", layout = horizontal_layout }
+        if vim.bo.filetype == "oil" then
+          local dir = vim.fn.fnamemodify(require("oil").get_current_dir() --[[@as string]], ":p:~:.")
+          opts.title = opts.title .. " (" .. dir .. ")"
+          opts.cwd = dir
+        end
+        Snacks.picker.grep_word(opts)
+      end,
       mode = "x",
       desc = "[F]ind: [G]rep",
-    },
-    {
-      "<leader>fl",
-      function() Snacks.picker.lines({ title = "Lines" }) end,
-      desc = "[F]ind: [L]ines",
     },
     {
       "<leader>fs",
@@ -173,7 +197,7 @@ return {
           icon = " ",
           key = "f",
           desc = "Find Files",
-          action = function() Snacks.picker.files({ title = "Files", hidden = true, layout = horizontal_layout }) end,
+          action = function() Snacks.picker.files({ title = "Files", layout = horizontal_layout }) end,
         },
         {
           icon = " ",
@@ -187,7 +211,7 @@ return {
           icon = " ",
           key = "o",
           desc = "Find Old files",
-          action = function() Snacks.picker.recent({ title = "Recent Old Files", layout = horizontal_layout }) end,
+          action = function() Snacks.picker.recent({ title = "Old Files", layout = horizontal_layout }) end,
         },
         {
           icon = " ",
@@ -245,20 +269,23 @@ return {
           keys = {
             ["<Tab>"] = { "list_down", mode = "i" },
             ["<S-Tab>"] = { "list_up", mode = "i" },
-            ["<C-s>"] = { "select_and_next", mode = "i" },
-            ["<C-g>"] = { "list_top", mode = "i" },
-            ["<C-t>"] = { "toggle_ignored", mode = "i" },
-            ["<C-v>"] = { "toggle_preview", mode = "i" },
+            ["<C-CR>"] = { "select_and_next", mode = "i" },
+            ["<C-BS>"] = { "select_and_prev", mode = "i" },
+            ["<C-g>"] = { "list_top", mode = "i" }, -- Like the `gg` keymap
             ["<C-j>"] = { "preview_scroll_down", mode = "i" },
             ["<C-k>"] = { "preview_scroll_up", mode = "i" },
-            ["<M-BS>"] = { "<C-S-w>", mode = "i", expr = true },
             ["<Esc>"] = { "cancel", mode = "i" },
-            -- Prefer some native insert-mode keymaps
+            -- Toggles
+            ["π"] = { "toggle_preview", mode = "i" }, -- <M-p>
+            ["Ì"] = { "toggle_hidden", mode = "i" }, -- <M-h>
+            ["î"] = { "toggle_ignored", mode = "i" }, -- <M-i>
+            -- Insert-mode keymaps to keep
             ["<C-a>"] = false,
             ["<C-e>"] = false,
             ["<C-b>"] = false,
             ["<C-f>"] = false,
             ["<C-u>"] = false,
+            ["<M-BS>"] = { "<C-S-w>", mode = "i", expr = true }, -- Fix <M-BS>
           },
         },
       },
