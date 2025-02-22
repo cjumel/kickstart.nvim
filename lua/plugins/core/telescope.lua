@@ -19,14 +19,6 @@ return {
   },
   cmd = { "Telescope" }, -- Especially useful for other plugins calling Telescope through a command
   keys = {
-    -- Main pickers
-    {
-      "<leader>fd",
-      function() require("plugins.core.telescope.pickers").find_directories() end,
-      mode = { "n", "v" },
-      desc = "[F]ind: [D]irectories",
-    },
-
     -- Help-related pickers
     {
       "<leader>fh",

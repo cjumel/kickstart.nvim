@@ -37,6 +37,28 @@ local horizontal_layout = { -- Adapted from the "telescope" preset layout
   },
 }
 
+local function directory_finder(opts, ctx)
+  local cwd = opts.cwd or vim.fn.getcwd()
+  local args = { "--type", "d", "--exclude", ".git" }
+  if opts.hidden then
+    table.insert(args, "--hidden")
+  end
+  if opts.ignored then
+    table.insert(args, "--no-ignore")
+  end
+  return require("snacks.picker.source.proc").proc({
+    opts,
+    {
+      cmd = "fd",
+      args = args,
+      transform = function(item)
+        item.file = vim.fn.fnamemodify(cwd .. "/" .. item.text, ":p")
+        item.dir = true
+      end,
+    },
+  }, ctx)
+end
+
 return {
   "folke/snacks.nvim",
   dependencies = { "nvim-tree/nvim-web-devicons" },
@@ -89,6 +111,23 @@ return {
       "<leader>fo",
       function() Snacks.picker.recent({ title = "Old Files", layout = horizontal_layout }) end,
       desc = "[F]ind: [O]ld files",
+    },
+    {
+      "<leader>fd",
+      function()
+        local opts = {
+          title = "Directories",
+          finder = directory_finder,
+          layout = horizontal_layout,
+        }
+        if vim.bo.filetype == "oil" then
+          local dir = vim.fn.fnamemodify(require("oil").get_current_dir() --[[@as string]], ":p:~:.")
+          opts.title = opts.title .. " (" .. dir .. ")"
+          opts.cwd = dir
+        end
+        Snacks.picker.pick(opts)
+      end,
+      desc = "[F]ind: [D]irectories",
     },
     {
       "<leader>fg",
@@ -217,7 +256,9 @@ return {
           icon = " ",
           key = "d",
           desc = "Find Directories",
-          action = function() require("plugins.core.telescope.pickers").find_directories() end,
+          action = function()
+            Snacks.picker.pick({ title = "Directories", finder = directory_finder, layout = horizontal_layout })
+          end,
         },
         {
           icon = "󰚰 ",
@@ -368,7 +409,8 @@ return {
   config = function(_, opts)
     Snacks.setup(opts)
 
-    -- Use same highlight group for file path and file name in file pickers
-    vim.api.nvim_set_hl(0, "SnacksPickerDir", { link = "SnacksPickerFile" })
+    -- Simplify some picker highlights
+    vim.api.nvim_set_hl(0, "SnacksPickerDir", { link = "SnacksPickerFile" }) -- For all file pickers
+    vim.api.nvim_set_hl(0, "SnacksPickerDirectory", { link = "SnacksPickerFile" }) -- For the directory picker
   end,
 }
