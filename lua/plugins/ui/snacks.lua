@@ -79,14 +79,13 @@ return {
     -- Picker
     { "<leader>=", function() Snacks.picker.lines({ title = "" }) end, desc = "Pick lines" },
     { "<leader>+", function() Snacks.picker.resume() end, desc = "Resume picker" },
-    { "<leader>-", function() Snacks.picker.explorer({ title = "" }) end, desc = "File Explorer" },
     {
       "<leader>ff",
       function()
         local opts = { title = "Files", search = require("visual_mode").get_text_if_on(), layout = horizontal_layout }
         if vim.bo.filetype == "oil" then
           local dir = vim.fn.fnamemodify(require("oil").get_current_dir() --[[@as string]], ":p:~:.")
-          opts.title = opts.title .. " (" .. dir .. ")"
+          opts.title = opts.title .. " (" .. (dir ~= "" and dir or "./") .. ")"
           opts.cwd = dir
         end
         Snacks.picker.files(opts)
@@ -100,7 +99,7 @@ return {
         local opts = { title = "Recent Files", filter = { cwd = true }, layout = horizontal_layout }
         if vim.bo.filetype == "oil" then
           local dir = vim.fn.fnamemodify(require("oil").get_current_dir() --[[@as string]], ":p:~:.")
-          opts.title = opts.title .. " (" .. dir .. ")"
+          opts.title = opts.title .. " (" .. (dir ~= "" and dir or "./") .. ")"
           opts.cwd = dir
         end
         Snacks.picker.recent(opts)
@@ -122,7 +121,7 @@ return {
         }
         if vim.bo.filetype == "oil" then
           local dir = vim.fn.fnamemodify(require("oil").get_current_dir() --[[@as string]], ":p:~:.")
-          opts.title = opts.title .. " (" .. dir .. ")"
+          opts.title = opts.title .. " (" .. (dir ~= "" and dir or "./") .. ")"
           opts.cwd = dir
         end
         Snacks.picker.pick(opts)
@@ -135,7 +134,7 @@ return {
         local opts = { title = "Grep", layout = horizontal_layout }
         if vim.bo.filetype == "oil" then
           local dir = vim.fn.fnamemodify(require("oil").get_current_dir() --[[@as string]], ":p:~:.")
-          opts.title = opts.title .. " (" .. dir .. ")"
+          opts.title = opts.title .. " (" .. (dir ~= "" and dir or "./") .. ")"
           opts.cwd = dir
         end
         Snacks.picker.grep(opts)
@@ -149,7 +148,7 @@ return {
         local opts = { title = "Grep", layout = horizontal_layout }
         if vim.bo.filetype == "oil" then
           local dir = vim.fn.fnamemodify(require("oil").get_current_dir() --[[@as string]], ":p:~:.")
-          opts.title = opts.title .. " (" .. dir .. ")"
+          opts.title = opts.title .. " (" .. (dir ~= "" and dir or "./") .. ")"
           opts.cwd = dir
         end
         Snacks.picker.grep_word(opts)
