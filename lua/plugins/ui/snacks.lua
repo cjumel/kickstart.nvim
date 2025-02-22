@@ -36,6 +36,28 @@ local horizontal_layout = { -- Adapted from the "telescope" preset layout
     },
   },
 }
+local vertical_layout = {
+  layout = {
+    box = "vertical",
+    backdrop = false,
+    width = 0.6,
+    height = 0.8,
+    border = "none",
+    {
+      win = "input",
+      height = 1,
+      border = "rounded",
+      title = "{title} {live} {flags}",
+      title_pos = "center",
+    },
+    {
+      win = "list",
+      title = " Results ",
+      title_pos = "center",
+      border = "rounded",
+    },
+  },
+}
 
 local function directory_finder(opts, ctx)
   local cwd = opts.cwd or vim.fn.getcwd()
@@ -192,7 +214,7 @@ return {
       "<leader>fu",
       function()
         Snacks.picker.undo({
-          title = "Undo Tree",
+          layout = horizontal_layout,
           win = {
             input = {
               keys = {
@@ -201,11 +223,12 @@ return {
               },
             },
           },
-          layout = horizontal_layout,
         })
       end,
-      desc = "[F]ind: [U]ndo tree",
+      desc = "[F]ind: [U]ndo",
     },
+    { "<leader>fh", function() Snacks.picker.help({ layout = horizontal_layout }) end, desc = "[F]ind: [H]elp" },
+    { "<leader>fc", function() Snacks.picker.commands({ layout = vertical_layout }) end, desc = "[F]ind: [C]ommands" },
 
     -- Scratch buffers
     { "<leader>tt", function() Snacks.scratch.select() end, desc = "[T]emp: select" },

@@ -19,23 +19,6 @@ return {
   },
   cmd = { "Telescope" }, -- Especially useful for other plugins calling Telescope through a command
   keys = {
-    -- Help-related pickers
-    {
-      "<leader>fh",
-      function() require("plugins.core.telescope.pickers").help_tags() end,
-      desc = "[F]ind: [H]elp tags",
-    },
-    {
-      "<leader>fc",
-      function() require("plugins.core.telescope.pickers").commands() end,
-      desc = "[F]ind: [C]ommands",
-    },
-    {
-      "<leader>fk",
-      function() require("plugins.core.telescope.pickers").keymaps() end,
-      desc = "[F]ind: [K]eymaps",
-    },
-
     -- Neovim-related pickers
     {
       "<leader><Tab>",

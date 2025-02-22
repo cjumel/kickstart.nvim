@@ -8,28 +8,6 @@ local themes = require("telescope.themes")
 
 local M = {}
 
-function M.help_tags()
-  builtin.help_tags({
-    prompt_title = "Help tags",
-    layout_strategy = "vertical",
-    previewer = false,
-  })
-end
-
-function M.commands()
-  builtin.commands({
-    prompt_title = "Commands",
-    layout_strategy = "vertical",
-  })
-end
-
-function M.keymaps()
-  builtin.keymaps({
-    prompt_title = "Keymaps",
-    layout_strategy = "vertical",
-  })
-end
-
 function M.buffers()
   builtin.buffers(themes.get_dropdown({
     prompt_title = "Buffer Switcher",
@@ -44,8 +22,6 @@ function M.buffers()
     end,
   }))
 end
-
-function M.resume() builtin.resume({}) end
 
 function M.command_history()
   builtin.command_history(themes.get_dropdown({
