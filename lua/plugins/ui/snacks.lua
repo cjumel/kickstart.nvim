@@ -78,7 +78,12 @@ return {
     {
       "<leader>fr",
       function()
-        local opts = { title = "Recent Files", filter = { cwd = true }, layout = { preset = "telescope_horizontal" } }
+        local opts = {
+          title = "Recent Files",
+          filter = { cwd = true },
+          sort = { fields = { "score:desc", "idx" } }, -- Don't sort by item length
+          layout = { preset = "telescope_horizontal" },
+        }
         if vim.bo.filetype == "oil" then
           local dir = vim.fn.fnamemodify(require("oil").get_current_dir() --[[@as string]], ":p:~:.")
           opts.title = opts.title .. " (" .. (dir ~= "" and dir or "./") .. ")"
@@ -90,7 +95,13 @@ return {
     },
     {
       "<leader>fo",
-      function() Snacks.picker.recent({ title = "Old Files", layout = { preset = "telescope_horizontal" } }) end,
+      function()
+        Snacks.picker.recent({
+          title = "Old Files",
+          sort = { fields = { "score:desc", "idx" } }, -- Don't sort by item length
+          layout = { preset = "telescope_horizontal" },
+        })
+      end,
       desc = "[F]ind: [O]ld files",
     },
     {
@@ -274,6 +285,7 @@ return {
             Snacks.picker.recent({
               title = "Recent Files",
               filter = { cwd = true },
+              sort = { fields = { "score:desc", "idx" } }, -- Don't sort by item length
               layout = { preset = "telescope_horizontal" },
             })
           end,
@@ -283,7 +295,11 @@ return {
           key = "o",
           desc = "Find Old files",
           action = function()
-            Snacks.picker.recent({ title = "Old Files", layout = { preset = "telescope_horizontal" } })
+            Snacks.picker.recent({
+              title = "Old Files",
+              sort = { fields = { "score:desc", "idx" } }, -- Don't sort by item length
+              layout = { preset = "telescope_horizontal" },
+            })
           end,
         },
         {
