@@ -1,8 +1,8 @@
 -- Trouble
 --
--- Trouble provides pretty lists for showing diagnostics, references, telescope results, quickfix lists, etc., to help
--- you solve all the trouble your code is causing. With a very cool and customizable user interface and the
--- integratation of many other tools (like todo-comments.nvim), it is very complementary with telescope.nvim.
+-- Trouble provides pretty lists for showing diagnostics, references, quickfix lists, etc., to help you solve all the
+-- trouble your code is causing. It has a very cool and customizable user interface and is integratated with many other
+-- tools, like plugins or language servers.
 
 return {
   "folke/trouble.nvim",

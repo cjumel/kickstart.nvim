@@ -36,7 +36,6 @@ function M.build_extensions(sections)
         "OverseerList",
         "snacks_dashboard",
         "snacks_picker_input",
-        "TelescopePrompt",
         "trouble",
         "undotree",
       },

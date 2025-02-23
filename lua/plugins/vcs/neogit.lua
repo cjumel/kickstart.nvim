@@ -6,10 +6,7 @@
 
 return {
   "NeogitOrg/neogit",
-  dependencies = {
-    "nvim-lua/plenary.nvim",
-    "nvim-telescope/telescope.nvim",
-  },
+  dependencies = { "nvim-lua/plenary.nvim" },
   keys = { { "<leader>gn", function() require("neogit").open() end, desc = "[G]it: [N]eogit" } },
   opts = {
     commit_editor = { spell_check = false },
@@ -22,7 +19,7 @@ return {
         ["<C-n>"] = "MoveDown",
       },
       finder = {
-        -- Change some keymaps for more compatibility with telescope.nvim keymaps
+        -- Change some keymaps for more compatibility with picker keymaps
         ["<Tab>"] = "Next", -- Formely "MultiselectToggleNext"
         ["<S-Tab>"] = "Previous", -- Formely "MultiselectTogglePrevious"
       },

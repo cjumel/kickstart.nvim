@@ -8,6 +8,6 @@ return {
   "windwp/nvim-autopairs",
   event = { "InsertEnter" },
   opts = {
-    disable_filetype = { "TelescopePrompt", "snacks_picker_input", "grug-far" },
+    disable_filetype = { "snacks_picker_input", "grug-far" },
   },
 }

@@ -1,85 +1,8 @@
 -- snacks.nvim
 --
--- Meta plugin providing a collection of small quality-of-life plugins for Neovim. All these plugigns work very nicely
--- out-of-the-box, with great default behaviors, and bring many UI improvements as well as new cool atomic features.
-
--- Define custom layouts. This is not done in the `opts` table, as it may have side effects in some pickers there.
-local horizontal_layout = { -- Adapted from the "telescope" preset layout
-  layout = {
-    box = "horizontal",
-    backdrop = false,
-    width = 0.9,
-    height = 0.9,
-    border = "none",
-    {
-      box = "vertical",
-      {
-        win = "input",
-        height = 1,
-        border = "rounded",
-        title = "{title} {live} {flags}",
-        title_pos = "center",
-      },
-      {
-        win = "list",
-        title = " Results ",
-        title_pos = "center",
-        border = "rounded",
-      },
-    },
-    {
-      win = "preview",
-      title = "{preview:Preview}",
-      width = 0.5,
-      border = "rounded",
-      title_pos = "center",
-    },
-  },
-}
-local vertical_layout = {
-  layout = {
-    box = "vertical",
-    backdrop = false,
-    width = 0.6,
-    height = 0.8,
-    border = "none",
-    {
-      win = "input",
-      height = 1,
-      border = "rounded",
-      title = "{title} {live} {flags}",
-      title_pos = "center",
-    },
-    {
-      win = "list",
-      title = " Results ",
-      title_pos = "center",
-      border = "rounded",
-    },
-  },
-}
-
-local function directory_finder(opts, ctx)
-  local cwd = opts.cwd or vim.fn.getcwd()
-  local args = { "--type", "d", "--exclude", ".git" }
-  if opts.hidden then
-    table.insert(args, "--hidden")
-  end
-  if opts.ignored then
-    table.insert(args, "--no-ignore")
-  end
-  return require("snacks.picker.source.proc").proc({
-    opts,
-    {
-      cmd = "fd",
-      args = args,
-      transform = function(item)
-        item.file = vim.fn.fnamemodify(cwd .. "/" .. item.text, ":p")
-        item.dir = true
-      end,
-    },
-  }, ctx)
-end
+-- Meta plugin providing a collection of small quality-of-life plugins (and more) for Neovim. All these plugigns work
+-- very nicely out-of-the-box, with great default behaviors, and bring many UI improvements as well as new cool atomic
+-- features.
 
 return {
   "folke/snacks.nvim",
@@ -99,12 +22,49 @@ return {
     { "<leader>n", function() Snacks.notifier.show_history() end, desc = "[N]otifications" },
 
     -- Picker
+    {
+      "<leader><Tab>",
+      function()
+        Snacks.picker.buffers({
+          format = "file",
+          current = false,
+          focus = "list",
+          layout = { preset = "telescope_dropdown" },
+          win = { list = { keys = { ["<Tab>"] = "list_down", ["<S-Tab>"] = "list_up", ["<BS>"] = "bufdelete" } } },
+        })
+      end,
+      desc = "Buffer switcher",
+    },
+    {
+      "<leader>:",
+      function()
+        Snacks.picker.command_history({
+          sort = { fields = { "score:desc", "idx" } }, -- Don't sort by item length
+          layout = { preset = "telescope_dropdown" },
+        })
+      end,
+      desc = "Command history",
+    },
+    {
+      "<leader>/",
+      function()
+        Snacks.picker.search_history({
+          sort = { fields = { "score:desc", "idx" } }, -- Don't sort by item length
+          layout = { preset = "telescope_dropdown" },
+        })
+      end,
+      desc = "Search history",
+    },
     { "<leader>=", function() Snacks.picker.lines({ title = "" }) end, desc = "Pick lines" },
     { "<leader>+", function() Snacks.picker.resume() end, desc = "Resume picker" },
     {
       "<leader>ff",
       function()
-        local opts = { title = "Files", search = require("visual_mode").get_text_if_on(), layout = horizontal_layout }
+        local opts = {
+          title = "Files",
+          search = require("visual_mode").get_text_if_on(),
+          layout = { preset = "telescope_horizontal" },
+        }
         if vim.bo.filetype == "oil" then
           local dir = vim.fn.fnamemodify(require("oil").get_current_dir() --[[@as string]], ":p:~:.")
           opts.title = opts.title .. " (" .. (dir ~= "" and dir or "./") .. ")"
@@ -118,7 +78,7 @@ return {
     {
       "<leader>fr",
       function()
-        local opts = { title = "Recent Files", filter = { cwd = true }, layout = horizontal_layout }
+        local opts = { title = "Recent Files", filter = { cwd = true }, layout = { preset = "telescope_horizontal" } }
         if vim.bo.filetype == "oil" then
           local dir = vim.fn.fnamemodify(require("oil").get_current_dir() --[[@as string]], ":p:~:.")
           opts.title = opts.title .. " (" .. (dir ~= "" and dir or "./") .. ")"
@@ -130,30 +90,26 @@ return {
     },
     {
       "<leader>fo",
-      function() Snacks.picker.recent({ title = "Old Files", layout = horizontal_layout }) end,
+      function() Snacks.picker.recent({ title = "Old Files", layout = { preset = "telescope_horizontal" } }) end,
       desc = "[F]ind: [O]ld files",
     },
     {
       "<leader>fd",
       function()
-        local opts = {
-          title = "Directories",
-          finder = directory_finder,
-          layout = horizontal_layout,
-        }
+        local opts = { title = "Directories", layout = { preset = "telescope_horizontal" } }
         if vim.bo.filetype == "oil" then
           local dir = vim.fn.fnamemodify(require("oil").get_current_dir() --[[@as string]], ":p:~:.")
           opts.title = opts.title .. " (" .. (dir ~= "" and dir or "./") .. ")"
           opts.cwd = dir
         end
-        Snacks.picker.pick(opts)
+        Snacks.picker.pick("directories", opts)
       end,
       desc = "[F]ind: [D]irectories",
     },
     {
       "<leader>fg",
       function()
-        local opts = { title = "Grep", layout = horizontal_layout }
+        local opts = { title = "Grep", layout = { preset = "telescope_horizontal" } }
         if vim.bo.filetype == "oil" then
           local dir = vim.fn.fnamemodify(require("oil").get_current_dir() --[[@as string]], ":p:~:.")
           opts.title = opts.title .. " (" .. (dir ~= "" and dir or "./") .. ")"
@@ -167,7 +123,7 @@ return {
     {
       "<leader>fg",
       function()
-        local opts = { title = "Grep", layout = horizontal_layout }
+        local opts = { title = "Grep", layout = { preset = "telescope_horizontal" } }
         if vim.bo.filetype == "oil" then
           local dir = vim.fn.fnamemodify(require("oil").get_current_dir() --[[@as string]], ":p:~:.")
           opts.title = opts.title .. " (" .. (dir ~= "" and dir or "./") .. ")"
@@ -180,7 +136,9 @@ return {
     },
     {
       "<leader>fs",
-      function() Snacks.picker.lsp_symbols({ title = "Document Symbols", layout = horizontal_layout }) end,
+      function()
+        Snacks.picker.lsp_symbols({ title = "Document Symbols", layout = { preset = "telescope_horizontal" } })
+      end,
       desc = "[F]ind: document [S]ymbols",
     },
     {
@@ -189,14 +147,19 @@ return {
         Snacks.picker.lsp_symbols({
           title = "Document Symbols (all)",
           filter = { default = true },
-          layout = horizontal_layout,
+          layout = { preset = "telescope_horizontal" },
         })
       end,
       desc = "[F]ind: document [S]ymbols (all)",
     },
     {
       "<leader>fw",
-      function() Snacks.picker.lsp_workspace_symbols({ title = "Workspace Symbols", layout = horizontal_layout }) end,
+      function()
+        Snacks.picker.lsp_workspace_symbols({
+          title = "Workspace Symbols",
+          layout = { preset = "telescope_horizontal" },
+        })
+      end,
       desc = "[F]ind: [W]orkspace symbols",
     },
     {
@@ -205,7 +168,7 @@ return {
         Snacks.picker.lsp_workspace_symbols({
           title = "Workspace Symbols (all)",
           filter = { default = true },
-          layout = horizontal_layout,
+          layout = { preset = "telescope_horizontal" },
         })
       end,
       desc = "[F]ind: [W]orkspace symbols (all)",
@@ -214,7 +177,7 @@ return {
       "<leader>fu",
       function()
         Snacks.picker.undo({
-          layout = horizontal_layout,
+          layout = { preset = "telescope_horizontal" },
           win = {
             input = {
               keys = {
@@ -227,8 +190,51 @@ return {
       end,
       desc = "[F]ind: [U]ndo",
     },
-    { "<leader>fh", function() Snacks.picker.help({ layout = horizontal_layout }) end, desc = "[F]ind: [H]elp" },
-    { "<leader>fc", function() Snacks.picker.commands({ layout = vertical_layout }) end, desc = "[F]ind: [C]ommands" },
+    {
+      "<leader>fh",
+      function() Snacks.picker.help({ layout = { preset = "telescope_horizontal" } }) end,
+      desc = "[F]ind: [H]elp",
+    },
+    {
+      "<leader>fc",
+      function() Snacks.picker.commands({ layout = { preset = "telescope_vertical_no_preview" } }) end,
+      desc = "[F]ind: [C]ommands",
+    },
+    {
+      "<leader>gg",
+      function()
+        Snacks.picker.git_status({
+          layout = { preset = "telescope_horizontal" },
+          win = { input = { keys = { ["<Tab>"] = { "list_down", mode = "i" } } } }, -- Don't use <Tab> for staging
+        })
+      end,
+      desc = "[G]it: status",
+    },
+    {
+      "<leader>gb",
+      function() Snacks.picker.git_branches({ layout = { preset = "telescope_vertical" } }) end,
+      desc = "[G]it: [B]ranch",
+    },
+    {
+      "<leader>gl",
+      function()
+        Snacks.picker.git_log({
+          layout = { preset = "telescope_horizontal" },
+          win = { input = { keys = { ["<C-y>"] = { "yank_commit", mode = "i" } } } },
+        })
+      end,
+      desc = "[G]it: [L]og",
+    },
+    {
+      "<leader>gL",
+      function()
+        Snacks.picker.git_log_file({
+          layout = { preset = "telescope_horizontal" },
+          win = { input = { keys = { ["<C-y>"] = { "yank_commit", mode = "i" } } } },
+        })
+      end,
+      desc = "[G]it: document [L]og",
+    },
 
     -- Scratch buffers
     { "<leader>tt", function() Snacks.scratch.select() end, desc = "[T]emp: select" },
@@ -258,47 +264,61 @@ return {
           icon = " ",
           key = "f",
           desc = "Find Files",
-          action = function() Snacks.picker.files({ title = "Files", layout = horizontal_layout }) end,
+          action = function() Snacks.picker.files({ layout = { preset = "telescope_horizontal" } }) end,
         },
         {
           icon = " ",
           key = "r",
           desc = "Find Recent files",
           action = function()
-            Snacks.picker.recent({ title = "Recent Files", filter = { cwd = true }, layout = horizontal_layout })
+            Snacks.picker.recent({
+              title = "Recent Files",
+              filter = { cwd = true },
+              layout = { preset = "telescope_horizontal" },
+            })
           end,
         },
         {
           icon = " ",
           key = "o",
           desc = "Find Old files",
-          action = function() Snacks.picker.recent({ title = "Old Files", layout = horizontal_layout }) end,
+          action = function()
+            Snacks.picker.recent({ title = "Old Files", layout = { preset = "telescope_horizontal" } })
+          end,
         },
         {
           icon = " ",
           key = "d",
           desc = "Find Directories",
-          action = function()
-            Snacks.picker.pick({ title = "Directories", finder = directory_finder, layout = horizontal_layout })
-          end,
+          action = function() Snacks.picker.pick("directories", { layout = { preset = "telescope_horizontal" } }) end,
         },
         {
           icon = "󰚰 ",
           key = "g",
           desc = "View Git Status",
-          action = function() require("plugins.core.telescope.pickers").git_status() end,
+          action = function()
+            Snacks.picker.git_status({
+              layout = { preset = "telescope_horizontal" },
+              win = { input = { keys = { ["<Tab>"] = { "list_down", mode = "i" } } } }, -- Don't use <Tab> for staging
+            })
+          end,
         },
         {
           icon = " ",
           key = "b",
           desc = "View Git Branch",
-          action = function() require("plugins.core.telescope.pickers").git_branches() end,
+          action = function() Snacks.picker.git_branches({ layout = { preset = "telescope_vertical" } }) end,
         },
         {
           icon = " ",
           key = "l",
           desc = "View Git Log",
-          action = function() require("plugins.core.telescope.pickers").git_commits() end,
+          action = function()
+            Snacks.picker.git_log({
+              layout = { preset = "telescope_horizontal" },
+              win = { input = { keys = { ["<C-y>"] = { "yank_commit", mode = "i" } } } },
+            })
+          end,
         },
         { icon = "󰊢 ", key = "n", desc = "Open Neogit", action = function() require("neogit").open() end },
         { icon = " ", key = "q", desc = "Quit", action = ":qa" },
@@ -322,9 +342,124 @@ return {
 
     picker = {
       enabled = true, -- Use Snacks picker for vim.ui.select
-      formatters = {
-        file = {
-          truncate = 60, -- Increase the displayed file path length
+      sources = {
+        directories = {
+          finder = function(opts, ctx)
+            local cwd = opts.cwd or vim.fn.getcwd()
+            local args = { "--type", "d", "--exclude", ".git" }
+            if opts.hidden then
+              table.insert(args, "--hidden")
+            end
+            if opts.ignored then
+              table.insert(args, "--no-ignore")
+            end
+            local transform = function(item)
+              item.file = vim.fn.fnamemodify(cwd .. "/" .. item.text, ":p")
+              item.dir = true
+            end
+            return require("snacks.picker.source.proc").proc(
+              { opts, { cmd = "fd", args = args, transform = transform } },
+              ctx
+            )
+          end,
+        },
+      },
+      formatters = { file = { truncate = 60 } }, -- Increase the displayed file path length
+      actions = {
+        qflist_trouble = function(picker)
+          picker:close()
+          local sel = picker:selected()
+          local items = #sel > 0 and sel or picker:items()
+          local qf = {}
+          for _, item in ipairs(items) do
+            qf[#qf + 1] = {
+              filename = Snacks.picker.util.path(item),
+              bufnr = item.buf,
+              lnum = item.pos and item.pos[1] or 1,
+              col = item.pos and item.pos[2] + 1 or 1,
+              end_lnum = item.end_pos and item.end_pos[1] or nil,
+              end_col = item.end_pos and item.end_pos[2] + 1 or nil,
+              text = item.line or item.comment or item.label or item.name or item.detail or item.text,
+              pattern = item.search,
+              valid = true,
+            }
+          end
+          vim.fn.setqflist(qf)
+          vim.cmd("Trouble qflist toggle")
+        end,
+        loclist_trouble = function(picker)
+          picker:close()
+          local sel = picker:selected()
+          local items = #sel > 0 and sel or picker:items()
+          local qf = {}
+          for _, item in ipairs(items) do
+            qf[#qf + 1] = {
+              filename = Snacks.picker.util.path(item),
+              bufnr = item.buf,
+              lnum = item.pos and item.pos[1] or 1,
+              col = item.pos and item.pos[2] + 1 or 1,
+              end_lnum = item.end_pos and item.end_pos[1] or nil,
+              end_col = item.end_pos and item.end_pos[2] + 1 or nil,
+              text = item.line or item.comment or item.label or item.name or item.detail or item.text,
+              pattern = item.search,
+              valid = true,
+            }
+          end
+          vim.fn.setloclist(picker.main, qf)
+          vim.cmd("Trouble loclist toggle")
+        end,
+        yank_commit = { action = "yank", field = "commit", reg = "+" },
+      },
+      layouts = {
+        -- Custom layouts are adapted from the "telescope" preset and are heavily inspired by my old Telescope layouts
+        telescope_horizontal = {
+          layout = {
+            box = "horizontal",
+            backdrop = false,
+            width = 0.9,
+            height = 0.9,
+            border = "none",
+            {
+              box = "vertical",
+              { win = "input", title = "{title} {live} {flags}", title_pos = "center", height = 1, border = "rounded" },
+              { win = "list", title = " Results ", title_pos = "center", border = "rounded" },
+            },
+            { win = "preview", title = "{preview:Preview}", title_pos = "center", width = 0.5, border = "rounded" },
+          },
+        },
+        telescope_vertical = {
+          layout = {
+            box = "vertical",
+            backdrop = false,
+            width = 0.7,
+            height = 0.9,
+            border = "none",
+            { win = "input", title = "{title} {live} {flags}", title_pos = "center", height = 1, border = "rounded" },
+            { win = "list", title = " Results ", title_pos = "center", border = "rounded" },
+            { win = "preview", title = "{preview:Preview}", title_pos = "center", border = "rounded" },
+          },
+        },
+        telescope_vertical_no_preview = {
+          layout = {
+            box = "vertical",
+            backdrop = false,
+            width = 0.6,
+            height = 0.8,
+            border = "none",
+            { win = "input", title = "{title} {live} {flags}", title_pos = "center", height = 1, border = "rounded" },
+            { win = "list", title = " Results ", title_pos = "center", border = "rounded" },
+          },
+        },
+        telescope_dropdown = {
+          layout = {
+            box = "vertical",
+            backdrop = false,
+            width = 0.5,
+            height = 0.4,
+            border = "none",
+            { win = "input", title = "{title} {live} {flags}", title_pos = "center", height = 1, border = "rounded" },
+            { win = "list", title = " Results ", title_pos = "center", border = "rounded" },
+          },
         },
       },
       win = {
@@ -335,6 +470,8 @@ return {
             ["<C-CR>"] = { "select_and_next", mode = "i" },
             ["<C-BS>"] = { "select_and_prev", mode = "i" },
             ["<C-g>"] = { "list_top", mode = "i" }, -- Like the `gg` keymap
+            ["<C-q>"] = { "qflist_trouble", mode = "i" },
+            ["<C-l>"] = { "loclist_trouble", mode = "i" },
             ["<C-j>"] = { "preview_scroll_down", mode = "i" },
             ["<C-k>"] = { "preview_scroll_up", mode = "i" },
             ["<Esc>"] = { "cancel", mode = "i" },

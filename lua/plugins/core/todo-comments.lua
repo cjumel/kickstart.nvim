@@ -2,8 +2,7 @@
 --
 -- Todo Comments is a plugin to highlight, list and search todo-comments (`TODO`, `HACK`, `BUG`, etc.), in your
 -- projects. It is very convenient to document directly in the code base the next steps to do, long-term issues left for
--- the future like unresolved bugs, performance issues, or simply important notes for the readers. Besides, it is very
--- nicely integrated with other plugins, like telescope.nvim, Trouble, making it super useful.
+-- the future like unresolved bugs, performance issues, or simply important notes for the readers.
 
 return {
   "folke/todo-comments.nvim",
@@ -12,12 +11,19 @@ return {
   keys = {
     {
       "<leader>ft",
-      function() vim.cmd("TodoTelescope layout_strategy=vertical keywords=NOW") end,
+      function()
+        Snacks.picker(
+          "todo_comments",
+          { text = "Todo Comments (personal)", keywords = { "NOW" }, layout = { preset = "telescope_vertical" } }
+        )
+      end,
       desc = "[F]ind: [T]odo-comments (personal)",
     },
     {
       "<leader>fT",
-      function() vim.cmd("TodoTelescope layout_strategy=vertical") end,
+      function()
+        Snacks.picker("todo_comments", { text = "Todo Comments (all)", layout = { preset = "telescope_vertical" } })
+      end,
       desc = "[F]ind: [T]odo-comments (all)",
     },
     {
