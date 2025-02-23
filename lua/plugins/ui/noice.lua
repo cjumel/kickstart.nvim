@@ -23,5 +23,11 @@ return {
       bottom_search = true, -- Move the search command at the bottom
       lsp_doc_border = true, -- Add a border to hover documentations and signature help
     },
+    routes = {
+      { -- Hide messages when writinga buffer, as there is already a visual cue in the statusline
+        filter = { event = "msg_show", kind = "", find = "written" },
+        opts = { skip = true },
+      },
+    },
   },
 }
