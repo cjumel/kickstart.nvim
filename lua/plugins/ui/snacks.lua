@@ -236,7 +236,7 @@ return {
       function()
         Snacks.picker.git_log({
           layout = { preset = "telescope_horizontal" },
-          win = { input = { keys = { ["<C-y>"] = { "yank_commit", mode = "i" } } } },
+          win = { input = { keys = { ["<C-y>"] = { { "yank_commit", "close" }, mode = "i" } } } },
         })
       end,
       desc = "[G]it: [L]og",
@@ -246,7 +246,7 @@ return {
       function()
         Snacks.picker.git_log_file({
           layout = { preset = "telescope_horizontal" },
-          win = { input = { keys = { ["<C-y>"] = { "yank_commit", mode = "i" } } } },
+          win = { input = { keys = { ["<C-y>"] = { { "yank_commit", "close" }, mode = "i" } } } },
         })
       end,
       desc = "[G]it: document [L]og",
@@ -337,7 +337,7 @@ return {
           action = function()
             Snacks.picker.git_log({
               layout = { preset = "telescope_horizontal" },
-              win = { input = { keys = { ["<C-y>"] = { "yank_commit", mode = "i" } } } },
+              win = { input = { keys = { ["<C-y>"] = { { "yank_commit", "close" }, mode = "i" } } } },
             })
           end,
         },
