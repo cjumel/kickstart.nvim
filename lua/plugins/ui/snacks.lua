@@ -39,7 +39,7 @@ return {
       "<leader>:",
       function()
         Snacks.picker.command_history({
-          sort = { fields = { "score:desc", "idx" } }, -- Don't sort by item length
+          sort = { fields = { "score:desc", "idx" } }, -- Don't sort by item length to preserve history order
           layout = { preset = "telescope_dropdown" },
         })
       end,
@@ -49,13 +49,13 @@ return {
       "<leader>/",
       function()
         Snacks.picker.search_history({
-          sort = { fields = { "score:desc", "idx" } }, -- Don't sort by item length
+          sort = { fields = { "score:desc", "idx" } }, -- Don't sort by item length to preserve history order
           layout = { preset = "telescope_dropdown" },
         })
       end,
       desc = "Search history",
     },
-    { "<leader>=", function() Snacks.picker.lines({ title = "" }) end, desc = "Pick lines" },
+    { "<leader>=", function() Snacks.picker.lines() end, desc = "Pick lines" },
     { "<leader>+", function() Snacks.picker.resume() end, desc = "Resume picker" },
     {
       "<leader>ff",
@@ -81,7 +81,7 @@ return {
         local opts = {
           title = "Recent Files",
           filter = { cwd = true },
-          sort = { fields = { "score:desc", "idx" } }, -- Don't sort by item length
+          sort = { fields = { "score:desc", "idx" } }, -- Don't sort by item length to preserve history order
           layout = { preset = "telescope_horizontal" },
         }
         if vim.bo.filetype == "oil" then
@@ -98,7 +98,7 @@ return {
       function()
         Snacks.picker.recent({
           title = "Old Files",
-          sort = { fields = { "score:desc", "idx" } }, -- Don't sort by item length
+          sort = { fields = { "score:desc", "idx" } }, -- Don't sort by item length to preserve history order
           layout = { preset = "telescope_horizontal" },
         })
       end,
@@ -148,7 +148,11 @@ return {
     {
       "<leader>fs",
       function()
-        Snacks.picker.lsp_symbols({ title = "Document Symbols", layout = { preset = "telescope_horizontal" } })
+        Snacks.picker.lsp_symbols({
+          title = "Document Symbols",
+          sort = { fields = { "score:desc", "idx" } }, -- Don't sort by item length to preserve document order
+          layout = { preset = "telescope_horizontal" },
+        })
       end,
       desc = "[F]ind: document [S]ymbols",
     },
@@ -158,6 +162,7 @@ return {
         Snacks.picker.lsp_symbols({
           title = "Document Symbols (all)",
           filter = { default = true },
+          sort = { fields = { "score:desc", "idx" } }, -- Don't sort by item length to preserve document order
           layout = { preset = "telescope_horizontal" },
         })
       end,
@@ -285,7 +290,7 @@ return {
             Snacks.picker.recent({
               title = "Recent Files",
               filter = { cwd = true },
-              sort = { fields = { "score:desc", "idx" } }, -- Don't sort by item length
+              sort = { fields = { "score:desc", "idx" } }, -- Don't sort by item length to preserve history order
               layout = { preset = "telescope_horizontal" },
             })
           end,
@@ -297,7 +302,7 @@ return {
           action = function()
             Snacks.picker.recent({
               title = "Old Files",
-              sort = { fields = { "score:desc", "idx" } }, -- Don't sort by item length
+              sort = { fields = { "score:desc", "idx" } }, -- Don't sort by item length to preserve history order
               layout = { preset = "telescope_horizontal" },
             })
           end,
