@@ -81,7 +81,7 @@ return {
     {
       "gu",
       function() require("various-textobjs").url() end,
-      mode = { "o" },
+      mode = "o",
       desc = "URL",
     },
     {
