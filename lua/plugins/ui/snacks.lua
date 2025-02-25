@@ -78,18 +78,12 @@ return {
     {
       "<leader>fr",
       function()
-        local opts = {
+        Snacks.picker.recent({
           title = "Recent Files",
           filter = { cwd = true },
           sort = { fields = { "score:desc", "idx" } }, -- Don't sort by item length to preserve history order
           layout = { preset = "telescope_horizontal" },
-        }
-        if vim.bo.filetype == "oil" then
-          local dir = vim.fn.fnamemodify(require("oil").get_current_dir() --[[@as string]], ":p:~:.")
-          opts.title = opts.title .. " (" .. (dir ~= "" and dir or "./") .. ")"
-          opts.cwd = dir
-        end
-        Snacks.picker.recent(opts)
+        })
       end,
       desc = "[F]ind: [R]ecent files",
     },
@@ -580,9 +574,8 @@ return {
     },
 
     styles = {
-      notification = { wo = { wrap = true } }, -- Don't truncate notifications
-      notification_history = { wo = { number = false, relativenumber = false } },
-      zen = { wo = { number = false, relativenumber = false, signcolumn = "yes" } },
+      notification = { wo = { wrap = true } }, -- Avoid notification truncation
+      notification_history = { wo = { number = false, relativenumber = false, signcolumn = "yes" } },
     },
   },
   config = function(_, opts)
