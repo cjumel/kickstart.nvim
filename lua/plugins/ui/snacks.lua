@@ -236,6 +236,7 @@ return {
       function()
         Snacks.picker.git_log({
           layout = { preset = "telescope_horizontal" },
+          ---@diagnostic disable-next-line: assign-type-mismatch
           win = { input = { keys = { ["<C-y>"] = { { "yank_commit", "close" }, mode = "i" } } } },
         })
       end,
@@ -246,6 +247,7 @@ return {
       function()
         Snacks.picker.git_log_file({
           layout = { preset = "telescope_horizontal" },
+          ---@diagnostic disable-next-line: assign-type-mismatch
           win = { input = { keys = { ["<C-y>"] = { { "yank_commit", "close" }, mode = "i" } } } },
         })
       end,
@@ -333,6 +335,7 @@ return {
           action = function()
             Snacks.picker.git_log({
               layout = { preset = "telescope_horizontal" },
+              ---@diagnostic disable-next-line: assign-type-mismatch
               win = { input = { keys = { ["<C-y>"] = { { "yank_commit", "close" }, mode = "i" } } } },
             })
           end,
