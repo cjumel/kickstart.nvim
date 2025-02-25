@@ -253,17 +253,13 @@ return {
     },
 
     -- Scratch buffers
-    { "<leader>tt", function() Snacks.scratch.select() end, desc = "[T]emp: select" },
+    { "<leader>hh", function() Snacks.scratch.select() end, desc = "[H]idden: select file" },
     {
-      "<leader>tn",
-      function() Snacks.scratch.open({ name = "Note", ft = "markdown" }) end,
-      desc = "[T]emp: [N]ote",
-    },
-    {
-      "<leader>tf",
+      "<leader>hf",
       function() Snacks.scratch.open({ name = "File (" .. vim.bo.filetype .. ")" }) end,
-      desc = "[T]emp: [F]ile",
+      desc = "[H]idden: [F]ile",
     },
+    { "<leader>hn", function() Snacks.scratch.open({ name = "Note", ft = "markdown" }) end, desc = "[H]idden: [N]ote" },
 
     -- Zen mode
     { "<leader>z", function() Snacks.zen() end, desc = "[Z]en mode" },
