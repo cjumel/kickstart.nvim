@@ -200,3 +200,9 @@ vim.keymap.set({ "i", "c" }, "<C-a>", "<Home>", { desc = "Move cursor to beginni
 -- Disable builtin auto-completion in command-line mode, to avoid triggering it by mistake
 vim.keymap.set("c", "<Tab>", "<Nop>", { silent = true })
 vim.keymap.set("c", "<S-Tab>", "<Nop>", { silent = true })
+
+-- [[ Terminal keymaps ]]
+-- Keymaps for terminal mode, when using the builtin terminal emulator or toggleterm.nvim for instance
+
+-- Builtin keymap to exit terminal mode is <C-\\><C-n>, let's simplify it
+vim.keymap.set({ "t" }, "<C-\\>", "<C-\\><C-n>", { desc = "Exit terminal mode" })
