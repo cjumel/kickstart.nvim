@@ -249,13 +249,90 @@ return {
     },
 
     -- Scratch buffers
-    { "<leader>hh", function() Snacks.scratch.select() end, desc = "[H]idden: select file" },
+    {
+      "<leader>hh",
+      function() -- Snacks.scratch.select re-implementation simplified & restricted to the current directory
+        local widths = { 0, 0 }
+        local items = Snacks.scratch.list()
+        local selection_items = {}
+        local cwd = vim.fn.fnamemodify(vim.fn.getcwd(), ":p:~")
+        for _, item in ipairs(items) do
+          if item.cwd and vim.fn.fnamemodify(item.cwd, ":p:~") == cwd then
+            item.icon = item.icon or Snacks.util.icon(item.ft, "filetype")
+            item.name = item.count > 1 and item.name .. " " .. item.count or item.name
+            widths[1] = math.max(widths[1], vim.api.nvim_strwidth(item.icon))
+            widths[2] = math.max(widths[2], vim.api.nvim_strwidth(item.name))
+            table.insert(selection_items, item)
+          end
+        end
+        vim.ui.select(selection_items, {
+          prompt = "Project hidden files",
+          format_item = function(item)
+            local parts = { item.icon, item.name }
+            for i, part in ipairs(parts) do
+              parts[i] = part .. string.rep(" ", widths[i] - vim.api.nvim_strwidth(part))
+            end
+            return table.concat(parts, " ")
+          end,
+        }, function(selected)
+          if selected then
+            Snacks.scratch.open({ icon = selected.icon, file = selected.file, name = selected.name, ft = selected.ft })
+          end
+        end)
+      end,
+      desc = "[H]idden: select file in project",
+    },
+    {
+      "<leader>ha",
+      function() -- Snacks.scratch.select re-implementation simplified
+        local widths = { 0, 0, 0 }
+        local items = Snacks.scratch.list()
+        for _, item in ipairs(items) do
+          item.icon = item.icon or Snacks.util.icon(item.ft, "filetype")
+          item.cwd = item.cwd and vim.fn.fnamemodify(item.cwd, ":p:~") or ""
+          item.name = item.count > 1 and item.name .. " " .. item.count or item.name
+          widths[1] = math.max(widths[1], vim.api.nvim_strwidth(item.cwd))
+          widths[2] = math.max(widths[2], vim.api.nvim_strwidth(item.icon))
+          widths[3] = math.max(widths[3], vim.api.nvim_strwidth(item.name))
+        end
+        vim.ui.select(items, {
+          prompt = "All hidden files",
+          format_item = function(item)
+            local parts = { item.cwd, item.icon, item.name }
+            for i, part in ipairs(parts) do
+              parts[i] = part .. string.rep(" ", widths[i] - vim.api.nvim_strwidth(part))
+            end
+            return table.concat(parts, " ")
+          end,
+        }, function(selected)
+          if selected then
+            Snacks.scratch.open({ icon = selected.icon, file = selected.file, name = selected.name, ft = selected.ft })
+          end
+        end)
+      end,
+      desc = "[H]idden: select file in [A]ll projects",
+    },
+    {
+      "<leader>ho",
+      function()
+        vim.ui.input({ prompt = "Filetype" }, function(filetype)
+          if filetype then
+            Snacks.scratch.open({ name = filetype:sub(1, 1):upper() .. filetype:sub(2) .. " file" })
+          end
+        end)
+      end,
+      desc = "[H]idden: [O]pen",
+    },
     {
       "<leader>hf",
-      function() Snacks.scratch.open({ name = "File (" .. vim.bo.filetype .. ")" }) end,
-      desc = "[H]idden: [F]ile",
+      function() Snacks.scratch.open({ name = vim.bo.filetype:sub(1, 1):upper() .. vim.bo.filetype:sub(2) .. " file" }) end,
+      desc = "[H]idden: open with same [F]iletype",
     },
-    { "<leader>hn", function() Snacks.scratch.open({ name = "Note", ft = "markdown" }) end, desc = "[H]idden: [N]ote" },
+    {
+      "<leader>hn",
+      function() Snacks.scratch.open({ name = "Note", ft = "markdown" }) end,
+      desc = "[H]idden: open [N]ote",
+    },
 
     -- Zen mode
     { "<leader>z", function() Snacks.zen() end, desc = "[Z]en mode" },
@@ -509,6 +586,7 @@ return {
 
     scratch = {
       autowrite = false, -- Prevent untimely scratch file creation
+      filekey = { branch = false }, -- Don't scope scratch files to branch
       win = {
         keys = {
           ["delete"] = {
