@@ -24,7 +24,6 @@ return {
     "gitattributes",
     "gitcommit",
     "gitignore",
-    "javascript",
     "json",
     "jsonc",
     "lua",
@@ -33,15 +32,14 @@ return {
     "make",
     "markdown",
     "markdown_inline", -- Advanced Markdown features (e.g. concealing)
+    "proto",
     "python",
     "regex",
     "requirements",
-    "rust",
     "sql",
     "ssh_config",
     "tmux",
     "toml",
-    "typescript",
     "typst",
     "vim",
     "vimdoc", -- Vim help files
@@ -54,7 +52,9 @@ return {
   -- language server configuration table to false will disable the language server, while setting the whole
   -- `language_servers_by_ft` table to false will disable all language servers.
   language_servers_by_ft = {
-    json = { jsonls = {} },
+    json = {
+      jsonls = {},
+    },
     lua = {
       lua_ls = { -- Basic LS features with type annotation checking and some linting
         settings = {
@@ -66,8 +66,12 @@ return {
         },
       },
     },
-    markdown = { marksman = {} },
+    markdown = {
+      marksman = {},
+    },
     python = {
+      -- Pyright provides basic LS and advanced type checking features. However, it misses some more advanced LS
+      -- features, which are reserved for Pylance, Microsoft's dedicated and close-source LSP.
       -- Basedpyright is built on top of Pyright to provide the more advanced LS features Pyright is missing, as well as
       -- additional type checking features.
       basedpyright = {
@@ -82,25 +86,11 @@ return {
           },
         },
       },
-
-      -- Pyright provides basic LS and advanced type checking features. However, it misses some more advanced LS
-      -- features, which are reserved for Pylance, Microsoft's dedicated and close-source LSP.
-      -- pyright = {},
-
       ruff = {}, -- Linting and formatting, integrated with code actions
     },
-    rust = {
-      rust_analyzer = {
-        settings = {
-          ["rust-analyzer"] = { -- LS settings go in there (see https://rust-analyzer.github.io/manual.html)
-            -- Add parentheses when completing with a function instead of call snippets
-            completion = { callable = { snippets = "add_parentheses" } },
-          },
-        },
-      },
+    toml = {
+      taplo = {}, -- Linting, formating and known schema validation/documentation
     },
-    toml = { taplo = {} }, -- Linting, formating and known schema validation/documentation
-    typescript = { ts_ls = {} },
     typst = {
       tinymist = { -- Basic LS features with popular formatters support
         settings = {
@@ -108,7 +98,9 @@ return {
         },
       },
     },
-    yaml = { yamlls = {} }, -- Validation, completion and documentation for knwon schemas
+    yaml = {
+      yamlls = {}, -- Validation, completion and documentation for knwon schemas
+    },
   },
 
   -- Set `formatters_by_ft` to a mapping between filetypes and tables of formatters to enable in the given order.
@@ -123,23 +115,19 @@ return {
     editorconfig = { "trim_newlines", "trim_whitespace" },
     gitconfig = { "trim_newlines", "trim_whitespace" },
     gitignore = { "trim_newlines", "trim_whitespace" },
-    javascript = { "prettier" },
     json = { "prettier" },
     jsonc = { "prettier" },
     lua = { "stylua" },
     make = { "trim_newlines", "trim_whitespace" },
     markdown = { "prettier" }, -- Prettier is the only formatter I found which supports GitHub Flavored Markdown
     python = {
-      -- "ruff_fix", -- Apply all Ruff fixes, e.g. import organization and unused imports removal
       "ruff_organize_imports", -- Apply Ruff import organization
       lsp_format = "last", -- If enabled, the Ruff LSP will provide formatting
     },
-    rust = { "rustfmt" },
     sh = { "shfmt" },
     text = { "trim_newlines", "trim_whitespace" },
     tmux = { "trim_newlines", "trim_whitespace" },
     toml = { lsp_format = "first" }, -- If enabled, the taplo LSP will provide formatting
-    typescript = { "prettier" },
     typst = { lsp_format = "first" }, -- If enabled, the tinymist LSP will provide formatting
     vim = { "trim_newlines", "trim_whitespace" },
     yaml = {
@@ -159,12 +147,7 @@ return {
   -- table to false will disable linting altogether.
   linters_by_ft = {
     json = { "jsonlint" },
-    lua = {}, -- If enabled, the lua_ls LSP will provide basic linting
     markdown = { "markdownlint" },
-    python = { -- If enabled, the ruff LSP will provide linting
-      -- "mypy", -- A static type checker (could be used in projects where it is used as the main one)
-    },
-    toml = {}, -- If enabled, the taplo LSP will provide linting
     yaml = { "yamllint" },
     zsh = { "shellcheck" }, -- Not actually for zsh, but in my case it works fine when disabling a few rules
   },
