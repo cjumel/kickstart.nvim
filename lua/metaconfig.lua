@@ -66,22 +66,22 @@ end
 meta_config = vim.tbl_deep_extend("force", meta_config, env_config)
 
 vim.api.nvim_create_user_command(
-  "MetaConfigOpenDefault",
+  "MetaconfigOpenDefault",
   function() vim.cmd("edit " .. vim.fn.stdpath("config") .. "/.nvim-default.lua") end,
   { desc = "Open the default meta configuration file" }
 )
 vim.api.nvim_create_user_command(
-  "MetaConfigOpenGlobal",
+  "MetaconfigOpenGlobal",
   function() vim.cmd("edit " .. vim.fn.stdpath("config") .. "/.nvim-global.lua") end,
   { desc = "Open the global meta configuration file" }
 )
 vim.api.nvim_create_user_command(
-  "MetaConfigOpenProject",
+  "MetaconfigOpenProject",
   function() vim.cmd("edit " .. project_config_path or vim.fn.getcwd() .. "/.nvim.lua") end,
   { desc = "Open the poject meta configuration file" }
 )
 vim.api.nvim_create_user_command(
-  "MetaConfigShow",
+  "MetaconfigShow",
   function() vim.notify(vim.inspect(meta_config), vim.log.levels.INFO, { title = "Meta Configuration" }) end,
   { desc = "Show the final meta configuration" }
 )
