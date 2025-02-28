@@ -25,7 +25,6 @@ return {
   },
   opts = {
     show_folds = false,
-    auto_insert_mode = true,
     mappings = {
       complete = { insert = "<Tab>" },
       close = { normal = "q", insert = "" },
