@@ -1,8 +1,8 @@
 -- CopilotChat.nvim
 --
--- CopilotChat.nvim is a plugin to chat with GitHub Copilot directly in Neovim. It is a great complement to the standard
--- Copilot virtual completion, as it provides chat features like question answering or code generation or explanation,
--- directly integrated in Neovim and with the same Copilot subscription.
+-- CopilotChat.nvim is a Neovim plugin that brings GitHub Copilot Chat capabilities directly into your editor. It is
+-- nicely complementary with GitHub Copilot completion plugins, like the official copilot.vim, or copilot.lua, as it
+-- provides chat features with the same GitHub Copilot subscription.
 
 return {
   "CopilotC-Nvim/CopilotChat.nvim",
@@ -12,22 +12,22 @@ return {
     "nvim-lua/plenary.nvim",
   },
   keys = {
-    { "<leader>cc", function() require("CopilotChat").toggle() end, mode = { "n", "v" }, desc = "[C]hat: toggle" },
-    { "<leader>cs", function() require("CopilotChat").stop() end, mode = { "n", "v" }, desc = "[C]hat: [S]top" },
-    { "<leader>cr", function() require("CopilotChat").reset() end, mode = { "n", "v" }, desc = "[C]hat: [R]eset" },
-    { "<leader>cm", function() require("CopilotChat").select_model() end, desc = "[C]hat: select [M]odel" },
+    { "<leader>cc", function() require("CopilotChat").toggle() end, mode = { "n", "x" }, desc = "[C]hat: toggle" },
+    { "<leader>cs", function() require("CopilotChat").stop() end, mode = { "n", "x" }, desc = "[C]hat: [S]top" },
+    { "<leader>cr", function() require("CopilotChat").reset() end, mode = { "n", "x" }, desc = "[C]hat: [R]eset" },
     {
-      "<leader>ca",
-      function() require("CopilotChat.actions").pick(require("CopilotChat.actions").prompt_actions()) end,
-      mode = { "n", "v" },
-      desc = "[C]hat: select [A]ction",
+      "<leader>cp",
+      function() require("CopilotChat").select_prompt() end,
+      mode = { "n", "x" },
+      desc = "[C]hat: select [P]rompt",
     },
+    { "<leader>cm", function() require("CopilotChat").select_model() end, desc = "[C]hat: select [M]odel" },
   },
   opts = {
-    show_folds = false, -- I find the folds a bit ugly and out of place
-    chat_autocomplete = false, -- Auto-complete is not integrated with nvim-cmp, and I don't like how it works
+    show_folds = false,
+    auto_insert_mode = true,
     mappings = {
-      complete = { insert = "" }, -- Disable auto-complete altogether as it doesn't work well for me
+      complete = { insert = "<Tab>" },
       close = { normal = "q", insert = "" },
       reset = { normal = "<localleader>r", insert = "" },
       submit_prompt = { normal = "<CR>", insert = "" },
@@ -42,4 +42,12 @@ return {
       show_help = { normal = "g?" },
     },
   },
+  config = function(_, opts)
+    require("CopilotChat").setup(opts)
+
+    vim.api.nvim_create_autocmd("BufEnter", {
+      pattern = "copilot-chat",
+      callback = function() vim.opt_local.completeopt = "noinsert,popup" end,
+    })
+  end,
 }
