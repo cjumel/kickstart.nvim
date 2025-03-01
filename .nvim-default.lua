@@ -186,7 +186,7 @@ return {
 
   -- Set `extra_filename_to_icon_name` to a dictionnary mapping file names to their corresponding nvim-web-devicons
   -- icon name, to support additional icon detection for files whose name is not known by Neovim. The filetypes defined
-  -- in `extra_filename_to_filetype` will be used automatically to define the corresponding icons, so there is not
+  -- in `extra_filename_to_filetype` will be used automatically to define the corresponding icons, so there is no
   -- need to repeat them here, but `extra_filename_to_icon_name` will overwrite any value found in
   -- `extra_filename_to_filetype`.
   extra_filename_to_icon_name = {
@@ -195,5 +195,17 @@ return {
     [".env.test"] = ".env",
     [".env.test.example"] = ".env",
     ["ignore"] = "ignore",
+  },
+
+  -- Set `extra_icon_names_to_icon_data` to a dictionary mapping icon names to their corresponding icon data, to support
+  -- additional icons. Icon data is generally defined using exising icons data, with:
+  -- `lua print(require("nvim-web-devicons").get_icon_colors("<icon-name>"))`.
+  extra_icon_names_to_icon_data = {
+    [".env"] = { icon = "", color = "#faf743", cterm_color = "227", name = ".env" },
+    ["conf"] = { icon = "", color = "#6d8086", cterm_color = 66, name = "conf" },
+    ["ignore"] = { icon = "", color = "#51a0cf", cterm_color = 74, name = "ignore" },
+    ["json"] = { icon = "", color = "#cbcb41", cterm_color = 185, name = "json" },
+    ["tmux"] = { icon = "", color = "#14ba19", cterm_color = "34", name = "tmux" },
+    ["vim"] = { icon = "", color = "#019833", cterm_color = 28, name = "vim" },
   },
 }
