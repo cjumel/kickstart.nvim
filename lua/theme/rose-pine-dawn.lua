@@ -3,6 +3,8 @@ local sections = require("plugins.ui.lualine.sections")
 
 local M = {}
 
+M.background = "light"
+
 M.rose_pine_enabled = true
 M.rose_pine_style = "dawn"
 

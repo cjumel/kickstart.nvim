@@ -16,13 +16,16 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
+-- Setup global variables for main configuration modules
+Metaconfig = require("metaconfig")
+Theme = require("theme")
+
 -- Setup leader and local leader keys before loading lazy.nvim so that mappings are correct in plugins setup
 vim.g.mapleader = " "
 vim.g.maplocalleader = "  "
 
--- Setup global variables for main configuration modules
-Metaconfig = require("metaconfig")
-Theme = require("theme")
+-- Setup background category from current theme, so that plugins can use it
+vim.opt.background = Theme.background or "dark"
 
 -- Setup environment variables defined in `Metaconfig`
 for key, value in pairs(Metaconfig.environment_variables or {}) do

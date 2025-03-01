@@ -1,5 +1,7 @@
 local M = {}
 
+M.background = "light"
+
 M.gruvbox_enabled = true
 M.gruvbox_style = "light"
 
