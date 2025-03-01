@@ -178,6 +178,7 @@ return {
     [".env.sample"] = "sh", -- same as `.env`
     [".env.test"] = "sh", -- same as `.env`
     [".env.test.example"] = "sh", -- same as `.env`
+    [".gitignore-global"] = ".gitignore",
     [".prettierignore"] = "gitignore",
     ["ignore"] = "gitignore",
     ["uv.lock"] = "toml",
@@ -194,6 +195,7 @@ return {
     [".env.sample"] = ".env",
     [".env.test"] = ".env",
     [".env.test.example"] = ".env",
+    [".gitignore-global"] = ".gitignore",
     ["ignore"] = "ignore",
   },
 
@@ -208,6 +210,14 @@ return {
       name = ".env",
       _color_light = "#32310d",
       _cterm_color_light = "236",
+    },
+    [".gitignore"] = {
+      icon = "",
+      color = "#f54d27",
+      cterm_color = "196",
+      name = ".gitignore",
+      _color_light = "#b83a1d",
+      _cterm_color_light = "160",
     },
     ["conf"] = {
       icon = "",
