@@ -103,6 +103,14 @@ return {
     },
   },
 
+  -- Set `language_server_name_to_mason_name` to a mapping between language server names and the corresponding Mason
+  -- package name to install.
+  language_server_name_to_mason_name = {
+    jsonls = "json-lsp",
+    lua_ls = "lua-language-server",
+    yamlls = "yaml-language-server",
+  },
+
   -- Set `formatters_by_ft` to a mapping between filetypes and tables of formatters to enable in the given order.
   -- Introducing a new formatter will likely require to install it with Mason.nvim, which can be done by calling the
   -- `MasonInstallAll` command. In the formatters table, you can set `lsp_format` to `"first"`, `"last"`, or
@@ -135,6 +143,12 @@ return {
       "trim_newlines", -- Prettier doesn't remove trailing new lines in YAML
     },
     zsh = { "shfmt" }, -- Not actually for zsh, but in my use case it works fine
+  },
+
+  -- Set `formatter_name_to_mason_name` to a mapping between formatter names and the corresponding Mason package name to
+  -- install. Set a value to false to prevent Mason from installing any package for the corresponding formatter.
+  formatter_name_to_mason_name = {
+    ruff_organize_imports = "ruff",
   },
 
   -- Set `disable_format_on_save_on_fts` to an array of filetypes on which to disable format-on-save, or to "*" to

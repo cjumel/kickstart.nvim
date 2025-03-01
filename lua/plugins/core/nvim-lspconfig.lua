@@ -4,19 +4,10 @@
 -- the code of the Neovim LSP itself, nor the language servers implementations. It makes super easy setting up a LSP
 -- in Neovim, bridging the gap between the LSP client and the language servers implementations.
 
--- Specify the name of the Mason package corresponding to language servers when they differ
-local server_name_to_mason_name = {
-  jsonls = "json-lsp",
-  lua_ls = "lua-language-server",
-  rust_analyzer = "rust-analyzer",
-  ts_ls = "typescript-language-server",
-  yamlls = "yaml-language-server",
-}
-
 -- Reformat the language server configurations to match the one expected by nvim-lspconfig
 local language_servers = {}
 local fts = {}
-for ft, ft_language_servers in pairs(Metaconfig.language_servers_by_ft or {}) do
+for ft, ft_language_servers in pairs(Metaconfig.language_servers_by_ft) do
   for language_server_name, language_server_config in pairs(ft_language_servers) do
     if language_server_config then
       language_servers[language_server_name] = language_server_config
@@ -40,7 +31,7 @@ return {
     -- Make sure all required dependencies can be installed with the `MasonInstallAll` command
     local mason_ensure_installed = {}
     for server_name, _ in pairs(language_servers) do
-      local mason_name = server_name_to_mason_name[server_name] or server_name
+      local mason_name = Metaconfig.language_server_name_to_mason_name[server_name] or server_name
       if
         not vim.tbl_contains(mason_ensure_installed, mason_name)
         and not vim.tbl_contains(vim.g.mason_ensure_installed or {}, mason_name)

@@ -4,17 +4,6 @@
 -- auto-formatting due to its great flexibility and customizability, while still remaining quite simple compared to
 -- alternatives like null-ls.
 
-local formatter_to_mason_name = { -- Names of the Mason package corresponding to formatters when they differ
-  ruff_fix = "ruff",
-  ruff_format = "ruff",
-  ruff_organize_imports = "ruff",
-}
-local formatters_without_mason = { -- Names of the formatters which have no Mason package associated with
-  "rustfmt", -- Should be installed with rustup
-  "trim_newlines",
-  "trim_whitespace",
-}
-
 local formatters_by_ft = {}
 for ft, formatters in pairs(Metaconfig.formatters_by_ft or {}) do
   if formatters then
@@ -37,9 +26,10 @@ return {
       for formatter_key, formatter in ipairs(formatters) do
         if
           formatter_key ~= "lsp_format" -- "lsp_format" is a special key for LSP formatter modes
-          and not vim.tbl_contains(formatters_without_mason, formatter)
+          and not vim.tbl_contains({ "trim_newlines", "trim_whitespace" }, formatter)
+          and not Metaconfig.formatter_name_to_mason_name[formatter] == false
         then
-          local mason_name = formatter_to_mason_name[formatter] or formatter
+          local mason_name = Metaconfig.formatter_name_to_mason_name[formatter] or formatter
           if
             not vim.tbl_contains(mason_ensure_installed, mason_name)
             and not vim.tbl_contains(vim.g.mason_ensure_installed or {}, mason_name)

@@ -4,11 +4,8 @@
 -- plugin of choice for linting, as it's very simple, easily customizable, and is very complementary with conform.nvim,
 -- my formatting plugin.
 
-local linter_to_mason_name = {} -- Names of the Mason package corresponding to linters when they differ
-local linters_without_mason = {} -- Names of the linters which have no Mason package associated with
-
 local linters_by_ft = {}
-for ft, linters in pairs(Metaconfig.linters_by_ft or {}) do
+for ft, linters in pairs(Metaconfig.linters_by_ft) do
   if linters then
     linters_by_ft[ft] = linters
   end
@@ -23,15 +20,12 @@ return {
     -- Make sure all required dependencies can be installed with the `MasonInstallAll` command
     local mason_ensure_installed = {}
     for _, linters in pairs(linters_by_ft) do
-      for _, linter in ipairs(linters) do
-        if not vim.tbl_contains(linters_without_mason, linter) then
-          local mason_name = linter_to_mason_name[linter] or linter
-          if
-            not vim.tbl_contains(mason_ensure_installed, mason_name)
-            and not vim.tbl_contains(vim.g.mason_ensure_installed or {}, mason_name)
-          then
-            table.insert(mason_ensure_installed, mason_name)
-          end
+      for _, mason_name in ipairs(linters) do
+        if
+          not vim.tbl_contains(mason_ensure_installed, mason_name)
+          and not vim.tbl_contains(vim.g.mason_ensure_installed or {}, mason_name)
+        then
+          table.insert(mason_ensure_installed, mason_name)
         end
       end
     end
@@ -53,7 +47,7 @@ return {
       end
 
       local relative_file_path = vim.fn.expand("%:p:~")
-      for _, path_pattern in ipairs(Metaconfig.tooling_blacklist_path_patterns or {}) do
+      for _, path_pattern in ipairs(Metaconfig.tooling_blacklist_path_patterns) do
         local file_matches_tooling_blacklist_pattern = relative_file_path:match(path_pattern)
         if file_matches_tooling_blacklist_pattern then
           return false
