@@ -7,6 +7,7 @@ local hint = [[
    _s_ ➜ [S]plit window            _=_ ➜ Equally high and wide       _<C-w>_ ➜ Switch windows   
    _t_ ➜ Break window into [T]ab   
 ]]
+
 return {
   key = { "<leader>,", desc = "Window menu" },
   opts = {
