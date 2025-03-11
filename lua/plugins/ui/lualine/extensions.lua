@@ -12,10 +12,6 @@ function M.build_extensions(sections)
       filetypes = { "oil" },
       sections = vim.tbl_deep_extend("force", sections, { lualine_c = modules.oil }),
     },
-    {
-      filetypes = { "toggleterm" },
-      sections = vim.tbl_deep_extend("force", sections, { lualine_c = modules.toggleterm }),
-    },
     -- Use an empty `lualine_c` section for remaining plugin temporary filetypes, as filetype is still visible
     {
       filetypes = {

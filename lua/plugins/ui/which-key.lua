@@ -37,7 +37,6 @@ return {
       { "<leader>f", group = "[F]ind", mode = { "n", "v" } },
       { "<leader>g", group = "[G]it", mode = { "n", "v" } },
       { "<leader>h", group = "[H]idden" },
-      { "<leader>t", group = "[T]erminal" },
       { "<leader>v", group = "[V]iew" },
       { "<leader>x", group = "E[X]ecute" },
       { "<leader>y", group = "[Y]ank" },
