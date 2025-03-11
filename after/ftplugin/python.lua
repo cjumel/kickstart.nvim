@@ -1,8 +1,8 @@
 -- [[ Options ]]
 
 -- Change the format options. These are adapted from Lua's default one in Neovim, defined in
---  `nvim/runtime/ftplugin/lua.vim` with `setlocal formatoptions-=t formatoptions+=croql`. Default formation options
---  are: "tcqj"
+-- `nvim/runtime/ftplugin/lua.vim` with `setlocal formatoptions-=t formatoptions+=croql`. Default formation options are:
+-- "tcqj"
 vim.opt_local.formatoptions:remove("t")
 vim.opt_local.formatoptions:append("rol")
 
@@ -17,11 +17,11 @@ vim.keymap.set("n", "<leader>ym", function()
   path = path:gsub(".__init__$", "")
   path = path:gsub("/", ".")
   vim.fn.setreg('"', path)
-  vim.notify('Yanked "' .. path .. '"')
+  vim.notify('Yanked to register `"`:\n```\n' .. path .. "\n```")
 end, { buffer = true, desc = "[Y]ank: [M]odule" })
 
 vim.keymap.set("n", "<leader>yr", function()
   local run_command = [[exec(open("]] .. vim.fn.expand("%:p:.") .. [[").read())]]
   vim.fn.setreg("+", run_command)
-  vim.notify('Yanked "' .. run_command .. '" to clipboard') -- The clipboard is the default usecase
-end, { buffer = true, desc = "[Y]ank: [R]un command (REPL)" })
+  vim.notify("Yanked to register `+`:\n```\n" .. run_command .. "\n```")
+end, { buffer = true, desc = "[Y]ank: REPL [R]un command" })

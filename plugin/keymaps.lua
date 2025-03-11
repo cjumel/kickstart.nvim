@@ -92,10 +92,27 @@ vim.keymap.set("v", "<S-Tab>", "<gv", { desc = "Unindent selection" })
 
 vim.keymap.set({ "n", "v" }, "_", '"_', { desc = "Black hole register" })
 vim.keymap.set({ "n", "v" }, "+", '"+', { desc = "System clipboard register" })
-vim.keymap.set("n", "gy", function()
-  vim.fn.setreg("+", vim.fn.getreg('"'))
-  vim.notify("Yanked sent to clipboard")
-end, { desc = "Send yanked to clipboard" })
+
+vim.keymap.set("n", "<leader>ys", function()
+  local yanked = vim.fn.getreg('"')
+  vim.fn.setreg("+", yanked)
+  vim.notify("Yanked to register `+`:\n```\n" .. yanked .. "\n```")
+end, { desc = "[Y]ank: [S]end yanked to system clipboard" })
+vim.keymap.set("n", "<leader>yt", function()
+  if not vim.tbl_contains(vim.opt.clipboard, "unnamedplus") then
+    vim.opt.clipboard:append("unnamedplus")
+    vim.notify("System clipboard synchronization enabled")
+  else
+    vim.opt.clipboard:remove("unnamedplus")
+    vim.notify("System clipboard synchronization disabled")
+  end
+end, { desc = "[Y]ank: [T]oggle system clipboard synchronization" })
+vim.keymap.set("n", "<leader>yn", function()
+  local notification_history = Snacks.notifier.get_history({ reverse = true })
+  local notification = notification_history[vim.v.count1].msg
+  vim.fn.setreg('"', notification)
+  vim.notify('Yanked to register `"`:\n```\n' .. notification .. "\n```")
+end, { desc = "[Y]ank: [N]otification" })
 
 --- Fetch the path of the file or directory linked to the current buffer (must be a regular buffer or an Oil buffer),
 --- apply the provided modifiers to it and yank it to the default register.
@@ -121,13 +138,6 @@ end
 vim.keymap.set("n", "<leader>yfp", function() yank_file_path(":~:.") end, { desc = "[Y]ank [F]ile: [P]ath" })
 vim.keymap.set("n", "<leader>yfa", function() yank_file_path(":~") end, { desc = "[Y]ank [F]ile: [A]bsolute path" })
 vim.keymap.set("n", "<leader>yfn", function() yank_file_path(":t") end, { desc = "[Y]ank [F]ile: [N]ame" })
-
-vim.keymap.set("n", "<leader>yn", function()
-  local notification_history = Snacks.notifier.get_history({ reverse = true })
-  local content = notification_history[1].msg
-  vim.fn.setreg('"', content)
-  vim.notify('Yanked "' .. content .. '"')
-end, { desc = "[Y]ank: [N]otification" })
 
 -- Like "gx", bur for the current file instead of the link under the cursor
 vim.keymap.set(
