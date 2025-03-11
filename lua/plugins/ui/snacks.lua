@@ -64,6 +64,7 @@ return {
           title = "Files",
           search = require("visual_mode").get_text_if_on(),
           layout = { preset = "telescope_horizontal" },
+          show_empty = true, -- In case everything is hidden or ignored
         }
         if vim.bo.filetype == "oil" then
           local dir = vim.fn.fnamemodify(require("oil").get_current_dir() --[[@as string]], ":p:~:.")
@@ -101,7 +102,11 @@ return {
     {
       "<leader>fd",
       function()
-        local opts = { title = "Directories", layout = { preset = "telescope_horizontal" } }
+        local opts = {
+          title = "Directories",
+          layout = { preset = "telescope_horizontal" },
+          show_empty = true, -- In case everything is hidden or ignored
+        }
         if vim.bo.filetype == "oil" then
           local dir = vim.fn.fnamemodify(require("oil").get_current_dir() --[[@as string]], ":p:~:.")
           opts.title = opts.title .. " (" .. (dir ~= "" and dir or "./") .. ")"
@@ -143,12 +148,12 @@ return {
       "<leader>fs",
       function()
         Snacks.picker.lsp_symbols({
-          title = "Document Symbols",
+          title = "Document Symbols (main)",
           sort = { fields = { "score:desc", "idx" } }, -- Don't sort by item length to preserve document order
           layout = { preset = "telescope_horizontal" },
         })
       end,
-      desc = "[F]ind: document [S]ymbols",
+      desc = "[F]ind: document [S]ymbols (main)",
     },
     {
       "<leader>fS",
@@ -166,11 +171,11 @@ return {
       "<leader>fw",
       function()
         Snacks.picker.lsp_workspace_symbols({
-          title = "Workspace Symbols",
+          title = "Workspace Symbols (main)",
           layout = { preset = "telescope_horizontal" },
         })
       end,
-      desc = "[F]ind: [W]orkspace symbols",
+      desc = "[F]ind: [W]orkspace symbols (main)",
     },
     {
       "<leader>fW",
@@ -250,7 +255,7 @@ return {
 
     -- Scratch buffers
     {
-      "<leader>hh",
+      "<leader>tt",
       function() -- Snacks.scratch.select re-implementation simplified & restricted to the current directory
         local widths = { 0, 0 }
         local items = Snacks.scratch.list()
@@ -280,10 +285,10 @@ return {
           end
         end)
       end,
-      desc = "[H]idden: select file in project",
+      desc = "[T]emp files: select in project",
     },
     {
-      "<leader>ha",
+      "<leader>ta",
       function() -- Snacks.scratch.select re-implementation simplified
         local widths = { 0, 0, 0 }
         local items = Snacks.scratch.list()
@@ -310,10 +315,10 @@ return {
           end
         end)
       end,
-      desc = "[H]idden: select file in [A]ll projects",
+      desc = "[T]emp files: select [A]ll",
     },
     {
-      "<leader>ho",
+      "<leader>to",
       function()
         vim.ui.input({ prompt = "Filetype" }, function(filetype)
           if filetype then
@@ -321,17 +326,17 @@ return {
           end
         end)
       end,
-      desc = "[H]idden: [O]pen",
+      desc = "[T]emp files: [O]pen",
     },
     {
-      "<leader>hf",
+      "<leader>tf",
       function() Snacks.scratch.open({ name = vim.bo.filetype:sub(1, 1):upper() .. vim.bo.filetype:sub(2) .. " file" }) end,
-      desc = "[H]idden: open with same [F]iletype",
+      desc = "[T]emp files: open with same [F]iletype",
     },
     {
-      "<leader>hn",
+      "<leader>tn",
       function() Snacks.scratch.open({ name = "Note", ft = "markdown" }) end,
-      desc = "[H]idden: open [N]ote",
+      desc = "[T]emp files: open [N]ote",
     },
 
     -- Zen mode
@@ -349,7 +354,12 @@ return {
           icon = " ",
           key = "f",
           desc = "Find Files",
-          action = function() Snacks.picker.files({ layout = { preset = "telescope_horizontal" } }) end,
+          action = function()
+            Snacks.picker.files({
+              layout = { preset = "telescope_horizontal" },
+              show_empty = true, -- In case everything is hidden or ignored
+            })
+          end,
         },
         {
           icon = " ",
@@ -380,7 +390,12 @@ return {
           icon = " ",
           key = "d",
           desc = "Find Directories",
-          action = function() Snacks.picker.pick("directories", { layout = { preset = "telescope_horizontal" } }) end,
+          action = function()
+            Snacks.picker.pick("directories", {
+              layout = { preset = "telescope_horizontal" },
+              show_empty = true, -- In case everything is hidden or ignored
+            })
+          end,
         },
         {
           icon = "󰚰 ",
