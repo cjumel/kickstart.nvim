@@ -1,39 +1,35 @@
-local hint = [[
-                                          Window   
-   _h_ ➜ Increase [H]eight         _v_ ➜ Split window [V]ertically   _<C-h>_ ➜ Window left   
-   _H_ ➜ Decrease [H]eight         _w_ ➜ Increase [W]idth            _<C-j>_ ➜ Window down   
-   _o_ ➜ Close [O]ther windows     _W_ ➜ Decrease [W]idth            _<C-k>_ ➜ Window up   
-   _q_ ➜ [Q]uit window             _x_ ➜ Swap window with next       _<C-l>_ ➜ Window left   
-   _s_ ➜ [S]plit window            _=_ ➜ Equally high and wide       _<C-w>_ ➜ Switch windows   
-   _t_ ➜ Break window into [T]ab   
-]]
-
 return {
   key = { "<leader>,", desc = "Window menu" },
   opts = {
     body = "<leader>,",
-    config = {
-      desc = "Window menu",
-    },
-    hint = hint,
+    config = { desc = "Window menu" },
     heads = {
-      { "h", "<C-w>+" },
-      { "H", "<C-w>-" },
+      { "h", "<C-w>h" },
+      { "j", "<C-w>j" },
+      { "k", "<C-w>k" },
+      { "l", "<C-w>l" },
       { "o", "<C-w>o" },
       { "q", "<C-w>q" },
       { "s", "<C-w>s" },
       { "t", "<C-w>T" },
       { "v", "<C-w>v" },
-      { "w", "<C-w>>" },
-      { "W", "<C-w><" },
+      { "w", "<C-w>w" },
       { "x", "<C-w>x" },
+      { "!", "<C-w>+" }, -- Mnemonic: opposite shape of "-"
+      { "-", "<C-w>-" },
+      { "(", "<C-w><" },
+      { ")", "<C-w>>" },
       { "=", "<C-w>=" },
-      { "<C-h>", "<cmd>TmuxNavigateLeft<CR>" },
-      { "<C-j>", "<cmd>TmuxNavigateDown<CR>" },
-      { "<C-k>", "<cmd>TmuxNavigateUp<CR>" },
-      { "<C-l>", "<cmd>TmuxNavigateRight<CR>" },
-      { "<C-w>", "<C-w>w" },
       { "<Esc>", nil, { exit = true, desc = false } },
     },
+    hint = [[
+                                  Window   
+   _h_ ➜ Go left         _s_ ➜ [S]plit              _!_ ➜ Increase height   
+   _j_ ➜ Go down         _t_ ➜ Break into [T]ab     _-_ ➜ Decrease height   
+   _k_ ➜ Go up           _v_ ➜ Split [V]ertically   _(_ ➜ Decrease width   
+   _l_ ➜ Go right        _w_ ➜ S[W]itch             _)_ ➜ Increase width   
+   _o_ ➜ Quit [O]thers   _x_ ➜ Swap with next       _=_ ➜ Equalize hight/width   
+   _q_ ➜ [Q]uit   
+]],
   },
 }
