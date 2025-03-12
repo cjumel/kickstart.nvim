@@ -41,8 +41,9 @@ return {
     end
 
     -- Setup keymaps for DAP buffers
+    local group = vim.api.nvim_create_augroup("NvimDapKeymaps", { clear = true })
     vim.api.nvim_create_autocmd("FileType", {
-      group = vim.api.nvim_create_augroup("NvimDapKeymaps", { clear = true }),
+      group = group,
       pattern = { "dap-repl", "dapui_watches" },
       callback = function()
         -- Keymaps to go through history like with the arrow keys (<C-n> & <C-p> are taken by nvim-cmp)
@@ -52,6 +53,11 @@ return {
         vim.keymap.set("i", "<C-w>", "<C-S-w>", { desc = "Delete word", buffer = true })
         vim.keymap.set("i", "<M-BS>", "<C-S-w>", { desc = "Delete word", buffer = true })
       end,
+    })
+    vim.api.nvim_create_autocmd("FileType", {
+      group = group,
+      pattern = { "dap-float" },
+      callback = function() vim.keymap.set("n", "q", "<cmd>:q<CR>", { desc = "Close", buffer = true }) end,
     })
   end,
 }
