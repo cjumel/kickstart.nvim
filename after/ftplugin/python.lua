@@ -9,15 +9,9 @@ vim.opt_local.formatoptions:append("rol")
 -- [[ Keymaps ]]
 
 vim.keymap.set("n", "<leader>ym", function()
-  local path = vim.fn.expand("%:.") -- File path relative to cwd
-  -- Remove various prefixes and suffixes, and replace "/" by "."
-  path = path:gsub("^src/", "")
-  path = path:gsub("%.py$", "")
-  path = path:gsub("%.pyi$", "")
-  path = path:gsub(".__init__$", "")
-  path = path:gsub("/", ".")
-  vim.fn.setreg('"', path)
-  vim.notify('Yanked to register `"`:\n```\n' .. path .. "\n```")
+  local module_ = require("lang_utils.python").get_module()
+  vim.fn.setreg('"', module_)
+  vim.notify('Yanked to register `"`:\n```\n' .. module_ .. "\n```")
 end, { buffer = true, desc = "[Y]ank: [M]odule" })
 
 vim.keymap.set("n", "<leader>yr", function()
