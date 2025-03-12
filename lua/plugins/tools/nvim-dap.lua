@@ -24,6 +24,12 @@ return {
     )
     vim.fn.sign_define("DapLogPoint", { text = "◆", texthl = "DapLogPoint", linehl = "", numhl = "" })
 
+    -- Enable rerunning last DAP (final) configuration, see https://github.com/mfussenegger/nvim-dap/issues/1025
+    vim.g.dap_last_config = nil
+    require("dap").listeners.after.event_initialized["store_config"] = function(session)
+      vim.g.dap_last_config = session.config
+    end
+
     -- Setup language-specific DAP configurations
     local dap_config_dir_path = vim.fn.stdpath("config") .. "/lua/plugins/tools/nvim-dap/configs"
     local dap_config_file_paths = vim.split(vim.fn.glob(dap_config_dir_path .. "/*"), "\n")
