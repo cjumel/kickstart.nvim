@@ -18,6 +18,7 @@ return {
   opts = {
     keys = {
       ["<Tab>"] = "fold_toggle",
+      ["d"] = { action = "delete", mode = { "n", "v" } },
       [","] = "next",
       [";"] = "prev",
     },
