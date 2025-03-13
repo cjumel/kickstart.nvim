@@ -17,6 +17,7 @@ return {
       require("overseer").wrap_template(base_template, {
         name = "python <file>",
         tags = { "RUN" },
+        priority = 1,
         condition = { filetype = "python" },
         builder = function(params)
           return {
@@ -28,6 +29,7 @@ return {
       require("overseer").wrap_template(base_template, {
         name = "python -m <module>",
         tags = { "RUN" },
+        priority = 2,
         condition = { filetype = "python" },
         builder = function(params)
           return {
