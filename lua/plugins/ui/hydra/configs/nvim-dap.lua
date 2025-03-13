@@ -19,8 +19,8 @@ return {
           end
         end,
       },
+      { "c", function() require("dap").clear_breakpoints() end },
       { "o", function() require("dap").toggle_breakpoint() end }, -- Mnemonic: "o" has the shape of a breakpoint
-      { "O", function() require("dap").clear_breakpoints() end }, -- Mnemonic: "o" has the shape of a breakpoint
       { "p", function() require("dap.ui.widgets").hover() end },
       {
         "r",
@@ -39,10 +39,10 @@ return {
       { "<Esc>", nil, { exit = true, mode = "n", desc = false } },
     },
     hint = [[
-                                Debug   
-   _a_ ➜ Run [A]gain         _p_ ➜ [P]review variable   _s_ ➜ [S]top   
-   _o_ ➜ Toggle Breakpoint   _r_ ➜ [R]un                _t_ ➜ [T]erminate   
-   _O_ ➜ Clear Breakpoints   _R_ ➜ Toggle [R]EPL        _u_ ➜ Toggle [U]I   
+                                 Debug   
+   _a_ ➜ Run [A]gain           _p_ ➜ [P]review variable   _s_ ➜ [S]top   
+   _c_ ➜ [C]lear Breakpoints   _r_ ➜ [R]un                _t_ ➜ [T]erminate   
+   _o_ ➜ Toggle Breakpoint     _R_ ➜ Toggle [R]EPL        _u_ ➜ Toggle [U]I   
 ]],
   },
 }
