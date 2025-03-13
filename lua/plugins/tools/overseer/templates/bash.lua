@@ -10,7 +10,7 @@ return {
         builder = function(_)
           return {
             cmd = "bash",
-            args = { vim.fn.expand("%:p:~:.") },
+            args = { vim.fn.expand("%:p:.") },
           }
         end,
       },

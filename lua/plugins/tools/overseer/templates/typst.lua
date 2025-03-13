@@ -10,7 +10,7 @@ return {
         builder = function(_)
           return {
             cmd = { "typst", "compile" },
-            args = { vim.fn.expand("%:p:~:.") },
+            args = { vim.fn.expand("%:p:.") },
           }
         end,
       },
@@ -21,7 +21,7 @@ return {
         builder = function(_)
           return {
             cmd = { "typst", "watch" },
-            args = { vim.fn.expand("%:p:~:.") },
+            args = { vim.fn.expand("%:p:.") },
           }
         end,
       },

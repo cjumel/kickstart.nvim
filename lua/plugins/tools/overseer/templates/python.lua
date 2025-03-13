@@ -22,7 +22,7 @@ return {
         builder = function(params)
           return {
             cmd = "python",
-            args = vim.list_extend({ vim.fn.expand("%:p:~:.") }, params.args),
+            args = vim.list_extend({ vim.fn.expand("%:p:.") }, params.args),
           }
         end,
       }),

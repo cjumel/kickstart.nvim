@@ -46,7 +46,7 @@ return {
         builder = function(params)
           return {
             cmd = { "pre-commit", "run" },
-            args = vim.list_extend({ "--files", vim.fn.expand("%:p:~:.") }, params.args),
+            args = vim.list_extend({ "--files", vim.fn.expand("%:p:.") }, params.args),
           }
         end,
       }),

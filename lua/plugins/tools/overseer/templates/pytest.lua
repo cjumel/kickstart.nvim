@@ -36,7 +36,7 @@ return {
         builder = function(params)
           return {
             cmd = "pytest",
-            args = vim.list_extend({ vim.fn.expand("%:p:~:.") }, params.args),
+            args = vim.list_extend({ vim.fn.expand("%:p:.") }, params.args),
           }
         end,
       }),
@@ -47,7 +47,7 @@ return {
         builder = function(params)
           return {
             cmd = "pytest",
-            args = vim.list_extend({ vim.fn.expand("%:p:~:.") .. "::" .. python_test_function_name }, params.args),
+            args = vim.list_extend({ vim.fn.expand("%:p:.") .. "::" .. python_test_function_name }, params.args),
           }
         end,
       }),

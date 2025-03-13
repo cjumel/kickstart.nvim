@@ -10,7 +10,7 @@ return {
         builder = function(_)
           return {
             cmd = "luajit",
-            args = { vim.fn.expand("%:p:~:.") },
+            args = { vim.fn.expand("%:p:.") },
           }
         end,
       },

@@ -31,7 +31,7 @@ return {
         builder = function(params)
           return {
             cmd = "mypy",
-            args = vim.list_extend({ vim.fn.expand("%:p:~:.") }, params.args),
+            args = vim.list_extend({ vim.fn.expand("%:p:.") }, params.args),
           }
         end,
       }),
