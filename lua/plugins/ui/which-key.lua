@@ -40,7 +40,7 @@ return {
       { "<leader>v", group = "[V]iew" },
       { "<leader>x", group = "E[X]ecute" },
       { "<leader>y", group = "[Y]ank" },
-      { "<leader>yf", group = "[Y]ank [F]ile" },
+      { "<localleader>y", group = "[Y]ank" },
       { "[", group = "Next" },
       { "]", group = "Previous" },
     },

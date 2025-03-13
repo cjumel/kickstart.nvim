@@ -97,7 +97,7 @@ vim.keymap.set("n", "<leader>ys", function()
   local yanked = vim.fn.getreg('"')
   vim.fn.setreg("+", yanked)
   vim.notify("Yanked to register `+`:\n```\n" .. yanked .. "\n```")
-end, { desc = "[Y]ank: [S]end yanked to system clipboard" })
+end, { desc = "[Y]ank: [S]end to + register" })
 vim.keymap.set("n", "<leader>yt", function()
   if not vim.tbl_contains(vim.opt.clipboard, "unnamedplus") then
     vim.opt.clipboard:append("unnamedplus")
@@ -106,7 +106,7 @@ vim.keymap.set("n", "<leader>yt", function()
     vim.opt.clipboard:remove("unnamedplus")
     vim.notify("System clipboard synchronization disabled")
   end
-end, { desc = "[Y]ank: [T]oggle system clipboard synchronization" })
+end, { desc = '[Y]ank: [T]oggle + and " registers sync' })
 
 --- Fetch the path of the file or directory linked to the current buffer (must be a regular buffer or an Oil buffer),
 --- apply the provided modifiers to it and yank it to the default register.
@@ -129,9 +129,9 @@ local function yank_file_path(mods)
   end
 end
 
-vim.keymap.set("n", "<leader>yfp", function() yank_file_path(":~:.") end, { desc = "[Y]ank [F]ile: [P]ath" })
-vim.keymap.set("n", "<leader>yfa", function() yank_file_path(":~") end, { desc = "[Y]ank [F]ile: [A]bsolute path" })
-vim.keymap.set("n", "<leader>yfn", function() yank_file_path(":t") end, { desc = "[Y]ank [F]ile: [N]ame" })
+vim.keymap.set("n", "<leader>yp", function() yank_file_path(":~:.") end, { desc = "[Y]ank: file [P]ath" })
+vim.keymap.set("n", "<leader>ya", function() yank_file_path(":~") end, { desc = "[Y]ank: [A]bsolute file path" })
+vim.keymap.set("n", "<leader>yn", function() yank_file_path(":t") end, { desc = "[Y]ank: file [N]ame" })
 
 -- Like "gx", bur for the current file instead of the link under the cursor
 vim.keymap.set(
