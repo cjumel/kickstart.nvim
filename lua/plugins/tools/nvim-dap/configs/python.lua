@@ -2,8 +2,6 @@
 -- https://github.com/mfussenegger/nvim-dap/wiki/Debug-Adapter-installation#python
 -- https://github.com/mfussenegger/nvim-dap-python/blob/34282820bb713b9a5fdb120ae8dd85c2b3f49b51/lua/dap-python.lua
 
-local python_utils = require("lang_utils.python")
-
 local M = {}
 
 local function get_python_path()
@@ -53,6 +51,9 @@ M.setup = function()
       return {}
     end
 
+    local python_utils = require("lang_utils.python")
+
+    -- In the following, we can't use `vim.ui.input` because it's asynchronous and we need a synchronous input
     local configs = {
       {
         type = "python",
@@ -60,6 +61,15 @@ M.setup = function()
         name = "python <file>",
         program = "${file}",
         console = "integratedTerminal",
+        args = function() return vim.split(vim.fn.input("Arguments: "), " ") end,
+      },
+      {
+        type = "python",
+        request = "launch",
+        name = "python -m <module>",
+        module = python_utils.get_module(),
+        console = "integratedTerminal",
+        args = function() return vim.split(vim.fn.input("Arguments: "), " ") end,
       },
     }
 
@@ -69,8 +79,8 @@ M.setup = function()
         request = "launch",
         name = "pytest <file>",
         module = "pytest",
-        args = { "${file}" },
         console = "integratedTerminal",
+        args = function() return vim.list_extend({ "${file}" }, vim.split(vim.fn.input("Arguments: "), " ")) end,
       })
 
       local test_function_name = python_utils.get_test_function_name()
@@ -80,8 +90,10 @@ M.setup = function()
           request = "launch",
           name = "pytest <function>",
           module = "pytest",
-          args = { "${file}::" .. test_function_name },
           console = "integratedTerminal",
+          args = function()
+            return vim.list_extend({ "${file}::" .. test_function_name }, vim.split(vim.fn.input("Arguments: "), " "))
+          end,
         })
       end
     end
