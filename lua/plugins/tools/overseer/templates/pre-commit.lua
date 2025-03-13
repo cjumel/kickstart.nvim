@@ -1,15 +1,3 @@
-local base_template = {
-  params = {
-    args = {
-      desc = "Additional arguments",
-      type = "list",
-      delimiter = " ",
-      optional = true,
-      default = {},
-    },
-  },
-}
-
 return {
   name = "pre-commit",
   condition = {
@@ -29,6 +17,17 @@ return {
     end,
   },
   generator = function(_, cb)
+    local base_template = {
+      params = {
+        args = {
+          desc = "Additional arguments",
+          type = "list",
+          delimiter = " ",
+          optional = true,
+          default = {},
+        },
+      },
+    }
     cb({
       require("overseer").wrap_template(base_template, {
         name = "pre-commit run --all-files",
@@ -36,7 +35,7 @@ return {
         builder = function(params)
           return {
             cmd = { "pre-commit", "run" },
-            args = vim.list_extend(params.args, { "--all-files" }),
+            args = vim.list_extend({ "--all-files" }, params.args),
           }
         end,
       }),
@@ -47,7 +46,7 @@ return {
         builder = function(params)
           return {
             cmd = { "pre-commit", "run" },
-            args = vim.list_extend(params.args, { "--files", vim.fn.expand("%:p:~:.") }),
+            args = vim.list_extend({ "--files", vim.fn.expand("%:p:~:.") }, params.args),
           }
         end,
       }),
