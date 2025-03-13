@@ -271,7 +271,7 @@ return {
           end
         end
         vim.ui.select(selection_items, {
-          prompt = "Project hidden files",
+          prompt = "Temp files (project)",
           format_item = function(item)
             local parts = { item.icon, item.name }
             for i, part in ipairs(parts) do
@@ -285,7 +285,7 @@ return {
           end
         end)
       end,
-      desc = "[T]emp files: select in project",
+      desc = "[T]emp files: select (project)",
     },
     {
       "<leader>ta",
@@ -301,7 +301,7 @@ return {
           widths[3] = math.max(widths[3], vim.api.nvim_strwidth(item.name))
         end
         vim.ui.select(items, {
-          prompt = "All hidden files",
+          prompt = "Temp files (all)",
           format_item = function(item)
             local parts = { item.cwd, item.icon, item.name }
             for i, part in ipairs(parts) do
@@ -315,7 +315,7 @@ return {
           end
         end)
       end,
-      desc = "[T]emp files: select [A]ll",
+      desc = "[T]emp files: select ([A]ll)",
     },
     {
       "<leader>to",
@@ -631,7 +631,26 @@ return {
 
     styles = {
       notification = { wo = { wrap = true } }, -- Avoid notification truncation
-      notification_history = { wo = { number = false, relativenumber = false, signcolumn = "yes" } },
+      notification_history = {
+        wo = { number = false, relativenumber = false, signcolumn = "yes" },
+        keys = {
+          ["select_and_yank"] = {
+            "<CR>",
+            function()
+              vim.cmd([[close]]) -- Close the notification history window, it hides the selection window
+              vim.ui.select(Snacks.notifier.get_history({ reverse = true }), {
+                prompt = "Notifications",
+                format_item = function(item) return item.msg end,
+              }, function(selected)
+                if selected then
+                  vim.fn.setreg('"', selected.msg)
+                  vim.notify('Yanked to register `"`:\n```\n' .. selected.msg .. "\n```")
+                end
+              end)
+            end,
+          },
+        },
+      },
     },
   },
   config = function(_, opts)

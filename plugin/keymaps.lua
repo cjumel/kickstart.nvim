@@ -107,12 +107,6 @@ vim.keymap.set("n", "<leader>yt", function()
     vim.notify("System clipboard synchronization disabled")
   end
 end, { desc = "[Y]ank: [T]oggle system clipboard synchronization" })
-vim.keymap.set("n", "<leader>yn", function()
-  local notification_history = Snacks.notifier.get_history({ reverse = true })
-  local notification = notification_history[vim.v.count1].msg
-  vim.fn.setreg('"', notification)
-  vim.notify('Yanked to register `"`:\n```\n' .. notification .. "\n```")
-end, { desc = "[Y]ank: [N]otification" })
 
 --- Fetch the path of the file or directory linked to the current buffer (must be a regular buffer or an Oil buffer),
 --- apply the provided modifiers to it and yank it to the default register.
