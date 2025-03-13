@@ -322,7 +322,7 @@ return {
       function()
         vim.ui.input({ prompt = "Filetype" }, function(filetype)
           if filetype then
-            Snacks.scratch.open({ name = filetype:sub(1, 1):upper() .. filetype:sub(2) .. " file" })
+            Snacks.scratch.open({ ft = filetype, name = filetype:sub(1, 1):upper() .. filetype:sub(2) .. " file" })
           end
         end)
       end,
@@ -335,7 +335,7 @@ return {
     },
     {
       "<leader>tn",
-      function() Snacks.scratch.open({ name = "Note", ft = "markdown" }) end,
+      function() Snacks.scratch.open({ ft = "markdown", name = "Note" }) end,
       desc = "[T]emp files: open [N]ote",
     },
 
@@ -604,8 +604,9 @@ return {
       filekey = { branch = false }, -- Don't scope scratch files to branch
       win = {
         keys = {
+          ["source"] = false, -- Prefer overseer.nvim run templates
           ["delete"] = {
-            "<C-BS>",
+            "<C-q>",
             function(self)
               if vim.fn.confirm("Do you want to delete the scratch file definitely?", "&Yes\n&No") == 1 then
                 local fname = vim.api.nvim_buf_get_name(self.buf)
@@ -614,44 +615,6 @@ return {
               end
             end,
             desc = "delete",
-          },
-        },
-      },
-      win_by_ft = {
-        lua = {
-          keys = {
-            ["source"] = {
-              "<C-CR>",
-              function(self)
-                local command = "luajit"
-                local fname = vim.api.nvim_buf_get_name(self.buf)
-                local res = vim.system({ command, fname }, { text = true }):wait()
-                if res.code ~= 0 then
-                  Snacks.notify.error(res.stderr or "Unknown error.")
-                else
-                  Snacks.notify(res.stdout)
-                end
-              end,
-              desc = "source",
-            },
-          },
-        },
-        python = {
-          keys = {
-            ["source"] = {
-              "<C-CR>",
-              function(self)
-                local command = "python"
-                local fname = vim.api.nvim_buf_get_name(self.buf)
-                local res = vim.system({ command, fname }, { text = true }):wait()
-                if res.code ~= 0 then
-                  Snacks.notify.error(res.stderr or "Unknown error.")
-                else
-                  Snacks.notify(res.stdout)
-                end
-              end,
-              desc = "source",
-            },
           },
         },
       },
