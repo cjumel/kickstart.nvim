@@ -4,7 +4,7 @@ return {
     body = "<leader>h",
     config = {
       desc = "[H]unk menu",
-      color = "pink", -- Allow other keymaps while the Hydra is open
+      color = "pink", -- Allow other keymaps while the Hydra is open (e.g. move cursor and select lines to stage)
     },
     mode = { "n", "v" },
     heads = {

@@ -2,7 +2,10 @@ return {
   key = { "<leader>m", desc = "[M]erge conflict menu" },
   opts = {
     body = "<leader>m",
-    config = { desc = "[M]erge conflict menu" },
+    config = {
+      desc = "[M]erge conflict menu",
+      color = "pink", -- Allow other keymaps while the Hydra is open (e.g. undo)
+    },
     heads = {
       { "b", function() require("git-conflict").choose("both") end },
       { "n", function() require("git-conflict").choose("none") end },

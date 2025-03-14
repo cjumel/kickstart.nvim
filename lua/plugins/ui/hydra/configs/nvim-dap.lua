@@ -4,7 +4,7 @@ return {
     body = "<leader>d",
     config = {
       desc = "[D]ebug menu",
-      color = "pink", -- Allow other keymaps while the Hydra is open
+      color = "pink", -- Allow other keymaps while the Hydra is open (e.g. move cursor to preview variables)
     },
     heads = {
       -- Don't use Neovim arrow keys ("h", "j", "k", "l") or movement keys ("w", "b", "e" and their upper-case variants)
