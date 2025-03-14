@@ -16,13 +16,13 @@ end, { buffer = true, desc = "[Y]ank: [M]odule" })
 vim.keymap.set("n", "<localleader>yi", function()
   local module_ = require("lang_utils.python").get_module()
   local import = "import " .. module_
-  vim.fn.setreg('"', import)
+  vim.fn.setreg('"', import, "l") -- Register linewise
   vim.notify('Yanked to register `"`:\n```\n' .. import .. "\n```")
 end, { buffer = true, desc = "[Y]ank: [I]mport statement" })
 vim.keymap.set("n", "<localleader>yf", function()
   local module_ = require("lang_utils.python").get_module()
   local from_import = "from " .. module_ .. " import "
-  vim.fn.setreg('"', from_import)
+  vim.fn.setreg('"', from_import, "l") -- Register linewise
   vim.notify('Yanked to register `"`:\n```\n' .. from_import .. "\n```")
 end, { buffer = true, desc = "[Y]ank: [F]rom import statement" })
 vim.keymap.set("n", "<localleader>yr", function()
