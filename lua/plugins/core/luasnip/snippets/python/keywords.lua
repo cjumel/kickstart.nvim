@@ -12,21 +12,15 @@ local s = ls.snippet
 local sn = ls.snippet_node
 local t = ls.text_node
 
--- Condition to avoid triggering a snippet inside a string or a comment
-local is_in_code_condition = conds.make_treesitter_node_exclusion_condition({
-  "comment",
-  "string",
-  "string_start",
-  "string_content",
-  "string_end",
-})
+local local_conds = {}
+local_conds.in_code = conds.ts_node_not_in({ "comment", "string", "string_start", "string_content", "string_end" })
+local_conds.async = conds.prefix("async ")
+local_conds.for_inline = conds.ts_node_in({ "dictionary", "list", "set" })
 
 return {
   s({
     trig = "def",
-    show_condition = (conds.line_begin + conds.make_prefix_condition("async "))
-      * ls_show_conds.line_end
-      * is_in_code_condition,
+    show_condition = (conds.line_begin + local_conds.async) * ls_show_conds.line_end * local_conds.in_code,
     desc = [[`def …(…) -> …: …`]],
   }, {
     t("def "),
@@ -46,14 +40,18 @@ return {
       sn(nil, { t("None"), i(1) }),
     }),
     t({ ":", "\t" }),
-    i(4),
+    c(4, {
+      i(1),
+      sn(nil, { t("pass"), i(1) }),
+    }),
   }),
 
   s({
     trig = "for",
-    show_condition = (conds.line_begin + conds.make_prefix_condition("async "))
+    show_condition = (conds.line_begin + local_conds.async)
       * ls_show_conds.line_end
-      * is_in_code_condition,
+      * local_conds.in_code
+      * -local_conds.for_inline,
     desc = [[`for … in …: …`]],
   }, {
     t("for "),
@@ -65,7 +63,7 @@ return {
   }),
   s({
     trig = "for", -- Inline version
-    show_condition = -(conds.line_begin + conds.make_prefix_condition("async ")) * is_in_code_condition,
+    show_condition = local_conds.for_inline,
     desc = [[`for … in …`]],
   }, {
     t("for "),
@@ -75,9 +73,10 @@ return {
   }),
   s({
     trig = "for … enumerate",
-    show_condition = (conds.line_begin + conds.make_prefix_condition("async "))
+    show_condition = (conds.line_begin + local_conds.async)
       * ls_show_conds.line_end
-      * is_in_code_condition,
+      * local_conds.in_code
+      * -local_conds.for_inline,
     desc = [[`for … in enumerate(…): …`]],
   }, {
     t("for "),
@@ -91,7 +90,7 @@ return {
   }),
   s({
     trig = "for … enumerate", -- Inline version
-    show_condition = -(conds.line_begin + conds.make_prefix_condition("async ")) * is_in_code_condition,
+    show_condition = local_conds.for_inline,
     desc = [[`for … in enumerate(…)`]],
   }, {
     t("for "),
@@ -104,9 +103,10 @@ return {
   }),
   s({
     trig = "for … range",
-    show_condition = (conds.line_begin + conds.make_prefix_condition("async "))
+    show_condition = (conds.line_begin + local_conds.async)
       * ls_show_conds.line_end
-      * is_in_code_condition,
+      * local_conds.in_code
+      * -local_conds.for_inline,
     desc = [[`for … in range(…): …`]],
   }, {
     t("for "),
@@ -118,7 +118,7 @@ return {
   }),
   s({
     trig = "for … range", -- Inline version
-    show_condition = -(conds.line_begin + conds.make_prefix_condition("async ")) * is_in_code_condition,
+    show_condition = local_conds.for_inline,
     desc = [[`for … in range(…)`]],
   }, {
     t("for "),
@@ -129,9 +129,10 @@ return {
   }),
   s({
     trig = "for … zip",
-    show_condition = (conds.line_begin + conds.make_prefix_condition("async "))
+    show_condition = (conds.line_begin + local_conds.async)
       * ls_show_conds.line_end
-      * is_in_code_condition,
+      * local_conds.in_code
+      * -local_conds.for_inline,
     desc = [[`for … in zip(…): …`]],
   }, {
     t("for "),
@@ -143,7 +144,7 @@ return {
   }),
   s({
     trig = "for … zip", -- Inline version
-    show_condition = -(conds.line_begin + conds.make_prefix_condition("async ")) * is_in_code_condition,
+    show_condition = local_conds.for_inline,
     desc = [[`for … in zip(…)`]],
   }, {
     t("for "),
@@ -155,7 +156,7 @@ return {
 
   s({
     trig = "from … import",
-    show_condition = conds.line_begin * ls_show_conds.line_end * is_in_code_condition,
+    show_condition = conds.line_begin * ls_show_conds.line_end * local_conds.in_code,
     desc = [[`from … import …`]],
   }, {
     t("from "),
@@ -165,7 +166,7 @@ return {
   }),
   s({
     trig = "from … import … as",
-    show_condition = conds.line_begin * ls_show_conds.line_end * is_in_code_condition,
+    show_condition = conds.line_begin * ls_show_conds.line_end * local_conds.in_code,
     desc = [[`from … import … as`]],
   }, {
     t("from "),
@@ -178,7 +179,7 @@ return {
 
   s({
     trig = "if … else", -- Inline version
-    show_condition = -conds.line_begin * is_in_code_condition,
+    show_condition = -conds.line_begin * local_conds.in_code,
     desc = [[`if … else …`]],
   }, {
     t("if "),
@@ -188,9 +189,7 @@ return {
   }),
   s({
     trig = "if … main",
-    show_condition = conds.line_begin * ls_show_conds.line_end * conds.make_treesitter_node_inclusion_condition({
-      "module",
-    }),
+    show_condition = conds.line_begin * ls_show_conds.line_end * conds.ts_node_in({ "module" }),
     desc = [[`if __name__ == "__main__": …`]],
   }, {
     t({ 'if __name__ == "__main__":', "\t" }),
@@ -198,7 +197,7 @@ return {
   }),
   s({
     trig = "if … isinstance … raise",
-    show_condition = conds.line_begin * ls_show_conds.line_end * is_in_code_condition,
+    show_condition = conds.line_begin * ls_show_conds.line_end * local_conds.in_code,
     desc = [[
 Choices:
 - `if isinstance(…): raise TypeError(…)`
@@ -237,7 +236,7 @@ Choices:
   }),
   s({
     trig = "if … None … raise",
-    show_condition = conds.line_begin * ls_show_conds.line_end * is_in_code_condition,
+    show_condition = conds.line_begin * ls_show_conds.line_end * local_conds.in_code,
     desc = [[
 Choices:
 - `if … is None: raise ValueError(…)`
@@ -269,7 +268,7 @@ Choices:
 
   s({
     trig = "import",
-    show_condition = conds.line_begin * ls_show_conds.line_end * is_in_code_condition,
+    show_condition = conds.line_begin * ls_show_conds.line_end * local_conds.in_code,
     desc = [[`import …`]],
   }, {
     t("import "),
@@ -277,7 +276,7 @@ Choices:
   }),
   s({
     trig = "import … as",
-    show_condition = conds.line_begin * ls_show_conds.line_end * is_in_code_condition,
+    show_condition = conds.line_begin * ls_show_conds.line_end * local_conds.in_code,
     desc = [[`import … as …`]],
   }, {
     t("import "),
@@ -288,7 +287,7 @@ Choices:
 
   s({
     trig = "or None",
-    show_condition = -conds.line_begin * is_in_code_condition,
+    show_condition = -conds.line_begin * conds.ts_node_in({ "module", "block" }),
     desc = [[`| None`]],
   }, {
     c(1, {

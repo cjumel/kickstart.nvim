@@ -98,7 +98,7 @@ end
 -- When typing a trigger with a "." prefix, the "." is not part of the trigger, but it is replaced by the snippet.
 -- Consequently, to enforce the line begin condition, we actually need a prefix condition instead, and to enforce the
 -- non-line-begin condition, we also need a non-prefix condition.
-local dot_prefix_condition = conds.make_prefix_condition(".")
+local dot_prefix_condition = conds.prefix(".")
 
 return {
   s({
@@ -154,7 +154,7 @@ return {
   }, { t(".py") }),
   s({
     trig = "__init__.py",
-    show_condition = conds.make_prefix_condition("_") -- The snippet is triggered after the first "_"
+    show_condition = conds.prefix("_") -- The snippet is triggered after the first "_"
       * ls_show_conds.line_end
       * make_file_extension_condition("py")
       * make_filename_condition("__init__.py"),

@@ -83,7 +83,7 @@ for _, mode in ipairs({ "ts", "no_ts" }) do
   local todo_keyword_show_condition
   if mode == "ts" then
     todo_comment_show_condition = ls_show_conds.line_end
-      * conds.make_treesitter_node_exclusion_condition({
+      * conds.ts_node_not_in({
         "comment",
         "comment_content",
         "line_comment",
@@ -91,7 +91,7 @@ for _, mode in ipairs({ "ts", "no_ts" }) do
         "string_start",
         "string_content",
       })
-    todo_keyword_show_condition = conds.make_treesitter_node_inclusion_condition({
+    todo_keyword_show_condition = conds.ts_node_in({
       "comment",
       "comment_content",
       "line_comment",

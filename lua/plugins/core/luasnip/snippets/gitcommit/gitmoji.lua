@@ -87,7 +87,7 @@ local gitmojis_data = {
 
 -- When typing a trigger with a ":" prefix, the ":" is not part of the trigger, but it is replaced by the snippet.
 -- Consequently, to enforce the line begin condition, we actually need a prefix condition instead.
-local show_condition = conds.make_strict_prefix_condition(":")
+local show_condition = conds.prefix_strict(":")
 
 local snippets = {}
 for _, gitmoji_data in ipairs(gitmojis_data) do

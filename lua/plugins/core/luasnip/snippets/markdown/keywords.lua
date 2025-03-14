@@ -10,7 +10,7 @@ local s = ls.snippet
 local sn = ls.snippet_node
 local t = ls.text_node
 
-local callout_condition = conds.make_prefix_condition("[!") + conds.make_prefix_condition("> [!")
+local callout_condition = conds.prefix("[!") + conds.prefix("> [!")
 
 return {
   s({

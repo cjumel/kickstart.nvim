@@ -8,12 +8,13 @@ local s = ls.snippet
 local sn = ls.snippet_node
 local t = ls.text_node
 
-local is_in_comment_condition = conds.make_treesitter_node_inclusion_condition({ "comment" })
+local local_conds = {}
+local_conds.is_in_comment = conds.ts_node_in({ "comment" })
 
 return {
   s({
     trig = "noqa",
-    show_condition = is_in_comment_condition * conds.is_comment_start * ls_show_conds.line_end,
+    show_condition = local_conds.is_in_comment * conds.is_comment_start * ls_show_conds.line_end,
     desc = [[
 Ignore lint warnings (e.g. for Flake8 or Ruff).
 Choices:
@@ -28,7 +29,7 @@ Choices:
 
   s({
     trig = "pragma: no cover",
-    show_condition = is_in_comment_condition * conds.is_comment_start * ls_show_conds.line_end,
+    show_condition = local_conds.is_in_comment * conds.is_comment_start * ls_show_conds.line_end,
     desc = [[
 Exclude from coverage reports (e.g. for coverage.py or pytest-cov).
 `pragma: no cover`]],
@@ -39,7 +40,7 @@ Exclude from coverage reports (e.g. for coverage.py or pytest-cov).
 
   s({
     trig = "pyright: ignore",
-    show_condition = is_in_comment_condition * conds.is_comment_start * ls_show_conds.line_end,
+    show_condition = local_conds.is_in_comment * conds.is_comment_start * ls_show_conds.line_end,
     desc = [[
 Ignore a specific pyright warning.
 Choices:
@@ -54,7 +55,7 @@ Choices:
 
   s({
     trig = "ruff: noqa",
-    show_condition = is_in_comment_condition * conds.is_comment_start * ls_show_conds.line_end * conds.first_line,
+    show_condition = local_conds.is_in_comment * conds.is_comment_start * ls_show_conds.line_end * conds.first_line,
     desc = [[
 Ignore ruff warnings for the entire file.
 Choices:
@@ -69,7 +70,7 @@ Choices:
 
   s({
     trig = "type: ignore",
-    show_condition = is_in_comment_condition * conds.is_comment_start * ls_show_conds.line_end,
+    show_condition = local_conds.is_in_comment * conds.is_comment_start * ls_show_conds.line_end,
     desc = [[
 Ignore typing warnings (e.g. for mypy or Pyright).
 Choices:

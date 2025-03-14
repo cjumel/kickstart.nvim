@@ -45,7 +45,7 @@ end
 --- Condition making sure the current Treesitter node's type is included in the provided node types.
 ---@param node_types string[] The node types to be included.
 ---@return table
-M.make_treesitter_node_inclusion_condition = function(node_types)
+M.ts_node_in = function(node_types)
   return ls_conds.make_condition(function(line_to_cursor)
     local is_treesitter_parsable_, node = pcall(get_treesitter_node, line_to_cursor)
     if not is_treesitter_parsable_ then -- Treesitter is not available or the buffer is not parsable
@@ -58,10 +58,10 @@ M.make_treesitter_node_inclusion_condition = function(node_types)
   end)
 end
 
---- Condition making sure the current Treesitter node's type is excluded from the provided node types.
+--- Condition making sure the current Treesitter node's type is not in the provided node types.
 ---@param node_types string[] The node types to be excluded from.
 ---@return table
-M.make_treesitter_node_exclusion_condition = function(node_types)
+M.ts_node_not_in = function(node_types)
   return ls_conds.make_condition(function(line_to_cursor)
     local is_treesitter_parsable_, node = pcall(get_treesitter_node, line_to_cursor)
     if not is_treesitter_parsable_ then -- Treesitter is not available or the buffer is not parsable
@@ -138,14 +138,18 @@ end
 local line_begin_condition = ls_conds.make_condition(line_begin_function)
 M.line_begin = line_begin_condition
 
-M.make_strict_prefix_condition = function(prefix)
+---@param prefix string
+---@return table
+M.prefix_strict = function(prefix)
   return ls_conds.make_condition(function(line_to_cursor)
     local line_to_trigger = get_line_to_trigger(line_to_cursor)
     return line_to_trigger == prefix
   end)
 end
 
-M.make_prefix_condition = function(prefix)
+---@param prefix string
+---@return table
+M.prefix = function(prefix)
   return ls_conds.make_condition(function(line_to_cursor)
     local line_to_trigger = get_line_to_trigger(line_to_cursor)
     local line_to_trigger_end = string.sub(line_to_trigger, #line_to_trigger - #prefix + 1, #line_to_trigger)
