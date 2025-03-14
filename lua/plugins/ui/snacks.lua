@@ -606,7 +606,7 @@ return {
         keys = {
           ["source"] = false, -- Prefer overseer.nvim run templates
           ["delete"] = {
-            "<C-q>",
+            "<C-BS>",
             function(self)
               if vim.fn.confirm("Do you want to delete the scratch file definitely?", "&Yes\n&No") == 1 then
                 local fname = vim.api.nvim_buf_get_name(self.buf)
