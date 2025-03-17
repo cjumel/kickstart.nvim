@@ -30,3 +30,10 @@ vim.keymap.set("n", "<localleader>yr", function()
   vim.fn.setreg("+", run_command)
   vim.notify("Yanked to register `+`:\n```\n" .. run_command .. "\n```")
 end, { buffer = true, desc = "[Y]ank: [R]EPL run command" })
+
+vim.keymap.set(
+  "n",
+  "<localleader>f",
+  function() vim.lsp.buf.code_action({ context = { only = { "source.fixAll" } }, apply = true }) end,
+  { desc = "[F]ix all fixable" }
+)
