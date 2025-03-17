@@ -8,6 +8,7 @@ vim.opt_local.formatoptions:append("rol")
 
 -- [[ Keymaps ]]
 
+-- Python specific yanking keymaps
 vim.keymap.set("n", "<localleader>ym", function()
   local module_ = require("lang_utils.python").get_module()
   vim.fn.setreg('"', module_)
@@ -31,9 +32,21 @@ vim.keymap.set("n", "<localleader>yr", function()
   vim.notify("Yanked to register `+`:\n```\n" .. run_command .. "\n```")
 end, { buffer = true, desc = "[Y]ank: [R]EPL run command" })
 
+-- Python specific code actions
 vim.keymap.set(
   "n",
   "<localleader>f",
   function() vim.lsp.buf.code_action({ context = { only = { "source.fixAll" } }, apply = true }) end,
   { desc = "[F]ix all fixable" }
 )
+vim.keymap.set("n", "<localleader>i", function()
+  vim.lsp.buf.code_action({
+    context = { only = { "quickfix" } },
+    filter = function(input)
+      if string.find(input.title, "^import ") or string.find(input.title, "^from ") then
+        return true
+      end
+      return false
+    end,
+  })
+end, { desc = "[I]mport" })
