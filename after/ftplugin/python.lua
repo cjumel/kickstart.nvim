@@ -48,5 +48,6 @@ vim.keymap.set("n", "<localleader>i", function()
       end
       return false
     end,
+    apply = true,
   })
 end, { desc = "[I]mport" })
