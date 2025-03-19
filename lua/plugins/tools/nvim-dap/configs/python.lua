@@ -53,34 +53,45 @@ M.setup = function()
 
     local python_utils = require("lang_utils.python")
 
+    local function args_dialogue(base_args)
+      base_args = base_args or {}
+      return function()
+        local args_string = vim.fn.input({ prompt = "Arguments: ", cancelreturn = false })
+        if args_string == false then
+          error("Dialog was cancelled")
+        end
+        return vim.list_extend(base_args, vim.split(args_string, " "))
+      end
+    end
+
     -- In the following, we can't use `vim.ui.input` because it's asynchronous and we need a synchronous input
-    local configs = {
-      {
+    local configs = {}
+
+    if not (vim.fn.executable("pytest") == 1 and python_utils.is_test_file()) then
+      table.insert(configs, {
         type = "python",
         request = "launch",
         name = "python <file>",
         program = "${file}",
         console = "integratedTerminal",
-        args = function() return vim.split(vim.fn.input("Arguments: "), " ") end,
-      },
-      {
+        args = args_dialogue(),
+      })
+      table.insert(configs, {
         type = "python",
         request = "launch",
         name = "python -m <module>",
         module = python_utils.get_module(),
         console = "integratedTerminal",
-        args = function() return vim.split(vim.fn.input("Arguments: "), " ") end,
-      },
-    }
-
-    if vim.fn.executable("pytest") == 1 and python_utils.is_test_file() then
+        args = args_dialogue(),
+      })
+    else
       table.insert(configs, {
         type = "python",
         request = "launch",
         name = "pytest <file>",
         module = "pytest",
         console = "integratedTerminal",
-        args = function() return vim.list_extend({ "${file}" }, vim.split(vim.fn.input("Arguments: "), " ")) end,
+        args = args_dialogue({ "${file}" }),
       })
 
       local test_function_name = python_utils.get_test_function_name()
@@ -91,9 +102,7 @@ M.setup = function()
           name = "pytest <function>",
           module = "pytest",
           console = "integratedTerminal",
-          args = function()
-            return vim.list_extend({ "${file}::" .. test_function_name }, vim.split(vim.fn.input("Arguments: "), " "))
-          end,
+          args = args_dialogue({ "${file}::" .. test_function_name }),
         })
       end
     end
