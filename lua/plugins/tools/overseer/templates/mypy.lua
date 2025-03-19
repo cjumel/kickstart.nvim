@@ -17,6 +17,7 @@ return {
       require("overseer").wrap_template(base_template, {
         name = "mypy <cwd>",
         tags = { "CHECK" },
+        priority = 2,
         builder = function(params)
           return {
             cmd = "mypy",
@@ -27,6 +28,7 @@ return {
       require("overseer").wrap_template(base_template, {
         name = "mypy <file>",
         tags = { "CHECK" },
+        priority = 1,
         condition = { filetype = "python" },
         builder = function(params)
           return {

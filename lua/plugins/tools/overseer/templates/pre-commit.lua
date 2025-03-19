@@ -32,6 +32,7 @@ return {
       require("overseer").wrap_template(base_template, {
         name = "pre-commit run --all-files",
         tags = { "CHECK" },
+        priority = 2,
         builder = function(params)
           return {
             cmd = { "pre-commit", "run" },
@@ -42,6 +43,7 @@ return {
       require("overseer").wrap_template(base_template, {
         name = "pre-commit run --files <file>",
         tags = { "CHECK" },
+        priority = 1,
         condition = { callback = function(_) return vim.bo.buftype == "" end },
         builder = function(params)
           return {

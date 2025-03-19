@@ -6,6 +6,7 @@ return {
       {
         name = "typst compile <file>",
         tags = { "BUILD" },
+        priority = 1,
         condition = { filetype = "typst" },
         builder = function(_)
           return {
@@ -17,6 +18,7 @@ return {
       {
         name = "typst watch <file>",
         tags = { "BUILD" },
+        priority = 2,
         condition = { filetype = "typst" },
         builder = function(_)
           return {

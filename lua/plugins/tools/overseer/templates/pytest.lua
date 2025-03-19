@@ -22,6 +22,7 @@ return {
       require("overseer").wrap_template(base_template, {
         name = "pytest",
         tags = { "TEST" },
+        priority = 3,
         builder = function(params)
           return {
             cmd = "pytest",
@@ -33,6 +34,7 @@ return {
         name = "pytest <file>",
         tags = { "TEST" },
         condition = { callback = function() return is_python_test_file end },
+        priority = 2,
         builder = function(params)
           return {
             cmd = "pytest",
@@ -43,6 +45,7 @@ return {
       require("overseer").wrap_template(base_template, {
         name = "pytest <function>",
         tags = { "TEST" },
+        priority = 1,
         condition = { callback = function() return python_test_function_name ~= nil end },
         builder = function(params)
           return {
