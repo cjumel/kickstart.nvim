@@ -68,7 +68,7 @@ return {
         }
         if vim.bo.filetype == "oil" then
           local dir = vim.fn.fnamemodify(require("oil").get_current_dir() --[[@as string]], ":p:~:.")
-          opts.title = opts.title .. " (" .. (dir ~= "" and dir or "./") .. ")"
+          opts.title = opts.title .. " in " .. (dir ~= "" and dir or "./")
           opts.cwd = dir
         end
         Snacks.picker.files(opts)
@@ -109,7 +109,7 @@ return {
         }
         if vim.bo.filetype == "oil" then
           local dir = vim.fn.fnamemodify(require("oil").get_current_dir() --[[@as string]], ":p:~:.")
-          opts.title = opts.title .. " (" .. (dir ~= "" and dir or "./") .. ")"
+          opts.title = opts.title .. " in " .. (dir ~= "" and dir or "./")
           opts.cwd = dir
         end
         Snacks.picker.pick("directories", opts)
@@ -122,7 +122,7 @@ return {
         local opts = { title = "Grep", layout = { preset = "telescope_horizontal" } }
         if vim.bo.filetype == "oil" then
           local dir = vim.fn.fnamemodify(require("oil").get_current_dir() --[[@as string]], ":p:~:.")
-          opts.title = opts.title .. " (" .. (dir ~= "" and dir or "./") .. ")"
+          opts.title = opts.title .. " in " .. (dir ~= "" and dir or "./")
           opts.cwd = dir
         end
         Snacks.picker.grep(opts)
@@ -136,7 +136,7 @@ return {
         local opts = { title = "Grep", layout = { preset = "telescope_horizontal" } }
         if vim.bo.filetype == "oil" then
           local dir = vim.fn.fnamemodify(require("oil").get_current_dir() --[[@as string]], ":p:~:.")
-          opts.title = opts.title .. " (" .. (dir ~= "" and dir or "./") .. ")"
+          opts.title = opts.title .. " in " .. (dir ~= "" and dir or "./")
           opts.cwd = dir
         end
         Snacks.picker.grep_word(opts)
@@ -600,7 +600,6 @@ return {
     quickfile = { enabled = true },
 
     scratch = {
-      autowrite = false, -- Prevent untimely scratch file creation
       filekey = { branch = false }, -- Don't scope scratch files to branch
       win = {
         keys = {
