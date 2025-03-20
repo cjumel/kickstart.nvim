@@ -14,6 +14,10 @@ return {
   opts = {
     win_options = { number = false, relativenumber = false }, -- Disable line-numbering in Oil buffers
     cleanup_delay_ms = 0, -- Cleanup the Oil buffer right away to avoid jumping back to it with <C-o> and <C-i>
+    lsp_file_methods = {
+      timeout_ms = 5000, -- Default, 1000, often times out
+      autosave_changes = true,
+    },
     keymaps = {
       -- Since Oil can be used as an actual editable buffer, to edit files quickly and optionally in batch, let's not
       --  overwrite any keymap which could be useful for editing files, to still be able to use features like macros
