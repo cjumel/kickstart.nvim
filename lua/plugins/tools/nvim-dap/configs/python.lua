@@ -85,15 +85,6 @@ M.setup = function()
         args = args_dialogue(),
       })
     else
-      table.insert(configs, {
-        type = "python",
-        request = "launch",
-        name = "pytest <file>",
-        module = "pytest",
-        console = "integratedTerminal",
-        args = args_dialogue({ "${file}" }),
-      })
-
       local test_function_name = python_utils.get_test_function_name()
       if test_function_name ~= nil then
         table.insert(configs, {
@@ -105,6 +96,14 @@ M.setup = function()
           args = args_dialogue({ "${file}::" .. test_function_name }),
         })
       end
+      table.insert(configs, {
+        type = "python",
+        request = "launch",
+        name = "pytest <file>",
+        module = "pytest",
+        console = "integratedTerminal",
+        args = args_dialogue({ "${file}" }),
+      })
     end
 
     return configs
