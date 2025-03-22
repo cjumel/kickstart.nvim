@@ -45,8 +45,6 @@ vim.keymap.set("n", "<Down>", "3<C-e>", { desc = "Scroll down a few lines" })
 
 -- [[ General keymaps ]]
 
-vim.keymap.set("n", "<C-CR>", vim.diagnostic.open_float, { desc = "Preview line diagnostics" })
-
 vim.keymap.set({ "n", "x" }, "(", "<", { desc = "Indent left" })
 vim.keymap.set({ "n", "x" }, ")", ">", { desc = "Indent right" })
 
