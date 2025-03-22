@@ -9,22 +9,34 @@ return {
     heads = {
       -- Don't use Neovim arrow keys ("h", "j", "k", "l") or movement keys ("w", "b", "e" and their upper-case variants)
       -- to be able to navigate in the code and preview variables
-      { "c", function() require("dap").repl.toggle() end },
+      { "c", function() require("dap").clear_breakpoints() end },
       { "o", function() require("dap").toggle_breakpoint() end }, -- Mnemonic: "o" has the shape of a breakpoint
-      { "O", function() require("dap").clear_breakpoints() end }, -- Mnemonic: "o" has the shape of a breakpoint
-      { "p", function() require("dap.ui.widgets").hover() end },
       {
-        "r",
+        "O",
         function()
-          if not package.loaded.dapui then -- Lazy-load dapui if necessary
-            require("dapui")
-          end
-          require("dap").continue()
+          vim.ui.select(
+            { "Condition breakpoint", "Hit breakpoint", "Logpoint" },
+            { prompt = "Select the kind of breakpoint" },
+            function(selected)
+              if selected == "Condition breakpoint" then
+                local condition = vim.fn.input("Condition (code): ")
+                require("dap").set_breakpoint(condition, nil, nil)
+              elseif selected == "Hit breakpoint" then
+                local hit_count = vim.fn.input("Hit count (integer): ")
+                require("dap").set_breakpoint(nil, hit_count, nil)
+              elseif selected == "Logpoint" then
+                local log_message = vim.fn.input("Log message (variables must be inside `{…}`): ")
+                require("dap").set_breakpoint(nil, nil, log_message)
+              end
+            end
+          )
         end,
       },
+      { "p", function() require("dap.ui.widgets").hover() end },
+      { "r", function() require("dap").continue() end },
       {
         "R",
-        function() -- Implementation taken from https://github.com/mfussenegger/nvim-dap/issues/1025
+        function() -- Taken from https://github.com/mfussenegger/nvim-dap/issues/1025
           if vim.g.dap_last_config then
             require("dap").run(vim.g.dap_last_config)
           else
@@ -40,9 +52,9 @@ return {
     },
     hint = [[
                                   Debug   
-   _c_ ➜ Toggle REPL [C]onsole   _p_ ➜ [P]review variable   _s_ ➜ [S]top   
-   _o_ ➜ Toggle Breakpoint       _r_ ➜ [R]un                _t_ ➜ [T]erminate   
-   _O_ ➜ Clear Breakpoints       _R_ ➜ [R]erun              _u_ ➜ Toggle [U]I   
+   _c_ ➜ [C]lear breakpoints      _p_ ➜ [P]review variable   _s_ ➜ [S]top   
+   _o_ ➜ Toggle breakpoint        _r_ ➜ [R]un                _t_ ➜ [T]erminate   
+   _O_ ➜ Set complex breakpoint   _R_ ➜ [R]erun              _u_ ➜ Toggle [U]I   
 ]],
   },
 }

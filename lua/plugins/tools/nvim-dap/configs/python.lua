@@ -56,6 +56,7 @@ M.setup = function()
     local function args_dialogue(base_args)
       base_args = base_args or {}
       return function()
+        -- We can't use `vim.ui.input` because it's asynchronous and we need a synchronous input
         local args_string = vim.fn.input({ prompt = "Arguments: ", cancelreturn = false })
         if args_string == false then
           error("Dialog was cancelled")
@@ -64,7 +65,6 @@ M.setup = function()
       end
     end
 
-    -- In the following, we can't use `vim.ui.input` because it's asynchronous and we need a synchronous input
     local configs = {}
 
     if not (vim.fn.executable("pytest") == 1 and python_utils.is_test_file()) then

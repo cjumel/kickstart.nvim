@@ -1,16 +1,13 @@
 -- nvim-dap-ui
 --
--- nvim-dap-ui provides a nice user interface for nvim-dap, making the debugging experience in Neovim as good as in an
+-- nvim-dap-ui provides a nice user interface for nvim-dap, making the debugging experience in Neovim as good as in any
 -- IDE.
 
 return {
   "rcarriga/nvim-dap-ui",
   cond = not Metaconfig.light_mode,
-  dependencies = {
-    "mfussenegger/nvim-dap",
-    { "nvim-neotest/nvim-nio", cond = not Metaconfig.light_mode },
-  },
-  lazy = true, -- Lazy-loaded by the debug Hydra
+  dependencies = { { "nvim-neotest/nvim-nio", cond = not Metaconfig.light_mode } },
+  lazy = true, -- Dependency of nvim-dap
   opts = {
     layouts = { -- Remove the "stacks" element, move the "repl" to the sidebar, and move the sidebar on the right
       {
@@ -32,10 +29,4 @@ return {
       },
     },
   },
-  config = function(_, opts)
-    require("dapui").setup(opts)
-
-    -- Open nvim-dap-ui along with nvim-dap
-    require("dap").listeners.after.event_initialized["dapui_config"] = require("dapui").open
-  end,
 }

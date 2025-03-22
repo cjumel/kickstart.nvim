@@ -8,23 +8,28 @@ return {
   cond = not Metaconfig.light_mode,
   dependencies = {
     "williamboman/mason.nvim",
+    "rcarriga/nvim-dap-ui",
     "rcarriga/cmp-dap",
   },
-  lazy = true, -- Dependency of nvim-dap-ui
+  lazy = true, -- Lazy-loaded through the debug Hydra
   init = function()
     local mason_ensure_installed = { "debugpy" }
     vim.g.mason_ensure_installed = vim.list_extend(vim.g.mason_ensure_installed or {}, mason_ensure_installed)
   end,
   config = function()
-    -- Define a column sign & text highlight for each type of breakpoints
+    -- Open nvim-dap-ui automatically when debugging
+    require("dap").listeners.after.event_initialized["dapui_config"] = require("dapui").open
+
+    -- Improve DAP symbols
     vim.fn.sign_define("DapBreakpoint", { text = "●", texthl = "DapBreakpoint", linehl = "", numhl = "" })
     vim.fn.sign_define(
       "DapBreakpointCondition",
       { text = "●", texthl = "DapBreakpointCondition", linehl = "", numhl = "" }
     )
     vim.fn.sign_define("DapLogPoint", { text = "◆", texthl = "DapLogPoint", linehl = "", numhl = "" })
+    vim.fn.sign_define("DapStopped", { text = "→", texthl = "DapBreakpoint", linehl = "", numhl = "" })
 
-    -- Enable rerunning last DAP (final) configuration, see https://github.com/mfussenegger/nvim-dap/issues/1025
+    -- Enable rerunning last DAP final configuration (see https://github.com/mfussenegger/nvim-dap/issues/1025)
     vim.g.dap_last_config = nil
     require("dap").listeners.after.event_initialized["store_config"] = function(session)
       vim.g.dap_last_config = session.config
