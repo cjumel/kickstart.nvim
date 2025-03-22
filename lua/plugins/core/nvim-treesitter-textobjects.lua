@@ -150,15 +150,15 @@ return {
         )
         map(
           "t",
-          function() require("todo-comments").jump_next() end,
-          function() require("todo-comments").jump_prev() end,
-          "todo-comment"
-        )
-        map(
-          "n",
           function() require("todo-comments").jump_next({ keywords = { "NOW" } }) end,
           function() require("todo-comments").jump_prev({ keywords = { "NOW" } }) end,
-          "now todo-comment"
+          "todo-comment (personal)"
+        )
+        map(
+          "T",
+          function() require("todo-comments").jump_next() end,
+          function() require("todo-comments").jump_prev() end,
+          "todo-comment (all)"
         )
       end,
     })

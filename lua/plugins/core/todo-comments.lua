@@ -12,17 +12,23 @@ return {
     {
       "<leader>ft",
       function()
-        Snacks.picker(
-          "todo_comments",
-          { text = "Todo Comments (personal)", keywords = { "NOW" }, layout = { preset = "telescope_vertical" } }
-        )
+        Snacks.picker("todo_comments", {
+          text = "Todo Comments (personal)",
+          keywords = { "NOW" },
+          show_empty = true, -- In case everything is hidden or ignored
+          layout = { preset = "telescope_vertical" },
+        })
       end,
       desc = "[F]ind: [T]odo-comments (personal)",
     },
     {
       "<leader>fT",
       function()
-        Snacks.picker("todo_comments", { text = "Todo Comments (all)", layout = { preset = "telescope_vertical" } })
+        Snacks.picker("todo_comments", {
+          text = "Todo Comments (all)",
+          show_empty = true, -- In case everything is hidden or ignored
+          layout = { preset = "telescope_vertical" },
+        })
       end,
       desc = "[F]ind: [T]odo-comments (all)",
     },
