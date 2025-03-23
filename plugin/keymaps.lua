@@ -84,6 +84,15 @@ vim.keymap.set("n", "<leader><CR>", "<cmd>w<CR>", { desc = "Write buffer" })
 vim.keymap.set("n", "<leader><S-CR>", "<cmd>noautocmd w<CR>", { desc = "Write buffer without auto-commands" })
 vim.keymap.set("n", "<leader><M-CR>", "<cmd>noautocmd w!<CR>", { desc = "Force write buffer without auto-commands" })
 
+local function delete_current_file()
+  if vim.fn.confirm("Do you want to delete the file definitely?", "&Yes\n&No") == 1 then
+    local fname = vim.api.nvim_buf_get_name(0)
+    vim.cmd([[bd]]) -- Close the buffer
+    vim.fn.delete(fname) -- Delete the file
+  end
+end
+vim.keymap.set("n", "<leader><C-BS>", delete_current_file, { desc = "Delete current file" })
+
 local show_buf_changes_cmd =
   "<cmd>vert new | set buftype=nofile | read ++edit # | 0d_ | diffthis | wincmd p | diffthis<CR>"
 vim.keymap.set("n", "<leader>?", show_buf_changes_cmd, { desc = "Show buffer changes" })
