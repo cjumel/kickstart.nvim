@@ -14,6 +14,17 @@ return {
     { "<leader><BS>", function() Snacks.bufdelete.delete() end, desc = "Delete current buffer" },
     { "<leader><S-BS>", function() Snacks.bufdelete.all() end, desc = "Delete all buffers" },
     { "<leader><M-BS>", function() Snacks.bufdelete.other() end, desc = "Delete other buffers" },
+    {
+      "<leader><C-BS>",
+      function()
+        if vim.fn.confirm("Do you want to delete the file definitely?", "&Yes\n&No") == 1 then
+          local fname = vim.api.nvim_buf_get_name(0)
+          Snacks.bufdelete.delete() -- Delete the buffer
+          vim.fn.delete(fname) -- Delete the file
+        end
+      end,
+      desc = "Delete current file",
+    },
 
     -- Gitbrowse
     { "<leader>gr", function() Snacks.gitbrowse.open() end, desc = "[G]it: open [R]epository" },
