@@ -1,9 +1,5 @@
 return {
 
-  -- Set `light_mode` to true to disable all the plugins related to GitHub Copilot or to external tools managed with
-  -- Mason.nvim. Consequently, if this mode is activated, all the options become irrelevant.
-  light_mode = false,
-
   -- Set `disable_copilot` to true to disable GitHub Copilot related plugins. This is particularly useful when no GitHub
   -- Copilot subscription is available, to prevent the spam of warning messages.
   disable_copilot = false,

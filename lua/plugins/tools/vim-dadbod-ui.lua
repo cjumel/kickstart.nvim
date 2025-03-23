@@ -8,7 +8,6 @@
 
 return {
   "kristijanhusak/vim-dadbod-ui",
-  cond = not Metaconfig.light_mode,
   dependencies = {
     "tpope/vim-dadbod",
     "kristijanhusak/vim-dadbod-completion",

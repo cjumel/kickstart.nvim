@@ -13,7 +13,6 @@ end
 
 return {
   "mfussenegger/nvim-lint",
-  cond = not Metaconfig.light_mode,
   dependencies = { "williamboman/mason.nvim" },
   ft = vim.tbl_keys(linters_by_ft),
   init = function()

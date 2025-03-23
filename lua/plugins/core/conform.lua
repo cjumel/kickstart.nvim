@@ -13,7 +13,6 @@ end
 
 return {
   "stevearc/conform.nvim",
-  cond = not Metaconfig.light_mode,
   dependencies = { "williamboman/mason.nvim" },
   ft = vim.tbl_keys(formatters_by_ft),
   init = function()

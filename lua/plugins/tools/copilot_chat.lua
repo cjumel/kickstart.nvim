@@ -6,7 +6,7 @@
 
 return {
   "CopilotC-Nvim/CopilotChat.nvim",
-  cond = not (Metaconfig.light_mode or Metaconfig.disable_copilot),
+  cond = not Metaconfig.disable_copilot,
   dependencies = {
     "zbirenbaum/copilot.lua",
     "nvim-lua/plenary.nvim",

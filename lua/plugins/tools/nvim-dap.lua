@@ -5,7 +5,6 @@
 
 return {
   "mfussenegger/nvim-dap",
-  cond = not Metaconfig.light_mode,
   dependencies = {
     "williamboman/mason.nvim",
     "rcarriga/nvim-dap-ui",

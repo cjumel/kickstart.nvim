@@ -5,7 +5,6 @@
 
 return {
   "rcarriga/nvim-dap-ui",
-  cond = not Metaconfig.light_mode,
   dependencies = { "nvim-neotest/nvim-nio" },
   lazy = true, -- Dependency of nvim-dap
   opts = {

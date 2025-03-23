@@ -20,7 +20,6 @@ end
 
 return {
   "neovim/nvim-lspconfig",
-  cond = not Metaconfig.light_mode,
   dependencies = {
     "williamboman/mason.nvim",
     "williamboman/mason-lspconfig.nvim",

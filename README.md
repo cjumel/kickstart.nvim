@@ -9,26 +9,6 @@ infinitly customizable, super community-driven with a huge plugin eco-system, an
 terminal, meaning it can be installed and used directly on remote machines. All these aspects make
 coding with Neovim really much more enjoyable for me, compared to my previous experiences with IDEs.
 
-## Features
-
-Besides quite standard (but admittedly numerous) plugins and options I tried to set in a very
-sensible/not-exotic way, this configuration essentially implements two major features:
-
-- A **modular configuration**, which makes possible to disable some features globally, per-project
-  or even per-command. For instance, I can start Neovim in "light mode", which doesn't require a
-  [GitHub Copilot](https://github.com/features/copilot) subscription or any of the external tool
-  managed with [mason.nvim](https://github.com/williamboman/mason.nvim), thus requiring less
-  additional setup. This is convenient when working on a new machine on which I don't want to
-  install all the tools my configuration support, but I still want to be able to benefit from the
-  simpler features of my configuration.
-
-- **Terminal-wide themes**, with various color schemes I can change at once through a simple shell
-  command (`ct`, for "change theme") for the main terminal softwares I use: a terminal emulator
-  ([WezTerm](https://wezfurlong.org/wezterm/index.html)), a terminal multiplexer
-  ([tmux](https://github.com/tmux/tmux)), and a text and code editor ([Neovim](https://neovim.io/)).
-  This makes possible to change the terminal theme and color scheme for instance to adapt to various
-  lightning environments, or just to suit my taste of the day.
-
 ## Requirements
 
 - [Neovim](https://neovim.io/), obviously
@@ -114,10 +94,6 @@ formatters, or debuggers, so we need to install them as well. To do so, enter th
 command. This will run the installation of many tools in the background, and you can check their
 progress using the `Mason` command.
 
-Finally, you can then enter the `Copilot setup` command to setup GitHub Copilot credentials.
-Alternatively, you can disable the features requiring extra dependencies by using the "light mode" I
-implemented with the `NVIM_LIGHT_MODE` environment variable passed as `1` or `true` (e.g. with the
-shell command `NVIM_LIGHT_MODE=1 nvim` to start Neovim).
-
-Then, just enter the `q` (or `quit`) command to quit Neovim, and, afterwards, Neovim will be ready
-to be used with this custom configuration with a simple `nvim` shell command!
+Finally, you can then enter the `Copilot setup` command to setup GitHub Copilot credentials. Then,
+just enter the `q` (or `quit`) command to quit Neovim, and, afterwards, Neovim will be ready to be
+used with this custom configuration with a simple `nvim` shell command!
