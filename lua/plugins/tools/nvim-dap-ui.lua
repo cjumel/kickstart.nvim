@@ -6,7 +6,7 @@
 return {
   "rcarriga/nvim-dap-ui",
   cond = not Metaconfig.light_mode,
-  dependencies = { { "nvim-neotest/nvim-nio", cond = not Metaconfig.light_mode } },
+  dependencies = { "nvim-neotest/nvim-nio" },
   lazy = true, -- Dependency of nvim-dap
   opts = {
     layouts = { -- Remove the "stacks" element, move the "repl" to the sidebar, and move the sidebar on the right

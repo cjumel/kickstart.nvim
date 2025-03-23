@@ -23,8 +23,8 @@ return {
   cond = not Metaconfig.light_mode,
   dependencies = {
     "williamboman/mason.nvim",
-    { "williamboman/mason-lspconfig.nvim", cond = not Metaconfig.light_mode },
-    { "hrsh7th/cmp-nvim-lsp", cond = not Metaconfig.light_mode },
+    "williamboman/mason-lspconfig.nvim",
+    "hrsh7th/cmp-nvim-lsp",
   },
   ft = fts,
   init = function()

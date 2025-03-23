@@ -4,6 +4,7 @@
 
 return {
   "theHamsta/nvim-dap-virtual-text",
+  cond = not Metaconfig.light_mode,
   lazy = true, -- Lazy-loaded through the debug Hydra
   opts = {
     enabled = false, -- I enable this manually with a keymap
