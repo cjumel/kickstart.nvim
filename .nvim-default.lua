@@ -24,6 +24,7 @@ return {
     "gitattributes",
     "gitcommit",
     "gitignore",
+    "javascript",
     "json",
     "jsonc",
     "lua",
@@ -36,10 +37,12 @@ return {
     "python",
     "regex",
     "requirements",
+    "rust",
     "sql",
     "ssh_config",
     "tmux",
     "toml",
+    "typescript",
     "typst",
     "vim",
     "vimdoc", -- Vim help files
@@ -88,8 +91,21 @@ return {
       },
       ruff = {}, -- Linting and formatting, integrated with code actions
     },
+    rust = {
+      rust_analyzer = {
+        settings = {
+          ["rust-analyzer"] = { -- LS settings go in there (see https://rust-analyzer.github.io/manual.html)
+            -- Add parentheses when completing with a function instead of call snippets
+            completion = { callable = { snippets = "add_parentheses" } },
+          },
+        },
+      },
+    },
     toml = {
       taplo = {}, -- Linting, formating and known schema validation/documentation
+    },
+    typescript = {
+      ts_ls = {},
     },
     typst = {
       tinymist = { -- Basic LS features with popular formatters support
@@ -108,6 +124,8 @@ return {
   language_server_name_to_mason_name = {
     jsonls = "json-lsp",
     lua_ls = "lua-language-server",
+    rust_analyzer = "rust-analyzer",
+    ts_ls = "typescript-language-server",
     yamlls = "yaml-language-server",
   },
 
@@ -123,6 +141,7 @@ return {
     editorconfig = { "trim_newlines", "trim_whitespace" },
     gitconfig = { "trim_newlines", "trim_whitespace" },
     gitignore = { "trim_newlines", "trim_whitespace" },
+    javascript = { "prettier" },
     json = { "prettier" },
     jsonc = { "prettier" },
     lua = { "stylua" },
@@ -132,10 +151,12 @@ return {
       "ruff_organize_imports", -- Apply Ruff import organization
       lsp_format = "last", -- If enabled, the Ruff LSP will provide formatting
     },
+    rust = { "rustfmt" },
     sh = { "shfmt" },
     text = { "trim_newlines", "trim_whitespace" },
     tmux = { "trim_newlines", "trim_whitespace" },
     toml = { lsp_format = "first" }, -- If enabled, the taplo LSP will provide formatting
+    typescript = { "prettier" },
     typst = { lsp_format = "first" }, -- If enabled, the tinymist LSP will provide formatting
     vim = { "trim_newlines", "trim_whitespace" },
     yaml = {
@@ -149,6 +170,7 @@ return {
   -- install. Set a value to false to prevent Mason from installing any package for the corresponding formatter.
   formatter_name_to_mason_name = {
     ruff_organize_imports = "ruff",
+    rustfmt = false, -- Should be installed with rustup
   },
 
   -- Set `disable_format_on_save_on_fts` to an array of filetypes on which to disable format-on-save, or to "*" to
