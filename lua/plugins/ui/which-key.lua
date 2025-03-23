@@ -20,6 +20,10 @@ return {
       then
         return false
       end
+      -- Remove "gcc" description for consistency with other "g" keymaps
+      if string.sub(mapping.lhs, 1, 3) == "gcc" then
+        return false
+      end
       return true
     end,
     spec = {

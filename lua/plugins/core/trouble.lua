@@ -13,7 +13,7 @@ return {
     { "<leader>vD", "<cmd>Trouble diagnostics toggle<CR>", desc = "[V]iew: workspace [D]iagnostics" },
     { "<leader>vl", "<cmd>Trouble loclist toggle<CR>", desc = "[V]iew: [L]ocation list" },
     { "<leader>vq", "<cmd>Trouble qflist toggle<CR>", desc = "[V]iew: [Q]uickfix list" },
-    { "<leader>vs", "<cmd>Trouble symbols toggle<CR>", desc = "[V]iew: document [S]ymbols" },
+    { "<leader>vs", "<cmd>Trouble symbols toggle<CR>", desc = "[V]iew: [S]ymbols" },
   },
   opts = {
     keys = {
