@@ -47,14 +47,16 @@ return {
       { "s", function() require("dap").pause() end },
       { "t", function() require("dap").terminate() end },
       { "u", function() require("dapui").toggle() end },
+      { "v", function() require("nvim-dap-virtual-text").toggle() end },
       { "q", nil, { exit = true, mode = "n", desc = false } },
       { "<Esc>", nil, { exit = true, mode = "n", desc = false } },
     },
     hint = [[
-                                  Debug   
-   _c_ ➜ [C]lear breakpoints      _p_ ➜ [P]review variable   _s_ ➜ [S]top   
-   _o_ ➜ Toggle breakpoint        _r_ ➜ [R]un                _t_ ➜ [T]erminate   
-   _O_ ➜ Set complex breakpoint   _R_ ➜ [R]erun              _u_ ➜ Toggle [U]I   
+                                   Debug   
+   _c_ ➜ [C]lear breakpoints      _r_ ➜ [R]un      _t_ ➜ [T]erminate   
+   _o_ ➜ Toggle breakpoint        _R_ ➜ [R]erun    _u_ ➜ Toggle [U]I   
+   _O_ ➜ Set complex breakpoint   _s_ ➜ [S]top     _v_ ➜ Toggle [V]irtual text   
+   _p_ ➜ [P]review variable   
 ]],
   },
 }
