@@ -10,34 +10,59 @@ return {
   dependencies = { "nvim-tree/nvim-web-devicons" },
   keys = {
     {
-      "<leader>r",
+      "<leader>rr",
       function()
         require("grug-far").open({
           prefills = { paths = vim.bo.filetype == "oil" and require("oil").get_current_dir() or nil },
         })
       end,
-      desc = "[R]eplace",
+      desc = "[R]eplace: unrestricted",
     },
     {
-      "<leader>r",
+      "<leader>rr",
       function()
         require("grug-far").with_visual_selection({
           prefills = { paths = vim.bo.filetype == "oil" and require("oil").get_current_dir() or nil },
         })
       end,
       mode = { "v" },
-      desc = "[R]eplace",
+      desc = "[R]eplace: unrestricted",
     },
     {
-      "<leader>R",
+      "<leader>rb",
       function() require("grug-far").open({ prefills = { paths = vim.fn.expand("%") } }) end,
-      desc = "[R]eplace in buffer",
+      desc = "[R]eplace: in [B]uffer",
     },
     {
-      "<leader>R",
+      "<leader>rb",
       function() require("grug-far").with_visual_selection({ prefills = { paths = vim.fn.expand("%") } }) end,
       mode = { "v" },
-      desc = "[R]eplace in buffer",
+      desc = "[R]eplace: in [B]uffer",
+    },
+    {
+      "<leader>rf",
+      function()
+        require("grug-far").open({
+          prefills = {
+            filesFilter = "*." .. vim.bo.filetype,
+            paths = vim.bo.filetype == "oil" and require("oil").get_current_dir() or nil,
+          },
+        })
+      end,
+      desc = "[R]eplace: with same [F]iletype",
+    },
+    {
+      "<leader>rf",
+      function()
+        require("grug-far").with_visual_selection({
+          prefills = {
+            filesFilter = "*." .. vim.bo.filetype,
+            paths = vim.bo.filetype == "oil" and require("oil").get_current_dir() or nil,
+          },
+        })
+      end,
+      mode = { "v" },
+      desc = "[R]eplace: with same [F]iletype",
     },
   },
   opts = {
