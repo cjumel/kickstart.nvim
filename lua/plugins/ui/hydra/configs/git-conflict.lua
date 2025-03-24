@@ -13,6 +13,7 @@ return {
       { "t", function() require("git-conflict").choose("theirs") end },
       { ",", function() require("git-conflict").find_next("ours") end },
       { ";", function() require("git-conflict").find_prev("ours") end },
+      { "q", nil, { exit = true, mode = "n", desc = false } },
       { "<Esc>", nil, { exit = true, mode = "n", desc = false } },
     },
     hint = [[
