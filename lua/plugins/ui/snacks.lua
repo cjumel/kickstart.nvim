@@ -29,9 +29,6 @@ return {
     -- Gitbrowse
     { "<leader>gr", function() Snacks.gitbrowse.open() end, desc = "[G]it: open [R]epository" },
 
-    -- Notifier
-    { "<leader>n", function() Snacks.notifier.show_history() end, desc = "[N]otifications" },
-
     -- Picker
     { "<leader>;", function() Snacks.picker.resume() end, desc = "Resume picker" },
     {
@@ -349,9 +346,6 @@ return {
       function() Snacks.scratch.open({ ft = "markdown", name = "Note" }) end,
       desc = "[T]emp files: open [N]ote",
     },
-
-    -- Zen mode
-    { "<leader>z", function() Snacks.zen() end, desc = "[Z]en mode" },
   },
   opts = {
     bigfile = { enabled = true },
