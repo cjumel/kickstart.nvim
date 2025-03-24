@@ -10,7 +10,10 @@ return {
   "stevearc/oil.nvim",
   dependencies = { "nvim-tree/nvim-web-devicons" },
   lazy = false, -- Required to be used as default file explorer
-  keys = { { "-", function() require("oil").open() end, desc = "Open parent directory" } },
+  keys = {
+    { "-", function() require("oil").open() end, desc = "Open parent directory" },
+    { "g-", function() require("oil").open(vim.fn.getcwd()) end, desc = "Open current working directory" },
+  },
   opts = {
     win_options = { number = false, relativenumber = false }, -- Disable line-numbering in Oil buffers
     cleanup_delay_ms = 0, -- Cleanup the Oil buffer right away to avoid jumping back to it with <C-o> and <C-i>
