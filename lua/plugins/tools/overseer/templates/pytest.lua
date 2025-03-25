@@ -9,7 +9,7 @@ return {
           type = "list",
           delimiter = " ", -- Arguments with white spaces (e.g. in "-m 'not slow'") are not supported
           optional = true,
-          default = {},
+          default = { "-vv" },
         },
       },
     }

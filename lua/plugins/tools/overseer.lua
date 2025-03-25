@@ -9,9 +9,7 @@ return {
   "stevearc/overseer.nvim",
   dependencies = { "williamboman/mason.nvim" }, -- Some tools (e.g. ruff or prettier) require mason.nvim
   keys = {
-    -- General actions
     { "<leader>xx", function() require("overseer").toggle() end, desc = "E[X]ecute: toggle task list" },
-    { "<leader>xs", function() require("overseer").run_template({ name = "shell" }) end, desc = "E[X]ecute: [S]hell" },
     {
       "<leader>xl",
       function()
@@ -24,14 +22,12 @@ return {
       end,
       desc = "E[X]ecute: rerun [L]ast task",
     },
-
-    -- Actions to run templates by tags
-    { "<leader>xa", function() require("overseer").run_template() end, desc = "E[X]ecute: [A]ll templates" },
     {
-      "<leader>xA",
-      function() require("overseer").run_template({ prompt = "always" }) end,
-      desc = "E[X]ecute: [A]ll templates (always prompt)",
+      "<leader>xs",
+      function() require("overseer").run_template({ name = "shell" }) end,
+      desc = "E[X]ecute: [S]hell task",
     },
+    { "<leader>xa", function() require("overseer").run_template() end, desc = "E[X]ecute: [A]ny task" },
     {
       "<leader>xr",
       function()
@@ -41,48 +37,22 @@ return {
           end
         end)
       end,
-      desc = "E[X]ecute: [R]un templates",
-    },
-    {
-      "<leader>xR",
-      function()
-        require("overseer").run_template({ tags = { "RUN" }, first = false, prompt = "always" }, function(task, _)
-          if task ~= nil then
-            require("overseer").open()
-          end
-        end)
-      end,
-      desc = "E[X]ecute: [R]un templates (always prompt)",
+      desc = "E[X]ecute: [R]un task",
     },
     {
       "<leader>xt",
       function() require("overseer").run_template({ tags = { "TEST" }, first = false }) end,
-      desc = "E[X]ecute: [T]est templates",
-    },
-    {
-      "<leader>xT",
-      function() require("overseer").run_template({ tags = { "TEST" }, first = false, prompt = "always" }) end,
-      desc = "E[X]ecute: [T]est templates (always prompt)",
+      desc = "E[X]ecute: [T]est task",
     },
     {
       "<leader>xc",
       function() require("overseer").run_template({ tags = { "CHECK" }, first = false }) end,
-      desc = "E[X]ecute: [C]heck templates",
-    },
-    {
-      "<leader>xC",
-      function() require("overseer").run_template({ tags = { "CHECK" }, first = false, prompt = "always" }) end,
-      desc = "E[X]ecute: [C]heck templates (always prompt)",
+      desc = "E[X]ecute: [C]heck task",
     },
     {
       "<leader>xb",
       function() require("overseer").run_template({ tags = { "BUILD" }, first = false }) end,
-      desc = "E[X]ecute: [B]uild templates",
-    },
-    {
-      "<leader>xB",
-      function() require("overseer").run_template({ tags = { "BUILD" }, first = false, prompt = "always" }) end,
-      desc = "[o]verseer: [B]uild templates (always prompt)",
+      desc = "E[X]ecute: [B]uild task",
     },
   },
   opts = {
@@ -117,7 +87,7 @@ return {
         },
       },
     },
-    default_template_prompt = "avoid", -- Only show parameter prompt when necessary
+    default_template_prompt = "always",
   },
   config = function(_, opts)
     require("overseer").setup(opts)
