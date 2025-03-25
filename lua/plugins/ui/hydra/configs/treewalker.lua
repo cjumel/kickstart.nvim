@@ -2,7 +2,10 @@ return {
   key = { "<leader>n", desc = "[N]avigate menu" },
   opts = {
     body = "<leader>n",
-    config = { desc = "[N]avigate menu" },
+    config = {
+      desc = "[N]avigate menu",
+      color = "pink", -- Allow other keymaps while the Hydra is open; for some reason, this doesn't work well otherwise
+    },
     heads = {
       { "h", "<cmd>Treewalker Left<CR>" },
       { "H", "<cmd>Treewalker SwapLeft<CR>" },
