@@ -600,6 +600,11 @@ return {
             ["<M-BS>"] = { "<C-S-w>", mode = "i", expr = true }, -- Fix <M-BS>
           },
         },
+        list = {
+          keys = {
+            ["a"] = "focus_input",
+          },
+        },
       },
     },
 
