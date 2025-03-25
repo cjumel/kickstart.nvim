@@ -6,14 +6,17 @@
 
 return {
   "folke/todo-comments.nvim",
-  dependencies = { "nvim-lua/plenary.nvim" },
+  dependencies = {
+    "nvim-lua/plenary.nvim",
+    "folke/snacks.nvim",
+  },
   event = { "BufNewFile", "BufReadPre" },
   keys = {
     {
       "<leader>ft",
       function()
         Snacks.picker("todo_comments", {
-          text = "Todo Comments (personal)",
+          title = "Todo-comments (personal)",
           keywords = { "NOW" },
           show_empty = true, -- In case everything is hidden or ignored
           layout = { preset = "telescope_vertical" },
@@ -25,7 +28,7 @@ return {
       "<leader>fT",
       function()
         Snacks.picker("todo_comments", {
-          text = "Todo Comments (all)",
+          title = "Todo-comments (all)",
           show_empty = true, -- In case everything is hidden or ignored
           layout = { preset = "telescope_vertical" },
         })

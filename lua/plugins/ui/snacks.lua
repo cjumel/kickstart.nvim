@@ -39,7 +39,7 @@ return {
           current = false,
           focus = "list",
           layout = { preset = "telescope_dropdown" },
-          win = { list = { keys = { ["<Tab>"] = "list_down", ["<S-Tab>"] = "list_up", ["<BS>"] = "bufdelete" } } },
+          win = { list = { keys = { ["<BS>"] = "bufdelete" } } },
         })
       end,
       desc = "Buffer switcher",
@@ -70,7 +70,6 @@ return {
       function()
         local opts = {
           title = "Files",
-          search = require("visual_mode").get_text_if_on(),
           layout = { preset = "telescope_horizontal" },
           show_empty = true, -- In case everything is hidden or ignored
         }
@@ -81,7 +80,6 @@ return {
         end
         Snacks.picker.files(opts)
       end,
-      mode = { "n", "x" },
       desc = "[F]ind: [F]iles",
     },
     {
@@ -135,7 +133,6 @@ return {
         end
         Snacks.picker.grep(opts)
       end,
-      mode = "n",
       desc = "[F]ind: [G]rep",
     },
     {
@@ -602,6 +599,8 @@ return {
         },
         list = {
           keys = {
+            ["<Tab>"] = "list_down",
+            ["<S-Tab>"] = "list_up",
             ["a"] = "focus_input",
           },
         },
