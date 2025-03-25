@@ -200,6 +200,7 @@ return {
       "<leader>fu",
       function()
         Snacks.picker.undo({
+          title = "Undo Tree",
           layout = { preset = "telescope_horizontal" },
           win = {
             input = {
@@ -211,7 +212,7 @@ return {
           },
         })
       end,
-      desc = "[F]ind: [U]ndo",
+      desc = "[F]ind: [U]ndo tree",
     },
     {
       "<leader>fh",

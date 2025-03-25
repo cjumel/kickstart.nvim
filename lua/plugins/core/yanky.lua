@@ -5,6 +5,7 @@
 
 return {
   "gbprod/yanky.nvim",
+  dependencies = { "folke/snacks.nvim" },
   event = { "BufNewFile", "BufReadPre" },
   keys = {
     { "y", "<Plug>(YankyYank)", mode = { "n", "x" }, desc = "Yank" }, -- Preserve cursor position on yank
@@ -14,7 +15,12 @@ return {
     { "gP", "<Plug>(YankyGPutBefore)", mode = { "n", "x" }, desc = "Paste before cursor and move cursor after" },
     { "<C-n>", "<Plug>(YankyPreviousEntry)", desc = "Cycle yank history" },
     { "<C-p>", "<Plug>(YankyNextEntry)", desc = "Cycle yank history backward" },
-    { '<leader>"', "<cmd>YankyRingHistory<CR>", desc = "Yank history" },
+    {
+      "<leader>fy",
+      ---@diagnostic disable-next-line: undefined-field
+      function() Snacks.picker.yanky({ layout = { preset = "telescope_horizontal" } }) end,
+      desc = "[F]ind: [Y]ank history",
+    },
   },
   opts = function()
     return {
