@@ -48,7 +48,6 @@ return {
       { "t", function() require("dap").terminate() end },
       { "u", function() require("dapui").toggle() end },
       { "v", function() require("nvim-dap-virtual-text").toggle() end },
-      { "q", nil, { exit = true, mode = "n", desc = false } },
       { "<Esc>", nil, { exit = true, mode = "n", desc = false } },
     },
     hint = [[

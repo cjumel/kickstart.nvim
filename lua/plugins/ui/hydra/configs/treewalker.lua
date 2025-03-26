@@ -15,7 +15,6 @@ return {
       { "K", "<cmd>Treewalker SwapUp<CR>" },
       { "l", "<cmd>Treewalker Right<CR>" },
       { "L", "<cmd>Treewalker SwapRight<CR>" },
-      { "q", nil, { exit = true, mode = "n", desc = false } },
       { "<Esc>", nil, { exit = true, mode = "n", desc = false } },
     },
     hint = [[

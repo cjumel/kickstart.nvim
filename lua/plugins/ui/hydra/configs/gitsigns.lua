@@ -33,7 +33,6 @@ return {
       },
       { ",", function() require("gitsigns").nav_hunk("next", { target = "all" }) end },
       { ";", function() require("gitsigns").nav_hunk("prev", { target = "all" }) end },
-      { "q", nil, { exit = true, mode = "n", desc = false } },
       { "<Esc>", nil, { exit = true, mode = "n", desc = false } },
     },
     hint = [[
