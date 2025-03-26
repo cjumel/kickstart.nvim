@@ -37,9 +37,8 @@ return {
         Snacks.picker.buffers({
           format = "file",
           current = false,
-          focus = "list",
           layout = { preset = "telescope_dropdown" },
-          win = { list = { keys = { ["<BS>"] = "bufdelete" } } },
+          win = { input = { keys = { ["<c-d>"] = { "bufdelete", mode = { "i" } } } } },
         })
       end,
       desc = "Buffer switcher",
@@ -595,13 +594,6 @@ return {
             ["<C-f>"] = false,
             ["<C-u>"] = false,
             ["<M-BS>"] = { "<C-S-w>", mode = "i", expr = true }, -- Fix <M-BS>
-          },
-        },
-        list = {
-          keys = {
-            ["<Tab>"] = "list_down",
-            ["<S-Tab>"] = "list_up",
-            ["a"] = "focus_input",
           },
         },
       },
