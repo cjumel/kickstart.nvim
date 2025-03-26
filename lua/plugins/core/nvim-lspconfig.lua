@@ -62,6 +62,7 @@ return {
         map("n", "gd", "<cmd>Trouble lsp_definitions<CR>", "Go to definition")
         map("n", "gD", "<cmd>Trouble lsp_type_definitions<CR>", "Go to type definition")
         map("n", "gra", vim.lsp.buf.code_action, "Code actions")
+        map("n", "gri", "<cmd>Trouble lsp_implementations<CR>", "Implementations")
         map("n", "grn", vim.lsp.buf.rename, "Rename")
         map("n", "grr", "<cmd>Trouble lsp_references<CR>", "References")
       end,
