@@ -65,9 +65,10 @@ M.setup = function()
       end
     end
 
-    local configs = {}
-
-    if not (vim.fn.executable("pytest") == 1 and python_utils.is_test_file()) then
+    local configs = {} -- Configs will be presented in same order to the user
+    local is_test_file = python_utils.is_test_file()
+    local pytest_is_executable = vim.fn.executable("pytest")
+    if not (is_test_file and pytest_is_executable) then
       table.insert(configs, {
         type = "python",
         request = "launch",
@@ -84,25 +85,36 @@ M.setup = function()
         console = "integratedTerminal",
         args = args_dialogue(),
       })
-    else
-      local test_function_name = python_utils.get_test_function_name()
-      if test_function_name ~= nil then
+    end
+    if pytest_is_executable then
+      if is_test_file then
+        local test_function_name = python_utils.get_test_function_name() or nil
+        if test_function_name ~= nil then
+          table.insert(configs, {
+            type = "python",
+            request = "launch",
+            name = "pytest <function>",
+            module = "pytest",
+            console = "integratedTerminal",
+            args = args_dialogue({ "${file}::" .. test_function_name }),
+          })
+        end
         table.insert(configs, {
           type = "python",
           request = "launch",
-          name = "pytest <function>",
+          name = "pytest <file>",
           module = "pytest",
           console = "integratedTerminal",
-          args = args_dialogue({ "${file}::" .. test_function_name }),
+          args = args_dialogue({ "${file}" }),
         })
       end
       table.insert(configs, {
         type = "python",
         request = "launch",
-        name = "pytest <file>",
+        name = "pytest",
         module = "pytest",
         console = "integratedTerminal",
-        args = args_dialogue({ "${file}" }),
+        args = args_dialogue(),
       })
     end
 
