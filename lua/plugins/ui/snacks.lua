@@ -35,6 +35,7 @@ return {
       "<leader><Tab>",
       function()
         Snacks.picker.buffers({
+          title = "Buffer Switcher",
           format = "file",
           current = false,
           layout = { preset = "telescope_dropdown" },
