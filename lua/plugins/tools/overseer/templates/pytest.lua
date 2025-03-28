@@ -19,7 +19,7 @@ return {
     }
 
     local is_test_file = python_utils.is_test_file()
-    local test_function_name = is_test_file and python_utils.get_test_function_name()
+    local test_function_name = is_test_file and python_utils.get_test_function_name() or nil
     local is_test_dir = python_utils.is_test_dir()
 
     cb({
