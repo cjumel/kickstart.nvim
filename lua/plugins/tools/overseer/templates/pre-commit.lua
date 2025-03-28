@@ -17,7 +17,9 @@ return {
     end,
   },
   generator = function(_, cb)
+    local overseer = require("overseer")
     local base_template = {
+      tags = { "CHECK" },
       params = {
         args = {
           desc = "Additional arguments",
@@ -29,27 +31,20 @@ return {
       },
     }
     cb({
-      require("overseer").wrap_template(base_template, {
-        name = "pre-commit run --all-files",
-        tags = { "CHECK" },
-        priority = 2,
-        builder = function(params)
-          return {
-            cmd = { "pre-commit", "run" },
-            args = vim.list_extend({ "--all-files" }, params.args),
-          }
-        end,
-      }),
-      require("overseer").wrap_template(base_template, {
+      overseer.wrap_template(base_template, {
         name = "pre-commit run --files <file>",
-        tags = { "CHECK" },
         priority = 1,
         condition = { callback = function(_) return vim.bo.buftype == "" end },
         builder = function(params)
-          return {
-            cmd = { "pre-commit", "run" },
-            args = vim.list_extend({ "--files", vim.fn.expand("%:p:.") }, params.args),
-          }
+          local path = vim.fn.expand("%:p:.")
+          return { cmd = { "pre-commit", "run" }, args = vim.list_extend({ "--files", path }, params.args) }
+        end,
+      }),
+      overseer.wrap_template(base_template, {
+        name = "pre-commit run --all-files",
+        priority = 2,
+        builder = function(params)
+          return { cmd = { "pre-commit", "run" }, args = vim.list_extend({ "--all-files" }, params.args) }
         end,
       }),
     })

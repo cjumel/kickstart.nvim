@@ -16,12 +16,10 @@ end
 ---@return boolean
 function M.is_test_file()
   local file_name = vim.fn.expand("%:t") -- File base name and its extension
-  local file_starts_with_test = file_name:match("^test_") and file_name:match("%.py$")
-  if file_starts_with_test then
+  if file_name:match("^test_") and file_name:match("%.py$") then
     return true
   end
-  local file_ends_with_test = file_name:match("_test%.py$")
-  if file_ends_with_test then
+  if file_name:match("_test%.py$") then
     return true
   end
   return false
@@ -46,6 +44,16 @@ function M.get_test_function_name()
   end
 
   return nil
+end
+
+-- Check if the current directory is a Python test directory.
+---@return boolean
+function M.is_test_dir()
+  if vim.bo.filetype ~= "oil" then
+    return false
+  end
+  local path = vim.fn.fnamemodify(require("oil").get_current_dir() --[[@as string]], ":.")
+  return path:match("^tests/")
 end
 
 return M
