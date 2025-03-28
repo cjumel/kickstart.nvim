@@ -56,6 +56,8 @@ return {
         auto_refresh = false, -- Don't refresh Trouble window when cursor moves in the main window
       },
       symbols = {
+        pinned = true, -- Don't update when changing window
+        win = { relative = "win" }, -- Position relatively to the current window
         open_no_results = true, -- Open the Trouble window even when there is no item as the LSP can be slow
         groups = {}, -- Remove groups as there is only one
         format = "{kind_icon} {symbol.name}", -- Simplify the displayed information
