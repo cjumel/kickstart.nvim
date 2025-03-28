@@ -51,3 +51,42 @@ vim.keymap.set("n", "<localleader>i", function()
     apply = true,
   })
 end, { desc = "[I]mport" })
+
+vim.keymap.set("n", "<localleader>a", function()
+  local path = vim.fn.expand("%:.")
+  local base_path
+  if path:sub(1, 5) ~= "tests" then
+    base_path = path:gsub("^src/", "")
+    -- Remove the first directory as it may contain the package name, which is not found in the test file path
+    local first_separator_idx = base_path:find("/")
+    if first_separator_idx then
+      base_path = base_path:sub(first_separator_idx + 1)
+    end
+    base_path = base_path:gsub(".py$", "")
+  else
+    base_path = path:gsub("^tests/", ""):gsub("^unit/", ""):gsub("^integration/", ""):gsub("_test.py$", "")
+  end
+
+  local candidate_files = {}
+  local handle = io.popen("fd .")
+  if handle then
+    for file in handle:lines() do
+      table.insert(candidate_files, file)
+    end
+    handle:close()
+  end
+
+  local alternate_files = {}
+  for _, candidate_file in ipairs(candidate_files) do
+    if candidate_file ~= path and candidate_file:find(base_path) then
+      table.insert(alternate_files, candidate_file)
+    end
+  end
+  if #alternate_files == 0 then
+    vim.notify("No alternate files found")
+  elseif #alternate_files == 1 then
+    vim.cmd("edit " .. alternate_files[1])
+  else
+    vim.ui.select(alternate_files, {}, function(selection) vim.cmd("edit " .. selection) end)
+  end
+end, { desc = "[A]lternate files" })
