@@ -91,7 +91,7 @@ vim.keymap.set("n", "<leader>?", show_buf_changes_cmd, { desc = "Show buffer cha
 local function send_to_clipboard()
   local yanked = vim.fn.getreg('"')
   vim.fn.setreg("+", yanked)
-  vim.notify("Yanked to register `+`:\n```\n" .. yanked .. "\n```")
+  vim.notify("Yanked sent to register `+`:\n```\n" .. yanked .. "\n```")
 end
 local function toggle_sync_with_clipboard()
   if not vim.tbl_contains(vim.opt.clipboard, "unnamedplus") then
@@ -119,12 +119,37 @@ local function yank_file_path(mods)
   if path ~= nil then
     path = vim.fn.fnamemodify(path, mods)
     vim.fn.setreg('"', path)
-    vim.notify('Yanked "' .. path .. '"')
+    vim.notify('Yanked to register `"`:\n```\n' .. path .. "\n```")
   end
 end
 vim.keymap.set("n", "<leader>yp", function() yank_file_path(":~:.") end, { desc = "[Y]ank: file [P]ath" })
 vim.keymap.set("n", "<leader>ya", function() yank_file_path(":~") end, { desc = "[Y]ank: [A]bsolute file path" })
 vim.keymap.set("n", "<leader>yn", function() yank_file_path(":t") end, { desc = "[Y]ank: file [N]ame" })
+
+local function yank_buffer_contents()
+  local lines = {}
+  local bufcount = 0
+  for _, bufnr in ipairs(vim.api.nvim_list_bufs()) do
+    if
+      vim.api.nvim_buf_is_valid(bufnr)
+      and vim.api.nvim_buf_is_loaded(bufnr)
+      and vim.api.nvim_buf_get_name(bufnr) ~= ""
+      and vim.api.nvim_get_option_value("buftype", { buf = bufnr }) == ""
+    then
+      local buflines = vim.api.nvim_buf_get_lines(bufnr, 0, -1, false)
+      local bufpath = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(bufnr), ":p:~:.")
+      local bufcommentstring = vim.api.nvim_get_option_value("commentstring", { buf = bufnr })
+      vim.list_extend(lines, { bufcommentstring:format("[[ Beginning of file " .. bufpath .. " ]]"), "" })
+      vim.list_extend(lines, buflines)
+      vim.list_extend(lines, { "", bufcommentstring:format("[[ End of file " .. bufpath .. " ]]"), "", "" })
+      bufcount = bufcount + 1
+    end
+  end
+  local content = table.concat(lines, "\n")
+  vim.fn.setreg("+", content)
+  vim.notify("Yanked buffer contents to register `+` (" .. bufcount .. " buffers, " .. #lines .. " lines)")
+end
+vim.keymap.set("n", "<leader>yb", yank_buffer_contents, { desc = "[Y]ank: [B]uffer contents" })
 
 -- Like "gx", bur for the currently opened file
 local function open_current_file() vim.ui.open(vim.fn.expand("%")) end
