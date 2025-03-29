@@ -126,6 +126,12 @@ vim.keymap.set("n", "<leader>yp", function() yank_file_path(":~:.") end, { desc 
 vim.keymap.set("n", "<leader>ya", function() yank_file_path(":~") end, { desc = "[Y]ank: [A]bsolute file path" })
 vim.keymap.set("n", "<leader>yn", function() yank_file_path(":t") end, { desc = "[Y]ank: file [N]ame" })
 
+local function yank_content()
+  local lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
+  local content = table.concat(lines, "\n")
+  vim.fn.setreg('"', content)
+  vim.notify('Yanked file content to register `"` (' .. #lines .. " lines)")
+end
 local function yank_buffer_contents()
   local lines = {}
   local bufcount = 0
@@ -149,6 +155,8 @@ local function yank_buffer_contents()
   vim.fn.setreg("+", content)
   vim.notify("Yanked buffer contents to register `+` (" .. bufcount .. " buffers, " .. #lines .. " lines)")
 end
+
+vim.keymap.set("n", "<leader>yc", yank_content, { desc = "[Y]ank: file [C]ontent" })
 vim.keymap.set("n", "<leader>yb", yank_buffer_contents, { desc = "[Y]ank: [B]uffer contents" })
 
 -- Like "gx", bur for the currently opened file
