@@ -45,3 +45,8 @@ require("lazy").setup({
   ui = { border = "rounded" }, -- Better for transparent backgrounds
   change_detection = { enabled = false },
 })
+
+-- Customize lazy.nvim UI window keymaps
+local ViewConfig = require("lazy.view.config")
+ViewConfig.keys.next = ","
+ViewConfig.keys.prev = ";"
