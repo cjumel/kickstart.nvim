@@ -70,8 +70,6 @@ return {
     },
 
     -- Simple text-objects
-    -- These text-objects are only implemented in operator-pending mode, to avoid overriding the corresponding keys in
-    -- visual mode as their might be conflicts
     {
       "c",
       function() require("various-textobjs").lineCharacterwise("inner") end,
@@ -79,11 +77,19 @@ return {
       desc = "Current line characterwise",
     },
     {
+      "gG",
+      function() require("various-textobjs").entireBuffer() end,
+      mode = "o",
+      desc = "Entire buffer",
+    },
+    {
       "gu",
       function() require("various-textobjs").url() end,
       mode = "o",
       desc = "URL",
     },
+
+    -- Forward-only text-objects
     {
       "r",
       function() require("various-textobjs").toNextClosingBracket() end,
