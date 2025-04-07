@@ -12,7 +12,14 @@ return {
   keys = {
     -- Bufdelete
     { "<leader><BS>", function() Snacks.bufdelete.delete() end, desc = "Delete current buffer" },
-    { "<leader><S-BS>", function() Snacks.bufdelete.all() end, desc = "Delete all buffers" },
+    {
+      "<leader><S-BS>",
+      function()
+        Snacks.bufdelete.all()
+        Snacks.dashboard()
+      end,
+      desc = "Delete all buffers and open dashboard",
+    },
     { "<leader><M-BS>", function() Snacks.bufdelete.other() end, desc = "Delete other buffers" },
     {
       "<leader><C-BS>",
