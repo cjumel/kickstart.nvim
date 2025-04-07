@@ -603,10 +603,11 @@ return {
     quickfile = { enabled = true },
 
     scratch = {
-      filekey = { branch = false }, -- Don't scope scratch files to branch
+      root = vim.env.HOME .. "/.nvim-scratch", -- Don't use nvim user data to avoid deleting files on full re-install
+      filekey = { branch = false },
       win = {
         keys = {
-          ["source"] = false, -- Prefer overseer.nvim run templates
+          ["source"] = false, -- Prefer overseer.nvim to source files
           ["delete"] = {
             "<C-BS>",
             function(self)
