@@ -163,10 +163,11 @@ return {
   },
 
   -- Set `formatter_name_to_mason_name` to a mapping between formatter names and the corresponding Mason package name to
-  -- install. Set a value to false to prevent Mason from installing any package for the corresponding formatter.
+  -- install. Set a value to the empty string to prevent Mason from installing any package for the corresponding
+  -- formatter.
   formatter_name_to_mason_name = {
     ruff_organize_imports = "ruff",
-    rustfmt = false, -- Should be installed with rustup
+    rustfmt = "", -- Should be installed with rustup
   },
 
   -- Set `disable_format_on_save_on_fts` to an array of filetypes on which to disable format-on-save, or to "*" to

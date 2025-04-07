@@ -26,7 +26,7 @@ return {
         if
           formatter_key ~= "lsp_format" -- "lsp_format" is a special key for LSP formatter modes
           and not vim.tbl_contains({ "trim_newlines", "trim_whitespace" }, formatter)
-          and not Metaconfig.formatter_name_to_mason_name[formatter] == false
+          and Metaconfig.formatter_name_to_mason_name[formatter] ~= ""
         then
           local mason_name = Metaconfig.formatter_name_to_mason_name[formatter] or formatter
           if
