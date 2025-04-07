@@ -129,6 +129,7 @@ vim.keymap.set("n", "<leader>yn", function() yank_file_path(":t") end, { desc = 
 local function yank_buffer_contents()
   local lines = {}
   local bufcount = 0
+  local linecount = 0
   for _, bufnr in ipairs(vim.api.nvim_list_bufs()) do
     if
       vim.api.nvim_buf_is_valid(bufnr)
@@ -136,20 +137,21 @@ local function yank_buffer_contents()
       and vim.api.nvim_buf_get_name(bufnr) ~= ""
       and vim.api.nvim_get_option_value("buftype", { buf = bufnr }) == ""
     then
-      local buflines = vim.api.nvim_buf_get_lines(bufnr, 0, -1, false)
       local bufpath = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(bufnr), ":p:~:.")
-      local bufcommentstring = vim.api.nvim_get_option_value("commentstring", { buf = bufnr })
-      vim.list_extend(lines, { bufcommentstring:format("[[ Beginning of file " .. bufpath .. " ]]"), "" })
-      vim.list_extend(lines, buflines)
-      vim.list_extend(lines, { "", bufcommentstring:format("[[ End of file " .. bufpath .. " ]]"), "", "" })
-      bufcount = bufcount + 1
+      if not bufpath:match("^~/.nvim%-scratch/") then
+        local buflines = vim.api.nvim_buf_get_lines(bufnr, 0, -1, false)
+        vim.list_extend(lines, { "File `" .. bufpath .. "`:", "```" .. vim.bo[bufnr].filetype })
+        vim.list_extend(lines, buflines)
+        vim.list_extend(lines, { "```", "" })
+        bufcount = bufcount + 1
+        linecount = linecount + #buflines
+      end
     end
   end
   local content = table.concat(lines, "\n")
   vim.fn.setreg("+", content)
-  vim.notify("Yanked buffer contents to register `+` (" .. bufcount .. " buffers, " .. #lines .. " lines)")
+  vim.notify("Yanked buffer contents to register `+` (" .. bufcount .. " buffers, " .. linecount .. " lines)")
 end
-
 vim.keymap.set("n", "<leader>yb", yank_buffer_contents, { desc = "[Y]ank: [B]uffer contents" })
 
 -- Like "gx", bur for the currently opened file
