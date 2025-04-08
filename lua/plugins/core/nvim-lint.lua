@@ -5,7 +5,7 @@
 -- my formatting plugin.
 
 local linters_by_ft = {}
-for ft, linters in pairs(Metaconfig.linters_by_ft) do
+for ft, linters in pairs(Metaconfig.linters_by_ft or {}) do
   if linters then
     linters_by_ft[ft] = linters
   end
