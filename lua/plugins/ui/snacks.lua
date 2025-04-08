@@ -614,18 +614,26 @@ return {
       filekey = { branch = false },
       win = {
         keys = {
-          ["source"] = false, -- Prefer overseer.nvim to source files
           ["delete"] = {
             "<C-BS>",
             function(self)
               if vim.fn.confirm("Do you want to delete the scratch file definitely?", "&Yes\n&No") == 1 then
                 local fname = vim.api.nvim_buf_get_name(self.buf)
-                vim.cmd([[close]]) -- Close the scratch buffer
-                vim.fn.delete(fname) -- Delete the scratch file
+                vim.cmd([[close]])
+                vim.fn.delete(fname)
               end
             end,
             desc = "delete",
           },
+          ["open"] = {
+            "<C-CR>",
+            function(self)
+              vim.cmd([[close]])
+              vim.api.nvim_set_current_buf(self.buf)
+            end,
+            desc = "open",
+          },
+          ["source"] = false, -- Prefer overseer.nvim to source files
         },
       },
     },
