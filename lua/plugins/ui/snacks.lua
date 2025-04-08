@@ -233,7 +233,14 @@ return {
       function()
         Snacks.picker.git_status({
           layout = { preset = "telescope_horizontal" },
-          win = { input = { keys = { ["<Tab>"] = { "list_down", mode = "i" } } } }, -- Don't use <Tab> for staging
+          win = {
+            input = {
+              keys = {
+                ["<Tab>"] = { "list_down", mode = "i" }, -- Previously mapped to "git_stage"
+                ["Ò"] = { { "git_stage", "list_down" }, mode = "i" }, -- <M-s>
+              },
+            },
+          },
         })
       end,
       desc = "[G]it: status",
@@ -414,7 +421,14 @@ return {
           action = function()
             Snacks.picker.git_status({
               layout = { preset = "telescope_horizontal" },
-              win = { input = { keys = { ["<Tab>"] = { "list_down", mode = "i" } } } }, -- Don't use <Tab> for staging
+              win = {
+                input = {
+                  keys = {
+                    ["<Tab>"] = { "list_down", mode = "i" }, -- Previously mapped to "git_stage"
+                    ["Ò"] = { { "git_stage", "list_down" }, mode = "i" }, -- <M-s>
+                  },
+                },
+              },
             })
           end,
         },
