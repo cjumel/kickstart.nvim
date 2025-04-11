@@ -6,6 +6,8 @@
 return {
   "cjumel/linkup.nvim",
   dependencies = { "nvim-lua/plenary.nvim" },
-  cmd = { "LinkupStandardSearch", "LinkupDeepSearch" },
-  opts = {},
+  cmd = { "LinkupStandardSearch", "LinkupDeepSearch", "LinkupViewLastQuerySources", "LinkupToggleIncludeImages" },
+  opts = {
+    base_url = false, -- Make it overridable with environment variables
+  },
 }
