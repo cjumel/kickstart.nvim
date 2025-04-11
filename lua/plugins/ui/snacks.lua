@@ -291,7 +291,7 @@ return {
           end
         end
         vim.ui.select(selection_items, {
-          prompt = "Temp files (project)",
+          prompt = "Temp files",
           format_item = function(item)
             local parts = { item.icon, item.name }
             for i, part in ipairs(parts) do
@@ -305,7 +305,7 @@ return {
           end
         end)
       end,
-      desc = "[T]emp files: select (project)",
+      desc = "[T]emp files: select",
     },
     {
       "<leader>ta",
@@ -321,7 +321,7 @@ return {
           widths[3] = math.max(widths[3], vim.api.nvim_strwidth(item.name))
         end
         vim.ui.select(items, {
-          prompt = "Temp files (all)",
+          prompt = "Temp files in all projects",
           format_item = function(item)
             local parts = { item.cwd, item.icon, item.name }
             for i, part in ipairs(parts) do
@@ -335,14 +335,35 @@ return {
           end
         end)
       end,
-      desc = "[T]emp files: select ([A]ll)",
+      desc = "[T]emp files: select in [A]ll projects",
     },
     {
       "<leader>to",
       function()
         vim.ui.input({ prompt = "Filetype" }, function(filetype)
           if filetype then
-            Snacks.scratch.open({ ft = filetype, name = filetype:sub(1, 1):upper() .. filetype:sub(2) .. " file" })
+            local items = Snacks.scratch.list()
+            local cwd = vim.fn.fnamemodify(vim.fn.getcwd(), ":p:~")
+            local item_names = {}
+            for _, item in ipairs(items) do
+              if item.ft == filetype and item.cwd and vim.fn.fnamemodify(item.cwd, ":p:~") == cwd then
+                table.insert(item_names, item.name)
+              end
+            end
+            local default_base_name = filetype:sub(1, 1):upper() .. filetype:sub(2) .. " file"
+            local count = 0
+            local suffix = ""
+            local default_name = default_base_name
+            while vim.tbl_contains(item_names, default_name) do
+              count = count + 1
+              suffix = " " .. count
+              default_name = default_base_name .. suffix
+            end
+            vim.ui.input({ prompt = "Name", default = default_name }, function(name)
+              if name then
+                Snacks.scratch.open({ ft = filetype, name = name })
+              end
+            end)
           end
         end)
       end,
@@ -350,13 +371,45 @@ return {
     },
     {
       "<leader>tf",
-      function() Snacks.scratch.open({ name = vim.bo.filetype:sub(1, 1):upper() .. vim.bo.filetype:sub(2) .. " file" }) end,
-      desc = "[T]emp files: open with same [F]iletype",
+      function()
+        local items = Snacks.scratch.list()
+        local cwd = vim.fn.fnamemodify(vim.fn.getcwd(), ":p:~")
+        local item_names = {}
+        for _, item in ipairs(items) do
+          if item.ft == vim.bo.filetype and item.cwd and vim.fn.fnamemodify(item.cwd, ":p:~") == cwd then
+            table.insert(item_names, item.name)
+          end
+        end
+        local default_base_name = vim.bo.filetype:sub(1, 1):upper() .. vim.bo.filetype:sub(2) .. " file"
+        local count = 0
+        local suffix = ""
+        local default_name = default_base_name
+        while vim.tbl_contains(item_names, default_name) do
+          count = count + 1
+          suffix = " " .. count
+          default_name = default_base_name .. suffix
+        end
+        vim.ui.input({ prompt = "Name", default = default_name }, function(name)
+          if name then
+            Snacks.scratch.open({ name = name })
+          end
+        end)
+      end,
+      desc = "[T]emp files: open with [F]iletype",
     },
     {
       "<leader>tn",
       function() Snacks.scratch.open({ ft = "markdown", name = "Note" }) end,
       desc = "[T]emp files: open [N]ote",
+    },
+    {
+      "<leader>tl",
+      function()
+        local items = Snacks.scratch.list()
+        local selected = items[1] -- Items are ordered with last opened first
+        Snacks.scratch.open({ icon = selected.icon, file = selected.file, name = selected.name, ft = selected.ft })
+      end,
+      desc = "[T]emp files: open [L]ast",
     },
   },
   opts = {
