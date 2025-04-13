@@ -79,7 +79,7 @@ return {
     {
       "gG",
       function() require("various-textobjs").entireBuffer() end,
-      mode = "o",
+      mode = { "v", "o" },
       desc = "Entire buffer",
     },
     {
