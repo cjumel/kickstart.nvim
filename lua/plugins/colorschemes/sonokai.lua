@@ -1,6 +1,6 @@
--- sonokai
+-- Sonokai
 --
--- Neovim color scheme plugin providing high contrast and vivid color scheme based on Monokai Pro.
+-- High Contrast & Vivid Color Scheme based on Monokai Pro.
 
 return {
   "sainnhe/sonokai",
