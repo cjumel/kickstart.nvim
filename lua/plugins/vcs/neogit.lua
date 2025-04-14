@@ -14,9 +14,9 @@ return {
       rebase_editor = {
         -- Change the "move commit" keymaps for something easier to type repeatedly
         ["gk"] = false, -- Formely "MoveUp"
-        ["<C-p>"] = "MoveUp",
+        ["K"] = "MoveUp",
         ["gj"] = false, -- Formerly "MoveDown"
-        ["<C-n>"] = "MoveDown",
+        ["J"] = "MoveDown",
       },
       finder = {
         -- Change some keymaps for more compatibility with picker keymaps
@@ -41,4 +41,17 @@ return {
       },
     },
   },
+  config = function(_, opts)
+    require("neogit").setup(opts)
+
+    -- Customize commit view keymaps
+    vim.api.nvim_create_autocmd("FileType", {
+      pattern = "NeogitCommitView",
+      group = vim.api.nvim_create_augroup("NeogitKeymaps", { clear = true }),
+      callback = function()
+        vim.keymap.set("n", ",", "}", { desc = "Next hunk", remap = true, buffer = true })
+        vim.keymap.set("n", ";", "{", { desc = "Previous hunk", remap = true, buffer = true })
+      end,
+    })
+  end,
 }
