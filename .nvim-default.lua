@@ -84,6 +84,10 @@ return {
             },
           },
         },
+        on_init = function(client, _)
+          -- Disable semantic tokens as it degrades the syntax highlighting provided by Treesitter
+          client.server_capabilities.semanticTokensProvider = nil
+        end,
       },
       ruff = {}, -- Linting and formatting, integrated with code actions
     },
