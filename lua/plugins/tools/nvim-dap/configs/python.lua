@@ -67,7 +67,7 @@ M.setup = function()
 
     local configs = {} -- Configs will be presented in same order to the user
     local is_test_file = python_utils.is_test_file()
-    local pytest_is_executable = vim.fn.executable("pytest")
+    local pytest_is_executable = vim.fn.executable("pytest") == 1
     if not (is_test_file and pytest_is_executable) then
       table.insert(configs, {
         type = "python",
