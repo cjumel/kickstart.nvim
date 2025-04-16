@@ -288,7 +288,7 @@ Choices:
   s({
     trig = "or None",
     show_condition = -conds.line_begin
-      * conds.ts_node_in({ "module", "block", "parameters", "typed_default_parameter" }),
+      * conds.ts_node_in({ "module", "block", "parameters", "typed_default_parameter", "assignment" }),
     desc = [[`| None`]],
   }, {
     c(1, {
