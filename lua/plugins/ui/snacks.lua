@@ -677,7 +677,8 @@ return {
     quickfile = { enabled = true },
 
     scratch = {
-      root = vim.env.HOME .. "/.nvim-scratch", -- Don't use nvim user data to avoid deleting files on full re-install
+      -- Don't use nvim user data to avoid deleting files on full re-install
+      root = vim.env.HOME .. "/.local/share/scratch-files",
       filekey = { branch = false },
       win = {
         keys = {
