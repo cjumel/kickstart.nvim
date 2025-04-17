@@ -7,12 +7,9 @@ return {
       color = "pink", -- Allow other keymaps while the Hydra is open (e.g. move cursor to preview variables)
     },
     heads = {
-      -- Don't use Neovim arrow keys ("h", "j", "k", "l") or movement keys ("w", "b", "e" and their upper-case variants)
-      -- to be able to navigate in the code and preview variables
-      { "c", function() require("dap").clear_breakpoints() end },
-      { "o", function() require("dap").toggle_breakpoint() end }, -- Mnemonic: "o" has the shape of a breakpoint
+      { "b", function() require("dap").toggle_breakpoint() end },
       {
-        "O",
+        "B",
         function()
           vim.ui.select(
             { "Condition breakpoint", "Hit breakpoint", "Logpoint" },
@@ -32,6 +29,7 @@ return {
           )
         end,
       },
+      { "c", function() require("dap").clear_breakpoints() end },
       { "p", function() require("dap.ui.widgets").hover() end },
       { "r", function() require("dap").continue() end },
       {
@@ -52,9 +50,9 @@ return {
     },
     hint = [[
                                    Debug   
-   _c_ ➜ [C]lear breakpoints      _r_ ➜ [R]un      _t_ ➜ [T]erminate   
-   _o_ ➜ Toggle breakpoint        _R_ ➜ [R]erun    _u_ ➜ Toggle [U]I   
-   _O_ ➜ Set complex breakpoint   _s_ ➜ [S]top     _v_ ➜ Toggle [V]irtual text   
+   _b_ ➜ Toggle [B]reakpoint        _r_ ➜ [R]un     _t_ ➜ [T]erminate   
+   _B_ ➜ Set complex [B]reakpoint   _R_ ➜ [R]erun   _u_ ➜ Toggle [U]I   
+   _c_ ➜ [C]lear breakpoints        _s_ ➜ [S]top    _v_ ➜ Toggle [V]irtual text   
    _p_ ➜ [P]review variable   
 ]],
   },
