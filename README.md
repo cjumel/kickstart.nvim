@@ -29,14 +29,19 @@ coding with Neovim really much more enjoyable for me, compared to my previous ex
   tools for the database explorer plugin), I'm not listing them here but they are mentionned in the
   source code directly as `NOTE` comments
 
-## Install
+## Install Neovim
 
-### Install Neovim
+There are a few possibilities to install Neovim, depending on your operating system and your
+constraints.
 
-First of all, install [Neovim](https://neovim.io/).
+### On MacOS
+
+On MacOS, if you simply want to install the latest version (which should be fine for most), you can
+simply use [Homebrew](https://brew.sh/). However, I prefer to have complete control over the version
+I use, so I prefer to install it from source.
 
 <details>
-<summary>MacOS</summary>
+<summary>With Homebrew</summary>
 
 ```bash
 # to install the latest stable version:
@@ -47,7 +52,24 @@ brew install neovim
 
 </details>
 <details>
-<summary>Ubuntu</summary>
+<summary>From source</summary>
+Download the appropriate Neovim release asset (`nvim-macos-x86_64.tar.gz` in my case) from
+[the Neovim release page](https://github.com/neovim/neovim/releases), `cd` in the download location,
+and run the following commands:
+
+```bash
+xattr -c ./nvim-macos-x86_64.tar.gz
+tar xzvf nvim-macos-x86_64.tar.gz
+```
+
+Then, create a symbolic link from `nvim` to the `./nvim-macos-x86_64/bin/nvim` executable.
+
+</details>
+
+### On Linux
+
+<details>
+<summary>With apt</summary>
 
 ```bash
 # to install the nightly version (with the latest features but less stable):
@@ -59,16 +81,20 @@ apt install neovim
 
 </details>
 
-### Clone this configuration
+## Install this configuration
 
-Then, if you already have used Neovim previously with a custom configuration, you will want to
-back-up this existing configuration and delete Neovim's temporary files, with the following commands
-for instance:
+### Backup existing custom configuration
+
+If you already have used Neovim with a custom configuration previously, you might want to back-up
+this existing configuration and delete Neovim's temporary files, with the following commands for
+instance:
 
 ```bash
 mv ~/.config/nvim ~/.config/nvim-old
 rm -rf ~/.local/share/nvim
 ```
+
+### Clone this configuration
 
 After having managed any existing Neovim configuration, clone this repository in the Neovim
 configuration repository, with:
@@ -77,11 +103,13 @@ configuration repository, with:
 git clone --depth=1 https://github.com/cjumel/kickstart.nvim ~/.config/nvim
 ```
 
-### Install Neovim tools
+### Install Neovim plugins
 
 Finally, open Neovim with the `nvim` command, and the Neovim plugin manager I use,
 [lazy.nvim](https://github.com/folke/lazy.nvim), will automatically install all the required Neovim
 plugins.
+
+### Install Treesitter parsers
 
 Once the Neovim plugins are installed, enter the `TSInstallInfo` command (type `:` to enter
 command-line mode, then the command, and finally, press `Enter`). This will make the
@@ -89,10 +117,14 @@ command-line mode, then the command, and finally, press `Enter`). This will make
 parsers for [Treesitter](https://tree-sitter.github.io/tree-sitter/) (an essential tool providing a
 variety of language-specific features, like synthax highlighting, folding, etc.)
 
+### Install Mason tools
+
 With my configuration, Neovim uses a few language-specific external tools, like language servers,
 formatters, or debuggers, so we need to install them as well. To do so, enter the `MasonInstallAll`
 command. This will run the installation of many tools in the background, and you can check their
 progress using the `Mason` command.
+
+### Setup Copilot
 
 Finally, you can then enter the `Copilot setup` command to setup GitHub Copilot credentials. Then,
 just enter the `q` (or `quit`) command to quit Neovim, and, afterwards, Neovim will be ready to be
