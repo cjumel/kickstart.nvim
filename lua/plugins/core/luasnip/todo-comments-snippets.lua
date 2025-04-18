@@ -86,6 +86,7 @@ for _, mode in ipairs({ "ts", "no_ts" }) do
       * conds.ts_node_not_in({
         "comment",
         "comment_content",
+        "html_block", -- Markdown comments
         "line_comment",
         "string",
         "string_start",
@@ -94,8 +95,9 @@ for _, mode in ipairs({ "ts", "no_ts" }) do
     todo_keyword_show_condition = conds.ts_node_in({
       "comment",
       "comment_content",
+      "html_block", -- Markdown comments
       "line_comment",
-    }) * conds.is_comment_start
+    })
   else
     todo_comment_show_condition = ls_show_conds.line_end * -conds.is_comment_start
     todo_keyword_show_condition = conds.is_comment_start
