@@ -38,7 +38,7 @@ constraints.
 
 On MacOS, if you simply want to install the latest version (which should be fine for most), you can
 simply use [Homebrew](https://brew.sh/). However, I prefer to have complete control over the version
-I use, so I prefer to install it from source.
+I use, as it happens that new versions have undesirable behaviors, so I install it from source.
 
 <details>
 <summary>With Homebrew</summary>
@@ -62,7 +62,14 @@ xattr -c ./nvim-macos-x86_64.tar.gz
 tar xzvf nvim-macos-x86_64.tar.gz
 ```
 
-Then, create a symbolic link from `nvim` to the `./nvim-macos-x86_64/bin/nvim` executable.
+Then, create a symbolic link from `nvim` somewhere in your `$PATH` to the
+`./nvim-macos-x86_64/bin/nvim` executable. For instance, for Neovim version `x.y.x`, I typically
+run:
+
+```bash
+mv nvim-macos-x86_64 ~/.local/nvim-macos-x86_64-x_y_z
+ln -s ~/.local/nvim-macos-x86_64-x_y_z/bin/nvim ~/.local/bin/nvim
+```
 
 </details>
 
