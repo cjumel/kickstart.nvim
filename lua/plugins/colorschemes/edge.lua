@@ -4,7 +4,7 @@
 
 return {
   "sainnhe/edge",
-  cond = Theme.edge_enabled or false,
+  cond = Metaconfig.enable_all_plugins or Theme.edge_enabled or false,
   priority = 1000, -- Main UI stuff should be loaded first
   config = function()
     vim.g.edge_transparent_background = true

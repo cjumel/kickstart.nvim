@@ -7,7 +7,7 @@
 return {
   "catppuccin/nvim",
   name = "catppuccin",
-  cond = Theme.catppuccin_enabled or false,
+  cond = Metaconfig.enable_all_plugins or Theme.catppuccin_enabled or false,
   priority = 1000, -- Main UI stuff should be loaded first
   opts = {
     flavour = Theme.catppuccin_style or "mocha",

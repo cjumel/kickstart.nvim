@@ -7,7 +7,7 @@
 
 return {
   "zbirenbaum/copilot.lua",
-  cond = not Metaconfig.disable_copilot,
+  cond = Metaconfig.enable_all_plugins or not Metaconfig.disable_copilot,
   -- Spinning the Copilot server a bit before entering insert mode helps providing suggestions right away
   event = { "InsertEnter", "BufNewFile", "BufReadPre" },
   cmd = "Copilot",

@@ -6,7 +6,7 @@
 
 return {
   "rebelot/kanagawa.nvim",
-  cond = Theme.kanagawa_enabled or false,
+  cond = Metaconfig.enable_all_plugins or Theme.kanagawa_enabled or false,
   priority = 1000, -- Main UI stuff should be loaded first
   opts = { transparent = true },
   config = function(_, opts)

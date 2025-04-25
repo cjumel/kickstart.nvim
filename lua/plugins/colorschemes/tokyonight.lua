@@ -6,7 +6,7 @@
 
 return {
   "folke/tokyonight.nvim",
-  cond = Theme.tokyonight_enabled or false,
+  cond = Metaconfig.enable_all_plugins or Theme.tokyonight_enabled or false,
   priority = 1000, -- Main UI stuff should be loaded first
   opts = {
     style = Theme.tokyonight_style or "night",

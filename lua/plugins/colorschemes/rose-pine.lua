@@ -6,7 +6,7 @@
 return {
   "rose-pine/neovim",
   name = "rose-pine",
-  cond = Theme.rose_pine_enabled or false,
+  cond = Metaconfig.enable_all_plugins or Theme.rose_pine_enabled or false,
   priority = 1000, -- Main UI stuff should be loaded first
   opts = {
     variant = Theme.rose_pine_style or "main",

@@ -4,7 +4,7 @@
 
 return {
   "sainnhe/gruvbox-material",
-  cond = Theme.gruvbox_material_enabled or false,
+  cond = Metaconfig.enable_all_plugins or Theme.gruvbox_material_enabled or false,
   priority = 1000, -- Main UI stuff should be loaded first
   config = function()
     vim.g.gruvbox_material_transparent_background = true

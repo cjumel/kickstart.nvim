@@ -1,5 +1,9 @@
 return {
 
+  -- Set `enable_all_plugins` to true to enable all plugins, for updating purposes. Note that this will trigger minor
+  -- usability issues, with incompatible plugins like color schemes, but this shouldn't be too big of a deal.
+  enable_all_plugins = false,
+
   -- Set `disable_copilot` to true to disable GitHub Copilot related plugins. This is particularly useful when no GitHub
   -- Copilot subscription is available, to prevent the spam of warning messages.
   disable_copilot = false,

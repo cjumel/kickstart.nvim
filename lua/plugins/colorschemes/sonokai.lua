@@ -4,7 +4,7 @@
 
 return {
   "sainnhe/sonokai",
-  cond = Theme.sonokai_enabled or false,
+  cond = Metaconfig.enable_all_plugins or Theme.sonokai_enabled or false,
   priority = 1000, -- Main UI stuff should be loaded first
   config = function()
     vim.g.sonokai_transparent_background = true

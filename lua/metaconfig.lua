@@ -12,9 +12,10 @@
 -- directory (`~/.config/nvim` by default).
 -- - Then, it looks for a global, machine-level meta configuration file in `.nvim-global.lua` in the Neovim
 -- configuration directory (`~/.config/nvim` by default).
--- - Finally, it looks for a project-specific meta configuration file named `.nvim.lua` in the current working directory
+-- - Then, it looks for a project-specific meta configuration file named `.nvim.lua` in the current working directory
 -- and all its parent directories until the home directory. If found, the file is sourced **securely** using
 -- `vim.secure.read`, to avoid executing blindly potentially malicious code.
+-- - Finally, it looks for environment variables starting with the `NVIM_` prefix (only support boolean values).
 -- At each of these steps, the newly found configuration options are used to update the meta configuration table,
 -- overriding any shared configuration values, to define the final meta configuration table which is then returned by
 -- the module.
@@ -44,6 +45,21 @@ if project_config_path then
     M = vim.tbl_deep_extend("force", M, project_config or {})
   end
 end
+
+local env_config = {}
+for _, key in ipairs(vim.tbl_keys(M)) do
+  local value = vim.env["NVIM_" .. string.upper(key)]
+  if value ~= nil then
+    if vim.tbl_contains({ "1", "true" }, string.lower(value)) then
+      env_config[key] = true
+    elseif vim.tbl_contains({ "0", "false" }, string.lower(value)) then
+      env_config[key] = false
+    else
+      error("Invalid value for NVIM_" .. string.upper(key) .. ": " .. value)
+    end
+  end
+end
+M = vim.tbl_deep_extend("force", M, env_config)
 
 vim.api.nvim_create_user_command(
   "MetaconfigOpenDefault",

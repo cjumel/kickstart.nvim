@@ -4,7 +4,7 @@
 
 return {
   "navarasu/onedark.nvim",
-  cond = Theme.onedark_enabled or false,
+  cond = Metaconfig.enable_all_plugins or Theme.onedark_enabled or false,
   priority = 1000, -- Main UI stuff should be loaded first
   opts = {
     style = Theme.onedark_style or "dark",
