@@ -52,41 +52,59 @@ vim.keymap.set("n", "<localleader>i", function()
   })
 end, { desc = "[I]mport" })
 
-vim.keymap.set("n", "<localleader>a", function()
-  local path = vim.fn.expand("%:.")
-  local base_path
-  if path:sub(1, 5) ~= "tests" then
-    base_path = path:gsub("^src/", "")
-    -- Remove the first directory as it may contain the package name, which is not found in the test file path
-    local first_separator_idx = base_path:find("/")
+--- Output the base path of a path, that is the path striped of prefixes (like `src/<package-name>/` or `tests/`) and
+--- suffixes (like `.py` or `_test.py`), or `nil` if there is none.
+---@param path string The path to be converted.
+---@return string|nil
+local function get_base_path(path)
+  path = vim.fn.fnamemodify(path, ":.")
+  if path:sub(1, 4) == "src/" then
+    path = path:gsub("^src/", "")
+    -- Remove the first directory as it usually is the package name (which is not found in the tests)
+    local first_separator_idx = path:find("/")
     if first_separator_idx then
-      base_path = base_path:sub(first_separator_idx + 1)
+      path = path:sub(first_separator_idx + 1)
     end
-    base_path = base_path:gsub(".py$", "")
+    path = path:gsub(".py$", "")
+    return path
+  elseif path:sub(1, 6) == "tests/" then
+    path = path:gsub("^tests/", ""):gsub("^unit/", ""):gsub("^integration/", ""):gsub("_test.py$", "")
+    return path
   else
-    base_path = path:gsub("^tests/", ""):gsub("^unit/", ""):gsub("^integration/", ""):gsub("_test.py$", "")
+    return nil
+  end
+end
+
+vim.keymap.set("n", "<localleader>a", function()
+  local path = vim.fn.expand("%:p")
+  local base_path = get_base_path(path)
+  if not base_path then
+    vim.notify("No alternate file found")
+    return
   end
 
-  local candidate_files = {}
-  local handle = io.popen("fd .")
+  local candidate_paths = {}
+  local handle = io.popen("fd --extension py .")
   if handle then
-    for file in handle:lines() do
-      table.insert(candidate_files, file)
+    for candidate_path in handle:lines() do
+      candidate_path = vim.fn.fnamemodify(candidate_path, ":p")
+      local candidate_base_path = get_base_path(candidate_path)
+      if path ~= candidate_path and candidate_base_path == base_path then
+        table.insert(candidate_paths, candidate_path)
+      end
     end
     handle:close()
   end
 
-  local alternate_files = {}
-  for _, candidate_file in ipairs(candidate_files) do
-    if candidate_file ~= path and candidate_file:find(base_path) then
-      table.insert(alternate_files, candidate_file)
-    end
-  end
-  if #alternate_files == 0 then
-    vim.notify("No alternate files found")
-  elseif #alternate_files == 1 then
-    vim.cmd("edit " .. alternate_files[1])
+  if #candidate_paths == 0 then
+    vim.notify("No alternate file found")
+  elseif #candidate_paths == 1 then
+    vim.cmd("edit " .. candidate_paths[1])
   else
-    vim.ui.select(alternate_files, {}, function(selection) vim.cmd("edit " .. selection) end)
+    vim.ui.select(candidate_paths, {}, function(selected_path)
+      if selected_path ~= nil then
+        vim.cmd("edit " .. selected_path)
+      end
+    end)
   end
 end, { desc = "[A]lternate files" })
