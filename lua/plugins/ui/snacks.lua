@@ -132,7 +132,7 @@ return {
     {
       "<leader>fg",
       function()
-        local opts = { title = "Grep", layout = { preset = "telescope_horizontal" } }
+        local opts = { title = "Grep", layout = { preset = "telescope_vertical" } }
         if vim.bo.filetype == "oil" then
           local dir = vim.fn.fnamemodify(require("oil").get_current_dir() --[[@as string]], ":p:~:.")
           opts.title = opts.title .. " in " .. (dir ~= "" and dir or "./")
@@ -145,7 +145,7 @@ return {
     {
       "<leader>fg",
       function()
-        local opts = { title = "Grep", layout = { preset = "telescope_horizontal" } }
+        local opts = { title = "Grep", layout = { preset = "telescope_vertical" } }
         if vim.bo.filetype == "oil" then
           local dir = vim.fn.fnamemodify(require("oil").get_current_dir() --[[@as string]], ":p:~:.")
           opts.title = opts.title .. " in " .. (dir ~= "" and dir or "./")
@@ -225,7 +225,7 @@ return {
     },
     {
       "<leader>fc",
-      function() Snacks.picker.commands({ layout = { preset = "telescope_vertical_no_preview" } }) end,
+      function() Snacks.picker.commands({ layout = { preset = "telescope_horizontal", preview = false } }) end,
       desc = "[F]ind: [C]ommands",
     },
     {
@@ -614,23 +614,12 @@ return {
           layout = {
             box = "vertical",
             backdrop = false,
-            width = 0.7,
+            width = 0.9,
             height = 0.9,
             border = "none",
             { win = "input", title = "{title} {live} {flags}", title_pos = "center", height = 1, border = "rounded" },
             { win = "list", title = " Results ", title_pos = "center", border = "rounded" },
             { win = "preview", title = "{preview:Preview}", title_pos = "center", border = "rounded" },
-          },
-        },
-        telescope_vertical_no_preview = {
-          layout = {
-            box = "vertical",
-            backdrop = false,
-            width = 0.6,
-            height = 0.8,
-            border = "none",
-            { win = "input", title = "{title} {live} {flags}", title_pos = "center", height = 1, border = "rounded" },
-            { win = "list", title = " Results ", title_pos = "center", border = "rounded" },
           },
         },
         telescope_dropdown = {
