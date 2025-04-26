@@ -91,7 +91,7 @@ vim.keymap.set("n", "g?", show_buf_changes_cmd, { desc = "Show current buffer ch
 local function send_to_clipboard()
   local yanked = vim.fn.getreg('"')
   vim.fn.setreg("+", yanked)
-  vim.notify("Yanked sent to clipboard:\n```\n" .. yanked .. "\n```")
+  vim.notify("Yanked sent to register `+`:\n```\n" .. yanked .. "\n```")
 end
 local function toggle_sync_with_clipboard()
   if not vim.tbl_contains(vim.opt.clipboard, "unnamedplus") then
