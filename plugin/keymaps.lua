@@ -86,24 +86,24 @@ vim.keymap.set("n", "<leader><M-CR>", "<cmd>noautocmd w!<CR>", { desc = "Force w
 
 local show_buf_changes_cmd =
   "<cmd>vert new | set buftype=nofile | read ++edit # | 0d_ | diffthis | wincmd p | diffthis<CR>"
-vim.keymap.set("n", "<leader>?", show_buf_changes_cmd, { desc = "Show buffer changes" })
+vim.keymap.set("n", "g?", show_buf_changes_cmd, { desc = "Show current buffer changes" })
 
 local function send_to_clipboard()
   local yanked = vim.fn.getreg('"')
   vim.fn.setreg("+", yanked)
-  vim.notify("Yanked sent to register `+`:\n```\n" .. yanked .. "\n```")
+  vim.notify("Yanked sent to clipboard:\n```\n" .. yanked .. "\n```")
 end
 local function toggle_sync_with_clipboard()
   if not vim.tbl_contains(vim.opt.clipboard, "unnamedplus") then
     vim.opt.clipboard:append("unnamedplus")
-    vim.notify("System clipboard synchronization enabled")
+    vim.notify("Register and clipboard sync enabled")
   else
     vim.opt.clipboard:remove("unnamedplus")
-    vim.notify("System clipboard synchronization disabled")
+    vim.notify("Register and clipboard sync disabled")
   end
 end
-vim.keymap.set("n", "<leader>ys", send_to_clipboard, { desc = "[Y]ank: [S]end to clipboard" })
-vim.keymap.set("n", "<leader>yt", toggle_sync_with_clipboard, { desc = "[Y]ank: [T]oggle sync with clipboard" })
+vim.keymap.set("n", "gy", send_to_clipboard, { desc = "Send yanked to clipboard" })
+vim.keymap.set("n", 'g"', toggle_sync_with_clipboard, { desc = "Toggle register and clipboard sync" })
 
 local function yank_file_path(mods)
   local path = nil
