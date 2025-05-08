@@ -229,6 +229,11 @@ return {
       desc = "[F]ind: [C]ommands",
     },
     {
+      "<leader>fk",
+      function() Snacks.picker.keymaps({ layout = { preset = "telescope_horizontal", preview = false } }) end,
+      desc = "[F]ind: [K]eymaps",
+    },
+    {
       "<leader>gg",
       function()
         Snacks.picker.git_status({
