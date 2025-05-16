@@ -83,6 +83,12 @@ return {
       desc = "Entire buffer",
     },
     {
+      "gp",
+      function() require("various-textobjs").filepath() end,
+      mode = "o",
+      desc = "File path",
+    },
+    {
       "gu",
       function() require("various-textobjs").url() end,
       mode = "o",
