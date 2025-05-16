@@ -84,6 +84,7 @@ return {
         vim.g.disable_lint = true
         vim.notify("Lint disabled globally")
       end
+      vim.diagnostic.reset() -- Discard existing diagnotics
     end, { desc = "Disable lint", bang = true })
     vim.api.nvim_create_user_command("LintEnable", function()
       vim.b.disable_lint = false
@@ -103,6 +104,7 @@ return {
           vim.g.disable_lint = true
           vim.notify("Lint disabled globally")
         end
+        vim.diagnostic.reset() -- Discard existing diagnotics
       end
     end, { desc = "Toggle lint", bang = true })
   end,
