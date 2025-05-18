@@ -134,17 +134,12 @@ return {
           function() vim.diagnostic.goto_prev({ severity = "ERROR" }) end,
           "error"
         )
+        map("`", function() require("marks").next() end, function() require("marks").prev() end, "marks")
         map(
           "h",
           function() require("gitsigns").nav_hunk("next", { target = "all" }) end,
           function() require("gitsigns").nav_hunk("prev", { target = "all" }) end,
           "hunk"
-        )
-        map(
-          "x",
-          function() require("git-conflict").find_next("ours") end,
-          function() require("git-conflict").find_prev("ours") end,
-          "conflict"
         )
         map(
           "t",
@@ -157,6 +152,12 @@ return {
           function() require("todo-comments").jump_next() end,
           function() require("todo-comments").jump_prev() end,
           "todo-comment (all)"
+        )
+        map(
+          "x",
+          function() require("git-conflict").find_next("ours") end,
+          function() require("git-conflict").find_prev("ours") end,
+          "conflict"
         )
       end,
     })
