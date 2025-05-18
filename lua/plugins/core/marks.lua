@@ -12,6 +12,7 @@ return {
     { "m<Space>", function() require("marks").set_next() end, desc = "Set next available mark" },
     { "dm", function() require("marks").delete() end, desc = "Delete mark" },
     { "dm<Space>", function() require("marks").delete_line() end, desc = "Delete line marks" },
+    { "dm<Tab>", function() require("marks").delete_buf() end, desc = "Delete buffer marks" },
     {
       "<leader>vm",
       function()
