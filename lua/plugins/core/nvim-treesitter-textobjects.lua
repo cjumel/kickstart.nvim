@@ -134,8 +134,6 @@ return {
           function() vim.diagnostic.goto_prev({ severity = "ERROR" }) end,
           "error"
         )
-        local url_pattern = "http:\\/\\/\\|https:\\/\\/"
-        map("u", function() vim.fn.search(url_pattern) end, function() vim.fn.search(url_pattern, "b") end, "URL")
         map(
           "h",
           function() require("gitsigns").nav_hunk("next", { target = "all" }) end,
