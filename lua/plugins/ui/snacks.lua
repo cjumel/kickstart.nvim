@@ -90,24 +90,20 @@ return {
       desc = "[F]ind: [F]iles",
     },
     {
-      "<leader>fr",
-      function()
-        Snacks.picker.recent({
-          title = "Recent Files",
-          filter = { cwd = true },
-          sort = { fields = { "score:desc", "idx" } }, -- Don't sort by item length to preserve history order
-          layout = { preset = "telescope_horizontal" },
-        })
-      end,
-      desc = "[F]ind: [R]ecent files",
-    },
-    {
       "<leader>fo",
       function()
         Snacks.picker.recent({
           title = "Old Files",
+          filter = { cwd = true },
           sort = { fields = { "score:desc", "idx" } }, -- Don't sort by item length to preserve history order
           layout = { preset = "telescope_horizontal" },
+          win = {
+            input = {
+              keys = {
+                ["©"] = { "toggle_cwd", mode = "i", desc = "Toggle cwd" },
+              },
+            },
+          },
         })
       end,
       desc = "[F]ind: [O]ld files",
@@ -160,45 +156,22 @@ return {
       "<leader>fs",
       function()
         Snacks.picker.lsp_symbols({
-          title = "Document Symbols (main)",
+          title = "Symbols",
           sort = { fields = { "score:desc", "idx" } }, -- Don't sort by item length to preserve document order
           layout = { preset = "telescope_horizontal" },
         })
       end,
-      desc = "[F]ind: document [S]ymbols (main)",
-    },
-    {
-      "<leader>fS",
-      function()
-        Snacks.picker.lsp_symbols({
-          title = "Document Symbols (all)",
-          filter = { default = true },
-          sort = { fields = { "score:desc", "idx" } }, -- Don't sort by item length to preserve document order
-          layout = { preset = "telescope_horizontal" },
-        })
-      end,
-      desc = "[F]ind: document [S]ymbols (all)",
+      desc = "[F]ind: [S]ymbols",
     },
     {
       "<leader>fw",
       function()
         Snacks.picker.lsp_workspace_symbols({
-          title = "Workspace Symbols (main)",
+          title = "Workspace Symbols",
           layout = { preset = "telescope_horizontal" },
         })
       end,
-      desc = "[F]ind: [W]orkspace symbols (main)",
-    },
-    {
-      "<leader>fW",
-      function()
-        Snacks.picker.lsp_workspace_symbols({
-          title = "Workspace Symbols (all)",
-          filter = { default = true },
-          layout = { preset = "telescope_horizontal" },
-        })
-      end,
-      desc = "[F]ind: [W]orkspace symbols (all)",
+      desc = "[F]ind: [W]orkspace symbols",
     },
     {
       "<leader>fu",
@@ -437,27 +410,22 @@ return {
           end,
         },
         {
-          icon = " ",
-          key = "r",
-          desc = "Find Recent files",
-          action = function()
-            Snacks.picker.recent({
-              title = "Recent Files",
-              filter = { cwd = true },
-              sort = { fields = { "score:desc", "idx" } }, -- Don't sort by item length to preserve history order
-              layout = { preset = "telescope_horizontal" },
-            })
-          end,
-        },
-        {
           icon = " ",
           key = "o",
           desc = "Find Old files",
           action = function()
             Snacks.picker.recent({
               title = "Old Files",
+              filter = { cwd = true },
               sort = { fields = { "score:desc", "idx" } }, -- Don't sort by item length to preserve history order
               layout = { preset = "telescope_horizontal" },
+              win = {
+                input = {
+                  keys = {
+                    ["©"] = { "toggle_cwd", mode = "i", desc = "Toggle cwd" },
+                  },
+                },
+              },
             })
           end,
         },
@@ -554,6 +522,10 @@ return {
       },
       formatters = { file = { truncate = 60 } }, -- Increase the displayed file path length
       actions = {
+        toggle_cwd = function(picker)
+          picker.opts["filter"]["cwd"] = not picker.opts["filter"]["cwd"]
+          picker:find()
+        end,
         qflist_trouble = function(picker)
           picker:close()
           local sel = picker:selected()
