@@ -16,34 +16,17 @@ return {
       "<leader>ft",
       function()
         Snacks.picker("todo_comments", {
-          title = "Todo-comments (personal)",
-          keywords = { "NOW" },
+          title = "Todo-comments",
           show_empty = true, -- In case everything is hidden or ignored
           layout = { preset = "telescope_vertical" },
         })
       end,
-      desc = "[F]ind: [T]odo-comments (personal)",
-    },
-    {
-      "<leader>fT",
-      function()
-        Snacks.picker("todo_comments", {
-          title = "Todo-comments (all)",
-          show_empty = true, -- In case everything is hidden or ignored
-          layout = { preset = "telescope_vertical" },
-        })
-      end,
-      desc = "[F]ind: [T]odo-comments (all)",
+      desc = "[F]ind: [T]odo-comments",
     },
     {
       "<leader>vt",
-      function() vim.cmd("Trouble todo_personal toggle") end,
-      desc = "[V]iew: [T]odo-comments (personal)",
-    },
-    {
-      "<leader>vT",
       function() vim.cmd("Trouble todo toggle") end,
-      desc = "[V]iew: [T]odo-comments (all)",
+      desc = "[V]iew: [T]odo-comments",
     },
   },
   opts = {
