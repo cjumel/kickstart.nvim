@@ -9,8 +9,8 @@ return {
   dependencies = { "nvim-tree/nvim-web-devicons" },
   cmd = { "Trouble" }, -- Useful for other plugins calling Trouble through a command
   keys = {
-    { "<leader>vd", "<cmd>Trouble diagnostics_document toggle<CR>", desc = "[V]iew: document [D]iagnostics" },
-    { "<leader>vD", "<cmd>Trouble diagnostics toggle<CR>", desc = "[V]iew: workspace [D]iagnostics" },
+    { "<leader>vd", "<cmd>Trouble diagnostics_document toggle<CR>", desc = "[V]iew: [D]iagnostics" },
+    { "<leader>vw", "<cmd>Trouble diagnostics toggle<CR>", desc = "[V]iew: [W]orkspace diagnostics" },
     { "<leader>vl", "<cmd>Trouble loclist toggle<CR>", desc = "[V]iew: [L]ocation list" },
     { "<leader>vq", "<cmd>Trouble qflist toggle<CR>", desc = "[V]iew: [Q]uickfix list" },
     { "<leader>vs", "<cmd>Trouble symbols toggle<CR>", desc = "[V]iew: [S]ymbols" },
@@ -56,6 +56,7 @@ return {
         auto_refresh = false, -- Don't refresh Trouble window when cursor moves in the main window
       },
       symbols = {
+        title = "{hl:Title}Symbols{hl} {count}",
         pinned = true, -- Don't update when changing window
         win = { relative = "win" }, -- Position relatively to the current window
         open_no_results = true, -- Open the Trouble window even when there is no item as the LSP can be slow

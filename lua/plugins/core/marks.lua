@@ -10,25 +10,17 @@ return {
   keys = {
     { "m", function() require("marks").set() end, desc = "Set mark" },
     { "m<Space>", function() require("marks").set_next() end, desc = "Set next available mark" },
-    { "dm", function() require("marks").delete() end, desc = "Delete mark" },
-    { "dm<Space>", function() require("marks").delete_line() end, desc = "Delete line marks" },
-    { "dm<Tab>", function() require("marks").delete_buf() end, desc = "Delete buffer marks" },
     {
-      "<leader>vm",
-      function()
-        require("marks").mark_state:buffer_to_list()
-        vim.cmd("Trouble loclist toggle")
-      end,
-      desc = "[V]iew: document [M]arks",
-    },
-    {
-      "<leader>vM",
+      "m<Tab>",
       function()
         require("marks").mark_state:all_to_list()
         vim.cmd("Trouble loclist toggle")
       end,
-      desc = "[V]iew: workspace [M]arks",
+      desc = "Send marks to location list",
     },
+    { "dm", function() require("marks").delete() end, desc = "Delete mark" },
+    { "dm<Space>", function() require("marks").delete_line() end, desc = "Delete line marks" },
+    { "dm<Tab>", function() require("marks").delete_buf() end, desc = "Delete buffer marks" },
   },
   opts = {
     default_mappings = false,
