@@ -67,6 +67,12 @@ return {
       todo = {
         title = "{hl:Title}Todo-comments {hl} {count}", -- Add a title
       },
+      todo_private = {
+        mode = "todo",
+        title = "{hl:Title}Private todo-comments {hl} {count}",
+        filter = { tag = { "_TODO" } },
+        groups = { { "filename", format = "{file_icon} {filename} {count}" } }, -- Remove tag group as there is only one
+      },
     },
   },
 }

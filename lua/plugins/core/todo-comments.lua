@@ -24,9 +24,26 @@ return {
       desc = "[F]ind: [T]odo-comments",
     },
     {
+      "<leader>fp",
+      function()
+        Snacks.picker("todo_comments", {
+          title = "Private Todo-comments",
+          keywords = { "_TODO" },
+          show_empty = true, -- In case everything is hidden or ignored
+          layout = { preset = "telescope_vertical" },
+        })
+      end,
+      desc = "[F]ind: [P]rivate todo-comments",
+    },
+    {
       "<leader>vt",
       function() vim.cmd("Trouble todo toggle") end,
       desc = "[V]iew: [T]odo-comments",
+    },
+    {
+      "<leader>vp",
+      function() vim.cmd("Trouble todo_private toggle") end,
+      desc = "[V]iew: [P]rivate todo-comments",
     },
   },
   opts = {
@@ -34,7 +51,7 @@ return {
       -- Update builtin keywords
       NOTE = { icon = " ", color = "hint", alt = { "INFO", "IMPORTANT" } },
       -- Add personal keywords (must be separated to be able to search for them)
-      NOW = { icon = " ", color = "info" }, -- Like TODO
+      _TODO = { icon = " ", color = "info" }, -- Like TODO
     },
     -- Include hidden files when searching for todo-comments
     search = { args = { "--color=never", "--no-heading", "--with-filename", "--line-number", "--column", "--hidden" } },
