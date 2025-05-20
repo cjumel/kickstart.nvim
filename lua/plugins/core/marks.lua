@@ -1,8 +1,6 @@
 -- marks.nvim
 --
--- marks.nvim provides a better user experience for interacting with and manipulating Vim & Neovim marks. Such a plugin
--- is, in my opinion, essential to use marks, as it provides the missing features of Neovim marks, like visualizing
--- them in the sign column or some handy keymaps to delete them, for instance.
+-- marks.nvim provides a better user experience for interacting with and manipulating Vim & Neovim marks.
 
 return {
   "chentoast/marks.nvim",

@@ -1,7 +1,6 @@
 -- yanky.nvim
 --
--- Improved Yank and Put functionalities for Neovim. This plugin revisits how the yank history can be used and provides
--- several features to make the experience with yanking much more enjoyable than in vanilla Neovim.
+-- Improved Yank and Put functionalities for Neovim.
 
 return {
   "gbprod/yanky.nvim",
@@ -11,8 +10,6 @@ return {
     { "y", "<Plug>(YankyYank)", mode = { "n", "x" }, desc = "Yank" }, -- Preserve cursor position on yank
     { "p", "<Plug>(YankyPutAfter)", mode = { "n", "x" }, desc = "Paste after cursor" },
     { "P", "<Plug>(YankyPutBefore)", mode = { "n", "x" }, desc = "Paste before cursor" },
-    { "gp", "<Plug>(YankyGPutAfter)", mode = { "n", "x" }, desc = "Paste after cursor and move cursor after" },
-    { "gP", "<Plug>(YankyGPutBefore)", mode = { "n", "x" }, desc = "Paste before cursor and move cursor after" },
     { "<C-n>", "<Plug>(YankyPreviousEntry)", desc = "Cycle yank history" },
     { "<C-p>", "<Plug>(YankyNextEntry)", desc = "Cycle yank history backward" },
     {
