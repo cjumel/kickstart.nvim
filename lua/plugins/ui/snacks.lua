@@ -397,11 +397,11 @@ return {
       enabled = true,
       sections = {
         { section = "header" },
-        { icon = " ", key = "c", desc = "Open current directory", action = function() require("oil").open() end },
+        { icon = " ", key = "c", desc = "Open [C]wd", action = function() require("oil").open() end },
         {
           icon = " ",
           key = "f",
-          desc = "Find Files",
+          desc = "Find [F]iles",
           action = function()
             Snacks.picker.files({
               layout = { preset = "telescope_horizontal" },
@@ -412,7 +412,7 @@ return {
         {
           icon = " ",
           key = "o",
-          desc = "Find Old files",
+          desc = "Find [O]ld Files",
           action = function()
             Snacks.picker.recent({
               title = "Old Files",
@@ -432,7 +432,7 @@ return {
         {
           icon = " ",
           key = "d",
-          desc = "Find Directories",
+          desc = "Find [D]irectories",
           action = function()
             Snacks.picker.pick("directories", {
               layout = { preset = "telescope_horizontal" },
@@ -443,7 +443,7 @@ return {
         {
           icon = "󰚰 ",
           key = "g",
-          desc = "View Git Status",
+          desc = "[G]it Status",
           action = function()
             Snacks.picker.git_status({
               layout = { preset = "telescope_horizontal" },
@@ -461,13 +461,13 @@ return {
         {
           icon = " ",
           key = "b",
-          desc = "View Git Branch",
+          desc = "Git [B]ranch",
           action = function() Snacks.picker.git_branches({ layout = { preset = "telescope_vertical" } }) end,
         },
         {
           icon = " ",
           key = "l",
-          desc = "View Git Log",
+          desc = "Git [L]og",
           action = function()
             Snacks.picker.git_log({
               layout = { preset = "telescope_horizontal" },
@@ -476,8 +476,8 @@ return {
             })
           end,
         },
-        { icon = "󰊢 ", key = "n", desc = "Open Neogit", action = function() require("neogit").open() end },
-        { icon = " ", key = "q", desc = "Quit", action = ":qa" },
+        { icon = "󰊢 ", key = "n", desc = "Open [N]eogit", action = function() require("neogit").open() end },
+        { icon = " ", key = "q", desc = "[Q]uit", action = ":qa" },
       },
     },
 
