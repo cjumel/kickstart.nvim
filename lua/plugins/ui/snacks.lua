@@ -299,7 +299,7 @@ return {
           widths[3] = math.max(widths[3], vim.api.nvim_strwidth(item.name))
         end
         vim.ui.select(items, {
-          prompt = "Temp files in all projects",
+          prompt = "Temp files (all)",
           format_item = function(item)
             local parts = { item.cwd, item.icon, item.name }
             for i, part in ipairs(parts) do
@@ -313,7 +313,7 @@ return {
           end
         end)
       end,
-      desc = "[T]emp files: select in [A]ll projects",
+      desc = "[T]emp files: select [A]ll",
     },
     {
       "<leader>to",
