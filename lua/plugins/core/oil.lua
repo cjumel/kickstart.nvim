@@ -32,10 +32,6 @@ return {
       ["<CR>"] = "actions.select",
       ["g?"] = "actions.show_help",
       ["gx"] = "actions.open_external",
-      ["gX"] = {
-        function() vim.cmd("silent exec '!open ' . expand('%:p')[6:]") end,
-        desc = "Open the current directory in an external program",
-      },
 
       -- Oil buffer actions
       ["<localleader>d"] = {

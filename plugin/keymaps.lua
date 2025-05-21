@@ -154,10 +154,6 @@ local function yank_buffer_contents()
 end
 vim.keymap.set("n", "<leader>yb", yank_buffer_contents, { desc = "[Y]ank: [B]uffer contents" })
 
--- Like "gx", bur for the currently opened file
-local function open_current_file() vim.ui.open(vim.fn.expand("%")) end
-vim.keymap.set("n", "gX", open_current_file, { desc = "Open current file with file system handler" })
-
 local function browser_search()
   local visual_mode = require("visual_mode")
   local default_text = visual_mode.is_on() and visual_mode.get_text() or nil
