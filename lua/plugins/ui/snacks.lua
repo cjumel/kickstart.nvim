@@ -97,6 +97,7 @@ return {
           filter = { cwd = true },
           sort = { fields = { "score:desc", "idx" } }, -- Don't sort by item length to preserve history order
           layout = { preset = "telescope_horizontal" },
+          show_empty = true, -- In case there's no recent file in the cwd, but we want them from every where
           win = {
             input = {
               keys = {
@@ -419,6 +420,7 @@ return {
               filter = { cwd = true },
               sort = { fields = { "score:desc", "idx" } }, -- Don't sort by item length to preserve history order
               layout = { preset = "telescope_horizontal" },
+              show_empty = true, -- In case there's no recent file in the cwd, but we want them from every where
               win = {
                 input = {
                   keys = {
