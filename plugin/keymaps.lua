@@ -84,10 +84,6 @@ vim.keymap.set("n", "<leader><CR>", "<cmd>w<CR>", { desc = "Write buffer" })
 vim.keymap.set("n", "<leader><S-CR>", "<cmd>noautocmd w<CR>", { desc = "Write buffer without auto-commands" })
 vim.keymap.set("n", "<leader><M-CR>", "<cmd>noautocmd w!<CR>", { desc = "Force write buffer without auto-commands" })
 
-local show_buf_changes_cmd =
-  "<cmd>vert new | set buftype=nofile | read ++edit # | 0d_ | diffthis | wincmd p | diffthis<CR>"
-vim.keymap.set("n", "g?", show_buf_changes_cmd, { desc = "Show current buffer changes" })
-
 local function send_to_clipboard()
   local yanked = vim.fn.getreg('"')
   vim.fn.setreg("+", yanked)
