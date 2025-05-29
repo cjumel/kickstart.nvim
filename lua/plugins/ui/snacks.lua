@@ -75,17 +75,13 @@ return {
     {
       "<leader>ff",
       function()
-        local opts = {
+        Snacks.picker.files({
           title = "Files",
           layout = { preset = "telescope_horizontal" },
           show_empty = true, -- In case everything is hidden or ignored
-        }
-        if vim.bo.filetype == "oil" then
-          local dir = vim.fn.fnamemodify(require("oil").get_current_dir() --[[@as string]], ":p:~:.")
-          opts.title = opts.title .. " in " .. (dir ~= "" and dir or "./")
-          opts.cwd = dir
-        end
-        Snacks.picker.files(opts)
+          cwd = vim.bo.filetype == "oil" and require("oil").get_current_dir() or nil,
+          _oil_cwd = require("oil").get_current_dir(),
+        })
       end,
       desc = "[F]ind: [F]iles",
     },
@@ -98,13 +94,7 @@ return {
           sort = { fields = { "score:desc", "idx" } }, -- Don't sort by item length to preserve history order
           layout = { preset = "telescope_horizontal" },
           show_empty = true, -- In case there's no recent file in the cwd, but we want them from every where
-          win = {
-            input = {
-              keys = {
-                ["©"] = { "toggle_cwd", mode = "i", desc = "Toggle cwd" },
-              },
-            },
-          },
+          win = { input = { keys = { ["©"] = { "toggle_cwd_recent", mode = "i", desc = "Toggle cwd" } } } }, -- <M-c>
         })
       end,
       desc = "[F]ind: [O]ld files",
@@ -112,43 +102,37 @@ return {
     {
       "<leader>fd",
       function()
-        local opts = {
+        Snacks.picker.pick("directories", {
           title = "Directories",
           layout = { preset = "telescope_horizontal" },
           show_empty = true, -- In case everything is hidden or ignored
-        }
-        if vim.bo.filetype == "oil" then
-          local dir = vim.fn.fnamemodify(require("oil").get_current_dir() --[[@as string]], ":p:~:.")
-          opts.title = opts.title .. " in " .. (dir ~= "" and dir or "./")
-          opts.cwd = dir
-        end
-        Snacks.picker.pick("directories", opts)
+          cwd = vim.bo.filetype == "oil" and require("oil").get_current_dir() or nil,
+          _oil_cwd = require("oil").get_current_dir(),
+        })
       end,
       desc = "[F]ind: [D]irectories",
     },
     {
       "<leader>fg",
       function()
-        local opts = { title = "Grep", layout = { preset = "telescope_vertical" } }
-        if vim.bo.filetype == "oil" then
-          local dir = vim.fn.fnamemodify(require("oil").get_current_dir() --[[@as string]], ":p:~:.")
-          opts.title = opts.title .. " in " .. (dir ~= "" and dir or "./")
-          opts.cwd = dir
-        end
-        Snacks.picker.grep(opts)
+        Snacks.picker.grep({
+          title = "Grep",
+          layout = { preset = "telescope_vertical" },
+          cwd = vim.bo.filetype == "oil" and require("oil").get_current_dir() or nil,
+          _oil_cwd = require("oil").get_current_dir(),
+        })
       end,
       desc = "[F]ind: [G]rep",
     },
     {
       "<leader>fg",
       function()
-        local opts = { title = "Grep", layout = { preset = "telescope_vertical" } }
-        if vim.bo.filetype == "oil" then
-          local dir = vim.fn.fnamemodify(require("oil").get_current_dir() --[[@as string]], ":p:~:.")
-          opts.title = opts.title .. " in " .. (dir ~= "" and dir or "./")
-          opts.cwd = dir
-        end
-        Snacks.picker.grep_word(opts)
+        Snacks.picker.grep_word({
+          title = "Grep",
+          layout = { preset = "telescope_vertical" },
+          cwd = vim.bo.filetype == "oil" and require("oil").get_current_dir() or nil,
+          _oil_cwd = require("oil").get_current_dir(),
+        })
       end,
       mode = "x",
       desc = "[F]ind: [G]rep",
@@ -160,6 +144,7 @@ return {
           title = "Symbols",
           sort = { fields = { "score:desc", "idx" } }, -- Don't sort by item length to preserve document order
           layout = { preset = "telescope_horizontal" },
+          win = { input = { keys = { ["æ"] = { "toggle_all_lsp_symbols", mode = "i" } } } }, -- <M-a>
         })
       end,
       desc = "[F]ind: [S]ymbols",
@@ -170,6 +155,7 @@ return {
         Snacks.picker.lsp_workspace_symbols({
           title = "Workspace Symbols",
           layout = { preset = "telescope_horizontal" },
+          win = { input = { keys = { ["æ"] = { "toggle_all_lsp_symbols", mode = "i" } } } }, -- <M-a>
         })
       end,
       desc = "[F]ind: [W]orkspace symbols",
@@ -421,13 +407,7 @@ return {
               sort = { fields = { "score:desc", "idx" } }, -- Don't sort by item length to preserve history order
               layout = { preset = "telescope_horizontal" },
               show_empty = true, -- In case there's no recent file in the cwd, but we want them from every where
-              win = {
-                input = {
-                  keys = {
-                    ["©"] = { "toggle_cwd", mode = "i", desc = "Toggle cwd" },
-                  },
-                },
-              },
+              win = { input = { keys = { ["©"] = { "toggle_cwd_recent", mode = "i", desc = "Toggle cwd" } } } }, -- <M-c>
             })
           end,
         },
@@ -525,8 +505,36 @@ return {
       formatters = { file = { truncate = 60 } }, -- Increase the displayed file path length
       actions = {
         toggle_cwd = function(picker)
+          if picker.opts._oil_cwd then
+            picker.opts.cwd = picker.opts.cwd == nil and picker.opts._oil_cwd or nil
+            picker:find()
+          end
+        end,
+        toggle_cwd_recent = function(picker)
           picker.opts["filter"]["cwd"] = not picker.opts["filter"]["cwd"]
           picker:find()
+        end,
+        toggle_all_lsp_symbols = function(picker)
+          if picker.opts.filter.default == true then -- All symbols are enabled
+            picker.opts.filter.default = { -- Default symbols
+              "Class",
+              "Constructor",
+              "Enum",
+              "Field",
+              "Function",
+              "Interface",
+              "Method",
+              "Module",
+              "Namespace",
+              "Package",
+              "Property",
+              "Struct",
+              "Trait",
+            }
+          else
+            picker.opts.filter.default = true
+          end
+          picker:find({ refresh = true })
         end,
         qflist_trouble = function(picker)
           picker:close()
@@ -630,6 +638,7 @@ return {
             ["π"] = { "toggle_preview", mode = "i" }, -- <M-p>
             ["Ì"] = { "toggle_hidden", mode = "i" }, -- <M-h>
             ["î"] = { "toggle_ignored", mode = "i" }, -- <M-i>
+            ["©"] = { "toggle_cwd", mode = "i" }, -- <M-c>
             -- Insert-mode keymaps to keep
             ["<C-a>"] = false,
             ["<C-e>"] = false,
