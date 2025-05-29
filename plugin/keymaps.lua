@@ -174,7 +174,8 @@ vim.keymap.set({ "n", "v" }, "gb", browser_search, { desc = "Search in Web brows
 
 -- [[ Insert and command-line keymaps ]]
 
-vim.keymap.set({ "i", "c" }, "<M-BS>", "<C-w>", { desc = "Delete word" })
+vim.keymap.set({ "i", "c" }, "<C-BS>", "<C-w>", { desc = "Delete word" })
+vim.keymap.set({ "i", "c" }, "<M-BS>", "<C-w>", { desc = "Delete word" }) -- For consistency with non-terminal softwares
 
 -- Define functions to mix insert-mode navigation and accepting Copilot.lua suggestions, just like how the zsh
 -- zsh-autosuggestions plugin does it (except for <C-f>, which remains useful in Neovim in this context)
