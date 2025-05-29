@@ -25,14 +25,15 @@ return {
   }, {
     t("def "),
     c(1, {
-      r(1, "name", i(nil)),
-      sn(nil, { t("__"), r(1, "name"), t("__") }),
+      i(nil),
+      sn(nil, { t("__"), i(1), t("__") }),
+      sn(nil, { t("test_"), i(1) }),
     }),
     t("("),
     c(2, {
-      r(1, "args", i(nil)),
-      sn(nil, { t("self"), r(1, "args") }),
-      sn(nil, { t("cls"), r(1, "args") }),
+      i(nil),
+      sn(nil, { t("self"), i(1) }),
+      sn(nil, { t("cls"), r(1) }),
     }),
     t(") -> "),
     c(3, {
