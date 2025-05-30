@@ -33,7 +33,7 @@ return {
     c(2, {
       i(nil),
       sn(nil, { t("self"), i(1) }),
-      sn(nil, { t("cls"), r(1) }),
+      sn(nil, { t("cls"), i(1) }),
     }),
     t(") -> "),
     c(3, {
