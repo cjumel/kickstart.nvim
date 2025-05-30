@@ -8,6 +8,7 @@ return {
   dependencies = {
     "williamboman/mason.nvim",
     "rcarriga/nvim-dap-ui",
+    "theHamsta/nvim-dap-virtual-text",
     "rcarriga/cmp-dap",
   },
   lazy = true, -- Lazy-loaded through the debug Hydra

@@ -9,7 +9,7 @@ return {
     heads = {
       { "b", function() require("dap").toggle_breakpoint() end },
       {
-        "B",
+        "c",
         function()
           vim.ui.select(
             { "Condition breakpoint", "Hit breakpoint", "Logpoint" },
@@ -29,11 +29,8 @@ return {
           )
         end,
       },
-      { "c", function() require("dap").clear_breakpoints() end },
-      { "p", function() require("dap.ui.widgets").hover() end },
-      { "r", function() require("dap").continue() end },
       {
-        "R",
+        "l",
         function() -- Taken from https://github.com/mfussenegger/nvim-dap/issues/1025
           if vim.g.dap_last_config then
             require("dap").run(vim.g.dap_last_config)
@@ -42,17 +39,20 @@ return {
           end
         end,
       },
+      { "p", function() require("dap.ui.widgets").hover() end },
+      { "r", function() require("dap").continue() end },
       { "s", function() require("dap").pause() end },
       { "t", function() require("dap").terminate() end },
       { "u", function() require("dapui").toggle() end },
       { "v", function() require("nvim-dap-virtual-text").toggle() end },
+      { "x", function() require("dap").clear_breakpoints() end },
       { "<Esc>", nil, { exit = true, mode = "n", desc = false } },
     },
     hint = [[
-                                   Debug   
-   _b_ ➜ Toggle [B]reakpoint        _r_ ➜ [R]un     _t_ ➜ [T]erminate   
-   _B_ ➜ Set complex [B]reakpoint   _R_ ➜ [R]erun   _u_ ➜ Toggle [U]I   
-   _c_ ➜ [C]lear breakpoints        _s_ ➜ [S]top    _v_ ➜ Toggle [V]irtual text   
+                                     Debug   
+   _b_ ➜ Toggle [B]reakpoint        _r_ ➜ [R]un         _u_ ➜ Toggle [U]I   
+   _c_ ➜ Set [C]omplex breakpoint   _s_ ➜ [S]top        _v_ ➜ Toggle [V]irtual text   
+   _l_ ➜ Rerun [L]ast               _t_ ➜ [T]erminate   _x_ ➜ Discard breakpoints   
    _p_ ➜ [P]review variable   
 ]],
   },

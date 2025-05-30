@@ -4,9 +4,8 @@
 
 return {
   "theHamsta/nvim-dap-virtual-text",
-  lazy = true, -- Lazy-loaded through the debug Hydra
+  lazy = true, -- Lazy-loaded by nvim-dap
   opts = {
-    enabled = false, -- I enable this manually with a keymap
     commented = true,
     virt_text_pos = "eol",
   },
