@@ -43,8 +43,8 @@ return {
       function()
         Snacks.picker.buffers({
           title = "Buffer Switcher",
-          format = "file",
           current = false,
+          sort = { fields = { "score:desc", "idx" } }, -- Don't sort by item length to preserve recency order
           layout = { preset = "telescope_dropdown" },
           win = { input = { keys = { ["<c-d>"] = { "bufdelete", mode = { "i" } } } } },
         })
