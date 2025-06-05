@@ -7,18 +7,17 @@ return {
   event = { "BufNewFile", "BufReadPre" },
   keys = {
     { "m", function() require("marks").set() end, desc = "Set mark" },
-    { "m<Space>", function() require("marks").set_next() end, desc = "Set next available mark" },
+    { "mm", function() require("marks").set_next() end, desc = "Set next available mark" },
+    { "dm", function() require("marks").delete() end, desc = "Delete mark" },
+    { "dmm", function() require("marks").delete_line() end, desc = "Delete line marks" },
     {
-      "m<Tab>",
+      "<leader>vm",
       function()
         require("marks").mark_state:all_to_list()
         vim.cmd("Trouble loclist toggle")
       end,
-      desc = "Send marks to location list",
+      desc = "[V]iew: [M]arks",
     },
-    { "dm", function() require("marks").delete() end, desc = "Delete mark" },
-    { "dm<Space>", function() require("marks").delete_line() end, desc = "Delete line marks" },
-    { "dm<Tab>", function() require("marks").delete_buf() end, desc = "Delete buffer marks" },
   },
   opts = {
     default_mappings = false,
