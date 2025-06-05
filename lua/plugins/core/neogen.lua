@@ -5,7 +5,7 @@
 return {
   "danymat/neogen",
   dependencies = { "nvim-treesitter/nvim-treesitter" },
-  keys = { { "g+", function() require("neogen").generate() end, desc = "Generate code documentation" } },
+  keys = { { "ga", function() require("neogen").generate() end, desc = "Add documentation" } },
   opts = function()
     local i = require("neogen.types.template").item
 
