@@ -83,7 +83,7 @@ return {
       desc = "Entire buffer",
     },
     {
-      "gp",
+      "gf",
       function() require("various-textobjs").filepath() end,
       mode = "o",
       desc = "File path",
