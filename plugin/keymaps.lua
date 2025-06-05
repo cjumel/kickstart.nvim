@@ -170,8 +170,8 @@ vim.keymap.set({ "n", "v" }, "gb", browser_search, { desc = "Search in Web brows
 
 -- [[ Insert and command-line keymaps ]]
 
-vim.keymap.set({ "i", "c" }, "<C-BS>", "<C-w>", { desc = "Delete word" })
-vim.keymap.set({ "i", "c" }, "<M-BS>", "<C-w>", { desc = "Delete word" }) -- For consistency with non-terminal softwares
+vim.keymap.set({ "i", "c" }, "<M-BS>", "<C-w>", { desc = "Delete word" }) -- For consistency with zsh & other softwares
+vim.keymap.set({ "i", "c" }, "<C-r><C-r>", '<C-r>"', { desc = "Paste from main register" })
 
 -- Define functions to mix insert-mode navigation and accepting Copilot.lua suggestions, just like how the zsh
 -- zsh-autosuggestions plugin does it (except for <C-f>, which remains useful in Neovim in this context)
@@ -211,6 +211,7 @@ vim.keymap.set({ "i", "c" }, "<C-a>", "<Home>", { desc = "Move cursor to beginni
 vim.keymap.set({ "i", "c" }, "<C-]>", "<Up>", { desc = "Up or previous item in history" }) -- <C-$>
 vim.keymap.set({ "i", "c" }, "<C-\\>", "<Down>", { desc = "Down or next item in history" }) -- <C-`>
 
--- Disable builtin command-line mode auto-completion
+-- Disable builtin command-line mode auto-completion keymaps
 vim.keymap.set("c", "<Tab>", "<Nop>", { silent = true })
 vim.keymap.set("c", "<S-Tab>", "<Nop>", { silent = true })
+vim.keymap.set("c", "<C-d>", "<Nop>", { silent = true })
