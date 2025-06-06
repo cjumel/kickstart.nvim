@@ -4,7 +4,7 @@ return {
     body = "<leader>,",
     config = { desc = "Window menu" },
     heads = {
-      { "c", "<cmd>vert new | set buftype=nofile | read ++edit # | 0d_ | diffthis | wincmd p | diffthis<CR>" },
+      { "d", "<cmd>vert new | set buftype=nofile | read ++edit # | 0d_ | diffthis | wincmd p | diffthis<CR>" },
       { "h", "<C-w>h" },
       { "j", "<C-w>j" },
       { "k", "<C-w>k" },
@@ -20,7 +20,6 @@ return {
       { "w", "<C-w>w" },
       { "x", "<C-w>x" },
       { "z", function() Snacks.zen.zen() end, { exit = true } },
-      { "Z", function() Snacks.zen.zoom() end, { exit = true } },
       { "!", "<C-w>+" }, -- Mnemonic: opposite shape of "-"
       { "-", "<C-w>-" },
       { "(", "<C-w><" },
@@ -29,15 +28,14 @@ return {
       { "<Esc>", nil, { exit = true, desc = false } },
     },
     hint = [[
-                                       Window
-   _c_ ➜ Buffer [C]hanges        _q_ ➜ [Q]uit                _z_ ➜ [Z]en mode   
-   _h_ ➜ Go left                 _r_ ➜ [R]eset diagnostics   _Z_ ➜ [Z]oom   
-   _j_ ➜ Go down                 _s_ ➜ [S]plit               _!_ ➜ Increase height   
-   _k_ ➜ Go up                   _t_ ➜ Break into [T]ab      _-_ ➜ Decrease height   
-   _l_ ➜ Go right                _v_ ➜ Split [V]ertically    _(_ ➜ Decrease width   
-   _n_ ➜ [N]otifications         _w_ ➜ S[W]itch              _)_ ➜ Increase width   
-   _o_ ➜ Quit [O]thers           _x_ ➜ Swap with next        _=_ ➜ Equalize hight/width   
-   _p_ ➜ [P]review diagnostics   
+                                           Window
+   _d_ ➜ Buffer [D]iff            _p_ ➜ [P]review diagnostics       _x_ ➜ Swap window with next   
+   _h_ ➜ Window left              _q_ ➜ [Q]uit window               _z_ ➜ [Z]en mode   
+   _j_ ➜ Winndow down             _r_ ➜ [R]eset diagnostics         _!_ ➜ Increase height   
+   _k_ ➜ Window up                _s_ ➜ [S]plit window              _-_ ➜ Decrease height   
+   _l_ ➜ Window right             _t_ ➜ Break window into [T]ab     _(_ ➜ Decrease width   
+   _n_ ➜ [N]otification history   _v_ ➜ Split window [V]ertically   _)_ ➜ Increase width   
+   _o_ ➜ Quit [O]ther windows     _w_ ➜ S[W]itch windows            _=_ ➜ Equalize hight/width   
 ]],
   },
 }
