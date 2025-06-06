@@ -1,8 +1,7 @@
 -- which-key.nvim
 --
--- which-key.nvim is a plugin which helps you remember your Neovim keymaps, by showing available keybindings in a popup
--- as you type, to be able to create keybindings that actually stick. It is, for me, a must to learn and use builtin and
--- custom keybindings in Neovim.
+-- which-key.nvim helps you remember your Neovim keymaps, by showing available keybindings as you type, to be able to
+-- create keybindings that actually stick.
 
 return {
   "folke/which-key.nvim",
@@ -24,19 +23,22 @@ return {
       if string.sub(mapping.lhs, 1, 3) == "gcc" then
         return false
       end
+      -- Remove some weird keymaps (typically introduce by plugins like dial.nvim)
+      if string.sub(mapping.lhs, 1, 7) == "g<Plug>" then
+        return false
+      end
       return true
     end,
     spec = {
       -- Set or modify the description of builtin keymaps
       { "gc", desc = "Comment", mode = { "n", "x" } },
-      { "gcc", desc = "Comment line", mode = { "n", "x" } },
       { "ge", desc = "Previous end of word", mode = { "n", "x", "o" } },
       { "gE", desc = "Previous end of WORD", mode = { "n", "x", "o" } },
       { "gq", desc = "Format (formatexpr)", mode = { "n", "x" } },
       { "gw", desc = "Format", mode = { "n", "x" } },
       -- Register keymap groups
       { "gr", group = "LSP" },
-      { "<leader> ", group = "Local leader" },
+      { "<leader><leader>", group = "Local leader" },
       { "<leader>c", group = "[C]hat", mode = { "n", "v" } },
       { "<leader>f", group = "[F]ind", mode = { "n", "v" } },
       { "<leader>g", group = "[G]it", mode = { "n", "v" } },
