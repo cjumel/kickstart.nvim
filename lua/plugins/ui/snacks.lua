@@ -46,7 +46,15 @@ return {
           current = false,
           sort = { fields = { "score:desc", "idx" } }, -- Don't sort by item length to preserve recency order
           layout = { preset = "telescope_dropdown" },
-          win = { input = { keys = { ["<c-d>"] = { "bufdelete", mode = { "i" } } } } },
+          win = {
+            input = {
+              keys = {
+                ["<C-y>"] = { { "yank_path", "close" }, mode = "i" },
+                ["<C-c>"] = { { "copy_path", "close" }, mode = "i" },
+                ["<C-d>"] = { "bufdelete", mode = { "i" } },
+              },
+            },
+          },
         })
       end,
       desc = "Buffer switcher",
@@ -80,6 +88,16 @@ return {
           layout = { preset = "telescope_horizontal" },
           show_empty = true, -- In case everything is hidden or ignored
           cwd = vim.bo.filetype == "oil" and require("oil").get_current_dir() or nil,
+          win = {
+            input = {
+              keys = {
+                ---@diagnostic disable-next-line: assign-type-mismatch
+                ["<C-y>"] = { { "yank_path", "close" }, mode = "i" },
+                ---@diagnostic disable-next-line: assign-type-mismatch
+                ["<C-c>"] = { { "copy_path", "close" }, mode = "i" },
+              },
+            },
+          },
           _oil_cwd = require("oil").get_current_dir(),
         })
       end,
@@ -94,7 +112,17 @@ return {
           sort = { fields = { "score:desc", "idx" } }, -- Don't sort by item length to preserve history order
           layout = { preset = "telescope_horizontal" },
           show_empty = true, -- In case there's no recent file in the cwd, but we want them from every where
-          win = { input = { keys = { ["©"] = { "toggle_cwd_recent", mode = "i", desc = "Toggle cwd" } } } }, -- <M-c>
+          win = {
+            input = {
+              keys = {
+                ---@diagnostic disable-next-line: assign-type-mismatch
+                ["<C-y>"] = { { "yank_path", "close" }, mode = "i" },
+                ---@diagnostic disable-next-line: assign-type-mismatch
+                ["<C-c>"] = { { "copy_path", "close" }, mode = "i" },
+                ["©"] = { "toggle_cwd_recent", mode = "i", desc = "Toggle cwd" }, -- <M-c>
+              },
+            },
+          },
         })
       end,
       desc = "[F]ind: [O]ld files",
@@ -107,6 +135,16 @@ return {
           layout = { preset = "telescope_horizontal" },
           show_empty = true, -- In case everything is hidden or ignored
           cwd = vim.bo.filetype == "oil" and require("oil").get_current_dir() or nil,
+          win = {
+            input = {
+              keys = {
+                ---@diagnostic disable-next-line: assign-type-mismatch
+                ["<C-y>"] = { { "yank_path", "close" }, mode = "i" },
+                ---@diagnostic disable-next-line: assign-type-mismatch
+                ["<C-c>"] = { { "copy_path", "close" }, mode = "i" },
+              },
+            },
+          },
           _oil_cwd = require("oil").get_current_dir(),
         })
       end,
@@ -169,8 +207,8 @@ return {
           win = {
             input = {
               keys = {
-                ["<C-y>"] = { { "yank_add", "close" }, mode = "i" }, -- Add close action
-                ["Ú"] = { { "yank_del", "close" }, mode = "i" }, -- <M-y> (instead of <C-S-y>), add close action
+                ["<C-y>"] = { { "yank_add", "close" }, mode = "i" },
+                ["Ú"] = { { "yank_del", "close" }, mode = "i" }, -- <M-y>
               },
             },
           },
@@ -185,12 +223,22 @@ return {
     },
     {
       "<leader>fc",
-      function() Snacks.picker.commands({ layout = { preset = "telescope_horizontal", preview = false } }) end,
+      function()
+        Snacks.picker.commands({
+          ---@diagnostic disable-next-line: assign-type-mismatch
+          layout = { preset = "telescope_horizontal", preview = false },
+        })
+      end,
       desc = "[F]ind: [C]ommands",
     },
     {
       "<leader>fk",
-      function() Snacks.picker.keymaps({ layout = { preset = "telescope_horizontal", preview = false } }) end,
+      function()
+        Snacks.picker.keymaps({
+          ---@diagnostic disable-next-line: assign-type-mismatch
+          layout = { preset = "telescope_horizontal", preview = false },
+        })
+      end,
       desc = "[F]ind: [K]eymaps",
     },
     {
@@ -220,22 +268,39 @@ return {
       function()
         Snacks.picker.git_log({
           layout = { preset = "telescope_horizontal" },
-          ---@diagnostic disable-next-line: assign-type-mismatch
-          win = { input = { keys = { ["<C-y>"] = { { "yank_commit", "close" }, mode = "i" } } } },
+          win = {
+            input = {
+              keys = {
+                ---@diagnostic disable-next-line: assign-type-mismatch
+                ["<C-y>"] = { { "yank_commit", "close" }, mode = "i" },
+                ---@diagnostic disable-next-line: assign-type-mismatch
+                ["<C-c>"] = { { "copy_commit", "close" }, mode = "i" },
+              },
+            },
+          },
         })
       end,
       desc = "[G]it: [L]og",
     },
     {
-      "<leader>gL",
+      "<leader>gc",
       function()
         Snacks.picker.git_log_file({
+          title = "Buffer Commits",
           layout = { preset = "telescope_horizontal" },
-          ---@diagnostic disable-next-line: assign-type-mismatch
-          win = { input = { keys = { ["<C-y>"] = { { "yank_commit", "close" }, mode = "i" } } } },
+          win = {
+            input = {
+              keys = {
+                ---@diagnostic disable-next-line: assign-type-mismatch
+                ["<C-y>"] = { { "yank_commit", "close" }, mode = "i" },
+                ---@diagnostic disable-next-line: assign-type-mismatch
+                ["<C-c>"] = { { "copy_commit", "close" }, mode = "i" },
+              },
+            },
+          },
         })
       end,
-      desc = "[G]it: document [L]og",
+      desc = "[G]it: buffer [C]ommits",
     },
 
     -- Scratch buffers
@@ -504,6 +569,54 @@ return {
       },
       formatters = { file = { truncate = 60 } }, -- Increase the displayed file path length
       actions = {
+        -- Action adatped from https://github.com/folke/snacks.nvim/blob/main/lua/snacks/picker/actions.lua#L447-L447
+        qflist_trouble = function(picker)
+          picker:close()
+          local sel = picker:selected()
+          local items = #sel > 0 and sel or picker:items()
+          local qf = {}
+          for _, item in ipairs(items) do
+            qf[#qf + 1] = {
+              filename = Snacks.picker.util.path(item),
+              bufnr = item.buf,
+              lnum = item.pos and item.pos[1] or 1,
+              col = item.pos and item.pos[2] + 1 or 1,
+              end_lnum = item.end_pos and item.end_pos[1] or nil,
+              end_col = item.end_pos and item.end_pos[2] + 1 or nil,
+              text = item.line or item.comment or item.label or item.name or item.detail or item.text,
+              pattern = item.search,
+              valid = true,
+            }
+          end
+          vim.fn.setqflist(qf)
+          vim.cmd("Trouble qflist toggle")
+        end,
+        -- Action adatped from https://github.com/folke/snacks.nvim/blob/main/lua/snacks/picker/actions.lua#L461-L461
+        loclist_trouble = function(picker)
+          picker:close()
+          local sel = picker:selected()
+          local items = #sel > 0 and sel or picker:items()
+          local qf = {}
+          for _, item in ipairs(items) do
+            qf[#qf + 1] = {
+              filename = Snacks.picker.util.path(item),
+              bufnr = item.buf,
+              lnum = item.pos and item.pos[1] or 1,
+              col = item.pos and item.pos[2] + 1 or 1,
+              end_lnum = item.end_pos and item.end_pos[1] or nil,
+              end_col = item.end_pos and item.end_pos[2] + 1 or nil,
+              text = item.line or item.comment or item.label or item.name or item.detail or item.text,
+              pattern = item.search,
+              valid = true,
+            }
+          end
+          vim.fn.setloclist(picker.main, qf)
+          vim.cmd("Trouble loclist toggle")
+        end,
+        yank_path = { action = "yank", field = "path", reg = '"' },
+        copy_path = { action = "yank", field = "path", reg = "+" },
+        yank_commit = { action = "yank", field = "commit", reg = '"' },
+        copy_commit = { action = "yank", field = "commit", reg = "+" },
         toggle_cwd = function(picker)
           if picker.opts._oil_cwd then
             picker.opts.cwd = picker.opts.cwd == nil and picker.opts._oil_cwd or nil
@@ -536,49 +649,6 @@ return {
           end
           picker:find({ refresh = true })
         end,
-        qflist_trouble = function(picker)
-          picker:close()
-          local sel = picker:selected()
-          local items = #sel > 0 and sel or picker:items()
-          local qf = {}
-          for _, item in ipairs(items) do
-            qf[#qf + 1] = {
-              filename = Snacks.picker.util.path(item),
-              bufnr = item.buf,
-              lnum = item.pos and item.pos[1] or 1,
-              col = item.pos and item.pos[2] + 1 or 1,
-              end_lnum = item.end_pos and item.end_pos[1] or nil,
-              end_col = item.end_pos and item.end_pos[2] + 1 or nil,
-              text = item.line or item.comment or item.label or item.name or item.detail or item.text,
-              pattern = item.search,
-              valid = true,
-            }
-          end
-          vim.fn.setqflist(qf)
-          vim.cmd("Trouble qflist toggle")
-        end,
-        loclist_trouble = function(picker)
-          picker:close()
-          local sel = picker:selected()
-          local items = #sel > 0 and sel or picker:items()
-          local qf = {}
-          for _, item in ipairs(items) do
-            qf[#qf + 1] = {
-              filename = Snacks.picker.util.path(item),
-              bufnr = item.buf,
-              lnum = item.pos and item.pos[1] or 1,
-              col = item.pos and item.pos[2] + 1 or 1,
-              end_lnum = item.end_pos and item.end_pos[1] or nil,
-              end_col = item.end_pos and item.end_pos[2] + 1 or nil,
-              text = item.line or item.comment or item.label or item.name or item.detail or item.text,
-              pattern = item.search,
-              valid = true,
-            }
-          end
-          vim.fn.setloclist(picker.main, qf)
-          vim.cmd("Trouble loclist toggle")
-        end,
-        yank_commit = { action = "yank", field = "commit", reg = "+" },
       },
       layouts = {
         -- Custom layouts are adapted from the "telescope" preset and are heavily inspired by my old Telescope layouts
@@ -645,6 +715,7 @@ return {
             ["<C-b>"] = false,
             ["<C-f>"] = false,
             ["<C-u>"] = false,
+            ["<C-c>"] = false,
             ["<M-BS>"] = { "<C-S-w>", mode = "i", expr = true }, -- Fix <M-BS>
           },
         },
