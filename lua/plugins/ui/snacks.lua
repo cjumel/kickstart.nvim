@@ -696,26 +696,25 @@ return {
           keys = {
             ["<Tab>"] = { "list_down", mode = "i" },
             ["<S-Tab>"] = { "list_up", mode = "i" },
-            ["<C-CR>"] = { "select_and_next", mode = "i" },
-            ["<C-BS>"] = { "select_and_prev", mode = "i" },
+            ["<C-s>"] = { "select_and_next", mode = "i" },
             ["<C-g>"] = { "list_top", mode = "i" }, -- Like the `gg` keymap
             ["<C-q>"] = { "qflist_trouble", mode = "i" },
             ["<C-l>"] = { "loclist_trouble", mode = "i" },
             ["<C-j>"] = { "preview_scroll_down", mode = "i" },
             ["<C-k>"] = { "preview_scroll_up", mode = "i" },
             ["<Esc>"] = { "cancel", mode = "i" },
-            -- Toggles
             ["π"] = { "toggle_preview", mode = "i" }, -- <M-p>
             ["Ì"] = { "toggle_hidden", mode = "i" }, -- <M-h>
             ["î"] = { "toggle_ignored", mode = "i" }, -- <M-i>
             ["©"] = { "toggle_cwd", mode = "i" }, -- <M-c>
-            -- Insert-mode keymaps to keep
             ["<C-a>"] = false,
             ["<C-e>"] = false,
             ["<C-b>"] = false,
             ["<C-f>"] = false,
             ["<C-u>"] = false,
             ["<C-c>"] = false,
+            ["<C-v>"] = false,
+            ["<C-t>"] = false,
             ["<M-BS>"] = { "<C-S-w>", mode = "i", expr = true }, -- Fix <M-BS>
           },
         },
