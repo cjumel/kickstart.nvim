@@ -168,6 +168,7 @@ return {
         Snacks.picker.grep_word({
           title = "Grep",
           layout = { preset = "telescope_vertical" },
+          show_empty = true, -- In case everything is hidden or ignored
           cwd = vim.bo.filetype == "oil" and require("oil").get_current_dir() or nil,
           _oil_cwd = require("oil").get_current_dir(),
         })
@@ -456,8 +457,19 @@ return {
           desc = "Find [F]iles",
           action = function()
             Snacks.picker.files({
+              title = "Files",
               layout = { preset = "telescope_horizontal" },
               show_empty = true, -- In case everything is hidden or ignored
+              win = {
+                input = {
+                  keys = {
+                    ---@diagnostic disable-next-line: assign-type-mismatch
+                    ["<C-y>"] = { { "yank_path", "close" }, mode = "i" },
+                    ---@diagnostic disable-next-line: assign-type-mismatch
+                    ["<C-c>"] = { { "copy_path", "close" }, mode = "i" },
+                  },
+                },
+              },
             })
           end,
         },
@@ -472,7 +484,17 @@ return {
               sort = { fields = { "score:desc", "idx" } }, -- Don't sort by item length to preserve history order
               layout = { preset = "telescope_horizontal" },
               show_empty = true, -- In case there's no recent file in the cwd, but we want them from every where
-              win = { input = { keys = { ["©"] = { "toggle_cwd_recent", mode = "i", desc = "Toggle cwd" } } } }, -- <M-c>
+              win = {
+                input = {
+                  keys = {
+                    ---@diagnostic disable-next-line: assign-type-mismatch
+                    ["<C-y>"] = { { "yank_path", "close" }, mode = "i" },
+                    ---@diagnostic disable-next-line: assign-type-mismatch
+                    ["<C-c>"] = { { "copy_path", "close" }, mode = "i" },
+                    ["©"] = { "toggle_cwd_recent", mode = "i", desc = "Toggle cwd" }, -- <M-c>
+                  },
+                },
+              },
             })
           end,
         },
@@ -482,8 +504,19 @@ return {
           desc = "Find [D]irectories",
           action = function()
             Snacks.picker.pick("directories", {
+              title = "Directories",
               layout = { preset = "telescope_horizontal" },
               show_empty = true, -- In case everything is hidden or ignored
+              win = {
+                input = {
+                  keys = {
+                    ---@diagnostic disable-next-line: assign-type-mismatch
+                    ["<C-y>"] = { { "yank_path", "close" }, mode = "i" },
+                    ---@diagnostic disable-next-line: assign-type-mismatch
+                    ["<C-c>"] = { { "copy_path", "close" }, mode = "i" },
+                  },
+                },
+              },
             })
           end,
         },
@@ -518,8 +551,16 @@ return {
           action = function()
             Snacks.picker.git_log({
               layout = { preset = "telescope_horizontal" },
-              ---@diagnostic disable-next-line: assign-type-mismatch
-              win = { input = { keys = { ["<C-y>"] = { { "yank_commit", "close" }, mode = "i" } } } },
+              win = {
+                input = {
+                  keys = {
+                    ---@diagnostic disable-next-line: assign-type-mismatch
+                    ["<C-y>"] = { { "yank_commit", "close" }, mode = "i" },
+                    ---@diagnostic disable-next-line: assign-type-mismatch
+                    ["<C-c>"] = { { "copy_commit", "close" }, mode = "i" },
+                  },
+                },
+              },
             })
           end,
         },
