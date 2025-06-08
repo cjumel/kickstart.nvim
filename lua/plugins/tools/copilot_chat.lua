@@ -12,16 +12,16 @@ return {
     "nvim-lua/plenary.nvim",
   },
   keys = {
-    { "<leader>cc", function() require("CopilotChat").toggle() end, mode = { "n", "x" }, desc = "[C]hat: toggle" },
-    { "<leader>cs", function() require("CopilotChat").stop() end, mode = { "n", "x" }, desc = "[C]hat: [S]top" },
-    { "<leader>cr", function() require("CopilotChat").reset() end, mode = { "n", "x" }, desc = "[C]hat: [R]eset" },
+    { "<leader>aa", function() require("CopilotChat").toggle() end, mode = { "n", "x" }, desc = "[A]I: toggle chat" },
+    { "<leader>as", function() require("CopilotChat").stop() end, mode = { "n", "x" }, desc = "[A]I: [S]top" },
+    { "<leader>ar", function() require("CopilotChat").reset() end, mode = { "n", "x" }, desc = "[A]I: [R]eset" },
     {
-      "<leader>cp",
+      "<leader>ap",
       function() require("CopilotChat").select_prompt() end,
       mode = { "n", "x" },
-      desc = "[C]hat: select [P]rompt",
+      desc = "[A]I: select [P]rompt",
     },
-    { "<leader>cm", function() require("CopilotChat").select_model() end, desc = "[C]hat: select [M]odel" },
+    { "<leader>am", function() require("CopilotChat").select_model() end, desc = "[A]I: select [M]odel" },
   },
   opts = {
     show_folds = false,

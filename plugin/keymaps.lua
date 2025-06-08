@@ -101,31 +101,51 @@ end
 vim.keymap.set("n", "gy", send_to_clipboard, { desc = "Send yanked to clipboard" })
 vim.keymap.set("n", 'g"', toggle_sync_with_clipboard, { desc = "Toggle register and clipboard sync" })
 
-local function yank_file_path(mods)
+local function yank_item(item)
+  if item == nil then
+    vim.notify("Nothing to yank", vim.log.levels.WARN)
+    return
+  end
+  vim.fn.setreg('"', item)
+  vim.notify('Yanked to register `"`:\n```\n' .. item .. "\n```")
+end
+local function copy_item(item)
+  if item == nil then
+    vim.notify("Nothing to copy", vim.log.levels.WARN)
+    return
+  end
+  vim.fn.setreg("+", item)
+  vim.notify("Yanked to register `+`:\n```\n" .. item .. "\n```")
+end
+
+local function get_file_path(mods)
   local path = nil
   if vim.bo.buftype == "" then -- Regular buffer
     path = vim.fn.expand("%")
-  elseif vim.bo.filetype == "oil" then -- Oil buffer
+    return vim.fn.fnamemodify(path, mods)
+  elseif vim.bo.filetype == "oil" then
     local oil = require("oil")
     path = oil.get_current_dir()
     if path ~= nil then
       path = path:gsub("/$", "") -- Remove the "/" prefix if it exists (necessary to get the tail with `mods`)
+      return vim.fn.fnamemodify(path, mods)
     end
   end
-  if path ~= nil then
-    path = vim.fn.fnamemodify(path, mods)
-    vim.fn.setreg('"', path)
-    vim.notify('Yanked to register `"`:\n```\n' .. path .. "\n```")
-  end
 end
-vim.keymap.set("n", "<leader>yp", function() yank_file_path(":~:.") end, { desc = "[Y]ank: file [P]ath" })
-vim.keymap.set("n", "<leader>ya", function() yank_file_path(":~") end, { desc = "[Y]ank: [A]bsolute file path" })
-vim.keymap.set("n", "<leader>yn", function() yank_file_path(":t") end, { desc = "[Y]ank: file [N]ame" })
+vim.keymap.set("n", "<leader>yp", function() yank_item(get_file_path(":~:.")) end, { desc = "[Y]ank: file [P]ath" })
+vim.keymap.set("n", "<leader>cp", function() copy_item(get_file_path(":~:.")) end, { desc = "[C]opy: file [P]ath" })
+vim.keymap.set("n", "<leader>yf", function() yank_item(get_file_path(":~")) end, { desc = "[Y]ank: [F]ull file path" })
+vim.keymap.set("n", "<leader>cf", function() copy_item(get_file_path(":~")) end, { desc = "[C]opy: [F]ull file path" })
+vim.keymap.set("n", "<leader>yn", function() yank_item(get_file_path(":t")) end, { desc = "[Y]ank: file [N]ame" })
+vim.keymap.set("n", "<leader>cn", function() copy_item(get_file_path(":t")) end, { desc = "[C]opy: file [N]ame" })
 
-local function yank_buffer_contents()
+local function get_buffer_content()
+  local bufnr = vim.api.nvim_get_current_buf()
+  local buflines = vim.api.nvim_buf_get_lines(bufnr, 0, -1, false)
+  return table.concat(buflines, "\n")
+end
+local function get_all_buffer_contents()
   local lines = {}
-  local bufcount = 0
-  local linecount = 0
   for _, bufnr in ipairs(vim.api.nvim_list_bufs()) do
     if
       vim.api.nvim_buf_is_valid(bufnr)
@@ -139,16 +159,26 @@ local function yank_buffer_contents()
         vim.list_extend(lines, { "File `" .. bufpath .. "`:", "```" .. vim.bo[bufnr].filetype })
         vim.list_extend(lines, buflines)
         vim.list_extend(lines, { "```", "" })
-        bufcount = bufcount + 1
-        linecount = linecount + #buflines
       end
     end
   end
-  local content = table.concat(lines, "\n")
-  vim.fn.setreg("+", content)
-  vim.notify("Yanked buffer contents to register `+` (" .. bufcount .. " buffers, " .. linecount .. " lines)")
+  return table.concat(lines, "\n")
 end
-vim.keymap.set("n", "<leader>yb", yank_buffer_contents, { desc = "[Y]ank: [B]uffer contents" })
+
+vim.keymap.set("n", "<leader>yb", function() yank_item(get_buffer_content()) end, { desc = "[Y]ank: [B]uffer" })
+vim.keymap.set("n", "<leader>cb", function() copy_item(get_buffer_content()) end, { desc = "[C]opy: [B]uffer" })
+vim.keymap.set(
+  "n",
+  "<leader>ya",
+  function() yank_item(get_all_buffer_contents()) end,
+  { desc = "[Y]ank: [A]ll buffers" }
+)
+vim.keymap.set(
+  "n",
+  "<leader>ca",
+  function() copy_item(get_all_buffer_contents()) end,
+  { desc = "[C]opy: [A]ll buffers" }
+)
 
 local function browser_search()
   local visual_mode = require("visual_mode")
