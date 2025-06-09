@@ -31,14 +31,17 @@ return {
           end
         end,
       },
-      { ",", function() require("gitsigns").nav_hunk("next", { target = "all" }) end },
-      { ";", function() require("gitsigns").nav_hunk("prev", { target = "all" }) end },
+      { ",", function() require("gitsigns").nav_hunk("next") end },
+      { ";", function() require("gitsigns").nav_hunk("prev") end },
+      { "?", function() require("gitsigns").nav_hunk("next", { target = "all" }) end },
+      { ".", function() require("gitsigns").nav_hunk("prev", { target = "all" }) end },
       { "<Esc>", nil, { exit = true, mode = "n", desc = false } },
     },
     hint = [[
-                                          Hunk   
-   _p_ ➜ [P]review hunk                  _x_ ➜ Discard hunk/selection   _;_ ➜ Previous hunk   
-   _s_ ➜ Toggle [S]tage hunk/selection   _,_ ➜ Next hunk   
+                                               Hunk   
+   _p_ ➜ [P]review hunk                  _,_ ➜ Next hunk       _?_ ➜ Next hunk (including staged)
+   _s_ ➜ Toggle [S]tage hunk/selection   _;_ ➜ Previous hunk   _._ ➜ Previous hunk (including staged)   
+   _x_ ➜ Discard hunk/selection   
 ]],
   },
 }

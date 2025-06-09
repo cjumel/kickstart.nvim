@@ -137,9 +137,15 @@ return {
         map("`", function() require("marks").next() end, function() require("marks").prev() end, "marks")
         map(
           "h",
+          function() require("gitsigns").nav_hunk("next") end,
+          function() require("gitsigns").nav_hunk("prev") end,
+          "hunk"
+        )
+        map(
+          "H",
           function() require("gitsigns").nav_hunk("next", { target = "all" }) end,
           function() require("gitsigns").nav_hunk("prev", { target = "all" }) end,
-          "hunk"
+          "hunk (including staged)"
         )
         map(
           "t",
