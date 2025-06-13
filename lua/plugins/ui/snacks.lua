@@ -308,7 +308,7 @@ return {
     {
       "<leader>tt",
       function() -- Snacks.scratch.select re-implementation simplified & restricted to the current directory
-        local widths = { 0, 0 }
+        local widths = { 0, 0, 0 }
         local items = Snacks.scratch.list()
         local selection_items = {}
         local cwd = vim.fn.fnamemodify(vim.fn.getcwd(), ":p:~")
@@ -316,15 +316,17 @@ return {
           if item.cwd and vim.fn.fnamemodify(item.cwd, ":p:~") == cwd then
             item.icon = item.icon or Snacks.util.icon(item.ft, "filetype")
             item.name = item.count > 1 and item.name .. " " .. item.count or item.name
+            item.branch = item.branch and ("   %s"):format(item.branch) or ""
             widths[1] = math.max(widths[1], vim.api.nvim_strwidth(item.icon))
             widths[2] = math.max(widths[2], vim.api.nvim_strwidth(item.name))
+            widths[3] = math.max(widths[3], vim.api.nvim_strwidth(item.branch))
             table.insert(selection_items, item)
           end
         end
         vim.ui.select(selection_items, {
           prompt = "Temp files",
           format_item = function(item)
-            local parts = { item.icon, item.name }
+            local parts = { item.icon, item.name, item.branch }
             for i, part in ipairs(parts) do
               parts[i] = part .. string.rep(" ", widths[i] - vim.api.nvim_strwidth(part))
             end
@@ -341,20 +343,22 @@ return {
     {
       "<leader>ta",
       function() -- Snacks.scratch.select re-implementation simplified
-        local widths = { 0, 0, 0 }
+        local widths = { 0, 0, 0, 0 }
         local items = Snacks.scratch.list()
         for _, item in ipairs(items) do
-          item.icon = item.icon or Snacks.util.icon(item.ft, "filetype")
           item.cwd = item.cwd and vim.fn.fnamemodify(item.cwd, ":p:~") or ""
+          item.icon = ("  %s"):format(item.icon or Snacks.util.icon(item.ft, "filetype"))
           item.name = item.count > 1 and item.name .. " " .. item.count or item.name
+          item.branch = item.branch and ("   %s"):format(item.branch) or ""
           widths[1] = math.max(widths[1], vim.api.nvim_strwidth(item.cwd))
           widths[2] = math.max(widths[2], vim.api.nvim_strwidth(item.icon))
           widths[3] = math.max(widths[3], vim.api.nvim_strwidth(item.name))
+          widths[4] = math.max(widths[4], vim.api.nvim_strwidth(item.branch))
         end
         vim.ui.select(items, {
           prompt = "Temp files (all)",
           format_item = function(item)
-            local parts = { item.cwd, item.icon, item.name }
+            local parts = { item.cwd, item.icon, item.name, item.branch }
             for i, part in ipairs(parts) do
               parts[i] = part .. string.rep(" ", widths[i] - vim.api.nvim_strwidth(part))
             end
@@ -765,9 +769,8 @@ return {
     quickfile = { enabled = true },
 
     scratch = {
-      -- Don't use nvim user data to avoid deleting files on full re-install
+      -- Don't use nvim user data to avoid losing the scratch files on full nvim cleaning
       root = vim.env.HOME .. "/.local/share/scratch-files",
-      filekey = { branch = false },
       win = {
         keys = {
           ["delete"] = {
