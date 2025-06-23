@@ -51,6 +51,8 @@ vim.keymap.set({ "n", "x" }, ")", ">", { desc = "Indent right" })
 vim.keymap.set({ "n", "v" }, "<C-^>", "}", { desc = "Next paragraph" }) -- <C-,>
 vim.keymap.set({ "n", "v" }, "<C-_>", "{", { desc = "Previous paragraph" }) -- <C-;>
 
+vim.keymap.set("n", "gp", vim.diagnostic.open_float, { desc = "Preview diagnostics" })
+
 local function clear_normal_mode()
   vim.cmd("nohlsearch") -- Clear search highlights in case `vim.o.hlsearch` is true
   if package.loaded.noice ~= nil then
