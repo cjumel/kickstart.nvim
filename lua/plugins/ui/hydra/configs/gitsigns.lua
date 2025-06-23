@@ -22,6 +22,17 @@ return {
         end,
       },
       {
+        "t",
+        function()
+          vim.g._gitsigns_all_hunk_navigation = not vim.g._gitsigns_all_hunk_navigation
+          if vim.g._gitsigns_all_hunk_navigation then
+            vim.notify("All hunk navigation enabled", vim.log.levels.INFO)
+          else
+            vim.notify("All hunk navigation disabled", vim.log.levels.INFO)
+          end
+        end,
+      },
+      {
         "x",
         function()
           if vim.fn.mode() == "n" then
@@ -31,17 +42,33 @@ return {
           end
         end,
       },
-      { ",", function() require("gitsigns").nav_hunk("next") end },
-      { ";", function() require("gitsigns").nav_hunk("prev") end },
-      { "?", function() require("gitsigns").nav_hunk("next", { target = "all" }) end },
-      { ".", function() require("gitsigns").nav_hunk("prev", { target = "all" }) end },
+      {
+        ",",
+        function()
+          if vim.g._gitsigns_all_hunk_navigation == nil or not vim.g._gitsigns_all_hunk_navigation then
+            require("gitsigns").nav_hunk("next")
+          else
+            require("gitsigns").nav_hunk("next", { target = "all" })
+          end
+        end,
+      },
+      {
+        ";",
+        function()
+          if vim.g._gitsigns_all_hunk_navigation == nil or not vim.g._gitsigns_all_hunk_navigation then
+            require("gitsigns").nav_hunk("prev")
+          else
+            require("gitsigns").nav_hunk("prev", { target = "all" })
+          end
+        end,
+      },
       { "<Esc>", nil, { exit = true, mode = "n", desc = false } },
     },
     hint = [[
-                                               Hunk   
-   _p_ ➜ [P]review hunk                  _,_ ➜ Next hunk       _?_ ➜ Next hunk (including staged)
-   _s_ ➜ Toggle [S]tage hunk/selection   _;_ ➜ Previous hunk   _._ ➜ Previous hunk (including staged)   
-   _x_ ➜ Discard hunk/selection   
+                                             Hunk
+   _p_ ➜ [P]review hunk                  _t_ ➜ [T]oggle all hunk navigation   _,_ ➜ Next hunk   
+   _s_ ➜ Toggle [S]tage hunk/selection   _x_ ➜ Discard hunk/selection         _;_ ➜ Previous hunk   
+     
 ]],
   },
 }
