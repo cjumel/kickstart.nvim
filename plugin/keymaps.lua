@@ -45,9 +45,6 @@ vim.keymap.set("n", "<Down>", "3<C-e>", { desc = "Scroll down a few lines" })
 
 -- [[ General keymaps ]]
 
-vim.keymap.set({ "n", "x" }, "(", "<", { desc = "Indent left" })
-vim.keymap.set({ "n", "x" }, ")", ">", { desc = "Indent right" })
-
 vim.keymap.set({ "n", "v" }, "<C-^>", "}", { desc = "Next paragraph" }) -- <C-,>
 vim.keymap.set({ "n", "v" }, "<C-_>", "{", { desc = "Previous paragraph" }) -- <C-;>
 
