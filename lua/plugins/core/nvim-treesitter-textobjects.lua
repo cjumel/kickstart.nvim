@@ -145,7 +145,7 @@ return {
           "H",
           function() require("gitsigns").nav_hunk("next", { target = "all" }) end,
           function() require("gitsigns").nav_hunk("prev", { target = "all" }) end,
-          "hunk (including staged)"
+          "hunk (all)"
         )
         map(
           "t",
