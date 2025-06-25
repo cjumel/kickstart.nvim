@@ -12,7 +12,7 @@ return {
       { "n", function() Snacks.notifier.show_history() end, { exit = true } },
       { "o", "<C-w>o" },
       { "q", "<C-w>q" },
-      { "r", vim.diagnostic.reset },
+      { "r", vim.diagnostic.reset, { exit = true } },
       { "s", "<C-w>s" },
       { "t", "<C-w>T" },
       { "v", "<C-w>v" },
