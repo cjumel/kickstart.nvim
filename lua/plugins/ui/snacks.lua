@@ -33,11 +33,11 @@ actions.scratch.select = function(all) -- Based on Snacks.scratch.select
     end
   end
   if vim.tbl_isempty(items) then
-    vim.notify("No temp files found", vim.log.levels.WARN)
+    vim.notify("No scratch file found", vim.log.levels.WARN)
     return
   end
   vim.ui.select(selection_items, {
-    prompt = all and "Temp files (all)" or "Temp files",
+    prompt = all and "Scratch files (all)" or "Scratch files",
     format_item = function(item)
       local parts = all and { item.cwd, item.icon, item.name, item.branch } or { item.icon, item.name, item.branch }
       for i, part in ipairs(parts) do
@@ -416,34 +416,34 @@ return {
 
     -- Scratch buffers
     {
-      "<leader>tt",
+      "<leader>ss",
       function() actions.scratch.select(false) end,
-      desc = "[T]emp files: select",
+      desc = "[S]cratch: select",
     },
     {
-      "<leader>ta",
+      "<leader>sa",
       function() actions.scratch.select(true) end,
-      desc = "[T]emp files: select [A]ll",
+      desc = "[S]cratch: select [A]ll",
     },
     {
-      "<leader>to",
+      "<leader>so",
       actions.scratch.open,
-      desc = "[T]emp files: [O]pen",
+      desc = "[S]cratch: [O]pen",
     },
     {
-      "<leader>tf",
+      "<leader>sf",
       actions.scratch.open_with_filetype,
-      desc = "[T]emp files: open with [F]iletype",
+      desc = "[S]cratch: open with [F]iletype",
     },
     {
-      "<leader>tn",
+      "<leader>sn",
       actions.scratch.open_note,
-      desc = "[T]emp files: open [N]ote",
+      desc = "[S]cratch: open [N]ote",
     },
     {
-      "<leader>tl",
+      "<leader>sl",
       actions.scratch.open_last,
-      desc = "[T]emp files: open [L]ast",
+      desc = "[S]cratch: open [L]ast",
     },
   },
   opts = {

@@ -21,16 +21,16 @@ return {
       desc = "inner quote",
     },
     {
-      "as",
+      "at",
       function() require("various-textobjs").subword("outer") end,
       mode = { "x", "o" },
-      desc = "subword",
+      desc = "token",
     },
     {
-      "is",
+      "it",
       function() require("various-textobjs").subword("inner") end,
       mode = { "x", "o" },
-      desc = "inner subword",
+      desc = "inner token",
     },
     {
       "ak",

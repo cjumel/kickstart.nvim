@@ -81,14 +81,14 @@ return {
       desc = "[E]nd of word jump",
     },
     {
-      "<leader>s",
+      "<leader>t",
       function()
         require("hop").hint_camel_case({
           current_line_only = true,
         })
       end,
       mode = { "n", "x", "o" },
-      desc = "[S]ubword jump",
+      desc = "[T]oken jump",
     },
     -- In operator-pending mode, let's make line-related keymaps act linewise, like builtin operators like "y" or "d"
     { "<leader>j", "<cmd>HopLineStartAC<CR>", mode = { "n", "x" }, desc = "Downward line jump" },
