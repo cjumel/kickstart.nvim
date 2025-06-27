@@ -7,7 +7,7 @@
 return {
   "NeogitOrg/neogit",
   dependencies = { "nvim-lua/plenary.nvim" },
-  keys = { { "<leader>gn", function() require("neogit").open() end, desc = "[G]it: [N]eogit" } },
+  keys = { { "<leader>gm", function() require("neogit").open() end, desc = "[G]it: [M]enu" } },
   opts = {
     commit_editor = { spell_check = false },
     mappings = {

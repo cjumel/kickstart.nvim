@@ -561,7 +561,9 @@ return {
             })
           end,
         },
-        { icon = "󰊢 ", key = "n", desc = "Open [N]eogit", action = function() require("neogit").open() end },
+        { icon = "󰊢 ", key = "m", desc = "Git [M]enu", action = function() require("neogit").open() end },
+        { icon = "󰚸 ", key = "s", desc = "Select [S]cratch File", action = actions.scratch.select },
+        { icon = "󱞁 ", key = "n", desc = "Open Scratch [N]ote", action = actions.scratch.open_note },
         { icon = " ", key = "q", desc = "[Q]uit", action = ":qa" },
       },
     },
