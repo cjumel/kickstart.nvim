@@ -20,5 +20,18 @@ return {
       visual_line = false,
       change_line = false,
     },
+    -- Remove the white spaces introduced when using some of the surrounds
+    surrounds = {
+      ["("] = false,
+      ["["] = false,
+      ["{"] = false,
+      ["<"] = false,
+    },
+    aliases = {
+      ["("] = ")",
+      ["["] = "]",
+      ["{"] = "}",
+      ["<"] = ">",
+    },
   },
 }
