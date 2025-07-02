@@ -82,6 +82,15 @@ return {
       },
     },
     default_template_prompt = "always",
+    component_aliases = {
+      default = {
+        { "display_duration", detail_level = 2 },
+        "on_output_summarize",
+        "on_exit_set_status",
+        "on_complete_notify",
+        { "open_output", on_start = "never", on_complete = "failure" },
+      },
+    },
   },
   config = function(_, opts)
     require("overseer").setup(opts)
