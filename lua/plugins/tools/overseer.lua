@@ -9,9 +9,9 @@ return {
   "stevearc/overseer.nvim",
   dependencies = { "williamboman/mason.nvim" }, -- Some tools (e.g. ruff or prettier) require mason.nvim
   keys = {
-    { "<leader>xx", function() require("overseer").toggle() end, desc = "E[X]ecute: toggle task list" },
+    { "<leader>oo", function() require("overseer").toggle() end, desc = "[O]verseer: toggle task list" },
     {
-      "<leader>xl",
+      "<leader>ol",
       function()
         local tasks = require("overseer").list_tasks({ recent_first = true })
         if vim.tbl_isempty(tasks) then
@@ -20,16 +20,10 @@ return {
           require("overseer").run_action(tasks[1], "restart")
         end
       end,
-      desc = "E[X]ecute: rerun [L]ast task",
+      desc = "[O]verseer: rerun [L]ast task",
     },
     {
-      "<leader>xs",
-      function() require("overseer").run_template({ name = "shell" }) end,
-      desc = "E[X]ecute: [S]hell task",
-    },
-    { "<leader>xa", function() require("overseer").run_template() end, desc = "E[X]ecute: [A]ny task" },
-    {
-      "<leader>xr",
+      "<leader>or",
       function()
         require("overseer").run_template({ tags = { "RUN" }, first = false }, function(task, _)
           if task ~= nil then
@@ -37,22 +31,22 @@ return {
           end
         end)
       end,
-      desc = "E[X]ecute: [R]un task",
+      desc = "[O]verseer: [R]un tasks",
     },
     {
-      "<leader>xt",
+      "<leader>ot",
       function() require("overseer").run_template({ tags = { "TEST" }, first = false }) end,
-      desc = "E[X]ecute: [T]est task",
+      desc = "[O]verseer: [T]est tasks",
     },
     {
-      "<leader>xc",
+      "<leader>oc",
       function() require("overseer").run_template({ tags = { "CHECK" }, first = false }) end,
-      desc = "E[X]ecute: [C]heck task",
+      desc = "[O]verseer: [C]heck tasks",
     },
     {
-      "<leader>xb",
+      "<leader>ob",
       function() require("overseer").run_template({ tags = { "BUILD" }, first = false }) end,
-      desc = "E[X]ecute: [B]uild task",
+      desc = "[O]verseer: [B]uild tasks",
     },
   },
   opts = {
