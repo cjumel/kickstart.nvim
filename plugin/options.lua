@@ -19,7 +19,6 @@ vim.wo.signcolumn = "number" -- Add signs in the number column
 vim.o.ignorecase = true -- Make search case-insensitive by default
 vim.o.smartcase = true -- Enable case-sensitive searching when "\C" or capital in search
 vim.o.hlsearch = true -- Highlight matches during search
-vim.opt.inccommand = "split" -- Preview modifications in split during incremental commands
 
 -- Folding
 

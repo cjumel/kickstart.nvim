@@ -11,17 +11,8 @@ return {
     { "go", function() require("substitute").operator() end, desc = "Overwrite" },
     { "go", function() require("substitute").visual() end, mode = "x", desc = "Overwrite" },
     -- Substitute a target in a range
-    {
-      "gs",
-      function() require("substitute.range").operator({ register = "0", auto_apply = true }) end,
-      desc = "Substitute in range",
-    },
-    {
-      "gs",
-      function() require("substitute.range").visual({ register = "0", auto_apply = true }) end,
-      mode = "x",
-      desc = "Substitute in range",
-    },
+    { "gs", function() require("substitute.range").operator() end, desc = "Substitute in range" },
+    { "gs", function() require("substitute.range").visual() end, mode = "x", desc = "Substitute in range" },
     -- Move two targets, replacing one with the other
     { "gm", function() require("substitute.exchange").operator() end, desc = "Move" },
     { "gm", function() require("substitute.exchange").visual() end, mode = "x", desc = "Move" },
