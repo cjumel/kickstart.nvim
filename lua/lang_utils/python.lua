@@ -46,14 +46,4 @@ function M.get_test_function_name()
   return nil
 end
 
--- Check if the current directory is a Python test directory.
----@return boolean
-function M.is_test_dir()
-  if vim.bo.filetype ~= "oil" then
-    return false
-  end
-  local path = vim.fn.fnamemodify(require("oil").get_current_dir() --[[@as string]], ":.")
-  return path:match("^tests/")
-end
-
 return M

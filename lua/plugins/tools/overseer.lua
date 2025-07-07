@@ -34,11 +34,6 @@ return {
       desc = "[O]verseer: [R]un tasks",
     },
     {
-      "<leader>ot",
-      function() require("overseer").run_template({ tags = { "TEST" }, first = false }) end,
-      desc = "[O]verseer: [T]est tasks",
-    },
-    {
       "<leader>oc",
       function() require("overseer").run_template({ tags = { "CHECK" }, first = false }) end,
       desc = "[O]verseer: [C]heck tasks",
