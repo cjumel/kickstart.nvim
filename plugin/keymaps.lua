@@ -83,83 +83,14 @@ vim.keymap.set("n", "<leader><CR>", "<cmd>w<CR>", { desc = "Write buffer" })
 vim.keymap.set("n", "<leader><S-CR>", "<cmd>noautocmd w<CR>", { desc = "Write buffer without auto-commands" })
 vim.keymap.set("n", "<leader><M-CR>", "<cmd>noautocmd w!<CR>", { desc = "Force write buffer without auto-commands" })
 
-local function send_to_clipboard()
-  local yanked = vim.fn.getreg('"')
-  vim.fn.setreg("+", yanked)
-  vim.notify("Yanked sent to register `+`:\n```\n" .. yanked .. "\n```")
-end
-local function toggle_sync_with_clipboard()
-  if not vim.tbl_contains(vim.opt.clipboard, "unnamedplus") then
-    vim.opt.clipboard:append("unnamedplus")
-    vim.notify("Register and clipboard sync enabled")
-  else
-    vim.opt.clipboard:remove("unnamedplus")
-    vim.notify("Register and clipboard sync disabled")
-  end
-end
-vim.keymap.set("n", "gy", send_to_clipboard, { desc = "Send yanked to clipboard" })
-vim.keymap.set("n", 'g"', toggle_sync_with_clipboard, { desc = "Toggle register and clipboard sync" })
-
-local function yank_item(item)
-  if item == nil then
-    vim.notify("Nothing to yank", vim.log.levels.WARN)
-    return
-  end
-  vim.fn.setreg('"', item)
-  vim.notify('Yanked to register `"`:\n```\n' .. item .. "\n```")
-end
-
-local function get_file_path(mods)
-  local path = nil
-  if vim.bo.buftype == "" then -- Regular buffer
-    path = vim.fn.expand("%")
-    return vim.fn.fnamemodify(path, mods)
-  elseif vim.bo.filetype == "oil" then
-    local oil = require("oil")
-    path = oil.get_current_dir()
-    if path ~= nil then
-      path = path:gsub("/$", "") -- Remove the "/" prefix if it exists (necessary to get the tail with `mods`)
-      return vim.fn.fnamemodify(path, mods)
-    end
-  end
-end
-vim.keymap.set("n", "<leader>yp", function() yank_item(get_file_path(":~:.")) end, { desc = "[Y]ank: file [P]ath" })
-vim.keymap.set("n", "<leader>yf", function() yank_item(get_file_path(":~")) end, { desc = "[Y]ank: [F]ull file path" })
-vim.keymap.set("n", "<leader>yn", function() yank_item(get_file_path(":t")) end, { desc = "[Y]ank: file [N]ame" })
-
-local function get_buffer_content()
-  local bufnr = vim.api.nvim_get_current_buf()
-  local buflines = vim.api.nvim_buf_get_lines(bufnr, 0, -1, false)
-  return table.concat(buflines, "\n")
-end
-local function get_all_buffer_contents()
-  local lines = {}
-  for _, bufnr in ipairs(vim.api.nvim_list_bufs()) do
-    if
-      vim.api.nvim_buf_is_valid(bufnr)
-      and vim.api.nvim_buf_is_loaded(bufnr)
-      and vim.api.nvim_buf_get_name(bufnr) ~= ""
-      and vim.api.nvim_get_option_value("buftype", { buf = bufnr }) == ""
-    then
-      local bufpath = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(bufnr), ":p:~:.")
-      if not bufpath:match("^~/.nvim%-scratch/") then
-        local buflines = vim.api.nvim_buf_get_lines(bufnr, 0, -1, false)
-        vim.list_extend(lines, { "File `" .. bufpath .. "`:", "```" .. vim.bo[bufnr].filetype })
-        vim.list_extend(lines, buflines)
-        vim.list_extend(lines, { "```", "" })
-      end
-    end
-  end
-  return table.concat(lines, "\n")
-end
-
-vim.keymap.set("n", "<leader>yb", function() yank_item(get_buffer_content()) end, { desc = "[Y]ank: [B]uffer" })
-vim.keymap.set(
-  "n",
-  "<leader>ya",
-  function() yank_item(get_all_buffer_contents()) end,
-  { desc = "[Y]ank: [A]ll buffers" }
-)
+local yank = require("yank")
+vim.keymap.set("n", "gy", yank.send_to_clipboard, { desc = "Send yanked to clipboard" })
+vim.keymap.set("n", 'g"', yank.toggle_sync_with_clipboard, { desc = "Toggle register and clipboard sync" })
+vim.keymap.set("n", "<leader>yp", yank.file_path, { desc = "[Y]ank: file [P]ath" })
+vim.keymap.set("n", "<leader>yf", yank.full_file_path, { desc = "[Y]ank: [F]ull file path" })
+vim.keymap.set("n", "<leader>yn", yank.file_name, { desc = "[Y]ank: file [N]ame" })
+vim.keymap.set("n", "<leader>yb", yank.buffer_content, { desc = "[Y]ank: [B]uffer content" })
+vim.keymap.set("n", "<leader>ya", yank.all_buffer_contents, { desc = "[Y]ank: [A]ll buffer contents" })
 
 local function browser_search()
   local visual_mode = require("visual_mode")

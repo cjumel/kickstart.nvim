@@ -1,23 +1,13 @@
 -- [[ Keymaps ]]
 
-local function yank_item(item)
-  if item == nil then
-    vim.notify("Nothing to yank", vim.log.levels.WARN)
-    return
-  end
-  vim.fn.setreg('"', item)
-  vim.notify('Yanked to register `"`:\n```\n' .. item .. "\n```")
+local yank = require("yank")
+local function yank_module()
+  local module = require("lang_utils.lua").get_module()
+  yank.with_notification(module)
 end
-
-vim.keymap.set(
-  "n",
-  "<leader>ym",
-  function() yank_item(require("lang_utils.lua").get_module()) end,
-  { buffer = true, desc = "[Y]ank: [M]odule" }
-)
-vim.keymap.set(
-  "n",
-  "<leader>yr",
-  function() yank_item([[dofile("]] .. vim.fn.expand("%:p:.") .. [[")]]) end,
-  { buffer = true, desc = "[Y]ank: [R]EPL command" }
-)
+local function yank_repl_command()
+  local repl_command = [[dofile("]] .. vim.fn.expand("%:p:.") .. [[")]]
+  yank.with_notification(repl_command)
+end
+vim.keymap.set("n", "<leader>ym", yank_module, { desc = "[Y]ank: [M]odule", buffer = true })
+vim.keymap.set("n", "<leader>yr", yank_repl_command, { desc = "[Y]ank: [R]EPL command", buffer = true })

@@ -8,27 +8,17 @@ vim.opt_local.formatoptions:append("rol")
 
 -- [[ Keymaps ]]
 
-local function yank_item(item)
-  if item == nil then
-    vim.notify("Nothing to yank", vim.log.levels.WARN)
-    return
-  end
-  vim.fn.setreg('"', item)
-  vim.notify('Yanked to register `"`:\n```\n' .. item .. "\n```")
+local yank = require("yank")
+local function yank_module()
+  local module = require("lang_utils.python").get_module()
+  yank.with_notification(module)
 end
-
-vim.keymap.set(
-  "n",
-  "<leader>ym",
-  function() yank_item(require("lang_utils.python").get_module()) end,
-  { buffer = true, desc = "[Y]ank: [M]odule" }
-)
-vim.keymap.set(
-  "n",
-  "<leader>yr",
-  function() yank_item([[exec(open("]] .. vim.fn.expand("%:p:.") .. [[").read())]]) end,
-  { buffer = true, desc = "[Y]ank: [R]EPL command" }
-)
+local function yank_repl_command()
+  local repl_command = [[exec(open("]] .. vim.fn.expand("%:p:.") .. [[").read())]]
+  yank.with_notification(repl_command)
+end
+vim.keymap.set("n", "<leader>ym", yank_module, { desc = "[Y]ank: [M]odule", buffer = true })
+vim.keymap.set("n", "<leader>yr", yank_repl_command, { desc = "[Y]ank: [R]EPL command", buffer = true })
 
 vim.keymap.set(
   "n",
