@@ -41,6 +41,25 @@ return {
         end,
       }),
       overseer.wrap_template(base_template, {
+        name = "pre-commit run --files <dir>",
+        priority = 1,
+        condition = { filetype = "oil" },
+        builder = function(params)
+          local path = vim.fn.fnamemodify(require("oil").get_current_dir() --[[@as string]], ":p:.")
+          local files = vim.fn.glob(path .. "**/*", false, true)
+          local valid_files = {}
+          for _, file in ipairs(files) do
+            if vim.fn.filereadable(file) == 1 then
+              table.insert(valid_files, file)
+            end
+          end
+          return {
+            cmd = { "pre-commit", "run" },
+            args = vim.list_extend({ "--files" }, vim.list_extend(valid_files, params.args)),
+          }
+        end,
+      }),
+      overseer.wrap_template(base_template, {
         name = "pre-commit run --all-files",
         priority = 2,
         builder = function(params)
