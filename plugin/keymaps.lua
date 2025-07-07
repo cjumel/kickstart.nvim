@@ -160,44 +160,43 @@ end
 vim.keymap.set("n", "<leader>yb", yank_buffer_content, { desc = "[Y]ank: [B]uffer content" })
 vim.keymap.set("n", "<leader>ya", yank_all_buffer_contents, { desc = "[Y]ank: [A]ll buffer contents" })
 
-local function visual_mode_is_on()
-  return vim.tbl_contains({
-    "v", -- Visual mode
-    "V", -- Visual line mode
-    "\22", -- Visual block modes
-  }, vim.fn.mode())
-end
-local function visual_mode_get_text()
-  local _, srow, scol = unpack(vim.fn.getpos("v"))
-  local _, erow, ecol = unpack(vim.fn.getpos("."))
-
-  local mode = vim.fn.mode()
+---@param mode string
+---@return string
+local function get_browser_search_text(mode)
   local lines = {}
-  if mode == "V" then -- Visual line mode
-    if srow > erow then
-      lines = vim.api.nvim_buf_get_lines(0, erow - 1, srow, true)
-    else
-      lines = vim.api.nvim_buf_get_lines(0, srow - 1, erow, true)
+  if mode == "v" or mode == "V" or mode == "\22" then -- Visual, visual line, or visual block mode
+    local _, srow, scol = unpack(vim.fn.getpos("v"))
+    local _, erow, ecol = unpack(vim.fn.getpos("."))
+    if mode == "v" then
+      if srow < erow or (srow == erow and scol <= ecol) then
+        lines = vim.api.nvim_buf_get_text(0, srow - 1, scol - 1, erow - 1, ecol, {})
+      else
+        lines = vim.api.nvim_buf_get_text(0, erow - 1, ecol - 1, srow - 1, scol, {})
+      end
+    elseif mode == "V" then
+      if srow > erow then
+        lines = vim.api.nvim_buf_get_lines(0, erow - 1, srow, true)
+      else
+        lines = vim.api.nvim_buf_get_lines(0, srow - 1, erow, true)
+      end
+    elseif mode == "\22" then
+      if srow > erow then
+        srow, erow = erow, srow
+      end
+      if scol > ecol then
+        scol, ecol = ecol, scol
+      end
+      for i = srow, erow do
+        table.insert(
+          lines,
+          vim.api.nvim_buf_get_text(0, i - 1, math.min(scol - 1, ecol), i - 1, math.max(scol - 1, ecol), {})[1]
+        )
+      end
     end
-  elseif mode == "v" then
-    if srow < erow or (srow == erow and scol <= ecol) then
-      lines = vim.api.nvim_buf_get_text(0, srow - 1, scol - 1, erow - 1, ecol, {})
-    else
-      lines = vim.api.nvim_buf_get_text(0, erow - 1, ecol - 1, srow - 1, scol, {})
-    end
-  elseif mode == "\22" then -- Visual block mode
-    if srow > erow then
-      srow, erow = erow, srow
-    end
-    if scol > ecol then
-      scol, ecol = ecol, scol
-    end
-    for i = srow, erow do
-      table.insert(
-        lines,
-        vim.api.nvim_buf_get_text(0, i - 1, math.min(scol - 1, ecol), i - 1, math.max(scol - 1, ecol), {})[1]
-      )
-    end
+  elseif mode == "operator" then
+    local _, srow, scol = unpack(vim.fn.getpos("'["))
+    local _, erow, ecol = unpack(vim.fn.getpos("']"))
+    lines = vim.api.nvim_buf_get_text(0, srow - 1, scol - 1, erow - 1, ecol, {})
   end
   local trimmed_lines = {}
   for _, line in ipairs(lines) do
@@ -206,9 +205,11 @@ local function visual_mode_get_text()
   end
   return table.concat(trimmed_lines, " ")
 end
-local function browser_search()
-  local default_text = visual_mode_is_on() and visual_mode_get_text() or nil
-  vim.ui.input({ prompt = "Web search", default = default_text }, function(input)
+
+---@param text string
+---@return nil
+local function browser_search(text)
+  vim.ui.input({ prompt = "Web search", default = text }, function(input)
     if input == nil or input == "" then
       return
     end
@@ -221,7 +222,21 @@ local function browser_search()
     vim.ui.open("https://www.google.com/search?q=" .. search_text)
   end)
 end
-vim.keymap.set({ "n", "v" }, "gb", browser_search, { desc = "Search in Web browser" })
+
+-- Global function called after operator motion
+function _G.browser_search_operator()
+  local text = get_browser_search_text("operator")
+  browser_search(text)
+end
+
+vim.keymap.set("n", "gb", function()
+  vim.o.operatorfunc = "v:lua.browser_search_operator"
+  return "g@"
+end, { desc = "Search in Web browser", expr = true })
+vim.keymap.set("v", "gb", function()
+  local text = get_browser_search_text(vim.fn.mode())
+  browser_search(text)
+end, { desc = "Search in Web browser" })
 
 -- [[ Insert and command-line keymaps ]]
 
