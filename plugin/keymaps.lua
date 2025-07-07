@@ -108,14 +108,6 @@ local function yank_item(item)
   vim.fn.setreg('"', item)
   vim.notify('Yanked to register `"`:\n```\n' .. item .. "\n```")
 end
-local function copy_item(item)
-  if item == nil then
-    vim.notify("Nothing to copy", vim.log.levels.WARN)
-    return
-  end
-  vim.fn.setreg("+", item)
-  vim.notify("Yanked to register `+`:\n```\n" .. item .. "\n```")
-end
 
 local function get_file_path(mods)
   local path = nil
@@ -132,11 +124,8 @@ local function get_file_path(mods)
   end
 end
 vim.keymap.set("n", "<leader>yp", function() yank_item(get_file_path(":~:.")) end, { desc = "[Y]ank: file [P]ath" })
-vim.keymap.set("n", "<leader>cp", function() copy_item(get_file_path(":~:.")) end, { desc = "[C]opy: file [P]ath" })
 vim.keymap.set("n", "<leader>yf", function() yank_item(get_file_path(":~")) end, { desc = "[Y]ank: [F]ull file path" })
-vim.keymap.set("n", "<leader>cf", function() copy_item(get_file_path(":~")) end, { desc = "[C]opy: [F]ull file path" })
 vim.keymap.set("n", "<leader>yn", function() yank_item(get_file_path(":t")) end, { desc = "[Y]ank: file [N]ame" })
-vim.keymap.set("n", "<leader>cn", function() copy_item(get_file_path(":t")) end, { desc = "[C]opy: file [N]ame" })
 
 local function get_buffer_content()
   local bufnr = vim.api.nvim_get_current_buf()
@@ -165,18 +154,11 @@ local function get_all_buffer_contents()
 end
 
 vim.keymap.set("n", "<leader>yb", function() yank_item(get_buffer_content()) end, { desc = "[Y]ank: [B]uffer" })
-vim.keymap.set("n", "<leader>cb", function() copy_item(get_buffer_content()) end, { desc = "[C]opy: [B]uffer" })
 vim.keymap.set(
   "n",
   "<leader>ya",
   function() yank_item(get_all_buffer_contents()) end,
   { desc = "[Y]ank: [A]ll buffers" }
-)
-vim.keymap.set(
-  "n",
-  "<leader>ca",
-  function() copy_item(get_all_buffer_contents()) end,
-  { desc = "[C]opy: [A]ll buffers" }
 )
 
 local function browser_search()

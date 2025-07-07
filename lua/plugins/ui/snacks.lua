@@ -165,7 +165,6 @@ return {
             input = {
               keys = {
                 ["<C-y>"] = { { "yank_path", "close" }, mode = "i" },
-                ["<C-c>"] = { { "copy_path", "close" }, mode = "i" },
                 ["<C-d>"] = { "bufdelete", mode = { "i" } },
               },
             },
@@ -208,8 +207,6 @@ return {
               keys = {
                 ---@diagnostic disable-next-line: assign-type-mismatch
                 ["<C-y>"] = { { "yank_path", "close" }, mode = "i" },
-                ---@diagnostic disable-next-line: assign-type-mismatch
-                ["<C-c>"] = { { "copy_path", "close" }, mode = "i" },
               },
             },
           },
@@ -232,8 +229,6 @@ return {
               keys = {
                 ---@diagnostic disable-next-line: assign-type-mismatch
                 ["<C-y>"] = { { "yank_path", "close" }, mode = "i" },
-                ---@diagnostic disable-next-line: assign-type-mismatch
-                ["<C-c>"] = { { "copy_path", "close" }, mode = "i" },
                 ["©"] = { "toggle_cwd_recent", mode = "i", desc = "Toggle cwd" }, -- <M-c>
               },
             },
@@ -255,8 +250,6 @@ return {
               keys = {
                 ---@diagnostic disable-next-line: assign-type-mismatch
                 ["<C-y>"] = { { "yank_path", "close" }, mode = "i" },
-                ---@diagnostic disable-next-line: assign-type-mismatch
-                ["<C-c>"] = { { "copy_path", "close" }, mode = "i" },
               },
             },
           },
@@ -389,8 +382,6 @@ return {
               keys = {
                 ---@diagnostic disable-next-line: assign-type-mismatch
                 ["<C-y>"] = { { "yank_commit", "close" }, mode = "i" },
-                ---@diagnostic disable-next-line: assign-type-mismatch
-                ["<C-c>"] = { { "copy_commit", "close" }, mode = "i" },
               },
             },
           },
@@ -409,8 +400,6 @@ return {
               keys = {
                 ---@diagnostic disable-next-line: assign-type-mismatch
                 ["<C-y>"] = { { "yank_commit", "close" }, mode = "i" },
-                ---@diagnostic disable-next-line: assign-type-mismatch
-                ["<C-c>"] = { { "copy_commit", "close" }, mode = "i" },
               },
             },
           },
@@ -473,8 +462,6 @@ return {
                   keys = {
                     ---@diagnostic disable-next-line: assign-type-mismatch
                     ["<C-y>"] = { { "yank_path", "close" }, mode = "i" },
-                    ---@diagnostic disable-next-line: assign-type-mismatch
-                    ["<C-c>"] = { { "copy_path", "close" }, mode = "i" },
                   },
                 },
               },
@@ -497,8 +484,6 @@ return {
                   keys = {
                     ---@diagnostic disable-next-line: assign-type-mismatch
                     ["<C-y>"] = { { "yank_path", "close" }, mode = "i" },
-                    ---@diagnostic disable-next-line: assign-type-mismatch
-                    ["<C-c>"] = { { "copy_path", "close" }, mode = "i" },
                     ["©"] = { "toggle_cwd_recent", mode = "i", desc = "Toggle cwd" }, -- <M-c>
                   },
                 },
@@ -520,8 +505,6 @@ return {
                   keys = {
                     ---@diagnostic disable-next-line: assign-type-mismatch
                     ["<C-y>"] = { { "yank_path", "close" }, mode = "i" },
-                    ---@diagnostic disable-next-line: assign-type-mismatch
-                    ["<C-c>"] = { { "copy_path", "close" }, mode = "i" },
                   },
                 },
               },
@@ -564,8 +547,6 @@ return {
                   keys = {
                     ---@diagnostic disable-next-line: assign-type-mismatch
                     ["<C-y>"] = { { "yank_commit", "close" }, mode = "i" },
-                    ---@diagnostic disable-next-line: assign-type-mismatch
-                    ["<C-c>"] = { { "copy_commit", "close" }, mode = "i" },
                   },
                 },
               },
@@ -665,9 +646,7 @@ return {
           vim.cmd("Trouble loclist toggle")
         end,
         yank_path = { action = "yank", field = "path", reg = '"' },
-        copy_path = { action = "yank", field = "path", reg = "+" },
         yank_commit = { action = "yank", field = "commit", reg = '"' },
-        copy_commit = { action = "yank", field = "commit", reg = "+" },
         toggle_cwd = function(picker)
           if picker.opts._oil_cwd then
             picker.opts.cwd = picker.opts.cwd == nil and picker.opts._oil_cwd or nil
@@ -763,7 +742,6 @@ return {
             ["<C-b>"] = false,
             ["<C-f>"] = false,
             ["<C-u>"] = false,
-            ["<C-c>"] = false,
             ["<C-v>"] = false,
             ["<C-t>"] = false,
             ["<M-BS>"] = { "<C-S-w>", mode = "i", expr = true }, -- Fix <M-BS>
