@@ -54,6 +54,7 @@ return {
             end
           end
           return {
+            name = "pre-commit run --files " .. path .. "**/*",
             cmd = { "pre-commit", "run" },
             args = vim.list_extend({ "--files" }, vim.list_extend(valid_files, params.args)),
           }
