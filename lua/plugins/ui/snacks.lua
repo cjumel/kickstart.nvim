@@ -375,6 +375,11 @@ return {
       desc = "[G]it: status",
     },
     {
+      "<leader>gb",
+      function() Snacks.picker.git_branches({ layout = { preset = "telescope_vertical" } }) end,
+      desc = "[G]it: [B]ranch",
+    },
+    {
       "<leader>gl",
       function()
         Snacks.picker.git_log({
@@ -540,6 +545,12 @@ return {
               },
             })
           end,
+        },
+        {
+          icon = " ",
+          key = "b",
+          desc = "Git [B]ranch",
+          action = function() Snacks.picker.git_branches({ layout = { preset = "telescope_vertical" } }) end,
         },
         {
           icon = " ",
