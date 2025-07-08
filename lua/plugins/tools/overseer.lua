@@ -1,17 +1,39 @@
 -- overseer.nvim
 --
--- Overseer is a task runner and job management plugin for Neovim. It enables running very quickly any kind of job
--- (build, test, formatting, etc.), while also taking into account the project context (e.g. only suggest a `make` job
--- when there is a Makefile, and suggest the relevant commands based on it). It is very easy to use and super
--- configurable, for instance by implementing custom job templates.
+-- A highly configurable task runner and job management plugin for Neovim.
 
 return {
   "stevearc/overseer.nvim",
-  dependencies = { "williamboman/mason.nvim" }, -- Some tools (e.g. ruff or prettier) require mason.nvim
   keys = {
-    { "<leader>oo", function() require("overseer").toggle() end, desc = "[O]verseer: toggle task list" },
+    { "<leader>mm", function() require("overseer").toggle() end, desc = "Task [M]anager: toggle task list" },
     {
-      "<leader>ol",
+      "<leader>mb",
+      function() require("overseer").run_template({ tags = { "BUILD" }, first = false }) end,
+      desc = "Task [M]anager: [B]uild tasks",
+    },
+    {
+      "<leader>mr",
+      function()
+        require("overseer").run_template({ tags = { "RUN" }, first = false }, function(task, _)
+          if task ~= nil then
+            require("overseer").open()
+          end
+        end)
+      end,
+      desc = "Task [M]anager: [R]un tasks",
+    },
+    {
+      "<leader>mc",
+      function() require("overseer").run_template({ tags = { "CHECK" }, first = false }) end,
+      desc = "Task [M]anager: [C]heck tasks",
+    },
+    {
+      "<leader>mk",
+      function() require("overseer").run_template({ tags = { "MAKE" }, first = false }) end,
+      desc = "Task [M]anager: Ma[K]e-like tasks",
+    },
+    {
+      "<leader>ml",
       function()
         local tasks = require("overseer").list_tasks({ recent_first = true })
         if vim.tbl_isempty(tasks) then
@@ -20,36 +42,14 @@ return {
           require("overseer").run_action(tasks[1], "restart")
         end
       end,
-      desc = "[O]verseer: rerun [L]ast task",
-    },
-    {
-      "<leader>or",
-      function()
-        require("overseer").run_template({ tags = { "RUN" }, first = false }, function(task, _)
-          if task ~= nil then
-            require("overseer").open()
-          end
-        end)
-      end,
-      desc = "[O]verseer: [R]un tasks",
-    },
-    {
-      "<leader>oc",
-      function() require("overseer").run_template({ tags = { "CHECK" }, first = false }) end,
-      desc = "[O]verseer: [C]heck tasks",
-    },
-    {
-      "<leader>ob",
-      function() require("overseer").run_template({ tags = { "BUILD" }, first = false }) end,
-      desc = "[O]verseer: [B]uild tasks",
+      desc = "Task [M]anager: rerun [L]ast task",
     },
   },
   opts = {
-    templates = { "shell", "make" },
-    dap = false, -- When true, this lazy-loads nvim-dap but I don't use it with overseer.nvim
+    templates = {}, -- Only use custom templates
+    dap = false,
     task_list = {
-      min_height = 0.25, -- Keep a height proportional with window height
-      -- Disable conflicting keymaps
+      min_height = 0.25,
       bindings = { ["<C-h>"] = false, ["<C-j>"] = false, ["<C-k>"] = false, ["<C-l>"] = false },
     },
     task_editor = {
@@ -60,7 +60,7 @@ return {
           ["<C-k>"] = "Prev", -- <C-p> doesn't work here
           ["<C-c>"] = "Cancel",
           ["<C-s>"] = false,
-          ["<Tab>"] = false, -- Important to let Copilot work
+          ["<Tab>"] = false, -- To let Copilot work
           ["<S-Tab>"] = false,
         },
         n = {
@@ -88,7 +88,8 @@ return {
     },
   },
   config = function(_, opts)
-    require("overseer").setup(opts)
+    local overseer = require("overseer")
+    overseer.setup(opts)
 
     -- Register custom templates
     local template_dir_path = vim.fn.stdpath("config") .. "/lua/plugins/tools/overseer/templates"
@@ -97,7 +98,8 @@ return {
       local template_file_path_split = vim.split(template_file_path, "/")
       local template_name = template_file_path_split[#template_file_path_split]:gsub("%.lua$", "")
       local template = require("plugins.tools.overseer.templates." .. template_name)
-      require("overseer").register_template(template)
+      template.name = template.name or template_name
+      overseer.register_template(template)
     end
   end,
 }
