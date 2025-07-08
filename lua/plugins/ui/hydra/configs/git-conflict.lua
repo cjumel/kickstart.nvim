@@ -1,7 +1,7 @@
 return {
-  body = "<leader>m",
+  body = "<leader>c",
   config = {
-    desc = "[M]erge conflict menu",
+    desc = "[C]onflict menu",
     color = "pink", -- Allow other keymaps while the Hydra is open (e.g. undo)
   },
   heads = {
@@ -14,7 +14,7 @@ return {
     { "<Esc>", nil, { exit = true, mode = "n", desc = false } },
   },
   hint = [[
-                           Merge Conflict   
+                              Conflict   
    _b_ ➜ Choose [B]oth   _o_ ➜ Choose [O]urs    _,_ ➜ Next conflict   
    _n_ ➜ Choose [N]one   _t_ ➜ Choose [T]eirs   _;_ ➜ Previous conflict   
 ]],
