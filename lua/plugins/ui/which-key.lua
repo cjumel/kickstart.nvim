@@ -42,7 +42,7 @@ return {
       { "<leader>a", group = "[A]I" },
       { "<leader>f", group = "[F]ind", mode = { "n", "v" } },
       { "<leader>g", group = "[G]it", mode = { "n", "v" } },
-      { "<leader>o", group = "[O]verseer" },
+      { "<leader>m", group = "Task [M]anager" },
       { "<leader>r", group = "[R]eplace", mode = { "n", "v" } },
       { "<leader>s", group = "[S]cratch" },
       { "<leader>v", group = "[V]iew" },
