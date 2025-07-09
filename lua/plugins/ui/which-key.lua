@@ -46,6 +46,7 @@ return {
       { "<leader>r", group = "[R]eplace", mode = { "n", "v" } },
       { "<leader>s", group = "[S]cratch" },
       { "<leader>v", group = "[V]iew" },
+      { "<leader>x", group = "Test" }, -- Mnemonic: like the failed test symbol
       { "<leader>y", group = "[Y]ank" },
       { "[", group = "Next" },
       { "]", group = "Previous" },

@@ -15,7 +15,6 @@ function M.build_extensions(sections)
     -- Use an empty `lualine_c` section for remaining plugin temporary filetypes, as filetype is still visible
     {
       filetypes = {
-        "aerial",
         "checkhealth",
         "copilot-chat",
         "dap-repl",
@@ -33,11 +32,12 @@ function M.build_extensions(sections)
         "NeogitRebasePopup",
         "NeogitResetPopup",
         "NeogitStatus",
+        "neotest-output-panel",
+        "neotest-summary",
         "OverseerList",
         "snacks_dashboard",
         "snacks_picker_input",
         "trouble",
-        "undotree",
       },
       sections = vim.tbl_deep_extend("force", sections, { lualine_c = modules.empty }),
     },
