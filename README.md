@@ -53,6 +53,7 @@ brew install neovim
 </details>
 <details>
 <summary>From source</summary>
+
 Download the appropriate Neovim release asset (`nvim-macos-x86_64.tar.gz` in my case) from
 [the Neovim release page](https://github.com/neovim/neovim/releases), `cd` in the download location,
 and run the following commands:
@@ -68,7 +69,7 @@ run:
 
 ```bash
 mv nvim-macos-x86_64 ~/.local/nvim-macos-x86_64-x_y_z
-ln -s ~/.local/nvim-macos-x86_64-x_y_z/bin/nvim ~/.local/bin/nvim
+ln -sf ~/.local/nvim-macos-x86_64-x_y_z/bin/nvim ~/.local/bin/nvim
 ```
 
 </details>
@@ -110,29 +111,24 @@ configuration repository, with:
 git clone --depth=1 https://github.com/cjumel/kickstart.nvim ~/.config/nvim
 ```
 
-### Install Neovim plugins
+### Open Neovim
 
-Finally, open Neovim with the `nvim` command, and the Neovim plugin manager I use,
+Then, open Neovim with the `nvim` command. First, the Neovim plugin manager I use,
 [lazy.nvim](https://github.com/folke/lazy.nvim), will automatically install all the required Neovim
-plugins.
-
-### Install Treesitter parsers
-
-Once the Neovim plugins are installed, enter the `TSInstallInfo` command (type `:` to enter
-command-line mode, then the command, and finally, press `Enter`). This will make the
-[nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter) plugin install language
+plugins. Then, when this is over, the
+[nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter) plugin will install language
 parsers for [Treesitter](https://tree-sitter.github.io/tree-sitter/) (an essential tool providing a
 variety of language-specific features, like synthax highlighting, folding, etc.)
 
-### Install Mason tools
+### Install and authentication commands
 
 With my configuration, Neovim uses a few language-specific external tools, like language servers,
 formatters, or debuggers, so we need to install them as well. To do so, enter the `MasonInstallAll`
-command. This will run the installation of many tools in the background, and you can check their
-progress using the `Mason` command.
+command (type `:` to enter command-line mode, then the command, and finally, press `Enter`). This
+will run the installation of many tools in the background, and you can check their progress using
+the `Mason` command. In addition to that, you can then enter the `Copilot setup` command to setup
+GitHub Copilot credentials, to enable AI-assisted auto-completion and chat in Neovim.
 
-### Setup Copilot
+### Restart Neovim
 
-Finally, you can then enter the `Copilot setup` command to setup GitHub Copilot credentials. Then,
-just enter the `q` (or `quit`) command to quit Neovim, and, afterwards, Neovim will be ready to be
-used with this custom configuration with a simple `nvim` shell command!
+Then, quit Neovim, by entering the `q` (or `quit`) command, and you're done!
