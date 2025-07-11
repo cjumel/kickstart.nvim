@@ -1,14 +1,12 @@
 -- nvim-treesitter
 --
--- Treesitter configurations and abstraction layer for Neovim. This plugin integrates Treesitter in Neovim, providing
--- various language-specific features (highlighting, indentation, incremental selection, etc.) It is a must-have for
--- any Neovim user, in my opinion.
+-- Treesitter configurations and abstraction layer for Neovim.
 
 return {
   "nvim-treesitter/nvim-treesitter",
+  branch = "master",
   build = ":TSUpdate",
-  event = { "BufNewFile", "BufReadPre" },
-  cmd = { "TSInstallInfo" }, -- To trigger the parsers automatic install directly from a command
+  lazy = false, -- Lazy-loading is not supported for this plugin
   opts = {
     ensure_installed = Metaconfig.treesitter_ensure_installed,
     highlight = { enable = true },

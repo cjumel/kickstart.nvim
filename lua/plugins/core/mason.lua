@@ -1,27 +1,18 @@
 -- mason.nvim
 --
--- mason.nvim is a portable package manager for Neovim that runs everywhere Neovim runs, to easily install and manage
--- LSP servers, DAP servers, linters, and formatters, for instance. It covers all the tools I need, and thus occupies a
--- central role in my configuration to integrate tools in Neovim.
+-- Portable package manager for Neovim that runs everywhere Neovim runs. Easily install and manage LSP servers, DAP
+-- servers, linters, and formatters.
 
 return {
-  "williamboman/mason.nvim",
-  cmd = {
-    "Mason",
-    "MasonUpdate",
-    "MasonInstall",
-    "MasonInstallAll",
-    "MasonUninstall",
-    "MasonUninstallAll",
-  },
-  opts = {
-    ui = { border = "rounded" }, -- Better for transparent backgrounds
-  },
+  "mason-org/mason.nvim",
+  cmd = { "Mason", "MasonInstallAll", "MasonUninstallAll" },
+  opts = {},
   config = function(_, opts)
     require("mason").setup(opts)
 
-    -- Command to ensure that the given packages are installed. This is adapted from mason-lspconfig.ensure_installed
-    -- and https://github.com/williamboman/mason.nvim/issues/1309#issuecomment-1555018732.
+    -- Command to ensure that the given packages are installed. Sources:
+    -- - mason-lspconfig.ensure_installed
+    -- - https://github.com/mason-org/mason.nvim/issues/1309#issuecomment-1555018732.
     vim.api.nvim_create_user_command("MasonInstallAll", function()
       local mason_registry = require("mason-registry")
       mason_registry.refresh(function()

@@ -5,7 +5,7 @@
 
 return {
   "mfussenegger/nvim-dap-python",
-  dependencies = { "williamboman/mason.nvim" },
+  dependencies = { "mason-org/mason.nvim" },
   lazy = true, -- Dependency of nvim-dap
   init = function()
     local mason_ensure_installed = { "debugpy" }

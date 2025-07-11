@@ -13,7 +13,7 @@ end
 
 return {
   "stevearc/conform.nvim",
-  dependencies = { "williamboman/mason.nvim" },
+  dependencies = { "mason-org/mason.nvim" },
   ft = vim.tbl_keys(formatters_by_ft),
   init = function()
     -- Enable conform formatting with Neovim's builtin formatting (see `:h gq`)

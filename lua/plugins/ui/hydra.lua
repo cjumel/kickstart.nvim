@@ -14,8 +14,7 @@ return {
     { "<leader>,", desc = "Window menu" },
   },
   opts = {
-    invoke_on_body = true,
-    hint = { float_opts = { border = "rounded" } }, -- Improve visibility in transparent backgrounds
+    invoke_on_body = false,
   },
   config = function(_, opts)
     local Hydra = require("hydra")

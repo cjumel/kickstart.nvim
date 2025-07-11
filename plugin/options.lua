@@ -1,6 +1,7 @@
 -- Global UI
 vim.o.mouse = "a" -- Enable mouse mode in all modes
 vim.o.breakindent = true -- After a line wrap, indent the part on the new virtual line
+vim.o.winborder = "rounded" -- Use rounded borders for floating windows
 vim.o.splitright = true -- Open new vertical split window on the right
 vim.o.splitbelow = true -- Open new horizontal split window below
 vim.opt.cursorline = true -- Highlight the cursor line
@@ -78,7 +79,6 @@ vim.o.timeoutlen = 300 -- Decrease delay between keys in mapped sequences
 -- Diagnostics configuration
 vim.diagnostic.config({
   virtual_text = true,
-  float = { border = "rounded" },
   severity_sort = true,
   signs = {
     text = { -- Set lualine.nvim diagnostic symbols (taken from lualine/components/diagnostics/config.lua)

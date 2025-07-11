@@ -19,7 +19,7 @@ coding with Neovim really much more enjoyable for me, compared to my previous ex
   [ripgrep](https://github.com/BurntSushi/ripgrep) to search files, directories, or within files
 
 - (optional) [npm](https://www.npmjs.com/) and [Python](https://www.python.org/), especially to
-  install external tools managed with [mason.nvim](https://github.com/williamboman/mason.nvim), like
+  install external tools managed with [mason.nvim](https://github.com/mason-org/mason.nvim), like
   language servers, formatters, debuggers, etc.
 
 - (optional) a valid [GitHub Copilot](https://github.com/features/copilot) subscription, for

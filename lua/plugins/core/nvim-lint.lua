@@ -13,7 +13,7 @@ end
 
 return {
   "mfussenegger/nvim-lint",
-  dependencies = { "williamboman/mason.nvim" },
+  dependencies = { "mason-org/mason.nvim" },
   ft = vim.tbl_keys(linters_by_ft),
   init = function()
     -- Make sure all required dependencies can be installed with the `MasonInstallAll` command
