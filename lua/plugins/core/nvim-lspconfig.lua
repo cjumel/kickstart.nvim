@@ -22,7 +22,11 @@ return {
   "neovim/nvim-lspconfig",
   dependencies = {
     "mason-org/mason.nvim",
-    "mason-org/mason-lspconfig.nvim",
+    {
+      "mason-org/mason-lspconfig.nvim",
+      -- TODO: beyond this commit, the handler feature was removed so this breaks the custom LSP configurations
+      commit = "1a31f824b9cd5bc6f342fc29e9a53b60d74af245",
+    },
     "hrsh7th/cmp-nvim-lsp",
   },
   ft = fts,
