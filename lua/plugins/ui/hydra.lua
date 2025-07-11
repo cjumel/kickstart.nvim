@@ -14,7 +14,7 @@ return {
     { "<leader>,", desc = "Window menu" },
   },
   opts = {
-    invoke_on_body = false,
+    invoke_on_body = true,
   },
   config = function(_, opts)
     local Hydra = require("hydra")
