@@ -4,6 +4,7 @@
 
 return {
   "nvim-treesitter/nvim-treesitter",
+  -- TODO: the `master` branch will not remain the default branch in the future
   branch = "master",
   build = ":TSUpdate",
   lazy = false, -- Lazy-loading is not supported for this plugin
