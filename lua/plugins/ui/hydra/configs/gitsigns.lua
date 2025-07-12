@@ -43,21 +43,21 @@ return {
     {
       ",",
       function()
-        if vim.g._gitsigns_all_hunk_navigation == nil or not vim.g._gitsigns_all_hunk_navigation then
-          require("gitsigns").nav_hunk("next")
-        else
-          require("gitsigns").nav_hunk("next", { target = "all" })
-        end
+        require("gitsigns").nav_hunk(
+          ---@diagnostic disable-next-line: param-type-mismatch
+          "next",
+          { target = vim.g._gitsigns_all_hunk_navigation and "all" or nil }
+        )
       end,
     },
     {
       ";",
       function()
-        if vim.g._gitsigns_all_hunk_navigation == nil or not vim.g._gitsigns_all_hunk_navigation then
-          require("gitsigns").nav_hunk("prev")
-        else
-          require("gitsigns").nav_hunk("prev", { target = "all" })
-        end
+        require("gitsigns").nav_hunk(
+          ---@diagnostic disable-next-line: param-type-mismatch
+          "prev",
+          { target = vim.g._gitsigns_all_hunk_navigation and "all" or nil }
+        )
       end,
     },
     { "<Esc>", nil, { exit = true, mode = "n", desc = false } },

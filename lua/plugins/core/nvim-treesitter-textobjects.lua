@@ -135,18 +135,19 @@ return {
           "error"
         )
         map("`", function() require("marks").next() end, function() require("marks").prev() end, "marks")
-        map(
-          "h",
-          function() require("gitsigns").nav_hunk("next") end,
-          function() require("gitsigns").nav_hunk("prev") end,
-          "hunk"
-        )
-        map(
-          "H",
-          function() require("gitsigns").nav_hunk("next", { target = "all" }) end,
-          function() require("gitsigns").nav_hunk("prev", { target = "all" }) end,
-          "hunk (all)"
-        )
+        map("h", function()
+          require("gitsigns").nav_hunk(
+            ---@diagnostic disable-next-line: param-type-mismatch
+            "next",
+            { target = vim.g._gitsigns_all_hunk_navigation and "all" or nil }
+          )
+        end, function()
+          require("gitsigns").nav_hunk(
+            ---@diagnostic disable-next-line: param-type-mismatch
+            "prev",
+            { target = vim.g._gitsigns_all_hunk_navigation and "all" or nil }
+          )
+        end, "hunk")
         map(
           "t",
           function() require("todo-comments").jump_next() end,
