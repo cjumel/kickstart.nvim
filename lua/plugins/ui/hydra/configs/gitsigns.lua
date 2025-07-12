@@ -22,8 +22,8 @@ return {
     {
       "t",
       function()
-        vim.g._gitsigns_all_hunk_navigation = not vim.g._gitsigns_all_hunk_navigation
-        if vim.g._gitsigns_all_hunk_navigation then
+        vim.g.gitsigns_all_hunk_navigation = not vim.g.gitsigns_all_hunk_navigation
+        if vim.g.gitsigns_all_hunk_navigation then
           vim.notify("All hunk navigation enabled", vim.log.levels.INFO)
         else
           vim.notify("All hunk navigation disabled", vim.log.levels.INFO)
@@ -46,7 +46,7 @@ return {
         require("gitsigns").nav_hunk(
           ---@diagnostic disable-next-line: param-type-mismatch
           "next",
-          { target = vim.g._gitsigns_all_hunk_navigation and "all" or nil }
+          { target = vim.g.gitsigns_all_hunk_navigation and "all" or nil }
         )
       end,
     },
@@ -56,7 +56,7 @@ return {
         require("gitsigns").nav_hunk(
           ---@diagnostic disable-next-line: param-type-mismatch
           "prev",
-          { target = vim.g._gitsigns_all_hunk_navigation and "all" or nil }
+          { target = vim.g.gitsigns_all_hunk_navigation and "all" or nil }
         )
       end,
     },

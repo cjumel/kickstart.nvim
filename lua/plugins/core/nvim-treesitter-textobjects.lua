@@ -139,13 +139,13 @@ return {
           require("gitsigns").nav_hunk(
             ---@diagnostic disable-next-line: param-type-mismatch
             "next",
-            { target = vim.g._gitsigns_all_hunk_navigation and "all" or nil }
+            { target = vim.g.gitsigns_all_hunk_navigation and "all" or nil }
           )
         end, function()
           require("gitsigns").nav_hunk(
             ---@diagnostic disable-next-line: param-type-mismatch
             "prev",
-            { target = vim.g._gitsigns_all_hunk_navigation and "all" or nil }
+            { target = vim.g.gitsigns_all_hunk_navigation and "all" or nil }
           )
         end, "hunk")
         map(
