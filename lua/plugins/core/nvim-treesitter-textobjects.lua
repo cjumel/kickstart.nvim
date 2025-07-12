@@ -1,8 +1,8 @@
 -- nvim-treesitter-textobjects
 --
--- nvim-treesitter-textobject provides syntax aware text-objects, select, move, swap, and peek support. This plugin
--- completes the nvim-treesitter plugin with the amazing feature of language-aware text-objects operations, another must
--- in my opinion.
+-- Syntax aware text-objects, select, move, swap, and peek support.
+
+local todo_comment_keywords = require("plugins.core.todo-comments.keywords")
 
 return {
   "nvim-treesitter/nvim-treesitter-textobjects",
@@ -150,14 +150,20 @@ return {
         end, "hunk")
         map(
           "t",
-          function() require("todo-comments").jump_next() end,
-          function() require("todo-comments").jump_prev() end,
+          function() require("todo-comments").jump_next({ keywords = todo_comment_keywords.todo }) end,
+          function() require("todo-comments").jump_prev({ keywords = todo_comment_keywords.todo }) end,
           "todo-comment"
         )
         map(
+          "n",
+          function() require("todo-comments").jump_next({ keywords = todo_comment_keywords.note }) end,
+          function() require("todo-comments").jump_prev({ keywords = todo_comment_keywords.note }) end,
+          "note-comment"
+        )
+        map(
           "p",
-          function() require("todo-comments").jump_next({ keywords = { "_TODO" } }) end,
-          function() require("todo-comments").jump_prev({ keywords = { "_TODO" } }) end,
+          function() require("todo-comments").jump_next({ keywords = todo_comment_keywords.private_todo }) end,
+          function() require("todo-comments").jump_prev({ keywords = todo_comment_keywords.private_todo }) end,
           "private todo-comment"
         )
         map(

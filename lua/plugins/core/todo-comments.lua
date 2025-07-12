@@ -1,8 +1,8 @@
--- Todo Comments
+-- todo-comments.nvim
 --
--- Todo Comments is a plugin to highlight, list and search todo-comments (`TODO`, `HACK`, `BUG`, etc.), in your
--- projects. It is very convenient to document directly in the code base the next steps to do, long-term issues left for
--- the future like unresolved bugs, performance issues, or simply important notes for the readers.
+-- Highlight, list and search todo comments in your projects
+
+local todo_comment_keywords = require("plugins.core.todo-comments.keywords")
 
 return {
   "folke/todo-comments.nvim",
@@ -17,19 +17,32 @@ return {
       function()
         Snacks.picker("todo_comments", {
           title = "Todo-comments",
-          show_empty = true, -- In case everything is hidden or ignored
+          keywords = todo_comment_keywords.todo,
+          hidden = true,
           layout = { preset = "telescope_vertical" },
         })
       end,
       desc = "[F]ind: [T]odo-comments",
     },
     {
+      "<leader>fn",
+      function()
+        Snacks.picker("todo_comments", {
+          title = "Note-comments",
+          keywords = todo_comment_keywords.note,
+          hidden = true,
+          layout = { preset = "telescope_vertical" },
+        })
+      end,
+      desc = "[F]ind: [N]ote-comments",
+    },
+    {
       "<leader>fp",
       function()
         Snacks.picker("todo_comments", {
           title = "Private Todo-comments",
-          keywords = { "_TODO" },
-          show_empty = true, -- In case everything is hidden or ignored
+          keywords = todo_comment_keywords.private_todo,
+          hidden = true,
           layout = { preset = "telescope_vertical" },
         })
       end,
@@ -39,6 +52,11 @@ return {
       "<leader>vt",
       function() vim.cmd("Trouble todo toggle") end,
       desc = "[V]iew: [T]odo-comments",
+    },
+    {
+      "<leader>vn",
+      function() vim.cmd("Trouble todo_note toggle") end,
+      desc = "[V]iew: [N]ote-comments",
     },
     {
       "<leader>vp",
@@ -53,7 +71,7 @@ return {
       -- Add personal keywords (must be separated to be able to search for them)
       _TODO = { icon = " ", color = "info" }, -- Like TODO
     },
-    -- Include hidden files when searching for todo-comments
+    -- Include hidden files when searching for todo-comments when using trouble.nvim
     search = { args = { "--color=never", "--no-heading", "--with-filename", "--line-number", "--column", "--hidden" } },
   },
 }

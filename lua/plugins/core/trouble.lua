@@ -1,8 +1,9 @@
--- Trouble
+-- trouble.nvim
 --
--- Trouble provides pretty lists for showing diagnostics, references, quickfix lists, etc., to help you solve all the
--- trouble your code is causing. It has a very cool and customizable user interface and is integratated with many other
--- tools, like plugins or language servers.
+-- A pretty diagnostics, references, telescope results, quickfix and location list to help you solve all the trouble
+-- your code is causing.
+
+local todo_comment_keywords = require("plugins.core.todo-comments.keywords")
 
 return {
   "folke/trouble.nvim",
@@ -66,13 +67,18 @@ return {
 
       -- Todo-comments (see todo-comments.nvim)
       todo = {
-        title = "{hl:Title}Todo-comments {hl} {count}", -- Add a title
+        title = "{hl:Title}Todo-comments {hl} {count}",
+        filter = { tag = todo_comment_keywords.todo },
+      },
+      todo_note = {
+        mode = "todo",
+        title = "{hl:Title}Note-comments {hl} {count}",
+        filter = { tag = todo_comment_keywords.note },
       },
       todo_private = {
         mode = "todo",
         title = "{hl:Title}Private todo-comments {hl} {count}",
-        filter = { tag = { "_TODO" } },
-        groups = { { "filename", format = "{file_icon} {filename} {count}" } }, -- Remove tag group as there is only one
+        filter = { tag = todo_comment_keywords.private_todo },
       },
     },
   },
