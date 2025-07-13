@@ -81,8 +81,8 @@ vim.o.timeoutlen = 300 -- Decrease delay between keys in mapped sequences
 
 -- Diagnostics configuration
 vim.diagnostic.config({
-  virtual_text = true,
   severity_sort = true,
+  float = { source = "if_many" },
   signs = {
     text = { -- Set lualine.nvim diagnostic symbols (taken from lualine/components/diagnostics/config.lua)
       [vim.diagnostic.severity.ERROR] = "󰅚 ",
@@ -91,6 +91,7 @@ vim.diagnostic.config({
       [vim.diagnostic.severity.INFO] = "󰋽 ",
     },
   },
+  virtual_text = true,
 })
 
 -- Extra filetypes detection
