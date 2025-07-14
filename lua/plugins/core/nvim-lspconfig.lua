@@ -115,11 +115,12 @@ return {
         end
         map({ "n", "i" }, "<C-s>", vim.lsp.buf.signature_help, "Signature help")
         map("n", "gd", "<cmd>Trouble lsp_definitions<CR>", "Go to definition")
-        map("n", "gD", "<cmd>Trouble lsp_type_definitions<CR>", "Go to type definition")
-        map("n", "gra", vim.lsp.buf.code_action, "Code actions")
-        map("n", "gri", "<cmd>Trouble lsp_implementations<CR>", "Implementations")
-        map("n", "grn", vim.lsp.buf.rename, "Rename")
-        map("n", "grr", "<cmd>Trouble lsp_references<CR>", "References")
+        map("n", "grt", "<cmd>Trouble lsp_type_definitions<CR>", "LSP: type definition")
+        map("n", "grd", "<cmd>Trouble lsp_declarations<CR>", "LSP: declation")
+        map("n", "gri", "<cmd>Trouble lsp_implementations<CR>", "LSP: implementation")
+        map("n", "grr", "<cmd>Trouble lsp_references<CR>", "LSP: references")
+        map("n", "gra", vim.lsp.buf.code_action, "LSP: code actions")
+        map("n", "grn", vim.lsp.buf.rename, "LSP: rename")
       end,
     })
 
