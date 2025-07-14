@@ -20,12 +20,7 @@ return {
     local mason_ensure_installed = {}
     for _, linters in pairs(linters_by_ft) do
       for _, mason_name in ipairs(linters) do
-        if
-          not vim.tbl_contains(mason_ensure_installed, mason_name)
-          and not vim.tbl_contains(vim.g.mason_ensure_installed or {}, mason_name)
-        then
-          table.insert(mason_ensure_installed, mason_name)
-        end
+        table.insert(mason_ensure_installed, mason_name)
       end
     end
     vim.g.mason_ensure_installed = vim.list_extend(vim.g.mason_ensure_installed or {}, mason_ensure_installed)

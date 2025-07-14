@@ -5,13 +5,10 @@
 
 local servers_by_ft = {
   json = {
-    jsonls = {
-      _mason_name = "json-lsp",
-    },
+    jsonls = {},
   },
   lua = {
     lua_ls = { -- Basic LS features with type annotation checking and some linting
-      _mason_name = "lua-language-server",
       settings = {
         Lua = { -- LS settings go in there (see https://luals.github.io/wiki/settings/)
           -- Disable diagnostics when passing to a function a table without the full expected type (e.g. when leaving
@@ -49,7 +46,6 @@ local servers_by_ft = {
   },
   rust = {
     rust_analyzer = {
-      _mason_name = "rust-analyzer",
       settings = {
         ["rust-analyzer"] = { -- LS settings go in there (see https://rust-analyzer.github.io/manual.html)
           -- Add parentheses when completing with a function instead of call snippets
@@ -62,9 +58,7 @@ local servers_by_ft = {
     taplo = {}, -- Linting, formating and known schema validation/documentation
   },
   typescript = {
-    ts_ls = {
-      _mason_name = "typescript-language-server",
-    },
+    ts_ls = {},
   },
   typst = {
     tinymist = { -- Basic LS features with popular formatters support
@@ -74,10 +68,16 @@ local servers_by_ft = {
     },
   },
   yaml = {
-    yamlls = { -- Validation, completion and documentation for knwon schemas
-      _mason_name = "yaml-language-server",
-    },
+    yamlls = {}, -- Validation, completion and documentation for knwon schemas
   },
+}
+
+local server_name_to_mason_name = {
+  jsonls = "json-lsp",
+  lua_ls = "lua-language-server",
+  rust_analyzer = "rust-analyzer",
+  ts_ls = "typescript-language-server",
+  yamlls = "yaml-language-server",
 }
 
 return {
@@ -91,8 +91,8 @@ return {
   init = function()
     local mason_ensure_installed = {}
     for _, ft_servers in pairs(servers_by_ft) do
-      for server_name, server_config in pairs(ft_servers) do
-        local mason_name = server_config._mason_name or server_name
+      for server_name, _ in pairs(ft_servers) do
+        local mason_name = server_name_to_mason_name[server_name] or server_name
         table.insert(mason_ensure_installed, mason_name)
       end
     end

@@ -111,23 +111,29 @@ configuration repository, with:
 git clone --depth=1 https://github.com/cjumel/kickstart.nvim ~/.config/nvim
 ```
 
-### Open Neovim
+### Open Neovim with the install command
 
-Then, open Neovim with the `nvim` command. First, the Neovim plugin manager I use,
+Then, open Neovim with the following install command, which is required only for the first launch:
+
+```bash
+nvim +MasonInstallAll
+```
+
+This will open Neovim, and the Neovim plugin manager I use,
 [lazy.nvim](https://github.com/folke/lazy.nvim), will automatically install all the required Neovim
-plugins. Then, when this is over, the
-[nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter) plugin will install language
-parsers for [Treesitter](https://tree-sitter.github.io/tree-sitter/) (an essential tool providing a
-variety of language-specific features, like synthax highlighting, folding, etc.)
+plugins. Then, the [nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter) plugin will
+install language parsers for [Treesitter](https://tree-sitter.github.io/tree-sitter/), an essential
+tool providing a variety of language-specific features, like synthax highlighting or folding, and
+the [mason.nvim](https://github.com/mason-org/mason.nvim) plugin will install all the required
+language servers, formatters, linters and debuggers.
 
-### Install and authentication commands
+When notifications stop appearing, this is over and you can quit Neovim by typing the `q` key twice,
+to quite the lazy.nvim menu and Neovim succcessively.
 
-With my configuration, Neovim uses a few language-specific external tools, like language servers,
-formatters, or debuggers, so we need to install them as well. To do so, enter the `MasonInstallAll`
-command (type `:` to enter command-line mode, then the command, and finally, press `Enter`). This
-will run the installation of many tools in the background, and you can check their progress using
-the `Mason` command.
+### You're done
 
-### Restart Neovim
+Then, you're done and you can use Neovim with this custom configuration with the regular command:
 
-Then, quit Neovim, by entering the `q` (or `quit`) command, and you're done!
+```bash
+nvim
+```

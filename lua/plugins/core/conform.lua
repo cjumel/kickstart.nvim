@@ -29,12 +29,7 @@ return {
           and Metaconfig.formatter_name_to_mason_name[formatter] ~= ""
         then
           local mason_name = Metaconfig.formatter_name_to_mason_name[formatter] or formatter
-          if
-            not vim.tbl_contains(mason_ensure_installed, mason_name)
-            and not vim.tbl_contains(vim.g.mason_ensure_installed or {}, mason_name)
-          then
-            table.insert(mason_ensure_installed, mason_name)
-          end
+          table.insert(mason_ensure_installed, mason_name)
         end
       end
     end
