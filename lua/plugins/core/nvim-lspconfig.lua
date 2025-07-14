@@ -1,15 +1,17 @@
 -- nvim-lspconfig
 --
--- Plugin containing a collection of configurations for the Neovim builtin LSP client. It does not contain neither
--- the code of the Neovim LSP itself, nor the language servers implementations. It makes super easy setting up a LSP
--- in Neovim, bridging the gap between the LSP client and the language servers implementations.
+-- nvim-lspconfig is a "data only" repo, providing basic, default Nvim LSP client configurations for various LSP
+-- servers.
 
-local language_servers_by_ft = {
+local servers_by_ft = {
   json = {
-    jsonls = {},
+    jsonls = {
+      _mason_name = "json-lsp",
+    },
   },
   lua = {
     lua_ls = { -- Basic LS features with type annotation checking and some linting
+      _mason_name = "lua-language-server",
       settings = {
         Lua = { -- LS settings go in there (see https://luals.github.io/wiki/settings/)
           -- Disable diagnostics when passing to a function a table without the full expected type (e.g. when leaving
@@ -47,6 +49,7 @@ local language_servers_by_ft = {
   },
   rust = {
     rust_analyzer = {
+      _mason_name = "rust-analyzer",
       settings = {
         ["rust-analyzer"] = { -- LS settings go in there (see https://rust-analyzer.github.io/manual.html)
           -- Add parentheses when completing with a function instead of call snippets
@@ -59,7 +62,9 @@ local language_servers_by_ft = {
     taplo = {}, -- Linting, formating and known schema validation/documentation
   },
   typescript = {
-    ts_ls = {},
+    ts_ls = {
+      _mason_name = "typescript-language-server",
+    },
   },
   typst = {
     tinymist = { -- Basic LS features with popular formatters support
@@ -69,61 +74,31 @@ local language_servers_by_ft = {
     },
   },
   yaml = {
-    yamlls = {}, -- Validation, completion and documentation for knwon schemas
+    yamlls = { -- Validation, completion and documentation for knwon schemas
+      _mason_name = "yaml-language-server",
+    },
   },
 }
-
-local language_server_name_to_mason_name = {
-  jsonls = "json-lsp",
-  lua_ls = "lua-language-server",
-  rust_analyzer = "rust-analyzer",
-  ts_ls = "typescript-language-server",
-  yamlls = "yaml-language-server",
-}
-
--- Reformat the language server configurations to match the one expected by nvim-lspconfig
-local language_servers = {}
-local fts = {}
-for ft, ft_language_servers in pairs(language_servers_by_ft) do
-  for language_server_name, language_server_config in pairs(ft_language_servers) do
-    if language_server_config then
-      language_servers[language_server_name] = language_server_config
-      if not vim.tbl_contains(fts, ft) then
-        table.insert(fts, ft)
-      end
-    end
-  end
-end
 
 return {
   "neovim/nvim-lspconfig",
   dependencies = {
     "mason-org/mason.nvim",
-    {
-      "mason-org/mason-lspconfig.nvim",
-      -- TODO: beyond this commit, the handler feature was removed so this breaks the custom LSP configurations
-      commit = "1a31f824b9cd5bc6f342fc29e9a53b60d74af245",
-    },
+    "mason-org/mason-lspconfig.nvim",
     "hrsh7th/cmp-nvim-lsp",
   },
-  ft = fts,
+  ft = vim.tbl_keys(servers_by_ft),
   init = function()
-    -- Make sure all required dependencies can be installed with the `MasonInstallAll` command
     local mason_ensure_installed = {}
-    for server_name, _ in pairs(language_servers) do
-      local mason_name = language_server_name_to_mason_name[server_name] or server_name
-      if
-        not vim.tbl_contains(mason_ensure_installed, mason_name)
-        and not vim.tbl_contains(vim.g.mason_ensure_installed or {}, mason_name)
-      then
+    for _, ft_servers in pairs(servers_by_ft) do
+      for server_name, server_config in pairs(ft_servers) do
+        local mason_name = server_config._mason_name or server_name
         table.insert(mason_ensure_installed, mason_name)
       end
     end
     vim.g.mason_ensure_installed = vim.list_extend(vim.g.mason_ensure_installed or {}, mason_ensure_installed)
   end,
   config = function()
-    -- Define a callback run each time when a language server is attached to a particular buffer where we can define
-    -- buffer-local keymaps
     vim.api.nvim_create_autocmd("LspAttach", {
       group = vim.api.nvim_create_augroup("NvimLspconfigKeymaps", { clear = true }),
       callback = function(event)
@@ -138,7 +113,6 @@ return {
           opts.buffer = event.buf
           vim.keymap.set(mode, lhs, rhs, opts)
         end
-
         map({ "n", "i" }, "<C-s>", vim.lsp.buf.signature_help, "Signature help")
         map("n", "gd", "<cmd>Trouble lsp_definitions<CR>", "Go to definition")
         map("n", "gD", "<cmd>Trouble lsp_type_definitions<CR>", "Go to type definition")
@@ -149,25 +123,22 @@ return {
       end,
     })
 
-    -- LSP servers & clients (Neovim) are able to communicate to each other what features they support. By default,
-    -- Neovim doesn't support everything that is in the LSP Specification. With nvim-cmp, Neovim has more capabilities,
-    -- so we create these new capabilities to broadcast them to the servers.
     local capabilities = vim.lsp.protocol.make_client_capabilities()
     local cmp_capabilities = require("cmp_nvim_lsp").default_capabilities()
     capabilities = vim.tbl_deep_extend("force", capabilities, cmp_capabilities)
 
-    -- Make sure the language servers are installed and set them up. Mason is responsible for installing and managing
-    -- language servers, so it must be setup before mason-lspconfig.
+    for _, ft_servers in pairs(servers_by_ft) do
+      for server_name, server_config in pairs(ft_servers) do
+        require("lspconfig")[server_name].setup({
+          capabilities = capabilities,
+          settings = server_config.settings or {},
+          on_init = server_config.on_init or nil,
+        })
+      end
+    end
+
     require("mason-lspconfig").setup({
-      handlers = {
-        function(server_name)
-          local server = language_servers[server_name] or {}
-          -- This handles overriding only values explicitly passed by the server configuration above, which can be
-          -- useful when disabling certain features of a language server
-          server.capabilities = vim.tbl_deep_extend("force", {}, capabilities, server.capabilities or {})
-          require("lspconfig")[server_name].setup(server)
-        end,
-      },
+      automatic_enable = false,
     })
   end,
 }
