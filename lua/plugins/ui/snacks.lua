@@ -7,8 +7,9 @@
 local actions = {}
 actions.scratch = {}
 
-actions.scratch.select = function(all) -- Based on Snacks.scratch.select
-  all = all or false
+actions.scratch.select = function(opts) -- Based on Snacks.scratch.select
+  opts = opts or {}
+  local all = opts.all or false
   local items = Snacks.scratch.list()
   local selection_items = {}
   local widths = all and { 0, 0, 0, 0 } or { 0, 0, 0 }
@@ -411,12 +412,12 @@ return {
     -- Scratch buffers
     {
       "<leader>ss",
-      function() actions.scratch.select(false) end,
+      function() actions.scratch.select({ all = false }) end,
       desc = "[S]cratch: select",
     },
     {
       "<leader>sa",
-      function() actions.scratch.select(true) end,
+      function() actions.scratch.select({ all = true }) end,
       desc = "[S]cratch: select [A]ll",
     },
     {
