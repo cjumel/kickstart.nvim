@@ -27,11 +27,6 @@ vim.g.maplocalleader = "  "
 -- Setup background category from current theme, so that plugins can use it
 vim.opt.background = Theme.background or "dark"
 
--- Setup environment variables defined in `Metaconfig`
-for key, value in pairs(Metaconfig.environment_variables or {}) do
-  vim.fn.setenv(key, value)
-end
-
 -- Setup lazy.nvim
 require("lazy").setup({
   spec = {

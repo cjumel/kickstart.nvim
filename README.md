@@ -126,8 +126,7 @@ With my configuration, Neovim uses a few language-specific external tools, like 
 formatters, or debuggers, so we need to install them as well. To do so, enter the `MasonInstallAll`
 command (type `:` to enter command-line mode, then the command, and finally, press `Enter`). This
 will run the installation of many tools in the background, and you can check their progress using
-the `Mason` command. In addition to that, you can then enter the `Copilot setup` command to setup
-GitHub Copilot credentials, to enable AI-assisted auto-completion and chat in Neovim.
+the `Mason` command.
 
 ### Restart Neovim
 

@@ -9,7 +9,41 @@ return {
   build = ":TSUpdate",
   lazy = false, -- Lazy-loading is not supported for this plugin
   opts = {
-    ensure_installed = Metaconfig.treesitter_ensure_installed,
+    ensure_installed = {
+      "bash",
+      "csv",
+      "diff",
+      "dockerfile",
+      "editorconfig",
+      "git_config",
+      "git_rebase",
+      "gitattributes",
+      "gitcommit",
+      "gitignore",
+      "javascript",
+      "json",
+      "jsonc",
+      "lua",
+      "luadoc", -- Lua docstrings
+      "luap", -- Lua search patterns
+      "make",
+      "markdown",
+      "markdown_inline", -- Advanced Markdown features (e.g. concealing)
+      "proto",
+      "python",
+      "regex",
+      "requirements",
+      "rust",
+      "sql",
+      "ssh_config",
+      "tmux",
+      "toml",
+      "typescript",
+      "typst",
+      "vim",
+      "vimdoc", -- Vim help files
+      "yaml",
+    },
     highlight = { enable = true },
     indent = { enable = true },
     incremental_selection = {

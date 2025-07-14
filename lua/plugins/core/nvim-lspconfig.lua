@@ -4,10 +4,87 @@
 -- the code of the Neovim LSP itself, nor the language servers implementations. It makes super easy setting up a LSP
 -- in Neovim, bridging the gap between the LSP client and the language servers implementations.
 
+local language_servers_by_ft = {
+  json = {
+    jsonls = {},
+  },
+  lua = {
+    lua_ls = { -- Basic LS features with type annotation checking and some linting
+      settings = {
+        Lua = { -- LS settings go in there (see https://luals.github.io/wiki/settings/)
+          -- Disable diagnostics when passing to a function a table without the full expected type (e.g. when leaving
+          -- some values to their default)
+          diagnostics = { disable = { "missing-fields" } },
+        },
+      },
+    },
+  },
+  markdown = {
+    marksman = {},
+  },
+  python = {
+    -- Pyright provides basic LS and advanced type checking features. However, it misses some more advanced LS
+    -- features, which are reserved for Pylance, Microsoft's dedicated and close-source LSP.
+    -- Basedpyright is built on top of Pyright to provide the more advanced LS features Pyright is missing, as well as
+    -- additional type checking features.
+    basedpyright = {
+      settings = {
+        basedpyright = {
+          analysis = {
+            -- Relax the type checking mode. The default mode raises a lot of warnings and errors, which are more
+            -- suited when used as the main type checker of a project, similarly to Mypy's strict mode. Stricter modes
+            -- can be used on a per-project basis where basedpyright is used as the main type checker.
+            typeCheckingMode = "standard",
+          },
+        },
+      },
+      on_init = function(client, _)
+        -- Disable semantic tokens as it degrades the syntax highlighting provided by Treesitter
+        client.server_capabilities.semanticTokensProvider = nil
+      end,
+    },
+    ruff = {}, -- Linting and formatting, integrated with code actions
+  },
+  rust = {
+    rust_analyzer = {
+      settings = {
+        ["rust-analyzer"] = { -- LS settings go in there (see https://rust-analyzer.github.io/manual.html)
+          -- Add parentheses when completing with a function instead of call snippets
+          completion = { callable = { snippets = "add_parentheses" } },
+        },
+      },
+    },
+  },
+  toml = {
+    taplo = {}, -- Linting, formating and known schema validation/documentation
+  },
+  typescript = {
+    ts_ls = {},
+  },
+  typst = {
+    tinymist = { -- Basic LS features with popular formatters support
+      settings = {
+        formatterMode = "typstyle", -- Default formatter
+      },
+    },
+  },
+  yaml = {
+    yamlls = {}, -- Validation, completion and documentation for knwon schemas
+  },
+}
+
+local language_server_name_to_mason_name = {
+  jsonls = "json-lsp",
+  lua_ls = "lua-language-server",
+  rust_analyzer = "rust-analyzer",
+  ts_ls = "typescript-language-server",
+  yamlls = "yaml-language-server",
+}
+
 -- Reformat the language server configurations to match the one expected by nvim-lspconfig
 local language_servers = {}
 local fts = {}
-for ft, ft_language_servers in pairs(Metaconfig.language_servers_by_ft) do
+for ft, ft_language_servers in pairs(language_servers_by_ft) do
   for language_server_name, language_server_config in pairs(ft_language_servers) do
     if language_server_config then
       language_servers[language_server_name] = language_server_config
@@ -34,7 +111,7 @@ return {
     -- Make sure all required dependencies can be installed with the `MasonInstallAll` command
     local mason_ensure_installed = {}
     for server_name, _ in pairs(language_servers) do
-      local mason_name = Metaconfig.language_server_name_to_mason_name[server_name] or server_name
+      local mason_name = language_server_name_to_mason_name[server_name] or server_name
       if
         not vim.tbl_contains(mason_ensure_installed, mason_name)
         and not vim.tbl_contains(vim.g.mason_ensure_installed or {}, mason_name)
@@ -84,7 +161,7 @@ return {
     require("mason-lspconfig").setup({
       handlers = {
         function(server_name)
-          local server = vim.deepcopy(language_servers[server_name] or {}) -- Make sure the Metaconfig doesn't change
+          local server = language_servers[server_name] or {}
           -- This handles overriding only values explicitly passed by the server configuration above, which can be
           -- useful when disabling certain features of a language server
           server.capabilities = vim.tbl_deep_extend("force", {}, capabilities, server.capabilities or {})
