@@ -20,6 +20,9 @@ return {
     editorconfig = { "trim_newlines", "trim_whitespace" },
     gitconfig = { "trim_newlines", "trim_whitespace" },
     gitignore = { "trim_newlines", "trim_whitespace" },
+    javascript = { "prettier" },
+    json = { "prettier" },
+    jsonc = { "prettier" },
     lua = { "stylua" },
     make = { "trim_newlines", "trim_whitespace" },
     markdown = { "mdformat" },
@@ -32,6 +35,7 @@ return {
     text = { "trim_newlines", "trim_whitespace" },
     tmux = { "trim_newlines", "trim_whitespace" },
     toml = { lsp_format = "first" }, -- If enabled, the taplo LSP will provide formatting
+    typescript = { "prettier" },
     typst = { lsp_format = "first" }, -- If enabled, the tinymist LSP will provide formatting
     vim = { "trim_newlines", "trim_whitespace" },
     yaml = { "yamlfmt" },
