@@ -17,7 +17,7 @@ return {
     trig = "bold",
     desc = "`**…**`",
   }, {
-    t("**"), -- Using asterix is more robust than underscores as it works also within words & is preferred by Prettier
+    t("**"), -- Using asterix is more standard & robust than underscores as it works also within words
     i(1),
     t("**"),
   }),
@@ -26,7 +26,7 @@ return {
     trig = "bold-italic",
     desc = "`**_…_**`",
   }, {
-    t("**_"), -- Using asterix is more robust than underscores as it works also within words & is preferred by Prettier
+    t("**_"), -- Using asterix is more standard & robust than underscores as it works also within words
     i(1),
     t("_**"),
   }),

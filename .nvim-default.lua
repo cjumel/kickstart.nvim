@@ -20,12 +20,9 @@ return {
     editorconfig = { "trim_newlines", "trim_whitespace" },
     gitconfig = { "trim_newlines", "trim_whitespace" },
     gitignore = { "trim_newlines", "trim_whitespace" },
-    javascript = { "prettier" },
-    json = { "prettier" },
-    jsonc = { "prettier" },
     lua = { "stylua" },
     make = { "trim_newlines", "trim_whitespace" },
-    markdown = { "prettier" }, -- Prettier is the only formatter I found which supports GitHub Flavored Markdown
+    markdown = { "mdformat" },
     python = {
       "ruff_organize_imports", -- Apply Ruff import organization
       lsp_format = "last", -- If enabled, the Ruff LSP will provide formatting
@@ -35,13 +32,9 @@ return {
     text = { "trim_newlines", "trim_whitespace" },
     tmux = { "trim_newlines", "trim_whitespace" },
     toml = { lsp_format = "first" }, -- If enabled, the taplo LSP will provide formatting
-    typescript = { "prettier" },
     typst = { lsp_format = "first" }, -- If enabled, the tinymist LSP will provide formatting
     vim = { "trim_newlines", "trim_whitespace" },
-    yaml = {
-      "prettier",
-      "trim_newlines", -- Prettier doesn't remove trailing new lines in YAML
-    },
+    yaml = { "yamlfmt" },
     zsh = { "shfmt" }, -- Not actually for zsh, but in my use case it works fine
   },
 
@@ -95,7 +88,6 @@ return {
     [".env.test"] = "sh", -- same as `.env`
     [".env.test.example"] = "sh", -- same as `.env`
     [".gitignore-global"] = ".gitignore",
-    [".prettierignore"] = "gitignore",
     ["ignore"] = "gitignore",
     ["uv.lock"] = "toml",
     ["poetry.lock"] = "toml",
