@@ -116,7 +116,7 @@ git clone --depth=1 https://github.com/cjumel/kickstart.nvim ~/.config/nvim
 Then, open Neovim with the following install command, which is required only for the first launch:
 
 ```bash
-nvim +MasonInstallAll
+NVIM_ENABLE_ALL_PLUGINS=1 nvim +MasonInstallAll
 ```
 
 This will open Neovim, and the Neovim plugin manager I use,
