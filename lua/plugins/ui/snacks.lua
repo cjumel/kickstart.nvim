@@ -725,10 +725,17 @@ return {
       win = {
         input = {
           keys = {
+            ["<CR>"] = { "confirm", mode = "i" },
+            ["<C-CR>"] = { "select_and_next", mode = "i" },
+            ["<C-BS>"] = { "select_and_prev", mode = "i" },
             ["<Tab>"] = { "list_down", mode = "i" },
             ["<S-Tab>"] = { "list_up", mode = "i" },
-            ["<C-s>"] = { "select_and_next", mode = "i" },
+            ["<C-n>"] = { "list_down", mode = "i" },
+            ["<C-p>"] = { "list_up", mode = "i" },
             ["<C-g>"] = { "list_top", mode = "i" }, -- Like the `gg` keymap
+            ["<C-s>"] = { "edit_split", mode = "i" },
+            ["<C-v>"] = { "edit_vsplit", mode = "i" },
+            ["<C-t>"] = { "tab", mode = "i" },
             ["<C-q>"] = { "qflist_trouble", mode = "i" },
             ["<C-l>"] = { "loclist_trouble", mode = "i" },
             ["<C-j>"] = { "preview_scroll_down", mode = "i" },
@@ -743,8 +750,6 @@ return {
             ["<C-b>"] = false,
             ["<C-f>"] = false,
             ["<C-u>"] = false,
-            ["<C-v>"] = false,
-            ["<C-t>"] = false,
             ["<M-BS>"] = { "<C-S-w>", mode = "i", expr = true }, -- Fix <M-BS>
           },
         },
