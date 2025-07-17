@@ -10,19 +10,15 @@ vim.opt.pumheight = 30 -- Maximum number of items to show in the popup menu (e.g
 vim.o.matchpairs = vim.o.matchpairs .. ",<:>" -- Add recognized character pair
 vim.o.diffopt = "internal,filler,closeoff" -- Remove linematch from diffopt
 
--- Theme-specific options
-if Theme.options_callback then -- Additional theme options setting
-  Theme.options_callback()
-end
-
 -- Side column
 vim.wo.number = true -- Enable absolute line numbering
 vim.wo.signcolumn = "number" -- Add signs in the number column
 
--- Search & replace
-vim.o.ignorecase = true -- Make search case-insensitive by default
+-- Search
+vim.o.ignorecase = true -- Case-insensitive by default
 vim.o.smartcase = true -- Enable case-sensitive searching when "\C" or capital in search
 vim.o.hlsearch = true -- Highlight matches during search
+vim.opt.shortmess:append("S") -- Remove inline search count during searching (done in statusline instead)
 
 -- Folding
 
@@ -93,6 +89,11 @@ vim.diagnostic.config({
   },
   virtual_text = true,
 })
+
+-- Theme-specific options
+if Theme.options_callback then -- Additional theme options setting
+  Theme.options_callback()
+end
 
 -- Extra filetypes detection
 vim.filetype.add({ filename = Metaconfig.extra_filename_to_filetype })

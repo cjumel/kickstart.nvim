@@ -1,11 +1,8 @@
 local M = {}
 
--- Module to not show anything in a status line component
 M.empty = { function() return "" end }
 
--- Module to display a message in a status line component when recording a macro
--- Source: https://github.com/folke/noice.nvim/wiki/Configuration-Recipes#show-recording-messages
-M.macro = {
+M.macro = { -- Display macro recording status when there is one
   function()
     local noice = package.loaded.noice
     if noice ~= nil then
@@ -18,14 +15,21 @@ M.macro = {
       return noice.api.statusline.mode.has()
     end
   end,
-  color = { fg = "#ff9e64" },
+  color = { fg = "#ff9e64" }, -- Orange
 }
 
--- Module to show the path of the directory opened with Oil (instead of Oil's buffer path) in a status line component
+M.searchcount = {
+  "searchcount",
+  color = { fg = "#ff9e64" }, -- Orange
+}
+
 M.oil = {
   function()
     local oil = package.loaded.oil
-    return vim.fn.fnamemodify(oil.get_current_dir(), ":p:~:.")
+    if oil ~= nil then
+      local path = oil.get_current_dir()
+      return vim.fn.fnamemodify(path, ":p:~:.")
+    end
   end,
 }
 

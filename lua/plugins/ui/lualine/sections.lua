@@ -14,7 +14,11 @@ M.default = {
     "diff",
     "diagnostics",
   },
-  lualine_x = { modules.macro, "filetype" },
+  lualine_x = {
+    modules.macro,
+    modules.searchcount,
+    "filetype",
+  },
   lualine_y = { "location" },
   lualine_z = { "progress" },
 }
@@ -27,7 +31,13 @@ M.minimalist = {
     "diff",
     "diagnostics",
   },
-  lualine_x = { modules.macro, "filetype", "location", "progress" },
+  lualine_x = {
+    modules.macro,
+    modules.searchcount,
+    "filetype",
+    "location",
+    "progress",
+  },
   lualine_y = {},
   lualine_z = {},
 }
