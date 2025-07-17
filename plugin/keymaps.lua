@@ -49,6 +49,7 @@ vim.keymap.set({ "n", "v" }, "<C-^>", "}", { desc = "Next paragraph" }) -- <C-,>
 vim.keymap.set({ "n", "v" }, "<C-_>", "{", { desc = "Previous paragraph" }) -- <C-;>
 
 vim.keymap.set("n", "gp", vim.diagnostic.open_float, { desc = "Preview diagnostics" })
+vim.keymap.set("n", "gl", vim.diagnostic.reset, { desc = "Reload diagnostics" })
 
 local function clear_normal_mode()
   vim.cmd("nohlsearch") -- Clear search highlights in case `vim.o.hlsearch` is true

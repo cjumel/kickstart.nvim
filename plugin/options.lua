@@ -1,24 +1,25 @@
--- Global UI
+-- Window
+vim.o.showtabline = 1 -- Show tabline only when there are multiple tabs
+vim.o.laststatus = 3 -- Global status line for all windows
+vim.wo.number = true -- Absolute line numbering
+vim.wo.signcolumn = "number" -- Merge sign and number columns together
+vim.opt.cursorline = true -- Highlight the cursor line
+vim.opt.showmode = false -- Don't show mode in status line (done with lualine.nvim instead)
+
+-- Editor
 vim.o.mouse = "a" -- Enable mouse mode in all modes
 vim.o.breakindent = true -- After a line wrap, indent the part on the new virtual line
 vim.o.winborder = "rounded" -- Use rounded borders for floating windows
 vim.o.splitright = true -- Open new vertical split window on the right
 vim.o.splitbelow = true -- Open new horizontal split window below
-vim.opt.cursorline = true -- Highlight the cursor line
-vim.opt.showmode = false -- Don't show mode in status line (this is handled by lualine.nvim)
 vim.opt.pumheight = 30 -- Maximum number of items to show in the popup menu (e.g. for completion)
 vim.o.matchpairs = vim.o.matchpairs .. ",<:>" -- Add recognized character pair
-vim.o.diffopt = "internal,filler,closeoff" -- Remove linematch from diffopt
-
--- Side column
-vim.wo.number = true -- Enable absolute line numbering
-vim.wo.signcolumn = "number" -- Add signs in the number column
 
 -- Search
-vim.o.ignorecase = true -- Case-insensitive by default
+vim.o.ignorecase = true -- Case-insensitive searching by default
 vim.o.smartcase = true -- Enable case-sensitive searching when "\C" or capital in search
 vim.o.hlsearch = true -- Highlight matches during search
-vim.opt.shortmess:append("S") -- Remove inline search count during searching (done in statusline instead)
+vim.opt.shortmess:append("S") -- Remove inline search count during searching (done with lualine.nvim instead)
 
 -- Folding
 
@@ -66,16 +67,15 @@ vim.opt.foldlevelstart = 99 -- Open buffers with no fold closed
 vim.opt.fillchars = { fold = " " } -- Remove dots filling at the end of folded lines
 vim.opt.foldtext = "v:lua.custom_foldtext()" -- Custom folded line text
 
--- Disable builtin auto-completion
-vim.o.complete = ""
-vim.o.completeopt = ""
-
 -- Internals
 vim.o.undofile = true -- Save undo history to file
 vim.o.updatetime = 250 -- Decrease delay for writting swap files
 vim.o.timeoutlen = 300 -- Decrease delay between keys in mapped sequences
+vim.o.diffopt = "internal,filler,closeoff" -- Remove linematch from diffopt (important for gitsigns.nvim hunk jumps)
+vim.o.complete = "" -- Disable builtin auto-completion
+vim.o.completeopt = "" -- Remove builtin auto-completion options
 
--- Diagnostics configuration
+-- Diagnostics
 vim.diagnostic.config({
   severity_sort = true,
   float = { source = "if_many" },
