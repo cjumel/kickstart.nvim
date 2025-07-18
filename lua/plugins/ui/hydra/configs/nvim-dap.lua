@@ -3,6 +3,9 @@ return {
   config = {
     desc = "[D]ebug menu",
     color = "pink", -- Allow other keymaps while the Hydra is open (e.g. move cursor to preview variables)
+    on_enter = function()
+      require("dapui") -- Lazy-load nvim-dap-ui to make sure everything is setup properly
+    end,
   },
   heads = {
     { "b", function() require("dap").toggle_breakpoint() end },
