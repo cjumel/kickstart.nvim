@@ -54,6 +54,7 @@ return {
       },
       symbols = {
         title = "{hl:Title}Symbols{hl} {count}",
+        focus = true, -- For some reason this needs to be specified again here
         open_no_results = true, -- The LSP can be slow to compute symbols
         groups = {}, -- There is only one group
         format = "{kind_icon} {symbol.name}",
