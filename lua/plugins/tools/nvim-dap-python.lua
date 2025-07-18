@@ -40,24 +40,49 @@ return {
           return vim.list_extend(base_args, vim.split(args_string, " "))
         end
       end
-      return {
-        {
+
+      local configs = {}
+      if not python_utils.is_test_file() then
+        table.insert(configs, {
           type = "python",
           request = "launch",
           name = "python <file>",
           program = "${file}",
           console = "integratedTerminal",
           args = args_dialogue(),
-        },
-        {
+        })
+        table.insert(configs, {
           type = "python",
           request = "launch",
           name = "python -m <module>",
           module = python_utils.get_module(),
           console = "integratedTerminal",
           args = args_dialogue(),
-        },
-      }
+        })
+      else
+        if vim.fn.executable("pytest") == 1 then
+          local test_function_name = python_utils.get_test_function_name()
+          if test_function_name ~= nil then
+            table.insert(configs, {
+              type = "python",
+              request = "launch",
+              name = "pytest <function>",
+              module = "pytest",
+              console = "integratedTerminal",
+              args = args_dialogue({ "${file}::" .. test_function_name }),
+            })
+          end
+          table.insert(configs, {
+            type = "python",
+            request = "launch",
+            name = "pytest <file>",
+            module = "pytest",
+            console = "integratedTerminal",
+            args = args_dialogue({ "${file}" }),
+          })
+        end
+      end
+      return configs
     end
 
     -- Enable debugpy to detect errors caught by pytest and break

@@ -1,8 +1,6 @@
 -- Hydra.nvim
 --
--- This plugin provides a Neovim implementation of the famous Emacs Hydra package. It makes possible to define sub-menus
--- in Neovim, to make a set of actions a lot simpler to use than through regular keymaps, as there's no need to repeat
--- the common prefix in between the actions.
+-- This is the Neovim implementation of the famous Emacs Hydra package, to create custom submodes and menus.
 
 return {
   "nvimtools/hydra.nvim",
