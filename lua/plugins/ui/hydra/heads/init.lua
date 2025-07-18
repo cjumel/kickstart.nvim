@@ -8,33 +8,30 @@ local head_names = {
   "window",
 }
 
-M.configs = {}
+local configs = {}
 
-M.is_setup = function() return not vim.tbl_isempty(M.configs) end
-
-M.setup = function()
-  if M.is_setup() then
+local function setup()
+  if not vim.tbl_isempty(configs) then
     return
   end
   for _, name in ipairs(head_names) do
-    local ok, config = pcall(require, "config.hydra." .. name)
+    local ok, config = pcall(require, "plugins.ui.hydra.heads." .. name)
     if not ok then
       vim.warning("Failed to load Hydra config: " .. name)
     else
-      table.insert(M.configs, config)
+      table.insert(configs, config)
     end
   end
 end
 
 M.get_configs = function()
-  M.setup()
-  return M.configs
+  setup()
+  return configs
 end
 
 M.get_keys = function()
-  local configs = M.get_configs()
   local keys = {}
-  for _, config in ipairs(configs) do
+  for _, config in ipairs(M.get_configs()) do
     table.insert(keys, {
       config.body,
       desc = config.config.desc,

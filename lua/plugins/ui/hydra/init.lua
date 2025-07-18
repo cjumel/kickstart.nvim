@@ -5,8 +5,8 @@
 return {
   "nvimtools/hydra.nvim",
   keys = function()
-    local hydra_config = require("config.hydra")
-    return hydra_config.get_keys()
+    local hydra_heads = require("plugins.ui.hydra.heads")
+    return hydra_heads.get_keys()
   end,
   opts = {
     invoke_on_body = true,
@@ -15,8 +15,8 @@ return {
     local Hydra = require("hydra")
     Hydra.setup(opts)
 
-    local hydra_config = require("config.hydra")
-    for _, config in ipairs(hydra_config.get_configs()) do
+    local hydra_heads = require("plugins.ui.hydra.heads")
+    for _, config in ipairs(hydra_heads.get_configs()) do
       Hydra(config)
     end
   end,
