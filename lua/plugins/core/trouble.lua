@@ -8,15 +8,16 @@ local todo_comment_keywords = require("plugins.core.todo-comments.keywords")
 return {
   "folke/trouble.nvim",
   dependencies = { "nvim-tree/nvim-web-devicons" },
-  cmd = { "Trouble" }, -- Useful for other plugins calling Trouble through a command
+  cmd = { "Trouble" }, -- For other plugins calling trouble.nvim through a command
   keys = {
-    { "<leader>vd", "<cmd>Trouble diagnostics_document toggle<CR>", desc = "[V]iew: [D]iagnostics" },
-    { "<leader>vw", "<cmd>Trouble diagnostics toggle<CR>", desc = "[V]iew: [W]orkspace diagnostics" },
-    { "<leader>vl", "<cmd>Trouble loclist toggle<CR>", desc = "[V]iew: [L]ocation list" },
-    { "<leader>vq", "<cmd>Trouble qflist toggle<CR>", desc = "[V]iew: [Q]uickfix list" },
-    { "<leader>vs", "<cmd>Trouble symbols toggle<CR>", desc = "[V]iew: [S]ymbols" },
+    { "<leader>vd", "<cmd>Trouble diagnostics_document<CR>", desc = "[V]iew: [D]iagnostics" },
+    { "<leader>vw", "<cmd>Trouble diagnostics<CR>", desc = "[V]iew: [W]orkspace diagnostics" },
+    { "<leader>vl", "<cmd>Trouble loclist<CR>", desc = "[V]iew: [L]ocation list" },
+    { "<leader>vq", "<cmd>Trouble qflist<CR>", desc = "[V]iew: [Q]uickfix list" },
+    { "<leader>vs", "<cmd>Trouble symbols<CR>", desc = "[V]iew: [S]ymbols" },
   },
   opts = {
+    focus = true,
     keys = {
       ["<Tab>"] = "fold_toggle",
       ["d"] = { action = "delete", mode = { "n", "v" } },
@@ -26,43 +27,36 @@ return {
     modes = {
       -- Builtin sources
       diagnostics = {
-        title = "{hl:Title}Workspace Diagnostics{hl} {count}", -- Add a title
+        title = "{hl:Title}Workspace Diagnostics{hl} {count}",
       },
       diagnostics_document = {
         mode = "diagnostics",
-        title = "{hl:Title}Document Diagnostics{hl} {count}", -- Add a title
-        filter = { buf = 0 }, -- Filter current buffer items only
-        groups = {}, -- Remove the groups as there is only one
+        title = "{hl:Title}Document Diagnostics{hl} {count}",
+        filter = { buf = 0 }, -- Current buffer items only
+        groups = {}, -- There is only one group
       },
       loclist = {
-        title = "{hl:Title}Location list{hl} {count}", -- Add a title
-        focus = true, -- Focus the Trouble window when opened
+        title = "{hl:Title}Location list{hl} {count}",
       },
       qflist = {
-        title = "{hl:Title}Quickfix list{hl} {count}", -- Add a title
-        focus = true, -- Focus the Trouble window when opened
+        title = "{hl:Title}Quickfix list{hl} {count}",
       },
 
       -- LSP (see here and nvim-lspconfig)
       lsp_definitions = {
-        focus = true, -- Focus the Trouble window when opened
-        auto_refresh = false, -- Don't refresh Trouble window when cursor moves in the main window
+        auto_refresh = false, -- Don't refresh when cursor moves in the main window
       },
       lsp_type_definitions = {
-        focus = true, -- Focus the Trouble window when opened
-        auto_refresh = false, -- Don't refresh Trouble window when cursor moves in the main window
+        auto_refresh = false, -- Don't refresh when cursor moves in the main window
       },
       lsp_references = {
-        focus = true, -- Focus the Trouble window when opened
-        auto_refresh = false, -- Don't refresh Trouble window when cursor moves in the main window
+        auto_refresh = false, -- Don't refresh when cursor moves in the main window
       },
       symbols = {
         title = "{hl:Title}Symbols{hl} {count}",
-        pinned = true, -- Don't update when changing window
-        win = { relative = "win" }, -- Position relatively to the current window
-        open_no_results = true, -- Open the Trouble window even when there is no item as the LSP can be slow
-        groups = {}, -- Remove groups as there is only one
-        format = "{kind_icon} {symbol.name}", -- Simplify the displayed information
+        open_no_results = true, -- The LSP can be slow to compute symbols
+        groups = {}, -- There is only one group
+        format = "{kind_icon} {symbol.name}",
       },
 
       -- Todo-comments (see todo-comments.nvim)

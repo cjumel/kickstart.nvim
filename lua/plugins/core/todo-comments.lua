@@ -48,21 +48,9 @@ return {
       end,
       desc = "[F]ind: [P]rivate todo-comments",
     },
-    {
-      "<leader>vt",
-      function() vim.cmd("Trouble todo toggle") end,
-      desc = "[V]iew: [T]odo-comments",
-    },
-    {
-      "<leader>vn",
-      function() vim.cmd("Trouble todo_note toggle") end,
-      desc = "[V]iew: [N]ote-comments",
-    },
-    {
-      "<leader>vp",
-      function() vim.cmd("Trouble todo_private toggle") end,
-      desc = "[V]iew: [P]rivate todo-comments",
-    },
+    { "<leader>vt", function() vim.cmd("Trouble todo") end, desc = "[V]iew: [T]odo-comments" },
+    { "<leader>vn", function() vim.cmd("Trouble todo_note") end, desc = "[V]iew: [N]ote-comments" },
+    { "<leader>vp", function() vim.cmd("Trouble todo_private") end, desc = "[V]iew: [P]rivate todo-comments" },
   },
   opts = {
     keywords = {

@@ -490,7 +490,7 @@ return {
             }
           end
           vim.fn.setqflist(qf)
-          vim.cmd("Trouble qflist toggle")
+          vim.cmd("Trouble qflist")
         end,
         -- Action adatped from https://github.com/folke/snacks.nvim/blob/main/lua/snacks/picker/actions.lua#L461-L461
         loclist_trouble = function(picker)
@@ -512,7 +512,7 @@ return {
             }
           end
           vim.fn.setloclist(picker.main, qf)
-          vim.cmd("Trouble loclist toggle")
+          vim.cmd("Trouble loclist")
         end,
         yank_path = { action = "yank", field = "path", reg = '"' },
         yank_commit = { action = "yank", field = "commit", reg = '"' },

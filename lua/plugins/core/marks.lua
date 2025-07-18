@@ -14,7 +14,7 @@ return {
       "<leader>vm",
       function()
         require("marks").mark_state:all_to_list()
-        vim.cmd("Trouble loclist toggle")
+        vim.cmd("Trouble loclist")
       end,
       desc = "[V]iew: [M]arks",
     },
