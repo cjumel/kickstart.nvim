@@ -1,6 +1,6 @@
-local modules = require("plugins.ui.lualine.modules")
-
 local M = {}
+
+local custom_modules = require("config.lualine.custom_modules")
 
 M.default = {
   lualine_a = { "mode" },
@@ -15,8 +15,8 @@ M.default = {
     "diagnostics",
   },
   lualine_x = {
-    modules.macro,
-    modules.searchcount,
+    custom_modules.macro,
+    custom_modules.searchcount,
     "filetype",
   },
   lualine_y = { "location" },
@@ -32,8 +32,8 @@ M.minimalist = {
     "diagnostics",
   },
   lualine_x = {
-    modules.macro,
-    modules.searchcount,
+    custom_modules.macro,
+    custom_modules.searchcount,
     "filetype",
     "location",
     "progress",

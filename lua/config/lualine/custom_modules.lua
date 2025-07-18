@@ -1,5 +1,7 @@
 local M = {}
 
+local orange = "#ff9e64"
+
 M.empty = { function() return "" end }
 
 M.macro = { -- Display macro recording status when there is one
@@ -15,12 +17,12 @@ M.macro = { -- Display macro recording status when there is one
       return noice.api.statusline.mode.has()
     end
   end,
-  color = { fg = "#ff9e64" }, -- Orange
+  color = { fg = orange },
 }
 
 M.searchcount = {
   "searchcount",
-  color = { fg = "#ff9e64" }, -- Orange
+  color = { fg = orange },
 }
 
 M.oil = {

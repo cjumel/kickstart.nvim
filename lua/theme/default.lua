@@ -1,7 +1,6 @@
-local extensions = require("plugins.ui.lualine.extensions")
-local sections = require("plugins.ui.lualine.sections")
-
 local M = {}
+
+local lualine_config = require("config.lualine")
 
 M.options_callback = function()
   -- Remove Neovim background colors to enable transparency
@@ -23,8 +22,7 @@ M.lualine_opts = {
       command = { c = {} },
     },
   },
-  sections = sections.minimalist,
-  extensions = extensions.build_extensions(sections.minimalist),
+  sections = lualine_config.preset_sections.minimalist,
 }
 M.lualine_callback = function()
   vim.opt.showmode = true -- Show mode in status line

@@ -1,18 +1,17 @@
-local modules = require("plugins.ui.lualine.modules")
-
 local M = {}
+
+M.custom_modules = require("config.lualine.custom_modules")
+M.preset_sections = require("config.lualine.preset_sections")
 
 --- Build dynamically the extensions for the Lualine, depending on the provided sections.
 ---@param sections table The sections to use for the extensions.
 ---@return table
-function M.build_extensions(sections)
+M.build_extensions = function(sections)
   return {
-    -- Custom plugin extensions
     {
       filetypes = { "oil" },
-      sections = vim.tbl_deep_extend("force", sections, { lualine_c = modules.oil }),
+      sections = vim.tbl_deep_extend("force", sections, { lualine_c = M.custom_modules.oil }),
     },
-    -- Use an empty `lualine_c` section for remaining plugin temporary filetypes, as filetype is still visible
     {
       filetypes = {
         "checkhealth",
@@ -39,7 +38,7 @@ function M.build_extensions(sections)
         "snacks_picker_input",
         "trouble",
       },
-      sections = vim.tbl_deep_extend("force", sections, { lualine_c = modules.empty }),
+      sections = vim.tbl_deep_extend("force", sections, { lualine_c = M.custom_modules.empty }),
     },
   }
 end
