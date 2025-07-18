@@ -56,6 +56,9 @@ local function clear_normal_mode()
   if package.loaded.noice ~= nil then
     require("noice").cmd("dismiss") -- Clear Noice messages
   end
+  if package.loaded.lualine ~= nil then
+    require("lualine").refresh({ place = { "statusline" } })
+  end
 end
 local function clear_inser_mode()
   if package.loaded.noice ~= nil then

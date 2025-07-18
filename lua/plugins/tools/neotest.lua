@@ -23,19 +23,25 @@ return {
       desc = "Test: toggle [O]utput panel",
     },
     {
-      "<leader>xr",
-      function() require("neotest").run.run({ strategy = vim.g.neotest_dap and "dap" or nil }) end,
-      desc = "Test: [R]un test",
+      "<leader>xt",
+      function()
+        local opts = {}
+        if vim.bo.filetype == "oil" then
+          table.insert(opts, require("oil").get_current_dir())
+        end
+        require("neotest").run.run(opts)
+      end,
+      desc = "Test: [T]est",
     },
     {
       "<leader>xf",
-      function() require("neotest").run.run({ vim.fn.expand("%"), strategy = vim.g.neotest_dap and "dap" or nil }) end,
-      desc = "Test: run [F]ile test",
+      function() require("neotest").run.run({ vim.fn.expand("%") }) end,
+      desc = "Test: test [F]ile",
     },
     {
       "<leader>xa",
-      function() require("neotest").run.run({ suite = true, strategy = vim.g.neotest_dap and "dap" or nil }) end,
-      desc = "Test: run [A]ll tests",
+      function() require("neotest").run.run({ suite = true }) end,
+      desc = "Test: test [A]ll",
     },
     {
       "<leader>xl",
@@ -47,25 +53,15 @@ return {
       function() require("neotest").run.stop() end,
       desc = "Test: [S]top test",
     },
-    {
-      "<leader>xd",
-      function()
-        if not vim.g.neotest_dap then
-          require("nvim-dap") -- Lazy-load nvim-dap if needed
-          vim.g.neotest_dap = true
-          vim.notify("Neotest DAP enabled", vim.log.levels.INFO, { title = "Neotest" })
-        else
-          vim.g.neotest_dap = false
-          vim.notify("Neotest DAP disabled", vim.log.levels.INFO, { title = "Neotest" })
-        end
-      end,
-      desc = "Test: toggle [D]AP",
-    },
   },
   opts = function()
+    local neotest_config = require("config.neotest")
+    local neotest_python = require("neotest-python")
     return {
-      adapters = {
-        require("neotest-python"),
+      adapters = { neotest_python },
+      consumers = {
+        notify = neotest_config.custom_consumers.notify,
+        last_task_status = neotest_config.custom_consumers.last_task_status,
       },
     }
   end,
@@ -75,7 +71,10 @@ return {
     vim.api.nvim_create_autocmd("FileType", {
       group = vim.api.nvim_create_augroup("NeotestKeymaps", { clear = true }),
       pattern = { "neotest-output-panel", "neotest-summary" },
-      callback = function() vim.keymap.set("n", "q", "<cmd>:q<CR>", { desc = "Close", buffer = true }) end,
+      callback = function()
+        vim.keymap.set("n", "q", "<cmd>:q<CR>", { desc = "Close", buffer = true })
+        vim.opt_local.wrap = false
+      end,
     })
   end,
 }

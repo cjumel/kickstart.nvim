@@ -17,6 +17,7 @@ M.default = {
   lualine_x = {
     custom_modules.macro,
     custom_modules.searchcount,
+    custom_modules.last_task_status,
     "filetype",
   },
   lualine_y = { "location" },
@@ -34,6 +35,7 @@ M.minimalist = {
   lualine_x = {
     custom_modules.macro,
     custom_modules.searchcount,
+    custom_modules.last_task_status,
     "filetype",
     "location",
     "progress",
