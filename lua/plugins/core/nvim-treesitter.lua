@@ -4,7 +4,6 @@
 
 return {
   "nvim-treesitter/nvim-treesitter",
-  -- TODO: the `master` branch will not remain the default branch in the future
   branch = "master",
   build = ":TSUpdate",
   lazy = false, -- Lazy-loading is not supported for this plugin
@@ -56,5 +55,8 @@ return {
       },
     },
   },
-  config = function(_, opts) require("nvim-treesitter.configs").setup(opts) end,
+  config = function(_, opts)
+    local ts_config = require("nvim-treesitter.configs")
+    ts_config.setup(opts)
+  end,
 }

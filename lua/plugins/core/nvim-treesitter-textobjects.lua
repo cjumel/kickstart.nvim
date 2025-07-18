@@ -65,11 +65,10 @@ return {
     },
   },
   config = function(_, opts)
-    require("nvim-treesitter.configs").setup({ textobjects = opts })
+    local ts_config = require("nvim-treesitter.configs")
+    ts_config.setup({ textobjects = opts })
 
     local ts_repeatable_move = require("nvim-treesitter.textobjects.repeatable_move")
-
-    -- Define keymaps to repeat last moves
     vim.keymap.set(
       { "n", "x", "o" },
       ",",
@@ -127,11 +126,16 @@ return {
           "reference",
           "]"
         )
-        map("d", vim.diagnostic.goto_next, vim.diagnostic.goto_prev, "diagnostic")
+        map(
+          "d",
+          function() vim.diagnostic.jump({ count = 1 }) end,
+          function() vim.diagnostic.jump({ count = -1 }) end,
+          "diagnostic"
+        )
         map(
           "e",
-          function() vim.diagnostic.goto_next({ severity = "ERROR" }) end,
-          function() vim.diagnostic.goto_prev({ severity = "ERROR" }) end,
+          function() vim.diagnostic.jump({ severity = "ERROR", count = 1 }) end,
+          function() vim.diagnostic.jump({ severity = "ERROR", count = -1 }) end,
           "error"
         )
         map("`", function() require("marks").next() end, function() require("marks").prev() end, "marks")
@@ -180,7 +184,7 @@ return {
       group = augroup,
       callback = function()
         -- Navigate between GitHub-flavored Markdown todo checkboxes (not started or in progress), instead of
-        --  todo-comments (which are not supported in Markdown by todo-comments.nvim anyway)
+        -- todo-comments (which are not supported in Markdown by todo-comments.nvim anyway)
         local todo_checkbox_pattern = "- \\[ ] \\|- \\[-] "
         map(
           "t",
