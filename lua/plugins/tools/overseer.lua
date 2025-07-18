@@ -46,7 +46,7 @@ return {
     },
   },
   opts = {
-    templates = {}, -- Only use custom templates
+    templates = { "custom" },
     dap = false,
     task_list = {
       min_height = 0.25,
@@ -87,19 +87,4 @@ return {
       },
     },
   },
-  config = function(_, opts)
-    local overseer = require("overseer")
-    overseer.setup(opts)
-
-    -- Register custom templates
-    local template_dir_path = vim.fn.stdpath("config") .. "/lua/plugins/tools/overseer/templates"
-    local template_file_paths = vim.split(vim.fn.glob(template_dir_path .. "/*"), "\n")
-    for _, template_file_path in ipairs(template_file_paths) do
-      local template_file_path_split = vim.split(template_file_path, "/")
-      local template_name = template_file_path_split[#template_file_path_split]:gsub("%.lua$", "")
-      local template = require("plugins.tools.overseer.templates." .. template_name)
-      template.name = template.name or template_name
-      overseer.register_template(template)
-    end
-  end,
 }

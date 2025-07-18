@@ -1,5 +1,3 @@
-local python_utils = require("lang_utils.python")
-
 return {
   name = "python",
   condition = { callback = function(_) return vim.fn.executable("python") == 1 end },
@@ -34,6 +32,7 @@ return {
         priority = 2,
         condition = { filetype = "python" },
         builder = function(params)
+          local python_utils = require("lang_utils.python")
           return {
             cmd = "python",
             args = vim.list_extend({ "-m", python_utils.get_module() }, params.args),
