@@ -17,7 +17,7 @@ local function yank_with_notification(item)
   vim.notify('Yanked to register `"`:\n```\n' .. item .. "\n```", vim.log.levels.INFO, { title = "Yank (Python)" })
 end
 local function yank_module()
-  local module = require("lang_utils.python").get_module()
+  local module = require("config.lang_utils.python").get_module()
   yank_with_notification(module)
 end
 local function yank_repl_command()

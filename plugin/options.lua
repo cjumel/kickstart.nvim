@@ -91,9 +91,9 @@ vim.diagnostic.config({
 })
 
 -- Theme-specific options
-if Theme.options_callback then -- Additional theme options setting
-  Theme.options_callback()
+if ThemeConfig.options_callback then -- Additional theme options setting
+  ThemeConfig.options_callback()
 end
 
 -- Extra filetypes detection
-vim.filetype.add({ filename = Metaconfig.extra_filename_to_filetype })
+vim.filetype.add({ filename = MetaConfig.extra_filename_to_filetype })

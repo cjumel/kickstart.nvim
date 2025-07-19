@@ -7,10 +7,10 @@
 
 local M = {}
 
-local default_config = require("metaconfig.default")
+local default_config = require("config.meta.default")
 M = vim.tbl_deep_extend("force", M, default_config or {})
 
-local global_config = require("metaconfig.global")
+local global_config = require("config.meta.global")
 M = vim.tbl_deep_extend("force", M, global_config or {})
 
 local local_config_path = vim.fn.findfile(
@@ -42,12 +42,12 @@ M = vim.tbl_deep_extend("force", M, env_config)
 
 vim.api.nvim_create_user_command(
   "MetaconfigOpenDefault",
-  function() vim.cmd("edit " .. vim.fn.stdpath("config") .. "/lua/metaconfig/default.lua") end,
+  function() vim.cmd("edit " .. vim.fn.stdpath("config") .. "/lua/config/meta/default.lua") end,
   { desc = "Open the default meta configuration file" }
 )
 vim.api.nvim_create_user_command(
   "MetaconfigOpenGlobal",
-  function() vim.cmd("edit " .. vim.fn.stdpath("config") .. "/lua/metaconfig/global.lua") end,
+  function() vim.cmd("edit " .. vim.fn.stdpath("config") .. "/lua/config/meta/global.lua") end,
   { desc = "Open the global meta configuration file" }
 )
 vim.api.nvim_create_user_command(

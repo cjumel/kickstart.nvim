@@ -52,7 +52,7 @@ return {
     }
 
     local new_opts = { languages = {} }
-    for ft, documentation_convention in pairs(Metaconfig.documentation_convention_by_ft or {}) do
+    for ft, documentation_convention in pairs(MetaConfig.documentation_convention_by_ft or {}) do
       new_opts.languages[ft] = { template = { annotation_convention = documentation_convention } }
     end
 

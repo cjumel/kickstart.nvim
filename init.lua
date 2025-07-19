@@ -17,15 +17,15 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 -- Setup global variables for main configuration modules
-Metaconfig = require("metaconfig")
-Theme = require("theme")
+MetaConfig = require("config.meta")
+ThemeConfig = require("config.theme")
 
 -- Setup leader and local leader keys before loading lazy.nvim so that mappings are correct in plugins setup
 vim.g.mapleader = " "
 vim.g.maplocalleader = "  "
 
 -- Setup background category from current theme, so that plugins can use it
-vim.opt.background = Theme.background or "dark"
+vim.opt.background = ThemeConfig.background or "dark"
 
 -- Setup lazy.nvim
 require("lazy").setup({
@@ -42,6 +42,6 @@ require("lazy").setup({
 })
 
 -- Customize lazy.nvim UI window keymaps
-local ViewConfig = require("lazy.view.config")
-ViewConfig.keys.next = ","
-ViewConfig.keys.prev = ";"
+local LazyViewConfig = require("lazy.view.config")
+LazyViewConfig.keys.next = ","
+LazyViewConfig.keys.prev = ";"

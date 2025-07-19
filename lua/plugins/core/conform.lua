@@ -5,7 +5,7 @@
 -- alternatives like null-ls.
 
 local formatters_by_ft = {}
-for ft, formatters in pairs(Metaconfig.formatters_by_ft or {}) do
+for ft, formatters in pairs(MetaConfig.formatters_by_ft or {}) do
   if formatters then
     formatters_by_ft[ft] = formatters
   end
@@ -26,9 +26,9 @@ return {
         if
           formatter_key ~= "lsp_format" -- "lsp_format" is a special key for LSP formatter modes
           and not vim.tbl_contains({ "trim_newlines", "trim_whitespace" }, formatter)
-          and Metaconfig.formatter_name_to_mason_name[formatter] ~= ""
+          and MetaConfig.formatter_name_to_mason_name[formatter] ~= ""
         then
-          local mason_name = Metaconfig.formatter_name_to_mason_name[formatter] or formatter
+          local mason_name = MetaConfig.formatter_name_to_mason_name[formatter] or formatter
           table.insert(mason_ensure_installed, mason_name)
         end
       end
@@ -39,8 +39,8 @@ return {
     formatters_by_ft = formatters_by_ft,
     format_on_save = function(bufnr)
       local format_on_save_is_disabled_by_config = (
-        Metaconfig.disable_format_on_save_on_fts == "*"
-        or vim.tbl_contains(Metaconfig.disable_format_on_save_on_fts or {}, vim.bo.filetype)
+        MetaConfig.disable_format_on_save_on_fts == "*"
+        or vim.tbl_contains(MetaConfig.disable_format_on_save_on_fts or {}, vim.bo.filetype)
       )
       if format_on_save_is_disabled_by_config then
         return
@@ -59,7 +59,7 @@ return {
       end
 
       local relative_file_path = vim.fn.expand("%:p:~")
-      for _, path_pattern in ipairs(Metaconfig.tooling_blacklist_path_patterns or {}) do
+      for _, path_pattern in ipairs(MetaConfig.tooling_blacklist_path_patterns or {}) do
         local file_matches_tooling_blacklist_pattern = relative_file_path:match(path_pattern)
         if file_matches_tooling_blacklist_pattern then
           return

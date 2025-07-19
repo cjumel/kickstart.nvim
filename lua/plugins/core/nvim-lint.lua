@@ -5,7 +5,7 @@
 -- my formatting plugin.
 
 local linters_by_ft = {}
-for ft, linters in pairs(Metaconfig.linters_by_ft or {}) do
+for ft, linters in pairs(MetaConfig.linters_by_ft or {}) do
   if linters then
     linters_by_ft[ft] = linters
   end
@@ -41,7 +41,7 @@ return {
       end
 
       local relative_file_path = vim.fn.expand("%:p:~")
-      for _, path_pattern in ipairs(Metaconfig.tooling_blacklist_path_patterns) do
+      for _, path_pattern in ipairs(MetaConfig.tooling_blacklist_path_patterns) do
         local file_matches_tooling_blacklist_pattern = relative_file_path:match(path_pattern)
         if file_matches_tooling_blacklist_pattern then
           return false

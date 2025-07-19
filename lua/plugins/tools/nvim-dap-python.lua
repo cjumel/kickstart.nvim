@@ -28,7 +28,7 @@ return {
       if vim.bo[bufnr].filetype ~= "python" then
         return {}
       end
-      local python_utils = require("lang_utils.python")
+      local python_utils = require("config.lang_utils.python")
       local function args_dialogue(base_args)
         base_args = base_args or {}
         return function()

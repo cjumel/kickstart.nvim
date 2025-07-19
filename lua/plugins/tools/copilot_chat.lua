@@ -6,7 +6,7 @@
 
 return {
   "CopilotC-Nvim/CopilotChat.nvim",
-  cond = Metaconfig.enable_all_plugins or Metaconfig.enable_copilot_plugins,
+  cond = MetaConfig.enable_all_plugins or MetaConfig.enable_copilot_plugins,
   dependencies = {
     "zbirenbaum/copilot.lua",
     "nvim-lua/plenary.nvim",

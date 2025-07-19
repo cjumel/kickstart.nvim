@@ -4,7 +4,7 @@
 
 return {
   "AlexvZyl/nordic.nvim",
-  cond = Metaconfig.enable_all_plugins or Theme.nordic_enabled or false,
+  cond = MetaConfig.enable_all_plugins or ThemeConfig.nordic_enabled or false,
   priority = 1000, -- Main UI stuff should be loaded first
   opts = { transparent = { bg = true } },
   config = function(_, opts)

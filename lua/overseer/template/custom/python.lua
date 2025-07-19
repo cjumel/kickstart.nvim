@@ -32,7 +32,7 @@ return {
         priority = 2,
         condition = { filetype = "python" },
         builder = function(params)
-          local python_utils = require("lang_utils.python")
+          local python_utils = require("config.lang_utils.python")
           return {
             cmd = "python",
             args = vim.list_extend({ "-m", python_utils.get_module() }, params.args),

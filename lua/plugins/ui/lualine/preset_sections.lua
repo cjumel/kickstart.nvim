@@ -1,6 +1,6 @@
 local M = {}
 
-local custom_modules = require("config.lualine.custom_modules")
+local custom_modules = require("plugins.ui.lualine.custom_modules")
 
 M.default = {
   lualine_a = { "mode" },

@@ -1,8 +1,8 @@
 # Global Neovim configuration
-lua/metaconfig/global.lua
+lua/config/meta/global.lua
 
 # Symlink for the activated terminal theme
-lua/theme/current.lua
+lua/config/theme/current.lua
 
 # MacOS stuff
 .DS_Store
