@@ -2,7 +2,7 @@ local M = {}
 
 M.nord_enabled = true
 
-M.get_lualine_opts = function()
+M.get_lualine_opts = function(_)
   return {
     options = {
       theme = "nord",

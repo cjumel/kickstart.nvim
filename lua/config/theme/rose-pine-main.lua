@@ -3,7 +3,7 @@ local M = {}
 M.rose_pine_enabled = true
 M.rose_pine_style = "main"
 
-M.get_lualine_opts = function()
+M.get_lualine_opts = function(_)
   local default_theme = require("config.theme.default")
   return { sections = default_theme.get_lualine_opts().sections }
 end

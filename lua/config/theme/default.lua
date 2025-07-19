@@ -8,7 +8,7 @@ M.options_callback = function()
   vim.cmd.highlight("NonText ctermbg=none")
 end
 
-M.get_lualine_opts = function()
+M.get_lualine_opts = function(_)
   return {
     options = {
       icons_enabled = false,

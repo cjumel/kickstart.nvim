@@ -5,7 +5,7 @@ M.background = "light"
 M.onedark_enabled = true
 M.onedark_style = "light"
 
-M.get_lualine_opts = function()
+M.get_lualine_opts = function(_)
   return {
     options = {
       theme = "onelight",

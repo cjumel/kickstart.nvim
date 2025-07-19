@@ -2,7 +2,7 @@ local M = {}
 
 M.everforest_enabled = true
 
-M.get_lualine_opts = function()
+M.get_lualine_opts = function(_)
   return {
     options = {
       theme = "everforest",
