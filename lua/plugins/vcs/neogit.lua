@@ -41,17 +41,4 @@ return {
       },
     },
   },
-  config = function(_, opts)
-    require("neogit").setup(opts)
-
-    -- Customize commit view keymaps
-    vim.api.nvim_create_autocmd("FileType", {
-      pattern = "NeogitCommitView",
-      group = vim.api.nvim_create_augroup("NeogitKeymaps", { clear = true }),
-      callback = function()
-        vim.keymap.set("n", ",", "}", { desc = "Next hunk", remap = true, buffer = true })
-        vim.keymap.set("n", ";", "{", { desc = "Previous hunk", remap = true, buffer = true })
-      end,
-    })
-  end,
 }

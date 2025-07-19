@@ -19,13 +19,5 @@ return {
     vim.g.db_ui_use_nerd_fonts = 1
     vim.g.db_ui_use_nvim_notify = 1
     vim.g.db_ui_disable_mappings_sql = 1 -- Use custom keymaps defined below
-
-    vim.api.nvim_create_autocmd("FileType", {
-      pattern = "sql",
-      group = vim.api.nvim_create_augroup("DBUIKeymaps", { clear = true }),
-      callback = function()
-        vim.keymap.set("n", "<localleader>s", "<Plug>(DBUI_SaveQuery)", { desc = "Save query", buffer = true })
-      end,
-    })
   end,
 }

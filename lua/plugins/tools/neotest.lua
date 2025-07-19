@@ -114,16 +114,4 @@ return {
       },
     }
   end,
-  config = function(_, opts)
-    require("neotest").setup(opts)
-
-    vim.api.nvim_create_autocmd("FileType", {
-      group = vim.api.nvim_create_augroup("NeotestKeymaps", { clear = true }),
-      pattern = { "neotest-output-panel", "neotest-summary" },
-      callback = function()
-        vim.keymap.set("n", "q", "<cmd>:q<CR>", { desc = "Close", buffer = true })
-        vim.opt_local.wrap = false
-      end,
-    })
-  end,
 }
