@@ -1,8 +1,6 @@
 -- snacks.nvim
 --
--- Meta plugin providing a collection of small quality-of-life plugins (and more) for Neovim. All these plugigns work
--- very nicely out-of-the-box, with great default behaviors, and bring many UI improvements as well as new cool atomic
--- features.
+-- A collection of small quality of life plugins for Neovim.
 
 local actions = {}
 

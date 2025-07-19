@@ -2,8 +2,6 @@
 --
 -- Syntax aware text-objects, select, move, swap, and peek support.
 
-local todo_comment_keywords = require("plugins.core.todo-comments.keywords")
-
 return {
   "nvim-treesitter/nvim-treesitter-textobjects",
   dependencies = { "nvim-treesitter/nvim-treesitter" },
@@ -154,20 +152,20 @@ return {
         end, "hunk")
         map(
           "t",
-          function() require("todo-comments").jump_next({ keywords = todo_comment_keywords.todo }) end,
-          function() require("todo-comments").jump_prev({ keywords = todo_comment_keywords.todo }) end,
+          function() require("todo-comments").jump_next({ keywords = vim.g.todo_comment_keywords_todo or {} }) end,
+          function() require("todo-comments").jump_prev({ keywords = vim.g.todo_comment_keywords_todo or {} }) end,
           "todo-comment"
         )
         map(
           "n",
-          function() require("todo-comments").jump_next({ keywords = todo_comment_keywords.note }) end,
-          function() require("todo-comments").jump_prev({ keywords = todo_comment_keywords.note }) end,
+          function() require("todo-comments").jump_next({ keywords = vim.g.todo_comment_keywords_note or {} }) end,
+          function() require("todo-comments").jump_prev({ keywords = vim.g.todo_comment_keywords_note or {} }) end,
           "note-comment"
         )
         map(
           "p",
-          function() require("todo-comments").jump_next({ keywords = todo_comment_keywords.private_todo }) end,
-          function() require("todo-comments").jump_prev({ keywords = todo_comment_keywords.private_todo }) end,
+          function() require("todo-comments").jump_next({ keywords = vim.g.todo_comment_keywords_private or {} }) end,
+          function() require("todo-comments").jump_prev({ keywords = vim.g.todo_comment_keywords_private or {} }) end,
           "private todo-comment"
         )
         map(

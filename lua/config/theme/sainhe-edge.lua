@@ -2,11 +2,13 @@ local M = {}
 
 M.edge_enabled = true
 
-M.lualine_opts = {
-  options = {
-    theme = "edge",
-    section_separators = { left = "", right = "" },
-  },
-}
+M.get_lualine_opts = function()
+  return {
+    options = {
+      theme = "edge",
+      section_separators = { left = "", right = "" },
+    },
+  }
+end
 
 return M

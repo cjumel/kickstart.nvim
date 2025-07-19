@@ -2,11 +2,13 @@ local M = {}
 
 M.everforest_enabled = true
 
-M.lualine_opts = {
-  options = {
-    theme = "everforest",
-    section_separators = { left = "", right = "" },
-  },
-}
+M.get_lualine_opts = function()
+  return {
+    options = {
+      theme = "everforest",
+      section_separators = { left = "", right = "" },
+    },
+  }
+end
 
 return M
