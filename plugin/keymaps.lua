@@ -242,6 +242,99 @@ vim.keymap.set("v", "gb", function()
   browser_search(text)
 end, { desc = "Search in Web browser" })
 
+-- [[ Navigation keymaps ]]
+
+local ts_repeatable_move = require("nvim-treesitter.textobjects.repeatable_move")
+vim.keymap.set(
+  { "n", "x", "o" },
+  ",",
+  ts_repeatable_move.repeat_last_move_next,
+  { desc = 'Repeat last move in "next" direction' }
+)
+vim.keymap.set(
+  { "n", "x", "o" },
+  ";",
+  ts_repeatable_move.repeat_last_move_previous,
+  { desc = 'Repeat last move in "previous" direction' }
+)
+
+---@param key string
+---@param next_fn function
+---@param prev_fn function
+---@param name string
+---@param other_key string|nil
+---@return nil
+local function map_move_pair(key, next_fn, prev_fn, name, other_key)
+  other_key = other_key or key
+  next_fn, prev_fn = ts_repeatable_move.make_repeatable_move_pair(next_fn, prev_fn)
+  vim.keymap.set({ "n", "x", "o" }, "[" .. key, next_fn, { desc = "Next " .. name })
+  vim.keymap.set({ "n", "x", "o" }, "]" .. other_key, prev_fn, { desc = "Previous " .. name })
+end
+
+local function next_loclist_item() vim.cmd("silent! lnext") end
+local function prev_loclist_item() vim.cmd("silent! lprev") end
+map_move_pair("l", next_loclist_item, prev_loclist_item, "loclist item")
+local function next_quickfix_item() vim.cmd("silent! cnext") end
+local function prev_quickfix_item() vim.cmd("silent! cprev") end
+map_move_pair("q", next_quickfix_item, prev_quickfix_item, "quickfix item")
+
+local function next_diagnostic() vim.diagnostic.jump({ count = 1 }) end
+local function prev_diagnostic() vim.diagnostic.jump({ count = -1 }) end
+map_move_pair("d", next_diagnostic, prev_diagnostic, "diagnostic")
+local function next_error() vim.diagnostic.jump({ severity = "ERROR", count = 1 }) end
+local function prev_error() vim.diagnostic.jump({ severity = "ERROR", count = -1 }) end
+map_move_pair("e", next_error, prev_error, "error")
+
+local function next_mark() require("marks").next() end
+local function prev_mark() require("marks").prev() end
+map_move_pair("`", next_mark, prev_mark, "mark")
+
+local function next_hunk()
+  require("gitsigns").nav_hunk(
+    ---@diagnostic disable-next-line: param-type-mismatch
+    "next",
+    { target = vim.g.gitsigns_all_hunk_navigation and "all" or nil }
+  )
+end
+local function prev_hunk()
+  require("gitsigns").nav_hunk(
+    ---@diagnostic disable-next-line: param-type-mismatch
+    "prev",
+    { target = vim.g.gitsigns_all_hunk_navigation and "all" or nil }
+  )
+end
+map_move_pair("h", next_hunk, prev_hunk, "hunk")
+
+local function next_todo_comment()
+  require("todo-comments").jump_next({ keywords = vim.g.todo_comment_keywords_todo or {} })
+end
+local function prev_todo_comment()
+  require("todo-comments").jump_prev({ keywords = vim.g.todo_comment_keywords_todo or {} })
+end
+map_move_pair("t", next_todo_comment, prev_todo_comment, "todo-comment")
+local function next_note_comment()
+  require("todo-comments").jump_next({ keywords = vim.g.todo_comment_keywords_note or {} })
+end
+local function prev_note_comment()
+  require("todo-comments").jump_prev({ keywords = vim.g.todo_comment_keywords_note or {} })
+end
+map_move_pair("n", next_note_comment, prev_note_comment, "note-comment")
+local function next_private_todo_comment()
+  require("todo-comments").jump_next({ keywords = vim.g.todo_comment_keywords_private or {} })
+end
+local function prev_private_todo_comment()
+  require("todo-comments").jump_prev({ keywords = vim.g.todo_comment_keywords_private or {} })
+end
+map_move_pair("p", next_private_todo_comment, prev_private_todo_comment, "private todo-comment")
+
+local function next_conflict() require("git-conflict").find_next("ours") end
+local function prev_conflict() require("git-conflict").find_prev("ours") end
+map_move_pair("x", next_conflict, prev_conflict, "conflict")
+
+local function next_reference() Snacks.words.jump(vim.v.count1, true) end
+local function prev_reference() Snacks.words.jump(-vim.v.count1, true) end
+map_move_pair("[", next_reference, prev_reference, "reference", "]")
+
 -- [[ Insert and command-line keymaps ]]
 
 vim.keymap.set({ "i", "c" }, "<M-BS>", "<C-w>", { desc = "Delete word" }) -- For consistency with zsh & other softwares
