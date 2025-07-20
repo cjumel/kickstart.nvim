@@ -2,123 +2,6 @@
 --
 -- A collection of small quality of life plugins for Neovim.
 
-local actions = {}
-
-actions.scratch = {}
-
-actions.scratch.select = function(opts) -- Based on Snacks.scratch.select
-  opts = opts or {}
-  local all = opts.all or false
-  local items = Snacks.scratch.list()
-  local selection_items = {}
-  local widths = all and { 0, 0, 0, 0 } or { 0, 0, 0 }
-  local cwd = all and nil or vim.fn.fnamemodify(vim.fn.getcwd(), ":p:~")
-  for _, item in ipairs(items) do
-    if all or (item.cwd and vim.fn.fnamemodify(item.cwd, ":p:~") == cwd) then
-      item.cwd = (all and item.cwd) and vim.fn.fnamemodify(item.cwd, ":p:~") .. "  " or ""
-      item.icon = item.icon or Snacks.util.icon(item.ft, "filetype")
-      item.name = item.count > 1 and item.name .. " " .. item.count or item.name
-      item.branch = item.branch and ("   %s"):format(item.branch) or ""
-      if all then
-        widths[1] = math.max(widths[1], vim.api.nvim_strwidth(item.cwd))
-        widths[2] = math.max(widths[2], vim.api.nvim_strwidth(item.icon))
-        widths[3] = math.max(widths[3], vim.api.nvim_strwidth(item.name))
-        widths[4] = math.max(widths[4], vim.api.nvim_strwidth(item.branch))
-      else
-        widths[1] = math.max(widths[1], vim.api.nvim_strwidth(item.icon))
-        widths[2] = math.max(widths[2], vim.api.nvim_strwidth(item.name))
-        widths[3] = math.max(widths[3], vim.api.nvim_strwidth(item.branch))
-      end
-      table.insert(selection_items, item)
-    end
-  end
-  if vim.tbl_isempty(items) then
-    vim.notify("No scratch file found", vim.log.levels.WARN)
-    return
-  end
-  vim.ui.select(selection_items, {
-    prompt = all and "Scratch files (all)" or "Scratch files",
-    format_item = function(item)
-      local parts = all and { item.cwd, item.icon, item.name, item.branch } or { item.icon, item.name, item.branch }
-      for i, part in ipairs(parts) do
-        parts[i] = part .. string.rep(" ", widths[i] - vim.api.nvim_strwidth(part))
-      end
-      return table.concat(parts, " ")
-    end,
-  }, function(selected)
-    if selected then
-      Snacks.scratch.open({ icon = selected.icon, file = selected.file, name = selected.name, ft = selected.ft })
-    end
-  end)
-end
-
-actions.scratch.open = function()
-  vim.ui.input({ prompt = "Filetype" }, function(filetype)
-    if filetype then
-      local items = Snacks.scratch.list()
-      local cwd = vim.fn.fnamemodify(vim.fn.getcwd(), ":p:~")
-      local item_names = {}
-      for _, item in ipairs(items) do
-        if item.ft == filetype and item.cwd and vim.fn.fnamemodify(item.cwd, ":p:~") == cwd then
-          table.insert(item_names, item.name)
-        end
-      end
-      local default_base_name = filetype:sub(1, 1):upper() .. filetype:sub(2) .. " file"
-      local count = 0
-      local suffix = ""
-      local default_name = default_base_name
-      while vim.tbl_contains(item_names, default_name) do
-        count = count + 1
-        suffix = " " .. count
-        default_name = default_base_name .. suffix
-      end
-      vim.ui.input({ prompt = "Name", default = default_name }, function(name)
-        if name then
-          Snacks.scratch.open({ ft = filetype, name = name })
-        end
-      end)
-    end
-  end)
-end
-
-actions.scratch.open_with_filetype = function()
-  local items = Snacks.scratch.list()
-  local cwd = vim.fn.fnamemodify(vim.fn.getcwd(), ":p:~")
-  local item_names = {}
-  for _, item in ipairs(items) do
-    if item.ft == vim.bo.filetype and item.cwd and vim.fn.fnamemodify(item.cwd, ":p:~") == cwd then
-      table.insert(item_names, item.name)
-    end
-  end
-  local default_base_name = vim.bo.filetype:sub(1, 1):upper() .. vim.bo.filetype:sub(2) .. " file"
-  local count = 0
-  local suffix = ""
-  local default_name = default_base_name
-  while vim.tbl_contains(item_names, default_name) do
-    count = count + 1
-    suffix = " " .. count
-    default_name = default_base_name .. suffix
-  end
-  vim.ui.input({ prompt = "Name", default = default_name }, function(name)
-    if name then
-      Snacks.scratch.open({ name = name })
-    end
-  end)
-end
-
-actions.scratch.open_note = function()
-  Snacks.scratch.open({
-    ft = "markdown",
-    name = "Note",
-  })
-end
-
-actions.scratch.open_last = function()
-  local items = Snacks.scratch.list()
-  local selected = items[1] -- Items are ordered with last opened first
-  Snacks.scratch.open({ icon = selected.icon, file = selected.file, name = selected.name, ft = selected.ft })
-end
-
 return {
   "folke/snacks.nvim",
   dependencies = { "nvim-tree/nvim-web-devicons" },
@@ -412,12 +295,162 @@ return {
     },
 
     -- Scratch buffers
-    { "<leader>ss", function() actions.scratch.select({ all = false }) end, desc = "[S]cratch: select" },
-    { "<leader>sa", function() actions.scratch.select({ all = true }) end, desc = "[S]cratch: select [A]ll" },
-    { "<leader>so", actions.scratch.open, desc = "[S]cratch: [O]pen" },
-    { "<leader>sf", actions.scratch.open_with_filetype, desc = "[S]cratch: open with [F]iletype" },
-    { "<leader>sn", actions.scratch.open_note, desc = "[S]cratch: open [N]ote" },
-    { "<leader>sl", actions.scratch.open_last, desc = "[S]cratch: open [L]ast" },
+    {
+      "<leader>ss",
+      function() -- Based on Snacks.scratch.select, restricted to the current working directory
+        local items = Snacks.scratch.list()
+        local selection_items = {}
+        local widths = { 0, 0, 0 }
+        local cwd = vim.fn.fnamemodify(vim.fn.getcwd(), ":p:~")
+        for _, item in ipairs(items) do
+          if vim.fn.fnamemodify(item.cwd, ":p:~") == cwd then
+            item.icon = item.icon or Snacks.util.icon(item.ft, "filetype")
+            item.name = item.count > 1 and item.name .. " " .. item.count or item.name
+            item.branch = item.branch and ("   %s"):format(item.branch) or ""
+            widths[1] = math.max(widths[1], vim.api.nvim_strwidth(item.icon))
+            widths[2] = math.max(widths[2], vim.api.nvim_strwidth(item.name))
+            widths[3] = math.max(widths[3], vim.api.nvim_strwidth(item.branch))
+            table.insert(selection_items, item)
+          end
+        end
+        if vim.tbl_isempty(items) then
+          vim.notify("No scratch file found", vim.log.levels.WARN)
+          return
+        end
+        vim.ui.select(selection_items, {
+          prompt = "Scratch files",
+          format_item = function(item)
+            local parts = { item.icon, item.name, item.branch }
+            for i, part in ipairs(parts) do
+              parts[i] = part .. string.rep(" ", widths[i] - vim.api.nvim_strwidth(part))
+            end
+            return table.concat(parts, " ")
+          end,
+        }, function(selected)
+          if selected then
+            Snacks.scratch.open({ icon = selected.icon, file = selected.file, name = selected.name, ft = selected.ft })
+          end
+        end)
+      end,
+      desc = "[S]cratch: select",
+    },
+    {
+      "<leader>sa",
+      function() -- Based on Snacks.scratch.select
+        local items = Snacks.scratch.list()
+        local selection_items = {}
+        local widths = { 0, 0, 0, 0 }
+        for _, item in ipairs(items) do
+          item.cwd = vim.fn.fnamemodify(item.cwd, ":p:~") .. "  "
+          item.icon = item.icon or Snacks.util.icon(item.ft, "filetype")
+          item.name = item.count > 1 and item.name .. " " .. item.count or item.name
+          item.branch = item.branch and ("   %s"):format(item.branch) or ""
+          widths[1] = math.max(widths[1], vim.api.nvim_strwidth(item.cwd))
+          widths[2] = math.max(widths[2], vim.api.nvim_strwidth(item.icon))
+          widths[3] = math.max(widths[3], vim.api.nvim_strwidth(item.name))
+          widths[4] = math.max(widths[4], vim.api.nvim_strwidth(item.branch))
+          table.insert(selection_items, item)
+        end
+        if vim.tbl_isempty(items) then
+          vim.notify("No scratch file found", vim.log.levels.WARN)
+          return
+        end
+        vim.ui.select(selection_items, {
+          prompt = "Scratch files (all)",
+          format_item = function(item)
+            local parts = { item.cwd, item.icon, item.name, item.branch }
+            for i, part in ipairs(parts) do
+              parts[i] = part .. string.rep(" ", widths[i] - vim.api.nvim_strwidth(part))
+            end
+            return table.concat(parts, " ")
+          end,
+        }, function(selected)
+          if selected then
+            Snacks.scratch.open({ icon = selected.icon, file = selected.file, name = selected.name, ft = selected.ft })
+          end
+        end)
+      end,
+      desc = "[S]cratch: select [A]ll",
+    },
+    {
+      "<leader>so",
+      function()
+        vim.ui.input({ prompt = "Filetype" }, function(filetype)
+          if filetype then
+            local items = Snacks.scratch.list()
+            local cwd = vim.fn.fnamemodify(vim.fn.getcwd(), ":p:~")
+            local item_names = {}
+            for _, item in ipairs(items) do
+              if item.ft == filetype and item.cwd and vim.fn.fnamemodify(item.cwd, ":p:~") == cwd then
+                table.insert(item_names, item.name)
+              end
+            end
+            local default_base_name = filetype:sub(1, 1):upper() .. filetype:sub(2) .. " file"
+            local count = 0
+            local suffix = ""
+            local default_name = default_base_name
+            while vim.tbl_contains(item_names, default_name) do
+              count = count + 1
+              suffix = " " .. count
+              default_name = default_base_name .. suffix
+            end
+            vim.ui.input({ prompt = "Name", default = default_name }, function(name)
+              if name then
+                Snacks.scratch.open({ ft = filetype, name = name })
+              end
+            end)
+          end
+        end)
+      end,
+      desc = "[S]cratch: [O]pen",
+    },
+    {
+      "<leader>sf",
+      function()
+        local items = Snacks.scratch.list()
+        local cwd = vim.fn.fnamemodify(vim.fn.getcwd(), ":p:~")
+        local item_names = {}
+        for _, item in ipairs(items) do
+          if item.ft == vim.bo.filetype and item.cwd and vim.fn.fnamemodify(item.cwd, ":p:~") == cwd then
+            table.insert(item_names, item.name)
+          end
+        end
+        local default_base_name = vim.bo.filetype:sub(1, 1):upper() .. vim.bo.filetype:sub(2) .. " file"
+        local count = 0
+        local suffix = ""
+        local default_name = default_base_name
+        while vim.tbl_contains(item_names, default_name) do
+          count = count + 1
+          suffix = " " .. count
+          default_name = default_base_name .. suffix
+        end
+        vim.ui.input({ prompt = "Name", default = default_name }, function(name)
+          if name then
+            Snacks.scratch.open({ name = name })
+          end
+        end)
+      end,
+      desc = "[S]cratch: open with [F]iletype",
+    },
+    {
+      "<leader>sn",
+      function()
+        Snacks.scratch.open({
+          ft = "markdown",
+          name = "Note",
+        })
+      end,
+      desc = "[S]cratch: open [N]ote",
+    },
+    {
+      "<leader>sl",
+      function()
+        local items = Snacks.scratch.list()
+        local selected = items[1] -- Items are ordered with last opened first
+        Snacks.scratch.open({ icon = selected.icon, file = selected.file, name = selected.name, ft = selected.ft })
+      end,
+      desc = "[S]cratch: open [L]ast",
+    },
 
     -- Zen
     { "<leader>z", function() Snacks.zen.zoom() end, desc = "[Z]oom" },
@@ -429,115 +462,16 @@ return {
       enabled = true,
       sections = {
         { section = "header" },
-        { icon = " ", key = "c", desc = "Open [C]wd", action = function() require("oil").open() end },
-        {
-          icon = " ",
-          key = "f",
-          desc = "Find [F]iles",
-          action = function()
-            Snacks.picker.files({
-              title = "Files",
-              layout = { preset = "telescope_horizontal" },
-              show_empty = true, -- In case everything is hidden or ignored
-              win = {
-                input = {
-                  keys = {
-                    ---@diagnostic disable-next-line: assign-type-mismatch
-                    ["<C-y>"] = { { "yank_path", "close" }, mode = "i" },
-                  },
-                },
-              },
-            })
-          end,
-        },
-        {
-          icon = " ",
-          key = "o",
-          desc = "Find [O]ld Files",
-          action = function()
-            Snacks.picker.recent({
-              title = "Old Files",
-              filter = { cwd = true },
-              sort = { fields = { "score:desc", "idx" } }, -- Don't sort by item length to preserve history order
-              layout = { preset = "telescope_horizontal" },
-              show_empty = true, -- In case there's no recent file in the cwd, but we want them from every where
-              win = {
-                input = {
-                  keys = {
-                    ---@diagnostic disable-next-line: assign-type-mismatch
-                    ["<C-y>"] = { { "yank_path", "close" }, mode = "i" },
-                    ["©"] = { "toggle_cwd_recent", mode = "i", desc = "Toggle cwd" }, -- <M-c>
-                  },
-                },
-              },
-            })
-          end,
-        },
-        {
-          icon = " ",
-          key = "d",
-          desc = "Find [D]irectories",
-          action = function()
-            Snacks.picker.pick("directories", {
-              title = "Directories",
-              layout = { preset = "telescope_horizontal" },
-              show_empty = true, -- In case everything is hidden or ignored
-              win = {
-                input = {
-                  keys = {
-                    ---@diagnostic disable-next-line: assign-type-mismatch
-                    ["<C-y>"] = { { "yank_path", "close" }, mode = "i" },
-                  },
-                },
-              },
-            })
-          end,
-        },
-        {
-          icon = "󰚰 ",
-          key = "g",
-          desc = "[G]it Status",
-          action = function()
-            Snacks.picker.git_status({
-              layout = { preset = "telescope_horizontal" },
-              win = {
-                input = {
-                  keys = {
-                    ["<Tab>"] = { "list_down", mode = "i" }, -- Previously mapped to "git_stage"
-                    ["Ò"] = { { "git_stage", "list_down" }, mode = "i" }, -- <M-s>
-                  },
-                },
-              },
-            })
-          end,
-        },
-        {
-          icon = " ",
-          key = "b",
-          desc = "Git [B]ranch",
-          action = function() Snacks.picker.git_branches({ layout = { preset = "telescope_vertical" } }) end,
-        },
-        {
-          icon = " ",
-          key = "l",
-          desc = "Git [L]og",
-          action = function()
-            Snacks.picker.git_log({
-              layout = { preset = "telescope_horizontal" },
-              win = {
-                input = {
-                  keys = {
-                    ---@diagnostic disable-next-line: assign-type-mismatch
-                    ["<C-y>"] = { { "yank_commit", "close" }, mode = "i" },
-                  },
-                },
-              },
-            })
-          end,
-        },
-        { icon = "󰊢 ", key = "m", desc = "Git [M]enu", action = function() require("neogit").open() end },
-        { icon = "󰚸 ", key = "s", desc = "Select [S]cratch File", action = actions.scratch.select },
-        { icon = "󱞁 ", key = "n", desc = "Open Scratch [N]ote", action = actions.scratch.open_note },
+        { icon = " ", key = "c", desc = "Open [C]wd", action = "-" },
+        { icon = " ", key = "f", desc = "Find [F]iles", action = "<leader>ff" },
+        { icon = " ", key = "o", desc = "Find [O]ld Files", action = "<leader>fo" },
+        { icon = " ", key = "d", desc = "Find [D]irectories", action = "<leader>fd" },
+        { icon = "󰚰 ", key = "g", desc = "[G]it Status", action = "<leader>gg" },
+        { icon = " ", key = "b", desc = "Git [B]ranch", action = "<leader>gb" },
+        { icon = " ", key = "l", desc = "Git [L]og", action = "<leader>gl" },
+        { icon = "󰊢 ", key = "m", desc = "Git [M]enu", action = "<leader>gm" },
+        { icon = "󰚸 ", key = "s", desc = "Select [S]cratch File", action = "<leader>ss" },
+        { icon = "󱞁 ", key = "n", desc = "Open Scratch [N]ote", action = "<leader>sn" },
         { icon = " ", key = "q", desc = "[Q]uit", action = ":qa" },
       },
     },
