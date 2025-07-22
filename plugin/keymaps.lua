@@ -90,7 +90,7 @@ vim.keymap.set("n", "<leader><M-CR>", "<cmd>noautocmd w!<CR>", { desc = "Force w
 local function send_to_clipboard()
   local yanked = vim.fn.getreg('"')
   vim.fn.setreg("+", yanked)
-  vim.notify("Yanked sent to register `+`:\n```\n" .. yanked .. "\n```")
+  vim.notify("Last yanked sent to clipboard")
 end
 local function toggle_sync_with_clipboard()
   if not vim.tbl_contains(vim.opt.clipboard, "unnamedplus") then
