@@ -266,13 +266,11 @@ vim.keymap.set(
 ---@param next_fn function
 ---@param prev_fn function
 ---@param name string
----@param other_key string|nil
 ---@return nil
-local function map_move_pair(key, next_fn, prev_fn, name, other_key)
-  other_key = other_key or key
+local function map_move_pair(key, next_fn, prev_fn, name)
   next_fn, prev_fn = ts_repeatable_move.make_repeatable_move_pair(next_fn, prev_fn)
   vim.keymap.set({ "n", "x", "o" }, "[" .. key, next_fn, { desc = "Next " .. name })
-  vim.keymap.set({ "n", "x", "o" }, "]" .. other_key, prev_fn, { desc = "Previous " .. name })
+  vim.keymap.set({ "n", "x", "o" }, "]" .. key, prev_fn, { desc = "Previous " .. name })
 end
 
 local function next_loclist_item() vim.cmd("silent! lnext") end
@@ -337,7 +335,7 @@ map_move_pair("x", next_conflict, prev_conflict, "conflict")
 
 local function next_reference() Snacks.words.jump(vim.v.count1, true) end
 local function prev_reference() Snacks.words.jump(-vim.v.count1, true) end
-map_move_pair("[", next_reference, prev_reference, "reference", "]")
+map_move_pair("r", next_reference, prev_reference, "reference")
 
 -- [[ Insert and command-line keymaps ]]
 
