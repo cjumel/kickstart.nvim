@@ -104,44 +104,42 @@ end
 vim.keymap.set("n", "gy", send_to_clipboard, { desc = "Send yanked to clipboard" })
 vim.keymap.set("n", 'g"', toggle_sync_with_clipboard, { desc = "Toggle register and clipboard sync" })
 
-local function yank_with_notification(item)
-  if item == nil then
-    vim.notify("Nothing to yank", vim.log.levels.WARN, { title = "Yank" })
-    return
-  end
-  vim.fn.setreg('"', item)
-  vim.notify('Yanked to register `"`:\n```\n' .. item .. "\n```", vim.log.levels.INFO, { title = "Yank" })
-end
-
-local function get_file_path(mods)
+local function yank_file_path(mods)
   local path = nil
   if vim.bo.buftype == "" then -- Regular buffer
     path = vim.fn.expand("%")
-    return vim.fn.fnamemodify(path, mods)
   elseif vim.bo.filetype == "oil" then
     local oil = require("oil")
     path = oil.get_current_dir()
     if path ~= nil then
       path = path:gsub("/$", "") -- Remove the "/" prefix if it exists (necessary to get the tail with `mods`)
-      return vim.fn.fnamemodify(path, mods)
     end
   end
+  if path ~= nil then
+    path = vim.fn.fnamemodify(path, mods)
+    vim.fn.setreg('"', path)
+    vim.notify('Yanked to register `"`:\n```\n' .. path .. "\n```", vim.log.levels.INFO, { title = "Yank" })
+  end
 end
-local function yank_file_path() yank_with_notification(get_file_path(":~:.")) end
-local function yank_full_file_path() yank_with_notification(get_file_path(":~")) end
-local function yank_file_name() yank_with_notification(get_file_path(":t")) end
-vim.keymap.set("n", "<leader>yp", yank_file_path, { desc = "[Y]ank: file [P]ath" })
-vim.keymap.set("n", "<leader>yf", yank_full_file_path, { desc = "[Y]ank: [F]ull file path" })
-vim.keymap.set("n", "<leader>yn", yank_file_name, { desc = "[Y]ank: file [N]ame" })
+
+vim.keymap.set("n", "<leader>yp", function() yank_file_path(":~:.") end, { desc = "[Y]ank: file [P]ath" })
+vim.keymap.set("n", "<leader>yf", function() yank_file_path(":~") end, { desc = "[Y]ank: [F]ull file path" })
+vim.keymap.set("n", "<leader>yn", function() yank_file_path(":t") end, { desc = "[Y]ank: file [N]ame" })
 
 local function yank_buffer_content()
   local bufnr = vim.api.nvim_get_current_buf()
   local buflines = vim.api.nvim_buf_get_lines(bufnr, 0, -1, false)
   local buffer_content = table.concat(buflines, "\n")
-  yank_with_notification(buffer_content)
+  vim.fn.setreg('"', buffer_content)
+  vim.notify(
+    "Buffer content (" .. #buflines .. ' lines) yanked to register `"`',
+    vim.log.levels.INFO,
+    { title = "Yank" }
+  )
 end
 local function yank_all_buffer_contents()
   local lines = {}
+  local content_description = ""
   for _, bufnr in ipairs(vim.api.nvim_list_bufs()) do
     if
       vim.api.nvim_buf_is_valid(bufnr)
@@ -155,11 +153,17 @@ local function yank_all_buffer_contents()
         vim.list_extend(lines, { "File `" .. bufpath .. "`:", "```" .. vim.bo[bufnr].filetype })
         vim.list_extend(lines, buflines)
         vim.list_extend(lines, { "```", "" })
+        content_description = content_description .. "\n  - " .. bufpath .. " (" .. #buflines .. " lines)"
       end
     end
   end
   local all_buffer_contents = table.concat(lines, "\n")
-  yank_with_notification(all_buffer_contents)
+  vim.fn.setreg('"', all_buffer_contents)
+  vim.notify(
+    'All buffer contents yanked to register `"`:' .. content_description,
+    vim.log.levels.INFO,
+    { title = "Yank" }
+  )
 end
 vim.keymap.set("n", "<leader>yb", yank_buffer_content, { desc = "[Y]ank: [B]uffer content" })
 vim.keymap.set("n", "<leader>ya", yank_all_buffer_contents, { desc = "[Y]ank: [A]ll buffer contents" })
