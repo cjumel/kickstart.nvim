@@ -4,7 +4,7 @@ vim.o.laststatus = 3 -- Global status line for all windows
 vim.wo.number = true -- Absolute line numbering
 vim.wo.signcolumn = "number" -- Merge sign and number columns together
 vim.opt.foldcolumn = "auto" -- Show fold column only when there are folds
-vim.opt.fillchars = { foldopen = "", foldclose = "", fold = " " } -- Improve fold appearance
+vim.opt.fillchars = { foldopen = "", foldclose = "", fold = " " } -- Improve fold appearance
 vim.opt.cursorline = true -- Highlight the cursor line
 vim.opt.showmode = false -- Don't show mode in status line (done with lualine.nvim instead)
 

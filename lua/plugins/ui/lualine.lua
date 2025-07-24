@@ -62,7 +62,7 @@ return {
               elseif vim.g.last_task_status == "failure" then
                 return { fg = "#e06c75" } -- Red
               elseif vim.g.last_task_status == "in progress" then
-                return { fg = "#61afef" } -- Blue
+                return { fg = "#e5c07b" } -- Yellow
               end
             end,
           },
