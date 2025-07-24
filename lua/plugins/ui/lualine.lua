@@ -48,11 +48,11 @@ return {
           {
             function()
               if vim.g.last_task_status == "success" then
-                return ""
+                return ""
               elseif vim.g.last_task_status == "failure" then
-                return ""
+                return ""
               elseif vim.g.last_task_status == "in progress" then
-                return ""
+                return ""
               end
             end,
             cond = function() return vim.g.last_task_status ~= nil end,
@@ -121,12 +121,5 @@ return {
       },
     }
     return opts
-  end,
-  config = function(_, opts)
-    local lualine = require("lualine")
-    lualine.setup(opts)
-    if ThemeConfig.lualine_callback then -- Additional theme options setting
-      ThemeConfig.lualine_callback()
-    end
   end,
 }
