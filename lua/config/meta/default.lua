@@ -38,7 +38,7 @@ return {
     typescript = { "prettier" },
     typst = { lsp_format = "first" }, -- If enabled, the tinymist LSP will provide formatting
     vim = { "trim_newlines", "trim_whitespace" },
-    yaml = { "yamlfmt" },
+    yaml = { "yamlfmt", "trim_newlines" },
     zsh = { "shfmt" }, -- Not actually for zsh, but in my use case it works fine
   },
 
