@@ -56,37 +56,13 @@ return {
   },
   opts = function()
     return {
-      adapters = { require("neotest-python") },
+      adapters = {
+        require("neotest-python")({
+          args = { "-vvv", "--log-level", "DEBUG" },
+        }),
+      },
       consumers = {
-        notify = function(client)
-          client.listeners.results = function(_, results, partial)
-            if partial then
-              return
-            end
-            local total = 0
-            local passed = 0
-            for _, r in pairs(results) do
-              total = total + 1
-              if r.status == "passed" then
-                passed = passed + 1
-              end
-            end
-            if passed == total then
-              vim.notify(
-                "SUCCESS: " .. passed .. "/" .. total .. " tests passed.",
-                vim.log.levels.INFO,
-                { title = "Neotest" }
-              )
-            else
-              vim.notify(
-                "FAILURE: " .. passed .. "/" .. total .. " tests passed.",
-                vim.log.levels.ERROR,
-                { title = "Neotest" }
-              )
-            end
-          end
-        end,
-        last_task_status = function(client)
+        notify_and_update_last_task_status = function(client)
           client.listeners.starting = function()
             vim.g.last_task_status = "in progress"
             require("lualine").refresh({ place = { "statusline" } })
@@ -105,12 +81,25 @@ return {
             end
             if passed == total then
               vim.g.last_task_status = "success"
+              vim.notify(
+                "SUCCESS: " .. passed .. "/" .. total .. " tests passed.",
+                vim.log.levels.INFO,
+                { title = "Neotest" }
+              )
             else
-              vim.g.kast_task_status = "error"
+              vim.g.last_task_status = "failure"
+              vim.notify(
+                "FAILURE: " .. passed .. "/" .. total .. " tests passed.",
+                vim.log.levels.ERROR,
+                { title = "Neotest" }
+              )
             end
             require("lualine").refresh({ place = { "statusline" } })
           end
         end,
+      },
+      summary = {
+        open = "botright vsplit | vertical resize 30",
       },
     }
   end,
