@@ -13,34 +13,69 @@ return {
   },
   keys = {
     {
-      "<leader>xx",
+      "<leader>xs",
       function() require("neotest").summary.toggle() end,
-      desc = "Test: toggle summary",
+      desc = "Test: toggle [S]ummary",
     },
     {
       "<leader>xo",
-      function() require("neotest").output_panel.toggle() end,
-      desc = "Test: toggle [O]utput panel",
+      function()
+        require("neotest").output.open({
+          enter = true,
+          open_win = function() vim.cmd("split | resize 15") end,
+        })
+      end,
+      desc = "Test: open [O]utput",
     },
     {
       "<leader>xt",
       function()
-        local opts = {}
-        if vim.bo.filetype == "oil" then
-          table.insert(opts, require("oil").get_current_dir())
-        end
-        require("neotest").run.run(opts)
+        vim.ui.input({ promp = "Additional arguments" }, function(input)
+          if input == nil then
+            return
+          end
+          local opts = {}
+          if vim.bo.filetype == "oil" then
+            table.insert(opts, require("oil").get_current_dir())
+          end
+          if input ~= "" then
+            opts.extra_args = vim.split(input, " ")
+          end
+          require("neotest").run.run(opts)
+        end)
       end,
       desc = "Test: [T]est",
     },
     {
       "<leader>xf",
-      function() require("neotest").run.run({ vim.fn.expand("%") }) end,
+      function()
+        vim.ui.input({ promp = "Additional arguments" }, function(input)
+          if input == nil then
+            return
+          end
+          local opts = { vim.fn.expand("%") }
+          if input ~= "" then
+            opts.extra_args = vim.split(input, " ")
+          end
+          require("neotest").run.run(opts)
+        end)
+      end,
       desc = "Test: test [F]ile",
     },
     {
       "<leader>xa",
-      function() require("neotest").run.run({ suite = true }) end,
+      function()
+        vim.ui.input({ promp = "Additional arguments" }, function(input)
+          if input == nil then
+            return
+          end
+          local opts = { suite = true }
+          if input ~= "" then
+            opts.extra_args = vim.split(input, " ")
+          end
+          require("neotest").run.run(opts)
+        end)
+      end,
       desc = "Test: test [A]ll",
     },
     {
@@ -48,18 +83,11 @@ return {
       function() require("neotest").run.run_last() end,
       desc = "Test: rerun [L]ast test",
     },
-    {
-      "<leader>xs",
-      function() require("neotest").run.stop() end,
-      desc = "Test: [S]top test",
-    },
   },
   opts = function()
     return {
       adapters = {
-        require("neotest-python")({
-          args = { "-vvv", "--log-level", "DEBUG" },
-        }),
+        require("neotest-python"),
       },
       consumers = {
         notify_and_update_last_task_status = function(client)

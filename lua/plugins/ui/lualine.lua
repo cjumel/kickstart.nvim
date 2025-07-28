@@ -110,7 +110,7 @@ return {
           "NeogitRebasePopup",
           "NeogitResetPopup",
           "NeogitStatus",
-          "neotest-output-panel",
+          "neotest-output",
           "neotest-summary",
           "OverseerList",
           "snacks_dashboard",

@@ -1,6 +1,6 @@
 -- [[ Options ]]
 
-vim.opt_local.wrap = false
+vim.wo.number = false
 
 -- [[ Keymaps ]]
 
