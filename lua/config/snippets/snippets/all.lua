@@ -1,6 +1,7 @@
 local conds = require("config.snippets.conditions")
 local ls = require("luasnip")
 local ls_conds = require("luasnip.extras.conditions")
+local ls_show_conds = require("luasnip.extras.conditions.show")
 
 local c = ls.choice_node
 local f = ls.function_node
@@ -63,28 +64,29 @@ local function get_todo_keyword_snippet_choices()
   return todo_keyword_snippet_choices
 end
 
-local todo_comment_show_condition = ls_conds.make_condition(function(line_to_cursor)
-  local is_treesitter_available, _ = pcall(vim.treesitter.get_parser)
-  if not is_treesitter_available then
-    return true
-  end
-  local is_treesitter_parsable, node = pcall(conds.get_treesitter_node, line_to_cursor)
-  if not is_treesitter_parsable then
-    return false
-  end
-  if not node then -- E.g. very beginning of the buffer
-    return true
-  end
-  return not vim.tbl_contains({
-    "comment",
-    "comment_content",
-    "html_block", -- Markdown comments
-    "line_comment",
-    "string",
-    "string_start",
-    "string_content",
-  }, node:type())
-end)
+local todo_comment_show_condition = ls_show_conds.line_end
+  * ls_conds.make_condition(function(line_to_cursor)
+    local is_treesitter_available, _ = pcall(vim.treesitter.get_parser)
+    if not is_treesitter_available then
+      return true
+    end
+    local is_treesitter_parsable, node = pcall(conds.get_treesitter_node, line_to_cursor)
+    if not is_treesitter_parsable then
+      return false
+    end
+    if not node then -- E.g. very beginning of the buffer
+      return true
+    end
+    return not vim.tbl_contains({
+      "comment",
+      "comment_content",
+      "html_block", -- Markdown comments
+      "line_comment",
+      "string",
+      "string_start",
+      "string_content",
+    }, node:type())
+  end)
 
 local todo_keyword_show_condition = ls_conds.make_condition(function(line_to_cursor)
   local is_treesitter_available, _ = pcall(vim.treesitter.get_parser)
