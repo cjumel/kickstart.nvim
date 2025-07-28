@@ -41,6 +41,7 @@ local function get_treesitter_node(line_to_cursor)
   local node = vim.treesitter.get_node({ pos = { row - 1, col - #matched_trigger - 1 } })
   return node
 end
+M.get_treesitter_node = get_treesitter_node
 
 --- Condition making sure the current Treesitter node's type is included in the provided node types.
 ---@param node_types string[] The node types to be included.

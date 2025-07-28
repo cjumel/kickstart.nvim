@@ -192,4 +192,51 @@ Multiple-choice snippet:
       end
     ),
   }),
+
+  -- [[ GitHub Flavored Markdown ]]
+
+  s({
+    trig = "@me",
+    desc = [[
+`@cjumel`
+(GitHub Flavored Markdown)]],
+  }, { t("@cjumel") }),
+
+  s({
+    trig = "checkbox",
+    show_condition = conds.line_begin,
+    desc = [[
+Multiple-choice snippet:
+- `- [ ] …` (todo)
+- `- [-] …` (WIP)
+- `- [x] …` (done)
+- `- [/] …` (cancelled)
+(GitHub Flavored Markdown)]],
+  }, {
+    c(1, {
+      sn(nil, { t("- [ ] "), r(1, "content", i(nil)) }),
+      sn(nil, { t("- [-] "), r(1, "content") }),
+      sn(nil, { t("- [x] "), r(1, "content") }),
+      sn(nil, { t("- [/] "), r(1, "content") }),
+    }),
+  }),
+
+  s({
+    trig = "toggle-block",
+    show_condition = conds.line_begin * ls_show_conds.line_end,
+    desc = [[
+`<details>`
+`<summary>…<\summary>`
+
+`…`
+
+`<\details>`
+(GitHub Flavored Markdown)]],
+  }, {
+    t({ "<details>", "<summary>" }),
+    i(1, "Summary"),
+    t({ "</summary>", "", "" }), -- Line break after the summary is important for some blocks like code-blocks
+    i(2, "Content"),
+    t({ "", "", "</details>" }),
+  }),
 }
