@@ -66,6 +66,10 @@ end
 
 local todo_comment_show_condition = ls_show_conds.line_end
   * ls_conds.make_condition(function(line_to_cursor)
+    local is_regular_file_buffer = vim.bo.buftype == "" and not vim.tbl_contains({ "gitcommit" }, vim.bo.filetype)
+    if not is_regular_file_buffer then
+      return false
+    end
     local is_treesitter_available, _ = pcall(vim.treesitter.get_parser)
     if not is_treesitter_available then
       return true
@@ -89,6 +93,10 @@ local todo_comment_show_condition = ls_show_conds.line_end
   end)
 
 local todo_keyword_show_condition = ls_conds.make_condition(function(line_to_cursor)
+  local is_regular_file_buffer = vim.bo.buftype == "" and not vim.tbl_contains({ "gitcommit" }, vim.bo.filetype)
+  if not is_regular_file_buffer then
+    return false
+  end
   local is_treesitter_available, _ = pcall(vim.treesitter.get_parser)
   if not is_treesitter_available then
     return false
