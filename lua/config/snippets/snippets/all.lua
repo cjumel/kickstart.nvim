@@ -50,6 +50,11 @@ local todo_keywords = {
   "NOTE",
 }
 
+local excluded_filetypes = {
+  "gitcommit",
+  "markdown", -- Todo-comments are not recognized by todo-comments.nvim
+}
+
 local todo_keywords_description = [[
 Supported keywords:]]
 for _, todo_keyword in ipairs(todo_keywords) do
@@ -66,8 +71,16 @@ end
 
 local todo_comment_show_condition = ls_show_conds.line_end
   * ls_conds.make_condition(function(line_to_cursor)
-    local is_regular_file_buffer = vim.bo.buftype == "" and not vim.tbl_contains({ "gitcommit" }, vim.bo.filetype)
-    if not is_regular_file_buffer then
+    local is_special_buffer = vim.bo.buftype ~= ""
+    if is_special_buffer then
+      return false
+    end
+    local is_filetype_excluded = not vim.tbl_contains(excluded_filetypes, vim.bo.filetype)
+    if is_filetype_excluded then
+      return false
+    end
+    local is_commenstring_set = vim.bo.commentstring ~= ""
+    if not is_commenstring_set then
       return false
     end
     local is_treesitter_available, _ = pcall(vim.treesitter.get_parser)
@@ -81,20 +94,28 @@ local todo_comment_show_condition = ls_show_conds.line_end
     if not node then -- E.g. very beginning of the buffer
       return true
     end
-    return not vim.tbl_contains({
+    local is_in_code = not vim.tbl_contains({
       "comment",
       "comment_content",
-      "html_block", -- Markdown comments
       "line_comment",
       "string",
       "string_start",
       "string_content",
     }, node:type())
+    return is_in_code
   end)
 
 local todo_keyword_show_condition = ls_conds.make_condition(function(line_to_cursor)
-  local is_regular_file_buffer = vim.bo.buftype == "" and not vim.tbl_contains({ "gitcommit" }, vim.bo.filetype)
-  if not is_regular_file_buffer then
+  local is_special_buffer = vim.bo.buftype ~= ""
+  if is_special_buffer then
+    return false
+  end
+  local is_filetype_excluded = not vim.tbl_contains(excluded_filetypes, vim.bo.filetype)
+  if is_filetype_excluded then
+    return false
+  end
+  local is_commenstring_set = vim.bo.commentstring ~= ""
+  if not is_commenstring_set then
     return false
   end
   local is_treesitter_available, _ = pcall(vim.treesitter.get_parser)
@@ -108,12 +129,12 @@ local todo_keyword_show_condition = ls_conds.make_condition(function(line_to_cur
   if not node then -- E.g. very beginning of the buffer
     return false
   end
-  return vim.tbl_contains({
+  local is_in_comment = vim.tbl_contains({
     "comment",
     "comment_content",
-    "html_block", -- Markdown comments
     "line_comment",
   }, node:type())
+  return is_in_comment
 end)
 
 local M = {
