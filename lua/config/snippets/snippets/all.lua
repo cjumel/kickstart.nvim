@@ -75,7 +75,7 @@ local todo_comment_show_condition = ls_show_conds.line_end
     if is_special_buffer then
       return false
     end
-    local is_filetype_excluded = not vim.tbl_contains(excluded_filetypes, vim.bo.filetype)
+    local is_filetype_excluded = vim.tbl_contains(excluded_filetypes, vim.bo.filetype)
     if is_filetype_excluded then
       return false
     end
@@ -110,7 +110,7 @@ local todo_keyword_show_condition = ls_conds.make_condition(function(line_to_cur
   if is_special_buffer then
     return false
   end
-  local is_filetype_excluded = not vim.tbl_contains(excluded_filetypes, vim.bo.filetype)
+  local is_filetype_excluded = vim.tbl_contains(excluded_filetypes, vim.bo.filetype)
   if is_filetype_excluded then
     return false
   end
