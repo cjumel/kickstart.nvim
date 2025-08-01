@@ -1,11 +1,12 @@
 local M = {}
 
-M.nordic_enabled = true
+M.background = "light"
+M.everforest_enabled = true
 
 M.get_lualine_opts = function(_)
   return {
     options = {
-      theme = "nordic",
+      theme = "everforest",
       section_separators = { left = "", right = "" },
     },
   }
