@@ -1,16 +1,12 @@
 -- copilot.lua
 --
--- Lua and fully-featured version of GitHub Copilot integration in Neovim. Compared to copilot.vim, the official
--- alternative, this plugin is easy to configure and customize. As it is using virtual text, this plugin is nicely
--- complementary with popup-based completion tools, like nvim-cmp. However, copilot.lua (like copilot.vim) requires an
--- active GitHub Copilot subscription and an active internet conection to work.
+-- Fully featured & enhanced replacement for copilot.vim complete with API for interacting with Github Copilot.
 
 return {
   "zbirenbaum/copilot.lua",
   cond = MetaConfig.enable_all_plugins or MetaConfig.enable_copilot_plugins,
-  -- Spinning the Copilot server a bit before entering insert mode helps providing suggestions right away
-  event = { "InsertEnter", "BufNewFile", "BufReadPre" },
   cmd = "Copilot",
+  event = { "InsertEnter" },
   opts = {
     panel = { enabled = false }, -- I don't use it & its keymaps conflict with others
     suggestion = {
