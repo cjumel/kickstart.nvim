@@ -8,7 +8,6 @@ return {
     "mfussenegger/nvim-dap",
     "mfussenegger/nvim-dap-python",
     "rcarriga/cmp-dap",
-    { "theHamsta/nvim-dap-virtual-text", opts = { commented = true, virt_text_pos = "eol" } },
     "nvim-neotest/nvim-nio",
   },
   lazy = true, -- Lazy-loaded by the nvim-dap hydra

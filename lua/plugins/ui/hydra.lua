@@ -153,16 +153,14 @@ return {
           { "s", function() require("dap").pause() end },
           { "t", function() require("dap").terminate() end },
           { "u", function() require("dapui").toggle() end },
-          { "v", function() require("nvim-dap-virtual-text").toggle() end },
           { "x", function() require("dap").clear_breakpoints() end },
           { "<Esc>", nil, { exit = true, mode = "n", desc = false } },
         },
         hint = [[
-                                     Debug   
-   _b_ ➜ Toggle [B]reakpoint        _r_ ➜ [R]un         _u_ ➜ Toggle [U]I   
-   _c_ ➜ Set [C]omplex breakpoint   _s_ ➜ [S]top        _v_ ➜ Toggle [V]irtual text   
-   _l_ ➜ Rerun [L]ast               _t_ ➜ [T]erminate   _x_ ➜ Discard breakpoints   
-   _p_ ➜ [P]review variable   
+                                        Debug   
+   _b_ ➜ Toggle [B]reakpoint        _p_ ➜ [P]review variable   _t_ ➜ [T]erminate   
+   _c_ ➜ Set [C]omplex breakpoint   _r_ ➜ [R]un                _u_ ➜ Toggle [U]I   
+   _l_ ➜ Rerun [L]ast               _s_ ➜ [S]top               _x_ ➜ Discard breakpoints   
 ]],
       },
       {
