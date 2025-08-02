@@ -4,37 +4,23 @@
 -- servers.
 
 local servers_by_ft = {
-  json = {
-    jsonls = {},
-  },
+  json = { jsonls = {} },
   lua = {
-    lua_ls = { -- Basic LS features with type annotation checking and some linting
+    lua_ls = {
       settings = {
-        Lua = { -- LS settings go in there (see https://luals.github.io/wiki/settings/)
-          -- Disable diagnostics when passing to a function a table without the full expected type (e.g. when leaving
-          -- some values to their default)
+        Lua = {
+          -- Disable noisy diagnostics when passing to a function a table without the full expected type
           diagnostics = { disable = { "missing-fields" } },
         },
       },
     },
   },
-  markdown = {
-    marksman = {},
-  },
+  markdown = { marksman = {} },
   python = {
-    -- Pyright provides basic LS and advanced type checking features. However, it misses some more advanced LS
-    -- features, which are reserved for Pylance, Microsoft's dedicated and close-source LSP.
-    -- Basedpyright is built on top of Pyright to provide the more advanced LS features Pyright is missing, as well as
-    -- additional type checking features.
     basedpyright = {
       settings = {
         basedpyright = {
-          analysis = {
-            -- Relax the type checking mode. The default mode raises a lot of warnings and errors, which are more
-            -- suited when used as the main type checker of a project, similarly to Mypy's strict mode. Stricter modes
-            -- can be used on a per-project basis where basedpyright is used as the main type checker.
-            typeCheckingMode = "standard",
-          },
+          analysis = { typeCheckingMode = "standard" }, -- Relax type checking rules
         },
       },
       on_init = function(client, _)
@@ -42,34 +28,28 @@ local servers_by_ft = {
         client.server_capabilities.semanticTokensProvider = nil
       end,
     },
-    ruff = {}, -- Linting and formatting, integrated with code actions
+    ruff = {},
   },
   rust = {
     rust_analyzer = {
       settings = {
-        ["rust-analyzer"] = { -- LS settings go in there (see https://rust-analyzer.github.io/manual.html)
+        ["rust-analyzer"] = {
           -- Add parentheses when completing with a function instead of call snippets
           completion = { callable = { snippets = "add_parentheses" } },
         },
       },
     },
   },
-  toml = {
-    taplo = {}, -- Linting, formating and known schema validation/documentation
-  },
-  typescript = {
-    ts_ls = {},
-  },
+  toml = { taplo = {} },
+  typescript = { ts_ls = {} },
   typst = {
-    tinymist = { -- Basic LS features with popular formatters support
+    tinymist = {
       settings = {
-        formatterMode = "typstyle", -- Default formatter
+        formatterMode = "typstyle", -- Use the default formatter
       },
     },
   },
-  yaml = {
-    yamlls = {}, -- Validation, completion and documentation for knwon schemas
-  },
+  yaml = { yamlls = {} },
 }
 
 local server_name_to_mason_name = {
@@ -106,13 +86,7 @@ return {
         ---@param lhs string The left-hand side of the keymap.
         ---@param rhs string|function The right-hand side of the keymap.
         ---@param desc string The description of the keymap.
-        ---@param opts table|nil Additional options for the keymap.
-        local function map(mode, lhs, rhs, desc, opts)
-          opts = opts or {}
-          opts.desc = desc
-          opts.buffer = event.buf
-          vim.keymap.set(mode, lhs, rhs, opts)
-        end
+        local function map(mode, lhs, rhs, desc) vim.keymap.set(mode, lhs, rhs, { desc = desc, buffer = event.buf }) end
         map({ "n", "i" }, "<C-s>", vim.lsp.buf.signature_help, "Signature help")
         map("n", "gd", "<cmd>Trouble lsp_definitions<CR>", "Go to definition")
         map("n", "grt", "<cmd>Trouble lsp_type_definitions<CR>", "LSP: type definition")
@@ -124,22 +98,20 @@ return {
       end,
     })
 
+    local lspconfig = require("lspconfig")
+    local mason_lspconfig = require("mason-lspconfig")
+
     local capabilities = vim.lsp.protocol.make_client_capabilities()
     local cmp_capabilities = require("cmp_nvim_lsp").default_capabilities()
     capabilities = vim.tbl_deep_extend("force", capabilities, cmp_capabilities)
 
-    for _, ft_servers in pairs(servers_by_ft) do
-      for server_name, server_config in pairs(ft_servers) do
-        require("lspconfig")[server_name].setup({
-          capabilities = capabilities,
-          settings = server_config.settings or {},
-          on_init = server_config.on_init or nil,
-        })
+    for _, servers in pairs(servers_by_ft) do
+      for name, config in pairs(servers) do
+        config.capabilities = capabilities
+        lspconfig[name].setup(config)
       end
     end
 
-    require("mason-lspconfig").setup({
-      automatic_enable = false,
-    })
+    mason_lspconfig.setup({ automatic_enable = false })
   end,
 }
