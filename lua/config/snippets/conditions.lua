@@ -16,6 +16,7 @@ M.line_begin = ls_conds.make_condition(line_begin_function)
 local function line_end_function(line_to_cursor)
   -- Implementation taken from `luasnip.extras.conditions.show`
   local line = vim.api.nvim_get_current_line()
+  line = utils.get_line_to_trigger(line) -- Modified for `blink.cmp` compared to original implementation
   return line_to_cursor == line
 end
 M.line_end = ls_conds.make_condition(line_end_function)

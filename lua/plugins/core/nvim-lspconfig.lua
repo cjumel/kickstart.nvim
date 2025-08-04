@@ -65,7 +65,7 @@ return {
   dependencies = {
     "mason-org/mason.nvim",
     "mason-org/mason-lspconfig.nvim",
-    "hrsh7th/cmp-nvim-lsp",
+    "saghen/blink.cmp",
   },
   ft = vim.tbl_keys(servers_by_ft),
   init = function()
@@ -98,20 +98,16 @@ return {
       end,
     })
 
+    local blink = require("blink.cmp")
     local lspconfig = require("lspconfig")
-    local mason_lspconfig = require("mason-lspconfig")
-
-    local capabilities = vim.lsp.protocol.make_client_capabilities()
-    local cmp_capabilities = require("cmp_nvim_lsp").default_capabilities()
-    capabilities = vim.tbl_deep_extend("force", capabilities, cmp_capabilities)
-
     for _, servers in pairs(servers_by_ft) do
       for name, config in pairs(servers) do
-        config.capabilities = capabilities
+        config.capabilities = blink.get_lsp_capabilities(config.capabilities)
         lspconfig[name].setup(config)
       end
     end
 
+    local mason_lspconfig = require("mason-lspconfig")
     mason_lspconfig.setup({ automatic_enable = false })
   end,
 }

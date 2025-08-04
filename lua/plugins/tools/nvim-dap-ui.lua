@@ -7,7 +7,6 @@ return {
   dependencies = {
     "mfussenegger/nvim-dap",
     "mfussenegger/nvim-dap-python",
-    "rcarriga/cmp-dap",
     "nvim-neotest/nvim-nio",
   },
   lazy = true, -- Lazy-loaded by the nvim-dap hydra

@@ -63,11 +63,6 @@ local function clear_normal_mode()
   end
 end
 local function clear_insert_mode()
-  local cmp = package.loaded.cmp
-  if cmp ~= nil and cmp.visible() then
-    cmp.abort()
-    return
-  end
   local copilot_suggestion = package.loaded["copilot.suggestion"]
   if copilot_suggestion ~= nil and copilot_suggestion.is_visible() then
     copilot_suggestion.dismiss()
@@ -78,15 +73,8 @@ local function clear_insert_mode()
     noice.cmd("dismiss") -- Especially useful for LSP signature
   end
 end
-local function clear_commandline_mode()
-  local cmp = package.loaded.cmp
-  if cmp ~= nil then
-    cmp.abort()
-  end
-end
 vim.keymap.set("n", "<Esc>", clear_normal_mode, { desc = "Clear" })
 vim.keymap.set("i", "<C-c>", clear_insert_mode, { desc = "Clear" })
-vim.keymap.set("c", "<C-c>", clear_commandline_mode, { desc = "Clear" })
 
 vim.keymap.set("v", "<Tab>", ">gv", { desc = "Indent selection" })
 vim.keymap.set("v", "<S-Tab>", "<gv", { desc = "Unindent selection" })
