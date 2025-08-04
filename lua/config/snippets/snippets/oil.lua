@@ -100,7 +100,7 @@ local dot_prefix_condition = conds.make_prefix_condition(".")
 
 -- Let's try to keep the config files list minimal without any loss in coverage
 local lua_config_files = { "stylua.toml", ".stylua.toml" }
-local python_config_files = { "pyproject.toml", "setup.py", "requirements.txt" }
+local python_config_files = { "pyproject.toml", ".ruff.toml", "setup.py", "requirements.txt" }
 local rust_config_files = { "Cargo.toml" }
 
 return {
