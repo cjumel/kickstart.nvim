@@ -7,27 +7,32 @@ local s = ls.snippet
 local sn = ls.snippet_node
 local t = ls.text_node
 
---- Output a Luasnip condition for file extensions. This condition is true if it exists at least one file with the same
---- extension in the Oil directory, or any parent of this directly up until the current working directory.
----@param extension string The file extension.
+---@param extension string
+---@param config_files table|nil
 ---@return table
-local function make_file_extension_condition(extension)
+local function make_filetype_condition(extension, config_files)
+  config_files = config_files or {}
+  local function matching_function(name, _)
+    if name == ".nvim.lua" then
+      return false
+    end
+    if name:match(".*%." .. extension .. "$") then
+      return true
+    end
+    return vim.tbl_contains(config_files, name)
+  end
   return ls_conds.make_condition(function()
-    return not vim.tbl_isempty(vim.fs.find(function(name, _)
-      -- Exclude the special case of custom Neovim config files, as it doesn't mean there will be other Lua files
-      return name:match(".*%." .. extension .. "$") and name ~= ".nvim.lua"
-    end, {
+    local matches = vim.fs.find(matching_function, {
       type = "file",
       path = require("oil").get_current_dir(),
-      upward = true, -- Search in the current directory and its ancestors
+      upward = true,
       stop = vim.fn.getcwd(),
-    }))
+    })
+    return not vim.tbl_isempty(matches)
   end)
 end
 
---- Output a Luasnip condition for file names. This condition is true if no file with the same name exists in the Oil
---- directory.
----@param filename string The file name (including the extension).
+---@param filename string
 ---@return table
 local function make_filename_condition(filename)
   return ls_conds.make_condition(function()
@@ -40,11 +45,8 @@ local function make_filename_condition(filename)
   end)
 end
 
---- Output a function creating a Luasnip snippet node for a dynamic file index. The index is an empty string if no file
---- with the base name and extension already exists, otherwise, it is a string with "_" and the first index which makes
---- the combination of base name, index and extension a non-existing file.
----@param base_name string The base name of the file (without the extension).
----@param extension string The file extension.
+---@param base_name string
+---@param extension string
 ---@return function
 local function make_dynamic_file_index_node(base_name, extension)
   return function(_)
@@ -66,11 +68,8 @@ local function make_dynamic_file_index_node(base_name, extension)
   end
 end
 
---- Output a function creating a Luasnip snippet node for a dynamic file date. The date is made of a raw date string,
---- if no file with the base name and extension already exists, otherwise, it is concatenated with a string with "_" and
---- the first index which makes the combination of base name, date (with index) and extension a non-existing file.
----@param base_name string The base name of the file (without the extension).
----@param extension string The file extension.
+---@param base_name string
+---@param extension string
 ---@return function
 local function make_dynamic_file_date_node(base_name, extension)
   return function(_)
@@ -99,26 +98,34 @@ end
 -- non-line-begin condition, we also need a non-prefix condition.
 local dot_prefix_condition = conds.make_prefix_condition(".")
 
+-- Let's try to keep the config files list minimal without any loss in coverage
+local lua_config_files = { "stylua.toml", ".stylua.toml" }
+local python_config_files = { "pyproject.toml", "setup.py", "requirements.txt" }
+local rust_config_files = { "Cargo.toml" }
+
 return {
   s({
     trig = ".json",
-    show_condition = -dot_prefix_condition * -conds.line_begin * conds.line_end * make_file_extension_condition("json"),
+    show_condition = -dot_prefix_condition * -conds.line_begin * conds.line_end * make_filetype_condition("json"),
   }, { t(".json") }),
 
   s({
     trig = ".lua",
-    show_condition = -dot_prefix_condition * -conds.line_begin * conds.line_end * make_file_extension_condition("lua"),
+    show_condition = -dot_prefix_condition * -conds.line_begin * conds.line_end * make_filetype_condition(
+      "lua",
+      lua_config_files
+    ),
   }, { t(".lua") }),
   s({
     trig = "init.lua",
     show_condition = conds.line_begin
       * conds.line_end
-      * make_file_extension_condition("lua")
+      * make_filetype_condition("lua", lua_config_files)
       * make_filename_condition("init.lua"),
   }, { t("init.lua") }),
   s({
     trig = "temp.lua",
-    show_condition = conds.line_begin * conds.line_end * make_file_extension_condition("lua"),
+    show_condition = conds.line_begin * conds.line_end * make_filetype_condition("lua", lua_config_files),
   }, { t("temp"), d(1, make_dynamic_file_index_node("temp", ".lua")), t(".lua") }),
 
   s({
@@ -140,60 +147,66 @@ return {
 
   s({
     trig = ".py",
-    show_condition = -dot_prefix_condition * -conds.line_begin * conds.line_end * make_file_extension_condition("py"),
+    show_condition = -dot_prefix_condition * -conds.line_begin * conds.line_end * make_filetype_condition(
+      "py",
+      python_config_files
+    ),
   }, { t(".py") }),
   s({
     trig = "__init__.py",
     show_condition = conds.make_prefix_condition("_") -- The snippet is triggered after the first "_"
       * conds.line_end
-      * make_file_extension_condition("py")
+      * make_filetype_condition("py", python_config_files)
       * make_filename_condition("__init__.py"),
   }, { t("__init__.py") }),
   s({
     trig = "temp.py",
-    show_condition = conds.line_begin * conds.line_end * make_file_extension_condition("py"),
+    show_condition = conds.line_begin * conds.line_end * make_filetype_condition("py", python_config_files),
   }, { t("temp"), d(1, make_dynamic_file_index_node("temp", ".py")), t(".py") }),
 
   s({
     trig = ".rs",
-    show_condition = -dot_prefix_condition * -conds.line_begin * conds.line_end * make_file_extension_condition("rs"),
+    show_condition = -dot_prefix_condition * -conds.line_begin * conds.line_end * make_filetype_condition(
+      "rs",
+      rust_config_files
+    ),
   }, { t(".rs") }),
   s({
     trig = "temp.rs",
-    show_condition = conds.line_begin * conds.line_end * make_file_extension_condition("rs"),
+    show_condition = conds.line_begin * conds.line_end * make_filetype_condition("rs", rust_config_files),
   }, { t("temp"), d(1, make_dynamic_file_index_node("temp", ".rs")), t(".rs") }),
 
   s({
     trig = ".sh",
-    show_condition = -dot_prefix_condition * -conds.line_begin * conds.line_end * make_file_extension_condition("sh"),
+    show_condition = -dot_prefix_condition * -conds.line_begin * conds.line_end * make_filetype_condition("sh"),
   }, { t(".sh") }),
 
   s({
     trig = ".toml",
-    show_condition = -dot_prefix_condition * -conds.line_begin * conds.line_end * make_file_extension_condition("toml"),
+    show_condition = -dot_prefix_condition * -conds.line_begin * conds.line_end * make_filetype_condition("toml"),
   }, { t(".toml") }),
 
   s({
     trig = ".txt",
-    show_condition = -dot_prefix_condition * -conds.line_begin * conds.line_end * make_file_extension_condition("txt"),
+    show_condition = -dot_prefix_condition * -conds.line_begin * conds.line_end * make_filetype_condition("txt"),
   }, { t(".txt") }),
 
   s({
     trig = ".typ",
-    show_condition = -dot_prefix_condition * -conds.line_begin * conds.line_end * make_file_extension_condition("typ"),
+    show_condition = -dot_prefix_condition * -conds.line_begin * conds.line_end * make_filetype_condition("typ"),
   }, { t(".typ") }),
 
   s({
     trig = ".yaml",
-    show_condition = -dot_prefix_condition * -conds.line_begin * conds.line_end * make_file_extension_condition("yaml"),
+    show_condition = -dot_prefix_condition * -conds.line_begin * conds.line_end * make_filetype_condition("yaml"),
   }, { t(".yaml") }),
   s({
     trig = ".yml",
-    show_condition = -dot_prefix_condition * -conds.line_begin * conds.line_end * make_file_extension_condition("yml"),
+    show_condition = -dot_prefix_condition * -conds.line_begin * conds.line_end * make_filetype_condition("yml"),
   }, { t(".yml") }),
 
   s({
     trig = ".zsh",
-    show_condition = -dot_prefix_condition * -conds.line_begin * conds.line_end * make_file_extension_condition("zsh"),
+    show_condition = -dot_prefix_condition * -conds.line_begin * conds.line_end * make_filetype_condition("zsh"),
   }, { t(".zsh") }),
 }
