@@ -74,7 +74,7 @@ return {
 
   s({
     trig = "code-block",
-    show_condition = conds.line_begin * ls_show_conds.line_end,
+    show_condition = conds.line_begin * conds.line_end,
     desc = [[
 \`\`\`…
 …
@@ -109,7 +109,7 @@ Multiple-choice snippet:
 
   s({
     trig = "header",
-    show_condition = conds.line_begin * ls_show_conds.line_end,
+    show_condition = conds.line_begin * conds.line_end,
     desc = [[
 Multiple-choice snippet:
 - `# …`
@@ -149,7 +149,7 @@ Multiple-choice snippet:
 
   s({
     trig = "quote-block",
-    show_condition = conds.line_begin * ls_show_conds.line_end,
+    show_condition = conds.line_begin * conds.line_end,
     desc = [[
 Multiple-choice snippet:
 - `> …`
@@ -222,7 +222,7 @@ Multiple-choice snippet:
 
   s({
     trig = "toggle-block",
-    show_condition = conds.line_begin * ls_show_conds.line_end,
+    show_condition = conds.line_begin * conds.line_end,
     desc = [[
 `<details>`
 `<summary>…<\summary>`
