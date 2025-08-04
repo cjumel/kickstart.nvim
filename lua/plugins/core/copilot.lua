@@ -8,17 +8,11 @@ return {
   cmd = "Copilot",
   event = { "InsertEnter" },
   opts = {
-    panel = { enabled = false }, -- I don't use it & its keymaps conflict with others
+    panel = { enabled = false }, -- Not used & keymaps create conflicts
     suggestion = {
       auto_trigger = true,
-      keymap = {
-        accept = false, -- <Tab>, defined in `plugins/keymaps.lua`
-        accept_word = false, -- <C-^> (or <C-,> on my keyboard), defined in `plugins/keymaps.lua`
-        accept_line = false, -- <C-e>, defined in `plugins/keymaps.lua`
-        next = false,
-        prev = false,
-        dismiss = "<C-x>", -- By default, <C-x> is used mainly for omni-completion, but I don't use it
-      },
+      -- Keymaps for this plugin are defined in ./plugin/keymaps.lua
+      keymap = { accept = false, accept_word = false, accept_line = false, next = false, prev = false, dismiss = false },
     },
     filetypes = { yaml = true, markdown = true, gitcommit = true },
   },

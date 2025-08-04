@@ -482,7 +482,6 @@ return {
         keys = {
           i_ctrl_n = { "<C-n>", "hist_down", mode = "i" },
           i_ctrl_p = { "<C-p>", "hist_up", mode = "i" },
-          i_meta_bs = { "<M-BS>", "<c-s-w>", mode = "i", expr = true },
           i_esc = { "<Esc>", "cancel", mode = "i" },
           i_ctrl_c = { "<C-C>", "cancel", mode = "i" },
         },
@@ -665,7 +664,6 @@ return {
             ["<C-b>"] = false,
             ["<C-f>"] = false,
             ["<C-u>"] = false,
-            ["<M-BS>"] = { "<C-S-w>", mode = "i", expr = true }, -- Fix <M-BS>
           },
         },
       },

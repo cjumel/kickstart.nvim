@@ -52,29 +52,40 @@ vim.keymap.set("n", "gp", vim.diagnostic.open_float, { desc = "Preview diagnosti
 vim.keymap.set("n", "gl", vim.diagnostic.reset, { desc = "Reload diagnostics" })
 
 local function clear_normal_mode()
-  vim.cmd("nohlsearch") -- Clear search highlights in case `vim.o.hlsearch` is true
-  if package.loaded.noice ~= nil then
-    require("noice").cmd("dismiss") -- Clear Noice messages
+  vim.cmd("nohlsearch")
+  local lualine = package.loaded.lualine
+  if lualine ~= nil then
+    lualine.refresh({ place = { "statusline" } }) -- Immediately refresh the search count component
   end
-  if package.loaded.lualine ~= nil then
-    require("lualine").refresh({ place = { "statusline" } })
+  local noice = package.loaded.noice
+  if noice ~= nil then
+    noice.cmd("dismiss")
   end
 end
-local function clear_inser_mode()
-  if package.loaded.noice ~= nil then
-    require("noice").cmd("dismiss") -- Clear Noice messages (especially useful for LSP signature)
+local function clear_insert_mode()
+  local cmp = package.loaded.cmp
+  if cmp ~= nil and cmp.visible() then
+    cmp.abort()
+    return
   end
-  if package.loaded.cmp ~= nil then
-    require("cmp").abort() -- Clear nvim-cmp suggestion
+  local copilot_suggestion = package.loaded["copilot.suggestion"]
+  if copilot_suggestion ~= nil and copilot_suggestion.is_visible() then
+    copilot_suggestion.dismiss()
+    return
+  end
+  local noice = package.loaded.noice
+  if noice ~= nil then
+    noice.cmd("dismiss") -- Especially useful for LSP signature
   end
 end
 local function clear_commandline_mode()
-  if package.loaded.cmp ~= nil then
-    require("cmp").abort() -- Clear nvim-cmp suggestion
+  local cmp = package.loaded.cmp
+  if cmp ~= nil then
+    cmp.abort()
   end
 end
 vim.keymap.set("n", "<Esc>", clear_normal_mode, { desc = "Clear" })
-vim.keymap.set("i", "<C-c>", clear_inser_mode, { desc = "Clear" })
+vim.keymap.set("i", "<C-c>", clear_insert_mode, { desc = "Clear" })
 vim.keymap.set("c", "<C-c>", clear_commandline_mode, { desc = "Clear" })
 
 vim.keymap.set("v", "<Tab>", ">gv", { desc = "Indent selection" })
@@ -339,7 +350,8 @@ map_move_pair("r", next_reference, prev_reference, "reference")
 
 -- [[ Insert and command-line keymaps ]]
 
-vim.keymap.set({ "i", "c" }, "<M-BS>", "<C-w>", { desc = "Delete word" }) -- For consistency with zsh & other softwares
+vim.keymap.set({ "i", "c" }, "<C-w>", "<C-S-w>", { desc = "Delete word" }) -- Make it work also in special buffers
+vim.keymap.set({ "i", "c" }, "<M-BS>", "<C-S-w>", { desc = "Delete word" }) -- For consistency with other softwares
 vim.keymap.set({ "i", "c" }, "<C-r><C-r>", '<C-r>"', { desc = "Paste from main register" })
 
 -- Define functions to mix insert-mode navigation and accepting Copilot.lua suggestions, just like how the zsh
