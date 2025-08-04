@@ -2,7 +2,6 @@
 
 local conds = require("config.snippets.conditions")
 local ls = require("luasnip")
-local ls_show_conds = require("luasnip.extras.conditions.show")
 
 local i = ls.insert_node
 local s = ls.snippet
@@ -27,7 +26,7 @@ return {
 
   s({
     trig = "let",
-    show_condition = conds.line_begin * ls_show_conds.line_end,
+    show_condition = conds.line_begin * conds.line_end,
     desc = [[`let … = …;]],
   }, {
     t("let "),
@@ -38,7 +37,7 @@ return {
   }),
   s({
     trig = "let mut",
-    show_condition = conds.line_begin * ls_show_conds.line_end,
+    show_condition = conds.line_begin * conds.line_end,
     desc = [[`let mut … = …;]],
   }, {
     t("let mut "),

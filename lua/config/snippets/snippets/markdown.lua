@@ -1,6 +1,5 @@
 local conds = require("config.snippets.conditions")
 local ls = require("luasnip")
-local ls_show_conds = require("luasnip.extras.conditions.show")
 
 local c = ls.choice_node
 local d = ls.dynamic_node
@@ -10,7 +9,7 @@ local s = ls.snippet
 local sn = ls.snippet_node
 local t = ls.text_node
 
-local callout_condition = conds.prefix("[!") + conds.prefix("> [!")
+local callout_condition = conds.make_prefix_condition("[!") + conds.make_prefix_condition("> [!")
 
 return {
   s({
@@ -33,7 +32,7 @@ return {
 
   s({
     trig = "callout",
-    show_condition = conds.line_begin * ls_show_conds.line_end,
+    show_condition = conds.line_begin * conds.line_end,
     desc = [[
 `> [! …]`
 `>`

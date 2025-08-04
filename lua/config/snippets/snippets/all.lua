@@ -1,7 +1,7 @@
 local conds = require("config.snippets.conditions")
 local ls = require("luasnip")
 local ls_conds = require("luasnip.extras.conditions")
-local ls_show_conds = require("luasnip.extras.conditions.show")
+local utils = require("config.snippets.utils")
 
 local c = ls.choice_node
 local f = ls.function_node
@@ -69,7 +69,7 @@ local function get_todo_keyword_snippet_choices()
   return todo_keyword_snippet_choices
 end
 
-local todo_comment_show_condition = ls_show_conds.line_end
+local todo_comment_show_condition = conds.line_end
   * ls_conds.make_condition(function(line_to_cursor)
     local is_special_buffer = vim.bo.buftype ~= ""
     if is_special_buffer then
@@ -87,7 +87,7 @@ local todo_comment_show_condition = ls_show_conds.line_end
     if not is_treesitter_available then
       return true
     end
-    local is_treesitter_parsable, node = pcall(conds.get_treesitter_node, line_to_cursor)
+    local is_treesitter_parsable, node = pcall(utils.get_treesitter_node_at_trigger, line_to_cursor)
     if not is_treesitter_parsable then
       return false
     end
@@ -122,7 +122,7 @@ local todo_keyword_show_condition = ls_conds.make_condition(function(line_to_cur
   if not is_treesitter_available then
     return false
   end
-  local is_treesitter_parsable, node = pcall(conds.get_treesitter_node, line_to_cursor)
+  local is_treesitter_parsable, node = pcall(utils.get_treesitter_node_at_trigger, line_to_cursor)
   if not is_treesitter_parsable then
     return false
   end

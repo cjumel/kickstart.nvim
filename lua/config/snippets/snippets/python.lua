@@ -2,7 +2,6 @@ local conds = require("config.snippets.conditions")
 
 local ls = require("luasnip")
 local ls_extras = require("luasnip.extras")
-local ls_show_conds = require("luasnip.extras.conditions.show")
 
 local c = ls.choice_node
 local i = ls.insert_node
@@ -13,15 +12,16 @@ local sn = ls.snippet_node
 local t = ls.text_node
 
 local local_conds = {}
-local_conds.in_code = conds.ts_node_not_in({ "comment", "string", "string_start", "string_content", "string_end" })
-local_conds.async = conds.prefix("async ")
-local_conds.for_inline = conds.ts_node_in({ "dictionary", "list", "set" })
-local_conds.is_in_comment = conds.ts_node_in({ "comment" })
+local_conds.in_code =
+  conds.make_ts_node_not_in_condition({ "comment", "string", "string_start", "string_content", "string_end" })
+local_conds.async = conds.make_prefix_condition("async ")
+local_conds.for_inline = conds.make_ts_node_in_condition({ "dictionary", "list", "set" })
+local_conds.is_in_comment = conds.make_ts_node_in_condition({ "comment" })
 
 return {
   s({
     trig = "def",
-    show_condition = (conds.line_begin + local_conds.async) * ls_show_conds.line_end * local_conds.in_code,
+    show_condition = (conds.line_begin + local_conds.async) * conds.line_end * local_conds.in_code,
     desc = [[`def …(…) -> …: …`]],
   }, {
     t("def "),
@@ -51,7 +51,7 @@ return {
   s({
     trig = "for",
     show_condition = (conds.line_begin + local_conds.async)
-      * ls_show_conds.line_end
+      * conds.line_end
       * local_conds.in_code
       * -local_conds.for_inline,
     desc = [[`for … in …: …`]],
@@ -76,7 +76,7 @@ return {
   s({
     trig = "for … enumerate",
     show_condition = (conds.line_begin + local_conds.async)
-      * ls_show_conds.line_end
+      * conds.line_end
       * local_conds.in_code
       * -local_conds.for_inline,
     desc = [[`for … in enumerate(…): …`]],
@@ -106,7 +106,7 @@ return {
   s({
     trig = "for … range",
     show_condition = (conds.line_begin + local_conds.async)
-      * ls_show_conds.line_end
+      * conds.line_end
       * local_conds.in_code
       * -local_conds.for_inline,
     desc = [[`for … in range(…): …`]],
@@ -132,7 +132,7 @@ return {
   s({
     trig = "for … zip",
     show_condition = (conds.line_begin + local_conds.async)
-      * ls_show_conds.line_end
+      * conds.line_end
       * local_conds.in_code
       * -local_conds.for_inline,
     desc = [[`for … in zip(…): …`]],
@@ -158,7 +158,7 @@ return {
 
   s({
     trig = "from … import",
-    show_condition = conds.line_begin * ls_show_conds.line_end * local_conds.in_code,
+    show_condition = conds.line_begin * conds.line_end * local_conds.in_code,
     desc = [[`from … import …`]],
   }, {
     t("from "),
@@ -168,7 +168,7 @@ return {
   }),
   s({
     trig = "from … import … as",
-    show_condition = conds.line_begin * ls_show_conds.line_end * local_conds.in_code,
+    show_condition = conds.line_begin * conds.line_end * local_conds.in_code,
     desc = [[`from … import … as`]],
   }, {
     t("from "),
@@ -191,7 +191,7 @@ return {
   }),
   s({
     trig = "if … main",
-    show_condition = conds.line_begin * ls_show_conds.line_end * conds.ts_node_in({ "module" }),
+    show_condition = conds.line_begin * conds.line_end * conds.make_ts_node_in_condition({ "module" }),
     desc = [[`if __name__ == "__main__": …`]],
   }, {
     t({ 'if __name__ == "__main__":', "\t" }),
@@ -199,7 +199,7 @@ return {
   }),
   s({
     trig = "if … isinstance … raise",
-    show_condition = conds.line_begin * ls_show_conds.line_end * local_conds.in_code,
+    show_condition = conds.line_begin * conds.line_end * local_conds.in_code,
     desc = [[
 Choices:
 - `if isinstance(…): raise TypeError(…)`
@@ -238,7 +238,7 @@ Choices:
   }),
   s({
     trig = "if … None … raise",
-    show_condition = conds.line_begin * ls_show_conds.line_end * local_conds.in_code,
+    show_condition = conds.line_begin * conds.line_end * local_conds.in_code,
     desc = [[
 Choices:
 - `if … is None: raise ValueError(…)`
@@ -270,7 +270,7 @@ Choices:
 
   s({
     trig = "import",
-    show_condition = conds.line_begin * ls_show_conds.line_end * local_conds.in_code,
+    show_condition = conds.line_begin * conds.line_end * local_conds.in_code,
     desc = [[`import …`]],
   }, {
     t("import "),
@@ -278,7 +278,7 @@ Choices:
   }),
   s({
     trig = "import … as",
-    show_condition = conds.line_begin * ls_show_conds.line_end * local_conds.in_code,
+    show_condition = conds.line_begin * conds.line_end * local_conds.in_code,
     desc = [[`import … as …`]],
   }, {
     t("import "),
@@ -289,7 +289,7 @@ Choices:
 
   s({
     trig = "or None",
-    show_condition = -conds.line_begin * conds.ts_node_in({
+    show_condition = -conds.line_begin * conds.make_ts_node_in_condition({
       "assignment",
       "block",
       "constrained_type",
@@ -311,7 +311,7 @@ Choices:
 
   s({
     trig = "noqa",
-    show_condition = local_conds.is_in_comment * conds.is_comment_start * ls_show_conds.line_end,
+    show_condition = local_conds.is_in_comment * conds.comment_start * conds.line_end,
     desc = [[
 Ignore lint warnings (e.g. for Flake8 or Ruff).
 Choices:
@@ -326,7 +326,7 @@ Choices:
 
   s({
     trig = "pragma: no cover",
-    show_condition = local_conds.is_in_comment * conds.is_comment_start * ls_show_conds.line_end,
+    show_condition = local_conds.is_in_comment * conds.comment_start * conds.line_end,
     desc = [[
 Exclude from coverage reports (e.g. for coverage.py or pytest-cov).
 `pragma: no cover`]],
@@ -337,7 +337,7 @@ Exclude from coverage reports (e.g. for coverage.py or pytest-cov).
 
   s({
     trig = "pyright: ignore",
-    show_condition = local_conds.is_in_comment * conds.is_comment_start * ls_show_conds.line_end,
+    show_condition = local_conds.is_in_comment * conds.comment_start * conds.line_end,
     desc = [[
 Ignore a specific pyright warning.
 Choices:
@@ -352,7 +352,7 @@ Choices:
 
   s({
     trig = "ruff: noqa",
-    show_condition = local_conds.is_in_comment * conds.is_comment_start * ls_show_conds.line_end * conds.first_line,
+    show_condition = local_conds.is_in_comment * conds.comment_start * conds.line_end * conds.first_line,
     desc = [[
 Ignore ruff warnings for the entire file.
 Choices:
@@ -367,7 +367,7 @@ Choices:
 
   s({
     trig = "type: ignore",
-    show_condition = local_conds.is_in_comment * conds.is_comment_start * ls_show_conds.line_end,
+    show_condition = local_conds.is_in_comment * conds.comment_start * conds.line_end,
     desc = [[
 Ignore typing warnings (e.g. for mypy or Pyright).
 Choices:

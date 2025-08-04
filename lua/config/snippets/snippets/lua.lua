@@ -9,7 +9,7 @@ local t = ls.text_node
 
 local local_conds = {}
 
-local_conds.is_in_code = conds.ts_node_not_in({
+local_conds.is_in_code = conds.make_ts_node_not_in_condition({
   "comment",
   "comment_content",
   "string",
