@@ -8,6 +8,7 @@ return {
     "hrsh7th/cmp-buffer",
     "hrsh7th/cmp-cmdline",
     "hrsh7th/cmp-path",
+    "windwp/nvim-autopairs",
   },
   event = { "CmdlineEnter" },
   init = function() -- Setup custom lazy-loading event
@@ -61,8 +62,16 @@ return {
         { name = "lazydev", group_index = 0 },
         { name = "luasnip", group_index = 1 },
         { name = "nvim_lsp", group_index = 1 },
-        { name = "path", group_index = 1 },
-        { name = "buffer", group_index = 1 },
+        {
+          name = "path",
+          group_index = 1,
+          option = { get_cwd = function() return vim.fn.getcwd() end },
+        },
+        {
+          name = "buffer",
+          group_index = 1,
+          option = { get_bufnrs = function() return vim.api.nvim_list_bufs() end },
+        },
       },
       -- Fix issue with too long menus in completion window (see https://github.com/hrsh7th/nvim-cmp/issues/1154)
       formatting = {
@@ -82,5 +91,9 @@ return {
     cmp.setup.cmdline({ "/", "?" }, { sources = { { name = "buffer" } } })
     cmp.setup.filetype("sql", { sources = { { name = "vim-dadbod-completion" } } })
     cmp.setup.filetype({ "dap-repl", "dapui_watches", "dapui_hover" }, { sources = { { name = "dap" } } })
+
+    -- Set up automatic parenthesis insertion when completing a function
+    local cmp_autopairs = require("nvim-autopairs.completion.cmp")
+    cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
   end,
 }
