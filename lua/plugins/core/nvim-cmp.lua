@@ -1,9 +1,6 @@
 -- nvim-cmp
 --
--- nvim-cmp is a lightweight and extensible completion engine for Neovim written in Lua. It is fairly easy to use
--- (admittedly not as much as alternatives like blink.cmp, but I have issues with the later), and integrates well with
--- many tools, like LSP or code snippets. Having a plugin like this one in a Neovim configuration is really a must-have
--- in my opinion.
+-- A completion engine plugin for neovim written in Lua.
 
 return {
   "hrsh7th/nvim-cmp",
@@ -12,10 +9,18 @@ return {
     "hrsh7th/cmp-cmdline",
     "hrsh7th/cmp-path",
   },
-  event = { "InsertEnter", "CmdlineEnter" }, -- CmdlineEnter is not covered by InsertEnter
+  event = { "CmdlineEnter" },
+  init = function() -- Setup custom lazy-loading event
+    vim.api.nvim_create_autocmd("InsertEnter", {
+      callback = function()
+        if vim.bo.buftype ~= "prompt" then
+          Lazy.load({ plugins = { "nvim-cmp" } })
+        end
+      end,
+    })
+  end,
   config = function()
     local cmp = require("cmp")
-
     cmp.setup({
       enabled = function()
         -- Support new filetypes
@@ -52,10 +57,12 @@ return {
         end, { "i", "c" }),
       },
       sources = {
-        { name = "luasnip" },
-        { name = "nvim_lsp" },
-        { name = "path" },
-        { name = "buffer" },
+        -- Only show `lazydev` completions when available, to skip loading lua_ls completions
+        { name = "lazydev", group_index = 0 },
+        { name = "luasnip", group_index = 1 },
+        { name = "nvim_lsp", group_index = 1 },
+        { name = "path", group_index = 1 },
+        { name = "buffer", group_index = 1 },
       },
       -- Fix issue with too long menus in completion window (see https://github.com/hrsh7th/nvim-cmp/issues/1154)
       formatting = {
@@ -71,35 +78,9 @@ return {
     })
 
     -- Set up special sources
-    cmp.setup.cmdline(":", {
-      sources = {
-        -- Only show `path` completions when available, to avoid redundancies with `cmdline`
-        { name = "path", group_index = 0 },
-        { name = "cmdline", group_index = 1 },
-      },
-    })
-    cmp.setup.cmdline({ "/", "?" }, { sources = {
-      { name = "buffer" },
-    } })
-    cmp.setup.filetype("lua", {
-      sources = {
-        -- Only show `lazydev` completions when available, to skip loading lua_ls completions
-        { name = "lazydev", group_index = 0 },
-        { name = "luasnip", group_index = 1 },
-        { name = "nvim_lsp", group_index = 1 },
-        { name = "path", group_index = 1 },
-        { name = "buffer", group_index = 1 },
-      },
-    })
-    cmp.setup.filetype("sql", {
-      sources = {
-        { name = "vim-dadbod-completion" },
-      },
-    })
-    cmp.setup.filetype({ "dap-repl", "dapui_watches", "dapui_hover" }, {
-      sources = {
-        { name = "dap" },
-      },
-    })
+    cmp.setup.cmdline(":", { sources = { { name = "cmdline" } } })
+    cmp.setup.cmdline({ "/", "?" }, { sources = { { name = "buffer" } } })
+    cmp.setup.filetype("sql", { sources = { { name = "vim-dadbod-completion" } } })
+    cmp.setup.filetype({ "dap-repl", "dapui_watches", "dapui_hover" }, { sources = { { name = "dap" } } })
   end,
 }

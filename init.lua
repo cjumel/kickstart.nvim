@@ -19,6 +19,7 @@ vim.opt.rtp:prepend(lazypath)
 -- Setup global variables for main configuration modules
 MetaConfig = require("config.meta")
 ThemeConfig = require("config.theme")
+Lazy = require("lazy")
 
 -- Setup leader and local leader keys before loading lazy.nvim so that mappings are correct in plugins setup
 vim.g.mapleader = " "
@@ -28,7 +29,7 @@ vim.g.maplocalleader = "  "
 vim.opt.background = ThemeConfig.background or "dark"
 
 -- Setup lazy.nvim
-require("lazy").setup({
+Lazy.setup({
   spec = {
     { import = "plugins.colorschemes" },
     { import = "plugins.ui" },
@@ -37,11 +38,11 @@ require("lazy").setup({
     { import = "plugins.tools" },
   },
   rocks = { enabled = false }, -- Luarocks is not installed on my machine & I don't need it
-  ui = { border = "rounded" }, -- Better for transparent backgrounds
+  ui = { border = "rounded" },
   change_detection = { enabled = false },
 })
 
 -- Customize lazy.nvim UI window keymaps
-local LazyViewConfig = require("lazy.view.config")
-LazyViewConfig.keys.next = ","
-LazyViewConfig.keys.prev = ";"
+local lazy_view_config = require("lazy.view.config")
+lazy_view_config.keys.next = ","
+lazy_view_config.keys.prev = ";"
