@@ -51,27 +51,6 @@ M.get_lualine_opts = function(_)
           "searchcount",
           color = { fg = "#ff9e64" }, -- Orange
         },
-        {
-          function()
-            if vim.g.last_task_status == "success" then
-              return ""
-            elseif vim.g.last_task_status == "failure" then
-              return ""
-            elseif vim.g.last_task_status == "in progress" then
-              return ""
-            end
-          end,
-          cond = function() return vim.g.last_task_status ~= nil end,
-          color = function()
-            if vim.g.last_task_status == "success" then
-              return { fg = "#98c379" } -- Green
-            elseif vim.g.last_task_status == "failure" then
-              return { fg = "#e06c75" } -- Red
-            elseif vim.g.last_task_status == "in progress" then
-              return { fg = "#61afef" } -- Blue
-            end
-          end,
-        },
         "filetype",
         "location",
         "progress",

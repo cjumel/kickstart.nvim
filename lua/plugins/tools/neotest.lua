@@ -90,10 +90,9 @@ return {
         require("neotest-python"),
       },
       consumers = {
-        notify_and_update_last_task_status = function(client)
+        notify = function(client)
           client.listeners.starting = function()
-            vim.g.last_task_status = "in progress"
-            require("lualine").refresh({ place = { "statusline" } })
+            vim.notify("Running tests...", vim.log.levels.INFO, { title = "Neotest" })
           end
           client.listeners.results = function(_, results, partial)
             if partial then
@@ -107,22 +106,10 @@ return {
                 passed = passed + 1
               end
             end
-            if passed == total then
-              vim.g.last_task_status = "success"
-              vim.notify(
-                "SUCCESS: " .. passed .. "/" .. total .. " tests passed.",
-                vim.log.levels.INFO,
-                { title = "Neotest" }
-              )
-            else
-              vim.g.last_task_status = "failure"
-              vim.notify(
-                "FAILURE: " .. passed .. "/" .. total .. " tests passed.",
-                vim.log.levels.ERROR,
-                { title = "Neotest" }
-              )
-            end
-            require("lualine").refresh({ place = { "statusline" } })
+            local status = passed == total and "SUCCESS" or "FAILURE"
+            local message = string.format("%s: %d/%d tests passed.", status, passed, total)
+            local level = passed == total and vim.log.levels.INFO or vim.log.levels.ERROR
+            vim.notify(message, level, { title = "Neotest" })
           end
         end,
       },
