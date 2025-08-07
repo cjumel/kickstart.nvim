@@ -6,16 +6,7 @@ return {
   "L3MON4D3/LuaSnip",
   dependencies = { "saadparwaiz1/cmp_luasnip" },
   version = "v2.*",
-  lazy = true,
-  init = function() -- Setup custom lazy-loading event
-    vim.api.nvim_create_autocmd("InsertEnter", {
-      callback = function()
-        if vim.bo.buftype == "" or vim.bo.filetype == "oil" then
-          Lazy.load({ plugins = { "LuaSnip" } })
-        end
-      end,
-    })
-  end,
+  event = { "InsertEnter" },
   opts = {},
   config = function(_, opts)
     local ls = require("luasnip")

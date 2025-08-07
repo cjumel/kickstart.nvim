@@ -19,7 +19,6 @@ vim.opt.rtp:prepend(lazypath)
 -- Setup global variables for main configuration modules
 MetaConfig = require("config.meta")
 ThemeConfig = require("config.theme")
-Lazy = require("lazy")
 
 -- Setup leader and local leader keys before loading lazy.nvim so that mappings are correct in plugins setup
 vim.g.mapleader = " "
@@ -29,7 +28,7 @@ vim.g.maplocalleader = "  "
 vim.opt.background = ThemeConfig.background or "dark"
 
 -- Setup lazy.nvim
-Lazy.setup({
+require("lazy").setup({
   spec = {
     { import = "plugins.colorschemes" },
     { import = "plugins.ui" },

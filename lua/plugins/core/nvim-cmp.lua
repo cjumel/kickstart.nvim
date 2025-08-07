@@ -10,18 +10,10 @@ return {
     "hrsh7th/cmp-path",
     "windwp/nvim-autopairs",
   },
-  event = { "CmdlineEnter" },
-  init = function() -- Setup custom lazy-loading event
-    vim.api.nvim_create_autocmd("InsertEnter", {
-      callback = function()
-        if vim.bo.buftype ~= "prompt" then
-          Lazy.load({ plugins = { "nvim-cmp" } })
-        end
-      end,
-    })
-  end,
+  event = { "InsertEnter", "CmdlineEnter" },
   config = function()
     local cmp = require("cmp")
+
     cmp.setup({
       enabled = function()
         -- Support new filetypes
@@ -86,7 +78,6 @@ return {
       },
     })
 
-    -- Set up special sources
     cmp.setup.cmdline(":", { sources = { { name = "cmdline" } } })
     cmp.setup.cmdline({ "/", "?" }, { sources = { { name = "buffer" } } })
     cmp.setup.filetype("sql", { sources = { { name = "vim-dadbod-completion" } } })
