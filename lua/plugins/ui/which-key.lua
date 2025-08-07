@@ -40,6 +40,7 @@ return {
       { "gr", group = "LSP" },
       { "<leader><leader>", group = "Local leader" },
       { "<leader>a", group = "[A]I" },
+      { "<leader>d", group = "[D]ebug" },
       { "<leader>f", group = "[F]ind", mode = { "n", "v" } },
       { "<leader>g", group = "[G]it", mode = { "n", "v" } },
       { "<leader>m", group = "Task [M]anager" },

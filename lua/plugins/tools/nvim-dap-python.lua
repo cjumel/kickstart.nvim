@@ -9,7 +9,7 @@ return {
     "mfussenegger/nvim-dap",
     "mason-org/mason.nvim",
   },
-  lazy = true, -- Dependency of nvim-dap-ui
+  lazy = true, -- Lazy-loaded by nvim-dap
   init = function()
     local mason_ensure_installed = { "debugpy" }
     vim.g.mason_ensure_installed = vim.list_extend(vim.g.mason_ensure_installed or {}, mason_ensure_installed)
