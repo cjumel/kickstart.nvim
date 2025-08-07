@@ -6,7 +6,7 @@ return {
   "L3MON4D3/LuaSnip",
   dependencies = { "saadparwaiz1/cmp_luasnip" },
   version = "v2.*",
-  event = { "InsertEnter" },
+  lazy = true, -- Lazy-loading on a custom `InsertEnter` event is defined in `./plugin/autocmds.lua`
   opts = {},
   config = function(_, opts)
     local ls = require("luasnip")

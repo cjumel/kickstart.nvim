@@ -8,9 +8,8 @@ return {
     "hrsh7th/cmp-buffer",
     "hrsh7th/cmp-cmdline",
     "hrsh7th/cmp-path",
-    "windwp/nvim-autopairs",
   },
-  event = { "InsertEnter", "CmdlineEnter" },
+  event = { "CmdlineEnter" }, -- Lazy-loading on a custom `InsertEnter` event is also defined in `./plugin/autocmds.lua`
   config = function()
     local cmp = require("cmp")
 
@@ -31,24 +30,10 @@ return {
       snippet = { expand = function(args) require("luasnip").lsp_expand(args.body) end },
       completion = { completeopt = "menu,menuone,noinsert" }, -- Directly select the first sugggestion
       window = { completion = cmp.config.window.bordered(), documentation = cmp.config.window.bordered() },
-      mapping = {
-        -- <C-c> is mapped to `cmp.abort` and other things in the general keymaps
-        ["<C-y>"] = cmp.mapping(cmp.mapping.confirm({ select = true }), { "i", "c" }),
-        ["<C-n>"] = cmp.mapping(function()
-          if cmp.visible() then
-            cmp.select_next_item()
-          else
-            cmp.complete()
-          end
-        end, { "i", "c" }),
-        ["<C-p>"] = cmp.mapping(function()
-          if cmp.visible() then
-            cmp.select_prev_item()
-          else
-            cmp.complete()
-          end
-        end, { "i", "c" }),
-      },
+      -- Keymaps are defined in `./plugin/keymaps.lua`, since they mix nvim-cmp features with others, and to solve an
+      -- issue with the custom `InsertEnter` event lazy-loading, where completion keymaps are not available at the first
+      -- `InsertEnter` event
+      mapping = {},
       sources = {
         -- Only show `lazydev` completions when available, to skip loading lua_ls completions
         { name = "lazydev", group_index = 0 },
@@ -82,9 +67,5 @@ return {
     cmp.setup.cmdline({ "/", "?" }, { sources = { { name = "buffer" } } })
     cmp.setup.filetype("sql", { sources = { { name = "vim-dadbod-completion" } } })
     cmp.setup.filetype({ "dap-repl", "dapui_watches", "dapui_hover" }, { sources = { { name = "dap" } } })
-
-    -- Set up automatic parenthesis insertion when completing a function
-    local cmp_autopairs = require("nvim-autopairs.completion.cmp")
-    cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
   end,
 }

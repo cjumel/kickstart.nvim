@@ -62,31 +62,7 @@ local function clear_normal_mode()
     noice.cmd("dismiss")
   end
 end
-local function clear_insert_mode()
-  local cmp = package.loaded.cmp
-  if cmp ~= nil and cmp.visible() then
-    cmp.abort()
-    return
-  end
-  local copilot_suggestion = package.loaded["copilot.suggestion"]
-  if copilot_suggestion ~= nil and copilot_suggestion.is_visible() then
-    copilot_suggestion.dismiss()
-    return
-  end
-  local noice = package.loaded.noice
-  if noice ~= nil then
-    noice.cmd("dismiss") -- Especially useful for LSP signature
-  end
-end
-local function clear_commandline_mode()
-  local cmp = package.loaded.cmp
-  if cmp ~= nil then
-    cmp.abort()
-  end
-end
 vim.keymap.set("n", "<Esc>", clear_normal_mode, { desc = "Clear" })
-vim.keymap.set("i", "<C-c>", clear_insert_mode, { desc = "Clear" })
-vim.keymap.set("c", "<C-c>", clear_commandline_mode, { desc = "Clear" })
 
 vim.keymap.set("v", "<Tab>", ">gv", { desc = "Indent selection" })
 vim.keymap.set("v", "<S-Tab>", "<gv", { desc = "Unindent selection" })
@@ -133,7 +109,6 @@ local function yank_file_path(mods)
     vim.notify('Yanked to register `"`:\n```\n' .. path .. "\n```", vim.log.levels.INFO, { title = "Yank" })
   end
 end
-
 vim.keymap.set("n", "<leader>yp", function() yank_file_path(":~:.") end, { desc = "[Y]ank: file [P]ath" })
 vim.keymap.set("n", "<leader>yf", function() yank_file_path(":~") end, { desc = "[Y]ank: [F]ull file path" })
 vim.keymap.set("n", "<leader>yn", function() yank_file_path(":t") end, { desc = "[Y]ank: file [N]ame" })
@@ -351,49 +326,88 @@ map_move_pair("r", next_reference, prev_reference, "reference")
 
 -- [[ Insert and command-line keymaps ]]
 
-vim.keymap.set({ "i", "c" }, "<C-w>", "<C-S-w>", { desc = "Delete word" }) -- Make it work also in special buffers
-vim.keymap.set({ "i", "c" }, "<M-BS>", "<C-S-w>", { desc = "Delete word" }) -- For consistency with other softwares
-vim.keymap.set({ "i", "c" }, "<C-r><C-r>", '<C-r>"', { desc = "Paste from main register" })
+-- Regular completion keymaps
+local function accept_completion()
+  local cmp = package.loaded.cmp
+  cmp.confirm({ select = true })
+end
+local function next_completion()
+  local cmp = package.loaded.cmp
+  if cmp.visible() then
+    cmp.select_next_item()
+  else
+    cmp.complete()
+  end
+end
+local function prev_completion()
+  local cmp = package.loaded.cmp
+  if cmp.visible() then
+    cmp.select_prev_item()
+  else
+    cmp.complete()
+  end
+end
+vim.keymap.set({ "i", "c" }, "<C-y>", accept_completion, { desc = "Accept completion" })
+vim.keymap.set({ "i", "c" }, "<C-n>", next_completion, { desc = "Next completion" })
+vim.keymap.set({ "i", "c" }, "<C-p>", prev_completion, { desc = "Previous completion" })
 
--- Define functions to mix insert-mode navigation and accepting Copilot.lua suggestions, just like how the zsh
--- zsh-autosuggestions plugin does it (except for <C-f>, which remains useful in Neovim in this context)
+-- Navigation and ghost text completion keymaps (zsh-autosuggestions style)
 local function tab_improved()
-  if package.loaded.copilot ~= nil and require("copilot.suggestion").is_visible() then
-    require("copilot.suggestion").accept()
+  local copilot_suggestion = package.loaded["copilot.suggestion"]
+  if copilot_suggestion.is_visible() then
+    copilot_suggestion.accept()
   else
     vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Tab>", true, false, true), "n", false)
   end
 end
 local function c_right_improved()
-  if vim.fn.mode() == "i" and package.loaded.copilot ~= nil and require("copilot.suggestion").is_visible() then
-    require("copilot.suggestion").accept_word()
+  local copilot_suggestion = package.loaded["copilot.suggestion"]
+  if vim.fn.mode() == "i" and copilot_suggestion.is_visible() then
+    copilot_suggestion.accept_word()
   else
     vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<C-Right>", true, false, true), "n", false)
   end
 end
 local function end_improved()
-  if vim.fn.mode() == "i" and package.loaded.copilot ~= nil and require("copilot.suggestion").is_visible() then
-    require("copilot.suggestion").accept_line()
+  local copilot_suggestion = package.loaded["copilot.suggestion"]
+  if vim.fn.mode() == "i" and copilot_suggestion.is_visible() then
+    copilot_suggestion.accept_line()
   else
     vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<End>", true, false, true), "n", false)
   end
 end
-
 vim.keymap.set("i", "<Tab>", tab_improved, { desc = "Accept Copilot suggestion or insert Tab" })
-
 vim.keymap.set({ "i", "c" }, "<C-f>", "<Right>", { desc = "Move cursor one character right" })
 vim.keymap.set({ "i", "c" }, "<C-b>", "<Left>", { desc = "Move cursor one character left" })
-
 vim.keymap.set({ "i", "c" }, "<C-^>", c_right_improved, { desc = "Move cursor to next word" }) -- <C-,>
 vim.keymap.set({ "i", "c" }, "<C-_>", "<C-Left>", { desc = "Move cursor to previous word" }) -- <C-;>
-
 vim.keymap.set({ "i", "c" }, "<C-e>", end_improved, { desc = "Move cursor to end of line" })
 vim.keymap.set({ "i", "c" }, "<C-a>", "<Home>", { desc = "Move cursor to beginning of line" })
 
+local function clear_insert_and_commandline_modes()
+  local cmp = package.loaded.cmp
+  if cmp.visible() then
+    cmp.abort()
+    return
+  end
+  if vim.fn.mode() == "i" then
+    local copilot_suggestion = package.loaded["copilot.suggestion"]
+    if copilot_suggestion.is_visible() then
+      copilot_suggestion.dismiss()
+      return
+    end
+    local noice = package.loaded.noice
+    noice.cmd("dismiss") -- Especially useful for LSP signature; would also dismiss Noice's command line
+  end
+end
+vim.keymap.set({ "i", "c" }, "<C-c>", clear_insert_and_commandline_modes, { desc = "Clear" })
+
+vim.keymap.set({ "i", "c" }, "<C-w>", "<C-S-w>", { desc = "Delete word" }) -- Make it work also in special buffers
+vim.keymap.set({ "i", "c" }, "<M-BS>", "<C-S-w>", { desc = "Delete word" }) -- For consistency with other softwares
+vim.keymap.set({ "i", "c" }, "<C-r><C-r>", '<C-r>"', { desc = "Paste from main register" })
 vim.keymap.set({ "i", "c" }, "<C-]>", "<Up>", { desc = "Up or previous item in history" }) -- <C-$>
 vim.keymap.set({ "i", "c" }, "<C-\\>", "<Down>", { desc = "Down or next item in history" }) -- <C-`>
 
--- Disable builtin command-line mode auto-completion keymaps
 vim.keymap.set("c", "<Tab>", "<Nop>", { silent = true })
 vim.keymap.set("c", "<S-Tab>", "<Nop>", { silent = true })
 vim.keymap.set("c", "<C-d>", "<Nop>", { silent = true })
