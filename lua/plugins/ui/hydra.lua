@@ -6,7 +6,6 @@ return {
   "nvimtools/hydra.nvim",
   keys = {
     { "<leader>c", desc = "[C]onflict menu" },
-    { "<leader>d", desc = "[D]ebug menu" },
     { "<leader>h", desc = "[H]unk menu", mode = { "n", "v" } },
     { "<leader>n", desc = "[N]avigate menu" },
     { "<leader>,", desc = "Window menu" },
