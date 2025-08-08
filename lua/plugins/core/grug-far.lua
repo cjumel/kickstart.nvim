@@ -1,68 +1,21 @@
 -- grug-far.nvim
 --
--- grug-far.nvim is a find and replace plugin for Neovim. It provides a very simple interface using the full power
--- of ripgrep, while trying to be as user-friendly as possible, making it easier and more powerful to use than Neovim
--- builtin features, while not replacing them altogether. For instance, for range substitution, Neovim's search and
--- replace remains effective, even more when combined with a plugin like substitute.nvim.
+-- Find And Replace plugin for neovim.
 
 return {
   "MagicDuck/grug-far.nvim",
   dependencies = { "nvim-tree/nvim-web-devicons" },
   keys = {
     {
-      "<leader>rr",
-      function()
-        require("grug-far").open({
-          prefills = { paths = vim.bo.filetype == "oil" and require("oil").get_current_dir() or nil },
-        })
-      end,
-      desc = "[R]eplace: unrestricted",
+      "<leader>=",
+      function() require("grug-far").open() end,
+      desc = "Search and replace",
     },
     {
-      "<leader>rr",
-      function()
-        require("grug-far").with_visual_selection({
-          prefills = { paths = vim.bo.filetype == "oil" and require("oil").get_current_dir() or nil },
-        })
-      end,
+      "<leader>=",
+      function() require("grug-far").with_visual_selection() end,
       mode = { "v" },
-      desc = "[R]eplace: unrestricted",
-    },
-    {
-      "<leader>rb",
-      function() require("grug-far").open({ prefills = { paths = vim.fn.expand("%") } }) end,
-      desc = "[R]eplace: in [B]uffer",
-    },
-    {
-      "<leader>rb",
-      function() require("grug-far").with_visual_selection({ prefills = { paths = vim.fn.expand("%") } }) end,
-      mode = { "v" },
-      desc = "[R]eplace: in [B]uffer",
-    },
-    {
-      "<leader>rf",
-      function()
-        require("grug-far").open({
-          prefills = {
-            filesFilter = "*." .. vim.bo.filetype,
-            paths = vim.bo.filetype == "oil" and require("oil").get_current_dir() or nil,
-          },
-        })
-      end,
-      desc = "[R]eplace: with same [F]iletype",
-    },
-    {
-      "<leader>rf",
-      function()
-        require("grug-far").with_visual_selection({
-          prefills = {
-            filesFilter = "*." .. vim.bo.filetype,
-            paths = vim.bo.filetype == "oil" and require("oil").get_current_dir() or nil,
-          },
-        })
-      end,
-      mode = { "v" },
-      desc = "[R]eplace: with same [F]iletype",
+      desc = "Search and replace",
     },
   },
   opts = {

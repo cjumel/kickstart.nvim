@@ -5,14 +5,9 @@
 return {
   "stevearc/overseer.nvim",
   keys = {
-    { "<leader>mm", function() require("overseer").toggle() end, desc = "Task [M]anager: toggle task list" },
+    { "<leader>rv", function() require("overseer").toggle() end, desc = "[R]un: toggle task [V]iew" },
     {
-      "<leader>mb",
-      function() require("overseer").run_template({ tags = { "BUILD" }, first = false }) end,
-      desc = "Task [M]anager: [B]uild tasks",
-    },
-    {
-      "<leader>mr",
+      "<leader>rr",
       function()
         require("overseer").run_template({ tags = { "RUN" }, first = false }, function(task, _)
           if task ~= nil then
@@ -20,20 +15,25 @@ return {
           end
         end)
       end,
-      desc = "Task [M]anager: [R]un tasks",
+      desc = "[R]un: [R]un tasks",
     },
     {
-      "<leader>mc",
+      "<leader>rb",
+      function() require("overseer").run_template({ tags = { "BUILD" }, first = false }) end,
+      desc = "[R]un: [B]uild tasks",
+    },
+    {
+      "<leader>rc",
       function() require("overseer").run_template({ tags = { "CHECK" }, first = false }) end,
-      desc = "Task [M]anager: [C]heck tasks",
+      desc = "[R]un: [C]heck tasks",
     },
     {
-      "<leader>mk",
+      "<leader>rm",
       function() require("overseer").run_template({ tags = { "MAKE" }, first = false }) end,
-      desc = "Task [M]anager: Ma[K]e-like tasks",
+      desc = "[R]un: [M]ake tasks",
     },
     {
-      "<leader>ml",
+      "<leader>rl",
       function()
         local tasks = require("overseer").list_tasks({ recent_first = true })
         if vim.tbl_isempty(tasks) then
@@ -42,7 +42,7 @@ return {
           require("overseer").run_action(tasks[1], "restart")
         end
       end,
-      desc = "Task [M]anager: rerun [L]ast task",
+      desc = "[R]un: rerun [L]ast task",
     },
   },
   opts = {

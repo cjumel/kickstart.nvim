@@ -42,8 +42,7 @@ return {
       { "<leader>d", group = "[D]ebug" },
       { "<leader>f", group = "[F]ind", mode = { "n", "v" } },
       { "<leader>g", group = "[G]it", mode = { "n", "v" } },
-      { "<leader>m", group = "Task [M]anager" },
-      { "<leader>r", group = "[R]eplace", mode = { "n", "v" } },
+      { "<leader>r", group = "[R]un" },
       { "<leader>s", group = "[S]cratch" },
       { "<leader>v", group = "[V]iew" },
       { "<leader>x", group = "Test" }, -- Mnemonic: like the failed test symbol
