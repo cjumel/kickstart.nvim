@@ -28,7 +28,7 @@ return {
       desc = "Test: open [O]utput",
     },
     {
-      "<leader>xt",
+      "<leader>xr",
       function()
         vim.ui.input({ promp = "Additional arguments" }, function(input)
           if input == nil then
@@ -44,7 +44,7 @@ return {
           require("neotest").run.run(opts)
         end)
       end,
-      desc = "Test: [T]est",
+      desc = "Test: [R]un",
     },
     {
       "<leader>xf",
@@ -60,7 +60,7 @@ return {
           require("neotest").run.run(opts)
         end)
       end,
-      desc = "Test: test [F]ile",
+      desc = "Test: run [F]ile",
     },
     {
       "<leader>xa",
@@ -76,12 +76,12 @@ return {
           require("neotest").run.run(opts)
         end)
       end,
-      desc = "Test: test [A]ll",
+      desc = "Test: run [A]ll",
     },
     {
       "<leader>xl",
       function() require("neotest").run.run_last() end,
-      desc = "Test: rerun [L]ast test",
+      desc = "Test: rerun [L]ast",
     },
   },
   opts = function()
@@ -91,27 +91,46 @@ return {
       },
       consumers = {
         notify = function(client)
-          client.listeners.starting = function()
-            vim.notify("Running tests...", vim.log.levels.INFO, { title = "Neotest" })
+          client.listeners.run = function()
+            vim.notify("Running tests...", vim.log.levels.INFO, { title = "Neotest", icon = "" })
           end
           client.listeners.results = function(_, results, partial)
             if partial then
               return
             end
-            local total = 0
-            local passed = 0
+            local passed, failed, skipped = 0, 0, 0
             for _, r in pairs(results) do
-              total = total + 1
               if r.status == "passed" then
                 passed = passed + 1
+              elseif r.status == "failed" then
+                failed = failed + 1
+              elseif r.status == "skipped" then
+                skipped = skipped + 1
+              else
+                error("Unknown test status: " .. r.status)
               end
             end
-            local status = passed == total and "SUCCESS" or "FAILURE"
-            local message = string.format("%s: %d/%d tests passed.", status, passed, total)
-            local level = passed == total and vim.log.levels.INFO or vim.log.levels.ERROR
-            vim.notify(message, level, { title = "Neotest" })
+            local message, level
+            if passed > 0 or failed > 0 then
+              level = failed == 0 and vim.log.levels.INFO or vim.log.levels.ERROR
+              local status = failed == 0 and "SUCCESS" or "FAILURE"
+              message = string.format("%s: %d/%d tests passed", status, passed, passed + failed)
+              if skipped > 0 then
+                message = message .. string.format(", %d skipped", skipped)
+              end
+            else
+              level = vim.log.levels.INFO
+              message = "No tests found"
+              if skipped > 0 then
+                message = message .. string.format(" (%d tests skipped)", skipped)
+              end
+            end
+            vim.notify(message, level, { title = "Neotest", icon = "" })
           end
         end,
+      },
+      output = {
+        open_on_run = false, -- When enabled, the output window is open without being focused making it kind of useless
       },
       summary = {
         open = "botright vsplit | vertical resize 30",
