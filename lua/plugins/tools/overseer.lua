@@ -29,7 +29,7 @@ return {
     },
     {
       "<leader>rm",
-      function() require("overseer").run_template({ tags = { "MAKE" }, first = false }) end,
+      function() require("overseer").run_template({ tags = { "MAKE" }, first = false, prompt = "avoid" }) end,
       desc = "[R]un: [M]ake tasks",
     },
     {
