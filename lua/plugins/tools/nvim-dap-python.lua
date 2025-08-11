@@ -49,7 +49,6 @@ return {
           name = "python <file>",
           program = "${file}",
           console = "integratedTerminal",
-          args = args_dialogue(),
         })
         table.insert(configs, {
           type = "python",
@@ -57,7 +56,6 @@ return {
           name = "python -m <module>",
           module = python_utils.get_module(),
           console = "integratedTerminal",
-          args = args_dialogue(),
         })
       else
         if vim.fn.executable("pytest") == 1 then
@@ -71,15 +69,16 @@ return {
               console = "integratedTerminal",
               args = args_dialogue({ "${file}::" .. test_function_name }),
             })
+          else
+            table.insert(configs, {
+              type = "python",
+              request = "launch",
+              name = "pytest <file>",
+              module = "pytest",
+              console = "integratedTerminal",
+              args = args_dialogue({ "${file}" }),
+            })
           end
-          table.insert(configs, {
-            type = "python",
-            request = "launch",
-            name = "pytest <file>",
-            module = "pytest",
-            console = "integratedTerminal",
-            args = args_dialogue({ "${file}" }),
-          })
         end
       end
       return configs
