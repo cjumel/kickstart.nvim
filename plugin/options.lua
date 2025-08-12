@@ -34,9 +34,9 @@ vim.o.completeopt = "" -- Remove builtin auto-completion options
 -- Diagnostics
 vim.diagnostic.config({
   severity_sort = true,
-  float = { source = "if_many" },
+  float = { source = true },
   signs = {
-    text = { -- Set lualine.nvim diagnostic symbols (taken from lualine/components/diagnostics/config.lua)
+    text = { -- Source: require("lualine.components.diagnostics.config").symbols.icons
       [vim.diagnostic.severity.ERROR] = "󰅚 ",
       [vim.diagnostic.severity.WARN] = "󰀪 ",
       [vim.diagnostic.severity.HINT] = "󰌶 ",
@@ -47,7 +47,7 @@ vim.diagnostic.config({
 })
 
 -- Theme-specific options
-if ThemeConfig.options_callback then -- Additional theme options setting
+if ThemeConfig.options_callback then
   ThemeConfig.options_callback()
 end
 
