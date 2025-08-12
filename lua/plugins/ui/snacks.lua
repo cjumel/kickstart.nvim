@@ -356,7 +356,7 @@ return {
           return
         end
         vim.ui.select(selection_items, {
-          prompt = "Scratch files (all)",
+          prompt = "All scratch files",
           format_item = function(item)
             local parts = { item.cwd, item.icon, item.name, item.branch }
             for i, part in ipairs(parts) do
@@ -385,20 +385,13 @@ return {
                 table.insert(item_names, item.name)
               end
             end
-            local default_base_name = filetype:sub(1, 1):upper() .. filetype:sub(2) .. " file"
-            local count = 0
-            local suffix = ""
-            local default_name = default_base_name
-            while vim.tbl_contains(item_names, default_name) do
+            local default_base_name = filetype:sub(1, 1):upper() .. filetype:sub(2) .. " scratch"
+            local name, count = nil, 1
+            while name == nil or vim.tbl_contains(item_names, name) do
+              name = default_base_name .. " " .. count
               count = count + 1
-              suffix = " " .. count
-              default_name = default_base_name .. suffix
             end
-            vim.ui.input({ prompt = "Name", default = default_name }, function(name)
-              if name then
-                Snacks.scratch.open({ ft = filetype, name = name })
-              end
-            end)
+            Snacks.scratch.open({ ft = filetype, name = name })
           end
         end)
       end,
@@ -415,31 +408,19 @@ return {
             table.insert(item_names, item.name)
           end
         end
-        local default_base_name = vim.bo.filetype:sub(1, 1):upper() .. vim.bo.filetype:sub(2) .. " file"
-        local count = 0
-        local suffix = ""
-        local default_name = default_base_name
-        while vim.tbl_contains(item_names, default_name) do
+        local default_base_name = vim.bo.filetype:sub(1, 1):upper() .. vim.bo.filetype:sub(2) .. " scratch"
+        local name, count = nil, 1
+        while name == nil or vim.tbl_contains(item_names, name) do
+          name = default_base_name .. " " .. count
           count = count + 1
-          suffix = " " .. count
-          default_name = default_base_name .. suffix
         end
-        vim.ui.input({ prompt = "Name", default = default_name }, function(name)
-          if name then
-            Snacks.scratch.open({ name = name })
-          end
-        end)
+        Snacks.scratch.open({ name = name })
       end,
       desc = "[S]cratch: open with [F]iletype",
     },
     {
       "<leader>sn",
-      function()
-        Snacks.scratch.open({
-          ft = "markdown",
-          name = "Note",
-        })
-      end,
+      function() Snacks.scratch.open({ ft = "markdown", name = "Note" }) end,
       desc = "[S]cratch: open [N]ote",
     },
     {
