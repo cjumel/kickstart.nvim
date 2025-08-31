@@ -23,7 +23,7 @@ return {
       if string.sub(mapping.lhs, 1, 3) == "gcc" then
         return false
       end
-      -- Remove some weird keymaps (typically introduce by plugins like dial.nvim)
+      -- Remove weird keymaps introduce by plugins (like dial.nvim)
       if string.sub(mapping.lhs, 1, 7) == "g<Plug>" then
         return false
       end
@@ -47,8 +47,6 @@ return {
       { "<leader>v", group = "[V]iew" },
       { "<leader>x", group = "Test" }, -- Mnemonic: like the failed test symbol
       { "<leader>y", group = "[Y]ank" },
-      { "[", group = "Next" },
-      { "]", group = "Previous" },
     },
     win = { border = "rounded" }, -- Better for transparent backgrounds
     sort = { "order", "alphanum", "mod" },
