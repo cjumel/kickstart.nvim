@@ -102,20 +102,37 @@ return {
       desc = "[F]ind: [F]iles",
     },
     {
-      "<leader>fo",
+      "<leader>fr",
       function()
         Snacks.picker.recent({
-          title = "Old Files",
+          title = "Recent Files",
           filter = { cwd = true },
           sort = { fields = { "score:desc", "idx" } }, -- Don't sort by item length to preserve history order
           layout = { preset = "telescope_horizontal" },
-          show_empty = true, -- In case there's no recent file in the cwd, but we want them from every where
           win = {
             input = {
               keys = {
                 ---@diagnostic disable-next-line: assign-type-mismatch
                 ["<C-y>"] = { { "yank_path", "close" }, mode = "i" },
-                ["©"] = { "toggle_cwd_recent", mode = "i", desc = "Toggle cwd" }, -- <M-c>
+              },
+            },
+          },
+        })
+      end,
+      desc = "[F]ind: [R]ecent files",
+    },
+    {
+      "<leader>fo",
+      function()
+        Snacks.picker.recent({
+          title = "Old Files",
+          sort = { fields = { "score:desc", "idx" } }, -- Don't sort by item length to preserve history order
+          layout = { preset = "telescope_horizontal" },
+          win = {
+            input = {
+              keys = {
+                ---@diagnostic disable-next-line: assign-type-mismatch
+                ["<C-y>"] = { { "yank_path", "close" }, mode = "i" },
               },
             },
           },
@@ -177,7 +194,6 @@ return {
           title = "Symbols",
           sort = { fields = { "score:desc", "idx" } }, -- Don't sort by item length to preserve document order
           layout = { preset = "telescope_horizontal" },
-          win = { input = { keys = { ["æ"] = { "toggle_all_lsp_symbols", mode = "i" } } } }, -- <M-a>
         })
       end,
       desc = "[F]ind: [S]ymbols",
@@ -188,7 +204,6 @@ return {
         Snacks.picker.lsp_workspace_symbols({
           title = "Workspace Symbols",
           layout = { preset = "telescope_horizontal" },
-          win = { input = { keys = { ["æ"] = { "toggle_all_lsp_symbols", mode = "i" } } } }, -- <M-a>
         })
       end,
       desc = "[F]ind: [W]orkspace symbols",
@@ -445,6 +460,7 @@ return {
         { section = "header" },
         { icon = " ", key = "c", desc = "Open [C]wd", action = "-" },
         { icon = " ", key = "f", desc = "Find [F]iles", action = "<leader>ff" },
+        { icon = "", key = "r", desc = "Find [R]ecent Files", action = "<leader>fr" },
         { icon = " ", key = "o", desc = "Find [O]ld Files", action = "<leader>fo" },
         { icon = " ", key = "d", desc = "Find [D]irectories", action = "<leader>fd" },
         { icon = "󰚰 ", key = "g", desc = "[G]it Status", action = "<leader>gg" },
@@ -543,38 +559,6 @@ return {
         end,
         yank_path = { action = "yank", field = "path", reg = '"' },
         yank_commit = { action = "yank", field = "commit", reg = '"' },
-        toggle_cwd = function(picker)
-          if picker.opts._oil_cwd then
-            picker.opts.cwd = picker.opts.cwd == nil and picker.opts._oil_cwd or nil
-            picker:find()
-          end
-        end,
-        toggle_cwd_recent = function(picker)
-          picker.opts["filter"]["cwd"] = not picker.opts["filter"]["cwd"]
-          picker:find()
-        end,
-        toggle_all_lsp_symbols = function(picker)
-          if picker.opts.filter.default == true then -- All symbols are enabled
-            picker.opts.filter.default = { -- Default symbols
-              "Class",
-              "Constructor",
-              "Enum",
-              "Field",
-              "Function",
-              "Interface",
-              "Method",
-              "Module",
-              "Namespace",
-              "Package",
-              "Property",
-              "Struct",
-              "Trait",
-            }
-          else
-            picker.opts.filter.default = true
-          end
-          picker:find({ refresh = true })
-        end,
       },
       layouts = {
         -- Custom layouts are adapted from the "telescope" preset and are heavily inspired by my old Telescope layouts
@@ -639,7 +623,6 @@ return {
             ["π"] = { "toggle_preview", mode = "i" }, -- <M-p>
             ["Ì"] = { "toggle_hidden", mode = "i" }, -- <M-h>
             ["î"] = { "toggle_ignored", mode = "i" }, -- <M-i>
-            ["©"] = { "toggle_cwd", mode = "i" }, -- <M-c>
             ["<C-a>"] = false,
             ["<C-e>"] = false,
             ["<C-b>"] = false,
