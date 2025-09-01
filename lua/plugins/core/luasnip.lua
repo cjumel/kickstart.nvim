@@ -23,6 +23,6 @@ return {
         ls.change_choice(-1)
       end
     end, { desc = "Previous snippet choice option" })
-    vim.keymap.set("s", "<BS>", "<BS>i", { desc = "Delete" }) -- Resume insert mode after deleting a placeholder
+    vim.keymap.set("s", "<BS>", "<C-o>s", { desc = "Delete" }) -- Enter insert mode when deleting a placeholder
   end,
 }
