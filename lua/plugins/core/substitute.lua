@@ -8,6 +8,17 @@ return {
     -- Substitute a target in a range
     { "gs", function() require("substitute.range").operator() end, desc = "Substitute in range" },
     { "gs", function() require("substitute.range").visual() end, mode = "x", desc = "Substitute in range" },
+    {
+      "gS",
+      function() require("substitute.range").operator({ prompt_current_text = true }) end,
+      desc = "Substitute in range (prefilled)",
+    },
+    {
+      "gS",
+      function() require("substitute.range").visual({ prompt_current_text = true }) end,
+      mode = "x",
+      desc = "Substitute in range (prefilled)",
+    },
     -- Move two targets, replacing one with the other
     { "gm", function() require("substitute.exchange").operator() end, desc = "Move" },
     { "gm", function() require("substitute.exchange").visual() end, mode = "x", desc = "Move" },
