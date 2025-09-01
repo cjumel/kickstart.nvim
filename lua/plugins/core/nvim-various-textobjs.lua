@@ -71,12 +71,6 @@ return {
       desc = "Current line characterwise",
     },
     {
-      "gG",
-      function() require("various-textobjs").entireBuffer() end,
-      mode = { "v", "o" },
-      desc = "Entire buffer",
-    },
-    {
       "gf",
       function() require("various-textobjs").filepath() end,
       mode = "o",
