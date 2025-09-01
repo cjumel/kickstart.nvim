@@ -1,7 +1,3 @@
--- copilot.lua
---
--- Fully featured & enhanced replacement for copilot.vim complete with API for interacting with Github Copilot.
-
 return {
   "zbirenbaum/copilot.lua",
   cond = MetaConfig.enable_all_plugins or MetaConfig.enable_copilot_plugins,

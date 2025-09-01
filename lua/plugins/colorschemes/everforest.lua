@@ -1,7 +1,3 @@
--- Everforest
---
--- Green based color, comfortable and pleasant color scheme for Neovim.
-
 return {
   "sainnhe/everforest",
   cond = MetaConfig.enable_all_plugins or ThemeConfig.everforest_enabled or false,

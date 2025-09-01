@@ -1,11 +1,3 @@
--- oil.nvim
---
--- oil.nvim is a Neovim file explorer enabling to edit your file system like a buffer. It is a modern version of
--- netwrc, Vim's default file explorer, and my plugin of choice for file edition, as it is a powerful alternative to
--- tree-based file explorers, focusing on the current directory in a single window, instead of the whole project tree
--- in a side window. The file editing features it provides are very elegant and natural to learn, and they are usable
--- with other plugins, like Copilot.vim or code snippest, which makes creating files very simple & customizable.
-
 return {
   "stevearc/oil.nvim",
   dependencies = { "nvim-tree/nvim-web-devicons" },

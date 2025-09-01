@@ -1,9 +1,3 @@
--- dial.nvim
---
--- dial.nvim is an enhanced and customizable increment/decrement plugin. It is simple of use and can be really
--- extensively configured, for instance to increment/decrement custom patterns, e.g. to mark todo items as "in progress"
--- or "done".
-
 return {
   "monaqa/dial.nvim",
   keys = {

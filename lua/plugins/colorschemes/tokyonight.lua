@@ -1,9 +1,3 @@
--- Tokyo Night
---
--- Clean, dark and light Neovim themes written in Lua and ported from the Visual Studio Code TokyoNight theme. This
--- plugin comes with many features and integrations, like LSP or Treesitter support. The Tokyo Night theme is also
--- available for many tools other than Neovim, making it one of the most popular color schemes out there.
-
 return {
   "folke/tokyonight.nvim",
   cond = MetaConfig.enable_all_plugins or ThemeConfig.tokyonight_enabled or false,

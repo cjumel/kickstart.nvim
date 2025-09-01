@@ -1,9 +1,3 @@
--- Catppuccin
---
--- Catppuccin is a color scheme compatible with many tools, including Neovim, and defining different tones from light
--- to dark. It is one of the most popular color schemes for Neovim, and has many features and integrations available,
--- hence it is one of the color schemes I use.
-
 return {
   "catppuccin/nvim",
   name = "catppuccin",

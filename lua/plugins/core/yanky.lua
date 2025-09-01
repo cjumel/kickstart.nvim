@@ -1,7 +1,3 @@
--- yanky.nvim
---
--- Improved Yank and Put functionalities for Neovim.
-
 return {
   "gbprod/yanky.nvim",
   dependencies = { "folke/snacks.nvim" },

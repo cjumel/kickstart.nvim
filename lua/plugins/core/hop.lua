@@ -1,9 +1,3 @@
--- hop.nvim
---
--- hop.nvim is an EasyMotion-like plugin, providing Neovim motions on speed. It adds many simple but powerful and
--- customizable improved motions, to simplify navigating in a buffer. I find this plugin essential as, using an azerty
--- keyboard layout, counts with motions are really cumbersome to use.
-
 return {
   "smoka7/hop.nvim",
   keys = {

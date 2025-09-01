@@ -1,8 +1,3 @@
--- substitute.nvim
---
--- substitute.nvim is a plugin aiming to provide new operator motions to make it easy to perform quick substitutions
--- and exchange.
-
 return {
   "gbprod/substitute.nvim",
   depencencies = { "gbprod/yanky.nvim" },

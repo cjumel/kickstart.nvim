@@ -1,9 +1,3 @@
--- gruvbox
---
--- This is a port of the gruvbox community theme to Neovim, providing retro groove colors. This color scheme is very
--- simple and provides a nice old-school theme, even if it doesn't have as much features and integrations as more
--- popular color schemes.
-
 return {
   "ellisonleao/gruvbox.nvim",
   cond = MetaConfig.enable_all_plugins or ThemeConfig.gruvbox_enabled or false,

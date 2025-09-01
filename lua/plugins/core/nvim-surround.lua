@@ -1,7 +1,3 @@
--- nvim-surround
---
--- A classic plugin to add, change, delete surrounding delimiter pairs with ease in Neovim, like tpope's vim-surround.
-
 return {
   "kylechui/nvim-surround",
   keys = {

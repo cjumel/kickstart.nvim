@@ -1,7 +1,3 @@
--- nvim-cmp
---
--- A completion engine plugin for neovim written in Lua.
-
 return {
   "hrsh7th/nvim-cmp",
   dependencies = {

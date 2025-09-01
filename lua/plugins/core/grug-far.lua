@@ -1,7 +1,3 @@
--- grug-far.nvim
---
--- Find And Replace plugin for neovim.
-
 return {
   "MagicDuck/grug-far.nvim",
   dependencies = { "nvim-tree/nvim-web-devicons" },

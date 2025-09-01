@@ -1,7 +1,3 @@
--- overseer.nvim
---
--- A highly configurable task runner and job management plugin for Neovim.
-
 return {
   "stevearc/overseer.nvim",
   keys = {

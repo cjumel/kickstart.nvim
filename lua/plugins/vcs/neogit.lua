@@ -1,9 +1,3 @@
--- Neogit
---
--- Neogit provides an interactive and powerful Git interface for Neovim, inspired by Magit. It is very complementary
--- with Gitsigns and is my go-to tool for any Git-related action that goes beyond staging, unstaging and discarding
--- changes in a single buffer, like committing or rebasing, while not leaving Neovim.
-
 return {
   "NeogitOrg/neogit",
   dependencies = { "nvim-lua/plenary.nvim" },

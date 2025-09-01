@@ -1,9 +1,3 @@
--- render-markdown.nvim
---
--- render-markdown.nvim improves viewing Markdown files. In comparison to other approaches, this pluggin doesn't provide
--- an actual rendering of the Markdown file, but I don't find such feature necessary, and a bit cumbersome to use.
--- Instead, render-markdown.nvim simply improves the way Markdown files are displayed directly in Neovim buffers.
-
 return {
   "MeanderingProgrammer/render-markdown.nvim",
   dependencies = {

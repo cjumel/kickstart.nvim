@@ -1,9 +1,3 @@
--- nvim-various-textobjs
---
--- nvim-various-textobjs provides a bundle of new simple rule-based text-objects, to complete builtin text objects as
--- well as the ones implemented by Treesitter in nvim-treesitter-textobjects. It is a very nice and customizable
--- addition for anyone who likes using text objects like me.
-
 return {
   "chrisgrieser/nvim-various-textobjs",
   keys = {

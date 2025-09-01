@@ -1,9 +1,3 @@
--- conform.nvim
---
--- conform.nvim is a lightweight yet powerful formatter plugin for Neovim. It is my plugin of choice for formatting and
--- auto-formatting due to its great flexibility and customizability, while still remaining quite simple compared to
--- alternatives like null-ls.
-
 local formatters_by_ft = {}
 for ft, formatters in pairs(MetaConfig.formatters_by_ft or {}) do
   if formatters then

@@ -1,8 +1,3 @@
--- Rosé Pine
---
--- Plugin providing all natural pine, faux fur and a bit of soho vibes for the classy minimalist. It is maybe the most
--- popular minimalist color scheme for Neovim, and provides many features and integrations.
-
 return {
   "rose-pine/neovim",
   name = "rose-pine",

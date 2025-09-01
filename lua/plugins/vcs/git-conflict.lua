@@ -1,7 +1,3 @@
--- git-conflict.nvim
---
--- A plugin to visualise and resolve merge conflicts in Neovim.
-
 return {
   "akinsho/git-conflict.nvim",
   event = { "BufReadPre" },

@@ -1,9 +1,3 @@
--- kanagawa.nvim
---
--- kanagawa.nvim is a Neovim color scheme inspired by the colors of the famous painting by Katsushika Hokusai. I find it
--- to be one of the prettiest colors cheme for Neovim, despite having less features and integrations than other popular
--- colors chemes.
-
 return {
   "rebelot/kanagawa.nvim",
   cond = MetaConfig.enable_all_plugins or ThemeConfig.kanagawa_enabled or false,

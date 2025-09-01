@@ -1,7 +1,3 @@
--- Hydra.nvim
---
--- This is the Neovim implementation of the famous Emacs Hydra package, to create custom submodes and menus.
-
 return {
   "nvimtools/hydra.nvim",
   keys = {

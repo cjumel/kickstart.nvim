@@ -1,9 +1,3 @@
--- gitsigns.nvim
---
--- gitsigns.nvim provides Git integration for buffers, with super fast Git decorations and utilities implemented purely
--- in Lua. With its buffer-centric approach, this plugin is super complementary with other general Git integration
--- plugins, like Neogit, and is a must for me.
-
 return {
   "lewis6991/gitsigns.nvim",
   event = { "BufNewFile", "BufReadPre" },

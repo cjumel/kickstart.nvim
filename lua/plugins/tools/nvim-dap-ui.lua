@@ -1,7 +1,3 @@
--- nvim-dap-ui
---
--- A UI for nvim-dap which provides a good out of the box configuration.
-
 return {
   "rcarriga/nvim-dap-ui",
   dependencies = { "nvim-neotest/nvim-nio" },

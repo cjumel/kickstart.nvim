@@ -1,7 +1,3 @@
--- OneDark.nvim
---
--- Dark and light themes based on Atom One Dark & Atom One Light themes written in Lua.
-
 return {
   "navarasu/onedark.nvim",
   cond = MetaConfig.enable_all_plugins or ThemeConfig.onedark_enabled or false,

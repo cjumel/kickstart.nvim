@@ -1,8 +1,3 @@
--- nvim-lspconfig
---
--- nvim-lspconfig is a "data only" repo, providing basic, default Nvim LSP client configurations for various LSP
--- servers.
-
 local servers_by_ft = {
   json = { jsonls = {} },
   lua = {

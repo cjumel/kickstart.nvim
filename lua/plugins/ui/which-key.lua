@@ -1,8 +1,3 @@
--- which-key.nvim
---
--- which-key.nvim helps you remember your Neovim keymaps, by showing available keybindings as you type, to be able to
--- create keybindings that actually stick.
-
 return {
   "folke/which-key.nvim",
   dependencies = { "nvim-tree/nvim-web-devicons" },

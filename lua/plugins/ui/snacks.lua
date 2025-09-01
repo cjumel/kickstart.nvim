@@ -1,7 +1,3 @@
--- snacks.nvim
---
--- A collection of small quality of life plugins for Neovim.
-
 return {
   "folke/snacks.nvim",
   dependencies = { "nvim-tree/nvim-web-devicons" },

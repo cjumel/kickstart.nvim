@@ -1,9 +1,3 @@
--- nvim-lint
---
--- An asynchronous linter plugin for Neovim, complementary to the built-in Language Server Protocol support. It is my
--- plugin of choice for linting, as it's very simple, easily customizable, and is very complementary with conform.nvim,
--- my formatting plugin.
-
 local linters_by_ft = {}
 for ft, linters in pairs(MetaConfig.linters_by_ft or {}) do
   if linters then

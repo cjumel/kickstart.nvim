@@ -1,7 +1,3 @@
--- marks.nvim
---
--- marks.nvim provides a better user experience for interacting with and manipulating Vim & Neovim marks.
-
 return {
   "chentoast/marks.nvim",
   event = { "BufNewFile", "BufReadPre" },

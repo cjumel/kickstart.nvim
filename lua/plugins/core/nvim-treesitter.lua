@@ -1,7 +1,3 @@
--- nvim-treesitter
---
--- Treesitter configurations and abstraction layer for Neovim.
-
 return {
   "nvim-treesitter/nvim-treesitter",
   dependencies = { "nvim-treesitter/nvim-treesitter-textobjects" },

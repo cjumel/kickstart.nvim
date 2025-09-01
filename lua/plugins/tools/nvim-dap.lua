@@ -1,7 +1,3 @@
--- nvim-dap
---
--- Debug Adapter Protocol client implementation for Neovim.
-
 return {
   "mfussenegger/nvim-dap",
   dependencies = {

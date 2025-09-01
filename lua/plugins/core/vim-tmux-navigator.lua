@@ -1,8 +1,3 @@
--- vim-tmux-navigator
---
--- This plugin enables seamless navigation between Tmux panes and (Neo)Vim splits through a handful of simple commands.
--- It is a must for anyone using Vim or Neovim inside Tmux sessions.
-
 return {
   "christoomey/vim-tmux-navigator",
   cmd = {
