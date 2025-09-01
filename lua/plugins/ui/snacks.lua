@@ -34,7 +34,7 @@ return {
     { "<leader>!", function() Snacks.notifier.show_history() end, desc = "Notification history" },
 
     -- Picker
-    { "<leader>p", function() Snacks.picker.resume() end, desc = "[P]revious picker" },
+    { "<leader>;", function() Snacks.picker.resume() end, desc = "Resume picker" },
     {
       "<leader><Tab>",
       function()
@@ -75,7 +75,7 @@ return {
       end,
       desc = "Search history",
     },
-    { "<leader>l", function() Snacks.picker.lines() end, desc = "[L]ine search" },
+    { "<leader>=", function() Snacks.picker.lines() end, desc = "Search lines" },
     {
       "<leader>ff",
       function()

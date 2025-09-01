@@ -2,10 +2,10 @@ return {
   "smoka7/hop.nvim",
   keys = {
     {
-      "s", -- Buitlin "s" keymap is equivalent to "cl" and is pretty much useless
+      "s", -- Buitlin "s" keymap is equivalent to "cl" and I find it pretty much useless
       function() require("hop").hint_char2({}) end,
       mode = { "n", "x", "o" },
-      desc = "Search character jump",
+      desc = "2-character search and jump",
     },
     {
       "f",
@@ -16,7 +16,7 @@ return {
         })
       end,
       mode = { "n", "x", "o" },
-      desc = "Find character jump",
+      desc = "Find character forward and jump",
     },
     {
       "F",
@@ -27,7 +27,7 @@ return {
         })
       end,
       mode = { "n", "x", "o" },
-      desc = "Find character jump backward",
+      desc = "Find character backward and jump",
     },
     {
       "t",
@@ -39,7 +39,7 @@ return {
         })
       end,
       mode = { "n", "x", "o" },
-      desc = "Till character jump",
+      desc = "Till character forward jump",
     },
     {
       "T",
@@ -51,20 +51,16 @@ return {
         })
       end,
       mode = { "n", "x", "o" },
-      desc = "Till character jump backward",
+      desc = "Till character backward jump",
     },
     {
-      "<leader>w",
-      function()
-        require("hop").hint_words({
-          current_line_only = true,
-        })
-      end,
+      "<leader>jw",
+      function() require("hop").hint_words({ current_line_only = true }) end,
       mode = { "n", "x", "o" },
-      desc = "[W]ord jump",
+      desc = "[J]ump: [W]ord",
     },
     {
-      "<leader>e",
+      "<leader>je",
       function()
         require("hop").hint_words({
           hint_position = require("hop.hint").HintPosition.END,
@@ -72,23 +68,19 @@ return {
         })
       end,
       mode = { "n", "x", "o" },
-      desc = "[E]nd of word jump",
+      desc = "[J]ump: [E]nd of word",
     },
     {
-      "<leader>t",
-      function()
-        require("hop").hint_camel_case({
-          current_line_only = true,
-        })
-      end,
+      "<leader>jt",
+      function() require("hop").hint_camel_case({ current_line_only = true }) end,
       mode = { "n", "x", "o" },
-      desc = "[T]oken jump",
+      desc = "[J]ump: [T]oken",
     },
-    -- In operator-pending mode, let's make line-related keymaps act linewise, like builtin operators like "y" or "d"
-    { "<leader>j", "<cmd>HopLineStartAC<CR>", mode = { "n", "x" }, desc = "Downward line jump" },
-    { "<leader>j", "V<cmd>HopLineStartAC<CR>", mode = { "o" }, desc = "Downward line jump" },
-    { "<leader>k", "<cmd>HopLineStartBC<CR>", mode = { "n", "x" }, desc = "Upward line jump" },
-    { "<leader>k", "V<cmd>HopLineStartBC<CR>", mode = { "o" }, desc = "Upward line jump" },
+    -- In operator-pending mode, let's make line-related keymaps act linewise, like builtin operations such as "yj"
+    { "<leader>jj", "<cmd>HopLineStartAC<CR>", mode = { "n", "x" }, desc = "[J]ump: line downward" },
+    { "<leader>jj", "V<cmd>HopLineStartAC<CR>", mode = { "o" }, desc = "[J]ump: line downward" },
+    { "<leader>jk", "<cmd>HopLineStartBC<CR>", mode = { "n", "x" }, desc = "[J]ump: line upward" },
+    { "<leader>jk", "V<cmd>HopLineStartBC<CR>", mode = { "o" }, desc = "[J]ump: line upward" },
   },
   opts = {
     keys = "hgjfkdlsmqyturieozpabvn",

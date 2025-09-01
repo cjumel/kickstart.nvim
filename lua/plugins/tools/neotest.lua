@@ -9,22 +9,22 @@ return {
   },
   keys = {
     {
-      "<leader>xs",
+      "<leader>ts",
       function() require("neotest").summary.toggle() end,
-      desc = "Test: toggle [S]ummary",
+      desc = "[T]est: toggle [S]ummary",
     },
     {
-      "<leader>xo",
+      "<leader>to",
       function()
         require("neotest").output.open({
           enter = true,
           open_win = function() vim.cmd("split | resize 15") end,
         })
       end,
-      desc = "Test: open [O]utput",
+      desc = "[T]est: open [O]utput",
     },
     {
-      "<leader>xr",
+      "<leader>tr",
       function()
         vim.ui.input({ promp = "Additional arguments" }, function(input)
           if input == nil then
@@ -40,10 +40,10 @@ return {
           require("neotest").run.run(opts)
         end)
       end,
-      desc = "Test: [R]un",
+      desc = "[T]est: [R]un",
     },
     {
-      "<leader>xf",
+      "<leader>tf",
       function()
         vim.ui.input({ promp = "Additional arguments" }, function(input)
           if input == nil then
@@ -56,10 +56,10 @@ return {
           require("neotest").run.run(opts)
         end)
       end,
-      desc = "Test: run [F]ile",
+      desc = "[T]est: run [F]ile",
     },
     {
-      "<leader>xa",
+      "<leader>ta",
       function()
         vim.ui.input({ promp = "Additional arguments" }, function(input)
           if input == nil then
@@ -72,12 +72,12 @@ return {
           require("neotest").run.run(opts)
         end)
       end,
-      desc = "Test: run [A]ll",
+      desc = "[T]est: run [A]ll",
     },
     {
-      "<leader>xl",
+      "<leader>tl",
       function() require("neotest").run.run_last() end,
-      desc = "Test: rerun [L]ast",
+      desc = "[T]est: rerun [L]ast",
     },
   },
   opts = function()

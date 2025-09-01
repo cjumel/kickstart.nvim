@@ -4,7 +4,7 @@ return {
     { "<leader>c", desc = "[C]onflict menu" },
     { "<leader>h", desc = "[H]unk menu", mode = { "n", "v" } },
     { "<leader>n", desc = "[N]avigate menu" },
-    { "<leader>,", desc = "Window menu" },
+    { "<leader>w", desc = "[W]indow menu" },
   },
   opts = {
     invoke_on_body = true,
@@ -126,8 +126,8 @@ return {
 ]],
       },
       {
-        body = "<leader>,",
-        config = { desc = "Window menu" },
+        body = "<leader>w",
+        config = { desc = "[W]indow menu" },
         heads = {
           { "d", "<cmd>vert new | set buftype=nofile | read ++edit # | 0d_ | diffthis | wincmd p | diffthis<CR>" },
           { "h", "<C-w>h" },

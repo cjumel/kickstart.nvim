@@ -35,12 +35,13 @@ return {
       { "gr", group = "LSP" },
       { "<leader><leader>", group = "Local leader" },
       { "<leader>d", group = "[D]ebug" },
+      { "<leader>e", group = "[E]xecute" },
       { "<leader>f", group = "[F]ind", mode = { "n", "v" } },
       { "<leader>g", group = "[G]it", mode = { "n", "v" } },
-      { "<leader>r", group = "[R]un" },
+      { "<leader>j", group = "[J]ump", mode = { "n", "x", "o" } },
       { "<leader>s", group = "[S]cratch" },
+      { "<leader>t", group = "[T]est" },
       { "<leader>v", group = "[V]iew" },
-      { "<leader>x", group = "Test" }, -- Mnemonic: like the failed test symbol
       { "<leader>y", group = "[Y]ank" },
     },
     win = { border = "rounded" }, -- Better for transparent backgrounds

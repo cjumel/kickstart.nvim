@@ -2,17 +2,8 @@ return {
   "MagicDuck/grug-far.nvim",
   dependencies = { "nvim-tree/nvim-web-devicons" },
   keys = {
-    {
-      "<leader>=",
-      function() require("grug-far").open() end,
-      desc = "Search and replace",
-    },
-    {
-      "<leader>=",
-      function() require("grug-far").with_visual_selection() end,
-      mode = { "v" },
-      desc = "Search and replace",
-    },
+    { "<leader>r", function() require("grug-far").open() end, desc = "[R]eplace" },
+    { "<leader>r", function() require("grug-far").with_visual_selection() end, mode = { "v" }, desc = "[R]eplace" },
   },
   opts = {
     keymaps = {
