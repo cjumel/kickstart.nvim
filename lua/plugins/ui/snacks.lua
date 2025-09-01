@@ -98,26 +98,6 @@ return {
       desc = "[F]ind: [F]iles",
     },
     {
-      "<leader>fr",
-      function()
-        Snacks.picker.recent({
-          title = "Recent Files",
-          filter = { cwd = true },
-          sort = { fields = { "score:desc", "idx" } }, -- Don't sort by item length to preserve history order
-          layout = { preset = "telescope_horizontal" },
-          win = {
-            input = {
-              keys = {
-                ---@diagnostic disable-next-line: assign-type-mismatch
-                ["<C-y>"] = { { "yank_path", "close" }, mode = "i" },
-              },
-            },
-          },
-        })
-      end,
-      desc = "[F]ind: [R]ecent files",
-    },
-    {
       "<leader>fo",
       function()
         Snacks.picker.recent({
@@ -456,7 +436,6 @@ return {
         { section = "header" },
         { icon = " ", key = "c", desc = "Open [C]wd", action = "-" },
         { icon = " ", key = "f", desc = "Find [F]iles", action = "<leader>ff" },
-        { icon = "", key = "r", desc = "Find [R]ecent Files", action = "<leader>fr" },
         { icon = " ", key = "o", desc = "Find [O]ld Files", action = "<leader>fo" },
         { icon = " ", key = "d", desc = "Find [D]irectories", action = "<leader>fd" },
         { icon = "󰚰 ", key = "g", desc = "[G]it Status", action = "<leader>gg" },
