@@ -4,6 +4,8 @@ local servers_by_ft = {
     lua_ls = {
       settings = {
         Lua = {
+          -- Disable snippets in favor of custom ones
+          completion = { keywordSnippet = "Disable" },
           -- Disable noisy diagnostics when passing to a function a table without the full expected type
           diagnostics = { disable = { "missing-fields" } },
         },
