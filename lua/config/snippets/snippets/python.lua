@@ -16,19 +16,23 @@ local_conds.in_code =
   conds.make_ts_node_not_in_condition({ "comment", "string", "string_start", "string_content", "string_end" })
 local_conds.async = conds.make_prefix_condition("async ")
 local_conds.for_inline = conds.make_ts_node_in_condition({ "dictionary", "list", "set" })
-local_conds.is_in_comment = conds.make_ts_node_in_condition({ "comment" })
+local_conds.in_comment = conds.make_ts_node_in_condition({ "comment" })
+local_conds.in_module = conds.make_ts_node_in_condition({ "module" })
 
 return {
+
+  -- [[ Code keywords ]]
+
   s({
     trig = "def",
     show_condition = (conds.line_begin + local_conds.async) * conds.line_end * local_conds.in_code,
-    desc = [[`def …(…) -> …: …`]],
+    desc = [[`def <…/__…__/test_…>(<…/self…/cls…>) -> …: …`]],
   }, {
     t("def "),
     c(1, {
-      i(nil),
-      sn(nil, { t("__"), i(1), t("__") }),
-      sn(nil, { t("test_"), i(1) }),
+      r(nil, "name", i(nil)),
+      sn(nil, { t("__"), r(1, "name"), t("__") }),
+      sn(nil, { t("test_"), r(1, "name") }),
     }),
     t("("),
     c(2, {
@@ -37,15 +41,32 @@ return {
       sn(nil, { t("cls"), i(1) }),
     }),
     t(") -> "),
-    c(3, {
-      i(1),
-      sn(nil, { t("None"), i(1) }),
+    i(3, "None"),
+    t({ ":", "\t" }),
+    i(4, "pass"),
+  }),
+
+  s({
+    trig = "elif",
+    show_condition = conds.line_begin * conds.line_end * local_conds.in_code,
+    desc = [[`elif <…/not …>: …`]],
+  }, {
+    t("elif "),
+    c(1, {
+      r(nil, "cond", i(nil)),
+      sn(nil, { t("not "), r(1, "cond") }),
     }),
     t({ ":", "\t" }),
-    c(4, {
-      i(1),
-      sn(nil, { t("pass"), i(1) }),
-    }),
+    i(2, "pass"),
+  }),
+
+  s({
+    trig = "else", -- For consistency with if and elseif snippets
+    show_condition = conds.line_begin * conds.line_end * local_conds.in_code,
+    desc = [[`else: …`]],
+  }, {
+    t({ "else:", "\t" }),
+    i(1, "pass"),
   }),
 
   s({
@@ -61,7 +82,7 @@ return {
     t(" in "),
     i(2),
     t({ ":", "\t" }),
-    i(3),
+    i(3, "pass"),
   }),
   s({
     trig = "for", -- Inline version
@@ -73,112 +94,34 @@ return {
     t(" in "),
     i(2),
   }),
-  s({
-    trig = "for … enumerate",
-    show_condition = (conds.line_begin + local_conds.async)
-      * conds.line_end
-      * local_conds.in_code
-      * -local_conds.for_inline,
-    desc = [[`for … in enumerate(…): …`]],
-  }, {
-    t("for "),
-    i(1),
-    t(", "),
-    i(2),
-    t(" in enumerate("),
-    i(3),
-    t({ "):", "\t" }),
-    i(4),
-  }),
-  s({
-    trig = "for … enumerate", -- Inline version
-    show_condition = local_conds.for_inline,
-    desc = [[`for … in enumerate(…)`]],
-  }, {
-    t("for "),
-    i(1),
-    t(", "),
-    i(2),
-    t(" in enumerate("),
-    i(3),
-    t(")"),
-  }),
-  s({
-    trig = "for … range",
-    show_condition = (conds.line_begin + local_conds.async)
-      * conds.line_end
-      * local_conds.in_code
-      * -local_conds.for_inline,
-    desc = [[`for … in range(…): …`]],
-  }, {
-    t("for "),
-    i(1),
-    t(" in range("),
-    i(2),
-    t({ "):", "\t" }),
-    i(3),
-  }),
-  s({
-    trig = "for … range", -- Inline version
-    show_condition = local_conds.for_inline,
-    desc = [[`for … in range(…)`]],
-  }, {
-    t("for "),
-    i(1),
-    t(" in range("),
-    i(2),
-    t(")"),
-  }),
-  s({
-    trig = "for … zip",
-    show_condition = (conds.line_begin + local_conds.async)
-      * conds.line_end
-      * local_conds.in_code
-      * -local_conds.for_inline,
-    desc = [[`for … in zip(…): …`]],
-  }, {
-    t("for "),
-    i(1),
-    t(" in zip("),
-    i(2),
-    t({ "):", "\t" }),
-    i(3),
-  }),
-  s({
-    trig = "for … zip", -- Inline version
-    show_condition = local_conds.for_inline,
-    desc = [[`for … in zip(…)`]],
-  }, {
-    t("for "),
-    i(1),
-    t(" in zip("),
-    i(2),
-    t(")"),
-  }),
 
   s({
     trig = "from … import",
     show_condition = conds.line_begin * conds.line_end * local_conds.in_code,
-    desc = [[`from … import …`]],
+    desc = [[Choices:
+- `from … import …`
+- `from … import … as …`]],
   }, {
     t("from "),
-    i(1),
-    t(" import "),
-    i(2),
-  }),
-  s({
-    trig = "from … import … as",
-    show_condition = conds.line_begin * conds.line_end * local_conds.in_code,
-    desc = [[`from … import … as`]],
-  }, {
-    t("from "),
-    i(1),
-    t(" import "),
-    i(2),
-    t(" as "),
-    i(3),
+    c(1, {
+      sn(nil, { r(1, "module", i(nil)) }, t(" import "), r(2, "content", i(nil))),
+      sn(nil, { r(1, "module"), t(" import "), r(2, "content"), t(" as "), i(3) }),
+    }),
   }),
 
+  s({
+    trig = "if",
+    show_condition = conds.line_begin * conds.line_end * local_conds.in_code,
+    desc = [[`if <…/not …>: …`]],
+  }, {
+    t("if "),
+    c(1, {
+      r(nil, "cond", i(nil)),
+      sn(nil, { t("not "), r(1, "cond") }),
+    }),
+    t({ ":", "\t" }),
+    i(2, "pass"),
+  }),
   s({
     trig = "if … else", -- Inline version
     show_condition = -conds.line_begin * local_conds.in_code,
@@ -191,24 +134,23 @@ return {
   }),
   s({
     trig = "if … main",
-    show_condition = conds.line_begin * conds.line_end * conds.make_ts_node_in_condition({ "module" }),
+    show_condition = conds.line_begin * conds.line_end * local_conds.in_module,
     desc = [[`if __name__ == "__main__": …`]],
   }, {
     t({ 'if __name__ == "__main__":', "\t" }),
-    i(1),
+    i(1, "pass"),
   }),
   s({
     trig = "if … isinstance … raise",
     show_condition = conds.line_begin * conds.line_end * local_conds.in_code,
-    desc = [[
-Choices:
+    desc = [[Choices:
 - `if isinstance(…): raise TypeError(…)`
 - `if not isinstance(…): raise TypeError(…)`]],
   }, {
     c(1, {
       sn(nil, {
         t("if isinstance("),
-        r(1, "variable", i(nil)),
+        r(1, "var", i(nil)),
         t(", "),
         r(2, "type", i(nil)),
         t({ "):", "\t" }),
@@ -217,11 +159,11 @@ Choices:
         t([[' not to be of type ']]),
         rep(2),
         t([['")]]),
-        i(3), -- To be able to switch choice node while at the end
+        i(3),
       }),
       sn(nil, {
         t("if not isinstance("),
-        r(1, "variable"),
+        r(1, "var"),
         t(", "),
         r(2, "type"),
         t({ "):", "\t" }),
@@ -232,22 +174,21 @@ Choices:
         t([[' but got '{type(]]),
         rep(1),
         t([[)}'")]]),
-        i(3), -- To be able to switch choice node while at the end
+        i(3),
       }),
     }),
   }),
   s({
     trig = "if … None … raise",
     show_condition = conds.line_begin * conds.line_end * local_conds.in_code,
-    desc = [[
-Choices:
+    desc = [[Choices:
 - `if … is None: raise ValueError(…)`
 - `if … is not None: raise ValueError(…)`]],
   }, {
     c(1, {
       sn(nil, {
         t("if "),
-        r(1, "variable", i(nil)),
+        r(1, "var", i(nil)),
         t({ " is None:", "\t" }),
         t([[raise ValueError("Expected ']]),
         rep(1),
@@ -256,7 +197,7 @@ Choices:
       }),
       sn(nil, {
         t("if "),
-        r(1, "variable"),
+        r(1, "var"),
         t({ " is not None:", "\t" }),
         t([[raise ValueError(f"Expected ']]),
         rep(1),
@@ -271,20 +212,15 @@ Choices:
   s({
     trig = "import",
     show_condition = conds.line_begin * conds.line_end * local_conds.in_code,
-    desc = [[`import …`]],
+    desc = [[Choices:
+- `import …`
+- `import … as …`]],
   }, {
     t("import "),
-    i(1),
-  }),
-  s({
-    trig = "import … as",
-    show_condition = conds.line_begin * conds.line_end * local_conds.in_code,
-    desc = [[`import … as …`]],
-  }, {
-    t("import "),
-    i(1),
-    t(" as "),
-    i(2),
+    c(1, {
+      r(nil, "module", i(nil)),
+      sn(nil, { r(1, "module"), t(" as "), i(2) }),
+    }),
   }),
 
   s({
@@ -301,82 +237,95 @@ Choices:
     }),
     desc = [[`| None`]],
   }, {
+    t("| None"),
     c(1, {
-      sn(nil, { t("| None"), i(1) }),
-      sn(nil, { t("| None = None"), i(1) }),
+      i(nil),
+      sn(nil, { t(" = "), i(1, "None") }),
     }),
   }),
 
-  -- [[ Comment Keywords ]]
+  s({
+    trig = "while",
+    show_condition = conds.line_begin * conds.line_end * local_conds.in_code,
+    desc = [[`while <…/not …>: …`]],
+  }, {
+    t("while "),
+    c(1, {
+      r(nil, "cond", i(nil)),
+      sn(nil, { t("not "), r(1, "cond") }),
+    }),
+    t({ ":", "\t" }),
+    i(2, "pass"),
+  }),
+
+  -- [[ Comment keywords ]]
 
   s({
     trig = "noqa",
-    show_condition = local_conds.is_in_comment * conds.comment_start * conds.line_end,
-    desc = [[
-Ignore lint warnings (e.g. for Flake8 or Ruff).
+    show_condition = local_conds.in_comment * conds.comment_start * conds.line_end,
+    desc = [[Ignore lint warnings (e.g. for Flake8 or Ruff).
 Choices:
-- `noqa`
-- `noqa: …`]],
+- `noqa: …`
+- `noqa`]],
   }, {
+    t("noqa"),
     c(1, {
-      sn(nil, { t("noqa"), i(1) }),
-      sn(nil, { t("noqa: "), i(1) }),
+      sn(nil, { t(": "), i(1) }),
+      i(nil),
     }),
   }),
 
   s({
     trig = "pragma: no cover",
-    show_condition = local_conds.is_in_comment * conds.comment_start * conds.line_end,
-    desc = [[
-Exclude from coverage reports (e.g. for coverage.py or pytest-cov).
+    show_condition = local_conds.in_comment * conds.comment_start * conds.line_end,
+    desc = [[Exclude from coverage reports (e.g. for coverage.py or pytest-cov).
 `pragma: no cover`]],
   }, {
     t("pragma: no cover"),
-    i(1),
   }),
 
   s({
     trig = "pyright: ignore",
-    show_condition = local_conds.is_in_comment * conds.comment_start * conds.line_end,
-    desc = [[
-Ignore a specific pyright warning.
+    show_condition = local_conds.in_comment * conds.comment_start * conds.line_end,
+    desc = [[Ignore a specific pyright warning.
 Choices:
-- `pyright: ignore`
-- `pyright: ignore[…]`]],
+- `pyright: ignore[…]`
+- `pyright: ignore`]],
   }, {
+    t("pyright: ignore"),
     c(1, {
-      sn(nil, { t("pyright: ignore"), i(1) }),
-      sn(nil, { t("pyright: ignore["), i(1), t("]") }),
+      sn(nil, { t("["), i(1), t("]") }),
+      i(nil),
     }),
   }),
 
   s({
     trig = "ruff: noqa",
-    show_condition = local_conds.is_in_comment * conds.comment_start * conds.line_end * conds.first_line,
-    desc = [[
-Ignore ruff warnings for the entire file.
+    show_condition = local_conds.in_comment * conds.comment_start * conds.line_end * conds.first_line,
+    desc = [[Ignore ruff warnings for the entire file.
 Choices:
-- `ruff: noqa`
-- `ruff: noqa: …`]],
+- `ruff: noqa: …`
+- `ruff: noqa`]],
   }, {
+    t("ruff: noqa"),
     c(1, {
-      sn(nil, { t("ruff: noqa"), i(1) }),
-      sn(nil, { t("ruff: noqa: "), i(1) }),
+      sn(nil, { t(": "), i(1) }),
+      i(nil),
     }),
   }),
 
   s({
     trig = "type: ignore",
-    show_condition = local_conds.is_in_comment * conds.comment_start * conds.line_end,
-    desc = [[
-Ignore typing warnings (e.g. for mypy or Pyright).
+    show_condition = local_conds.in_comment * conds.comment_start * conds.line_end,
+    desc = [[Ignore typing warnings (e.g. for mypy or Pyright).
 Choices:
-- `type: ignore`
-- `type: ignore[…]`]],
+- `type: ignore[…]`
+- `type: ignore`]],
   }, {
+    t("type: ignore"),
     c(1, {
-      sn(nil, { t("type: ignore"), i(1) }),
-      sn(nil, { t("type: ignore["), i(1), t("]") }),
+      sn(nil, { t("["), i(1), t("]") }),
+      i(nil),
     }),
   }),
 }
