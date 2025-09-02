@@ -5,18 +5,21 @@ return {
   priority = 500, -- Main UI stuff should be loaded first (but after the colorscheme)
   keys = {
     -- Bufdelete
-    { "<leader><BS>", function() Snacks.bufdelete.delete() end, desc = "Delete current buffer" },
     {
-      "<leader><S-BS>",
+      "<leader>bd",
+      function() Snacks.bufdelete.delete() end,
+      desc = "[B]uffer: [D]elete",
+    },
+    {
+      "<leader>ba",
       function()
         Snacks.bufdelete.all()
         Snacks.dashboard()
       end,
-      desc = "Delete all buffers and open dashboard",
+      desc = "[B]uffer: delete [A]ll",
     },
-    { "<leader><M-BS>", function() Snacks.bufdelete.other() end, desc = "Delete other buffers" },
     {
-      "<leader><C-BS>",
+      "<leader>bf",
       function()
         if vim.fn.confirm("Do you want to delete the file definitely?", "&Yes\n&No") == 1 then
           local fname = vim.api.nvim_buf_get_name(0)
@@ -24,7 +27,7 @@ return {
           vim.fn.delete(fname) -- Delete the file
         end
       end,
-      desc = "Delete current file",
+      desc = "[B]uffer: delete [F]ile",
     },
 
     -- Gitbrowse

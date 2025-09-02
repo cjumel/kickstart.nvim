@@ -70,10 +70,7 @@ vim.keymap.set("v", "<S-Tab>", "<gv", { desc = "Unindent selection" })
 vim.keymap.set({ "n", "v" }, "_", '"_', { desc = "Black hole register" })
 vim.keymap.set({ "n", "v" }, "+", '"+', { desc = "System clipboard register" })
 
-vim.keymap.set("n", "<leader><CR>", "<cmd>w<CR>", { desc = "Write buffer" })
-vim.keymap.set("n", "<leader><S-CR>", "<cmd>w!<CR>", { desc = "Force write buffer" })
-vim.keymap.set("n", "<leader><C-CR>", "<cmd>noautocmd w<CR>", { desc = "Write buffer without auto-commands" })
-vim.keymap.set("n", "<leader><M-CR>", "<cmd>noautocmd w!<CR>", { desc = "Force write buffer without auto-commands" })
+vim.keymap.set("n", "<leader>bw", "<cmd>noautocmd w<CR>", { desc = "[B]uffer: [W]rite without auto-command" })
 
 local function send_to_clipboard()
   local yanked = vim.fn.getreg('"')
