@@ -426,9 +426,6 @@ return {
       end,
       desc = "[S]cratch: open [L]ast",
     },
-
-    -- Zen
-    { "<leader>z", function() Snacks.zen.zoom() end, desc = "[Z]oom" },
   },
   opts = {
     bigfile = { enabled = true },

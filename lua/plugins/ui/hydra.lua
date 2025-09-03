@@ -129,7 +129,6 @@ return {
         body = "<leader>w",
         config = { desc = "[W]indow menu" },
         heads = {
-          { "d", "<cmd>vert new | set buftype=nofile | read ++edit # | 0d_ | diffthis | wincmd p | diffthis<CR>" },
           { "h", "<C-w>h" },
           { "j", "<C-w>j" },
           { "k", "<C-w>k" },
@@ -142,6 +141,7 @@ return {
           { "v", "<C-w>v" },
           { "w", "<C-w>w" },
           { "x", "<C-w>x" },
+          { "z", function() Snacks.zen.zoom() end },
           { "!", "<C-w>+" }, -- Mnemonic: opposite shape of "-"
           { "-", "<C-w>-" },
           { "(", "<C-w><" },
@@ -151,12 +151,12 @@ return {
         },
         hint = [[
                                       Window
-   _d_ ➜ Buffer [D]iff   _o_ ➜ Quit [O]ther windows        _x_ ➜ Swap window with next   
-   _h_ ➜ Window left     _q_ ➜ [Q]uit window               _!_ ➜ Increase height   
-   _j_ ➜ Winndow down    _s_ ➜ [S]plit window              _-_ ➜ Decrease height   
-   _k_ ➜ Window up       _t_ ➜ Break window into [T]ab     _(_ ➜ Decrease width   
-   _l_ ➜ Window right    _v_ ➜ Split window [V]ertically   _)_ ➜ Increase width   
-   _n_ ➜ [N]ew tab       _w_ ➜ S[W]itch windows            _=_ ➜ Equalize hight/width   
+    _h_ ➜ Window left            _q_ ➜ [Q]uit window               _z_ ➜ Zoom window   
+    _j_ ➜ Winndow down           _s_ ➜ [S]plit window              _!_ ➜ Increase height   
+    _k_ ➜ Window up              _t_ ➜ Break window into [T]ab     _-_ ➜ Decrease height   
+    _l_ ➜ Window right           _v_ ➜ Split window [V]ertically   _(_ ➜ Decrease width   
+    _n_ ➜ [N]ew tab              _w_ ➜ S[W]itch windows            _)_ ➜ Increase width   
+    _o_ ➜ Quit [O]ther windows   _x_ ➜ Swap window with next       _=_ ➜ Equalize hight/width   
 ]],
       },
     },
