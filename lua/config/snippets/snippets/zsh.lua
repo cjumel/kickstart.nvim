@@ -13,7 +13,7 @@ return {
     desc = [[`alias …='…'`]],
   }, {
     t("alias "),
-    i(1, "name"),
+    i(1),
     t("='"),
     i(2),
     t("'"),
@@ -25,7 +25,7 @@ return {
     desc = [[`export …='…'`]],
   }, {
     t("export "),
-    i(1, "name"),
+    i(1),
     t("='"),
     i(2),
     t("'"),
@@ -37,7 +37,7 @@ return {
     desc = [[`function …(…) { … }`]],
   }, {
     t("function "),
-    i(1, "name"),
+    i(1),
     t("("),
     i(2),
     t({ ") { ", "\t" }),
@@ -51,7 +51,7 @@ return {
     desc = [[`local …=…`]],
   }, {
     t("local "),
-    i(1, "name"),
+    i(1),
     t("="),
     i(2),
   }),

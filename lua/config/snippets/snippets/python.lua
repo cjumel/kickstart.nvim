@@ -104,7 +104,7 @@ return {
   }, {
     t("from "),
     c(1, {
-      sn(nil, { r(1, "module", i(nil)) }, t(" import "), r(2, "content", i(nil))),
+      sn(nil, { r(1, "module", i(nil)), t(" import "), r(2, "content", i(nil)) }),
       sn(nil, { r(1, "module"), t(" import "), r(2, "content"), t(" as "), i(3) }),
     }),
   }),
