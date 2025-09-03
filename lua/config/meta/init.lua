@@ -10,7 +10,11 @@ local M = {}
 local default_config = require("config.meta.default")
 M = vim.tbl_deep_extend("force", M, default_config or {})
 
-local global_config = require("config.meta.global")
+-- Global configuration file is for machine-level settings, so it's git-ignored, hence it can be missing
+local global_config_exists, global_config = pcall(require, "config.meta.global")
+if not global_config_exists then
+  global_config = nil
+end
 M = vim.tbl_deep_extend("force", M, global_config or {})
 
 local local_config_path = vim.fn.findfile(
