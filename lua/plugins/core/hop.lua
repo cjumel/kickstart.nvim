@@ -81,6 +81,12 @@ return {
     { "<leader>jj", "V<cmd>HopLineStartAC<CR>", mode = { "o" }, desc = "[J]ump: line downward" },
     { "<leader>jk", "<cmd>HopLineStartBC<CR>", mode = { "n", "x" }, desc = "[J]ump: line upward" },
     { "<leader>jk", "V<cmd>HopLineStartBC<CR>", mode = { "o" }, desc = "[J]ump: line upward" },
+    {
+      "<leader>jm",
+      function() require("hop").hint_char2({ multi_windows = true }) end,
+      mode = { "n", "x", "o" },
+      desc = "[J]ump: [M]ulti-window 2-character search",
+    },
   },
   opts = {
     keys = "hgjfkdlsmqyturieozpabvn",
