@@ -24,6 +24,17 @@ return {
   -- [[ Code keywords ]]
 
   s({
+    trig = "class",
+    show_condition = conds.line_begin * conds.line_end * local_conds.in_code,
+    desc = [[`class …: …`]],
+  }, {
+    t("class "),
+    i(1),
+    t({ ":", "\t" }),
+    i(2, "pass"),
+  }),
+
+  s({
     trig = "def",
     show_condition = (conds.line_begin + local_conds.async) * conds.line_end * local_conds.in_code,
     desc = [[`def <…/__…__/test_…>(<…/self…/cls…>) -> …: …`]],
