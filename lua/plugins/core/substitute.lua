@@ -6,15 +6,13 @@ return {
     { "go", function() require("substitute").operator() end, desc = "Overwrite" },
     { "go", function() require("substitute").visual() end, mode = "x", desc = "Overwrite" },
     -- Substitute a target in a range
-    { "gs", function() require("substitute.range").operator() end, desc = "Substitute in range" },
-    { "gs", function() require("substitute.range").visual() end, mode = "x", desc = "Substitute in range" },
     {
-      "gS",
+      "gs",
       function() require("substitute.range").operator({ prompt_current_text = true }) end,
       desc = "Substitute in range (prefilled)",
     },
     {
-      "gS",
+      "gs",
       function() require("substitute.range").visual({ prompt_current_text = true }) end,
       mode = "x",
       desc = "Substitute in range (prefilled)",
