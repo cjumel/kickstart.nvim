@@ -45,8 +45,8 @@ vim.keymap.set("n", "<Down>", "3<C-e>", { desc = "Scroll down a few lines" })
 
 -- [[ General keymaps ]]
 
-vim.keymap.set({ "n", "v" }, "<C-^>", "}", { desc = "Next paragraph" }) -- <C-,>
-vim.keymap.set({ "n", "v" }, "<C-_>", "{", { desc = "Previous paragraph" }) -- <C-;>
+vim.keymap.set({ "n", "x", "o" }, "<C-^>", "}", { desc = "Next paragraph" }) -- <C-,>
+vim.keymap.set({ "n", "x", "o" }, "<C-_>", "{", { desc = "Previous paragraph" }) -- <C-;>
 
 vim.keymap.set("n", "gp", vim.diagnostic.open_float, { desc = "Preview diagnostics" })
 vim.keymap.set("n", "gl", vim.diagnostic.reset, { desc = "Reload diagnostics" })
