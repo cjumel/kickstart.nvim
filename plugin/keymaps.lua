@@ -128,14 +128,14 @@ local function yank_all_buffer_contents()
   local lines = {}
   local content_description = ""
   for _, bufnr in ipairs(vim.api.nvim_list_bufs()) do
+    local bufpath = vim.api.nvim_buf_get_name(bufnr)
     if
       vim.api.nvim_buf_is_valid(bufnr)
       and vim.api.nvim_buf_is_loaded(bufnr)
-      and vim.api.nvim_buf_get_name(bufnr) ~= ""
+      and bufpath ~= ""
       and vim.api.nvim_get_option_value("buftype", { buf = bufnr }) == ""
     then
-      local bufpath = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(bufnr), ":p:~:.")
-      if not bufpath:match("^~/.nvim%-scratch/") then
+      if not bufpath:match("^" .. vim.env.HOME .. "/.local/share/scratch%-files") then
         local buflines = vim.api.nvim_buf_get_lines(bufnr, 0, -1, false)
         vim.list_extend(lines, { "File `" .. bufpath .. "`:", "```" .. vim.bo[bufnr].filetype })
         vim.list_extend(lines, buflines)
