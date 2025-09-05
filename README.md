@@ -77,12 +77,23 @@ ln -sf ~/.local/nvim-macos-x86_64-x_y_z/bin/nvim ~/.local/bin/nvim
 ### On Linux
 
 <details>
+<summary>With snapd (preferred)</summary>
+
+```bash
+sudo apt install snapd
+sudo snap install nvim --classic
+# sudo apt install build-essential # If neovim complains that gcc compiler is missing
+```
+
+</details>
+
+<details>
 <summary>With apt</summary>
 
 ```bash
 # to install the nightly version (with the latest features but less stable):
-apt install software-properties-common
-add-apt-repository ppa:neovim-ppa/unstable
+add-apt-repository ppa:neovim-ppa/unstable # For very latest development version
+# add-apt-repository ppa:neovim-ppa/stable # For stable but quite old version
 apt update
 apt install neovim
 ```
