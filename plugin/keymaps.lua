@@ -105,6 +105,9 @@ local function yank_file_path(mods)
   end
   if path ~= nil then
     path = vim.fn.fnamemodify(path, mods)
+    if path:find("%s") and vim.fn.confirm("White spaces found in path, escape them?", "&Yes\n&No") == 1 then
+      path = path:gsub(" ", "\\ ")
+    end
     vim.fn.setreg('"', path)
     vim.notify('Yanked to register `"`:\n```\n' .. path .. "\n```", vim.log.levels.INFO, { title = "Yank" })
   end
