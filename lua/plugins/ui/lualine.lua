@@ -89,6 +89,7 @@ return {
           "neotest-summary",
           "OverseerList",
           "snacks_dashboard",
+          "snacks_notif_history",
           "snacks_picker_input",
           "trouble",
         },
