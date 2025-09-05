@@ -357,7 +357,7 @@ vim.keymap.set({ "i", "c" }, "<C-p>", prev_completion, { desc = "Previous comple
 -- Navigation and ghost text completion keymaps (zsh-autosuggestions style)
 local function tab_improved()
   local copilot_suggestion = package.loaded["copilot.suggestion"]
-  if copilot_suggestion.is_visible() then
+  if copilot_suggestion ~= nil and copilot_suggestion.is_visible() then
     copilot_suggestion.accept()
   else
     vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Tab>", true, false, true), "n", false)
@@ -365,7 +365,7 @@ local function tab_improved()
 end
 local function c_right_improved()
   local copilot_suggestion = package.loaded["copilot.suggestion"]
-  if vim.fn.mode() == "i" and copilot_suggestion.is_visible() then
+  if vim.fn.mode() == "i" and copilot_suggestion ~= nil and copilot_suggestion.is_visible() then
     copilot_suggestion.accept_word()
   else
     vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<C-Right>", true, false, true), "n", false)
@@ -373,7 +373,7 @@ local function c_right_improved()
 end
 local function end_improved()
   local copilot_suggestion = package.loaded["copilot.suggestion"]
-  if vim.fn.mode() == "i" and copilot_suggestion.is_visible() then
+  if vim.fn.mode() == "i" and copilot_suggestion ~= nil and copilot_suggestion.is_visible() then
     copilot_suggestion.accept_line()
   else
     vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<End>", true, false, true), "n", false)
@@ -395,7 +395,7 @@ local function clear_insert_and_commandline_modes()
   end
   if vim.fn.mode() == "i" then
     local copilot_suggestion = package.loaded["copilot.suggestion"]
-    if copilot_suggestion.is_visible() then
+    if copilot_suggestion ~= nil and copilot_suggestion.is_visible() then
       copilot_suggestion.dismiss()
       return
     end
