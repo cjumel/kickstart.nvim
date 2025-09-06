@@ -4,18 +4,10 @@ return {
     "tpope/vim-dadbod",
     "kristijanhusak/vim-dadbod-completion",
   },
-  cmd = {
-    "DBUI",
-    "DBUIClose",
-    "DBUIToggle",
-    "DBUIFindBuffer",
-    "DBUIRenameBuffer",
-    "DBUIAddConnection",
-    "DBUILastQueryInfo",
-  },
+  keys = { { "<leader>-", "<cmd>DBUIToggle<CR>", desc = "Database explorer" } },
   config = function()
     vim.g.db_ui_use_nerd_fonts = 1
     vim.g.db_ui_use_nvim_notify = 1
-    vim.g.db_ui_disable_mappings_sql = 1 -- Use custom keymaps defined below
+    vim.g.db_ui_disable_mappings_sql = 1
   end,
 }
