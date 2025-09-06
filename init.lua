@@ -33,7 +33,6 @@ require("lazy").setup({
     { import = "plugins.colorschemes" },
     { import = "plugins.ui" },
     { import = "plugins.core" },
-    { import = "plugins.vcs" },
     { import = "plugins.tools" },
   },
   rocks = { enabled = false }, -- Luarocks is not installed on my machine & I don't need it
