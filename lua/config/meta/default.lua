@@ -108,6 +108,7 @@ return {
     [".env.test"] = ".env",
     [".env.test.example"] = ".env",
     [".gitignore-global"] = ".gitignore",
+    [".python-version"] = ".python-version",
     ["ignore"] = "ignore",
   },
 
@@ -130,6 +131,14 @@ return {
       name = ".gitignore",
       _color_light = "#b83a1d",
       _cterm_color_light = "160",
+    },
+    [".python-version"] = {
+      icon = "",
+      color = "#458ee6",
+      cterm_color = "68",
+      name = ".python-version",
+      _color_light = "#805e02",
+      _cterm_color_light = "94",
     },
     ["conf"] = {
       icon = "",
