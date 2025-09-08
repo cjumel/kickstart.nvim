@@ -18,10 +18,6 @@ return {
       if string.sub(mapping.lhs, 1, 3) == "gcc" then
         return false
       end
-      -- Remove weird keymaps introduce by plugins (like dial.nvim)
-      if string.sub(mapping.lhs, 1, 7) == "g<Plug>" then
-        return false
-      end
       return true
     end,
     spec = {
