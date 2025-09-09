@@ -14,7 +14,6 @@ return {
       focus = true,
       keys = {
         ["<Tab>"] = "fold_toggle",
-        ["d"] = { action = "delete", mode = { "n", "v" } },
         [","] = "next",
         [";"] = "prev",
       },
