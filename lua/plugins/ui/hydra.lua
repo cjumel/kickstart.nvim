@@ -133,7 +133,6 @@ return {
           { "j", "<C-w>j" },
           { "k", "<C-w>k" },
           { "l", "<C-w>l" },
-          { "n", "<cmd>tab new<CR>", { exit = true } },
           { "o", "<C-w>o" },
           { "q", "<C-w>q" },
           { "s", "<C-w>s" },
@@ -150,13 +149,13 @@ return {
           { "<Esc>", nil, { exit = true, desc = false } },
         },
         hint = [[
-                                      Window
-    _h_ ➜ Window left            _q_ ➜ [Q]uit window               _z_ ➜ Zoom window   
-    _j_ ➜ Winndow down           _s_ ➜ [S]plit window              _!_ ➜ Increase height   
-    _k_ ➜ Window up              _t_ ➜ Break window into [T]ab     _-_ ➜ Decrease height   
-    _l_ ➜ Window right           _v_ ➜ Split window [V]ertically   _(_ ➜ Decrease width   
-    _n_ ➜ [N]ew tab              _w_ ➜ S[W]itch windows            _)_ ➜ Increase width   
+                                          Window
+    _h_ ➜ Window left            _s_ ➜ [S]plit window              _!_ ➜ Increase height   
+    _j_ ➜ Winndow down           _t_ ➜ Break window into [T]ab     _-_ ➜ Decrease height   
+    _k_ ➜ Window up              _v_ ➜ Split window [V]ertically   _(_ ➜ Decrease width   
+    _l_ ➜ Window right           _w_ ➜ S[W]itch windows            _)_ ➜ Increase width   
     _o_ ➜ Quit [O]ther windows   _x_ ➜ Swap window with next       _=_ ➜ Equalize hight/width   
+    _q_ ➜ [Q]uit window          _z_ ➜ Zoom window
 ]],
       },
     },
