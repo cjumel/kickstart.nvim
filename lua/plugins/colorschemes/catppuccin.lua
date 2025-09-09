@@ -25,6 +25,7 @@ return {
       native_lsp = { enabled = true, virtual_text = {}, underlines = {} },
       semantic_tokens = true,
       nvim_surround = true,
+      treesitter_context = true,
       treesitter = true,
       overseer = true,
       render_markdown = true,
