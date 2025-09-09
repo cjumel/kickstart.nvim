@@ -3,8 +3,21 @@ return {
   dependencies = { "nvim-tree/nvim-web-devicons" },
   event = "VeryLazy",
   opts = {
+    replace = {
+      key = {
+        function(key)
+          -- Improve display of Harpoon keymaps
+          if key == "à" then
+            return "0"
+          end
+          if key == "&" then
+            return "1~9"
+          end
+          return require("which-key.view").format(key)
+        end,
+      },
+    },
     filter = function(mapping)
-      -- Filter out builtin next/previous move keymaps, as I implemented them in a very different way
       if string.sub(mapping.lhs, 1, 1) == "[" and (not mapping.desc or string.sub(mapping.desc, 1, 5) ~= "Next ") then
         return false
       end
@@ -14,8 +27,10 @@ return {
       then
         return false
       end
-      -- Remove "gcc" description for consistency with other "g" keymaps
-      if string.sub(mapping.lhs, 1, 3) == "gcc" then
+      if mapping.lhs == "gcc" then -- For consistency with other "g" keymaps
+        return false
+      end
+      if mapping.desc == "<which-key-ignore>" then
         return false
       end
       return true

@@ -11,6 +11,7 @@ return {
     integrations = {
       gitsigns = true,
       grug_far = true,
+      harpoon = true,
       hop = true,
       indent_blankline = { enabled = true },
       markdown = true,

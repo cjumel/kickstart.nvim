@@ -34,10 +34,10 @@ return {
     { "<leader>gr", function() Snacks.gitbrowse.open() end, desc = "[G]it: open [R]epository" },
 
     -- Notifier
-    { "<leader>!", function() Snacks.notifier.show_history() end, desc = "Notification history" },
+    { "<leader>?", function() Snacks.notifier.show_history() end, desc = "Notification history" },
 
     -- Picker
-    { "<leader>;", function() Snacks.picker.resume() end, desc = "Resume picker" },
+    { "<leader>,", function() Snacks.picker.resume() end, desc = "Resume picker" },
     {
       "<leader><Tab>",
       function()

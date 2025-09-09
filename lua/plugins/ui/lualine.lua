@@ -75,6 +75,7 @@ return {
           "dapui_console",
           "dapui_scopes",
           "dapui_watches",
+          "harpoon",
           "lazy",
           "lspinfo",
           "mason",
