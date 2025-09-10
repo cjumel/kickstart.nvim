@@ -323,10 +323,6 @@ local function next_conflict() require("git-conflict").find_next("ours") end
 local function prev_conflict() require("git-conflict").find_prev("ours") end
 map_move_pair("x", next_conflict, prev_conflict, "conflict")
 
-local function next_reference() Snacks.words.jump(vim.v.count1, true) end
-local function prev_reference() Snacks.words.jump(-vim.v.count1, true) end
-map_move_pair("r", next_reference, prev_reference, "reference")
-
 -- [[ Insert and command-line keymaps ]]
 
 -- Regular completion keymaps

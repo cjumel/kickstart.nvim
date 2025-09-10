@@ -30,6 +30,7 @@ vim.o.timeoutlen = 300 -- Decrease delay between keys in mapped sequences
 vim.o.diffopt = "internal,filler,closeoff" -- Remove linematch from diffopt (important for gitsigns.nvim hunk jumps)
 vim.o.complete = "" -- Disable builtin auto-completion
 vim.o.completeopt = "" -- Remove builtin auto-completion options
+vim.g.no_plugin_maps = 1 -- Disable default keymaps from plugins (e.g. builtin ftplugins)
 
 -- Diagnostics
 vim.diagnostic.config({
