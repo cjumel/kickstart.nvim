@@ -82,6 +82,7 @@ return {
           "NeogitCommitPopup",
           "NeogitCommitView",
           "NeogitConsole",
+          "NeogitDiffView",
           "NeogitPopup",
           "NeogitRebasePopup",
           "NeogitResetPopup",
