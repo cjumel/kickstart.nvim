@@ -140,7 +140,6 @@ return {
           { "v", "<C-w>v" },
           { "w", "<C-w>w" },
           { "x", "<C-w>x" },
-          { "z", function() Snacks.zen.zoom() end },
           { "!", "<C-w>+" }, -- Mnemonic: opposite shape of "-"
           { "-", "<C-w>-" },
           { "(", "<C-w><" },
@@ -155,7 +154,7 @@ return {
     _k_ ➜ Window up              _v_ ➜ Split window [V]ertically   _(_ ➜ Decrease width   
     _l_ ➜ Window right           _w_ ➜ S[W]itch windows            _)_ ➜ Increase width   
     _o_ ➜ Quit [O]ther windows   _x_ ➜ Swap window with next       _=_ ➜ Equalize hight/width   
-    _q_ ➜ [Q]uit window          _z_ ➜ Zoom window
+    _q_ ➜ [Q]uit window
 ]],
       },
     },
