@@ -64,5 +64,15 @@ vim.api.nvim_create_user_command(
   function() vim.notify(vim.inspect(M), vim.log.levels.INFO, { title = "Meta Configuration" }) end,
   { desc = "Show the final meta configuration" }
 )
+vim.api.nvim_create_user_command("MetaconfigYankDefault", function()
+  local path = vim.fn.expand(vim.fn.stdpath("config") .. "/lua/config/meta/default.lua")
+  local lines = vim.fn.readfile(path)
+  vim.fn.setreg('"', table.concat(lines, "\n"))
+  vim.notify(
+    "Default metaconfig (" .. #lines .. ' lines) yanked to register `"`',
+    vim.log.levels.INFO,
+    { title = "Yank" }
+  )
+end, { desc = "Yank the default meta configuration" })
 
 return M
