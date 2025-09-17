@@ -54,6 +54,10 @@ return {
   -- disable it on all file types.
   disable_format_on_save_on_fts = false,
 
+  -- Set `disable_format_on_save_on_files` to a list of path patterns to exclude the files matching those patterns
+  -- from format-on-save.
+  disable_format_on_save_on_files = {},
+
   -- Set `linters_by_ft` to a mapping between filetypes and tables of linters to enable. Introducing a new linter will
   -- likely require to install it with Mason.nvim, which can be done by calling the `MasonInstallAll` command. Setting a
   -- linters table to false will disable linting on the corresponding filetype, while setting the whole `linters_by_ft`
@@ -65,16 +69,12 @@ return {
     zsh = { "shellcheck" }, -- Not actually for zsh, but in my case it works fine when disabling a few rules
   },
 
-  -- Set `documentation_convention_by_ft` to a mapping between filetypes and names of documentation convention to use.
-  -- See Neogen (https://github.com/danymat/neogen) for the builtin available conventions, and
-  -- lua/plugins/core/neogen.lua for the custom ones.
-  documentation_convention_by_ft = {
-    python = "google_docstrings_custom",
-  },
+  -- Set `disable_lint_on_files` to a list of path patterns to exclude the files matching those patterns from linting.
+  disable_lint_on_files = {},
 
-  -- Set `tooling_blacklist_path_patterns` to a list of path patterns to exclude the files matching those patterns from
+  -- Set `disable_tooling_on_files` to a list of path patterns to exclude the files matching those patterns from
   -- all tooling (format on save and lint).
-  tooling_blacklist_path_patterns = {
+  disable_tooling_on_files = {
     -- Directories inside projects but managed by external tools
     "/%.git/",
     "/%.venv",
@@ -82,6 +82,13 @@ return {
     -- Global directories managed by package managers
     "^~/%.tmux/",
     "^~/%.local/share/nvim/",
+  },
+
+  -- Set `documentation_convention_by_ft` to a mapping between filetypes and names of documentation convention to use.
+  -- See Neogen (https://github.com/danymat/neogen) for the builtin available conventions, and
+  -- lua/plugins/core/neogen.lua for the custom ones.
+  documentation_convention_by_ft = {
+    python = "google_docstrings_custom",
   },
 
   -- Set `extra_filename_to_filetype` to a dictionary mapping file names to their corresponding file types, to support

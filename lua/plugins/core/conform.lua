@@ -53,9 +53,11 @@ return {
       end
 
       local relative_file_path = vim.fn.expand("%:p:~")
-      for _, path_pattern in ipairs(MetaConfig.tooling_blacklist_path_patterns or {}) do
-        local file_matches_tooling_blacklist_pattern = relative_file_path:match(path_pattern)
-        if file_matches_tooling_blacklist_pattern then
+      local excluded_file_patterns =
+        vim.list_extend(MetaConfig.disable_format_on_save_on_files or {}, MetaConfig.disable_tooling_on_files or {})
+      for _, excluded_file_pattern in ipairs(excluded_file_patterns) do
+        local file_is_excluded = relative_file_path:match(excluded_file_pattern)
+        if file_is_excluded then
           return
         end
       end
