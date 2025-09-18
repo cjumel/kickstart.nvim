@@ -53,4 +53,14 @@ if ThemeConfig.options_callback then
 end
 
 -- Extra filetypes detection
-vim.filetype.add({ filename = MetaConfig.extra_filename_to_filetype })
+vim.filetype.add({
+  filename = {
+    [".env.example"] = "sh",
+    [".env.sample"] = "sh",
+    [".env.test"] = "sh",
+    [".env.test.example"] = "sh",
+    [".gitignore-global"] = "gitignore",
+    [".stow-local-ignore"] = "gitignore",
+    [".vimiumrc"] = "vim",
+  },
+})
