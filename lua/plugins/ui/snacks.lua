@@ -6,9 +6,9 @@ return {
   keys = {
     -- Bufdelete
     {
-      "<leader>bd",
+      "<leader>bb",
       function() Snacks.bufdelete.delete() end,
-      desc = "[B]uffer: [D]elete",
+      desc = "[B]uffer: [B]ufdelete",
     },
     {
       "<leader>ba",
@@ -16,10 +16,15 @@ return {
         Snacks.bufdelete.all()
         Snacks.dashboard()
       end,
-      desc = "[B]uffer: delete [A]ll",
+      desc = "[B]uffer: bufdelete [A]ll",
     },
     {
-      "<leader>bf",
+      "<leader>bo",
+      function() Snacks.bufdelete.other() end,
+      desc = "[B]uffer: bufdelete [O]thers",
+    },
+    {
+      "<leader>bd",
       function()
         if vim.fn.confirm("Do you want to delete the file definitely?", "&Yes\n&No") == 1 then
           local fname = vim.api.nvim_buf_get_name(0)
@@ -27,7 +32,7 @@ return {
           vim.fn.delete(fname) -- Delete the file
         end
       end,
-      desc = "[B]uffer: delete [F]ile",
+      desc = "[B]uffer: [D]elete file",
     },
 
     -- Gitbrowse
