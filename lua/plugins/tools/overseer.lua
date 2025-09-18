@@ -2,35 +2,61 @@ return {
   "stevearc/overseer.nvim",
   keys = {
     {
-      "<leader>ev",
+      "<leader>ee",
       function() require("overseer").toggle() end,
-      desc = "[E]xecute: toggle task [V]iew",
+      desc = "[E]xecute: toggle task list",
     },
     {
       "<leader>er",
       function()
-        require("overseer").run_template({ tags = { "RUN" }, first = false }, function(task, _)
+        require("overseer").run_template({ tags = { "RUN" }, prompt = "avoid", first = false }, function(task, _)
           if task ~= nil then
             require("overseer").open()
           end
         end)
       end,
-      desc = "[E]xecute: [R]un tasks",
+      desc = "[E]xecute: [R]un task",
+    },
+    {
+      "<leader>eR",
+      function()
+        require("overseer").run_template({ tags = { "RUN" }, prompt = "always", first = false }, function(task, _)
+          if task ~= nil then
+            require("overseer").open()
+          end
+        end)
+      end,
+      desc = "[E]xecute: [R]un task with parameters",
     },
     {
       "<leader>eb",
-      function() require("overseer").run_template({ tags = { "BUILD" }, first = false }) end,
-      desc = "[E]xecute: [B]uild tasks",
+      function() require("overseer").run_template({ tags = { "BUILD" }, prompt = "avoid", first = false }) end,
+      desc = "[E]xecute: [B]uild task",
+    },
+    {
+      "<leader>eB",
+      function() require("overseer").run_template({ tags = { "BUILD" }, prompt = "always", first = false }) end,
+      desc = "[E]xecute: [B]uild task with parameters",
     },
     {
       "<leader>ec",
-      function() require("overseer").run_template({ tags = { "CHECK" }, first = false }) end,
-      desc = "[E]xecute: [C]heck tasks",
+      function() require("overseer").run_template({ tags = { "CHECK" }, prompt = "avoid", first = false }) end,
+      desc = "[E]xecute: [C]heck task",
+    },
+    {
+      "<leader>eC",
+      function() require("overseer").run_template({ tags = { "CHECK" }, prompt = "always", first = false }) end,
+      desc = "[E]xecute: [C]heck task with parameters",
     },
     {
       "<leader>em",
-      function() require("overseer").run_template({ tags = { "MAKE" }, first = false, prompt = "avoid" }) end,
-      desc = "[E]xecute: [M]ake tasks",
+      function() require("overseer").run_template({ tags = { "MAKE" }, prompt = "avoid", first = false }) end,
+      desc = "[E]xecute: [M]ake task",
+    },
+    {
+      "<leader>eM",
+      function() require("overseer").run_template({ tags = { "MAKE" }, prompt = "always", first = false }) end,
+      desc = "[E]xecute: [M]ake task with parameters",
     },
     {
       "<leader>el",
@@ -42,7 +68,7 @@ return {
           require("overseer").run_action(tasks[1], "restart")
         end
       end,
-      desc = "[E]xecute: rerun [L]ast task",
+      desc = "[E]xecute: [L]ast task",
     },
   },
   opts = {
@@ -76,7 +102,6 @@ return {
         },
       },
     },
-    default_template_prompt = "always",
     component_aliases = {
       default = {
         { "display_duration", detail_level = 2 },

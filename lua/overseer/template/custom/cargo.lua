@@ -20,7 +20,6 @@ return {
     local base_template = {
       params = {
         args = {
-          desc = "Additional arguments",
           type = "list",
           delimiter = " ",
           optional = true,
