@@ -5,6 +5,7 @@ return {
     "rcarriga/cmp-dap",
   },
   keys = {
+    { "<leader>dd", function() require("dapui").toggle() end, desc = "[D]ebug: toggle UI" },
     {
       "<leader>dr",
       function()
@@ -12,9 +13,22 @@ return {
           require("lazy").load({ plugins = { "nvim-dap-python" } })
           vim.g.dap_python_loaded = true
         end
+        vim.g.dap_prompt_parameters = false
         require("dap").continue()
       end,
       desc = "[D]ebug: [R]un",
+    },
+    {
+      "<leader>dR",
+      function()
+        if not vim.g.dap_python_loaded and vim.bo.filetype == "python" then
+          require("lazy").load({ plugins = { "nvim-dap-python" } })
+          vim.g.dap_python_loaded = true
+        end
+        vim.g.dap_prompt_parameters = true
+        require("dap").continue()
+      end,
+      desc = "[D]ebug: [R]un with parameters",
     },
     {
       "<leader>dl",
@@ -25,11 +39,11 @@ return {
           error("No debug configuration found")
         end
       end,
-      desc = "[D]ebug: rerun [L]ast",
+      desc = "[D]ebug: run [L]ast",
     },
     { "<leader>db", function() require("dap").toggle_breakpoint() end, desc = "[D]ebug: toggle [B]reakpoint" },
     {
-      "<leader>dc",
+      "<leader>dB",
       function()
         vim.ui.select(
           { "Condition breakpoint", "Hit breakpoint", "Logpoint" },
@@ -48,12 +62,11 @@ return {
           end
         )
       end,
-      desc = "[D]ebug: set [C]omplex breakpoint",
+      desc = "[D]ebug: set complex [B]reakpoint",
     },
+    { "<leader>dc", function() require("dap").clear_breakpoints() end, desc = "[D]ebug: [C]lear breakpoints" },
     { "<leader>dp", function() require("dap.ui.widgets").hover() end, desc = "[D]ebug: [P]review variable" },
-    { "<leader>du", function() require("dapui").toggle() end, desc = "[D]ebug: toggle [U]I" },
     { "<leader>dt", function() require("dap").terminate() end, desc = "[D]ebug: [T]erminate" },
-    { "<leader>dx", function() require("dap").clear_breakpoints() end, desc = "[D]ebug: discard breakpoints" },
   },
   config = function()
     local dap = require("dap")
