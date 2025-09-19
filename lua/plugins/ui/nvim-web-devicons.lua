@@ -1,4 +1,5 @@
 local extra_filename_to_icon_name = {
+  [".coverage"] = "sqlite3",
   [".env.example"] = ".env",
   [".env.sample"] = ".env",
   [".env.test"] = ".env",
@@ -10,40 +11,23 @@ local extra_filename_to_icon_name = {
   ["ignore"] = ".gitignore",
 }
 
--- Generally defined using exising icons data, with:
--- `:lua print(require("nvim-web-devicons").get_icon_colors("<icon-name>"))`
+-- Default icon data can be found in:
+-- https://github.com/nvim-tree/nvim-web-devicons/tree/master/lua/nvim-web-devicons/default
+-- https://github.com/nvim-tree/nvim-web-devicons/tree/master/lua/nvim-web-devicons/light
 local extra_icon_names_to_icon_data = {
-  [".env"] = {
-    icon = "",
-    color = "#faf743",
-    cterm_color = "227",
-    name = ".env",
-    _color_light = "#32310d",
-    _cterm_color_light = "236",
+  dark = {
+    [".env"] = { icon = "", color = "#FAF743", cterm_color = "227", name = "Env" },
+    [".gitignore"] = { icon = "", color = "#F54D27", cterm_color = "196", name = "GitIgnore" },
+    [".python-version"] = { icon = "", color = "#458ee6", cterm_color = "68", name = "PyVersion" },
+    ["sqlite3"] = { icon = "", color = "#DAD8D8", cterm_color = "188", name = "Sql" },
+    ["vim"] = { icon = "", color = "#019833", cterm_color = "28", name = "Vim" },
   },
-  [".gitignore"] = {
-    icon = "",
-    color = "#f54d27",
-    cterm_color = "196",
-    name = ".gitignore",
-    _color_light = "#b83a1d",
-    _cterm_color_light = "160",
-  },
-  [".python-version"] = {
-    icon = "",
-    color = "#458ee6",
-    cterm_color = "68",
-    name = ".python-version",
-    _color_light = "#805e02",
-    _cterm_color_light = "94",
-  },
-  ["vim"] = {
-    icon = "",
-    color = "#019833",
-    cterm_color = 28,
-    name = "vim",
-    _color_light = "#017226",
-    _cterm_color_light = "22",
+  light = {
+    [".env"] = { icon = "", color = "#32310D", cterm_color = "236", name = "Env" },
+    [".gitignore"] = { icon = "", color = "#B83A1D", cterm_color = "160", name = "GitIgnore" },
+    [".python-version"] = { icon = "", color = "#805e02", cterm_color = "94", name = "PyVersion" },
+    ["sqlite3"] = { icon = "", color = "#494848", cterm_color = "238", name = "Sql" },
+    ["vim"] = { icon = "", color = "#017226", cterm_color = "22", name = "Vim" },
   },
 }
 
@@ -53,14 +37,11 @@ return {
   opts = function()
     local background = ThemeConfig.background or "dark"
     local override_by_filename = {}
-    for filename, filetype in pairs(extra_filename_to_icon_name) do
-      local icon_data = extra_icon_names_to_icon_data[filetype]
-      if background == "light" then
-        icon_data.color = icon_data._color_light and icon_data._color_light or icon_data.color
-        icon_data.cterm_color = icon_data._cterm_color_light and icon_data._cterm_color_light or icon_data.cterm_color
-      end
-      override_by_filename[filename] = icon_data
+    for filename, icon_name in pairs(extra_filename_to_icon_name) do
+      override_by_filename[filename] = extra_icon_names_to_icon_data[background][icon_name]
     end
-    return { override_by_filename = override_by_filename } -- Icon customization by filename
+    return {
+      override_by_filename = override_by_filename, -- Icon customization by filename
+    }
   end,
 }

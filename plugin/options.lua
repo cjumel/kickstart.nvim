@@ -55,6 +55,7 @@ end
 -- Extra filetypes detection
 vim.filetype.add({
   filename = {
+    [".coverage"] = "sqlite3",
     [".env.example"] = "sh",
     [".env.sample"] = "sh",
     [".env.test"] = "sh",
