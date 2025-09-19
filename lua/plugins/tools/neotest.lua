@@ -9,75 +9,88 @@ return {
   },
   keys = {
     {
-      "<leader>ts",
+      "<leader>tt",
       function() require("neotest").summary.toggle() end,
-      desc = "[T]est: toggle [S]ummary",
+      desc = "[T]est: toggle summary",
     },
     {
-      "<leader>to",
-      function()
-        require("neotest").output.open({
-          enter = true,
-          open_win = function() vim.cmd("split | resize 15") end,
-        })
-      end,
-      desc = "[T]est: open [O]utput",
+      "<leader>tp",
+      function() require("neotest").output.open({ enter = true }) end,
+      desc = "[T]est: [P]review output",
     },
     {
       "<leader>tr",
-      function()
-        vim.ui.input({ promp = "Additional arguments" }, function(input)
-          if input == nil then
-            return
-          end
-          local opts = {}
-          if vim.bo.filetype == "oil" then
-            table.insert(opts, require("oil").get_current_dir())
-          end
-          if input ~= "" then
-            opts.extra_args = vim.split(input, " ")
-          end
-          require("neotest").run.run(opts)
-        end)
-      end,
+      function() require("neotest").run.run() end,
       desc = "[T]est: [R]un",
     },
     {
-      "<leader>tf",
+      "<leader>tR",
       function()
         vim.ui.input({ promp = "Additional arguments" }, function(input)
           if input == nil then
             return
           end
-          local opts = { vim.fn.expand("%") }
-          if input ~= "" then
-            opts.extra_args = vim.split(input, " ")
-          end
-          require("neotest").run.run(opts)
+          require("neotest").run.run({ extra_args = input ~= "" and vim.split(input, " ") or nil })
         end)
       end,
+      desc = "[T]est: [R]un with parameters",
+    },
+    {
+      "<leader>tf",
+      function() require("neotest").run.run({ vim.fn.expand("%") }) end,
       desc = "[T]est: run [F]ile",
+    },
+    {
+      "<leader>tF",
+      function()
+        vim.ui.input({ promp = "Additional arguments" }, function(input)
+          if input == nil then
+            return
+          end
+          require("neotest").run.run({
+            vim.fn.expand("%"),
+            extra_args = input ~= "" and vim.split(input, " ") or nil,
+          })
+        end)
+      end,
+      desc = "[T]est: run [F]ile with parameters",
     },
     {
       "<leader>ta",
       function()
-        vim.ui.input({ promp = "Additional arguments" }, function(input)
-          if input == nil then
-            return
-          end
-          local opts = { suite = true }
-          if input ~= "" then
-            opts.extra_args = vim.split(input, " ")
-          end
-          require("neotest").run.run(opts)
-        end)
+        local opts
+        if vim.bo.filetype == "oil" then
+          opts = { require("oil").get_current_dir() }
+        else
+          opts = { suite = true }
+        end
+        require("neotest").run.run(opts)
       end,
       desc = "[T]est: run [A]ll",
     },
     {
+      "<leader>tA",
+      function()
+        vim.ui.input({ promp = "Additional arguments" }, function(input)
+          if input == nil then
+            return
+          end
+          local opts
+          if vim.bo.filetype == "oil" then
+            opts = { require("oil").get_current_dir() }
+          else
+            opts = { suite = true }
+          end
+          opts.extra_args = input ~= "" and vim.split(input, " ") or nil
+          require("neotest").run.run(opts)
+        end)
+      end,
+      desc = "[T]est: run [A]ll with parameters",
+    },
+    {
       "<leader>tl",
       function() require("neotest").run.run_last() end,
-      desc = "[T]est: rerun [L]ast",
+      desc = "[T]est: run [L]ast",
     },
   },
   opts = function()
