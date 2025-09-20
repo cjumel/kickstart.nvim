@@ -43,7 +43,10 @@ return {
       ["<localleader>s"] = { "actions.change_sort", desc = "Change [S]ort" },
     },
     use_default_keymaps = false,
-    view_options = { is_always_hidden = function(name, _) return name == ".." end },
+    view_options = {
+      is_always_hidden = function(name, _) return name == ".." end,
+      case_insensitive = true,
+    },
   },
   config = function(_, opts)
     require("oil").setup(opts)
