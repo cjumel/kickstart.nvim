@@ -103,9 +103,6 @@ return {
       end,
     })
 
-    local lspconfig = require("lspconfig")
-    local mason_lspconfig = require("mason-lspconfig")
-
     local capabilities = vim.lsp.protocol.make_client_capabilities()
     local cmp_capabilities = require("cmp_nvim_lsp").default_capabilities()
     capabilities = vim.tbl_deep_extend("force", capabilities, cmp_capabilities)
@@ -113,10 +110,10 @@ return {
     for _, servers in pairs(servers_by_ft) do
       for name, config in pairs(servers) do
         config.capabilities = capabilities
-        lspconfig[name].setup(config)
+        vim.lsp.config(name, config)
       end
     end
 
-    mason_lspconfig.setup({ automatic_enable = false })
+    require("mason-lspconfig").setup()
   end,
 }
