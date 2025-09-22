@@ -78,7 +78,14 @@ vim.keymap.set("n", "<leader>bc", buffer_changes, { desc = "[B]uffer: view [C]ha
 local function send_to_clipboard()
   local yanked = vim.fn.getreg('"')
   vim.fn.setreg("+", yanked)
-  vim.notify("Last yanked sent to clipboard")
+  local lines = vim.split(yanked, "\n", { plain = true })
+  local message
+  if #lines == 1 then
+    message = "Last yanked sent to clipboard:\n```" .. yanked .. "```"
+  else
+    message = "Last yanked sent to clipboard (" .. tostring(#lines - 1) .. " lines)"
+  end
+  vim.notify(message, vim.log.levels.INFO, { title = "Yank" })
 end
 local function toggle_sync_with_clipboard()
   if not vim.tbl_contains(vim.opt.clipboard, "unnamedplus") then
