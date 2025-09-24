@@ -83,7 +83,11 @@ local function send_to_clipboard()
   if #lines == 1 then
     message = "Last yanked sent to clipboard:\n```" .. yanked .. "```"
   else
-    message = "Last yanked sent to clipboard (" .. tostring(#lines - 1) .. " lines)"
+    if #lines - 1 == 1 then
+      message = "Last yanked sent to clipboard (" .. tostring(#lines - 1) .. " line)"
+    else
+      message = "Last yanked sent to clipboard (" .. tostring(#lines - 1) .. " lines)"
+    end
   end
   vim.notify(message, vim.log.levels.INFO, { title = "Yank" })
 end
