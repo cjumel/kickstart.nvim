@@ -5,9 +5,18 @@ return {
     -- Overwrite: like the paste operator but without yanking the overwritten text
     { "go", function() require("substitute").operator() end, desc = "Overwrite" },
     { "go", function() require("substitute").visual() end, mode = "x", desc = "Overwrite" },
-    -- Substitute in range: replace occurrences of a target in a range
-    { "gs", function() require("substitute.range").operator() end, desc = "Substitute in range" },
-    { "gs", function() require("substitute.range").visual() end, mode = "x", desc = "Substitute in range" },
+    -- Substitute in range: replace occurrences of a target in a range with the main register content
+    {
+      "gs",
+      function() require("substitute.range").operator({ register = "0", auto_apply = true }) end,
+      desc = "Substitute in range",
+    },
+    {
+      "gs",
+      function() require("substitute.range").visual({ register = "0", auto_apply = true }) end,
+      mode = "x",
+      desc = "Substitute in range",
+    },
     -- Modify in range: update occurrences of a target in a range
     {
       "gm",
