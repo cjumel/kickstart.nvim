@@ -38,8 +38,6 @@ return {
     spec = {
       -- Set or modify the description of builtin keymaps
       { "gc", desc = "Comment", mode = { "n", "x" } },
-      { "ge", desc = "Previous end of word", mode = { "n", "x", "o" } },
-      { "gE", desc = "Previous end of WORD", mode = { "n", "x", "o" } },
       { "gq", desc = "Format (formatexpr)", mode = { "n", "x" } },
       { "gw", desc = "Format", mode = { "n", "x" } },
       -- Register keymap groups

@@ -460,8 +460,8 @@ return {
       enabled = true,
       win = {
         keys = {
-          i_ctrl_n = { "<C-n>", "hist_down", mode = "i" },
-          i_ctrl_p = { "<C-p>", "hist_up", mode = "i" },
+          i_ctrl_n = { "<C-\\>", "hist_down", mode = "i" }, -- <C-`>, like in command-line mode
+          i_ctrl_p = { "<C-]>", "hist_up", mode = "i" }, -- <C-$>, like in command-line mode
           i_esc = { "<Esc>", "cancel", mode = "i" },
           i_ctrl_c = { "<C-C>", "cancel", mode = "i" },
         },
@@ -624,7 +624,7 @@ return {
       win = {
         keys = {
           ["delete"] = {
-            "<C-BS>",
+            "<localleader>d",
             function(self)
               if vim.fn.confirm("Do you want to delete the scratch file definitely?", "&Yes\n&No") == 1 then
                 local fname = vim.api.nvim_buf_get_name(self.buf)
@@ -634,13 +634,13 @@ return {
             end,
             desc = "delete",
           },
-          ["open"] = {
-            "<C-CR>",
+          ["expand"] = {
+            "<localleader>e",
             function(self)
               vim.cmd([[close]])
               vim.api.nvim_set_current_buf(self.buf)
             end,
-            desc = "open",
+            desc = "expand",
           },
           ["source"] = false, -- Prefer overseer.nvim to source files
         },
