@@ -28,20 +28,98 @@ return {
       end
     end
     vim.g.mason_ensure_installed = vim.list_extend(vim.g.mason_ensure_installed or {}, mason_ensure_installed)
+
+    -- Create user commands to switch format on save mode, between "disable", "auto" and "force" (when command is used
+    -- with a bang), globally or per-buffer (the later taking precedence over the former)
+    local function notify(msg) vim.notify(msg, vim.log.levels.INFO, { title = "Format on save" }) end
+    local function disable_format_on_save(args)
+      if args.args == "all" then
+        vim.g.format_on_save_mode = "disable"
+        notify("Format on save disabled globally")
+      else
+        vim.b.format_on_save_mode = "disable"
+        notify("Format on save disabled for current buffer")
+      end
+    end
+    local function enable_format_on_save(args)
+      if args.args == "all" and args.bang then
+        vim.g.format_on_save_mode = "force"
+        notify("Format on save enabled globally (force)")
+      elseif args.args == "all" then
+        vim.g.format_on_save_mode = "auto"
+        notify("Format on save enabled globally (auto)")
+      elseif args.bang then
+        vim.b.format_on_save_mode = "force"
+        notify("Format on save enabled for current buffer (force)")
+      else
+        vim.b.format_on_save_mode = "auto"
+        notify("Format on save enabled for current buffer (auto)")
+      end
+    end
+    local function format_on_save_is_disabled(args)
+      if args.args == "all" then
+        return vim.g.format_on_save_mode == "disable"
+      else
+        return vim.b.format_on_save_mode == "disable"
+      end
+    end
+    local function toggle_format_on_save(args)
+      if format_on_save_is_disabled(args) then
+        enable_format_on_save(args)
+      else
+        disable_format_on_save(args)
+      end
+    end
+    local function format_on_save_status()
+      local message = "Format on save global mode: "
+        .. (vim.g.format_on_save_mode or "auto")
+        .. "\n"
+        .. "Format on save buffer mode: "
+        .. (vim.b.format_on_save_mode or "auto")
+      notify(message)
+    end
+    vim.api.nvim_create_user_command("FormatOnSaveDisable", disable_format_on_save, {
+      desc = "Disable format on save",
+      nargs = "?", -- 0 or 1 argument
+      complete = function() return { "all" } end, -- Command line autocompletion
+    })
+    vim.api.nvim_create_user_command("FormatOnSaveEnable", enable_format_on_save, {
+      desc = "Enable format on save",
+      bang = true,
+      nargs = "?", -- 0 or 1 argument
+      complete = function() return { "all" } end, -- Command line autocompletion
+    })
+    vim.api.nvim_create_user_command("FormatOnSaveToggle", toggle_format_on_save, {
+      desc = "Toggle format on save",
+      bang = true,
+      nargs = "?", -- 0 or 1 argument
+      complete = function() return { "all" } end, -- Command line autocompletion
+    })
+    vim.api.nvim_create_user_command("FormatOnSaveStatus", format_on_save_status, {
+      desc = "Show format on save status",
+    })
   end,
   opts = {
     formatters_by_ft = formatters_by_ft,
     format_on_save = function(bufnr)
+      local enable_message = { lsp_fallback = false, timeout_ms = 500 }
+
+      local format_on_save_is_enabled_by_command = vim.b[bufnr].format_on_save_mode == "force"
+        or (vim.g.format_on_save_mode == "force" and (vim.b[bufnr].format_on_save_mode or "auto") == "auto")
+      if format_on_save_is_enabled_by_command then
+        return enable_message
+      end
+      local format_on_save_is_disabled_by_command = vim.b[bufnr].format_on_save_mode == "disable"
+        or (vim.g.format_on_save_mode == "disable" and (vim.b[bufnr].format_on_save_mode or "auto") == "auto")
+      if format_on_save_is_disabled_by_command then
+        return
+      end
+
       local format_on_save_is_disabled_by_config = (
         MetaConfig.disable_format_on_save_on_fts == "*"
         or vim.tbl_contains(MetaConfig.disable_format_on_save_on_fts or {}, vim.bo.filetype)
       )
       if format_on_save_is_disabled_by_config then
-        return
-      end
-
-      local format_on_save_is_disabled_by_command = vim.g.disable_format_on_save or vim.b[bufnr].disable_format_on_save
-      if format_on_save_is_disabled_by_command then
         return
       end
 
@@ -62,43 +140,7 @@ return {
         end
       end
 
-      return { lsp_fallback = false, timeout_ms = 500 }
+      return enable_message
     end,
   },
-  config = function(_, opts)
-    require("conform").setup(opts)
-
-    -- Create command to toggle format-on-save
-    -- Used with a bang ("!"), the disable command will disable format-on-save just for the current buffer (there's no
-    -- case where the bang can be useful for the enable command)
-    vim.api.nvim_create_user_command("FormatOnSaveDisable", function(args)
-      if args.bang then
-        vim.b.disable_format_on_save = true
-        vim.notify("Format-on-save disabled for current buffer")
-      else
-        vim.g.disable_format_on_save = true
-        vim.notify("Format-on-save disabled globally")
-      end
-    end, { desc = "Disable format-on-save", bang = true })
-    vim.api.nvim_create_user_command("FormatOnSaveEnable", function()
-      vim.b.disable_format_on_save = false
-      vim.g.disable_format_on_save = false
-      vim.notify("Format-on-save enabled")
-    end, { desc = "Enable format-on-save" })
-    vim.api.nvim_create_user_command("FormatOnSaveToggle", function(args)
-      if vim.b.disable_format_on_save or vim.g.disable_format_on_save then -- Format-on-save is disabled
-        vim.b.disable_format_on_save = false
-        vim.g.disable_format_on_save = false
-        vim.notify("Format-on-save enabled")
-      else
-        if args.bang then
-          vim.b.disable_format_on_save = true
-          vim.notify("Format-on-save disabled for current buffer")
-        else
-          vim.g.disable_format_on_save = true
-          vim.notify("Format-on-save disabled globally")
-        end
-      end
-    end, { desc = "Toggle format-on-save", bang = true })
-  end,
 }

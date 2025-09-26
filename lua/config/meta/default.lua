@@ -50,12 +50,12 @@ return {
     rustfmt = "", -- Should be installed with rustup
   },
 
-  -- Set `disable_format_on_save_on_fts` to an array of filetypes on which to disable format-on-save, or to "*" to
+  -- Set `disable_format_on_save_on_fts` to an array of filetypes on which to disable format on save, or to "*" to
   -- disable it on all file types.
   disable_format_on_save_on_fts = false,
 
   -- Set `disable_format_on_save_on_files` to a list of path patterns to exclude the files matching those patterns
-  -- from format-on-save.
+  -- from format on save.
   disable_format_on_save_on_files = {},
 
   -- Set `linters_by_ft` to a mapping between filetypes and tables of linters to enable. Introducing a new linter will

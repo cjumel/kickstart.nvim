@@ -18,11 +18,90 @@ return {
       end
     end
     vim.g.mason_ensure_installed = vim.list_extend(vim.g.mason_ensure_installed or {}, mason_ensure_installed)
+
+    -- Create user commands to switch lint mode, between "disable", "auto" and "force" (when command is used with a
+    -- bang), globally or per-buffer (the later taking precedence over the former)
+    local function notify(msg) vim.notify(msg, vim.log.levels.INFO, { title = "Lint" }) end
+    local function disable_lint(args)
+      if args.args == "all" then
+        vim.g.lint_mode = "disable"
+        notify("Lint disabled globally")
+      else
+        vim.b.lint_mode = "disable"
+        notify("Lint disabled for current buffer")
+      end
+      vim.diagnostic.reset() -- Discard existing diagnotics
+    end
+    local function enable_lint(args)
+      if args.args == "all" and args.bang then
+        vim.g.lint_mode = "force"
+        notify("Lint enabled globally (force)")
+      elseif args.args == "all" then
+        vim.g.lint_mode = "auto"
+        notify("Lint enabled globally (auto)")
+      elseif args.bang then
+        vim.b.lint_mode = "force"
+        notify("Lint enabled for current buffer (force)")
+      else
+        vim.b.lint_mode = "auto"
+        notify("Lint enabled for current buffer (auto)")
+      end
+    end
+    local function lint_is_disabled(args)
+      if args.args == "all" then
+        return vim.g.lint_mode == "disable"
+      else
+        return vim.b.lint_mode == "disable"
+      end
+    end
+    local function toggle_lint(args)
+      if lint_is_disabled(args) then
+        enable_lint(args)
+      else
+        disable_lint(args)
+      end
+    end
+    local function lint_status()
+      local message = "Lint global mode: "
+        .. (vim.g.lint_mode or "auto")
+        .. "\n"
+        .. "Lint buffer mode: "
+        .. (vim.b.lint_mode or "auto")
+      notify(message)
+    end
+    vim.api.nvim_create_user_command("LintDisable", disable_lint, {
+      desc = "Disable lint",
+      nargs = "?", -- 0 or 1 argument
+      complete = function() return { "all" } end, -- Command line autocompletion
+    })
+    vim.api.nvim_create_user_command("LintEnable", enable_lint, {
+      desc = "Enable lint",
+      bang = true,
+      nargs = "?", -- 0 or 1 argument
+      complete = function() return { "all" } end, -- Command line autocompletion
+    })
+    vim.api.nvim_create_user_command("LintToggle", toggle_lint, {
+      desc = "Toggle lint",
+      bang = true,
+      nargs = "?", -- 0 or 1 argument
+      complete = function() return { "all" } end, -- Command line autocompletion
+    })
+    vim.api.nvim_create_user_command("LintStatus", lint_status, {
+      desc = "Show lint status",
+    })
   end,
   opts = {
     linters_by_ft = linters_by_ft,
     should_lint = function() -- Custom option to enable/disable linting
-      local lint_is_disabled_by_command = vim.g.disable_lint or vim.b[vim.fn.bufnr()].disable_lint
+      local bufnr = vim.fn.bufnr()
+
+      local lint_is_enabled_by_command = vim.b[bufnr].lint_mode == "force"
+        or (vim.g.lint_mode == "force" and (vim.b[bufnr].lint_mode or "auto") == "auto")
+      if lint_is_enabled_by_command then
+        return true
+      end
+      local lint_is_disabled_by_command = vim.b[bufnr].lint_mode == "disable"
+        or (vim.g.lint_mode == "disable" and (vim.b[bufnr].lint_mode or "auto") == "auto")
       if lint_is_disabled_by_command then
         return false
       end
@@ -49,7 +128,6 @@ return {
   },
   config = function(_, opts)
     local lint = require("lint")
-
     lint.linters_by_ft = opts.linters_by_ft
     vim.api.nvim_create_autocmd({
       "BufEnter", -- Entering a buffer
@@ -63,40 +141,5 @@ return {
         end
       end,
     })
-
-    -- Create command to toggle lint
-    -- Used with a bang ("!"), the disable command will disable lint just for the current buffer (there's no
-    -- case where the bang can be useful for the enable command)
-    vim.api.nvim_create_user_command("LintDisable", function(args)
-      if args.bang then
-        vim.b.disable_lint = true
-        vim.notify("Lint disabled for current buffer")
-      else
-        vim.g.disable_lint = true
-        vim.notify("Lint disabled globally")
-      end
-      vim.diagnostic.reset() -- Discard existing diagnotics
-    end, { desc = "Disable lint", bang = true })
-    vim.api.nvim_create_user_command("LintEnable", function()
-      vim.b.disable_lint = false
-      vim.g.disable_lint = false
-      vim.notify("Lint enabled")
-    end, { desc = "Enable lint" })
-    vim.api.nvim_create_user_command("LintToggle", function(args)
-      if vim.b.disable_lint or vim.g.disable_lint then -- Lint is disabled
-        vim.b.disable_lint = false
-        vim.g.disable_lint = false
-        vim.notify("Lint enabled")
-      else
-        if args.bang then
-          vim.b.disable_lint = true
-          vim.notify("Lint disabled for current buffer")
-        else
-          vim.g.disable_lint = true
-          vim.notify("Lint disabled globally")
-        end
-        vim.diagnostic.reset() -- Discard existing diagnotics
-      end
-    end, { desc = "Toggle lint", bang = true })
   end,
 }
