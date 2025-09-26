@@ -27,17 +27,12 @@ return {
     trig = "class",
     show_condition = conds.line_begin * conds.line_end * local_conds.in_code,
     desc = [[`class …: …`]],
-  }, {
-    t("class "),
-    i(1),
-    t({ ":", "\t" }),
-    i(2, "pass"),
-  }),
+  }, { t("class "), i(1), t({ ":", "\t" }), i(2, "pass") }),
 
   s({
     trig = "def",
     show_condition = (conds.line_begin + local_conds.async) * conds.line_end * local_conds.in_code,
-    desc = [[`def <…/__…__/test_…>(<…/self…/cls…>) -> …: …`]],
+    desc = [[`def …(…) -> …: …`]],
   }, {
     t("def "),
     c(1, {
@@ -47,9 +42,9 @@ return {
     }),
     t("("),
     c(2, {
-      i(nil),
-      sn(nil, { t("self"), i(1) }),
-      sn(nil, { t("cls"), i(1) }),
+      r(nil, "args", i(nil)),
+      sn(nil, { t("self"), r(1, "args") }),
+      sn(nil, { t("cls"), r(1, "args") }),
     }),
     t(") -> "),
     i(3, "None"),
@@ -60,25 +55,21 @@ return {
   s({
     trig = "elif",
     show_condition = conds.line_begin * conds.line_end * local_conds.in_code,
-    desc = [[`elif <…/not …>: …`]],
+    desc = [[Choices:
+- `elif …: …`
+- `elif not …: …`]],
   }, {
-    t("elif "),
     c(1, {
-      r(nil, "cond", i(nil)),
-      sn(nil, { t("not "), r(1, "cond") }),
+      sn(nil, { t("elif "), r(1, "cond", i(nil)), t({ ":", "\t" }), r(2, "content", i("pass")) }),
+      sn(nil, { t("elif not "), r(1, "cond"), t({ ":", "\t" }), r(2, "content") }),
     }),
-    t({ ":", "\t" }),
-    i(2, "pass"),
   }),
 
   s({
     trig = "else", -- For consistency with if and elseif snippets
     show_condition = conds.line_begin * conds.line_end * local_conds.in_code,
     desc = [[`else: …`]],
-  }, {
-    t({ "else:", "\t" }),
-    i(1, "pass"),
-  }),
+  }, { t({ "else:", "\t" }), i(1, "pass") }),
 
   s({
     trig = "for",
@@ -87,24 +78,12 @@ return {
       * local_conds.in_code
       * -local_conds.for_inline,
     desc = [[`for … in …: …`]],
-  }, {
-    t("for "),
-    i(1),
-    t(" in "),
-    i(2),
-    t({ ":", "\t" }),
-    i(3, "pass"),
-  }),
+  }, { t("for "), i(1), t(" in "), i(2), t({ ":", "\t" }), i(3, "pass") }),
   s({
     trig = "for", -- Inline version
     show_condition = local_conds.for_inline,
     desc = [[`for … in …`]],
-  }, {
-    t("for "),
-    i(1),
-    t(" in "),
-    i(2),
-  }),
+  }, { t("for "), i(1), t(" in "), i(2) }),
 
   s({
     trig = "from … import",
@@ -113,44 +92,41 @@ return {
 - `from … import …`
 - `from … import … as …`]],
   }, {
-    t("from "),
     c(1, {
-      sn(nil, { r(1, "module", i(nil)), t(" import "), r(2, "content", i(nil)) }),
-      sn(nil, { r(1, "module"), t(" import "), r(2, "content"), t(" as "), i(3) }),
+      sn(nil, { t("from "), r(1, "module", i(nil)), t(" import "), r(2, "content", i(nil)) }),
+      sn(nil, { t("from "), r(1, "module"), t(" import "), r(2, "content"), t(" as "), i(3) }),
     }),
   }),
 
   s({
     trig = "if",
     show_condition = conds.line_begin * conds.line_end * local_conds.in_code,
-    desc = [[`if <…/not …>: …`]],
+    desc = [[Choices:
+- `if …: …`,
+- `if not …: …`]],
   }, {
-    t("if "),
     c(1, {
-      r(nil, "cond", i(nil)),
-      sn(nil, { t("not "), r(1, "cond") }),
+      sn(nil, { t("if "), r(1, "cond", i(nil)), t({ ":", "\t" }), r(2, "content", i("pass")) }),
+      sn(nil, { t("if not "), r(1, "cond"), t({ ":", "\t" }), r(2, "content") }),
     }),
-    t({ ":", "\t" }),
-    i(2, "pass"),
   }),
   s({
     trig = "if … else", -- Inline version
     show_condition = -conds.line_begin * local_conds.in_code,
-    desc = [[`if … else …`]],
+    desc = [[Choices:
+- `if … else …`
+- `if not … else …`]],
   }, {
-    t("if "),
-    i(1),
-    t(" else "),
-    i(2),
+    c(1, {
+      sn(nil, { t("if "), r(1, "cond", i(nil)), t(" else "), r(2, "content", i("pass")) }),
+      sn(nil, { t("if not "), r(1, "cond"), t(" else "), r(2, "content") }),
+    }),
   }),
   s({
     trig = "if … main",
     show_condition = conds.line_begin * conds.line_end * local_conds.in_module,
     desc = [[`if __name__ == "__main__": …`]],
-  }, {
-    t({ 'if __name__ == "__main__":', "\t" }),
-    i(1, "pass"),
-  }),
+  }, { t({ 'if __name__ == "__main__":', "\t" }), i(1, "pass") }),
   s({
     trig = "if … isinstance … raise",
     show_condition = conds.line_begin * conds.line_end * local_conds.in_code,
@@ -227,10 +203,9 @@ return {
 - `import …`
 - `import … as …`]],
   }, {
-    t("import "),
     c(1, {
-      r(nil, "module", i(nil)),
-      sn(nil, { r(1, "module"), t(" as "), i(2) }),
+      sn(nil, { t("import "), r(1, "module", i(nil)) }),
+      sn(nil, { t("import "), r(1, "module"), t(" as "), i(2) }),
     }),
   }),
 
@@ -246,27 +221,27 @@ return {
       "type_parameter",
       "typed_default_parameter",
     }),
-    desc = [[`| None`]],
+    desc = [[Choices:
+- `| None`
+- `| None = …`]],
   }, {
-    t("| None"),
     c(1, {
-      i(nil),
-      sn(nil, { t(" = "), i(1, "None") }),
+      sn(nil, { t("| None"), i(1) }),
+      sn(nil, { t("| None = "), i(1, "None") }),
     }),
   }),
 
   s({
     trig = "while",
     show_condition = conds.line_begin * conds.line_end * local_conds.in_code,
-    desc = [[`while <…/not …>: …`]],
+    desc = [[Choices:
+- `while …: …`,
+- `while not …: …`]],
   }, {
-    t("while "),
     c(1, {
-      r(nil, "cond", i(nil)),
-      sn(nil, { t("not "), r(1, "cond") }),
+      sn(nil, { t("while "), r(1, "cond", i(nil)), t({ ":", "\t" }), r(2, "content", i("pass")) }),
+      sn(nil, { t("while not "), r(1, "cond"), t({ ":", "\t" }), r(2, "content") }),
     }),
-    t({ ":", "\t" }),
-    i(2, "pass"),
   }),
 
   -- [[ Comment keywords ]]
@@ -279,10 +254,9 @@ Choices:
 - `noqa: …`
 - `noqa`]],
   }, {
-    t("noqa"),
     c(1, {
-      sn(nil, { t(": "), i(1) }),
-      i(nil),
+      sn(nil, { t("noqa: "), i(1) }),
+      sn(nil, { t("noqa"), i(1) }),
     }),
   }),
 
@@ -291,9 +265,7 @@ Choices:
     show_condition = local_conds.in_comment * conds.comment_start * conds.line_end,
     desc = [[Exclude from coverage reports (e.g. for coverage.py or pytest-cov).
 `pragma: no cover`]],
-  }, {
-    t("pragma: no cover"),
-  }),
+  }, { t("pragma: no cover") }),
 
   s({
     trig = "pyright: ignore",
@@ -303,10 +275,9 @@ Choices:
 - `pyright: ignore[…]`
 - `pyright: ignore`]],
   }, {
-    t("pyright: ignore"),
     c(1, {
-      sn(nil, { t("["), i(1), t("]") }),
-      i(nil),
+      sn(nil, { t("pyright: ignore["), i(1), t("]") }),
+      sn(nil, { t("pyright: ignore"), i(1) }),
     }),
   }),
 
@@ -318,10 +289,9 @@ Choices:
 - `ruff: noqa: …`
 - `ruff: noqa`]],
   }, {
-    t("ruff: noqa"),
     c(1, {
-      sn(nil, { t(": "), i(1) }),
-      i(nil),
+      sn(nil, { t("ruff: noqa: "), i(1) }),
+      sn(nil, { t("ruff: noqa"), i(1) }),
     }),
   }),
 
@@ -333,10 +303,9 @@ Choices:
 - `type: ignore[…]`
 - `type: ignore`]],
   }, {
-    t("type: ignore"),
     c(1, {
-      sn(nil, { t("["), i(1), t("]") }),
-      i(nil),
+      sn(nil, { t("type: ignore["), i(1), t("]") }),
+      sn(nil, { t("type: ignore"), i(1) }),
     }),
   }),
 }
