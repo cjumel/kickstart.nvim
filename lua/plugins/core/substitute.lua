@@ -5,29 +5,32 @@ return {
     -- Overwrite: like the paste operator but without yanking the overwritten text
     { "go", function() require("substitute").operator() end, desc = "Overwrite" },
     { "go", function() require("substitute").visual() end, mode = "x", desc = "Overwrite" },
-    -- Substitute in range: replace occurrences of a target in a range with the main register content
+    -- Overwrite in range: overwrite all occurrences of a target in a range
     {
-      "gs",
+      "gO",
       function() require("substitute.range").operator({ register = "0", auto_apply = true }) end,
-      desc = "Substitute in range",
+      desc = "Overwrite in range",
     },
     {
-      "gs",
+      "gO",
       function() require("substitute.range").visual({ register = "0", auto_apply = true }) end,
       mode = "x",
-      desc = "Substitute in range",
+      desc = "Overwrite in range",
     },
-    -- Modify in range: update occurrences of a target in a range
+    -- Substitute: replace from scratch occurrences of a target in a range
+    { "gs", function() require("substitute.range").operator() end, desc = "Substitute" },
+    { "gs", function() require("substitute.range").visual() end, mode = "x", desc = "Substitute" },
+    -- Substitute (prefilled): update occurrences of a target in a range
     {
-      "gm",
+      "gS",
       function() require("substitute.range").operator({ prompt_current_text = true }) end,
-      desc = "Modify in range",
+      desc = "Substitute (prefilled)",
     },
     {
-      "gm",
+      "gS",
       function() require("substitute.range").visual({ prompt_current_text = true }) end,
       mode = "x",
-      desc = "Modify in range",
+      desc = "Substitute (prefilled)",
     },
     -- Exchange: swap two targets
     { "ge", function() require("substitute.exchange").operator() end, desc = "Exchange" },
