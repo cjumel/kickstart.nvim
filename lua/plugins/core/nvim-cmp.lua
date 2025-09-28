@@ -39,6 +39,18 @@ return {
           return vim_item
         end,
       },
+      sorting = { -- Disable sorting by recency (see default in `cmp.config.default`)
+        comparators = {
+          cmp.config.compare.offset,
+          cmp.config.compare.exact,
+          cmp.config.compare.score,
+          cmp.config.compare.locality,
+          cmp.config.compare.kind,
+          cmp.config.compare.sort_text,
+          cmp.config.compare.length,
+          cmp.config.compare.order,
+        },
+      },
       sources = {
         -- Only show `lazydev` completions when available, to skip loading lua_ls completions
         { name = "lazydev", group_index = 0 },
