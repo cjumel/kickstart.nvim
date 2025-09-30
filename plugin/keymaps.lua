@@ -274,11 +274,43 @@ local function map_move_pair(key, next_fn, prev_fn, name)
   vim.keymap.set({ "n", "x", "o" }, "]" .. key, prev_fn, { desc = "Previous " .. name })
 end
 
-local function next_loclist_item() vim.cmd("silent! lnext") end
-local function prev_loclist_item() vim.cmd("silent! lprev") end
+local function next_loclist_item()
+  local success = pcall(vim.cmd, "lnext") ---@diagnostic disable-line: param-type-mismatch
+  if not success then
+    success = pcall(vim.cmd, "lfirst") ---@diagnostic disable-line: param-type-mismatch
+    if not success then
+      vim.notify("No location list item found", vim.log.levels.WARN, { title = "Navigation" })
+    end
+  end
+end
+local function prev_loclist_item()
+  local success = pcall(vim.cmd, "lprev") ---@diagnostic disable-line: param-type-mismatch
+  if not success then
+    success = pcall(vim.cmd, "llast") ---@diagnostic disable-line: param-type-mismatch
+    if not success then
+      vim.notify("No location list item found", vim.log.levels.WARN, { title = "Navigation" })
+    end
+  end
+end
 map_move_pair("l", next_loclist_item, prev_loclist_item, "loclist item")
-local function next_quickfix_item() vim.cmd("silent! cnext") end
-local function prev_quickfix_item() vim.cmd("silent! cprev") end
+local function next_quickfix_item()
+  local success = pcall(vim.cmd, "cnext") ---@diagnostic disable-line: param-type-mismatch
+  if not success then
+    success = pcall(vim.cmd, "cfirst") ---@diagnostic disable-line: param-type-mismatch
+    if not success then
+      vim.notify("No quickfix item found", vim.log.levels.WARN, { title = "Navigation" })
+    end
+  end
+end
+local function prev_quickfix_item()
+  local success = pcall(vim.cmd, "cprev") ---@diagnostic disable-line: param-type-mismatch
+  if not success then
+    success = pcall(vim.cmd, "clast") ---@diagnostic disable-line: param-type-mismatch
+    if not success then
+      vim.notify("No quickfix item found", vim.log.levels.WARN, { title = "Navigation" })
+    end
+  end
+end
 map_move_pair("q", next_quickfix_item, prev_quickfix_item, "quickfix item")
 
 local function next_diagnostic() vim.diagnostic.jump({ count = 1 }) end
