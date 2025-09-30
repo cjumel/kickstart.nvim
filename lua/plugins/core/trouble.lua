@@ -4,7 +4,7 @@ return {
   cmd = { "Trouble" }, -- For other plugins calling trouble.nvim through a command
   keys = {
     { "<leader>vd", "<cmd>Trouble diagnostics_document<CR>", desc = "[V]iew: [D]iagnostics" },
-    { "<leader>vw", "<cmd>Trouble diagnostics<CR>", desc = "[V]iew: [W]orkspace diagnostics" },
+    { "<leader>vD", "<cmd>Trouble diagnostics<CR>", desc = "[V]iew: [D]iagnostics (workspace)" },
     { "<leader>vl", "<cmd>Trouble loclist<CR>", desc = "[V]iew: [L]ocation list" },
     { "<leader>vq", "<cmd>Trouble qflist<CR>", desc = "[V]iew: [Q]uickfix list" },
     { "<leader>vs", "<cmd>Trouble symbols<CR>", desc = "[V]iew: [S]ymbols" },

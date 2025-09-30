@@ -95,8 +95,7 @@ return {
           win = {
             input = {
               keys = {
-                ---@diagnostic disable-next-line: assign-type-mismatch
-                ["<C-y>"] = { { "yank_path", "close" }, mode = "i" },
+                ["<C-y>"] = { { "yank_path", "close" }, mode = "i" }, ---@diagnostic disable-line: assign-type-mismatch
               },
             },
           },
@@ -106,10 +105,29 @@ return {
       desc = "[F]ind: [F]iles",
     },
     {
-      "<leader>fo",
+      "<leader>fr",
       function()
         Snacks.picker.recent({
-          title = "Old Files",
+          title = "Recent Files",
+          filter = { cwd = true },
+          sort = { fields = { "score:desc", "idx" } }, -- Don't sort by item length to preserve history order
+          layout = { preset = "telescope_horizontal" },
+          win = {
+            input = {
+              keys = {
+                ["<C-y>"] = { { "yank_path", "close" }, mode = "i" }, ---@diagnostic disable-line: assign-type-mismatch
+              },
+            },
+          },
+        })
+      end,
+      desc = "[F]ind: [R]ecent files",
+    },
+    {
+      "<leader>fR",
+      function()
+        Snacks.picker.recent({
+          title = "All Recent Files",
           sort = { fields = { "score:desc", "idx" } }, -- Don't sort by item length to preserve history order
           layout = { preset = "telescope_horizontal" },
           win = {
@@ -122,7 +140,7 @@ return {
           },
         })
       end,
-      desc = "[F]ind: [O]ld files",
+      desc = "[F]ind: [R]ecent files (all)",
     },
     {
       "<leader>fd",
@@ -183,14 +201,14 @@ return {
       desc = "[F]ind: [S]ymbols",
     },
     {
-      "<leader>fw",
+      "<leader>fS",
       function()
         Snacks.picker.lsp_workspace_symbols({
           title = "Workspace Symbols",
           layout = { preset = "telescope_horizontal" },
         })
       end,
-      desc = "[F]ind: [W]orkspace symbols",
+      desc = "[F]ind: [S]ymbols (workspace) ",
     },
     {
       "<leader>fu",
@@ -275,7 +293,7 @@ return {
       desc = "[G]it: [L]og",
     },
     {
-      "<leader>gc",
+      "<leader>gL",
       function()
         Snacks.picker.git_log_file({
           title = "Buffer Commits",
@@ -290,7 +308,7 @@ return {
           },
         })
       end,
-      desc = "[G]it: buffer [C]ommits",
+      desc = "[G]it: [L]og (buffer)",
     },
 
     -- Scratch buffers
@@ -444,7 +462,7 @@ return {
         { section = "header" },
         { icon = " ", key = "c", desc = "Open [C]wd", action = "-" },
         { icon = " ", key = "f", desc = "Find [F]iles", action = "<leader>ff" },
-        { icon = " ", key = "o", desc = "Find [O]ld Files", action = "<leader>fo" },
+        { icon = " ", key = "r", desc = "Find [R]ecent Files", action = "<leader>fr" },
         { icon = " ", key = "d", desc = "Find [D]irectories", action = "<leader>fd" },
         { icon = "󰚰 ", key = "g", desc = "[G]it Status", action = "<leader>gg" },
         { icon = " ", key = "b", desc = "Git [B]ranch", action = "<leader>gb" },
