@@ -117,6 +117,10 @@ return {
     ),
   }, { t(".lua") }),
   s({
+    trig = ".nvim.lua",
+    show_condition = dot_prefix_condition * conds.line_end * make_filename_condition(".nvim.lua"),
+  }, { t(".nvim.lua") }),
+  s({
     trig = "init.lua",
     show_condition = conds.line_begin
       * conds.line_end
