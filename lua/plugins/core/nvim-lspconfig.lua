@@ -25,7 +25,13 @@ local servers_by_ft = {
         client.server_capabilities.semanticTokensProvider = nil
       end,
     },
-    ruff = {},
+    ruff = {
+      init_options = {
+        settings = {
+          lint = { enable = false }, -- Favor nvim-lint integration for more control
+        },
+      },
+    },
   },
   rust = {
     rust_analyzer = {

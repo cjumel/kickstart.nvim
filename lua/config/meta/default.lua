@@ -65,6 +65,7 @@ return {
   linters_by_ft = {
     json = { "jsonlint" },
     markdown = { "markdownlint" },
+    python = { "ruff" },
     yaml = { "yamllint" },
     zsh = { "shellcheck" }, -- Not actually for zsh, but in my case it works fine when disabling a few rules
   },
