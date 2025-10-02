@@ -13,8 +13,8 @@ return {
   -- `MasonInstallAll` command. In the formatters table, you can set `lsp_format` to `"first"`, `"last"`, or
   -- `"callback"` to enable LSP formatting. Setting a formatters table to false will disable formatting on the
   -- corresponding filetype while setting the whole `formatters_by_ft` table to false will disable formatting
-  -- altogether. To disable auto-formatting but enable manual formatting (with `gq`), use
-  -- `disable_format_on_save_on_fts` below.
+  -- altogether. To disable autoformatting on save but enable manual formatting (with `gq`), use
+  -- `disable_autoformat_on_fts` below.
   formatters_by_ft = {
     conf = { "trim_newlines", "trim_whitespace" },
     editorconfig = { "trim_newlines", "trim_whitespace" },
@@ -50,13 +50,13 @@ return {
     rustfmt = "", -- Should be installed with rustup
   },
 
-  -- Set `disable_format_on_save_on_fts` to an array of filetypes on which to disable format on save, or to "*" to
+  -- Set `disable_autoformat_on_fts` to an array of filetypes on which to disable autoformatting on save, or to "*" to
   -- disable it on all file types.
-  disable_format_on_save_on_fts = false,
+  disable_autoformat_on_fts = false,
 
-  -- Set `disable_format_on_save_on_files` to a list of path patterns to exclude the files matching those patterns
-  -- from format on save.
-  disable_format_on_save_on_files = {},
+  -- Set `disable_autoformat_on_files` to a list of path patterns to exclude the files matching those patterns from
+  -- autoformatting on save.
+  disable_autoformat_on_files = {},
 
   -- Set `linters_by_ft` to a mapping between filetypes and tables of linters to enable. Introducing a new linter will
   -- likely require to install it with Mason.nvim, which can be done by calling the `MasonInstallAll` command. Setting a
@@ -73,8 +73,8 @@ return {
   -- Set `disable_lint_on_files` to a list of path patterns to exclude the files matching those patterns from linting.
   disable_lint_on_files = {},
 
-  -- Set `disable_tooling_on_files` to a list of path patterns to exclude the files matching those patterns from
-  -- all tooling (format on save and lint).
+  -- Set `disable_tooling_on_files` to a list of path patterns to exclude the files matching those patterns from all
+  -- tooling (autoformatting on save and lint).
   disable_tooling_on_files = {
     -- Directories inside projects but managed by external tools
     "/%.git/",
