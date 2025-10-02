@@ -81,7 +81,7 @@ return {
 - `elif not …: …`]],
   }, {
     c(1, {
-      sn(nil, { t("elif "), r(1, "cond", i(nil)), t({ ":", "\t" }), r(2, "content", i("pass")) }),
+      sn(nil, { t("elif "), r(1, "cond", i(nil)), t({ ":", "\t" }), r(2, "content", i(nil, "pass")) }),
       sn(nil, { t("elif not "), r(1, "cond"), t({ ":", "\t" }), r(2, "content") }),
     }),
   }),
@@ -129,7 +129,7 @@ return {
 - `if not …: …`]],
   }, {
     c(1, {
-      sn(nil, { t("if "), r(1, "cond", i(nil)), t({ ":", "\t" }), r(2, "content", i("pass")) }),
+      sn(nil, { t("if "), r(1, "cond", i(nil)), t({ ":", "\t" }), r(2, "content", i(nil, "pass")) }),
       sn(nil, { t("if not "), r(1, "cond"), t({ ":", "\t" }), r(2, "content") }),
     }),
   }),
@@ -141,7 +141,7 @@ return {
 - `if not … else …`]],
   }, {
     c(1, {
-      sn(nil, { t("if "), r(1, "cond", i(nil)), t(" else "), r(2, "content", i("pass")) }),
+      sn(nil, { t("if "), r(1, "cond", i(nil)), t(" else "), r(2, "content", i(nil, "pass")) }),
       sn(nil, { t("if not "), r(1, "cond"), t(" else "), r(2, "content") }),
     }),
   }),
@@ -273,7 +273,7 @@ return {
 - `while not …: …`]],
   }, {
     c(1, {
-      sn(nil, { t("while "), r(1, "cond", i(nil)), t({ ":", "\t" }), r(2, "content", i("pass")) }),
+      sn(nil, { t("while "), r(1, "cond", i(nil)), t({ ":", "\t" }), r(2, "content", i(nil, "pass")) }),
       sn(nil, { t("while not "), r(1, "cond"), t({ ":", "\t" }), r(2, "content") }),
     }),
   }),
