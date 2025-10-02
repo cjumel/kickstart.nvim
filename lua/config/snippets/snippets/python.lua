@@ -14,7 +14,6 @@ local t = ls.text_node
 local local_conds = {}
 local_conds.in_code =
   conds.make_ts_node_not_in_condition({ "comment", "string", "string_start", "string_content", "string_end" })
-local_conds.async = conds.make_prefix_condition("async ")
 local_conds.for_inline = conds.make_ts_node_in_condition({ "dictionary", "list", "set" })
 local_conds.in_comment = conds.make_ts_node_in_condition({ "comment" })
 local_conds.in_module = conds.make_ts_node_in_condition({ "module" })
@@ -31,10 +30,32 @@ return {
 
   s({
     trig = "def",
-    show_condition = (conds.line_begin + local_conds.async) * conds.line_end * local_conds.in_code,
+    show_condition = conds.line_begin * conds.line_end * local_conds.in_code,
     desc = [[`def …(…) -> …: …`]],
   }, {
     t("def "),
+    c(1, {
+      r(nil, "name", i(nil)),
+      sn(nil, { t("__"), r(1, "name"), t("__") }),
+      sn(nil, { t("test_"), r(1, "name") }),
+    }),
+    t("("),
+    c(2, {
+      r(nil, "args", i(nil)),
+      sn(nil, { t("self"), r(1, "args") }),
+      sn(nil, { t("cls"), r(1, "args") }),
+    }),
+    t(") -> "),
+    i(3, "None"),
+    t({ ":", "\t" }),
+    i(4, "pass"),
+  }),
+  s({
+    trig = "async def",
+    show_condition = conds.line_begin * conds.line_end * local_conds.in_code,
+    desc = [[`async def …(…) -> …: …`]],
+  }, {
+    t("async def "),
     c(1, {
       r(nil, "name", i(nil)),
       sn(nil, { t("__"), r(1, "name"), t("__") }),
@@ -73,12 +94,14 @@ return {
 
   s({
     trig = "for",
-    show_condition = (conds.line_begin + local_conds.async)
-      * conds.line_end
-      * local_conds.in_code
-      * -local_conds.for_inline,
+    show_condition = conds.line_begin * conds.line_end * local_conds.in_code * -local_conds.for_inline,
     desc = [[`for … in …: …`]],
   }, { t("for "), i(1), t(" in "), i(2), t({ ":", "\t" }), i(3, "pass") }),
+  s({
+    trig = "async for",
+    show_condition = conds.line_begin * conds.line_end * local_conds.in_code * -local_conds.for_inline,
+    desc = [[`async for … in …: …`]],
+  }, { t("async for "), i(1), t(" in "), i(2), t({ ":", "\t" }), i(3, "pass") }),
   s({
     trig = "for", -- Inline version
     show_condition = local_conds.for_inline,
@@ -230,6 +253,17 @@ return {
       sn(nil, { t("| None = "), i(1, "None") }),
     }),
   }),
+
+  s({
+    trig = "with",
+    show_condition = conds.line_begin * conds.line_end * local_conds.in_code,
+    desc = [[`with …: …`]],
+  }, { t("with "), i(1), t({ ":", "\t" }), i(2, "pass") }),
+  s({
+    trig = "async with",
+    show_condition = conds.line_begin * conds.line_end * local_conds.in_code,
+    desc = [[`async with …: …`]],
+  }, { t("async with "), i(1), t({ ":", "\t" }), i(2, "pass") }),
 
   s({
     trig = "while",
