@@ -15,6 +15,7 @@ return {
       checked = { icon = "   󰱒 " },
       custom = {
         todo = { raw = "[-]", rendered = "   󰦖 ", highlight = "RenderMarkdownWarn" }, -- Overwrite the default "todo"
+        blocked = { raw = "[o]", rendered = "    ", highlight = "RenderMarkdownWarn" },
         canceled = { raw = "[/]", rendered = "    ", highlight = "RenderMarkdownError" },
       },
     },

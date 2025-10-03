@@ -207,15 +207,17 @@ Multiple-choice snippet:
     desc = [[
 Multiple-choice snippet:
 - `- [ ] …` (todo)
-- `- [-] …` (WIP)
 - `- [x] …` (done)
+- `- [-] …` (WIP)
+- `- [o] …` (blocked)
 - `- [/] …` (cancelled)
 (GitHub Flavored Markdown)]],
   }, {
     c(1, {
       sn(nil, { t("- [ ] "), r(1, "content", i(nil)) }),
-      sn(nil, { t("- [-] "), r(1, "content") }),
       sn(nil, { t("- [x] "), r(1, "content") }),
+      sn(nil, { t("- [-] "), r(1, "content") }),
+      sn(nil, { t("- [o] "), r(1, "content") }),
       sn(nil, { t("- [/] "), r(1, "content") }),
     }),
   }),
