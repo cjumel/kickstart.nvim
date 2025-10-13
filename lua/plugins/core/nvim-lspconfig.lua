@@ -20,10 +20,6 @@ local servers_by_ft = {
           analysis = { typeCheckingMode = "standard" }, -- Relax type checking rules
         },
       },
-      on_init = function(client, _)
-        -- Disable semantic tokens as it degrades the syntax highlighting provided by Treesitter
-        client.server_capabilities.semanticTokensProvider = nil
-      end,
     },
     ruff = {
       init_options = {
