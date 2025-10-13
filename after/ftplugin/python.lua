@@ -8,6 +8,12 @@ vim.opt_local.formatoptions:append("rol")
 
 -- [[ Keymaps ]]
 
+---@param mode string|string[]
+---@param lhs string
+---@param rhs string|function
+---@param desc string
+local function map(mode, lhs, rhs, desc) vim.keymap.set(mode, lhs, rhs, { desc = desc, buffer = true }) end
+
 local function yank_module()
   local module = require("config.lang_utils.python").get_module()
   vim.fn.setreg('"', module)
@@ -64,17 +70,12 @@ local function yank_imports()
     vim.notify("No imports found at the top of the file", vim.log.levels.WARN, { title = "Yank" })
   end
 end
-vim.keymap.set("n", "<leader>ym", yank_module, { desc = "[Y]ank: [M]odule (Python)", buffer = true })
-vim.keymap.set("n", "<leader>yr", yank_repl_command, { desc = "[Y]ank: [R]EPL command (Python)", buffer = true })
-vim.keymap.set("n", "<leader>yi", yank_imports, { desc = "[Y]ank: [I]mports (Python)", buffer = true })
+map("n", "<leader>ym", yank_module, "[Y]ank: [M]odule (Python)")
+map("n", "<leader>yr", yank_repl_command, "[Y]ank: [R]EPL command (Python)")
+map("n", "<leader>yi", yank_imports, "[Y]ank: [I]mports (Python)")
 
-vim.keymap.set(
-  "n",
-  "<localleader>f",
-  function() vim.lsp.buf.code_action({ context = { only = { "source.fixAll" } }, apply = true }) end,
-  { desc = "Auto-[F]ix" }
-)
-vim.keymap.set("n", "<localleader>i", function()
+local function auto_fix() vim.lsp.buf.code_action({ context = { only = { "source.fixAll" } }, apply = true }) end
+local function auto_import()
   vim.lsp.buf.code_action({
     context = { only = { "quickfix" } },
     filter = function(input)
@@ -85,14 +86,13 @@ vim.keymap.set("n", "<localleader>i", function()
     end,
     apply = true,
   })
-end, { desc = "Auto-[I]mport" })
+end
+map("n", "<localleader>f", auto_fix, "Auto-[F]ix")
+map("n", "<localleader>i", auto_import, "Auto-[I]mport")
 
---- Output the base path of a path, that is the path striped of prefixes (like `src/<package-name>/` or `tests/`) and
---- suffixes (like `.py` or `_test.py`), or `nil` if there is none.
----@param path string The path to be converted.
+---@param path string
 ---@return string|nil
 local function get_base_path(path)
-  path = vim.fn.fnamemodify(path, ":.")
   if path:sub(1, 4) == "src/" then
     path = path:gsub("^src/", "")
     -- Remove the first directory as it usually is the package name (which is not found in the tests)
@@ -101,28 +101,27 @@ local function get_base_path(path)
       path = path:sub(first_separator_idx + 1)
     end
     path = path:gsub(".py$", "")
-    return path
   elseif path:sub(1, 6) == "tests/" then
     path = path:gsub("^tests/", ""):gsub("^unit/", ""):gsub("^integration/", ""):gsub("_test.py$", "")
-    return path
   else
     return nil
   end
+  -- Strip leading and trailing underscores from the filename (e.g. to match `_module.py` with `test_module.py`)
+  path = path:gsub("([^/]+)$", function(filename) return filename:gsub("^_+", ""):gsub("_+$", "") end)
+  return path
 end
-
-vim.keymap.set("n", "<localleader>a", function()
-  local path = vim.fn.expand("%:p")
+---@return string[]|nil
+local function get_candidate_paths()
+  local path = vim.fn.expand("%:.")
   local base_path = get_base_path(path)
   if not base_path then
-    vim.notify("No alternate file found")
     return
   end
-
   local candidate_paths = {}
   local handle = io.popen("fd --extension py .")
   if handle then
     for candidate_path in handle:lines() do
-      candidate_path = vim.fn.fnamemodify(candidate_path, ":p")
+      candidate_path = vim.fn.fnamemodify(candidate_path, ":.")
       local candidate_base_path = get_base_path(candidate_path)
       if path ~= candidate_path and candidate_base_path == base_path then
         table.insert(candidate_paths, candidate_path)
@@ -130,9 +129,12 @@ vim.keymap.set("n", "<localleader>a", function()
     end
     handle:close()
   end
-
-  if #candidate_paths == 0 then
-    vim.notify("No alternate file found")
+  return candidate_paths
+end
+local function switch_to_alternate_file()
+  local candidate_paths = get_candidate_paths()
+  if not candidate_paths or #candidate_paths == 0 then
+    vim.notify("No alternate file found", vim.log.levels.WARN, { title = "Alternate File" })
   elseif #candidate_paths == 1 then
     vim.cmd("edit " .. candidate_paths[1])
   else
@@ -142,4 +144,5 @@ vim.keymap.set("n", "<localleader>a", function()
       end
     end)
   end
-end, { desc = "Switch to [A]lternate files" })
+end
+map("n", "<localleader>a", switch_to_alternate_file, "Switch to [A]lternate files")
