@@ -83,7 +83,11 @@ return {
       -- Add personal keywords (must be separated to be able to search for them)
       _TODO = { icon = " ", color = "info" }, -- Like TODO
     },
-    -- Include hidden files when searching for todo-comments when using trouble.nvim
-    search = { args = { "--color=never", "--no-heading", "--with-filename", "--line-number", "--column", "--hidden" } },
+    search = {
+      pattern = [[\b(KEYWORDS)(\([^\)]*\))?:]], -- Support todo-comments with author
+      -- Include hidden files (useful for trouble.nvim integration)
+      args = { "--color=never", "--no-heading", "--with-filename", "--line-number", "--column", "--hidden" },
+    },
+    highlight = { pattern = [[.*<((KEYWORDS)%(\(.{-1,}\))?):]] }, -- Support todo-comments with author
   },
 }
