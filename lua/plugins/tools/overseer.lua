@@ -7,6 +7,11 @@ return {
       desc = "[E]xecute: toggle task list",
     },
     {
+      "<leader>es",
+      function() require("overseer").run_template({ name = "shell" }) end,
+      desc = "[E]xecute: [S]hell task",
+    },
+    {
       "<leader>er",
       function()
         require("overseer").run_template({ tags = { "RUN" }, prompt = "avoid", first = false }, function(task, _)
@@ -72,7 +77,7 @@ return {
     },
   },
   opts = {
-    templates = { "custom" },
+    templates = { "shell", "custom" },
     dap = false,
     task_list = {
       min_height = 0.25,
