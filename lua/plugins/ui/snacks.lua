@@ -254,6 +254,16 @@ return {
       desc = "[F]ind: [K]eymaps",
     },
     {
+      "<leader>fm",
+      function()
+        Snacks.picker.man({
+          title = "Man Pages",
+          layout = { preset = "telescope_horizontal" },
+        })
+      end,
+      desc = "[F]ind: [M]an pages",
+    },
+    {
       "<leader>gg",
       function()
         Snacks.picker.git_status({
