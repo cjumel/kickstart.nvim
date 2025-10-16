@@ -120,6 +120,11 @@ return {
       sn(nil, { t("from "), r(1, "module"), t(" import "), r(2, "content"), t(" as "), i(3) }),
     }),
   }),
+  s({
+    trig = "from __future__ import annotations",
+    show_condition = conds.line_begin * conds.line_end * local_conds.in_code,
+    desc = [[`from __future__ import annotations`]],
+  }, { t({ "from __future__ import annotations", "" }) }),
 
   s({
     trig = "if",
