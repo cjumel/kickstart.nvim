@@ -79,16 +79,21 @@ local function auto_import()
   vim.lsp.buf.code_action({
     context = { only = { "quickfix" } },
     filter = function(input)
-      if string.find(input.title, "^import ") or string.find(input.title, "^from ") then
-        return true
-      end
-      return false
+      return not not (string.find(input.title, "^import ") or string.find(input.title, "^from "))
     end,
+    apply = true,
+  })
+end
+local function pyright_ignore()
+  vim.lsp.buf.code_action({
+    context = { only = { "quickfix" } },
+    filter = function(input) return not not string.find(input.title, "# pyright: ignore") end,
     apply = true,
   })
 end
 map("n", "<localleader>f", auto_fix, "Auto-[F]ix")
 map("n", "<localleader>i", auto_import, "Auto-[I]mport")
+map("n", "<localleader>p", pyright_ignore, "[P]yright ignore")
 
 ---@param path string
 ---@return string|nil
