@@ -216,6 +216,7 @@ return {
         Snacks.picker.undo({
           title = "Undo Tree",
           layout = { preset = "telescope_horizontal" },
+          sort = { fields = { "score:desc", "idx" } }, -- Don't sort by item length to preserve recency order
           win = {
             input = {
               keys = {
