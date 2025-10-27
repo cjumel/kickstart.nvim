@@ -5,20 +5,20 @@ return {
   keys = {
     { "<leader>p", function() require("harpoon"):list():add() end, desc = "[P]in file" },
     {
-      "<leader>à",
+      "<leader>)", -- 0
       function() require("harpoon").ui:toggle_quick_menu(require("harpoon"):list()) end,
       desc = "Pinned files",
     },
     -- Let's only show one entry in which-key.nvim for all the following keymaps
-    { "<leader>&", function() require("harpoon"):list():select(1) end, desc = "Open pinned file 1~9" },
-    { "<leader>é", function() require("harpoon"):list():select(2) end, desc = "<which-key-ignore>" },
-    { '<leader>"', function() require("harpoon"):list():select(3) end, desc = "<which-key-ignore>" },
-    { "<leader>'", function() require("harpoon"):list():select(4) end, desc = "<which-key-ignore>" },
-    { "<leader>(", function() require("harpoon"):list():select(5) end, desc = "<which-key-ignore>" },
-    { "<leader>§", function() require("harpoon"):list():select(6) end, desc = "<which-key-ignore>" },
-    { "<leader>è", function() require("harpoon"):list():select(7) end, desc = "<which-key-ignore>" },
-    { "<leader>!", function() require("harpoon"):list():select(8) end, desc = "<which-key-ignore>" },
-    { "<leader>ç", function() require("harpoon"):list():select(9) end, desc = "<which-key-ignore>" },
+    { "<leader>!", function() require("harpoon"):list():select(1) end, desc = "Open pinned file 1~9" }, -- 1
+    { "<leader>@", function() require("harpoon"):list():select(2) end, desc = "<which-key-ignore>" }, -- 2
+    { "<leader>#", function() require("harpoon"):list():select(3) end, desc = "<which-key-ignore>" }, -- 3
+    { "<leader>$", function() require("harpoon"):list():select(4) end, desc = "<which-key-ignore>" }, -- 4
+    { "<leader>%", function() require("harpoon"):list():select(5) end, desc = "<which-key-ignore>" }, -- 5
+    { "<leader>^", function() require("harpoon"):list():select(6) end, desc = "<which-key-ignore>" }, -- 6
+    { "<leader>&", function() require("harpoon"):list():select(7) end, desc = "<which-key-ignore>" }, -- 7
+    { "<leader>*", function() require("harpoon"):list():select(8) end, desc = "<which-key-ignore>" }, -- 8
+    { "<leader>(", function() require("harpoon"):list():select(9) end, desc = "<which-key-ignore>" }, -- 9
   },
   opts = {
     settings = {

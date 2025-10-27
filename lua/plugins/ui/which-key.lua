@@ -7,13 +7,13 @@ return {
       key = {
         function(key)
           -- Improve display of Harpoon keymaps
-          if key == "à" then
+          if key == ")" then -- 0
             return "0"
           end
-          if key == "&" then
+          if key == "!" then -- 1 (others are not shown)
             return "1~9"
           end
-          return require("which-key.view").format(key)
+          return require("which-key.view").format(key) -- Default behavior
         end,
       },
     },
