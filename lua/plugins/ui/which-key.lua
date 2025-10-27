@@ -48,7 +48,6 @@ return {
       { "<leader>e", group = "[E]xecute" },
       { "<leader>f", group = "[F]ind", mode = { "n", "v" } },
       { "<leader>g", group = "[G]it", mode = { "n", "v" } },
-      { "<leader>j", group = "[J]ump", mode = { "n", "x", "o" } },
       { "<leader>s", group = "[S]cratch" },
       { "<leader>t", group = "[T]est" },
       { "<leader>v", group = "[V]iew" },

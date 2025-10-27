@@ -54,13 +54,13 @@ return {
       desc = "Till character backward jump",
     },
     {
-      "<leader>jw",
+      "‹", -- <M-w>
       function() require("hop").hint_words({ current_line_only = true }) end,
       mode = { "n", "x", "o" },
-      desc = "[J]ump: [W]ord",
+      desc = "Word jump",
     },
     {
-      "<leader>je",
+      "ê", -- <M-e>
       function()
         require("hop").hint_words({
           hint_position = require("hop.hint").HintPosition.END,
@@ -68,19 +68,19 @@ return {
         })
       end,
       mode = { "n", "x", "o" },
-      desc = "[J]ump: [E]nd of word",
+      desc = "End of word jump",
     },
     {
-      "<leader>jt",
+      "†", -- <M-t>
       function() require("hop").hint_camel_case({ current_line_only = true }) end,
       mode = { "n", "x", "o" },
-      desc = "[J]ump: [T]oken",
+      desc = "Token jump",
     },
     -- In operator-pending mode, let's make line-related keymaps act linewise, like builtin operations such as "yj"
-    { "<leader>jj", "<cmd>HopLineStartAC<CR>", mode = { "n", "x" }, desc = "[J]ump: line downward" },
-    { "<leader>jj", "V<cmd>HopLineStartAC<CR>", mode = { "o" }, desc = "[J]ump: line downward" },
-    { "<leader>jk", "<cmd>HopLineStartBC<CR>", mode = { "n", "x" }, desc = "[J]ump: line upward" },
-    { "<leader>jk", "V<cmd>HopLineStartBC<CR>", mode = { "o" }, desc = "[J]ump: line upward" },
+    { "Ï", "<cmd>HopLineStartAC<CR>", mode = { "n", "x" }, desc = "Downward line jump" }, -- <M-j>
+    { "Ï", "V<cmd>HopLineStartAC<CR>", mode = { "o" }, desc = "Downward line jump" }, -- <M-j>
+    { "È", "<cmd>HopLineStartBC<CR>", mode = { "n", "x" }, desc = "Upward line jump" }, -- <M-k>
+    { "È", "V<cmd>HopLineStartBC<CR>", mode = { "o" }, desc = "Upward line jump" }, -- <M-k>
   },
   opts = {
     keys = "hgjfkdlsmqyturieozpabvn",
