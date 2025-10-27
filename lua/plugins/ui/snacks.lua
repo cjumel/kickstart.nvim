@@ -632,9 +632,9 @@ return {
             ["<C-j>"] = { "preview_scroll_down", mode = "i" },
             ["<C-k>"] = { "preview_scroll_up", mode = "i" },
             ["<Esc>"] = { "cancel", mode = "i" },
-            ["π"] = { "toggle_preview", mode = "i" }, -- <M-p>
-            ["Ì"] = { "toggle_hidden", mode = "i" }, -- <M-h>
-            ["î"] = { "toggle_ignored", mode = "i" }, -- <M-i>
+            ["<M-p>"] = { "toggle_preview", mode = "i" },
+            ["<M-h>"] = { "toggle_hidden", mode = "i" },
+            ["<M-i>"] = { "toggle_ignored", mode = "i" },
             ["<C-a>"] = false,
             ["<C-e>"] = false,
             ["<C-b>"] = false,
