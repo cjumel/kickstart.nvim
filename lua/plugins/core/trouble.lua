@@ -21,6 +21,25 @@ return {
         -- Builtin sources
         diagnostics = {
           title = "{hl:Title}Workspace Diagnostics{hl} {count}",
+          filter = function(items)
+            local cwd = vim.fn.getcwd()
+            return vim.tbl_filter(function(item)
+              local absolute_item_dir = vim.fn.fnamemodify(item.dirname, ":p")
+              local item_is_in_cwd = string.sub(absolute_item_dir, 1, #cwd) == cwd
+              if not item_is_in_cwd then
+                return false
+              end
+              local relative_item_dir = vim.fn.fnamemodify(item.dirname, ":p:~")
+              local excluded_file_patterns = MetaConfig.disable_tooling_on_files or {}
+              for _, excluded_file_pattern in ipairs(excluded_file_patterns) do
+                local file_is_excluded = relative_item_dir:match(excluded_file_pattern)
+                if file_is_excluded then
+                  return false
+                end
+              end
+              return true
+            end, items)
+          end,
         },
         diagnostics_document = {
           mode = "diagnostics",
