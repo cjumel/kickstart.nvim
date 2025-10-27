@@ -141,6 +141,17 @@ language servers, formatters, linters and debuggers.
 When notifications stop appearing, this is over and you can quit Neovim by typing the `q` key twice,
 to quite the lazy.nvim menu and Neovim succcessively.
 
+Optionally, you can also setup the GitHub Copilot plugin if you have a valid subscription. To do so,
+create a `lua/config/meta/global.lua` file with the following content:
+
+```lua
+return {
+  enable_copilot_plugins = true,
+}
+```
+
+Then re-open Neovim and run the `Copilot auth` command to authenticate with GitHub.
+
 ### You're done
 
 Then, you're done and you can use Neovim with this custom configuration with the regular command:
