@@ -83,7 +83,7 @@ return {
     { "<M-k>", "V<cmd>HopLineStartBC<CR>", mode = { "o" }, desc = "Upward line jump" },
   },
   opts = {
-    keys = "hgjfkdlsmqyturieozpabvn",
+    keys = "hgjfkdlsayturieowpqnbmvc",
     uppercase_labels = true, -- Make labels stand-out more
   },
 }
