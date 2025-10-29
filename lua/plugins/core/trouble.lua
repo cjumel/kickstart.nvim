@@ -14,8 +14,8 @@ return {
       focus = true,
       keys = {
         ["<Tab>"] = "fold_toggle",
-        [","] = "next",
-        [";"] = "prev",
+        [";"] = "next",
+        [","] = "prev",
       },
       modes = {
         -- Builtin sources

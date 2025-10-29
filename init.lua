@@ -42,5 +42,5 @@ require("lazy").setup({
 
 -- Customize lazy.nvim UI window keymaps
 local lazy_view_config = require("lazy.view.config")
-lazy_view_config.keys.next = ","
-lazy_view_config.keys.prev = ";"
+lazy_view_config.keys.next = ";"
+lazy_view_config.keys.prev = ","

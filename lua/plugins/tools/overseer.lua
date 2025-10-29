@@ -96,8 +96,8 @@ return {
         },
         n = {
           ["<CR>"] = "Submit",
-          [","] = "Next",
-          [";"] = "Prev",
+          [";"] = "Next",
+          [","] = "Prev",
           ["<ESC>"] = "Cancel",
           ["q"] = "Cancel",
           ["?"] = "ShowHelp",

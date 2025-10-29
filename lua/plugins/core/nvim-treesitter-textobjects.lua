@@ -33,22 +33,22 @@ return {
       enable = true,
       set_jumps = true, -- Set jumps in the jumplist
       goto_next_start = {
-        ["[c"] = { query = "@class.outer", desc = "Next class definition start" },
-        ["[g"] = { query = "@comment.outer", desc = "Next comment" },
-        ["[m"] = { query = "@function.outer", desc = "Next function definition start" },
+        ["]c"] = { query = "@class.outer", desc = "Next class definition start" },
+        ["]g"] = { query = "@comment.outer", desc = "Next comment" },
+        ["]m"] = { query = "@function.outer", desc = "Next function definition start" },
       },
       goto_next_end = {
-        ["[C"] = { query = "@class.outer", desc = "Next class definition end" },
-        ["[M"] = { query = "@function.outer", desc = "Next function definition end" },
+        ["]C"] = { query = "@class.outer", desc = "Next class definition end" },
+        ["]M"] = { query = "@function.outer", desc = "Next function definition end" },
       },
       goto_previous_start = {
-        ["]c"] = { query = "@class.outer", desc = "Previous class definition start" },
-        ["]g"] = { query = "@comment.outer", desc = "Previous comment" },
-        ["]m"] = { query = "@function.outer", desc = "Previous function definition start" },
+        ["[c"] = { query = "@class.outer", desc = "Previous class definition start" },
+        ["[g"] = { query = "@comment.outer", desc = "Previous comment" },
+        ["[m"] = { query = "@function.outer", desc = "Previous function definition start" },
       },
       goto_previous_end = {
-        ["]C"] = { query = "@class.outer", desc = "Previous class definition end" },
-        ["]M"] = { query = "@function.outer", desc = "Previous function definition end" },
+        ["[C"] = { query = "@class.outer", desc = "Previous class definition end" },
+        ["[M"] = { query = "@function.outer", desc = "Previous function definition end" },
       },
     },
   },

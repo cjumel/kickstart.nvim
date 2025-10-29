@@ -16,8 +16,8 @@ return {
       historyAdd = false,
       refresh = { n = "<localleader>r" },
       openLocation = false, -- Can be replaced by `openLocation` and `openPrevLocation`
-      openNextLocation = { n = "," },
-      openPrevLocation = { n = ";" },
+      openNextLocation = { n = ";" },
+      openPrevLocation = { n = "," },
       gotoLocation = { n = "<Tab>" },
       pickHistoryEntry = false,
       abort = false,

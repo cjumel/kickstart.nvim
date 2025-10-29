@@ -29,9 +29,9 @@ return {
       status = {
         -- Change the "next/previous hunk" keymaps for something easier to type quickly
         ["{"] = false, -- Formerly "GoToPreviousHunkHeader"
-        [";"] = "GoToPreviousHunkHeader",
+        [","] = "GoToPreviousHunkHeader",
         ["}"] = false, -- Formerly "GoToNextHunkHeader"
-        [","] = "GoToNextHunkHeader",
+        [";"] = "GoToNextHunkHeader",
       },
     },
   },

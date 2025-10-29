@@ -18,15 +18,6 @@ return {
       },
     },
     filter = function(mapping)
-      if string.sub(mapping.lhs, 1, 1) == "[" and (not mapping.desc or string.sub(mapping.desc, 1, 5) ~= "Next ") then
-        return false
-      end
-      if
-        string.sub(mapping.lhs, 1, 1) == "]"
-        and (not mapping.desc or string.sub(mapping.desc, 1, 9) ~= "Previous ")
-      then
-        return false
-      end
       if mapping.lhs == "gcc" then -- For consistency with other "g" keymaps
         return false
       end
