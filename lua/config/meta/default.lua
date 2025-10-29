@@ -20,12 +20,12 @@ return {
     editorconfig = { "trim_newlines", "trim_whitespace" },
     gitconfig = { "trim_newlines", "trim_whitespace" },
     gitignore = { "trim_newlines", "trim_whitespace" },
-    javascript = { "prettier" },
-    json = { "prettier" },
-    jsonc = { "prettier" },
+    javascript = { "biome" },
+    json = { "jq" },
     lua = { "stylua" },
     make = { "trim_newlines", "trim_whitespace" },
     markdown = { "mdformat" },
+    proto = { "trim_newlines", "trim_whitespace" },
     python = {
       "ruff_organize_imports", -- Apply Ruff import organization
       lsp_format = "last", -- If enabled, the Ruff LSP will provide formatting
@@ -35,7 +35,7 @@ return {
     text = { "trim_newlines", "trim_whitespace" },
     tmux = { "trim_newlines", "trim_whitespace" },
     toml = { lsp_format = "first" }, -- If enabled, the taplo LSP will provide formatting
-    typescript = { "prettier" },
+    typescript = { "biome" },
     typst = { lsp_format = "first" }, -- If enabled, the tinymist LSP will provide formatting
     vim = { "trim_newlines", "trim_whitespace" },
     yaml = { "yamlfmt", "trim_newlines" },
