@@ -130,31 +130,34 @@ return {
         config = { desc = "[W]indow menu" },
         heads = {
           { "h", "<C-w>h" },
+          { "H", "<C-w>H" },
           { "j", "<C-w>j" },
+          { "J", "<C-w>J" },
           { "k", "<C-w>k" },
+          { "K", "<C-w>K" },
           { "l", "<C-w>l" },
+          { "L", "<C-w>L" },
           { "o", "<C-w>o" },
           { "q", "<C-w>q" },
           { "s", "<C-w>s" },
-          { "t", "<C-w>T" },
+          { "T", "<C-w>T" },
           { "v", "<C-w>v" },
           { "w", "<C-w>w" },
           { "x", "<C-w>x" },
-          { "!", "<C-w>+" }, -- Mnemonic: opposite shape of "-"
+          { "+", "<C-w>+" },
           { "-", "<C-w>-" },
-          { "(", "<C-w><" },
-          { ")", "<C-w>>" },
+          { "<", "<C-w><" },
           { "=", "<C-w>=" },
+          { ">", "<C-w>>" },
           { "<Esc>", nil, { exit = true, desc = false } },
         },
         hint = [[
-                                          Window
-    _h_ ➜ Window left            _s_ ➜ [S]plit window              _!_ ➜ Increase height   
-    _j_ ➜ Winndow down           _t_ ➜ Break window into [T]ab     _-_ ➜ Decrease height   
-    _k_ ➜ Window up              _v_ ➜ Split window [V]ertically   _(_ ➜ Decrease width   
-    _l_ ➜ Window right           _w_ ➜ S[W]itch windows            _)_ ➜ Increase width   
-    _o_ ➜ Quit [O]ther windows   _x_ ➜ Swap window with next       _=_ ➜ Equalize hight/width   
-    _q_ ➜ [Q]uit window
+                                                            Window
+    _h_ ➜ Go to the left window        _K_ ➜ Move window to far top    _s_ ➜ Split a window             _+_ ➜ Increase height   
+    _H_ ➜ Move window to far left      _l_ ➜ Go to the right window    _T_ ➜ Break out into a new tab   _-_ ➜ Decrease height   
+    _j_ ➜ Go to the down window        _L_ ➜ Move window to far right  _v_ ➜ Split window vertically    _<_ ➜ Decrease width   
+    _J_ ➜ Move window to far bottom    _o_ ➜ Close all other windows   _w_ ➜ Switch windows;            _=_ ➜ Equally high and wide   
+    _k_ ➜ Go to the up window          _q_ ➜ Quit a window             _x_ ➜ Swap current with next     _>_ ➜ Increase width   
 ]],
       },
     },
