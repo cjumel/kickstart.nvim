@@ -65,9 +65,6 @@ local function clear_normal_mode()
 end
 vim.keymap.set("n", "<Esc>", clear_normal_mode, { desc = "Clear" })
 
-vim.keymap.set("v", "<Tab>", ">gv", { desc = "Indent selection" })
-vim.keymap.set("v", "<S-Tab>", "<gv", { desc = "Unindent selection" })
-
 vim.keymap.set({ "n", "v" }, "_", '"_', { desc = "Black hole register" })
 vim.keymap.set({ "n", "v" }, "+", '"+', { desc = "System clipboard register" })
 
@@ -388,6 +385,9 @@ vim.keymap.del("n", "]<C-t>")
 
 -- [[ Insert and command-line keymaps ]]
 
+vim.keymap.set({ "i", "c" }, "<C-w>", "<C-S-w>", { desc = "Delete word" }) -- Make it work also in special buffers
+vim.keymap.set({ "i", "c" }, "<C-r><C-r>", '<C-r>"', { desc = "Paste from main register" })
+
 -- Regular completion keymaps
 local function accept_completion()
   local cmp = package.loaded.cmp
@@ -441,8 +441,8 @@ end
 vim.keymap.set("i", "<Tab>", tab_improved, { desc = "Accept Copilot suggestion or insert Tab" })
 vim.keymap.set({ "i", "c" }, "<C-f>", "<Right>", { desc = "Move cursor one character right" })
 vim.keymap.set({ "i", "c" }, "<C-b>", "<Left>", { desc = "Move cursor one character left" })
-vim.keymap.set({ "i", "c" }, "<C-^>", c_right_improved, { desc = "Move cursor to next word" }) -- <C-,>
-vim.keymap.set({ "i", "c" }, "<C-_>", "<C-Left>", { desc = "Move cursor to previous word" }) -- <C-;>
+vim.keymap.set({ "i", "c" }, "<M-f>", c_right_improved, { desc = "Move cursor to next word" })
+vim.keymap.set({ "i", "c" }, "<M-b>", "<C-Left>", { desc = "Move cursor to previous word" })
 vim.keymap.set({ "i", "c" }, "<C-e>", end_improved, { desc = "Move cursor to end of line" })
 vim.keymap.set({ "i", "c" }, "<C-a>", "<Home>", { desc = "Move cursor to beginning of line" })
 
@@ -463,12 +463,6 @@ local function clear_insert_and_commandline_modes()
   end
 end
 vim.keymap.set({ "i", "c" }, "<C-c>", clear_insert_and_commandline_modes, { desc = "Clear" })
-
-vim.keymap.set({ "i", "c" }, "<C-w>", "<C-S-w>", { desc = "Delete word" }) -- Make it work also in special buffers
-vim.keymap.set({ "i", "c" }, "<M-BS>", "<C-S-w>", { desc = "Delete word" }) -- For consistency with other softwares
-vim.keymap.set({ "i", "c" }, "<C-r><C-r>", '<C-r>"', { desc = "Paste from main register" })
-vim.keymap.set({ "i", "c" }, "<C-]>", "<Up>", { desc = "Up or previous item in history" }) -- <C-$>
-vim.keymap.set({ "i", "c" }, "<C-\\>", "<Down>", { desc = "Down or next item in history" }) -- <C-`>
 
 vim.keymap.set("c", "<Tab>", "<Nop>", { silent = true })
 vim.keymap.set("c", "<S-Tab>", "<Nop>", { silent = true })
