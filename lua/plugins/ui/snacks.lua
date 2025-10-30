@@ -39,10 +39,10 @@ return {
     { "<leader>gr", function() Snacks.gitbrowse.open() end, desc = "[G]it: open [R]epository" },
 
     -- Notifier
-    { "<leader>?", function() Snacks.notifier.show_history() end, desc = "Notification history" },
+    { "<leader>,", function() Snacks.notifier.show_history() end, desc = "Notification history" },
 
     -- Picker
-    { "<leader>,", function() Snacks.picker.resume() end, desc = "Resume picker" },
+    { "<leader>.", function() Snacks.picker.resume() end, desc = "Resume picker" },
     {
       "<leader><Tab>",
       function()
@@ -74,7 +74,7 @@ return {
       desc = "Command history",
     },
     {
-      "<leader>/",
+      "<leader>?",
       function()
         Snacks.picker.search_history({
           sort = { fields = { "score:desc", "idx" } }, -- Don't sort by item length to preserve history order
@@ -83,7 +83,7 @@ return {
       end,
       desc = "Search history",
     },
-    { "<leader>=", function() Snacks.picker.lines() end, desc = "Search lines" },
+    { "<leader>/", function() Snacks.picker.lines() end, desc = "Search lines" },
     {
       "<leader>ff",
       function()
