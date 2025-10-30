@@ -6,7 +6,6 @@ return {
     { "mm", function() require("marks").set_next() end, desc = "Set next available mark" },
     { "dm", function() require("marks").delete() end, desc = "Delete mark" },
     { "dmm", function() require("marks").delete_line() end, desc = "Delete line marks" },
-    { "<leader>bx", function() require("marks").delete_buf() end, desc = "[B]uffer: discard marks" },
     {
       "<leader>vm",
       function()
