@@ -19,7 +19,6 @@ return {
       neogit = true,
       neotest = true,
       noice = true,
-      cmp = true,
       dap = true,
       dap_ui = true,
       native_lsp = { enabled = true, virtual_text = {}, underlines = {} },

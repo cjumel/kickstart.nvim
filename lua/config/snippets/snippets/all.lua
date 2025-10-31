@@ -1,6 +1,7 @@
 local conds = require("config.snippets.conditions")
 local ls = require("luasnip")
 local ls_conds = require("luasnip.extras.conditions")
+local ls_show_conds = require("luasnip.extras.conditions.show")
 local utils = require("config.snippets.utils")
 
 local c = ls.choice_node
@@ -15,9 +16,11 @@ local t = ls.text_node
 -- Initial source: https://github.com/L3MON4D3/LuaSnip/wiki/Cool-Snippets#all---todo-commentsnvim-snippets.
 -- The first implementation was then modified to avoid relying on the `Comment.nvim` plugin
 
---- Get the comment string start and end, taking the current file type into account.
----@return string[]
-local function get_comment_strings()
+---@return string[]|nil
+local function get_comment_string_parts()
+  if vim.bo.commentstring == "" then
+    return nil
+  end
   -- Initially, comment strings are ready to be used by `format`, so we want to split the left and right side. This
   -- implementation is taken from `require("Comment.nvim.utils").unwrap_cstr`.
   local left, right = string.match(vim.bo.commentstring, "(.*)%%s(.*)")
@@ -34,8 +37,22 @@ local function get_comment_strings()
   end
   return { left, right }
 end
-local function get_comment_string_start() return get_comment_strings()[1] end
-local function get_comment_string_end() return get_comment_strings()[2] end
+---@return string|nil
+local function get_comment_string_start()
+  local comment_string_parts = get_comment_string_parts()
+  if not comment_string_parts then
+    return nil
+  end
+  return comment_string_parts[1]
+end
+---@return string|nil
+local function get_comment_string_end()
+  local comment_string_parts = get_comment_string_parts()
+  if not comment_string_parts then
+    return nil
+  end
+  return comment_string_parts[2]
+end
 
 -- Let's only support a useful subset of todo-comment keywords, instead of all the recognized keywords
 local todo_keywords = {
@@ -140,7 +157,8 @@ end)
 local M = {
   s({
     trig = "todo-comment",
-    show_condition = todo_comment_show_condition,
+    -- show_condition = todo_comment_show_condition,
+    -- show_condition = ls_show_conds.line_end,
     desc = todo_keywords_description,
   }, {
     f(get_comment_string_start),
@@ -149,7 +167,7 @@ local M = {
   }),
   s({
     trig = "todo-keyword",
-    show_condition = todo_keyword_show_condition,
+    -- show_condition = todo_keyword_show_condition,
     desc = todo_keywords_description,
   }, {
     c(1, get_todo_keyword_snippet_choices()),
@@ -160,7 +178,7 @@ for _, todo_keyword in ipairs(todo_keywords) do
     M,
     s({
       trig = todo_keyword .. ": ",
-      show_condition = todo_keyword_show_condition,
+      -- show_condition = todo_keyword_show_condition,
       desc = "`" .. todo_keyword .. ": …`",
     }, {
       t(todo_keyword .. ": "),

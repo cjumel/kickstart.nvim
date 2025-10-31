@@ -22,13 +22,13 @@ return {
 
   s({
     trig = "else", -- For consistency with if and elseif snippets
-    show_condition = local_conds.in_empty_code_line,
+    -- show_condition = local_conds.in_empty_code_line,
     desc = [[`else …`]],
   }, { t("else "), i(1) }),
 
   s({
     trig = "elseif",
-    show_condition = local_conds.in_empty_code_line,
+    -- show_condition = local_conds.in_empty_code_line,
     desc = [[Choices:
 - `elseif … then …`
 - `elseif not … then …`]],
@@ -41,7 +41,7 @@ return {
 
   s({
     trig = "for",
-    show_condition = local_conds.in_empty_code_line,
+    -- show_condition = local_conds.in_empty_code_line,
     desc = [[`for .. do .. end`]],
   }, { t("for "), i(1), t({ " do", "\t" }), i(2), t({ "", "end" }) }),
 
@@ -76,7 +76,7 @@ return {
 
   s({
     trig = "if",
-    show_condition = local_conds.in_empty_code_line,
+    -- show_condition = local_conds.in_empty_code_line,
     desc = [[Choices:
 - `if … then … end`
 - `if not … then … end`]],
@@ -89,12 +89,12 @@ return {
 
   s({
     trig = "local",
-    show_condition = local_conds.in_empty_code_line,
+    -- show_condition = local_conds.in_empty_code_line,
     desc = [[`local …`]],
   }, { t("local ") }),
   s({
     trig = "local function",
-    show_condition = local_conds.in_empty_code_line,
+    -- show_condition = local_conds.in_empty_code_line,
     desc = [[Choices:
 - multiline
 - inline]],
@@ -122,13 +122,13 @@ return {
   }),
   s({
     trig = "local … require",
-    show_condition = local_conds.in_empty_code_line,
+    -- show_condition = local_conds.in_empty_code_line,
     desc = [[`local … = require("…")`]],
   }, { t("local "), i(1), t(' = require("'), i(2), t('")') }),
 
   s({
     trig = "while",
-    show_condition = local_conds.in_empty_code_line,
+    -- show_condition = local_conds.in_empty_code_line,
     desc = [[Choices:
 - `while … do … end`
 - `while not … do … end`]],

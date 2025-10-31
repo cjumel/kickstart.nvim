@@ -24,13 +24,13 @@ return {
 
   s({
     trig = "class",
-    show_condition = conds.line_begin * conds.line_end * local_conds.in_code,
+    -- show_condition = conds.line_begin * conds.line_end * local_conds.in_code,
     desc = [[`class …: …`]],
   }, { t("class "), i(1), t({ ":", "\t" }), i(2, "pass") }),
 
   s({
     trig = "def",
-    show_condition = conds.line_begin * conds.line_end * local_conds.in_code,
+    -- show_condition = conds.line_begin * conds.line_end * local_conds.in_code,
     desc = [[`def …(…) -> …: …`]],
   }, {
     t("def "),
@@ -52,7 +52,7 @@ return {
   }),
   s({
     trig = "async def",
-    show_condition = conds.line_begin * conds.line_end * local_conds.in_code,
+    -- show_condition = conds.line_begin * conds.line_end * local_conds.in_code,
     desc = [[`async def …(…) -> …: …`]],
   }, {
     t("async def "),
@@ -75,7 +75,7 @@ return {
 
   s({
     trig = "elif",
-    show_condition = conds.line_begin * conds.line_end * local_conds.in_code,
+    -- show_condition = conds.line_begin * conds.line_end * local_conds.in_code,
     desc = [[Choices:
 - `elif …: …`
 - `elif not …: …`]],
@@ -88,7 +88,7 @@ return {
 
   s({
     trig = "else", -- For consistency with if and elseif snippets
-    show_condition = conds.line_begin * conds.line_end * local_conds.in_code,
+    -- show_condition = conds.line_begin * conds.line_end * local_conds.in_code,
     desc = [[`else: …`]],
   }, { t({ "else:", "\t" }), i(1, "pass") }),
 
@@ -110,7 +110,7 @@ return {
 
   s({
     trig = "from … import",
-    show_condition = conds.line_begin * conds.line_end * local_conds.in_code,
+    -- show_condition = conds.line_begin * conds.line_end * local_conds.in_code,
     desc = [[Choices:
 - `from … import …`
 - `from … import … as …`]],
@@ -122,13 +122,13 @@ return {
   }),
   s({
     trig = "from __future__ import annotations",
-    show_condition = conds.line_begin * conds.line_end * local_conds.in_code,
+    -- show_condition = conds.line_begin * conds.line_end * local_conds.in_code,
     desc = [[`from __future__ import annotations`]],
   }, { t({ "from __future__ import annotations", "" }) }),
 
   s({
     trig = "if",
-    show_condition = conds.line_begin * conds.line_end * local_conds.in_code,
+    -- show_condition = conds.line_begin * conds.line_end * local_conds.in_code,
     desc = [[Choices:
 - `if …: …`,
 - `if not …: …`]],
@@ -157,7 +157,7 @@ return {
   }, { t({ 'if __name__ == "__main__":', "\t" }), i(1, "pass") }),
   s({
     trig = "if … isinstance … raise",
-    show_condition = conds.line_begin * conds.line_end * local_conds.in_code,
+    -- show_condition = conds.line_begin * conds.line_end * local_conds.in_code,
     desc = [[Choices:
 - `if isinstance(…): raise TypeError(…)`
 - `if not isinstance(…): raise TypeError(…)`]],
@@ -195,7 +195,7 @@ return {
   }),
   s({
     trig = "if … None … raise",
-    show_condition = conds.line_begin * conds.line_end * local_conds.in_code,
+    -- show_condition = conds.line_begin * conds.line_end * local_conds.in_code,
     desc = [[Choices:
 - `if … is None: raise ValueError(…)`
 - `if … is not None: raise ValueError(…)`]],
@@ -226,7 +226,7 @@ return {
 
   s({
     trig = "import",
-    show_condition = conds.line_begin * conds.line_end * local_conds.in_code,
+    -- show_condition = conds.line_begin * conds.line_end * local_conds.in_code,
     desc = [[Choices:
 - `import …`
 - `import … as …`]],
@@ -261,18 +261,18 @@ return {
 
   s({
     trig = "with",
-    show_condition = conds.line_begin * conds.line_end * local_conds.in_code,
+    -- show_condition = conds.line_begin * conds.line_end * local_conds.in_code,
     desc = [[`with …: …`]],
   }, { t("with "), i(1), t({ ":", "\t" }), i(2, "pass") }),
   s({
     trig = "async with",
-    show_condition = conds.line_begin * conds.line_end * local_conds.in_code,
+    -- show_condition = conds.line_begin * conds.line_end * local_conds.in_code,
     desc = [[`async with …: …`]],
   }, { t("async with "), i(1), t({ ":", "\t" }), i(2, "pass") }),
 
   s({
     trig = "while",
-    show_condition = conds.line_begin * conds.line_end * local_conds.in_code,
+    -- show_condition = conds.line_begin * conds.line_end * local_conds.in_code,
     desc = [[Choices:
 - `while …: …`,
 - `while not …: …`]],

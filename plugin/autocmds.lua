@@ -13,10 +13,10 @@ vim.api.nvim_create_autocmd("OptionSet", { pattern = "textwidth", callback = set
 -- This enables lazy-loading plugins on `InsertEnter` event, but skipping prompt buffers like snacks.nvim pickers
 
 local insert_enter_plugins = {
+  "blink.cmp",
   "copilot.lua",
   "LuaSnip",
   "nvim-autopairs",
-  "nvim-cmp",
 }
 vim.api.nvim_create_autocmd("InsertEnter", {
   callback = function()

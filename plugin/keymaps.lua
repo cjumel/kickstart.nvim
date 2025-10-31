@@ -388,31 +388,6 @@ vim.keymap.del("n", "]<C-t>")
 vim.keymap.set({ "i", "c" }, "<C-w>", "<C-S-w>", { desc = "Delete word" }) -- Make it work also in special buffers
 vim.keymap.set({ "i", "c" }, "<C-r><C-r>", '<C-r>"', { desc = "Paste from main register" })
 
--- Regular completion keymaps
-local function accept_completion()
-  local cmp = package.loaded.cmp
-  cmp.confirm({ select = true })
-end
-local function next_completion()
-  local cmp = package.loaded.cmp
-  if cmp.visible() then
-    cmp.select_next_item()
-  else
-    cmp.complete()
-  end
-end
-local function prev_completion()
-  local cmp = package.loaded.cmp
-  if cmp.visible() then
-    cmp.select_prev_item()
-  else
-    cmp.complete()
-  end
-end
-vim.keymap.set({ "i", "c" }, "<C-y>", accept_completion, { desc = "Accept completion" })
-vim.keymap.set({ "i", "c" }, "<C-n>", next_completion, { desc = "Next completion" })
-vim.keymap.set({ "i", "c" }, "<C-p>", prev_completion, { desc = "Previous completion" })
-
 -- Navigation and ghost text completion keymaps (zsh-autosuggestions style)
 local function tab_improved()
   local copilot_suggestion = package.loaded["copilot.suggestion"]
@@ -447,11 +422,6 @@ vim.keymap.set({ "i", "c" }, "<C-e>", end_improved, { desc = "Move cursor to end
 vim.keymap.set({ "i", "c" }, "<C-a>", "<Home>", { desc = "Move cursor to beginning of line" })
 
 local function clear_insert_and_commandline_modes()
-  local cmp = package.loaded.cmp
-  if cmp.visible() then
-    cmp.abort()
-    return
-  end
   if vim.fn.mode() == "i" then
     local copilot_suggestion = package.loaded["copilot.suggestion"]
     if copilot_suggestion ~= nil and copilot_suggestion.is_visible() then
