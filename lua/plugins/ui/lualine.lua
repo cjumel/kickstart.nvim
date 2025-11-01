@@ -75,6 +75,7 @@ return {
           "dapui_console",
           "dapui_scopes",
           "dapui_watches",
+          "diff", -- Notably for Undotree
           "harpoon",
           "lazy",
           "lspinfo",
@@ -94,6 +95,7 @@ return {
           "snacks_notif_history",
           "snacks_picker_input",
           "trouble",
+          "undotree",
         },
         sections = vim.tbl_deep_extend("force", opts.sections, { lualine_c = { function() return "" end } }),
       },
