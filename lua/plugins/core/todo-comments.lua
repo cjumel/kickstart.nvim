@@ -9,9 +9,10 @@ return {
     {
       "<leader>ft",
       function()
+        local todo_comment_keywords = require("config.todo-comment-keywords")
         Snacks.picker("todo_comments", {
           title = "Todo-comments",
-          keywords = vim.g.todo_comment_keywords_todo or {},
+          keywords = todo_comment_keywords.todo_all,
           hidden = true,
           layout = { preset = "telescope_vertical" },
         })
@@ -21,9 +22,10 @@ return {
     {
       "<leader>fn",
       function()
+        local todo_comment_keywords = require("config.todo-comment-keywords")
         Snacks.picker("todo_comments", {
           title = "Note-comments",
-          keywords = vim.g.todo_comment_keywords_note or {},
+          keywords = todo_comment_keywords.note_all,
           hidden = true,
           layout = { preset = "telescope_vertical" },
         })
@@ -33,9 +35,10 @@ return {
     {
       "<leader>fp",
       function()
+        local todo_comment_keywords = require("config.todo-comment-keywords")
         Snacks.picker("todo_comments", {
           title = "Private Todo-comments",
-          keywords = vim.g.todo_comment_keywords_private or {},
+          keywords = todo_comment_keywords.todo_private,
           hidden = true,
           layout = { preset = "telescope_vertical" },
         })
@@ -46,36 +49,6 @@ return {
     { "<leader>vn", function() vim.cmd("Trouble todo_note") end, desc = "[V]iew: [N]ote-comments" },
     { "<leader>vp", function() vim.cmd("Trouble todo_private") end, desc = "[V]iew: [P]rivate todo-comments" },
   },
-  init = function()
-    vim.g.todo_comment_keywords_todo = {
-      "FIX",
-      "FIXME",
-      "BUG",
-      "FIXIT",
-      "ISSUE",
-      "TODO",
-      "PERF",
-      "OPTIM",
-      "PERFORMANCE",
-      "OPTIMIZE",
-      "TEST",
-      "TESTING",
-      "PASSED",
-      "FAILED",
-    }
-    vim.g.todo_comment_keywords_note = {
-      "HACK",
-      "WARN",
-      "WARNING",
-      "XXX",
-      "NOTE",
-      "INFO",
-      "IMPORTANT",
-    }
-    vim.g.todo_comment_keywords_private = {
-      "_TODO",
-    }
-  end,
   opts = {
     keywords = {
       -- Update builtin keywords

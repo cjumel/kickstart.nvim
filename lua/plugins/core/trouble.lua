@@ -10,6 +10,7 @@ return {
     { "<leader>vs", "<cmd>Trouble symbols<CR>", desc = "[V]iew: [S]ymbols" },
   },
   opts = function()
+    local todo_comment_keywords = require("config.todo-comment-keywords")
     return {
       focus = true,
       keys = {
@@ -75,17 +76,17 @@ return {
         -- Todo-comments (see todo-comments.nvim)
         todo = {
           title = "{hl:Title}Todo-comments {hl} {count}",
-          filter = { tag = vim.g.todo_comment_keywords_todo or {} },
+          filter = { tag = todo_comment_keywords.todo_all },
         },
         todo_note = {
           mode = "todo",
           title = "{hl:Title}Note-comments {hl} {count}",
-          filter = { tag = vim.g.todo_comment_keywords_note or {} },
+          filter = { tag = todo_comment_keywords.note_all },
         },
         todo_private = {
           mode = "todo",
           title = "{hl:Title}Private todo-comments {hl} {count}",
-          filter = { tag = vim.g.todo_comment_keywords_private or {} },
+          filter = { tag = todo_comment_keywords.todo_private },
         },
       },
     }

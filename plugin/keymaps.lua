@@ -337,24 +337,30 @@ end
 keymap.set_pair("h", next_hunk, prev_hunk, "hunk")
 
 local function next_todo_comment()
-  require("todo-comments").jump_next({ keywords = vim.g.todo_comment_keywords_todo or {} })
+  local todo_comment_keywords = require("config.todo-comment-keywords")
+  require("todo-comments").jump_next({ keywords = todo_comment_keywords.todo_all })
 end
 local function prev_todo_comment()
-  require("todo-comments").jump_prev({ keywords = vim.g.todo_comment_keywords_todo or {} })
+  local todo_comment_keywords = require("config.todo-comment-keywords")
+  require("todo-comments").jump_prev({ keywords = todo_comment_keywords.todo_all })
 end
 keymap.set_pair("t", next_todo_comment, prev_todo_comment, "todo-comment")
 local function next_note_comment()
-  require("todo-comments").jump_next({ keywords = vim.g.todo_comment_keywords_note or {} })
+  local todo_comment_keywords = require("config.todo-comment-keywords")
+  require("todo-comments").jump_next({ keywords = todo_comment_keywords.note_all })
 end
 local function prev_note_comment()
-  require("todo-comments").jump_prev({ keywords = vim.g.todo_comment_keywords_note or {} })
+  local todo_comment_keywords = require("config.todo-comment-keywords")
+  require("todo-comments").jump_prev({ keywords = todo_comment_keywords.note_all })
 end
 keymap.set_pair("n", next_note_comment, prev_note_comment, "note-comment")
 local function next_private_todo_comment()
-  require("todo-comments").jump_next({ keywords = vim.g.todo_comment_keywords_private or {} })
+  local todo_comment_keywords = require("config.todo-comment-keywords")
+  require("todo-comments").jump_next({ keywords = todo_comment_keywords.todo_private })
 end
 local function prev_private_todo_comment()
-  require("todo-comments").jump_prev({ keywords = vim.g.todo_comment_keywords_private or {} })
+  local todo_comment_keywords = require("config.todo-comment-keywords")
+  require("todo-comments").jump_prev({ keywords = todo_comment_keywords.todo_private })
 end
 keymap.set_pair("p", next_private_todo_comment, prev_private_todo_comment, "private todo-comment")
 
