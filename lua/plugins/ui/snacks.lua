@@ -325,16 +325,14 @@ return {
       function() -- Based on Snacks.scratch.select, restricted to the current working directory
         local items = Snacks.scratch.list()
         local selection_items = {}
-        local widths = { 0, 0, 0 }
+        local widths = { 0, 0 }
         local cwd = vim.fn.fnamemodify(vim.fn.getcwd(), ":p:~")
         for _, item in ipairs(items) do
           if vim.fn.fnamemodify(item.cwd, ":p:~") == cwd then
             item.icon = item.icon or Snacks.util.icon(item.ft, "filetype")
             item.name = item.count > 1 and item.name .. " " .. item.count or item.name
-            item.branch = item.branch and ("   %s"):format(item.branch) or ""
             widths[1] = math.max(widths[1], vim.api.nvim_strwidth(item.icon))
             widths[2] = math.max(widths[2], vim.api.nvim_strwidth(item.name))
-            widths[3] = math.max(widths[3], vim.api.nvim_strwidth(item.branch))
             table.insert(selection_items, item)
           end
         end
@@ -345,7 +343,7 @@ return {
         vim.ui.select(selection_items, {
           prompt = "Scratch files",
           format_item = function(item)
-            local parts = { item.icon, item.name, item.branch }
+            local parts = { item.icon, item.name }
             for i, part in ipairs(parts) do
               parts[i] = part .. string.rep(" ", widths[i] - vim.api.nvim_strwidth(part))
             end
@@ -364,16 +362,14 @@ return {
       function() -- Based on Snacks.scratch.select
         local items = Snacks.scratch.list()
         local selection_items = {}
-        local widths = { 0, 0, 0, 0 }
+        local widths = { 0, 0, 0 }
         for _, item in ipairs(items) do
           item.cwd = vim.fn.fnamemodify(item.cwd, ":p:~") .. "  "
           item.icon = item.icon or Snacks.util.icon(item.ft, "filetype")
           item.name = item.count > 1 and item.name .. " " .. item.count or item.name
-          item.branch = item.branch and ("   %s"):format(item.branch) or ""
           widths[1] = math.max(widths[1], vim.api.nvim_strwidth(item.cwd))
           widths[2] = math.max(widths[2], vim.api.nvim_strwidth(item.icon))
           widths[3] = math.max(widths[3], vim.api.nvim_strwidth(item.name))
-          widths[4] = math.max(widths[4], vim.api.nvim_strwidth(item.branch))
           table.insert(selection_items, item)
         end
         if vim.tbl_isempty(items) then
@@ -383,7 +379,7 @@ return {
         vim.ui.select(selection_items, {
           prompt = "All scratch files",
           format_item = function(item)
-            local parts = { item.cwd, item.icon, item.name, item.branch }
+            local parts = { item.cwd, item.icon, item.name }
             for i, part in ipairs(parts) do
               parts[i] = part .. string.rep(" ", widths[i] - vim.api.nvim_strwidth(part))
             end
@@ -398,7 +394,7 @@ return {
       desc = "[S]cratch: select [A]ll",
     },
     {
-      "<leader>so",
+      "<leader>sc",
       function()
         vim.ui.input({ prompt = "Filetype" }, function(filetype)
           if filetype then
@@ -420,7 +416,7 @@ return {
           end
         end)
       end,
-      desc = "[S]cratch: [O]pen",
+      desc = "[S]cratch: [C]reate",
     },
     {
       "<leader>sf",
@@ -441,7 +437,7 @@ return {
         end
         Snacks.scratch.open({ name = name })
       end,
-      desc = "[S]cratch: open with [F]iletype",
+      desc = "[S]cratch: create with [F]iletype",
     },
     {
       "<leader>sn",
@@ -647,19 +643,10 @@ return {
     scratch = {
       -- Don't use nvim user data to avoid losing the scratch files on full nvim cleaning
       root = vim.env.HOME .. "/.local/share/scratch-files",
+      autowrite = false,
+      filekey = { branch = false },
       win = {
         keys = {
-          ["delete"] = {
-            "<localleader>d",
-            function(self)
-              if vim.fn.confirm("Do you want to delete the scratch file definitely?", "&Yes\n&No") == 1 then
-                local fname = vim.api.nvim_buf_get_name(self.buf)
-                vim.cmd([[close]])
-                vim.fn.delete(fname)
-              end
-            end,
-            desc = "delete",
-          },
           ["expand"] = {
             "<localleader>e",
             function(self)
