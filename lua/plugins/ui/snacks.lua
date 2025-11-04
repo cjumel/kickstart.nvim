@@ -486,8 +486,8 @@ return {
       enabled = true,
       win = {
         keys = {
-          i_ctrl_n = { "<C-\\>", "hist_down", mode = "i" }, -- <C-`>, like in command-line mode
-          i_ctrl_p = { "<C-]>", "hist_up", mode = "i" }, -- <C-$>, like in command-line mode
+          i_ctrl_n = { "<C-n>", "hist_down", mode = "i" },
+          i_ctrl_p = { "<C-p>", "hist_up", mode = "i" },
           i_esc = { "<Esc>", "cancel", mode = "i" },
           i_ctrl_c = { "<C-C>", "cancel", mode = "i" },
         },

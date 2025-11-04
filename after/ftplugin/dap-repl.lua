@@ -1,5 +1,6 @@
 -- [[ Keymaps ]]
 
--- Keymaps to go through commmand history (<C-n> & <C-p> are used by completion)
-vim.keymap.set("i", "<C-]>", function() require("dap.repl").on_up() end, { desc = "Previous command", buffer = true }) -- <C-$>
-vim.keymap.set("i", "<C-\\>", function() require("dap.repl").on_down() end, { desc = "Next command", buffer = true }) -- <C-`>
+local keymap = require("config.keymap")
+
+keymap.set_buffer("i", "<C-n>", function() require("dap.repl").on_down() end, { desc = "Next command" })
+keymap.set_buffer("i", "<C-p>", function() require("dap.repl").on_up() end, { desc = "Previous command" })
