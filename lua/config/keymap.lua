@@ -16,9 +16,9 @@ end
 ---@param name string
 ---@param other_key string|nil
 function M.set_pair(key, rhs_next, rhs_prev, name, other_key)
-  local ts_repeatable_move = require("nvim-treesitter.textobjects.repeatable_move")
+  local ts_repeat_move = require("nvim-treesitter.textobjects.repeatable_move")
   other_key = other_key or key
-  rhs_next, rhs_prev = ts_repeatable_move.make_repeatable_move_pair(rhs_next, rhs_prev)
+  rhs_next, rhs_prev = ts_repeat_move.make_repeatable_move_pair(rhs_next, rhs_prev)
   vim.keymap.set({ "n", "x", "o" }, "]" .. key, rhs_next, { desc = "Next " .. name })
   vim.keymap.set({ "n", "x", "o" }, "[" .. other_key, rhs_prev, { desc = "Previous " .. name })
 end
@@ -29,9 +29,9 @@ end
 ---@param name string
 ---@param other_key string|nil
 function M.set_buffer_pair(key, rhs_next, rhs_prev, name, other_key)
-  local ts_repeatable_move = require("nvim-treesitter.textobjects.repeatable_move")
+  local ts_repeat_move = require("nvim-treesitter.textobjects.repeatable_move")
   other_key = other_key or key
-  rhs_next, rhs_prev = ts_repeatable_move.make_repeatable_move_pair(rhs_next, rhs_prev)
+  rhs_next, rhs_prev = ts_repeat_move.make_repeatable_move_pair(rhs_next, rhs_prev)
   vim.keymap.set({ "n", "x", "o" }, "]" .. key, rhs_next, { desc = "Next " .. name, buffer = true })
   vim.keymap.set({ "n", "x", "o" }, "[" .. other_key, rhs_prev, { desc = "Previous " .. name, buffer = true })
 end

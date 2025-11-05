@@ -252,18 +252,13 @@ end, { desc = "Search in Web browser" })
 
 local keymap = require("config.keymap")
 
-local ts_repeatable_move = require("nvim-treesitter.textobjects.repeatable_move")
-vim.keymap.set(
-  { "n", "x", "o" },
-  ";",
-  ts_repeatable_move.repeat_last_move_next,
-  { desc = 'Repeat last move in "next" direction' }
-)
+local ts_repeat_move = require("nvim-treesitter.textobjects.repeatable_move")
+vim.keymap.set({ "n", "x", "o" }, ";", ts_repeat_move.repeat_last_move, { desc = "Repeat last move in same direction" })
 vim.keymap.set(
   { "n", "x", "o" },
   ",",
-  ts_repeatable_move.repeat_last_move_previous,
-  { desc = 'Repeat last move in "previous" direction' }
+  ts_repeat_move.repeat_last_move_opposite,
+  { desc = "Repeat last move in opposite direction" }
 )
 
 local function next_loclist_item()
