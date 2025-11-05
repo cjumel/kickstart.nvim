@@ -22,8 +22,8 @@ return {
       map("n", "<leader>gu", gitsigns.reset_buffer_index, { desc = "[G]it: [U]nstage buffer" })
       map("n", "<leader>gx", gitsigns.reset_buffer, { desc = "[G]it: discard buffer changes" })
       map("n", "<leader>gp", function() gitsigns.blame_line({ full = true }) end, { desc = "[G]it: [P]review blame" })
-      map("n", "<leader>gd", function() gitsigns.diffthis("~") end, { desc = "[G]it: [D]iff buffer" }) ---@diagnostic disable-line: param-type-mismatch
-      map("o", "gh", ":<C-U>Gitsigns select_hunk<CR>", { desc = "Hunk" })
+      map("n", "<leader>gd", gitsigns.diffthis, { desc = "[G]it: [D]iff buffer" })
+      map({ "x", "o" }, "gh", gitsigns.select_hunk, { desc = "Hunk" })
     end,
   },
 }
