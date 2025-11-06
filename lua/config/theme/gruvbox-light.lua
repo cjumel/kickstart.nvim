@@ -9,6 +9,7 @@ M.get_lualine_opts = function(_)
   return {
     options = {
       theme = "gruvbox_light",
+      section_separators = { left = "", right = "" },
     },
   }
 end

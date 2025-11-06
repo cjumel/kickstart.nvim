@@ -1,12 +1,11 @@
 local M = {}
 
-M.gruvbox_enabled = true
-M.gruvbox_style = "dark"
+M.gruvbox_material_enabled = true
 
 M.get_lualine_opts = function(_)
   return {
     options = {
-      theme = "gruvbox_dark",
+      theme = "gruvbox-material",
       section_separators = { left = "", right = "" },
     },
   }
