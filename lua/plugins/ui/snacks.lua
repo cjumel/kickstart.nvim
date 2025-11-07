@@ -45,16 +45,30 @@ return {
       function()
         Snacks.picker.buffers({
           title = "Buffer Switcher",
-          current = false,
+          on_show = function(picker) picker.list.cursor = 2 end,
           sort = { fields = { "score:desc", "idx" } }, -- Don't sort by item length to preserve recency order
           layout = { preset = "telescope_dropdown" },
           win = {
             input = {
               keys = {
-                ["<C-y>"] = { { "yank_path", "close" }, mode = "i" },
                 ["<C-d>"] = { "bufdelete", mode = { "i" } },
+                ["<C-o>"] = { "bufdelete_older", mode = { "i" } },
               },
             },
+          },
+          actions = {
+            bufdelete_older = function(picker)
+              picker.preview:reset()
+              local current_idx = picker.list.cursor
+              for i = #picker.list.items, current_idx, -1 do
+                local item = picker.list.items[i]
+                if item.buf then
+                  Snacks.bufdelete.delete(item.buf)
+                end
+              end
+              picker:refresh()
+              picker.list.cursor = current_idx - 1
+            end,
           },
         })
       end,
@@ -89,14 +103,6 @@ return {
           layout = { preset = "telescope_horizontal" },
           show_empty = true, -- In case everything is hidden or ignored
           cwd = vim.bo.filetype == "oil" and require("oil").get_current_dir() or nil,
-          win = {
-            input = {
-              keys = {
-                ["<C-y>"] = { { "yank_path", "close" }, mode = "i" }, ---@diagnostic disable-line: assign-type-mismatch
-              },
-            },
-          },
-          _oil_cwd = require("oil").get_current_dir(),
         })
       end,
       desc = "[F]ind: [F]iles",
@@ -106,38 +112,11 @@ return {
       function()
         Snacks.picker.recent({
           title = "Recent Files",
-          filter = { cwd = true },
           sort = { fields = { "score:desc", "idx" } }, -- Don't sort by item length to preserve history order
           layout = { preset = "telescope_horizontal" },
-          win = {
-            input = {
-              keys = {
-                ["<C-y>"] = { { "yank_path", "close" }, mode = "i" }, ---@diagnostic disable-line: assign-type-mismatch
-              },
-            },
-          },
         })
       end,
       desc = "[F]ind: [R]ecent files",
-    },
-    {
-      "<leader>fR",
-      function()
-        Snacks.picker.recent({
-          title = "All Recent Files",
-          sort = { fields = { "score:desc", "idx" } }, -- Don't sort by item length to preserve history order
-          layout = { preset = "telescope_horizontal" },
-          win = {
-            input = {
-              keys = {
-                ---@diagnostic disable-next-line: assign-type-mismatch
-                ["<C-y>"] = { { "yank_path", "close" }, mode = "i" },
-              },
-            },
-          },
-        })
-      end,
-      desc = "[F]ind: [R]ecent files (all)",
     },
     {
       "<leader>fd",
@@ -147,15 +126,6 @@ return {
           layout = { preset = "telescope_horizontal" },
           show_empty = true, -- In case everything is hidden or ignored
           cwd = vim.bo.filetype == "oil" and require("oil").get_current_dir() or nil,
-          win = {
-            input = {
-              keys = {
-                ---@diagnostic disable-next-line: assign-type-mismatch
-                ["<C-y>"] = { { "yank_path", "close" }, mode = "i" },
-              },
-            },
-          },
-          _oil_cwd = require("oil").get_current_dir(),
         })
       end,
       desc = "[F]ind: [D]irectories",
@@ -167,7 +137,6 @@ return {
           title = "Grep",
           layout = { preset = "telescope_vertical" },
           cwd = vim.bo.filetype == "oil" and require("oil").get_current_dir() or nil,
-          _oil_cwd = require("oil").get_current_dir(),
         })
       end,
       desc = "[F]ind: [G]rep",
@@ -180,7 +149,6 @@ return {
           layout = { preset = "telescope_vertical" },
           show_empty = true, -- In case everything is hidden or ignored
           cwd = vim.bo.filetype == "oil" and require("oil").get_current_dir() or nil,
-          _oil_cwd = require("oil").get_current_dir(),
         })
       end,
       mode = "x",
@@ -217,8 +185,8 @@ return {
           win = {
             input = {
               keys = {
-                ["<C-y>"] = { { "yank_add", "close" }, mode = "i" },
-                ["Ú"] = { { "yank_del", "close" }, mode = "i" }, -- <M-y>
+                ["<CR>"] = { { "yank_add", "close" }, mode = "i" },
+                ["<S-CR>"] = { { "yank_del", "close" }, mode = "i" },
               },
             },
           },
@@ -252,28 +220,11 @@ return {
       desc = "[F]ind: [K]eymaps",
     },
     {
-      "<leader>fm",
-      function()
-        Snacks.picker.man({
-          title = "Man Pages",
-          layout = { preset = "telescope_horizontal" },
-        })
-      end,
-      desc = "[F]ind: [M]an pages",
-    },
-    {
       "<leader>gg",
       function()
         Snacks.picker.git_status({
           layout = { preset = "telescope_horizontal" },
-          win = {
-            input = {
-              keys = {
-                ["<Tab>"] = { "list_down", mode = "i" }, -- Previously mapped to "git_stage"
-                ["Ò"] = { { "git_stage", "list_down" }, mode = "i" }, -- <M-s>
-              },
-            },
-          },
+          win = { input = { keys = { ["<Tab>"] = { "list_down", mode = "i" } } } }, -- Avoid picker-specific remapping
         })
       end,
       desc = "[G]it: status",
@@ -287,15 +238,9 @@ return {
       "<leader>gl",
       function()
         Snacks.picker.git_log({
+          title = "Git Log",
           layout = { preset = "telescope_horizontal" },
-          win = {
-            input = {
-              keys = {
-                ---@diagnostic disable-next-line: assign-type-mismatch
-                ["<C-y>"] = { { "yank_commit", "close" }, mode = "i" },
-              },
-            },
-          },
+          confirm = { { action = "yank", field = "commit", reg = "+" }, "close" },
         })
       end,
       desc = "[G]it: [L]og",
@@ -304,16 +249,9 @@ return {
       "<leader>gL",
       function()
         Snacks.picker.git_log_file({
-          title = "Buffer Commits",
+          title = "Buffer Git Log",
           layout = { preset = "telescope_horizontal" },
-          win = {
-            input = {
-              keys = {
-                ---@diagnostic disable-next-line: assign-type-mismatch
-                ["<C-y>"] = { { "yank_commit", "close" }, mode = "i" },
-              },
-            },
-          },
+          confirm = { { action = "yank", field = "commit", reg = "+" }, "close" },
         })
       end,
       desc = "[G]it: [L]og (buffer)",
@@ -497,7 +435,7 @@ return {
       sources = {
         directories = {
           finder = function(opts, ctx)
-            local cwd = opts.cwd or vim.fn.getcwd()
+            opts.cmd = "fd"
             local args = { "--type", "d", "--exclude", ".git" }
             if opts.hidden then
               table.insert(args, "--hidden")
@@ -505,18 +443,16 @@ return {
             if opts.ignored then
               table.insert(args, "--no-ignore")
             end
-            local transform = function(item)
+            opts.args = args
+            local cwd = opts.cwd or vim.fn.getcwd()
+            opts.transform = function(item)
               item.file = vim.fn.fnamemodify(cwd .. "/" .. item.text, ":p")
               item.dir = true
             end
-            return require("snacks.picker.source.proc").proc(
-              { opts, { cmd = "fd", args = args, transform = transform } },
-              ctx
-            )
+            return require("snacks.picker.source.proc").proc(opts, ctx)
           end,
         },
       },
-      formatters = { file = { truncate = 60 } }, -- Increase the displayed file path length
       actions = {
         -- Action adatped from https://github.com/folke/snacks.nvim/blob/main/lua/snacks/picker/actions.lua#L447-L447
         qflist_trouble = function(picker)
@@ -562,8 +498,6 @@ return {
           vim.fn.setloclist(picker.main, qf)
           vim.cmd("Trouble loclist")
         end,
-        yank_path = { action = "yank", field = "path", reg = '"' },
-        yank_commit = { action = "yank", field = "commit", reg = '"' },
       },
       layouts = {
         -- Custom layouts are adapted from the "telescope" preset and are heavily inspired by my old Telescope layouts
@@ -606,6 +540,7 @@ return {
           },
         },
       },
+      previewers = { diff = { style = "syntax" } },
       win = {
         input = {
           keys = {
@@ -647,14 +582,26 @@ return {
       filekey = { branch = false },
       win = {
         keys = {
+          ["delete"] = {
+            "<localleader>d",
+            function(self)
+              if vim.fn.confirm("Do you want to delete the scratch file definitely?", "&Yes\n&No") == 1 then
+                local fname = vim.api.nvim_buf_get_name(self.buf)
+                vim.cmd([[close]])
+                vim.fn.delete(fname)
+              end
+            end,
+            desc = "[D]elete file",
+          },
           ["expand"] = {
             "<localleader>e",
             function(self)
               vim.cmd([[close]])
               vim.api.nvim_set_current_buf(self.buf)
             end,
-            desc = "expand",
+            desc = "[E]xpand window",
           },
+          ["q"] = { "q", function() vim.cmd([[close]]) end, desc = "[Q]uit" },
           ["source"] = false, -- Prefer overseer.nvim to source files
         },
       },
@@ -671,7 +618,19 @@ return {
 
     styles = {
       notification = { wo = { wrap = true } }, -- Avoid notification truncation
-      notification_history = { wo = { number = false, relativenumber = false, signcolumn = "yes" } },
+      notification_history = {
+        wo = { number = false, relativenumber = false, signcolumn = "yes" },
+        keys = {
+          ["expand"] = {
+            "<localleader>e",
+            function(self)
+              vim.cmd([[close]])
+              vim.api.nvim_set_current_buf(self.buf)
+            end,
+            desc = "[E]xpand window",
+          },
+        },
+      },
     },
   },
   config = function(_, opts)
