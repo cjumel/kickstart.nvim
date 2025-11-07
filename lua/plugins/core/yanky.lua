@@ -17,7 +17,7 @@ return {
         Snacks.picker.yanky({ ---@diagnostic disable-line: undefined-field
           layout = { preset = "telescope_horizontal" },
           sort = { fields = { "score:desc", "idx" } }, -- Don't sort by item length to preserve recency order
-          win = { input = { keys = { ["<CR>"] = { "set_default_register", mode = "i" } } } },
+          confirm = "set_default_register",
         })
       end,
       desc = "[F]ind: [Y]ank history",
@@ -29,7 +29,6 @@ return {
       storage = "sqlite", -- More stable than "shada"
       update_register_on_cycle = true,
     },
-    system_clipboard = { sync_with_ring = false },
-    highlight = { timer = 250 },
+    highlight = { timer = 200 },
   },
 }
