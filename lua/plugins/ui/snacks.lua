@@ -48,28 +48,7 @@ return {
           on_show = function(picker) picker.list.cursor = 2 end,
           sort = { fields = { "score:desc", "idx" } }, -- Don't sort by item length to preserve recency order
           layout = { preset = "telescope_dropdown" },
-          win = {
-            input = {
-              keys = {
-                ["<C-d>"] = { "bufdelete", mode = { "i" } },
-                ["<C-o>"] = { "bufdelete_older", mode = { "i" } },
-              },
-            },
-          },
-          actions = {
-            bufdelete_older = function(picker)
-              picker.preview:reset()
-              local current_idx = picker.list.cursor
-              for i = #picker.list.items, current_idx, -1 do
-                local item = picker.list.items[i]
-                if item.buf then
-                  Snacks.bufdelete.delete(item.buf)
-                end
-              end
-              picker:refresh()
-              picker.list.cursor = current_idx - 1
-            end,
-          },
+          win = { input = { keys = { ["<C-d>"] = { "bufdelete", mode = { "i" } } } } },
         })
       end,
       desc = "Buffer switcher",
@@ -112,11 +91,23 @@ return {
       function()
         Snacks.picker.recent({
           title = "Recent Files",
+          filter = { cwd = true },
           sort = { fields = { "score:desc", "idx" } }, -- Don't sort by item length to preserve history order
           layout = { preset = "telescope_horizontal" },
         })
       end,
       desc = "[F]ind: [R]ecent files",
+    },
+    {
+      "<leader>fa",
+      function()
+        Snacks.picker.recent({
+          title = "All recent Files",
+          sort = { fields = { "score:desc", "idx" } }, -- Don't sort by item length to preserve history order
+          layout = { preset = "telescope_horizontal" },
+        })
+      end,
+      desc = "[F]ind: [A]ll recent files",
     },
     {
       "<leader>fd",
