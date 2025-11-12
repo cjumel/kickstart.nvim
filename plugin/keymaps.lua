@@ -414,37 +414,11 @@ vim.keymap.set({ "i", "c" }, "<C-y>", accept_completion, { desc = "Accept comple
 vim.keymap.set({ "i", "c" }, "<C-n>", next_completion, { desc = "Next completion" })
 vim.keymap.set({ "i", "c" }, "<C-p>", prev_completion, { desc = "Previous completion" })
 
--- Navigation and ghost text completion keymaps (zsh-autosuggestions style)
-local function tab_improved()
-  local copilot_suggestion = package.loaded["copilot.suggestion"]
-  if copilot_suggestion ~= nil and copilot_suggestion.is_visible() then
-    copilot_suggestion.accept()
-  else
-    vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Tab>", true, false, true), "n", false)
-  end
-end
-local function c_right_improved()
-  local copilot_suggestion = package.loaded["copilot.suggestion"]
-  if vim.fn.mode() == "i" and copilot_suggestion ~= nil and copilot_suggestion.is_visible() then
-    copilot_suggestion.accept_word()
-  else
-    vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<C-Right>", true, false, true), "n", false)
-  end
-end
-local function end_improved()
-  local copilot_suggestion = package.loaded["copilot.suggestion"]
-  if vim.fn.mode() == "i" and copilot_suggestion ~= nil and copilot_suggestion.is_visible() then
-    copilot_suggestion.accept_line()
-  else
-    vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<End>", true, false, true), "n", false)
-  end
-end
-vim.keymap.set("i", "<Tab>", tab_improved, { desc = "Accept Copilot suggestion or insert Tab" })
 vim.keymap.set({ "i", "c" }, "<C-f>", "<Right>", { desc = "Move cursor one character right" })
 vim.keymap.set({ "i", "c" }, "<C-b>", "<Left>", { desc = "Move cursor one character left" })
-vim.keymap.set({ "i", "c" }, "<M-f>", c_right_improved, { desc = "Move cursor to next word" })
+vim.keymap.set({ "i", "c" }, "<M-f>", "<C-Right>", { desc = "Move cursor to next word" })
 vim.keymap.set({ "i", "c" }, "<M-b>", "<C-Left>", { desc = "Move cursor to previous word" })
-vim.keymap.set({ "i", "c" }, "<C-e>", end_improved, { desc = "Move cursor to end of line" })
+vim.keymap.set({ "i", "c" }, "<C-e>", "<End>", { desc = "Move cursor to end of line" })
 vim.keymap.set({ "i", "c" }, "<C-a>", "<Home>", { desc = "Move cursor to beginning of line" })
 
 local function clear_insert_and_commandline_modes()
@@ -454,11 +428,6 @@ local function clear_insert_and_commandline_modes()
     return
   end
   if vim.fn.mode() == "i" then
-    local copilot_suggestion = package.loaded["copilot.suggestion"]
-    if copilot_suggestion ~= nil and copilot_suggestion.is_visible() then
-      copilot_suggestion.dismiss()
-      return
-    end
     local noice = package.loaded.noice
     noice.cmd("dismiss") -- Especially useful for LSP signature; would also dismiss Noice's command line
   end
