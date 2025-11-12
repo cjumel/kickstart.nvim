@@ -1,7 +1,7 @@
 return {
   "rose-pine/neovim",
   name = "rose-pine",
-  cond = MetaConfig.enable_all_plugins or ThemeConfig.rose_pine_enabled or false,
+  cond = vim.env["NVIM_ENABLE_ALL_PLUGINS"] or ThemeConfig.rose_pine_enabled or false,
   priority = 1000, -- Main UI stuff should be loaded first
   opts = {
     variant = ThemeConfig.rose_pine_style or "main",

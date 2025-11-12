@@ -1,6 +1,6 @@
 return {
   "folke/tokyonight.nvim",
-  cond = MetaConfig.enable_all_plugins or ThemeConfig.tokyonight_enabled or false,
+  cond = vim.env["NVIM_ENABLE_ALL_PLUGINS"] or ThemeConfig.tokyonight_enabled or false,
   priority = 1000, -- Main UI stuff should be loaded first
   opts = {
     style = ThemeConfig.tokyonight_style or "night",

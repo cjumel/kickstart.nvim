@@ -1,7 +1,7 @@
 return {
   "catppuccin/nvim",
   name = "catppuccin",
-  cond = MetaConfig.enable_all_plugins or ThemeConfig.catppuccin_enabled or false,
+  cond = vim.env["NVIM_ENABLE_ALL_PLUGINS"] or ThemeConfig.catppuccin_enabled or false,
   priority = 1000, -- Main UI stuff should be loaded first
   opts = {
     flavour = ThemeConfig.catppuccin_style or "mocha",
