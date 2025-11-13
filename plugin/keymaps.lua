@@ -5,7 +5,6 @@ vim.keymap.set("n", "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = tr
 vim.keymap.set("n", "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
 
 -- Remap gg/G to go to buffer beginning/end instead of first/last line
--- This is not necessary in operator-pending mode, and it creates issues with plugins like substitute.nvim
 vim.keymap.set({ "n", "x" }, "gg", "gg0", { desc = "Beginning buffer" })
 vim.keymap.set({ "n", "x" }, "G", "G$", { desc = "End of buffer" })
 
@@ -38,16 +37,7 @@ vim.keymap.set("n", "dd", smart_dd, { desc = "Line", expr = true, noremap = true
 vim.keymap.set({ "n", "v" }, "<C-y>", "3<C-y>", { desc = "Scroll up a few lines" })
 vim.keymap.set({ "n", "v" }, "<C-e>", "3<C-e>", { desc = "Scroll down a few lines" })
 
--- Remap arrow keys to scrolling (convenient to use only one hand to browse a file)
-vim.keymap.set("n", "<Left>", "<C-u>", { desc = "Scroll up half a sreen" })
-vim.keymap.set("n", "<Right>", "<C-d>", { desc = "Scroll down half a sreen" })
-vim.keymap.set("n", "<Up>", "3<C-y>", { desc = "Scroll up a few lines" })
-vim.keymap.set("n", "<Down>", "3<C-e>", { desc = "Scroll down a few lines" })
-
--- [[ General keymaps ]]
-
-vim.keymap.set({ "n", "x", "o" }, "<C-^>", "}", { desc = "Next paragraph" }) -- <C-,>
-vim.keymap.set({ "n", "x", "o" }, "<C-_>", "{", { desc = "Previous paragraph" }) -- <C-;>
+-- [[ Normal mode keymaps ]]
 
 vim.keymap.set("n", "gp", vim.diagnostic.open_float, { desc = "Preview diagnostics" })
 vim.keymap.set("n", "gl", vim.diagnostic.reset, { desc = "Reload diagnostics" })
@@ -92,17 +82,7 @@ local function send_to_clipboard()
   end
   vim.notify(message, vim.log.levels.INFO, { title = "Yank" })
 end
-local function toggle_sync_with_clipboard()
-  if not vim.tbl_contains(vim.opt.clipboard, "unnamedplus") then
-    vim.opt.clipboard:append("unnamedplus")
-    vim.notify("Register and clipboard sync enabled")
-  else
-    vim.opt.clipboard:remove("unnamedplus")
-    vim.notify("Register and clipboard sync disabled")
-  end
-end
 vim.keymap.set("n", "gy", send_to_clipboard, { desc = "Send yanked to clipboard" })
-vim.keymap.set("n", 'g"', toggle_sync_with_clipboard, { desc = "Toggle register and clipboard sync" })
 
 local function yank_file_path(mods)
   local path = nil
@@ -169,84 +149,6 @@ local function yank_all_buffer_contents()
 end
 vim.keymap.set("n", "<leader>yb", yank_buffer_content, { desc = "[Y]ank: [B]uffer content" })
 vim.keymap.set("n", "<leader>ya", yank_all_buffer_contents, { desc = "[Y]ank: [A]ll buffer contents" })
-
----@param mode string
----@return string
-local function get_browser_search_text(mode)
-  local lines = {}
-  if mode == "v" or mode == "V" or mode == "\22" then -- Visual, visual line, or visual block mode
-    local _, srow, scol = unpack(vim.fn.getpos("v"))
-    local _, erow, ecol = unpack(vim.fn.getpos("."))
-    if mode == "v" then
-      if srow < erow or (srow == erow and scol <= ecol) then
-        lines = vim.api.nvim_buf_get_text(0, srow - 1, scol - 1, erow - 1, ecol, {})
-      else
-        lines = vim.api.nvim_buf_get_text(0, erow - 1, ecol - 1, srow - 1, scol, {})
-      end
-    elseif mode == "V" then
-      if srow > erow then
-        lines = vim.api.nvim_buf_get_lines(0, erow - 1, srow, true)
-      else
-        lines = vim.api.nvim_buf_get_lines(0, srow - 1, erow, true)
-      end
-    elseif mode == "\22" then
-      if srow > erow then
-        srow, erow = erow, srow
-      end
-      if scol > ecol then
-        scol, ecol = ecol, scol
-      end
-      for i = srow, erow do
-        table.insert(
-          lines,
-          vim.api.nvim_buf_get_text(0, i - 1, math.min(scol - 1, ecol), i - 1, math.max(scol - 1, ecol), {})[1]
-        )
-      end
-    end
-  elseif mode == "operator" then
-    local _, srow, scol = unpack(vim.fn.getpos("'["))
-    local _, erow, ecol = unpack(vim.fn.getpos("']"))
-    lines = vim.api.nvim_buf_get_text(0, srow - 1, scol - 1, erow - 1, ecol, {})
-  end
-  local trimmed_lines = {}
-  for _, line in ipairs(lines) do
-    line = line:gsub("^%s+", ""):gsub("%s+$", "")
-    table.insert(trimmed_lines, line)
-  end
-  return table.concat(trimmed_lines, " ")
-end
-
----@param text string
----@return nil
-local function browser_search(text)
-  vim.ui.input({ prompt = "Web search", default = text }, function(input)
-    if input == nil or input == "" then
-      return
-    end
-    -- Replace white spaces in the search text with "+" to form a valid search URL
-    local tokens = {}
-    for token in string.gmatch(input, "%S+") do
-      table.insert(tokens, token)
-    end
-    local search_text = table.concat(tokens, "+")
-    vim.ui.open("https://www.google.com/search?q=" .. search_text)
-  end)
-end
-
--- Global function called after operator motion
-function _G.browser_search_operator()
-  local text = get_browser_search_text("operator")
-  browser_search(text)
-end
-
-vim.keymap.set("n", "gb", function()
-  vim.o.operatorfunc = "v:lua.browser_search_operator"
-  return "g@"
-end, { desc = "Search in Web browser", expr = true })
-vim.keymap.set("v", "gb", function()
-  local text = get_browser_search_text(vim.fn.mode())
-  browser_search(text)
-end, { desc = "Search in Web browser" })
 
 -- [[ Navigation keymaps ]]
 
@@ -317,15 +219,13 @@ keymap.set_pair("`", next_mark, prev_mark, "mark")
 
 local function next_hunk()
   require("gitsigns").nav_hunk(
-    ---@diagnostic disable-next-line: param-type-mismatch
-    "next",
+    "next", ---@diagnostic disable-line: param-type-mismatch
     { target = vim.g.gitsigns_all_hunk_navigation and "all" or nil }
   )
 end
 local function prev_hunk()
   require("gitsigns").nav_hunk(
-    ---@diagnostic disable-next-line: param-type-mismatch
-    "prev",
+    "prev", ---@diagnostic disable-line: param-type-mismatch
     { target = vim.g.gitsigns_all_hunk_navigation and "all" or nil }
   )
 end
@@ -363,26 +263,10 @@ local function next_conflict() require("git-conflict").find_next("ours") end
 local function prev_conflict() require("git-conflict").find_prev("ours") end
 keymap.set_pair("x", next_conflict, prev_conflict, "conflict")
 
-vim.keymap.del("n", "]a")
-vim.keymap.del("n", "[a")
-vim.keymap.del("n", "]A")
-vim.keymap.del("n", "[A")
-vim.keymap.del("n", "]b")
-vim.keymap.del("n", "[b")
-vim.keymap.del("n", "]B")
-vim.keymap.del("n", "[B")
-vim.keymap.del("n", "[D")
-vim.keymap.del("n", "]D")
-vim.keymap.del("n", "[L")
-vim.keymap.del("n", "]L")
-vim.keymap.del("n", "[Q")
-vim.keymap.del("n", "]Q")
-vim.keymap.del("n", "[<C-l>")
-vim.keymap.del("n", "]<C-l>")
-vim.keymap.del("n", "[<C-q>")
-vim.keymap.del("n", "]<C-q>")
-vim.keymap.del("n", "[<C-t>")
-vim.keymap.del("n", "]<C-t>")
+for _, key in ipairs({ "a", "A", "b", "B", "D", "L", "Q", "T", "<C-l>", "<C-q>", "<C-t>" }) do
+  vim.keymap.del("n", "]" .. key)
+  vim.keymap.del("n", "[" .. key)
+end
 
 -- [[ Insert and command-line keymaps ]]
 
