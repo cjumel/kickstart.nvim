@@ -215,7 +215,30 @@ return {
       function()
         Snacks.picker.git_status({
           layout = { preset = "telescope_horizontal" },
-          win = { input = { keys = { ["<Tab>"] = { "list_down", mode = "i" } } } }, -- Avoid picker-specific remapping
+          only_unstaged = false,
+          only_conflicts = false,
+          toggles = {
+            only_unstaged = "u",
+            only_conflicts = "c",
+          },
+          transform = function(item, ctx)
+            local opts = ctx.picker.opts or {}
+            if opts.only_unstaged then ---@diagnostic disable-line: undefined-field
+              return vim.tbl_contains({ " M" }, item.status)
+            elseif opts.only_conflicts then ---@diagnostic disable-line: undefined-field
+              return vim.tbl_contains({ "UU", "??" }, item.status)
+            end
+            return true
+          end,
+          win = {
+            input = {
+              keys = {
+                ["<Tab>"] = { "list_down", mode = "i" }, -- Avoid picker-specific remapping
+                ["<M-u>"] = { "toggle_only_unstaged", mode = "i" },
+                ["<M-c>"] = { "toggle_only_conflicts", mode = "i" },
+              },
+            },
+          },
         })
       end,
       desc = "[G]it: status",
