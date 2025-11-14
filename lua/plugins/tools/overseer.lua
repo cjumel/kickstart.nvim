@@ -1,5 +1,6 @@
 return {
   "stevearc/overseer.nvim",
+  tag = "v1.6.0", -- TODO: remove constraint when new version is out
   keys = {
     {
       "<leader>ee",
