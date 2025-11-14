@@ -261,7 +261,7 @@ keymap.set_pair("p", next_private_todo_comment, prev_private_todo_comment, "priv
 
 local function next_conflict() require("git-conflict").find_next("ours") end
 local function prev_conflict() require("git-conflict").find_prev("ours") end
-keymap.set_pair("x", next_conflict, prev_conflict, "conflict")
+keymap.set_pair("<C-c>", next_conflict, prev_conflict, "conflict")
 
 for _, key in ipairs({ "a", "A", "b", "B", "D", "L", "Q", "T", "<C-l>", "<C-q>", "<C-t>" }) do
   vim.keymap.del("n", "]" .. key)
