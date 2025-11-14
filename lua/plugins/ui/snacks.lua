@@ -94,20 +94,21 @@ return {
           filter = { cwd = true },
           sort = { fields = { "score:desc", "idx" } }, -- Don't sort by item length to preserve history order
           layout = { preset = "telescope_horizontal" },
+          only_cwd = true,
+          toggles = { only_cwd = "c" },
+          actions = {
+            toggle_only_cwd_custom = function(picker)
+              local opts = picker.opts or {}
+              opts.filter = opts.filter or {}
+              opts.filter.cwd = not opts.filter.cwd
+              opts.only_cwd = not opts.only_cwd ---@diagnostic disable-line: inject-field
+              picker:find()
+            end,
+          },
+          win = { input = { keys = { ["<M-c>"] = { "toggle_only_cwd_custom", mode = "i" } } } },
         })
       end,
       desc = "[F]ind: [R]ecent files",
-    },
-    {
-      "<leader>fa",
-      function()
-        Snacks.picker.recent({
-          title = "All recent Files",
-          sort = { fields = { "score:desc", "idx" } }, -- Don't sort by item length to preserve history order
-          layout = { preset = "telescope_horizontal" },
-        })
-      end,
-      desc = "[F]ind: [A]ll recent files",
     },
     {
       "<leader>fd",
@@ -164,7 +165,7 @@ return {
           layout = { preset = "telescope_horizontal" },
         })
       end,
-      desc = "[F]ind: [S]ymbols (workspace) ",
+      desc = "[F]ind: [S]ymbols (workspace)",
     },
     {
       "<leader>fu",
@@ -215,27 +216,59 @@ return {
       function()
         Snacks.picker.git_status({
           layout = { preset = "telescope_horizontal" },
+          only_staged = false,
           only_unstaged = false,
           only_conflicts = false,
           toggles = {
+            only_staged = "s",
             only_unstaged = "u",
             only_conflicts = "c",
           },
           transform = function(item, ctx)
             local opts = ctx.picker.opts or {}
-            if opts.only_unstaged then ---@diagnostic disable-line: undefined-field
-              return vim.tbl_contains({ " M" }, item.status)
-            elseif opts.only_conflicts then ---@diagnostic disable-line: undefined-field
+            local only_staged, only_unstaged, only_conflicts = opts.only_staged, opts.only_unstaged, opts.only_conflicts ---@diagnostic disable-line: undefined-field
+            if only_staged and not only_unstaged and not only_conflicts then
+              return vim.tbl_contains({ "M ", "MM" }, item.status)
+            elseif not only_staged and only_unstaged and not only_conflicts then
+              return vim.tbl_contains({ " M", "MM" }, item.status)
+            elseif not only_staged and not only_unstaged and only_conflicts then
               return vim.tbl_contains({ "UU", "??" }, item.status)
+            elseif not only_staged and not only_unstaged and not only_conflicts then
+              return true
+            else
+              error("Invalid combination of only_staged, only_unstaged, and only_conflicts")
             end
-            return true
           end,
+          actions = {
+            toggle_only_staged_custom = function(picker)
+              local opts = picker.opts or {}
+              opts.only_staged = not opts.only_staged ---@diagnostic disable-line: inject-field
+              opts.only_unstaged = false ---@diagnostic disable-line: inject-field
+              opts.only_conflicts = false ---@diagnostic disable-line: inject-field
+              picker:find()
+            end,
+            toggle_only_unstaged_custom = function(picker)
+              local opts = picker.opts or {}
+              opts.only_staged = false ---@diagnostic disable-line: inject-field
+              opts.only_unstaged = not opts.only_unstaged ---@diagnostic disable-line: inject-field
+              opts.only_conflicts = false ---@diagnostic disable-line: inject-field
+              picker:find()
+            end,
+            toggle_only_conflicts_custom = function(picker)
+              local opts = picker.opts or {}
+              opts.only_staged = false ---@diagnostic disable-line: inject-field
+              opts.only_unstaged = false ---@diagnostic disable-line: inject-field
+              opts.only_conflicts = not opts.only_conflicts ---@diagnostic disable-line: inject-field
+              picker:find()
+            end,
+          },
           win = {
             input = {
               keys = {
                 ["<Tab>"] = { "list_down", mode = "i" }, -- Avoid picker-specific remapping
-                ["<M-u>"] = { "toggle_only_unstaged", mode = "i" },
-                ["<M-c>"] = { "toggle_only_conflicts", mode = "i" },
+                ["<M-s>"] = { "toggle_only_staged_custom", mode = "i" },
+                ["<M-u>"] = { "toggle_only_unstaged_custom", mode = "i" },
+                ["<M-c>"] = { "toggle_only_conflicts_custom", mode = "i" },
               },
             },
           },
@@ -574,6 +607,7 @@ return {
             ["<M-p>"] = { "toggle_preview", mode = "i" },
             ["<M-h>"] = { "toggle_hidden", mode = "i" },
             ["<M-i>"] = { "toggle_ignored", mode = "i" },
+            ["<M-r>"] = { "toggle_regex", mode = "i" },
             ["<C-b>"] = false,
             ["<C-f>"] = false,
             ["<C-a>"] = false,
