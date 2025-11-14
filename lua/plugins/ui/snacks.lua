@@ -82,6 +82,7 @@ return {
           layout = { preset = "telescope_horizontal" },
           show_empty = true, -- In case everything is hidden or ignored
           cwd = vim.bo.filetype == "oil" and require("oil").get_current_dir() or nil,
+          only_directory = vim.bo.filetype == "oil",
         })
       end,
       desc = "[F]ind: [F]iles",
@@ -118,6 +119,7 @@ return {
           layout = { preset = "telescope_horizontal" },
           show_empty = true, -- In case everything is hidden or ignored
           cwd = vim.bo.filetype == "oil" and require("oil").get_current_dir() or nil,
+          only_directory = vim.bo.filetype == "oil",
         })
       end,
       desc = "[F]ind: [D]irectories",
@@ -129,6 +131,7 @@ return {
           title = "Grep",
           layout = { preset = "telescope_vertical" },
           cwd = vim.bo.filetype == "oil" and require("oil").get_current_dir() or nil,
+          only_directory = vim.bo.filetype == "oil",
         })
       end,
       desc = "[F]ind: [G]rep",
@@ -141,6 +144,7 @@ return {
           layout = { preset = "telescope_vertical" },
           show_empty = true, -- In case everything is hidden or ignored
           cwd = vim.bo.filetype == "oil" and require("oil").get_current_dir() or nil,
+          only_directory = vim.bo.filetype == "oil",
         })
       end,
       mode = "x",
@@ -479,6 +483,9 @@ return {
 
     picker = {
       enabled = true, -- Use Snacks picker for vim.ui.select
+      toggles = {
+        only_directory = "d",
+      },
       sources = {
         directories = {
           finder = function(opts, ctx)
@@ -493,7 +500,7 @@ return {
             opts.args = args
             local cwd = opts.cwd or vim.fn.getcwd()
             opts.transform = function(item)
-              item.file = vim.fn.fnamemodify(cwd .. "/" .. item.text, ":p")
+              item.file = vim.fn.fnamemodify(cwd .. "/" .. item.text, ":.")
               item.dir = true
             end
             return require("snacks.picker.source.proc").proc(opts, ctx)
@@ -501,6 +508,14 @@ return {
         },
       },
       actions = {
+        disable_only_directory = function(picker)
+          local opts = picker.opts or {}
+          if opts.only_directory then
+            opts.only_directory = false
+            picker:set_cwd(vim.fn.getcwd())
+          end
+          picker:find()
+        end,
         -- Action adatped from https://github.com/folke/snacks.nvim/blob/main/lua/snacks/picker/actions.lua#L447-L447
         qflist_trouble = function(picker)
           picker:close()
@@ -608,6 +623,7 @@ return {
             ["<M-h>"] = { "toggle_hidden", mode = "i" },
             ["<M-i>"] = { "toggle_ignored", mode = "i" },
             ["<M-r>"] = { "toggle_regex", mode = "i" },
+            ["<M-d>"] = { "disable_only_directory", mode = "i" },
             ["<C-b>"] = false,
             ["<C-f>"] = false,
             ["<C-a>"] = false,
