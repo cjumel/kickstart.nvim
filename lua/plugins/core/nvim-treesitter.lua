@@ -1,3 +1,4 @@
+-- TODO: change to main branch
 return {
   "nvim-treesitter/nvim-treesitter",
   branch = "master",
