@@ -1,11 +1,8 @@
 -- Available global options:
+-- vim.g.enable_gh_copilot_plugins = true
 -- vim.g.disable_deprecation_warnings = true
 
 return {
-
-  -- Set `enable_copilot_plugins` to true to enable the GitHub Copilot related plugins. This will however require an
-  -- active GitHub Copilot subscription, otherwise a warning message will be spammed.
-  enable_copilot_plugins = false,
 
   -- Set `formatters_by_ft` to a mapping between filetypes and tables of formatters to enable in the given order.
   -- Introducing a new formatter will likely require to install it with Mason.nvim, which can be done by calling the

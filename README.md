@@ -145,9 +145,8 @@ Optionally, you can also setup the GitHub Copilot plugin if you have a valid sub
 create a `lua/config/meta/global.lua` file with the following content:
 
 ```lua
-return {
-  enable_copilot_plugins = true,
-}
+vim.g.enable_gh_copilot_plugins = true
+return {}
 ```
 
 Then re-open Neovim and run the `Copilot auth` command to authenticate with GitHub.

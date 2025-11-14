@@ -15,7 +15,7 @@ return {
       },
     },
     should_attach = function(_, _)
-      if not MetaConfig.enable_copilot_plugins then
+      if not vim.g.enable_gh_copilot_plugins then
         return false
       end
       if not vim.bo.buflisted then
