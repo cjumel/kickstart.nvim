@@ -46,6 +46,9 @@ vim.diagnostic.config({
   },
   virtual_text = true,
 })
+if vim.g.disable_deprecation_warnings then
+  vim.deprecate = function() end ---@diagnostic disable-line: duplicate-set-field
+end
 
 -- Theme-specific options
 if ThemeConfig.options_callback then

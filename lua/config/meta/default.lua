@@ -1,3 +1,6 @@
+-- Available global options:
+-- vim.g.disable_deprecation_warnings = true
+
 return {
 
   -- Set `enable_copilot_plugins` to true to enable the GitHub Copilot related plugins. This will however require an
