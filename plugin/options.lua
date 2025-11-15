@@ -46,6 +46,7 @@ vim.diagnostic.config({
   },
   virtual_text = true,
 })
+-- NOTE: disable deprecation warnings by setting `vim.g.disable_deprecation_warnings = true` somewhere in your config
 if vim.g.disable_deprecation_warnings then
   vim.deprecate = function() end ---@diagnostic disable-line: duplicate-set-field
 end

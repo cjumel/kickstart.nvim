@@ -1,7 +1,3 @@
--- Available global options:
--- vim.g.enable_gh_copilot_plugins = true
--- vim.g.disable_deprecation_warnings = true
-
 return {
 
   -- Set `formatters_by_ft` to a mapping between filetypes and tables of formatters to enable in the given order.
