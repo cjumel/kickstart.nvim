@@ -1,3 +1,5 @@
+-- TODO: show_condition calls have been commented out since they don't work well currently with blink.cmp
+
 local conds = require("config.snippets.conditions")
 local ls = require("luasnip")
 local ls_conds = require("luasnip.extras.conditions")
@@ -106,111 +108,111 @@ local rust_config_files = { "Cargo.toml" }
 return {
   s({
     trig = ".json",
-    show_condition = -dot_prefix_condition * -conds.line_begin * conds.line_end * make_filetype_condition("json"),
+    -- show_condition = -dot_prefix_condition * -conds.line_begin * conds.line_end * make_filetype_condition("json"),
   }, { t(".json") }),
 
   s({
     trig = ".lua",
-    show_condition = -dot_prefix_condition * -conds.line_begin * conds.line_end * make_filetype_condition(
-      "lua",
-      lua_config_files
-    ),
+    -- show_condition = -dot_prefix_condition * -conds.line_begin * conds.line_end * make_filetype_condition(
+    --   "lua",
+    --   lua_config_files
+    -- ),
   }, { t(".lua") }),
   s({
     trig = ".nvim.lua",
-    show_condition = dot_prefix_condition * conds.line_end * make_filename_condition(".nvim.lua"),
+    -- show_condition = dot_prefix_condition * conds.line_end * make_filename_condition(".nvim.lua"),
   }, { t(".nvim.lua") }),
   s({
     trig = "init.lua",
-    show_condition = conds.line_begin
-      * conds.line_end
-      * make_filetype_condition("lua", lua_config_files)
-      * make_filename_condition("init.lua"),
+    -- show_condition = conds.line_begin
+    --   * conds.line_end
+    --   * make_filetype_condition("lua", lua_config_files)
+    --   * make_filename_condition("init.lua"),
   }, { t("init.lua") }),
   s({
     trig = "temp.lua",
-    show_condition = conds.line_begin * conds.line_end * make_filetype_condition("lua", lua_config_files),
+    -- show_condition = conds.line_begin * conds.line_end * make_filetype_condition("lua", lua_config_files),
   }, { t("temp"), d(1, make_dynamic_file_index_node("temp", ".lua")), t(".lua") }),
 
   s({
     trig = ".md",
-    show_condition = -dot_prefix_condition * -conds.line_begin * conds.line_end,
+    -- show_condition = -dot_prefix_condition * -conds.line_begin * conds.line_end,
   }, { t(".md") }),
   s({
     trig = "notes-<date>.md",
-    show_condition = conds.line_begin * conds.line_end,
+    -- show_condition = conds.line_begin * conds.line_end,
   }, { t("notes"), d(1, make_dynamic_file_date_node("notes", ".md")), t(".md") }),
   s({
     trig = "README.md",
-    show_condition = conds.line_begin * conds.line_end * make_filename_condition("README.md"),
+    -- show_condition = conds.line_begin * conds.line_end * make_filename_condition("README.md"),
   }, { t("README.md") }),
   s({
     trig = "TODO.md",
-    show_condition = conds.line_begin * conds.line_end * make_filename_condition("TODO.md"),
+    -- show_condition = conds.line_begin * conds.line_end * make_filename_condition("TODO.md"),
   }, { t("TODO.md") }),
 
   s({
     trig = ".py",
-    show_condition = -dot_prefix_condition * -conds.line_begin * conds.line_end * make_filetype_condition(
-      "py",
-      python_config_files
-    ),
+    -- show_condition = -dot_prefix_condition * -conds.line_begin * conds.line_end * make_filetype_condition(
+    --   "py",
+    --   python_config_files
+    -- ),
   }, { t(".py") }),
   s({
     trig = "__init__.py",
-    show_condition = conds.make_prefix_condition("_") -- The snippet is triggered after the first "_"
-      * conds.line_end
-      * make_filetype_condition("py", python_config_files)
-      * make_filename_condition("__init__.py"),
+    -- show_condition = conds.make_prefix_condition("_") -- The snippet is triggered after the first "_"
+    --   * conds.line_end
+    --   * make_filetype_condition("py", python_config_files)
+    --   * make_filename_condition("__init__.py"),
   }, { t("__init__.py") }),
   s({
     trig = "temp.py",
-    show_condition = conds.line_begin * conds.line_end * make_filetype_condition("py", python_config_files),
+    -- show_condition = conds.line_begin * conds.line_end * make_filetype_condition("py", python_config_files),
   }, { t("temp"), d(1, make_dynamic_file_index_node("temp", ".py")), t(".py") }),
 
   s({
     trig = ".rs",
-    show_condition = -dot_prefix_condition * -conds.line_begin * conds.line_end * make_filetype_condition(
-      "rs",
-      rust_config_files
-    ),
+    -- show_condition = -dot_prefix_condition * -conds.line_begin * conds.line_end * make_filetype_condition(
+    --   "rs",
+    --   rust_config_files
+    -- ),
   }, { t(".rs") }),
   s({
     trig = "temp.rs",
-    show_condition = conds.line_begin * conds.line_end * make_filetype_condition("rs", rust_config_files),
+    -- show_condition = conds.line_begin * conds.line_end * make_filetype_condition("rs", rust_config_files),
   }, { t("temp"), d(1, make_dynamic_file_index_node("temp", ".rs")), t(".rs") }),
 
   s({
     trig = ".sh",
-    show_condition = -dot_prefix_condition * -conds.line_begin * conds.line_end * make_filetype_condition("sh"),
+    -- show_condition = -dot_prefix_condition * -conds.line_begin * conds.line_end * make_filetype_condition("sh"),
   }, { t(".sh") }),
 
   s({
     trig = ".toml",
-    show_condition = -dot_prefix_condition * -conds.line_begin * conds.line_end * make_filetype_condition("toml"),
+    -- show_condition = -dot_prefix_condition * -conds.line_begin * conds.line_end * make_filetype_condition("toml"),
   }, { t(".toml") }),
 
   s({
     trig = ".txt",
-    show_condition = -dot_prefix_condition * -conds.line_begin * conds.line_end * make_filetype_condition("txt"),
+    -- show_condition = -dot_prefix_condition * -conds.line_begin * conds.line_end * make_filetype_condition("txt"),
   }, { t(".txt") }),
 
   s({
     trig = ".typ",
-    show_condition = -dot_prefix_condition * -conds.line_begin * conds.line_end * make_filetype_condition("typ"),
+    -- show_condition = -dot_prefix_condition * -conds.line_begin * conds.line_end * make_filetype_condition("typ"),
   }, { t(".typ") }),
 
   s({
     trig = ".yaml",
-    show_condition = -dot_prefix_condition * -conds.line_begin * conds.line_end * make_filetype_condition("yaml"),
+    -- show_condition = -dot_prefix_condition * -conds.line_begin * conds.line_end * make_filetype_condition("yaml"),
   }, { t(".yaml") }),
   s({
     trig = ".yml",
-    show_condition = -dot_prefix_condition * -conds.line_begin * conds.line_end * make_filetype_condition("yml"),
+    -- show_condition = -dot_prefix_condition * -conds.line_begin * conds.line_end * make_filetype_condition("yml"),
   }, { t(".yml") }),
 
   s({
     trig = ".zsh",
-    show_condition = -dot_prefix_condition * -conds.line_begin * conds.line_end * make_filetype_condition("zsh"),
+    -- show_condition = -dot_prefix_condition * -conds.line_begin * conds.line_end * make_filetype_condition("zsh"),
   }, { t(".zsh") }),
 }

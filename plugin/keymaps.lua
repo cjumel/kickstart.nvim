@@ -273,50 +273,12 @@ end
 vim.keymap.set({ "i", "c" }, "<C-w>", "<C-S-w>", { desc = "Delete word" }) -- Make it work also in special buffers
 vim.keymap.set({ "i", "c" }, "<C-r><C-r>", '<C-r>"', { desc = "Paste from main register" })
 
--- Regular completion keymaps
-local function accept_completion()
-  local cmp = package.loaded.cmp
-  cmp.confirm({ select = true })
-end
-local function next_completion()
-  local cmp = package.loaded.cmp
-  if cmp.visible() then
-    cmp.select_next_item()
-  else
-    cmp.complete()
-  end
-end
-local function prev_completion()
-  local cmp = package.loaded.cmp
-  if cmp.visible() then
-    cmp.select_prev_item()
-  else
-    cmp.complete()
-  end
-end
-vim.keymap.set({ "i", "c" }, "<C-y>", accept_completion, { desc = "Accept completion" })
-vim.keymap.set({ "i", "c" }, "<C-n>", next_completion, { desc = "Next completion" })
-vim.keymap.set({ "i", "c" }, "<C-p>", prev_completion, { desc = "Previous completion" })
-
 vim.keymap.set({ "i", "c" }, "<C-f>", "<Right>", { desc = "Move cursor one character right" })
 vim.keymap.set({ "i", "c" }, "<C-b>", "<Left>", { desc = "Move cursor one character left" })
 vim.keymap.set({ "i", "c" }, "<M-f>", "<C-Right>", { desc = "Move cursor to next word" })
 vim.keymap.set({ "i", "c" }, "<M-b>", "<C-Left>", { desc = "Move cursor to previous word" })
 vim.keymap.set({ "i", "c" }, "<C-e>", "<End>", { desc = "Move cursor to end of line" })
 vim.keymap.set({ "i", "c" }, "<C-a>", "<Home>", { desc = "Move cursor to beginning of line" })
-
-local function clear_insert_and_commandline_modes()
-  local cmp = package.loaded.cmp
-  if cmp.visible() then
-    cmp.abort()
-    return
-  end
-  if vim.fn.mode() == "i" then
-    local noice = package.loaded.noice
-    noice.cmd("dismiss") -- Especially useful for LSP signature; would also dismiss Noice's command line
-  end
-end
-vim.keymap.set({ "i", "c" }, "<C-c>", clear_insert_and_commandline_modes, { desc = "Clear" })
 
 vim.keymap.set("c", "<Tab>", "<Nop>", { silent = true })
 vim.keymap.set("c", "<S-Tab>", "<Nop>", { silent = true })

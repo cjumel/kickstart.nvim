@@ -64,7 +64,6 @@ return {
   dependencies = {
     "mason-org/mason.nvim",
     "mason-org/mason-lspconfig.nvim",
-    "hrsh7th/cmp-nvim-lsp",
   },
   ft = vim.tbl_keys(servers_by_ft),
   init = function()
@@ -86,7 +85,7 @@ return {
         ---@param rhs string|function The right-hand side of the keymap.
         ---@param desc string The description of the keymap.
         local function map(mode, lhs, rhs, desc) vim.keymap.set(mode, lhs, rhs, { desc = desc, buffer = event.buf }) end
-        map({ "n", "i" }, "<C-s>", vim.lsp.buf.signature_help, "Signature help")
+        map("n", "<C-s>", vim.lsp.buf.signature_help, "Signature help") -- Insert-mode keymap is handled by blink.cmp
         map("n", "gd", "<cmd>Trouble lsp_definitions<CR>", "Go to definition")
         map("n", "grt", "<cmd>Trouble lsp_type_definitions<CR>", "LSP: type definition")
         map("n", "grd", "<cmd>Trouble lsp_declarations<CR>", "LSP: declaration")
@@ -97,13 +96,8 @@ return {
       end,
     })
 
-    local capabilities = vim.lsp.protocol.make_client_capabilities()
-    local cmp_capabilities = require("cmp_nvim_lsp").default_capabilities()
-    capabilities = vim.tbl_deep_extend("force", capabilities, cmp_capabilities)
-
     for _, servers in pairs(servers_by_ft) do
       for name, config in pairs(servers) do
-        config.capabilities = capabilities
         vim.lsp.config(name, config)
       end
     end

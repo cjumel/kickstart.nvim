@@ -1,3 +1,5 @@
+-- TODO: show_condition calls have been commented out since they don't work well currently with blink.cmp
+
 local conds = require("config.snippets.conditions")
 local ls = require("luasnip")
 local ls_conds = require("luasnip.extras.conditions")
@@ -162,7 +164,7 @@ end)
 local M = {
   s({
     trig = "todo-comment",
-    show_condition = todo_comment_show_condition,
+    -- show_condition = todo_comment_show_condition,
     desc = get_todo_keywords_description(),
   }, {
     f(get_comment_string_start),
@@ -171,7 +173,7 @@ local M = {
   }),
   s({
     trig = "note-comment",
-    show_condition = todo_comment_show_condition,
+    -- show_condition = todo_comment_show_condition,
     desc = get_note_keywords_description(),
   }, {
     f(get_comment_string_start),
@@ -180,14 +182,14 @@ local M = {
   }),
   s({
     trig = "todo-keyword",
-    show_condition = todo_keyword_show_condition,
+    -- show_condition = todo_keyword_show_condition,
     desc = get_todo_keywords_description(),
   }, {
     c(1, get_todo_keyword_snippet_choices()),
   }),
   s({
     trig = "note-keyword",
-    show_condition = todo_keyword_show_condition,
+    -- show_condition = todo_keyword_show_condition,
     desc = get_note_keywords_description(),
   }, {
     c(1, get_note_keyword_snippet_choices()),

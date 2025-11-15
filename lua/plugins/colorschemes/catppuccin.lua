@@ -9,6 +9,7 @@ return {
     float = { solid = true },
     default_integrations = false,
     integrations = {
+      blink_cmp = { style = "bordered" },
       gitsigns = true,
       grug_far = true,
       harpoon = true,
@@ -18,7 +19,6 @@ return {
       neogit = true,
       neotest = true,
       noice = true,
-      cmp = true,
       dap = true,
       dap_ui = true,
       nvim_surround = true,

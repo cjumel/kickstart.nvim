@@ -1,9 +1,6 @@
 return {
   "mfussenegger/nvim-dap",
-  dependencies = {
-    "rcarriga/nvim-dap-ui",
-    "rcarriga/cmp-dap",
-  },
+  dependencies = { "rcarriga/nvim-dap-ui" },
   keys = {
     { "<leader>dd", function() require("dapui").toggle() end, desc = "[D]ebug: toggle UI" },
     {

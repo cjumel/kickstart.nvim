@@ -1,3 +1,5 @@
+-- TODO: show_condition calls have been commented out since they don't work well currently with blink.cmp
+
 local conds = require("config.snippets.conditions")
 local ls = require("luasnip")
 
@@ -32,7 +34,7 @@ return {
 
   s({
     trig = "callout",
-    show_condition = conds.line_begin * conds.line_end,
+    -- show_condition = conds.line_begin * conds.line_end,
     desc = [[
 `> [! …]`
 `>`
@@ -44,37 +46,145 @@ return {
     i(2),
   }),
   -- List of callouts and symbols taken from https://github.com/MeanderingProgrammer/render-markdown.nvim/wiki/Callouts
-  s({ trig = "NOTE", desc = "󰋽 Note", show_condition = callout_condition }, { t("NOTE") }),
-  s({ trig = "TIP", desc = "󰌶 Tip", show_condition = callout_condition }, { t("TIP") }),
-  s({ trig = "IMPORTANT", desc = "󰅾 Important", show_condition = callout_condition }, { t("IMPORTANT") }),
-  s({ trig = "WARNING", desc = "󰀪 Warning", show_condition = callout_condition }, { t("WARNING") }),
-  s({ trig = "CAUTION", desc = "󰳦 Caution", show_condition = callout_condition }, { t("CAUTION") }),
-  s({ trig = "ABSTRACT", desc = "󰨸 Abstract", show_condition = callout_condition }, { t("ABSTRACT") }),
-  s({ trig = "SUMMARY", desc = "󰨸 Summary", show_condition = callout_condition }, { t("SUMMARY") }),
-  s({ trig = "TLDR", desc = "󰨸 Tldr", show_condition = callout_condition }, { t("TLDR") }),
-  s({ trig = "INFO", desc = "󰋽 Info", show_condition = callout_condition }, { t("INFO") }),
-  s({ trig = "TODO", desc = "󰗡 Todo", show_condition = callout_condition }, { t("TODO") }),
-  s({ trig = "HINT", desc = "󰌶 Hint", show_condition = callout_condition }, { t("HINT") }),
-  s({ trig = "SUCCESS", desc = "󰄬 Success", show_condition = callout_condition }, { t("SUCCESS") }),
-  s({ trig = "CHECK", desc = "󰄬 Check", show_condition = callout_condition }, { t("CHECK") }),
-  s({ trig = "DONE", desc = "󰄬 Done", show_condition = callout_condition }, { t("DONE") }),
-  s({ trig = "QUESTION", desc = "󰘥 Question", show_condition = callout_condition }, { t("QUESTION") }),
-  s({ trig = "HELP", desc = "󰘥 Help", show_condition = callout_condition }, { t("HELP") }),
-  s({ trig = "FAQ", desc = "󰘥 Faq", show_condition = callout_condition }, { t("FAQ") }),
-  s({ trig = "ATTENTION", desc = "󰀪 Attention", show_condition = callout_condition }, { t("ATTENTION") }),
-  s({ trig = "FAILURE", desc = "󰅖 Failure", show_condition = callout_condition }, { t("FAILURE") }),
-  s({ trig = "FAIL", desc = "󰅖 Fail", show_condition = callout_condition }, { t("FAIL") }),
-  s({ trig = "MISSING", desc = "󰅖 Missing", show_condition = callout_condition }, { t("MISSING") }),
-  s({ trig = "DANGER", desc = "󱐌 Danger", show_condition = callout_condition }, { t("DANGER") }),
-  s({ trig = "ERROR", desc = "󱐌 Error", show_condition = callout_condition }, { t("ERROR") }),
-  s({ trig = "BUG", desc = "󰨰 Bug", show_condition = callout_condition }, { t("BUG") }),
-  s({ trig = "EXAMPLE", desc = "󰉹 Example", show_condition = callout_condition }, { t("EXAMPLE") }),
-  s({ trig = "QUOTE", desc = "󱆨 Quote", show_condition = callout_condition }, { t("QUOTE") }),
-  s({ trig = "CITE", desc = "󱆨 Cite", show_condition = callout_condition }, { t("CITE") }),
+  s({
+    trig = "NOTE",
+    desc = "󰋽 Note",
+    -- show_condition = callout_condition,
+  }, { t("NOTE") }),
+  s({
+    trig = "TIP",
+    desc = "󰌶 Tip",
+    -- show_condition = callout_condition,
+  }, { t("TIP") }),
+  s({
+    trig = "IMPORTANT",
+    desc = "󰅾 Important",
+    -- show_condition = callout_condition,
+  }, { t("IMPORTANT") }),
+  s({
+    trig = "WARNING",
+    desc = "󰀪 Warning",
+    -- show_condition = callout_condition,
+  }, { t("WARNING") }),
+  s({
+    trig = "CAUTION",
+    desc = "󰳦 Caution",
+    -- show_condition = callout_condition,
+  }, { t("CAUTION") }),
+  s({
+    trig = "ABSTRACT",
+    desc = "󰨸 Abstract",
+    -- show_condition = callout_condition,
+  }, { t("ABSTRACT") }),
+  s({
+    trig = "SUMMARY",
+    desc = "󰨸 Summary",
+    -- show_condition = callout_condition,
+  }, { t("SUMMARY") }),
+  s({
+    trig = "TLDR",
+    desc = "󰨸 Tldr",
+    -- show_condition = callout_condition,
+  }, { t("TLDR") }),
+  s({
+    trig = "INFO",
+    desc = "󰋽 Info",
+    -- show_condition = callout_condition,
+  }, { t("INFO") }),
+  s({
+    trig = "TODO",
+    desc = "󰗡 Todo",
+    -- show_condition = callout_condition,
+  }, { t("TODO") }),
+  s({
+    trig = "HINT",
+    desc = "󰌶 Hint",
+    -- show_condition = callout_condition,
+  }, { t("HINT") }),
+  s({
+    trig = "SUCCESS",
+    desc = "󰄬 Success",
+    -- show_condition = callout_condition,
+  }, { t("SUCCESS") }),
+  s({
+    trig = "CHECK",
+    desc = "󰄬 Check",
+    -- show_condition = callout_condition,
+  }, { t("CHECK") }),
+  s({
+    trig = "DONE",
+    desc = "󰄬 Done",
+    -- show_condition = callout_condition,
+  }, { t("DONE") }),
+  s({
+    trig = "QUESTION",
+    desc = "󰘥 Question",
+    -- show_condition = callout_condition,
+  }, { t("QUESTION") }),
+  s({
+    trig = "HELP",
+    desc = "󰘥 Help",
+    -- show_condition = callout_condition,
+  }, { t("HELP") }),
+  s({
+    trig = "FAQ",
+    desc = "󰘥 Faq",
+    -- show_condition = callout_condition,
+  }, { t("FAQ") }),
+  s({
+    trig = "ATTENTION",
+    desc = "󰀪 Attention",
+    -- show_condition = callout_condition,
+  }, { t("ATTENTION") }),
+  s({
+    trig = "FAILURE",
+    desc = "󰅖 Failure",
+    -- show_condition = callout_condition,
+  }, { t("FAILURE") }),
+  s({
+    trig = "FAIL",
+    desc = "󰅖 Fail",
+    -- show_condition = callout_condition,
+  }, { t("FAIL") }),
+  s({
+    trig = "MISSING",
+    desc = "󰅖 Missing",
+    -- show_condition = callout_condition,
+  }, { t("MISSING") }),
+  s({
+    trig = "DANGER",
+    desc = "󱐌 Danger",
+    -- show_condition = callout_condition,
+  }, { t("DANGER") }),
+  s({
+    trig = "ERROR",
+    desc = "󱐌 Error",
+    -- show_condition = callout_condition,
+  }, { t("ERROR") }),
+  s({
+    trig = "BUG",
+    desc = "󰨰 Bug",
+    -- show_condition = callout_condition,
+  }, { t("BUG") }),
+  s({
+    trig = "EXAMPLE",
+    desc = "󰉹 Example",
+    -- show_condition = callout_condition,
+  }, { t("EXAMPLE") }),
+  s({
+    trig = "QUOTE",
+    desc = "󱆨 Quote",
+    -- show_condition = callout_condition,
+  }, { t("QUOTE") }),
+  s({
+    trig = "CITE",
+    desc = "󱆨 Cite",
+    -- show_condition = callout_condition,
+  }, { t("CITE") }),
 
   s({
     trig = "code-block",
-    show_condition = conds.line_begin * conds.line_end,
+    -- show_condition = conds.line_begin * conds.line_end,
     desc = [[
 \`\`\`…
 …
@@ -109,7 +219,7 @@ Multiple-choice snippet:
 
   s({
     trig = "header",
-    show_condition = conds.line_begin * conds.line_end,
+    -- show_condition = conds.line_begin * conds.line_end,
     desc = [[
 Multiple-choice snippet:
 - `# …`
@@ -149,7 +259,7 @@ Multiple-choice snippet:
 
   s({
     trig = "quote-block",
-    show_condition = conds.line_begin * conds.line_end,
+    -- show_condition = conds.line_begin * conds.line_end,
     desc = [[
 Multiple-choice snippet:
 - `> …`
@@ -203,7 +313,7 @@ Multiple-choice snippet:
 
   s({
     trig = "checkbox",
-    show_condition = conds.line_begin,
+    -- show_condition = conds.line_begin,
     desc = [[
 Multiple-choice snippet:
 - `- [ ] …` (todo)
@@ -224,7 +334,7 @@ Multiple-choice snippet:
 
   s({
     trig = "toggle-block",
-    show_condition = conds.line_begin * conds.line_end,
+    -- show_condition = conds.line_begin * conds.line_end,
     desc = [[
 `<details>`
 `<summary>…<\summary>`

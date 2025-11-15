@@ -1,3 +1,5 @@
+-- TODO: show_condition calls have been commented out since they don't work well currently with blink.cmp
+
 local conds = require("config.snippets.conditions")
 
 local ls = require("luasnip")
@@ -24,13 +26,13 @@ return {
 
   s({
     trig = "class",
-    show_condition = conds.line_begin * conds.line_end * local_conds.in_code,
+    -- show_condition = conds.line_begin * conds.line_end * local_conds.in_code,
     desc = [[`class …: …`]],
   }, { t("class "), i(1), t({ ":", "\t" }), i(2, "pass") }),
 
   s({
     trig = "def",
-    show_condition = conds.line_begin * conds.line_end * local_conds.in_code,
+    -- show_condition = conds.line_begin * conds.line_end * local_conds.in_code,
     desc = [[`def …(…) -> …: …`]],
   }, {
     t("def "),
@@ -52,7 +54,7 @@ return {
   }),
   s({
     trig = "async def",
-    show_condition = conds.line_begin * conds.line_end * local_conds.in_code,
+    -- show_condition = conds.line_begin * conds.line_end * local_conds.in_code,
     desc = [[`async def …(…) -> …: …`]],
   }, {
     t("async def "),
@@ -75,7 +77,7 @@ return {
 
   s({
     trig = "elif",
-    show_condition = conds.line_begin * conds.line_end * local_conds.in_code,
+    -- show_condition = conds.line_begin * conds.line_end * local_conds.in_code,
     desc = [[Choices:
 - `elif …: …`
 - `elif not …: …`]],
@@ -88,29 +90,29 @@ return {
 
   s({
     trig = "else", -- For consistency with if and elseif snippets
-    show_condition = conds.line_begin * conds.line_end * local_conds.in_code,
+    -- show_condition = conds.line_begin * conds.line_end * local_conds.in_code,
     desc = [[`else: …`]],
   }, { t({ "else:", "\t" }), i(1, "pass") }),
 
   s({
     trig = "for",
-    show_condition = conds.line_begin * conds.line_end * local_conds.in_code * -local_conds.for_inline,
+    -- show_condition = conds.line_begin * conds.line_end * local_conds.in_code * -local_conds.for_inline,
     desc = [[`for … in …: …`]],
   }, { t("for "), i(1), t(" in "), i(2), t({ ":", "\t" }), i(3, "pass") }),
   s({
     trig = "async for",
-    show_condition = conds.line_begin * conds.line_end * local_conds.in_code * -local_conds.for_inline,
+    -- show_condition = conds.line_begin * conds.line_end * local_conds.in_code * -local_conds.for_inline,
     desc = [[`async for … in …: …`]],
   }, { t("async for "), i(1), t(" in "), i(2), t({ ":", "\t" }), i(3, "pass") }),
   s({
     trig = "for", -- Inline version
-    show_condition = local_conds.for_inline,
+    -- show_condition = local_conds.for_inline,
     desc = [[`for … in …`]],
   }, { t("for "), i(1), t(" in "), i(2) }),
 
   s({
     trig = "from … import",
-    show_condition = conds.line_begin * conds.line_end * local_conds.in_code,
+    -- show_condition = conds.line_begin * conds.line_end * local_conds.in_code,
     desc = [[Choices:
 - `from … import …`
 - `from … import … as …`]],
@@ -122,13 +124,13 @@ return {
   }),
   s({
     trig = "from __future__ import annotations",
-    show_condition = conds.line_begin * conds.line_end * local_conds.in_code,
+    -- show_condition = conds.line_begin * conds.line_end * local_conds.in_code,
     desc = [[`from __future__ import annotations`]],
   }, { t({ "from __future__ import annotations", "" }) }),
 
   s({
     trig = "if",
-    show_condition = conds.line_begin * conds.line_end * local_conds.in_code,
+    -- show_condition = conds.line_begin * conds.line_end * local_conds.in_code,
     desc = [[Choices:
 - `if …: …`,
 - `if not …: …`]],
@@ -140,7 +142,7 @@ return {
   }),
   s({
     trig = "if … else", -- Inline version
-    show_condition = -conds.line_begin * local_conds.in_code,
+    -- show_condition = -conds.line_begin * local_conds.in_code,
     desc = [[Choices:
 - `if … else …`
 - `if not … else …`]],
@@ -152,12 +154,12 @@ return {
   }),
   s({
     trig = "if … main",
-    show_condition = conds.line_begin * conds.line_end * local_conds.in_module,
+    -- show_condition = conds.line_begin * conds.line_end * local_conds.in_module,
     desc = [[`if __name__ == "__main__": …`]],
   }, { t({ 'if __name__ == "__main__":', "\t" }), i(1, "pass") }),
   s({
     trig = "if … isinstance … raise",
-    show_condition = conds.line_begin * conds.line_end * local_conds.in_code,
+    -- show_condition = conds.line_begin * conds.line_end * local_conds.in_code,
     desc = [[Choices:
 - `if isinstance(…): raise TypeError(…)`
 - `if not isinstance(…): raise TypeError(…)`]],
@@ -195,7 +197,7 @@ return {
   }),
   s({
     trig = "if … None … raise",
-    show_condition = conds.line_begin * conds.line_end * local_conds.in_code,
+    -- show_condition = conds.line_begin * conds.line_end * local_conds.in_code,
     desc = [[Choices:
 - `if … is None: raise ValueError(…)`
 - `if … is not None: raise ValueError(…)`]],
@@ -226,7 +228,7 @@ return {
 
   s({
     trig = "import",
-    show_condition = conds.line_begin * conds.line_end * local_conds.in_code,
+    -- show_condition = conds.line_begin * conds.line_end * local_conds.in_code,
     desc = [[Choices:
 - `import …`
 - `import … as …`]],
@@ -239,16 +241,16 @@ return {
 
   s({
     trig = "or None",
-    show_condition = -conds.line_begin * conds.make_ts_node_in_condition({
-      "assignment",
-      "block",
-      "constrained_type",
-      "function_definition",
-      "module",
-      "parameters",
-      "type_parameter",
-      "typed_default_parameter",
-    }),
+    -- show_condition = -conds.line_begin * conds.make_ts_node_in_condition({
+    --   "assignment",
+    --   "block",
+    --   "constrained_type",
+    --   "function_definition",
+    --   "module",
+    --   "parameters",
+    --   "type_parameter",
+    --   "typed_default_parameter",
+    -- }),
     desc = [[Choices:
 - `| None`
 - `| None = …`]],
@@ -261,18 +263,18 @@ return {
 
   s({
     trig = "with",
-    show_condition = conds.line_begin * conds.line_end * local_conds.in_code,
+    -- show_condition = conds.line_begin * conds.line_end * local_conds.in_code,
     desc = [[`with …: …`]],
   }, { t("with "), i(1), t({ ":", "\t" }), i(2, "pass") }),
   s({
     trig = "async with",
-    show_condition = conds.line_begin * conds.line_end * local_conds.in_code,
+    -- show_condition = conds.line_begin * conds.line_end * local_conds.in_code,
     desc = [[`async with …: …`]],
   }, { t("async with "), i(1), t({ ":", "\t" }), i(2, "pass") }),
 
   s({
     trig = "while",
-    show_condition = conds.line_begin * conds.line_end * local_conds.in_code,
+    -- show_condition = conds.line_begin * conds.line_end * local_conds.in_code,
     desc = [[Choices:
 - `while …: …`,
 - `while not …: …`]],
@@ -287,7 +289,7 @@ return {
 
   s({
     trig = "noqa",
-    show_condition = local_conds.in_comment * conds.comment_start * conds.line_end,
+    -- show_condition = local_conds.in_comment * conds.comment_start * conds.line_end,
     desc = [[Ignore lint warnings (e.g. for Flake8 or Ruff).
 Choices:
 - `noqa: …`
@@ -301,14 +303,14 @@ Choices:
 
   s({
     trig = "pragma: no cover",
-    show_condition = local_conds.in_comment * conds.comment_start * conds.line_end,
+    -- show_condition = local_conds.in_comment * conds.comment_start * conds.line_end,
     desc = [[Exclude from coverage reports (e.g. for coverage.py or pytest-cov).
 `pragma: no cover`]],
   }, { t("pragma: no cover") }),
 
   s({
     trig = "pyright: ignore",
-    show_condition = local_conds.in_comment * conds.comment_start * conds.line_end,
+    -- show_condition = local_conds.in_comment * conds.comment_start * conds.line_end,
     desc = [[Ignore a specific pyright warning.
 Choices:
 - `pyright: ignore[…]`
@@ -322,7 +324,7 @@ Choices:
 
   s({
     trig = "ruff: noqa",
-    show_condition = local_conds.in_comment * conds.comment_start * conds.line_end * conds.first_line,
+    -- show_condition = local_conds.in_comment * conds.comment_start * conds.line_end * conds.first_line,
     desc = [[Ignore ruff warnings for the entire file.
 Choices:
 - `ruff: noqa: …`
@@ -336,7 +338,7 @@ Choices:
 
   s({
     trig = "type: ignore",
-    show_condition = local_conds.in_comment * conds.comment_start * conds.line_end,
+    -- show_condition = local_conds.in_comment * conds.comment_start * conds.line_end,
     desc = [[Ignore typing warnings (e.g. for mypy or Pyright).
 Choices:
 - `type: ignore[…]`

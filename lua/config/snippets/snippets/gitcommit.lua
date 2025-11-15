@@ -1,3 +1,5 @@
+-- TODO: show_condition calls have been commented out since they don't work well currently with blink.cmp
+
 local conds = require("config.snippets.conditions")
 local ls = require("luasnip")
 
@@ -11,7 +13,7 @@ local t = ls.text_node
 local M = {
   s({
     trig = "wip",
-    show_condition = conds.line_begin,
+    -- show_condition = conds.line_begin,
     desc = [[Work In Progress commit, disable any CI.]],
   }, {
     t("🚧 WIP [skip ci]"),
@@ -42,7 +44,7 @@ for _, conventional_commit_data in ipairs(conventional_commits_data) do
     M,
     s({
       trig = conventional_commit_data.name .. ": ",
-      show_condition = conds.line_begin,
+      -- show_condition = conds.line_begin,
       desc = conventional_commit_data.desc
         .. " (Conventional Commits)\n\nMultiple-choice snippet:\n- `"
         .. conventional_commit_data.name
@@ -152,7 +154,7 @@ for _, gitmoji_data in ipairs(gitmojis_data) do
     M,
     s({
       trig = ":" .. gitmoji_data.name .. ": " .. gitmoji_data.emoji,
-      show_condition = show_condition,
+      -- show_condition = show_condition,
       desc = gitmoji_data.desc
         .. " (Gitmoji)\n\nMultiple-choice snippet:\n- `"
         .. gitmoji_data.emoji
