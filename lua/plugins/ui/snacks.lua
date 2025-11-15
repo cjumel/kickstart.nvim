@@ -234,7 +234,7 @@ return {
             if only_staged and not only_unstaged and not only_conflicts then
               return vim.tbl_contains({ "M ", "MM" }, item.status)
             elseif not only_staged and only_unstaged and not only_conflicts then
-              return vim.tbl_contains({ " M", "MM" }, item.status)
+              return vim.tbl_contains({ " M", " D", "MM", "??" }, item.status)
             elseif not only_staged and not only_unstaged and only_conflicts then
               return vim.tbl_contains({ "UU", "??" }, item.status)
             elseif not only_staged and not only_unstaged and not only_conflicts then
