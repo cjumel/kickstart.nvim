@@ -92,7 +92,10 @@ return {
       function()
         Snacks.picker.recent({
           title = "Recent Files",
-          filter = { cwd = true },
+          filter = {
+            cwd = true,
+            paths = false, ---@diagnostic disable-line: assign-type-mismatch
+          },
           sort = { fields = { "score:desc", "idx" } }, -- Don't sort by item length to preserve history order
           layout = { preset = "telescope_horizontal" },
           only_cwd = true,
@@ -157,19 +160,46 @@ return {
           title = "Symbols",
           sort = { fields = { "score:desc", "idx" } }, -- Don't sort by item length to preserve document order
           layout = { preset = "telescope_horizontal" },
+          toggles = {
+            workspace = "w",
+            all_symbols = "a",
+          },
+          actions = {
+            toggle_workspace_custom = function(picker)
+              local opts = picker.opts or {}
+              opts.workspace = not opts.workspace ---@diagnostic disable-line: inject-field
+              opts.tree = not opts.tree ---@diagnostic disable-line: inject-field
+              opts.supports_live = not opts.supports_live
+              opts.live = not opts.live
+              picker:find()
+            end,
+            toggle_all_symbols_custom = function(picker)
+              local opts = picker.opts or {}
+              if not opts.default_filter then
+                opts.default_filter = vim.deepcopy(opts.filter) ---@diagnostic disable-line: inject-field
+              end
+              opts.all_symbols = not opts.all_symbols ---@diagnostic disable-line: inject-field
+              if opts.all_symbols then
+                for k, _ in pairs(opts.filter) do
+                  opts.filter[k] = true
+                end
+              else
+                opts.filter = vim.deepcopy(opts.default_filter)
+              end
+              picker:find()
+            end,
+          },
+          win = {
+            input = {
+              keys = {
+                ["<M-w>"] = { "toggle_workspace_custom", mode = "i" },
+                ["<M-a>"] = { "toggle_all_symbols_custom", mode = "i" },
+              },
+            },
+          },
         })
       end,
       desc = "[F]ind: [S]ymbols",
-    },
-    {
-      "<leader>fS",
-      function()
-        Snacks.picker.lsp_workspace_symbols({
-          title = "Workspace Symbols",
-          layout = { preset = "telescope_horizontal" },
-        })
-      end,
-      desc = "[F]ind: [S]ymbols (workspace)",
     },
     {
       "<leader>fu",
@@ -220,49 +250,45 @@ return {
       function()
         Snacks.picker.git_status({
           layout = { preset = "telescope_horizontal" },
-          only_staged = false,
-          only_unstaged = false,
-          only_conflicts = false,
           toggles = {
-            only_staged = "s",
-            only_unstaged = "u",
-            only_conflicts = "c",
+            staged = "s",
+            unstaged = "u",
+            conflicts = "c",
           },
           transform = function(item, ctx)
             local opts = ctx.picker.opts or {}
-            local only_staged, only_unstaged, only_conflicts = opts.only_staged, opts.only_unstaged, opts.only_conflicts ---@diagnostic disable-line: undefined-field
-            if only_staged and not only_unstaged and not only_conflicts then
-              return vim.tbl_contains({ "M ", "MM" }, item.status)
-            elseif not only_staged and only_unstaged and not only_conflicts then
-              return vim.tbl_contains({ " M", " D", "MM", "??" }, item.status)
-            elseif not only_staged and not only_unstaged and only_conflicts then
-              return vim.tbl_contains({ "UU", "??" }, item.status)
-            elseif not only_staged and not only_unstaged and not only_conflicts then
-              return true
-            else
-              error("Invalid combination of only_staged, only_unstaged, and only_conflicts")
+            local status_filters = {}
+            if opts.staged then ---@diagnostic disable-line: undefined-field
+              vim.list_extend(status_filters, { "M ", "MM" })
             end
+            if opts.unstaged then ---@diagnostic disable-line: undefined-field
+              vim.list_extend(status_filters, { " M", " D", "MM", "??" })
+            end
+            if opts.conflicts then ---@diagnostic disable-line: undefined-field
+              vim.list_extend(status_filters, { "UU", "??" })
+            end
+            return vim.tbl_isempty(status_filters) and true or vim.tbl_contains(status_filters, item.status)
           end,
           actions = {
-            toggle_only_staged_custom = function(picker)
+            toggle_staged_custom = function(picker)
               local opts = picker.opts or {}
-              opts.only_staged = not opts.only_staged ---@diagnostic disable-line: inject-field
-              opts.only_unstaged = false ---@diagnostic disable-line: inject-field
-              opts.only_conflicts = false ---@diagnostic disable-line: inject-field
+              opts.staged = not opts.staged ---@diagnostic disable-line: inject-field
+              opts.unstaged = false ---@diagnostic disable-line: inject-field
+              opts.conflicts = false ---@diagnostic disable-line: inject-field
               picker:find()
             end,
-            toggle_only_unstaged_custom = function(picker)
+            toggle_unstaged_custom = function(picker)
               local opts = picker.opts or {}
-              opts.only_staged = false ---@diagnostic disable-line: inject-field
-              opts.only_unstaged = not opts.only_unstaged ---@diagnostic disable-line: inject-field
-              opts.only_conflicts = false ---@diagnostic disable-line: inject-field
+              opts.staged = false ---@diagnostic disable-line: inject-field
+              opts.unstaged = not opts.unstaged ---@diagnostic disable-line: inject-field
+              opts.conflicts = false ---@diagnostic disable-line: inject-field
               picker:find()
             end,
-            toggle_only_conflicts_custom = function(picker)
+            toggle_conflicts_custom = function(picker)
               local opts = picker.opts or {}
-              opts.only_staged = false ---@diagnostic disable-line: inject-field
-              opts.only_unstaged = false ---@diagnostic disable-line: inject-field
-              opts.only_conflicts = not opts.only_conflicts ---@diagnostic disable-line: inject-field
+              opts.staged = false ---@diagnostic disable-line: inject-field
+              opts.unstaged = false ---@diagnostic disable-line: inject-field
+              opts.conflicts = not opts.conflicts ---@diagnostic disable-line: inject-field
               picker:find()
             end,
           },
@@ -270,9 +296,9 @@ return {
             input = {
               keys = {
                 ["<Tab>"] = { "list_down", mode = "i" }, -- Avoid picker-specific remapping
-                ["<M-s>"] = { "toggle_only_staged_custom", mode = "i" },
-                ["<M-u>"] = { "toggle_only_unstaged_custom", mode = "i" },
-                ["<M-c>"] = { "toggle_only_conflicts_custom", mode = "i" },
+                ["<M-s>"] = { "toggle_staged_custom", mode = "i" },
+                ["<M-u>"] = { "toggle_unstaged_custom", mode = "i" },
+                ["<M-c>"] = { "toggle_conflicts_custom", mode = "i" },
               },
             },
           },
@@ -292,20 +318,37 @@ return {
           title = "Git Log",
           layout = { preset = "telescope_horizontal" },
           confirm = { { action = "yank", field = "commit", reg = "+" }, "close" },
+          toggles = {
+            current_file = "c", -- Avoid using "f" to let the <M-f> keymap available
+            current_line = "l",
+          },
+          actions = {
+            toggle_current_file_custom = function(picker)
+              local opts = picker.opts or {}
+              opts.current_file = not opts.current_file ---@diagnostic disable-line: inject-field
+              opts.current_line = false ---@diagnostic disable-line: inject-field
+              opts.follow = opts.current_file ---@diagnostic disable-line: inject-field
+              picker:find()
+            end,
+            toggle_current_line_custom = function(picker)
+              local opts = picker.opts or {}
+              opts.current_file = false ---@diagnostic disable-line: inject-field
+              opts.current_line = not opts.current_line ---@diagnostic disable-line: inject-field
+              opts.follow = opts.current_line ---@diagnostic disable-line: inject-field
+              picker:find()
+            end,
+          },
+          win = {
+            input = {
+              keys = {
+                ["<M-c>"] = { "toggle_current_file_custom", mode = "i" },
+                ["<M-l>"] = { "toggle_current_line_custom", mode = "i" },
+              },
+            },
+          },
         })
       end,
       desc = "[G]it: [L]og",
-    },
-    {
-      "<leader>gL",
-      function()
-        Snacks.picker.git_log_file({
-          title = "Buffer Git Log",
-          layout = { preset = "telescope_horizontal" },
-          confirm = { { action = "yank", field = "commit", reg = "+" }, "close" },
-        })
-      end,
-      desc = "[G]it: [L]og (buffer)",
     },
 
     -- Scratch buffers
