@@ -5,6 +5,7 @@ return {
   opts = {
     commit_editor = { spell_check = false },
     mappings = {
+      commit_editor = { ["q"] = false }, -- Prefer custom implementation in ftplugin
       rebase_editor = {
         -- Change the "move commit" keymaps for something easier to type repeatedly
         ["gk"] = false, -- Formely "MoveUp"
