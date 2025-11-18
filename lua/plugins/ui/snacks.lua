@@ -80,7 +80,7 @@ return {
         Snacks.picker.files({
           title = "Files",
           layout = { preset = "telescope_horizontal" },
-          show_empty = true, -- In case everything is hidden or ignored
+          show_empty = true, -- Some stuff can appear after using toggles
           cwd = vim.bo.filetype == "oil" and require("oil").get_current_dir() or nil,
           only_directory = vim.bo.filetype == "oil",
         })
@@ -120,7 +120,7 @@ return {
         Snacks.picker.pick("directories", {
           title = "Directories",
           layout = { preset = "telescope_horizontal" },
-          show_empty = true, -- In case everything is hidden or ignored
+          show_empty = true, -- Some stuff can appear after using toggles
           cwd = vim.bo.filetype == "oil" and require("oil").get_current_dir() or nil,
           only_directory = vim.bo.filetype == "oil",
         })
@@ -145,7 +145,7 @@ return {
         Snacks.picker.grep_word({
           title = "Grep",
           layout = { preset = "telescope_vertical" },
-          show_empty = true, -- In case everything is hidden or ignored
+          show_empty = true, -- Some stuff can appear after using toggles
           cwd = vim.bo.filetype == "oil" and require("oil").get_current_dir() or nil,
           only_directory = vim.bo.filetype == "oil",
         })
@@ -160,6 +160,7 @@ return {
           title = "Symbols",
           sort = { fields = { "score:desc", "idx" } }, -- Don't sort by item length to preserve document order
           layout = { preset = "telescope_horizontal" },
+          show_empty = true, -- Some stuff can appear after using toggles
           toggles = {
             workspace = "w",
             all_symbols = "a",
@@ -259,13 +260,13 @@ return {
             local opts = ctx.picker.opts or {}
             local status_filters = {}
             if opts.staged then ---@diagnostic disable-line: undefined-field
-              vim.list_extend(status_filters, { "M ", "MM" })
+              vim.list_extend(status_filters, { "M ", "MM", "A ", "D ", "R " })
             end
             if opts.unstaged then ---@diagnostic disable-line: undefined-field
               vim.list_extend(status_filters, { " M", " D", "MM", "??" })
             end
             if opts.conflicts then ---@diagnostic disable-line: undefined-field
-              vim.list_extend(status_filters, { "UU", "??" })
+              vim.list_extend(status_filters, { "UU" })
             end
             return vim.tbl_isempty(status_filters) and true or vim.tbl_contains(status_filters, item.status)
           end,
