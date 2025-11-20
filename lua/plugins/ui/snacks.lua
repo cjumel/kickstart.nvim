@@ -33,7 +33,7 @@ return {
     },
 
     -- Gitbrowse
-    { "<leader>gr", function() Snacks.gitbrowse.open() end, desc = "[G]it: open [R]epository" },
+    { "<leader>go", function() Snacks.gitbrowse.open() end, desc = "[G]it: [O]pen repository" },
 
     -- Notifier
     { "<leader>,", function() Snacks.notifier.show_history() end, desc = "Notification history" },

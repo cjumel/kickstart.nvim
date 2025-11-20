@@ -1,38 +1,60 @@
 return {
   "NeogitOrg/neogit",
-  dependencies = { "nvim-lua/plenary.nvim" },
+  dependencies = {
+    "nvim-lua/plenary.nvim",
+    "folke/snacks.nvim",
+  },
   keys = { { "<leader>gm", function() require("neogit").open() end, desc = "[G]it: [M]enu" } },
   opts = {
     commit_editor = { spell_check = false },
+    remember_settings = false,
+    use_default_keymaps = false,
+    integrations = { snacks = true },
     mappings = {
-      commit_editor = { ["q"] = false }, -- Prefer custom implementation in ftplugin
-      rebase_editor = {
-        -- Change the "move commit" keymaps for something easier to type repeatedly
-        ["gk"] = false, -- Formely "MoveUp"
-        ["K"] = "MoveUp",
-        ["gj"] = false, -- Formerly "MoveDown"
-        ["J"] = "MoveDown",
-      },
-      finder = {
-        -- Change some keymaps for more compatibility with picker keymaps
-        ["<Tab>"] = "Next", -- Formely "MultiselectToggleNext"
-        ["<S-Tab>"] = "Previous", -- Formely "MultiselectTogglePrevious"
-      },
+      commit_editor = {}, -- Prefer keymap definition in ./after/ftplugin/gitcommit.lua
+      commit_editor_I = {},
+      rebase_editor = {}, -- Prefer keymap definition in ./after/ftplugin/gitrebase.lua
+      rebase_editor_I = {},
+      finder = {},
       popup = {
-        -- Stick to "r" prefix for some popups, for consistency with Git aliases
-        ["r"] = false, -- Formerly "RebasePopup"
-        ["rb"] = "RebasePopup",
-        ["X"] = false, -- Formerly "ResetPopup"
-        ["rs"] = "ResetPopup",
-        ["v"] = false, -- Formerly "RevertPopup"
-        ["rv"] = "RevertPopup",
+        ["?"] = "HelpPopup",
+        ["C"] = "CherryPickPopup",
+        ["d"] = "DiffPopup",
+        ["P"] = "PushPopup",
+        ["R"] = "ResetPopup",
+        ["<M-s>"] = "StashPopup",
+        ["i"] = "IgnorePopup",
+        ["t"] = "TagPopup",
+        ["b"] = "BranchPopup",
+        ["B"] = "BisectPopup",
+        ["w"] = "WorktreePopup",
+        ["c"] = "CommitPopup",
+        ["f"] = "FetchPopup",
+        ["l"] = "LogPopup",
+        ["m"] = "MergePopup",
+        ["p"] = "PullPopup",
+        ["r"] = "RebasePopup",
+        ["<M-r>"] = "RevertPopup",
       },
       status = {
-        -- Change the "next/previous hunk" keymaps for something easier to type quickly
-        ["{"] = false, -- Formerly "GoToPreviousHunkHeader"
+        ["j"] = "MoveDown",
+        ["k"] = "MoveUp",
+        ["o"] = "OpenTree",
+        ["q"] = "Close",
+        ["<Tab>"] = "Toggle",
+        ["x"] = "Discard",
+        ["s"] = "Stage",
+        ["S"] = "StageAll",
+        ["<C-s>"] = "StageUnstaged",
+        ["u"] = "Unstage",
+        ["<C-u>"] = "Untrack",
+        ["U"] = "UnstageStaged",
+        ["<C-r>"] = "RefreshBuffer",
+        ["<CR>"] = "GoToFile",
         [","] = "GoToPreviousHunkHeader",
-        ["}"] = false, -- Formerly "GoToNextHunkHeader"
         [";"] = "GoToNextHunkHeader",
+        ["}"] = "NextSection",
+        ["{"] = "PreviousSection",
       },
     },
   },
