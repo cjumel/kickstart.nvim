@@ -17,21 +17,21 @@ return {
       mode = "x",
       desc = "Overwrite in range",
     },
-    -- Substitute: replace from scratch occurrences of a target in a range
-    { "gs", function() require("substitute.range").operator() end, desc = "Substitute" },
-    { "gs", function() require("substitute.range").visual() end, mode = "x", desc = "Substitute" },
-    -- Substitute (prefilled): update occurrences of a target in a range
+    -- Substitute: update occurrences of a target in a range
     {
-      "gS",
+      "gs",
       function() require("substitute.range").operator({ prompt_current_text = true }) end,
       desc = "Substitute (prefilled)",
     },
     {
-      "gS",
+      "gs",
       function() require("substitute.range").visual({ prompt_current_text = true }) end,
       mode = "x",
       desc = "Substitute (prefilled)",
     },
+    -- Substitute (not prefilled): replace occurrences of a target in a range
+    { "gS", function() require("substitute.range").operator() end, desc = "Substitute (not prefilled)" },
+    { "gS", function() require("substitute.range").visual() end, mode = "x", desc = "Substitute (not prefilled)" },
     -- Exchange: swap two targets
     { "ge", function() require("substitute.exchange").operator() end, desc = "Exchange" },
     { "ge", function() require("substitute.exchange").visual() end, mode = "x", desc = "Exchange" },
