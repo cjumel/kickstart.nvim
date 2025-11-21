@@ -250,6 +250,7 @@ return {
       "<leader>gg",
       function()
         Snacks.picker.git_status({
+          title = "Git Files",
           layout = { preset = "telescope_horizontal" },
           toggles = {
             staged = "s",
@@ -305,7 +306,7 @@ return {
           },
         })
       end,
-      desc = "[G]it: status",
+      desc = "[G]it: files",
     },
     {
       "<leader>gb",
@@ -501,7 +502,7 @@ return {
         { icon = " ", key = "f", desc = "Find [F]iles", action = "<leader>ff" },
         { icon = " ", key = "r", desc = "Find [R]ecent Files", action = "<leader>fr" },
         { icon = " ", key = "d", desc = "Find [D]irectories", action = "<leader>fd" },
-        { icon = "󰚰 ", key = "g", desc = "[G]it Status", action = "<leader>gg" },
+        { icon = "󰚰 ", key = "g", desc = "[G]it Files", action = "<leader>gg" },
         { icon = " ", key = "b", desc = "Git [B]ranch", action = "<leader>gb" },
         { icon = " ", key = "l", desc = "Git [L]og", action = "<leader>gl" },
         { icon = "󰊢 ", key = "m", desc = "Git [M]enu", action = "<leader>gm" },
