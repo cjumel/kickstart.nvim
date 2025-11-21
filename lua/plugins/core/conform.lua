@@ -8,6 +8,7 @@ end
 return {
   "stevearc/conform.nvim",
   dependencies = { "mason-org/mason.nvim" },
+  cmd = { "AutoformatEnable", "AutoformatDisable", "AutoformatToggle" },
   ft = vim.tbl_keys(formatters_by_ft),
   init = function()
     -- Enable conform formatting with Neovim's builtin formatting (see `:h gq`)
@@ -73,4 +74,65 @@ return {
       return enable_message
     end,
   },
+  config = function(_, opts)
+    require("conform").setup(opts)
+
+    -- Switch autoformat mode, between "disable", "auto" and "force", globally or per-buffer (the later taking precedence
+    -- over the former)
+    local function enable_autoformat(args)
+      if args.args == "all" and args.bang then
+        vim.g.autoformat_mode = "force"
+        vim.notify("Autoformat enabled globally (force)", vim.log.levels.INFO, { title = "Autoformat" })
+      elseif args.args == "all" then
+        vim.g.autoformat_mode = "auto"
+        vim.notify("Autoformat enabled globally (auto)", vim.log.levels.INFO, { title = "Autoformat" })
+      elseif args.bang then
+        vim.b.autoformat_mode = "force"
+        vim.notify("Autoformat enabled for current buffer (force)", vim.log.levels.INFO, { title = "Autoformat" })
+      else
+        vim.b.autoformat_mode = "auto"
+        vim.notify("Autoformat enabled for current buffer (auto)", vim.log.levels.INFO, { title = "Autoformat" })
+      end
+    end
+    local function disable_autoformat(args)
+      if args.args == "all" then
+        vim.g.autoformat_mode = "disable"
+        vim.notify("Autoformat disabled globally", vim.log.levels.INFO, { title = "Autoformat" })
+      else
+        vim.b.autoformat_mode = "disable"
+        vim.notify("Autoformat disabled for current buffer", vim.log.levels.INFO, { title = "Autoformat" })
+      end
+    end
+    local function autoformat_is_disabled(args)
+      if args.args == "all" then
+        return vim.g.autoformat_mode == "disable"
+      else
+        return vim.b.autoformat_mode == "disable"
+      end
+    end
+    local function toggle_autoformat(args)
+      if autoformat_is_disabled(args) then
+        enable_autoformat(args)
+      else
+        disable_autoformat(args)
+      end
+    end
+    vim.api.nvim_create_user_command("AutoformatEnable", enable_autoformat, {
+      desc = "Enable autoformat",
+      bang = true,
+      nargs = "?",
+      complete = function() return { "all" } end,
+    })
+    vim.api.nvim_create_user_command("AutoformatDisable", disable_autoformat, {
+      desc = "Disable autoformat",
+      nargs = "?",
+      complete = function() return { "all" } end,
+    })
+    vim.api.nvim_create_user_command("AutoformatToggle", toggle_autoformat, {
+      desc = "Toggle autoformat",
+      bang = true,
+      nargs = "?",
+      complete = function() return { "all" } end,
+    })
+  end,
 }

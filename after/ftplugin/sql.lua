@@ -1,3 +1,12 @@
 -- [[ Keymaps ]]
 
-vim.keymap.set("n", "<localleader>s", "<Plug>(DBUI_SaveQuery)", { desc = "Save query", buffer = true })
+---@param mode string|string[]
+---@param lhs string
+---@param rhs string|function
+---@param opts table
+local function map(mode, lhs, rhs, opts)
+  opts.buffer = true
+  vim.keymap.set(mode, lhs, rhs, opts)
+end
+
+map("n", "<localleader>s", "<Plug>(DBUI_SaveQuery)", { desc = "Save query" })

@@ -11,8 +11,11 @@ vim.opt_local.formatoptions:append("rol")
 ---@param mode string|string[]
 ---@param lhs string
 ---@param rhs string|function
----@param desc string
-local function map(mode, lhs, rhs, desc) vim.keymap.set(mode, lhs, rhs, { desc = desc, buffer = true }) end
+---@param opts table
+local function map(mode, lhs, rhs, opts)
+  opts.buffer = true
+  vim.keymap.set(mode, lhs, rhs, opts)
+end
 
 local function yank_module()
   local module = require("config.lang_utils.python").get_module()
@@ -70,9 +73,9 @@ local function yank_imports()
     vim.notify("No imports found at the top of the file", vim.log.levels.WARN, { title = "Yank" })
   end
 end
-map("n", "<leader>ym", yank_module, "[Y]ank: [M]odule (Python)")
-map("n", "<leader>yr", yank_repl_command, "[Y]ank: [R]EPL command (Python)")
-map("n", "<leader>yi", yank_imports, "[Y]ank: [I]mports (Python)")
+map("n", "<leader>ym", yank_module, { desc = "[Y]ank: [M]odule (Python)" })
+map("n", "<leader>yr", yank_repl_command, { desc = "[Y]ank: [R]EPL command (Python)" })
+map("n", "<leader>yi", yank_imports, { desc = "[Y]ank: [I]mports (Python)" })
 
 local function auto_fix() vim.lsp.buf.code_action({ context = { only = { "source.fixAll" } }, apply = true }) end
 local function auto_import()
@@ -91,9 +94,9 @@ local function pyright_ignore()
     apply = true,
   })
 end
-map("n", "<localleader>f", auto_fix, "Auto-[F]ix")
-map("n", "<localleader>i", auto_import, "Auto-[I]mport")
-map("n", "<localleader>p", pyright_ignore, "[P]yright ignore")
+map("n", "<localleader>f", auto_fix, { desc = "Auto-[F]ix" })
+map("n", "<localleader>i", auto_import, { desc = "Auto-[I]mport" })
+map("n", "<localleader>p", pyright_ignore, { desc = "[P]yright ignore" })
 
 ---@param path string
 ---@return string|nil
@@ -150,4 +153,4 @@ local function switch_to_alternate_file()
     end)
   end
 end
-map("n", "<localleader>a", switch_to_alternate_file, "Switch to [A]lternate files")
+map("n", "<localleader>a", switch_to_alternate_file, { desc = "Switch to [A]lternate files" })
