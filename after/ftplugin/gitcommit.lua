@@ -9,6 +9,14 @@ end
 -- [[ Keymaps ]]
 
 local actions = require("config.actions")
-local keymap = require("config.keymap")
 
-keymap.set_buffer("n", "q", actions.quit, { desc = "Quit" })
+---@param mode string|string[]
+---@param lhs string
+---@param rhs string|function
+---@param opts table
+local function map(mode, lhs, rhs, opts)
+  opts.buffer = true
+  vim.keymap.set(mode, lhs, rhs, opts)
+end
+
+map("n", "q", actions.quit, { desc = "Quit" })

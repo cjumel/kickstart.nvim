@@ -152,8 +152,6 @@ vim.keymap.set("n", "<leader>ya", yank_all_buffer_contents, { desc = "[Y]ank: [A
 
 -- [[ Navigation keymaps ]]
 
-local keymap = require("config.keymap")
-
 local ts_repeat_move = require("nvim-treesitter.textobjects.repeatable_move")
 vim.keymap.set({ "n", "x", "o" }, ";", ts_repeat_move.repeat_last_move, { desc = "Repeat last move in same direction" })
 vim.keymap.set(
@@ -163,7 +161,7 @@ vim.keymap.set(
   { desc = "Repeat last move in opposite direction" }
 )
 
-local function next_loclist_item()
+local next_loclist_item, prev_loclist_item = ts_repeat_move.make_repeatable_move_pair(function()
   local success = pcall(vim.cmd, "lnext") ---@diagnostic disable-line: param-type-mismatch
   if not success then
     success = pcall(vim.cmd, "lfirst") ---@diagnostic disable-line: param-type-mismatch
@@ -171,8 +169,7 @@ local function next_loclist_item()
       vim.notify("No location list item found", vim.log.levels.WARN, { title = "Navigation" })
     end
   end
-end
-local function prev_loclist_item()
+end, function()
   local success = pcall(vim.cmd, "lprev") ---@diagnostic disable-line: param-type-mismatch
   if not success then
     success = pcall(vim.cmd, "llast") ---@diagnostic disable-line: param-type-mismatch
@@ -180,9 +177,11 @@ local function prev_loclist_item()
       vim.notify("No location list item found", vim.log.levels.WARN, { title = "Navigation" })
     end
   end
-end
-keymap.set_pair("l", next_loclist_item, prev_loclist_item, "loclist item")
-local function next_quickfix_item()
+end)
+vim.keymap.set({ "n", "x", "o" }, "]l", next_loclist_item, { desc = "Next loclist item" })
+vim.keymap.set({ "n", "x", "o" }, "[l", prev_loclist_item, { desc = "Previous loclist item" })
+
+local next_quickfix_item, prev_quickfix_item = ts_repeat_move.make_repeatable_move_pair(function()
   local success = pcall(vim.cmd, "cnext") ---@diagnostic disable-line: param-type-mismatch
   if not success then
     success = pcall(vim.cmd, "cfirst") ---@diagnostic disable-line: param-type-mismatch
@@ -190,8 +189,7 @@ local function next_quickfix_item()
       vim.notify("No quickfix item found", vim.log.levels.WARN, { title = "Navigation" })
     end
   end
-end
-local function prev_quickfix_item()
+end, function()
   local success = pcall(vim.cmd, "cprev") ---@diagnostic disable-line: param-type-mismatch
   if not success then
     success = pcall(vim.cmd, "clast") ---@diagnostic disable-line: param-type-mismatch
@@ -199,69 +197,23 @@ local function prev_quickfix_item()
       vim.notify("No quickfix item found", vim.log.levels.WARN, { title = "Navigation" })
     end
   end
-end
-keymap.set_pair("q", next_quickfix_item, prev_quickfix_item, "quickfix item")
+end)
+vim.keymap.set({ "n", "x", "o" }, "]q", next_quickfix_item, { desc = "Next quickfix item" })
+vim.keymap.set({ "n", "x", "o" }, "[q", prev_quickfix_item, { desc = "Previous quickfix item" })
 
-local function next_diagnostic() vim.diagnostic.jump({ count = 1 }) end
-local function prev_diagnostic() vim.diagnostic.jump({ count = -1 }) end
-keymap.set_pair("d", next_diagnostic, prev_diagnostic, "diagnostic")
-local function next_error() vim.diagnostic.jump({ severity = "ERROR", count = 1 }) end
-local function prev_error() vim.diagnostic.jump({ severity = "ERROR", count = -1 }) end
-keymap.set_pair("e", next_error, prev_error, "error")
+local next_diagnostic, prev_diagnostic = ts_repeat_move.make_repeatable_move_pair(
+  function() vim.diagnostic.jump({ count = 1 }) end,
+  function() vim.diagnostic.jump({ count = -1 }) end
+)
+vim.keymap.set({ "n", "x", "o" }, "]d", next_diagnostic, { desc = "Next diagnostic" })
+vim.keymap.set({ "n", "x", "o" }, "[d", prev_diagnostic, { desc = "Previous diagnostic" })
 
-local function next_reference() Snacks.words.jump(vim.v.count1, true) end
-local function prev_reference() Snacks.words.jump(-vim.v.count1, true) end
-keymap.set_pair("]", next_reference, prev_reference, "word reference", "[")
-
-local function next_mark() require("marks").next() end
-local function prev_mark() require("marks").prev() end
-keymap.set_pair("`", next_mark, prev_mark, "mark")
-
-local function next_hunk()
-  require("gitsigns").nav_hunk(
-    "next", ---@diagnostic disable-line: param-type-mismatch
-    { target = vim.g.gitsigns_all_hunk_navigation and "all" or nil }
-  )
-end
-local function prev_hunk()
-  require("gitsigns").nav_hunk(
-    "prev", ---@diagnostic disable-line: param-type-mismatch
-    { target = vim.g.gitsigns_all_hunk_navigation and "all" or nil }
-  )
-end
-keymap.set_pair("h", next_hunk, prev_hunk, "hunk")
-
-local function next_todo_comment()
-  local todo_comment_keywords = require("config.todo-comment-keywords")
-  require("todo-comments").jump_next({ keywords = todo_comment_keywords.todo_all })
-end
-local function prev_todo_comment()
-  local todo_comment_keywords = require("config.todo-comment-keywords")
-  require("todo-comments").jump_prev({ keywords = todo_comment_keywords.todo_all })
-end
-keymap.set_pair("t", next_todo_comment, prev_todo_comment, "todo-comment")
-local function next_note_comment()
-  local todo_comment_keywords = require("config.todo-comment-keywords")
-  require("todo-comments").jump_next({ keywords = todo_comment_keywords.note_all })
-end
-local function prev_note_comment()
-  local todo_comment_keywords = require("config.todo-comment-keywords")
-  require("todo-comments").jump_prev({ keywords = todo_comment_keywords.note_all })
-end
-keymap.set_pair("n", next_note_comment, prev_note_comment, "note-comment")
-local function next_private_todo_comment()
-  local todo_comment_keywords = require("config.todo-comment-keywords")
-  require("todo-comments").jump_next({ keywords = todo_comment_keywords.todo_private })
-end
-local function prev_private_todo_comment()
-  local todo_comment_keywords = require("config.todo-comment-keywords")
-  require("todo-comments").jump_prev({ keywords = todo_comment_keywords.todo_private })
-end
-keymap.set_pair("p", next_private_todo_comment, prev_private_todo_comment, "private todo-comment")
-
-local function next_conflict() require("git-conflict").find_next("ours") end
-local function prev_conflict() require("git-conflict").find_prev("ours") end
-keymap.set_pair("<M-c>", next_conflict, prev_conflict, "conflict")
+local next_error, prev_error = ts_repeat_move.make_repeatable_move_pair(
+  function() vim.diagnostic.jump({ severity = "ERROR", count = 1 }) end,
+  function() vim.diagnostic.jump({ severity = "ERROR", count = -1 }) end
+)
+vim.keymap.set({ "n", "x", "o" }, "]e", next_error, { desc = "Next error" })
+vim.keymap.set({ "n", "x", "o" }, "[e", prev_error, { desc = "Previous error" })
 
 for _, key in ipairs({ "a", "A", "b", "B", "D", "L", "Q", "T", "<C-l>", "<C-q>", "<C-t>" }) do
   vim.keymap.del("n", "]" .. key)

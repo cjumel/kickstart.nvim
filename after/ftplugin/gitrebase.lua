@@ -1,9 +1,17 @@
 -- [[ Keymaps ]]
 
 local actions = require("config.actions")
-local keymap = require("config.keymap")
 
-keymap.set_buffer("n", "q", actions.quit, { desc = "Quit" })
+---@param mode string|string[]
+---@param lhs string
+---@param rhs string|function
+---@param opts table
+local function map(mode, lhs, rhs, opts)
+  opts.buffer = true
+  vim.keymap.set(mode, lhs, rhs, opts)
+end
+
+map("n", "q", actions.quit, { desc = "Quit" })
 
 local key_to_action = {
   p = "pick",
@@ -20,10 +28,5 @@ local key_to_action = {
   u = "update-ref",
 }
 for key, action in pairs(key_to_action) do
-  keymap.set_buffer(
-    "n",
-    "<localleader>" .. key,
-    "^ce" .. action .. "<Esc>^j",
-    { desc = 'Change keyword for "' .. action .. '"' }
-  )
+  map("n", "<localleader>" .. key, "^ce" .. action .. "<Esc>^j", { desc = 'Change keyword for "' .. action .. '"' })
 end

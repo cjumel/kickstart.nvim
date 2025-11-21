@@ -20,14 +20,11 @@ return {
           { "n", function() require("git-conflict").choose("none") end },
           { "o", function() require("git-conflict").choose("ours") end },
           { "t", function() require("git-conflict").choose("theirs") end },
-          { ";", function() require("git-conflict").find_next("ours") end },
-          { ",", function() require("git-conflict").find_prev("ours") end },
           { "<Esc>", nil, { exit = true, mode = "n", desc = false } },
         },
         hint = [[
-                              Conflict   
-   _b_ ➜ Choose [B]oth   _o_ ➜ Choose [O]urs    _;_ ➜ Next conflict   
-   _n_ ➜ Choose [N]one   _t_ ➜ Choose [T]eirs   _,_ ➜ Previous conflict   
+                                      Conflict   
+   _b_ ➜ Choose [B]oth   _n_ ➜ Choose [N]one   _o_ ➜ Choose [O]urs   _t_ ➜ Choose [T]eirs   
 ]],
       },
       {
@@ -52,17 +49,6 @@ return {
             end,
           },
           {
-            "t",
-            function()
-              vim.g.gitsigns_all_hunk_navigation = not vim.g.gitsigns_all_hunk_navigation
-              if vim.g.gitsigns_all_hunk_navigation then
-                vim.notify("All hunk navigation enabled", vim.log.levels.INFO)
-              else
-                vim.notify("All hunk navigation disabled", vim.log.levels.INFO)
-              end
-            end,
-          },
-          {
             "x",
             function()
               if vim.fn.mode() == "n" then
@@ -72,40 +58,18 @@ return {
               end
             end,
           },
-          {
-            ";",
-            function()
-              require("gitsigns").nav_hunk(
-                ---@diagnostic disable-next-line: param-type-mismatch
-                "next",
-                { target = vim.g.gitsigns_all_hunk_navigation and "all" or nil }
-              )
-            end,
-          },
-          {
-            ",",
-            function()
-              require("gitsigns").nav_hunk(
-                ---@diagnostic disable-next-line: param-type-mismatch
-                "prev",
-                { target = vim.g.gitsigns_all_hunk_navigation and "all" or nil }
-              )
-            end,
-          },
           { "<Esc>", nil, { exit = true, mode = "n", desc = false } },
         },
         hint = [[
-                                             Hunk
-   _p_ ➜ [P]review hunk                  _t_ ➜ [T]oggle all hunk navigation   _;_ ➜ Next hunk   
-   _s_ ➜ Toggle [S]tage hunk/selection   _x_ ➜ Discard hunk/selection         _,_ ➜ Previous hunk   
-     
+                                          Hunk
+   _p_ ➜ [P]review hunk   _s_ ➜ Toggle [S]tage hunk/selection   _x_ ➜ Discard hunk/selection   
 ]],
       },
       {
         body = "<leader>n",
         config = {
           desc = "[N]avigate menu",
-          color = "pink", -- Allow other keymaps while the Hydra is open; for some reason, this doesn't work well otherwise
+          color = "pink", -- Allow other keymaps while the Hydra is open, for some reason, this doesn't work well otherwise
         },
         heads = {
           { "h", "<cmd>Treewalker Left<CR>" },
@@ -156,7 +120,7 @@ return {
     _h_ ➜ Go to the left window        _K_ ➜ Move window to far top    _s_ ➜ Split a window             _+_ ➜ Increase height   
     _H_ ➜ Move window to far left      _l_ ➜ Go to the right window    _T_ ➜ Break out into a new tab   _-_ ➜ Decrease height   
     _j_ ➜ Go to the down window        _L_ ➜ Move window to far right  _v_ ➜ Split window vertically    _<_ ➜ Decrease width   
-    _J_ ➜ Move window to far bottom    _o_ ➜ Close all other windows   _w_ ➜ Switch windows;            _=_ ➜ Equally high and wide   
+    _J_ ➜ Move window to far bottom    _o_ ➜ Close all other windows   _w_ ➜ Switch windows             _=_ ➜ Equally high and wide   
     _k_ ➜ Go to the up window          _q_ ➜ Quit a window             _x_ ➜ Swap current with next     _>_ ➜ Increase width   
 ]],
       },

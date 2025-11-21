@@ -80,19 +80,33 @@ return {
     vim.api.nvim_create_autocmd("LspAttach", {
       group = vim.api.nvim_create_augroup("NvimLspconfigKeymaps", { clear = true }),
       callback = function(event)
-        ---@param mode string|string[] The mode(s) of the keymap.
-        ---@param lhs string The left-hand side of the keymap.
-        ---@param rhs string|function The right-hand side of the keymap.
-        ---@param desc string The description of the keymap.
-        local function map(mode, lhs, rhs, desc) vim.keymap.set(mode, lhs, rhs, { desc = desc, buffer = event.buf }) end
-        map("n", "<C-s>", vim.lsp.buf.signature_help, "Signature help") -- Insert-mode keymap is handled by blink.cmp
-        map("n", "gd", "<cmd>Trouble lsp_definitions<CR>", "Go to definition")
-        map("n", "grt", "<cmd>Trouble lsp_type_definitions<CR>", "LSP: type definition")
-        map("n", "grd", "<cmd>Trouble lsp_declarations<CR>", "LSP: declaration")
-        map("n", "gri", "<cmd>Trouble lsp_implementations<CR>", "LSP: implementation")
-        map("n", "grr", "<cmd>Trouble lsp_references<CR>", "LSP: references")
-        map("n", "gra", vim.lsp.buf.code_action, "LSP: code actions")
-        map("n", "grn", vim.lsp.buf.rename, "LSP: rename")
+        ---@param mode string|string[]
+        ---@param lhs string
+        ---@param rhs string|function
+        ---@param opts table
+        local function map(mode, lhs, rhs, opts)
+          opts.buffer = event.buf
+          vim.keymap.set(mode, lhs, rhs, opts)
+        end
+
+        -- General keymaps
+        map("n", "<C-s>", vim.lsp.buf.signature_help, { desc = "Signature help" }) -- Insert-mode keymap is handled by blink.cmp
+        map("n", "gd", "<cmd>Trouble lsp_definitions<CR>", { desc = "Go to definition" })
+        map("n", "grt", "<cmd>Trouble lsp_type_definitions<CR>", { desc = "LSP: type definition" })
+        map("n", "grd", "<cmd>Trouble lsp_declarations<CR>", { desc = "LSP: declaration" })
+        map("n", "gri", "<cmd>Trouble lsp_implementations<CR>", { desc = "LSP: implementation" })
+        map("n", "grr", "<cmd>Trouble lsp_references<CR>", { desc = "LSP: references" })
+        map("n", "gra", vim.lsp.buf.code_action, { desc = "LSP: code actions" })
+        map("n", "grn", vim.lsp.buf.rename, { desc = "LSP: rename" })
+
+        -- Navigation keymaps
+        local ts_repeat_move = require("nvim-treesitter.textobjects.repeatable_move")
+        local next_reference, prev_reference = ts_repeat_move.make_repeatable_move_pair(
+          function() Snacks.words.jump(vim.v.count1, true) end,
+          function() Snacks.words.jump(-vim.v.count1, true) end
+        )
+        map({ "n", "x", "o" }, "]]", next_reference, { desc = "Next word reference" })
+        map({ "n", "x", "o" }, "[[", prev_reference, { desc = "Previous word reference" })
       end,
     })
 

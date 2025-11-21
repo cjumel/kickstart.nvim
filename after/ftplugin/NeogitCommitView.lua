@@ -1,6 +1,13 @@
 -- [[ Keymaps ]]
 
-local keymap = require("config.keymap")
+---@param mode string|string[]
+---@param lhs string
+---@param rhs string|function
+---@param opts table
+local function map(mode, lhs, rhs, opts)
+  opts.buffer = true
+  vim.keymap.set(mode, lhs, rhs, opts)
+end
 
-keymap.set_buffer("n", ";", "}", { desc = "Next hunk", remap = true })
-keymap.set_buffer("n", ",", "{", { desc = "Previous hunk", remap = true })
+map("n", ";", "}", { desc = "Next hunk", remap = true })
+map("n", ",", "{", { desc = "Previous hunk", remap = true })

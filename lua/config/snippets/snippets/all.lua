@@ -69,13 +69,9 @@ Supported keywords:]]
   return keywords_description
 end
 local function get_todo_keywords_description()
-  local todo_comment_keywords = require("config.todo-comment-keywords")
-  return _get_todo_keyword_descriptions(todo_comment_keywords.todo_main)
+  return _get_todo_keyword_descriptions({ "_TODO", "TODO", "FIXME", "BUG" })
 end
-local function get_note_keywords_description()
-  local todo_comment_keywords = require("config.todo-comment-keywords")
-  return _get_todo_keyword_descriptions(todo_comment_keywords.note_main)
-end
+local function get_note_keywords_description() return _get_todo_keyword_descriptions({ "NOTE", "HACK", "WARN" }) end
 
 local function _get_todo_keyword_snippet_choices(keywords)
   local todo_keyword_snippet_choices = {}
@@ -85,13 +81,9 @@ local function _get_todo_keyword_snippet_choices(keywords)
   return todo_keyword_snippet_choices
 end
 local function get_todo_keyword_snippet_choices()
-  local todo_comment_keywords = require("config.todo-comment-keywords")
-  return _get_todo_keyword_snippet_choices(todo_comment_keywords.todo_main)
+  return _get_todo_keyword_snippet_choices({ "_TODO", "TODO", "FIXME", "BUG" })
 end
-local function get_note_keyword_snippet_choices()
-  local todo_comment_keywords = require("config.todo-comment-keywords")
-  return _get_todo_keyword_snippet_choices(todo_comment_keywords.note_main)
-end
+local function get_note_keyword_snippet_choices() return _get_todo_keyword_snippet_choices({ "NOTE", "HACK", "WARN" }) end
 
 local todo_comment_show_condition = conds.line_end
   * ls_conds.make_condition(function(line_to_cursor)

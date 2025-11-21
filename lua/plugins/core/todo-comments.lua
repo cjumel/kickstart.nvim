@@ -9,7 +9,6 @@ return {
     {
       "<leader>ft",
       function()
-        local todo_comment_keywords = require("config.todo-comment-keywords")
         Snacks.picker("todo_comments", {
           title = "Todo-comments",
           hidden = true,
@@ -23,13 +22,37 @@ return {
             local opts = ctx.picker.opts or {}
             local keyword_filters = {}
             if opts.private then ---@diagnostic disable-line: undefined-field
-              vim.list_extend(keyword_filters, todo_comment_keywords.todo_private)
+              vim.list_extend(keyword_filters, { "_TODO" })
             end
             if opts.todo then ---@diagnostic disable-line: undefined-field
-              vim.list_extend(keyword_filters, todo_comment_keywords.todo_all)
+              vim.list_extend(keyword_filters, {
+                "_TODO",
+                "TODO",
+                "FIXME",
+                "BUG",
+                "FIX",
+                "FIXIT",
+                "ISSUE",
+                "PERF",
+                "OPTIM",
+                "PERFORMANCE",
+                "OPTIMIZE",
+                "TEST",
+                "TESTING",
+                "PASSED",
+                "FAILED",
+              })
             end
             if opts.note then ---@diagnostic disable-line: undefined-field
-              vim.list_extend(keyword_filters, todo_comment_keywords.note_all)
+              vim.list_extend(keyword_filters, {
+                "NOTE",
+                "HACK",
+                "WARN",
+                "WARNING",
+                "XXX",
+                "INFO",
+                "IMPORTANT",
+              })
             end
             if vim.tbl_isempty(keyword_filters) then
               return true
@@ -77,9 +100,11 @@ return {
       end,
       desc = "[F]ind: [T]odo-comments",
     },
-    { "<leader>vt", function() vim.cmd("Trouble todo") end, desc = "[V]iew: [T]odo-comments" },
-    { "<leader>vn", function() vim.cmd("Trouble todo_note") end, desc = "[V]iew: [N]ote-comments" },
-    { "<leader>vp", function() vim.cmd("Trouble todo_private") end, desc = "[V]iew: [P]rivate todo-comments" },
+    {
+      "<leader>vt",
+      function() vim.cmd("Trouble todo title='{hl:Title}Todo-comments {hl} {count}'") end,
+      desc = "[V]iew: [T]odo-comments",
+    },
   },
   opts = {
     keywords = {
@@ -95,4 +120,14 @@ return {
     },
     highlight = { pattern = [[.*<((KEYWORDS)%(\(.{-1,}\))?):]] }, -- Support todo-comments with author
   },
+  config = function(_, opts)
+    local todo_comments = require("todo-comments")
+    todo_comments.setup(opts)
+
+    local ts_repeat_move = require("nvim-treesitter.textobjects.repeatable_move")
+    local next_todo_comment, prev_todo_comment =
+      ts_repeat_move.make_repeatable_move_pair(todo_comments.jump_next, todo_comments.jump_prevd)
+    vim.keymap.set({ "n", "x", "o" }, "]t", next_todo_comment, { desc = "Next todo-comment" })
+    vim.keymap.set({ "n", "x", "o" }, "[t", prev_todo_comment, { desc = "Previous todo-comment" })
+  end,
 }
