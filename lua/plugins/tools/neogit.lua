@@ -47,7 +47,7 @@ return {
         ["S"] = "StageAll",
         ["<C-s>"] = "StageUnstaged",
         ["u"] = "Unstage",
-        ["<C-u>"] = "Untrack",
+        ["<M-u>"] = "Untrack", -- <C-u> is left for scrolling
         ["U"] = "UnstageStaged",
         ["<C-r>"] = "RefreshBuffer",
         ["<CR>"] = "GoToFile",
