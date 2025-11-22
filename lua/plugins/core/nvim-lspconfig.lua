@@ -51,7 +51,7 @@ local servers_by_ft = {
   yaml = { yamlls = {} },
 }
 
-local server_name_to_mason_name = {
+local server_to_mason_name = {
   jsonls = "json-lsp",
   lua_ls = "lua-language-server",
   rust_analyzer = "rust-analyzer",
@@ -66,17 +66,17 @@ return {
     "mason-org/mason-lspconfig.nvim",
   },
   ft = vim.tbl_keys(servers_by_ft),
-  init = function()
+  config = function()
+    -- Make sure all required dependencies can be installed with the `MasonInstallAll` command
     local mason_ensure_installed = {}
-    for _, ft_servers in pairs(servers_by_ft) do
-      for server_name, _ in pairs(ft_servers) do
-        local mason_name = server_name_to_mason_name[server_name] or server_name
+    for _, servers in pairs(servers_by_ft) do
+      for server, _ in pairs(servers) do
+        local mason_name = server_to_mason_name[server] or server
         table.insert(mason_ensure_installed, mason_name)
       end
     end
     vim.g.mason_ensure_installed = vim.list_extend(vim.g.mason_ensure_installed or {}, mason_ensure_installed)
-  end,
-  config = function()
+
     vim.api.nvim_create_autocmd("LspAttach", {
       group = vim.api.nvim_create_augroup("NvimLspconfigKeymaps", { clear = true }),
       callback = function(event)

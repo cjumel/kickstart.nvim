@@ -9,7 +9,9 @@ return {
       require("lazy").load({
         plugins = { -- Ensure `vim.g.mason_ensure_installed` is populated
           "conform.nvim",
+          "nvim-dap-python",
           "nvim-lint",
+          "nvim-lspconfig",
         },
       })
 
