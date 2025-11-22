@@ -1,5 +1,3 @@
--- TODO: show_condition calls have been commented out since they don't work well currently with blink.cmp
-
 local conds = require("config.snippets.conditions")
 
 local ls = require("luasnip")

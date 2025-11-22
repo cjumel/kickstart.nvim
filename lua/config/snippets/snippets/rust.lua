@@ -1,5 +1,3 @@
--- TODO: show_condition calls have been commented out since they don't work well currently with blink.cmp
-
 -- These snippets are built to be used alongside the rust-analyzer language server, which also defines snippets
 
 local conds = require("config.snippets.conditions")
