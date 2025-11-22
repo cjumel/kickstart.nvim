@@ -506,8 +506,7 @@ return {
         { icon = " ", key = "b", desc = "Git [B]ranch", action = "<leader>gb" },
         { icon = " ", key = "l", desc = "Git [L]og", action = "<leader>gl" },
         { icon = "󰊢 ", key = "m", desc = "Git [M]enu", action = "<leader>gm" },
-        { icon = "󰚸 ", key = "s", desc = "Select [S]cratch File", action = "<leader>ss" },
-        { icon = "󱞁 ", key = "n", desc = "Open Scratch [N]ote", action = "<leader>sn" },
+        { icon = "󱞁 ", key = "n", desc = "Open [N]ote", action = "<leader>sn" },
         { icon = " ", key = "q", desc = "[Q]uit", action = ":qa" },
       },
     },
@@ -687,7 +686,6 @@ return {
     scratch = {
       -- Don't use nvim user data to avoid losing the scratch files on full nvim cleaning
       root = vim.env.HOME .. "/.local/share/scratch-files",
-      autowrite = false,
       filekey = { branch = false },
       win = {
         keys = {
