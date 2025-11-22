@@ -740,11 +740,4 @@ return {
       },
     },
   },
-  config = function(_, opts)
-    Snacks.setup(opts)
-
-    -- Use same highlight group for file paths and names in Snacks.nvim pickers
-    vim.api.nvim_set_hl(0, "SnacksPickerDir", { link = "SnacksPickerFile" })
-    vim.api.nvim_set_hl(0, "SnacksPickerDirectory", { link = "SnacksPickerFile" })
-  end,
 }
