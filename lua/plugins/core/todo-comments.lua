@@ -126,7 +126,7 @@ return {
 
     local ts_repeat_move = require("nvim-treesitter.textobjects.repeatable_move")
     local next_todo_comment, prev_todo_comment =
-      ts_repeat_move.make_repeatable_move_pair(todo_comments.jump_next, todo_comments.jump_prevd)
+      ts_repeat_move.make_repeatable_move_pair(todo_comments.jump_next, todo_comments.jump_prev)
     vim.keymap.set({ "n", "x", "o" }, "]t", next_todo_comment, { desc = "Next todo-comment" })
     vim.keymap.set({ "n", "x", "o" }, "[t", prev_todo_comment, { desc = "Previous todo-comment" })
   end,
