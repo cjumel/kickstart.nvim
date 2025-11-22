@@ -6,6 +6,13 @@ return {
     require("mason").setup(opts)
 
     vim.api.nvim_create_user_command("MasonInstallAll", function()
+      require("lazy").load({
+        plugins = { -- Ensure `vim.g.mason_ensure_installed` is populated
+          "conform.nvim",
+          "nvim-lint",
+        },
+      })
+
       local ensure_installed = {}
       for _, pkg_name in ipairs(vim.g.mason_ensure_installed or {}) do
         if not vim.tbl_contains(ensure_installed, pkg_name) then

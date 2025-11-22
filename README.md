@@ -142,11 +142,10 @@ When notifications stop appearing, this is over and you can quit Neovim by typin
 to quite the lazy.nvim menu and Neovim succcessively.
 
 Optionally, you can also setup the GitHub Copilot plugin if you have a valid subscription. To do so,
-create a `lua/config/meta/global.lua` file with the following content:
+create a `.nvim.global.lua` file with the following content:
 
 ```lua
 vim.g.enable_gh_copilot_plugins = true
-return {}
 ```
 
 Then re-open Neovim and run the `Copilot auth` command to authenticate with GitHub.
@@ -158,3 +157,9 @@ Then, you're done and you can use Neovim with this custom configuration with the
 ```bash
 nvim
 ```
+
+### Additional configuration
+
+Additional global or project-level configuration can be achieved with the `.nvim.global.lua` file
+and with project-local `.nvim.lua` files. Available options can be seen by searching for the `NOTE`
+comments in the code.

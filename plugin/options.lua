@@ -46,10 +46,6 @@ vim.diagnostic.config({
   },
   virtual_text = true,
 })
--- NOTE: disable deprecation warnings by setting `vim.g.disable_deprecation_warnings = true` somewhere in your config
-if vim.g.disable_deprecation_warnings then
-  vim.deprecate = function() end ---@diagnostic disable-line: duplicate-set-field
-end
 
 -- Theme-specific options
 if ThemeConfig.options_callback then
@@ -69,3 +65,19 @@ vim.filetype.add({
     [".vimiumrc"] = "vim",
   },
 })
+
+-- Setup local config files
+vim.o.exrc = true -- Enable secure project-local config files (e.g. with `.nvim.lua` files)
+local path = vim.fn.stdpath("config") .. "/.nvim.global.lua"
+if vim.fn.filereadable(path) == 1 then
+  local code = vim.secure.read(path)
+  if code ~= nil then
+    load(code --[[@as string]])()
+  end
+end
+
+-- NOTE: disable deprecation warnings by setting `vim.g.disable_deprecation_warnings = true` in your `.nvim.global.lua`
+-- config file
+if vim.g.disable_deprecation_warnings then
+  vim.deprecate = function() end ---@diagnostic disable-line: duplicate-set-field
+end

@@ -1,28 +1,31 @@
+-- NOTE: change documentation convention on filetypes by setting `vim.g.documentation_convention_by_ft` to a mapping
+-- between filetypes and documentation conventions name in your `.nvim.lua` configuration file
+local default_documentation_convention_by_ft = {
+  python = "google_docstrings",
+}
+
 return {
   "danymat/neogen",
   dependencies = { "nvim-treesitter/nvim-treesitter" },
   keys = { { "ga", function() require("neogen").generate() end, desc = "Add documentation template" } },
   opts = function()
     local i = require("neogen.types.template").item
-
     local base_opts = {
       snippet_engine = "luasnip",
       enable_placeholders = false,
       languages = {
         python = {
           template = {
-            -- Define a google docstrings template without parameter types (see neogen.templates.google_docstrings for
-            -- the original version)
-            google_docstrings_custom = {
+            -- Redefine the google docstrings template without parameter types (see neogen.templates.google_docstrings
+            -- for the original version)
+            google_docstrings = {
               { nil, '"""$1"""', { no_results = true, type = { "class", "func" } } },
               { nil, '"""$1', { no_results = true, type = { "file" } } },
               { nil, "", { no_results = true, type = { "file" } } },
               { nil, "$1", { no_results = true, type = { "file" } } },
               { nil, '"""', { no_results = true, type = { "file" } } },
               { nil, "", { no_results = true, type = { "file" } } },
-
               { nil, "# $1", { no_results = true, type = { "type" } } },
-
               { nil, '"""$1' },
               { i.HasParameter, "", { type = { "func" } } },
               { i.HasParameter, "Args:", { type = { "func" } } },
@@ -46,12 +49,12 @@ return {
         },
       },
     }
-
+    local documentation_convention_by_ft =
+      vim.tbl_deep_extend("force", default_documentation_convention_by_ft, vim.g.documentation_convention_by_ft or {})
     local new_opts = { languages = {} }
-    for ft, documentation_convention in pairs(MetaConfig.documentation_convention_by_ft or {}) do
+    for ft, documentation_convention in pairs(documentation_convention_by_ft) do
       new_opts.languages[ft] = { template = { annotation_convention = documentation_convention } }
     end
-
     return vim.tbl_deep_extend("force", base_opts, new_opts)
   end,
 }

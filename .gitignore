@@ -1,7 +1,8 @@
-# Global Neovim configuration
-lua/config/meta/global.lua
+# Local Neovim configuration files
+.nvim.lua
+.nvim.global.lua
 
-# Symlink for the activated terminal theme
+# Symlink related to currently activated Neovim theme
 lua/config/theme/current.lua
 
 # MacOS stuff
