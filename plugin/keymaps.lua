@@ -215,6 +215,20 @@ local next_error, prev_error = ts_repeat_move.make_repeatable_move_pair(
 vim.keymap.set({ "n", "x", "o" }, "]e", next_error, { desc = "Next error" })
 vim.keymap.set({ "n", "x", "o" }, "[e", prev_error, { desc = "Previous error" })
 
+local next_mark, prev_mark = ts_repeat_move.make_repeatable_move_pair(
+  function() require("marks").next() end,
+  function() require("marks").prev() end
+)
+vim.keymap.set({ "n", "x", "o" }, "]`", next_mark, { desc = "Next mark" })
+vim.keymap.set({ "n", "x", "o" }, "[`", prev_mark, { desc = "Previous mark" })
+
+local next_todo_comment, prev_todo_comment = ts_repeat_move.make_repeatable_move_pair(
+  function() require("todo-comments").jump_next() end,
+  function() require("todo-comments").jump_prev() end
+)
+vim.keymap.set({ "n", "x", "o" }, "]t", next_todo_comment, { desc = "Next todo-comment" })
+vim.keymap.set({ "n", "x", "o" }, "[t", prev_todo_comment, { desc = "Previous todo-comment" })
+
 for _, key in ipairs({ "a", "A", "b", "B", "D", "L", "Q", "T", "<C-l>", "<C-q>", "<C-t>" }) do
   vim.keymap.del("n", "]" .. key)
   vim.keymap.del("n", "[" .. key)

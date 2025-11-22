@@ -26,13 +26,4 @@ return {
   opts = {
     default_mappings = false,
   },
-  config = function(_, opts)
-    local marks = require("marks")
-    marks.setup(opts)
-
-    local ts_repeat_move = require("nvim-treesitter.textobjects.repeatable_move")
-    local next_mark, prev_mark = ts_repeat_move.make_repeatable_move_pair(marks.next, marks.prev)
-    vim.keymap.set({ "n", "x", "o" }, "]`", next_mark, { desc = "Next mark" })
-    vim.keymap.set({ "n", "x", "o" }, "[`", prev_mark, { desc = "Previous mark" })
-  end,
 }

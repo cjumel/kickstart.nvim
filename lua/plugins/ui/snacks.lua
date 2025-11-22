@@ -740,11 +740,4 @@ return {
       },
     },
   },
-  config = function(_, opts)
-    Snacks.setup(opts)
-
-    -- Simplify some picker highlights
-    vim.api.nvim_set_hl(0, "SnacksPickerDir", { link = "SnacksPickerFile" }) -- For all file pickers
-    vim.api.nvim_set_hl(0, "SnacksPickerDirectory", { link = "SnacksPickerFile" }) -- For the directory picker
-  end,
 }
