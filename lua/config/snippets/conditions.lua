@@ -21,13 +21,6 @@ local function line_end_function(line_to_cursor)
 end
 M.line_end = ls_conds.make_condition(line_end_function)
 
----@return boolean
-local function first_line_function()
-  local _, row, _, _, _ = unpack(vim.fn.getcurpos())
-  return row == 1
-end
-M.first_line = ls_conds.make_condition(first_line_function)
-
 ---@param line_to_cursor string
 ---@return boolean
 local function is_comment_start_function(line_to_cursor)
