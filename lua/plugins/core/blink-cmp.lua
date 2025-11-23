@@ -34,6 +34,7 @@ return {
             get_cwd = function() return vim.fn.getcwd() end, -- Make suggested paths relative to the cwd
           },
         },
+        snippets = { min_keyword_length = 2, score_offset = 10 },
         lazydev = { name = "LazyDev", module = "lazydev.integrations.blink", score_offset = 100 },
         dadbod = { name = "Dadbod", module = "vim_dadbod_completion.blink" },
       },
