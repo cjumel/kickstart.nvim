@@ -262,7 +262,7 @@ return {
             local opts = ctx.picker.opts or {}
             local status_filters = {}
             if opts.staged then ---@diagnostic disable-line: undefined-field
-              vim.list_extend(status_filters, { "M ", "MM", "A ", "D ", "R " })
+              vim.list_extend(status_filters, { "M ", "MM", "A ", "AM", "D ", "R " })
             end
             if opts.unstaged then ---@diagnostic disable-line: undefined-field
               vim.list_extend(status_filters, { " M", " D", "MM", "??" })
