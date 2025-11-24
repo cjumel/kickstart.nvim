@@ -1,4 +1,5 @@
 local ls = require("luasnip")
+local ls_conds = require("luasnip.extras.conditions")
 local snippet_conds = require("config.snippets.conditions")
 
 local i = ls.insert_node
@@ -7,6 +8,16 @@ local r = ls.restore_node
 local s = ls.snippet
 local sn = ls.snippet_node
 local t = ls.text_node
+
+-- NOTE: disable conventional commit snippets by setting `vim.g.disable_conventional_commit_snippets = true` in your
+-- `.nvim.lua` config file
+-- NOTE: disable gitmoji snippets by setting `vim.g.disable_gitmoji_snippets = true` in your `.nvim.lua` config file
+local local_conds = {
+  conventional_commit_is_enabled = ls_conds.make_condition(
+    function() return not vim.g.disable_conventional_commit_snippets end
+  ),
+  gitmoji_is_enabled = ls_conds.make_condition(function() return not vim.g.disable_gitmoji_snippets end),
+}
 
 -- [[ Miscellaneous ]]
 
@@ -44,7 +55,7 @@ for _, conventional_commit_data in ipairs(conventional_commits_data) do
     M,
     s({
       trig = conventional_commit_data.name .. ": ",
-      show_condition = snippet_conds.line_begin,
+      show_condition = snippet_conds.line_begin * local_conds.conventional_commit_is_enabled,
       desc = conventional_commit_data.desc
         .. " (Conventional Commits)\n\nMultiple-choice snippet:\n- `"
         .. conventional_commit_data.name
@@ -150,7 +161,7 @@ for _, gitmoji_data in ipairs(gitmojis_data) do
     M,
     s({
       trig = gitmoji_data.name .. " " .. gitmoji_data.emoji,
-      show_condition = snippet_conds.line_begin,
+      show_condition = snippet_conds.line_begin * local_conds.gitmoji_is_enabled,
       desc = gitmoji_data.desc
         .. " (Gitmoji)\n\nMultiple-choice snippet:\n- `"
         .. gitmoji_data.emoji
