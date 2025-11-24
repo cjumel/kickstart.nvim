@@ -1,5 +1,5 @@
-local conds = require("config.snippets.conditions")
 local ls = require("luasnip")
+local snippet_conds = require("config.snippets.conditions")
 
 local i = ls.insert_node
 local c = ls.choice_node
@@ -8,10 +8,12 @@ local s = ls.snippet
 local sn = ls.snippet_node
 local t = ls.text_node
 
+-- [[ Miscellaneous ]]
+
 local M = {
   s({
     trig = "wip",
-    -- show_condition = conds.line_begin,
+    show_condition = snippet_conds.line_begin,
     desc = [[Work In Progress commit, disable any CI.]],
   }, {
     t("🚧 WIP [skip ci]"),
@@ -42,7 +44,7 @@ for _, conventional_commit_data in ipairs(conventional_commits_data) do
     M,
     s({
       trig = conventional_commit_data.name .. ": ",
-      -- show_condition = conds.line_begin,
+      show_condition = snippet_conds.line_begin,
       desc = conventional_commit_data.desc
         .. " (Conventional Commits)\n\nMultiple-choice snippet:\n- `"
         .. conventional_commit_data.name
@@ -143,16 +145,12 @@ local gitmojis_data = {
   { name = "safety_vest", emoji = "🦺", desc = "Add or update code related to validation." },
 }
 
--- When typing a trigger with a ":" prefix, the ":" is not part of the trigger, but it is replaced by the snippet.
--- Consequently, to enforce the line begin condition, we actually need a prefix condition instead.
-local show_condition = conds.make_strict_prefix_condition(":")
-
 for _, gitmoji_data in ipairs(gitmojis_data) do
   table.insert(
     M,
     s({
-      trig = ":" .. gitmoji_data.name .. ": " .. gitmoji_data.emoji,
-      -- show_condition = show_condition,
+      trig = gitmoji_data.name .. " " .. gitmoji_data.emoji,
+      show_condition = snippet_conds.line_begin,
       desc = gitmoji_data.desc
         .. " (Gitmoji)\n\nMultiple-choice snippet:\n- `"
         .. gitmoji_data.emoji

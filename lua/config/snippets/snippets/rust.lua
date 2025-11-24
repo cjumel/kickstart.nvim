@@ -1,7 +1,7 @@
 -- These snippets are built to be used alongside the rust-analyzer language server, which also defines snippets
 
-local conds = require("config.snippets.conditions")
 local ls = require("luasnip")
+local snippet_conds = require("config.snippets.conditions")
 
 local i = ls.insert_node
 local s = ls.snippet
@@ -26,7 +26,7 @@ return {
 
   s({
     trig = "let",
-    -- show_condition = conds.line_begin * conds.line_end,
+    show_condition = snippet_conds.line_begin * snippet_conds.line_end,
     desc = [[`let … = …;]],
   }, {
     t("let "),
@@ -37,7 +37,7 @@ return {
   }),
   s({
     trig = "let mut",
-    -- show_condition = conds.line_begin * conds.line_end,
+    show_condition = snippet_conds.line_begin * snippet_conds.line_end,
     desc = [[`let mut … = …;]],
   }, {
     t("let mut "),
