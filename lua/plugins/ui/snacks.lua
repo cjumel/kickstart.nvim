@@ -132,6 +132,7 @@ return {
       function()
         Snacks.picker.grep({
           title = "Grep",
+          regex = false,
           layout = { preset = "telescope_vertical" },
           cwd = vim.bo.filetype == "oil" and require("oil").get_current_dir() or nil,
           only_directory = vim.bo.filetype == "oil",
