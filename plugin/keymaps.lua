@@ -1,13 +1,5 @@
 -- [[ Modify builtin keymaps ]]
 
--- Remap j/k to deal with word wrap
-vim.keymap.set("n", "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
-vim.keymap.set("n", "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
-
--- Remap gg/G to go to buffer beginning/end instead of first/last line
-vim.keymap.set({ "n", "x" }, "gg", "gg0", { desc = "Beginning buffer" })
-vim.keymap.set({ "n", "x" }, "G", "G$", { desc = "End of buffer" })
-
 -- Remap $ in visual mode to avoid selecting the newline character (consistent with other modes)
 vim.keymap.set("v", "$", "$h", { desc = "End of line" })
 
