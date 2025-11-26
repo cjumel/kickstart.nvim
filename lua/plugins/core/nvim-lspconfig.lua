@@ -98,15 +98,6 @@ return {
         map("n", "grr", "<cmd>Trouble lsp_references<CR>", { desc = "LSP: references" })
         map("n", "gra", vim.lsp.buf.code_action, { desc = "LSP: code actions" })
         map("n", "grn", vim.lsp.buf.rename, { desc = "LSP: rename" })
-
-        -- Navigation keymaps
-        local ts_repeat_move = require("nvim-treesitter.textobjects.repeatable_move")
-        local next_reference, prev_reference = ts_repeat_move.make_repeatable_move_pair(
-          function() Snacks.words.jump(vim.v.count1, true) end,
-          function() Snacks.words.jump(-vim.v.count1, true) end
-        )
-        map({ "n", "x", "o" }, "]]", next_reference, { desc = "Next word reference" })
-        map({ "n", "x", "o" }, "[[", prev_reference, { desc = "Previous word reference" })
       end,
     })
 

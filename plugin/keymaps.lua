@@ -221,6 +221,15 @@ local next_todo_comment, prev_todo_comment = ts_repeat_move.make_repeatable_move
 vim.keymap.set({ "n", "x", "o" }, "]t", next_todo_comment, { desc = "Next todo-comment" })
 vim.keymap.set({ "n", "x", "o" }, "[t", prev_todo_comment, { desc = "Previous todo-comment" })
 
+-- For some reason, setting the next/previous word reference navigation keymaps in the nvim-lspconfig attach
+-- auto-command makes the keymap fail sometimes for some file types (e.g. Python)
+local next_reference, prev_reference = ts_repeat_move.make_repeatable_move_pair(
+  function() Snacks.words.jump(vim.v.count1, true) end,
+  function() Snacks.words.jump(-vim.v.count1, true) end
+)
+vim.keymap.set({ "n", "x", "o" }, "]]", next_reference, { desc = "Next word reference" })
+vim.keymap.set({ "n", "x", "o" }, "[[", prev_reference, { desc = "Previous word reference" })
+
 for _, key in ipairs({ "a", "A", "b", "B", "D", "L", "Q", "T", "<C-l>", "<C-q>", "<C-t>" }) do
   vim.keymap.del("n", "]" .. key)
   vim.keymap.del("n", "[" .. key)
