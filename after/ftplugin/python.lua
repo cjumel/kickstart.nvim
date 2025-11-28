@@ -22,11 +22,6 @@ local function yank_module()
   vim.fn.setreg('"', module)
   vim.notify('Yanked to register `"`:\n```\n' .. module .. "\n```", vim.log.levels.INFO, { title = "Yank" })
 end
-local function yank_repl_command()
-  local repl_command = [[exec(open("]] .. vim.fn.expand("%:p:.") .. [[").read())]]
-  vim.fn.setreg('"', repl_command)
-  vim.notify('Yanked to register `"`:\n```\n' .. repl_command .. "\n```", vim.log.levels.INFO, { title = "Yank" })
-end
 local function yank_imports()
   local lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
   local import_lines = {}
@@ -74,7 +69,6 @@ local function yank_imports()
   end
 end
 map("n", "<leader>ym", yank_module, { desc = "[Y]ank: [M]odule (Python)" })
-map("n", "<leader>yr", yank_repl_command, { desc = "[Y]ank: [R]EPL command (Python)" })
 map("n", "<leader>yi", yank_imports, { desc = "[Y]ank: [I]mports (Python)" })
 
 local function auto_fix() vim.lsp.buf.code_action({ context = { only = { "source.fixAll" } }, apply = true }) end
