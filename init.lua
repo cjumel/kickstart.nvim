@@ -35,6 +35,22 @@ require("lazy").setup({
   rocks = { enabled = false }, -- Luarocks is not installed on my machine & I don't need it
   ui = { border = "rounded" },
   change_detection = { enabled = false },
+  performance = {
+    rtp = {
+      disabled_plugins = {
+        "gzip",
+        "matchit",
+        "netrwPlugin",
+        "osc52",
+        "rplugin",
+        "spellfile",
+        "tarPlugin",
+        "tohtml",
+        "tutor",
+        "zipPlugin",
+      },
+    },
+  },
 })
 
 -- Customize lazy.nvim window keymaps
