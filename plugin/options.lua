@@ -16,6 +16,7 @@ vim.o.splitright = true -- Open new vertical split window on the right
 vim.o.splitbelow = true -- Open new horizontal split window below
 vim.opt.pumheight = 30 -- Maximum number of items to show in the popup menu (e.g. for completion)
 vim.o.matchpairs = vim.o.matchpairs .. ",<:>" -- Add recognized character pair
+vim.opt.iskeyword = "@,48-57,_,192-255,-" -- Include "-" in word text object
 
 -- Search
 vim.o.ignorecase = true -- Case-insensitive searching by default
