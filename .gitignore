@@ -1,6 +1,6 @@
 # Local Neovim configuration files
 .nvim.lua
-.nvim.global.lua
+.nvim-global.lua
 
 # Symlink related to currently activated Neovim theme
 lua/config/theme/current.lua

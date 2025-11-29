@@ -59,7 +59,7 @@ lazy_view_config.keys.next = ";"
 lazy_view_config.keys.prev = ","
 
 -- Securely source machine-level configuration file
-local global_config_path = vim.fn.stdpath("config") .. "/.nvim.global.lua"
+local global_config_path = vim.fn.stdpath("config") .. "/.nvim-global.lua"
 if vim.fn.filereadable(global_config_path) == 1 then
   local code = vim.secure.read(global_config_path) -- User is prompted before reading the file
   if code ~= nil then

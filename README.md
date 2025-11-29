@@ -160,6 +160,6 @@ nvim
 
 ### Additional configuration
 
-Additional global or project-level configuration can be achieved with the `.nvim.global.lua` file
+Additional global or project-level configuration can be achieved with the `.nvim-global.lua` file
 and with project-local `.nvim.lua` files. Available options can be seen by searching for the `NOTE`
 comments in the code.
