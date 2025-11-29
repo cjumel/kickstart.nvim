@@ -1,6 +1,16 @@
 local M = {}
 
---- Output the name of the Python module corresponding to the current file.
+local project_markers = { "pyproject.toml", "setup.py", "requirements.txt" }
+
+---@return boolean
+function M.is_project()
+  return not vim.tbl_isempty(vim.fs.find(project_markers, {
+    path = vim.fn.getcwd(),
+    upward = true,
+    stop = vim.env.HOME,
+  }))
+end
+
 ---@return string
 function M.get_module()
   if vim.bo.filetype ~= "python" then
@@ -12,16 +22,20 @@ function M.get_module()
   return module_
 end
 
---- Check if the current file is a Python test file.
 ---@return boolean
 function M.is_test_file()
+  if vim.bo.filetype ~= "python" then
+    error("Not a Python file")
+  end
   local file_name = vim.fn.expand("%:t") -- File base name and its extension
   return (file_name:match("^test_") and file_name:match("%.py$")) or file_name:match("_test%.py$")
 end
 
---- Output the name of the current Python test function using Treesitter, or nil if none can be found.
 ---@return string|nil
 function M.get_test_function_name()
+  if not M.is_test_file() then
+    error("Not a Python test file")
+  end
   local node = vim.treesitter.get_node() -- Get the Treesitter node under the cursor
   while node ~= nil do
     if node:type() == "function_definition" then

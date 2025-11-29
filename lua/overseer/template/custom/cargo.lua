@@ -8,12 +8,8 @@ return {
       if vim.fn.executable("cargo") == 0 then
         return false
       end
-      return not vim.tbl_isempty(vim.fs.find("Cargo.toml", {
-        type = "file",
-        path = vim.fn.getcwd(),
-        upward = true, -- Search in the current directory and its ancestors
-        stop = vim.env.HOME,
-      }))
+      local rust_utils = require("config.lang_utils.rust")
+      return rust_utils.is_project()
     end,
   },
   generator = function(_, cb)

@@ -1,6 +1,16 @@
 local M = {}
 
---- Output the name of the Lua module corresponding to the current file.
+local project_markers = { "init.lua" }
+
+---@return boolean
+function M.is_project()
+  return not vim.tbl_isempty(vim.fs.find(project_markers, {
+    path = vim.fn.getcwd(),
+    upward = true,
+    stop = vim.env.HOME,
+  }))
+end
+
 ---@return string
 function M.get_module()
   if vim.bo.filetype ~= "lua" then
