@@ -9,9 +9,6 @@ local s = ls.snippet
 local sn = ls.snippet_node
 local t = ls.text_node
 
--- NOTE: disable conventional commit snippets by setting `vim.g.disable_conventional_commit_snippets = true` in your
--- `.nvim.lua` config file
--- NOTE: disable gitmoji snippets by setting `vim.g.disable_gitmoji_snippets = true` in your `.nvim.lua` config file
 local local_conds = {
   conventional_commit_is_enabled = ls_conds.make_condition(
     function() return not vim.g.disable_conventional_commit_snippets end

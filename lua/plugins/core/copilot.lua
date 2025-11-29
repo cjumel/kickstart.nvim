@@ -1,4 +1,3 @@
--- NOTE: enable this plugin by setting `vim.g.enable_gh_copilot_plugins = true` in your `.nvim.global.lua` config file
 return {
   "zbirenbaum/copilot.lua",
   lazy = true, -- Lazy-loading on a custom `InsertEnter` event is defined in `./plugin/autocmds.lua`

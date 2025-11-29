@@ -1,5 +1,3 @@
--- NOTE: change documentation convention on filetypes by setting `vim.g.documentation_convention_by_ft` to a mapping
--- between filetypes and documentation conventions name in your `.nvim.lua` configuration file
 local default_documentation_convention_by_ft = {
   python = "google_docstrings",
 }

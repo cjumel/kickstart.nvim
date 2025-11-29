@@ -1,5 +1,3 @@
--- NOTE: change linters on filetypes by setting the `vim.g.linters_by_ft` variable to a table of filetypes to linters in
--- your `.nvim.lua` config file
 local default_linters_by_ft = {
   json = { "jsonlint" },
   markdown = { "markdownlint" },
@@ -8,14 +6,8 @@ local default_linters_by_ft = {
   zsh = { "shellcheck" }, -- Not actually for zsh, but works fine for me
 }
 
--- NOTE: if ncessary, define Mason package names for linters by settings the `vim.g.linter_to_mason_name` variable in
--- your `.nvim.lua` config file
 local default_linter_to_mason_name = {}
 
--- NOTE: disable linting by setting `vim.g.disable_lint_on_fts` to an array of filetypes or to "*" in your `.nvim.lua`
--- config file
--- NOTE: disable linting on some files by setting `vim.g.disable_lint_on_files` to a list of path patterns in your
--- `.nvim.lua` config file
 local default_disable_lint_on_files = {
   -- Directories inside projects but managed by external tools
   "/%.git/",

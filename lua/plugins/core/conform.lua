@@ -1,5 +1,3 @@
--- NOTE: change formatters on filetypes by setting the `vim.g.formatters_by_ft` variable to a table of filetypes to
--- formatters in your `.nvim.lua` config file
 local default_formatters_by_ft = {
   conf = { "trim_newlines", "trim_whitespace" },
   editorconfig = { "trim_newlines", "trim_whitespace" },
@@ -27,8 +25,6 @@ local default_formatters_by_ft = {
   zsh = { "shfmt" }, -- Not actually for zsh, but works fine for me
 }
 
--- NOTE: if necessary, define Mason package names for formatters by settings the `vim.g.formatter_to_mason_name`
--- variable in your `.nvim.lua` config file
 local default_formatter_to_mason_name = {
   ruff_organize_imports = "ruff",
   rustfmt = false, -- Should be installed with rustup
@@ -36,10 +32,6 @@ local default_formatter_to_mason_name = {
   trim_whitespace = false,
 }
 
--- NOTE: disable format-on-save by setting `vim.g.disable_format_on_save_on_fts` to an array of filetypes or to "*" in
--- your `.nvim.lua` config file
--- NOTE: disable format-on-save on some files by setting `vim.g.disable_format_on_save_on_files` to a list of path
--- patterns in your `.nvim.lua` config file
 local default_disable_format_on_save_on_files = {
   -- Directories inside projects but managed by external tools
   "/%.git/",

@@ -99,3 +99,47 @@ vim.api.nvim_create_user_command("LintToggle", function(args)
   end
   vim.diagnostic.reset() -- Discard existing diagnotics
 end, { desc = "Toggle lint", bang = true })
+
+-- [[ Global- and project-level configuration ]]
+
+vim.api.nvim_create_user_command("ConfigProjectEdit", function()
+  local config_file = vim.fn.getcwd() .. "/.nvim.lua"
+  vim.cmd.edit(config_file)
+end, { desc = "Edit the project-level config file" })
+vim.api.nvim_create_user_command("ConfigProjectInit", function()
+  local config_file = vim.fn.getcwd() .. "/.nvim.lua"
+  if vim.fn.filereadable(config_file) == 1 then
+    error("Project-level Neovim config file already exists")
+  end
+  local example_file = vim.fn.stdpath("config") .. "/.nvim-example.lua"
+  local example_content = vim.fn.readfile(example_file)
+  vim.fn.writefile(example_content, config_file)
+  vim.cmd.edit(config_file)
+end, { desc = "Initialize the project-level Neovim config file" })
+vim.api.nvim_create_user_command("ConfigProjectYankExample", function()
+  local example_file = vim.fn.stdpath("config") .. "/.nvim-example.lua"
+  local example_content = vim.fn.readfile(example_file)
+  vim.fn.setreg('"', table.concat(example_content, "\n"))
+  vim.notify('Project config example yanked to register `"`', vim.log.levels.INFO, { title = "Config" })
+end, { desc = "Yank the project-level Neovim config example" })
+
+vim.api.nvim_create_user_command("ConfigGlobalEdit", function()
+  local config_file = vim.fn.stdpath("config") .. "/.nvim-global.lua"
+  vim.cmd.edit(config_file)
+end, { desc = "Edit the global Neovim config file" })
+vim.api.nvim_create_user_command("ConfigGlobalInit", function()
+  local config_file = vim.fn.stdpath("config") .. "/.nvim-global.lua"
+  if vim.fn.filereadable(config_file) == 1 then
+    error("Global Neovim config file already exists")
+  end
+  local example_file = vim.fn.stdpath("config") .. "/.nvim-global-example.lua"
+  local example_content = vim.fn.readfile(example_file)
+  vim.fn.writefile(example_content, config_file)
+  vim.cmd.edit(config_file)
+end, { desc = "Initialize the global Neovim config file" })
+vim.api.nvim_create_user_command("ConfigGlobalYankExample", function()
+  local example_file = vim.fn.stdpath("config") .. "/.nvim-global-example.lua"
+  local example_content = vim.fn.readfile(example_file)
+  vim.fn.setreg('"', table.concat(example_content, "\n"))
+  vim.notify('Global config example yanked to register `"`', vim.log.levels.INFO, { title = "Config" })
+end, { desc = "Yank the global Neovim config example" })
