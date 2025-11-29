@@ -100,6 +100,7 @@ return {
           layout = { preset = "telescope_horizontal" },
           only_cwd = true,
           toggles = { only_cwd = "c" },
+          show_empty = true, -- Some stuff can appear after using toggles
           actions = {
             toggle_only_cwd_custom = function(picker)
               local opts = picker.opts or {}
