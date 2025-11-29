@@ -9,7 +9,7 @@ local sn = ls.snippet_node
 local t = ls.text_node
 
 local local_conds = {
-  in_code = snippet_conds.make_ts_node_not_in_condition({
+  in_code = snippet_conds.get_ts_node_not_in_condition({
     "comment",
     "comment_content",
     "string",

@@ -10,11 +10,5 @@ return {
     trig = "alias",
     show_condition = snippet_conds.line_begin * snippet_conds.line_end,
     desc = [[`alias …='…'`]],
-  }, {
-    t("alias "),
-    i(1),
-    t("='"),
-    i(2),
-    t("'"),
-  }),
+  }, { t("alias "), i(1), t("='"), i(2), t("'") }),
 }

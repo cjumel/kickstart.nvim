@@ -1,5 +1,13 @@
 local M = {}
 
+--- Fix the `line_to_cursor` parameter when using snippets with blink.cmp, where the last character is missing.
+---@param line_to_cursor string
+---@return string
+function M.fix_line_to_cursor(line_to_cursor)
+  local line = vim.api.nvim_get_current_line()
+  return string.sub(line, 1, #line_to_cursor + 1)
+end
+
 -- During a completion, the matched trigger is the small word part being typed and leading to matching suggestions.
 -- Here, we consider it to be everything after the last white space or punctuation mark in the current line before the
 -- cursor (this is true as long as the matched trigger doesn't have white spaces or punctuation marks itself).

@@ -11,39 +11,18 @@ return {
   -- Rust-analyzer already provides a `fn` snippet for function definition without return type
   s({
     trig = "fnr", -- `fn` with return type
+    show_condition = snippet_conds.line_begin * snippet_conds.line_end,
     desc = [[`fn …(…) -> … { … }`]],
-  }, {
-    t("fn "),
-    i(1),
-    t("("),
-    i(2),
-    t(") -> "),
-    i(3),
-    t({ " {", "\t" }),
-    i(4),
-    t({ "", "}" }),
-  }),
+  }, { t("fn "), i(1), t("("), i(2), t(") -> "), i(3), t({ " {", "\t" }), i(4), t({ "", "}" }) }),
 
   s({
     trig = "let",
     show_condition = snippet_conds.line_begin * snippet_conds.line_end,
     desc = [[`let … = …;]],
-  }, {
-    t("let "),
-    i(1),
-    t(" = "),
-    i(2),
-    t(";"),
-  }),
+  }, { t("let "), i(1), t(" = "), i(2), t(";") }),
   s({
     trig = "let mut",
     show_condition = snippet_conds.line_begin * snippet_conds.line_end,
     desc = [[`let mut … = …;]],
-  }, {
-    t("let mut "),
-    i(1),
-    t(" = "),
-    i(2),
-    t(";"),
-  }),
+  }, { t("let mut "), i(1), t(" = "), i(2), t(";") }),
 }
