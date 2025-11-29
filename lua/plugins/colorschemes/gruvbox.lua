@@ -5,7 +5,7 @@ return {
   opts = { transparent_mode = true },
   config = function(_, opts)
     require("gruvbox").setup(opts) -- Must be called before loading the color scheme
-    vim.o.background = ThemeConfig.gruvbox_style or "dark"
+    vim.opt.background = ThemeConfig.gruvbox_style or "dark"
     vim.cmd.colorscheme("gruvbox")
   end,
 }

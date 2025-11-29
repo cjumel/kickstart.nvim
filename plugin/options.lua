@@ -1,44 +1,43 @@
 -- Window
-vim.o.showtabline = 1 -- Show tabline only when there are multiple tabs
-vim.o.laststatus = 3 -- Global status line for all windows
-vim.wo.number = true -- Absolute line numbering
-vim.wo.signcolumn = "number" -- Merge sign and number columns together
-vim.opt.foldcolumn = "auto" -- Show fold column only when there are folds
-vim.opt.fillchars = { foldopen = "", foldclose = "", fold = " " } -- Improve fold appearance
-vim.opt.cursorline = true -- Highlight the cursor line
-vim.opt.showmode = false -- Don't show mode in status line (done with lualine.nvim instead)
+vim.opt.showtabline = 1 -- Only when there are multiple tabs
+vim.opt.laststatus = 3 -- Global status line accross windows
+vim.opt.winborder = "rounded"
+vim.opt.number = true
+vim.opt.signcolumn = "number" -- Merge with number column
+vim.opt.foldcolumn = "auto" -- Only when there are folds
+vim.opt.fillchars = { foldopen = "", foldclose = "", fold = " " }
+vim.opt.cursorline = true
+vim.opt.showmode = false
+vim.opt.breakindent = true
+vim.opt.splitright = true
+vim.opt.splitbelow = true
 
--- Editor
-vim.o.mouse = "a" -- Enable mouse mode in all modes
-vim.o.breakindent = true -- After a line wrap, indent the part on the new virtual line
-vim.o.winborder = "rounded" -- Use rounded borders for floating windows
-vim.o.splitright = true -- Open new vertical split window on the right
-vim.o.splitbelow = true -- Open new horizontal split window below
-vim.opt.pumheight = 30 -- Maximum number of items to show in the popup menu (e.g. for completion)
-vim.o.matchpairs = vim.o.matchpairs .. ",<:>" -- Add recognized character pair
-vim.opt.iskeyword = "@,48-57,_,192-255,-" -- Include "-" in word text object
+-- Edition
+vim.opt.iskeyword:append("-") -- Special characters allowed in word text object
+vim.opt.matchpairs:append("<:>")
+vim.opt.formatexpr = "v:lua.require'conform'.formatexpr()"
 
 -- Search
-vim.o.ignorecase = true -- Case-insensitive searching by default
-vim.o.smartcase = true -- Enable case-sensitive searching when "\C" or capital in search
-vim.o.hlsearch = true -- Highlight matches during search
-vim.opt.shortmess:append("S") -- Remove inline search count during searching (done with lualine.nvim instead)
+vim.opt.ignorecase = true
+vim.opt.smartcase = true -- Case-sensitive when using "\C" or capital letter
+vim.opt.shortmess:append("S") -- Remove inline search count
 
 -- Internals
-vim.o.undofile = true -- Save undo history to file
-vim.o.updatetime = 250 -- Decrease delay for writting swap files
-vim.o.timeoutlen = 300 -- Decrease delay between keys in mapped sequences
-vim.o.diffopt = "internal,filler,closeoff" -- Remove linematch from diffopt (important for gitsigns.nvim hunk jumps)
-vim.o.complete = "" -- Disable builtin auto-completion
-vim.o.completeopt = "" -- Remove builtin auto-completion options
-vim.g.no_plugin_maps = 1 -- Disable default keymaps from plugins (e.g. builtin ftplugins)
+vim.opt.exrc = true -- Enable secure project-local config files (e.g. via a `.nvim.lua` file)
+vim.opt.undofile = true
+vim.opt.updatetime = 300 -- Delay for writting swap files
+vim.opt.timeoutlen = 300 -- Delay for mapped key sequences
+vim.opt.diffopt = "internal,filler,closeoff" -- Remove linematch (for gitsigns.nvim hunk jumps)
+vim.opt.complete = "" -- Disable builtin completion
+vim.opt.completeopt = ""
+vim.g.no_plugin_maps = 1 -- Disable builtin filetype plugin keymaps
 
 -- Diagnostics
 vim.diagnostic.config({
   severity_sort = true,
   float = { source = true },
   signs = {
-    text = { -- Source: require("lualine.components.diagnostics.config").symbols.icons
+    text = { -- From lualine.nvim
       [vim.diagnostic.severity.ERROR] = "󰅚 ",
       [vim.diagnostic.severity.WARN] = "󰀪 ",
       [vim.diagnostic.severity.HINT] = "󰌶 ",
@@ -48,12 +47,7 @@ vim.diagnostic.config({
   virtual_text = true,
 })
 
--- Theme-specific options
-if ThemeConfig.options_callback then
-  ThemeConfig.options_callback()
-end
-
--- Extra filetypes detection
+-- Filetypes
 vim.filetype.add({
   filename = {
     [".coverage"] = "sqlite3",
@@ -67,18 +61,14 @@ vim.filetype.add({
   },
 })
 
--- Setup local config files
-vim.o.exrc = true -- Enable secure project-local config files (e.g. with `.nvim.lua` files)
-local path = vim.fn.stdpath("config") .. "/.nvim.global.lua"
-if vim.fn.filereadable(path) == 1 then
-  local code = vim.secure.read(path)
-  if code ~= nil then
-    load(code --[[@as string]])()
-  end
-end
-
+-- Warnings
 -- NOTE: disable deprecation warnings by setting `vim.g.disable_deprecation_warnings = true` in your `.nvim.global.lua`
 -- config file
 if vim.g.disable_deprecation_warnings then
   vim.deprecate = function() end ---@diagnostic disable-line: duplicate-set-field
+end
+
+-- Theme-specific option overrides
+if ThemeConfig.options_callback then
+  ThemeConfig.options_callback()
 end

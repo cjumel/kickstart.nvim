@@ -96,9 +96,6 @@ return {
   config = function(_, opts)
     require("conform").setup(opts)
 
-    -- Enable conform formatting with Neovim's builtin formatting with `gq`
-    vim.o.formatexpr = "v:lua.require'conform'.formatexpr()"
-
     -- Make sure all required dependencies can be installed with the `MasonInstallAll` command
     local mason_ensure_installed = {}
     local formatters_by_ft = vim.tbl_deep_extend("force", default_formatters_by_ft, vim.g.formatters_by_ft or {})
