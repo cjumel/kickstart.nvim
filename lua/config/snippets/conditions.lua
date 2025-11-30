@@ -15,20 +15,9 @@ M.line_end = ls_conds.make_condition(function(line_to_cursor)
   return line_to_cursor == line
 end)
 
-M.comment_start = ls_conds.make_condition(function(line_to_cursor)
-  line_to_cursor = snippet_utils.fix_line_to_cursor(line_to_cursor)
-  local commentstring_suffix = string.sub(vim.bo.commentstring, #vim.bo.commentstring - 1, #vim.bo.commentstring)
-  if commentstring_suffix ~= "%s" then
-    return false
-  end
-  local commentstring_prefix = string.sub(vim.bo.commentstring, 1, #vim.bo.commentstring - 2)
-  local line_to_trigger = snippet_utils.get_line_to_trigger(line_to_cursor)
-  local line_to_trigger_end =
-    string.sub(line_to_trigger, #line_to_trigger - #commentstring_prefix + 1, #line_to_trigger)
-  return line_to_trigger_end == commentstring_prefix
-end)
+M.empty_line = M.line_begin * M.line_end
 
-M.get_ts_node_in_condition = function(node_types)
+local function get_ts_node_in_condition(node_types)
   return ls_conds.make_condition(function(line_to_cursor)
     line_to_cursor = snippet_utils.fix_line_to_cursor(line_to_cursor)
     local is_treesitter_parsable_, node = pcall(snippet_utils.get_treesitter_node_at_trigger, line_to_cursor)
@@ -42,7 +31,7 @@ M.get_ts_node_in_condition = function(node_types)
   end)
 end
 
-M.get_ts_node_not_in_condition = function(node_types)
+local function get_ts_node_not_in_condition(node_types)
   return ls_conds.make_condition(function(line_to_cursor)
     line_to_cursor = snippet_utils.fix_line_to_cursor(line_to_cursor)
     local is_treesitter_parsable_, node = pcall(snippet_utils.get_treesitter_node_at_trigger, line_to_cursor)
@@ -55,5 +44,34 @@ M.get_ts_node_not_in_condition = function(node_types)
     return not vim.tbl_contains(node_types, node:type())
   end)
 end
+
+M.code = get_ts_node_not_in_condition({
+  "comment",
+  "comment_content",
+  "line_comment",
+  "string",
+  "string_start",
+  "string_content",
+  "string_end",
+})
+
+M.comment = get_ts_node_in_condition({
+  "comment",
+  "comment_content",
+  "line_comment",
+})
+
+M.comment_start = ls_conds.make_condition(function(line_to_cursor)
+  line_to_cursor = snippet_utils.fix_line_to_cursor(line_to_cursor)
+  local commentstring_suffix = string.sub(vim.bo.commentstring, #vim.bo.commentstring - 1, #vim.bo.commentstring)
+  if commentstring_suffix ~= "%s" then
+    return false
+  end
+  local commentstring_prefix = string.sub(vim.bo.commentstring, 1, #vim.bo.commentstring - 2)
+  local line_to_trigger = snippet_utils.get_line_to_trigger(line_to_cursor)
+  local line_to_trigger_end =
+    string.sub(line_to_trigger, #line_to_trigger - #commentstring_prefix + 1, #line_to_trigger)
+  return line_to_trigger_end == commentstring_prefix
+end)
 
 return M

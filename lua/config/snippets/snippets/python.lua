@@ -10,32 +10,16 @@ local s = ls.snippet
 local sn = ls.snippet_node
 local t = ls.text_node
 
-local local_conds = {
-  in_code = snippet_conds.get_ts_node_not_in_condition({
-    "comment",
-    "string",
-    "string_start",
-    "string_content",
-    "string_end",
-  }),
-  in_comment = snippet_conds.get_ts_node_in_condition({ "comment" }),
-}
-
 return {
 
   -- [[ Code keywords ]]
 
-  s({
-    trig = "class",
-    show_condition = snippet_conds.line_begin * snippet_conds.line_end * local_conds.in_code,
-    desc = [[`class …: …`]],
-  }, { t("class "), i(1), t({ ":", "\t" }), i(2, "pass") }),
+  s(
+    { trig = "class", show_condition = snippet_conds.empty_line * snippet_conds.code },
+    { t("class "), i(1), t({ ":", "\t" }), i(2, "pass") }
+  ),
 
-  s({
-    trig = "def",
-    show_condition = snippet_conds.line_begin * snippet_conds.line_end * local_conds.in_code,
-    desc = [[`def …(…) -> …: …`]],
-  }, {
+  s({ trig = "def", show_condition = snippet_conds.empty_line * snippet_conds.code }, {
     t("def "),
     c(1, {
       r(nil, "name", i(nil)),
@@ -53,11 +37,7 @@ return {
     t({ ":", "\t" }),
     i(4, "pass"),
   }),
-  s({
-    trig = "async def",
-    show_condition = snippet_conds.line_begin * snippet_conds.line_end * local_conds.in_code,
-    desc = [[`async def …(…) -> …: …`]],
-  }, {
+  s({ trig = "async def", show_condition = snippet_conds.empty_line * snippet_conds.code }, {
     t("async def "),
     c(1, {
       r(nil, "name", i(nil)),
@@ -76,43 +56,28 @@ return {
     i(4, "pass"),
   }),
 
-  s({
-    trig = "elif",
-    show_condition = snippet_conds.line_begin * snippet_conds.line_end * local_conds.in_code,
-    desc = [[Choices:
-- `elif …: …`
-- `elif not …: …`]],
-  }, {
+  s({ trig = "elif", show_condition = snippet_conds.empty_line * snippet_conds.code }, {
     c(1, {
       sn(nil, { t("elif "), r(1, "cond", i(nil)), t({ ":", "\t" }), r(2, "content", i(nil, "pass")) }),
       sn(nil, { t("elif not "), r(1, "cond"), t({ ":", "\t" }), r(2, "content") }),
     }),
   }),
 
-  s({
-    trig = "else",
-    show_condition = snippet_conds.line_begin * snippet_conds.line_end * local_conds.in_code,
-    desc = [[`else: …`]],
-  }, { t({ "else:", "\t" }), i(1, "pass") }),
+  s(
+    { trig = "else", show_condition = snippet_conds.empty_line * snippet_conds.code },
+    { t({ "else:", "\t" }), i(1, "pass") }
+  ),
 
-  s({
-    trig = "for",
-    show_condition = snippet_conds.line_begin * snippet_conds.line_end * local_conds.in_code,
-    desc = [[`for … in …: …`]],
-  }, { t("for "), i(1), t(" in "), i(2), t({ ":", "\t" }), i(3, "pass") }),
-  s({
-    trig = "async for",
-    show_condition = snippet_conds.line_begin * snippet_conds.line_end * local_conds.in_code,
-    desc = [[`async for … in …: …`]],
-  }, { t("async for "), i(1), t(" in "), i(2), t({ ":", "\t" }), i(3, "pass") }),
+  s(
+    { trig = "for", show_condition = snippet_conds.empty_line * snippet_conds.code },
+    { t("for "), i(1), t(" in "), i(2), t({ ":", "\t" }), i(3, "pass") }
+  ),
+  s(
+    { trig = "async for", show_condition = snippet_conds.empty_line * snippet_conds.code },
+    { t("async for "), i(1), t(" in "), i(2), t({ ":", "\t" }), i(3, "pass") }
+  ),
 
-  s({
-    trig = "from",
-    show_condition = snippet_conds.line_begin * snippet_conds.line_end * local_conds.in_code,
-    desc = [[Choices:
-- `from … import …`
-- `from … import … as …`]],
-  }, {
+  s({ trig = "from … import", show_condition = snippet_conds.empty_line * snippet_conds.code }, {
     c(1, {
       sn(nil, { t("from "), r(1, "module", i(nil)), t(" import "), r(2, "content", i(nil)) }),
       sn(nil, { t("from "), r(1, "module"), t(" import "), r(2, "content"), t(" as "), i(3) }),
@@ -120,34 +85,21 @@ return {
   }),
   s({
     trig = "from __future__ import annotations",
-    show_condition = snippet_conds.line_begin * snippet_conds.line_end * local_conds.in_code,
-    desc = [[`from __future__ import annotations`]],
+    show_condition = snippet_conds.empty_line * snippet_conds.code,
+    priority = 999, -- Default is 1000
   }, { t({ "from __future__ import annotations", "" }) }),
 
-  s({
-    trig = "if",
-    show_condition = snippet_conds.line_begin * snippet_conds.line_end * local_conds.in_code,
-    desc = [[Choices:
-- `if …: …`,
-- `if not …: …`]],
-  }, {
+  s({ trig = "if", show_condition = snippet_conds.empty_line * snippet_conds.code }, {
     c(1, {
       sn(nil, { t("if "), r(1, "cond", i(nil)), t({ ":", "\t" }), r(2, "content", i(nil, "pass")) }),
       sn(nil, { t("if not "), r(1, "cond"), t({ ":", "\t" }), r(2, "content") }),
     }),
   }),
-  s({
-    trig = "if … main",
-    show_condition = snippet_conds.line_begin * snippet_conds.line_end * local_conds.in_code,
-    desc = [[`if __name__ == "__main__": …`]],
-  }, { t({ 'if __name__ == "__main__":', "\t" }), i(1, "pass") }),
-  s({
-    trig = "if … isinstance … raise",
-    show_condition = snippet_conds.line_begin * snippet_conds.line_end * local_conds.in_code,
-    desc = [[Choices:
-- `if isinstance(…): raise TypeError(…)`
-- `if not isinstance(…): raise TypeError(…)`]],
-  }, {
+  s(
+    { trig = "if … main", show_condition = snippet_conds.empty_line * snippet_conds.code },
+    { t({ 'if __name__ == "__main__":', "\t" }), i(1, "pass") }
+  ),
+  s({ trig = "if … isinstance … raise", show_condition = snippet_conds.empty_line * snippet_conds.code }, {
     c(1, {
       sn(nil, {
         t("if isinstance("),
@@ -179,13 +131,7 @@ return {
       }),
     }),
   }),
-  s({
-    trig = "if … None … raise",
-    show_condition = snippet_conds.line_begin * snippet_conds.line_end * local_conds.in_code,
-    desc = [[Choices:
-- `if … is None: raise ValueError(…)`
-- `if … is not None: raise ValueError(…)`]],
-  }, {
+  s({ trig = "if … None … raise", show_condition = snippet_conds.empty_line * snippet_conds.code }, {
     c(1, {
       sn(nil, {
         t("if "),
@@ -210,50 +156,39 @@ return {
     }),
   }),
 
-  s({
-    trig = "import",
-    show_condition = snippet_conds.line_begin * snippet_conds.line_end * local_conds.in_code,
-    desc = [[Choices:
-- `import …`
-- `import … as …`]],
-  }, {
+  s({ trig = "import", show_condition = snippet_conds.empty_line * snippet_conds.code }, {
     c(1, {
       sn(nil, { t("import "), r(1, "module", i(nil)) }),
       sn(nil, { t("import "), r(1, "module"), t(" as "), i(2) }),
     }),
   }),
 
-  s({
-    trig = "union None",
-    show_condition = -snippet_conds.line_begin * local_conds.in_code,
-    desc = [[Choices:
-- `| None`
-- `| None = …`]],
-  }, {
+  s({ trig = "try … except", show_condition = snippet_conds.empty_line * snippet_conds.code }, {
+    t({ "try:", "\t" }),
+    i(1, "pass"),
+    t({ "", "except " }),
+    i(2, "Exception"),
+    t({ ":", "\t" }),
+    i(3, "pass"),
+  }),
+
+  s({ trig = "union None", show_condition = -snippet_conds.line_begin * snippet_conds.code }, {
     c(1, {
       sn(nil, { t("| None"), i(1) }),
       sn(nil, { t("| None = "), i(1, "None") }),
     }),
   }),
 
-  s({
-    trig = "with",
-    show_condition = snippet_conds.line_begin * snippet_conds.line_end * local_conds.in_code,
-    desc = [[`with …: …`]],
-  }, { t("with "), i(1), t({ ":", "\t" }), i(2, "pass") }),
-  s({
-    trig = "async with",
-    show_condition = snippet_conds.line_begin * snippet_conds.line_end * local_conds.in_code,
-    desc = [[`async with …: …`]],
-  }, { t("async with "), i(1), t({ ":", "\t" }), i(2, "pass") }),
+  s(
+    { trig = "with", show_condition = snippet_conds.empty_line * snippet_conds.code },
+    { t("with "), i(1), t({ ":", "\t" }), i(2, "pass") }
+  ),
+  s(
+    { trig = "async with", show_condition = snippet_conds.empty_line * snippet_conds.code },
+    { t("async with "), i(1), t({ ":", "\t" }), i(2, "pass") }
+  ),
 
-  s({
-    trig = "while",
-    show_condition = snippet_conds.line_begin * snippet_conds.line_end * local_conds.in_code,
-    desc = [[Choices:
-- `while …: …`,
-- `while not …: …`]],
-  }, {
+  s({ trig = "while", show_condition = snippet_conds.empty_line * snippet_conds.code }, {
     c(1, {
       sn(nil, { t("while "), r(1, "cond", i(nil)), t({ ":", "\t" }), r(2, "content", i(nil, "pass")) }),
       sn(nil, { t("while not "), r(1, "cond"), t({ ":", "\t" }), r(2, "content") }),
@@ -265,10 +200,7 @@ return {
   s({
     trig = "noqa",
     show_condition = snippet_conds.comment_start * snippet_conds.line_end,
-    desc = [[Ignore lint warnings (e.g. for Flake8 or Ruff).
-Choices:
-- `noqa: …`
-- `noqa`]],
+    desc = "Ignore lint warnings for Flake8 or Ruff",
   }, {
     c(1, {
       sn(nil, { t("noqa: "), i(1) }),
@@ -279,17 +211,13 @@ Choices:
   s({
     trig = "pragma: no cover",
     show_condition = snippet_conds.comment_start * snippet_conds.line_end,
-    desc = [[Exclude from coverage reports (e.g. for coverage.py or pytest-cov).
-`pragma: no cover`]],
+    desc = "Exclude from coverage reports for coverage.py",
   }, { t("pragma: no cover") }),
 
   s({
     trig = "pyright: ignore",
     show_condition = snippet_conds.comment_start * snippet_conds.line_end,
-    desc = [[Ignore a specific pyright warning.
-Choices:
-- `pyright: ignore[…]`
-- `pyright: ignore`]],
+    desc = "Ignore pyright warnings",
   }, {
     c(1, {
       sn(nil, { t("pyright: ignore["), i(1), t("]") }),
@@ -300,10 +228,7 @@ Choices:
   s({
     trig = "ruff: noqa",
     show_condition = snippet_conds.comment_start * snippet_conds.line_end,
-    desc = [[Ignore ruff warnings for the entire file.
-Choices:
-- `ruff: noqa: …`
-- `ruff: noqa`]],
+    desc = "Ignore Ruff warnings for the whole file (should be near the beginning of the file)",
   }, {
     c(1, {
       sn(nil, { t("ruff: noqa: "), i(1) }),
@@ -314,10 +239,7 @@ Choices:
   s({
     trig = "type: ignore",
     show_condition = snippet_conds.comment_start * snippet_conds.line_end,
-    desc = [[Ignore typing warnings (e.g. for mypy or Pyright).
-Choices:
-- `type: ignore[…]`
-- `type: ignore`]],
+    desc = "Ignore typing warnings for mypy or Pyright",
   }, {
     c(1, {
       sn(nil, { t("type: ignore["), i(1), t("]") }),

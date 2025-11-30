@@ -10,12 +10,15 @@ local sn = ls.snippet_node
 local t = ls.text_node
 
 return {
-  s({ trig = "bold", desc = "`**…**`" }, { t("**"), i(1), t("**") }),
-  s({ trig = "bold-italic", desc = "`**_…_**`" }, { t("**_"), i(1), t("_**") }),
+
+  -- [[ Vanilla Markdown ]]
+
+  s({ trig = "bold" }, { t("**"), i(1), t("**") }),
+  s({ trig = "bold-italic" }, { t("**_"), i(1), t("_**") }),
 
   s({
     trig = "callout",
-    show_condition = snippet_conds.line_begin * snippet_conds.line_end,
+    show_condition = snippet_conds.empty_line,
     desc = [[Available keywords:
 - `NOTE`
 - `TIP`
@@ -41,21 +44,12 @@ return {
     i(2),
   }),
 
-  s({
-    trig = "code-block",
-    show_condition = snippet_conds.line_begin * snippet_conds.line_end,
-    desc = [[
-\`\`\`…
-…
-\`\`\`]],
-  }, { t("```"), c(1, { i(nil), t("bash") }), t({ "", "" }), i(2), t({ "", "```" }) }),
+  s(
+    { trig = "code-block", show_condition = snippet_conds.empty_line },
+    { t("```"), c(1, { i(nil), t("bash") }), t({ "", "" }), i(2), t({ "", "```" }) }
+  ),
 
-  s({
-    trig = "date",
-    desc = [[Choices:
-- `<%Y>-<%m>-<%d>` (ISO 8601)
-- `<%d>/<%m>/<%Y>` (French)]],
-  }, {
+  s({ trig = "date" }, {
     d(
       1,
       function(_)
@@ -69,17 +63,7 @@ return {
     ),
   }),
 
-  s({
-    trig = "header",
-    show_condition = snippet_conds.line_begin * snippet_conds.line_end,
-    desc = [[
-Multiple-choice snippet:
-- `# …`
-- `## …`
-- `### …`
-- `#### …`
-- `##### …`]],
-  }, {
+  s({ trig = "header", show_condition = snippet_conds.empty_line }, {
     c(1, {
       sn(nil, { t("# "), r(1, "content", i(nil)) }),
       sn(nil, { t("## "), r(1, "content") }),
@@ -89,19 +73,11 @@ Multiple-choice snippet:
     }),
   }),
 
-  s({ trig = "italic", desc = "`_…_`" }, { t("_"), i(1), t("_") }),
+  s({ trig = "italic" }, { t("_"), i(1), t("_") }),
 
-  s({ trig = "link", desc = "`[…](…)`" }, { t("["), i(1, "name"), t("]("), i(2, "link"), t(")") }),
+  s({ trig = "link" }, { t("["), i(1, "name"), t("]("), i(2, "link"), t(")") }),
 
-  s({
-    trig = "quote-block",
-    show_condition = snippet_conds.line_begin * snippet_conds.line_end,
-    desc = [[
-Multiple-choice snippet:
-- `> …`
-- `>> …`
-- `>>> …`]],
-  }, {
+  s({ trig = "quote-block", show_condition = snippet_conds.empty_line }, {
     c(1, {
       sn(nil, { t("> "), r(1, "content", i(nil)) }),
       sn(nil, { t(">> "), r(1, "content") }),
@@ -109,14 +85,9 @@ Multiple-choice snippet:
     }),
   }),
 
-  s({ trig = "strikethrough", desc = "~…~" }, { t("~"), i(1), t("~") }),
+  s({ trig = "strikethrough" }, { t("~"), i(1), t("~") }),
 
-  s({
-    trig = "time",
-    desc = [[Choices:
-- `<%H>:<%M>` (ISO 8601)
-- `<%H>h<%M>` (French)]],
-  }, {
+  s({ trig = "time" }, {
     d(
       1,
       function(_)
@@ -132,18 +103,7 @@ Multiple-choice snippet:
 
   -- [[ GitHub Flavored Markdown ]]
 
-  s({
-    trig = "checkbox",
-    show_condition = snippet_conds.line_begin,
-    desc = [[
-Multiple-choice snippet:
-- `- [ ] …` (todo)
-- `- [x] …` (done)
-- `- [-] …` (WIP)
-- `- [o] …` (blocked)
-- `- [/] …` (cancelled)
-(GitHub Flavored Markdown)]],
-  }, {
+  s({ trig = "checkbox", show_condition = snippet_conds.line_begin }, {
     c(1, {
       sn(nil, { t("- [ ] "), r(1, "content", i(nil)) }),
       sn(nil, { t("- [x] "), r(1, "content") }),
@@ -153,18 +113,7 @@ Multiple-choice snippet:
     }),
   }),
 
-  s({
-    trig = "toggle-block",
-    show_condition = snippet_conds.line_begin * snippet_conds.line_end,
-    desc = [[
-`<details>`
-`<summary>…<\summary>`
-
-`…`
-
-`<\details>`
-(GitHub Flavored Markdown)]],
-  }, {
+  s({ trig = "toggle-block", show_condition = snippet_conds.empty_line }, {
     t({ "<details>", "<summary>" }),
     i(1, "Summary"),
     t({ "</summary>", "", "" }), -- Line break after the summary is important for some blocks like code-blocks

@@ -8,49 +8,22 @@ local s = ls.snippet
 local sn = ls.snippet_node
 local t = ls.text_node
 
-local local_conds = {
-  in_code = snippet_conds.get_ts_node_not_in_condition({
-    "comment",
-    "comment_content",
-    "string",
-    "string_content",
-  }),
-}
-
 return {
+  s({ trig = "else", show_condition = snippet_conds.empty_line * snippet_conds.code }, { t("else "), i(1) }),
 
-  s({
-    trig = "else",
-    show_condition = snippet_conds.line_begin * snippet_conds.line_end * local_conds.in_code,
-    desc = [[`else …`]],
-  }, { t("else "), i(1) }),
-
-  s({
-    trig = "elseif",
-    show_condition = snippet_conds.line_begin * snippet_conds.line_end * local_conds.in_code,
-    desc = [[Choices:
-- `elseif … then …`
-- `elseif not … then …`]],
-  }, {
+  s({ trig = "elseif", show_condition = snippet_conds.empty_line * snippet_conds.code }, {
     c(1, {
       sn(nil, { t("elseif "), r(1, "cond", i(nil)), t({ " then", "\t" }), r(2, "content", i(nil)) }),
       sn(nil, { t("elseif not "), r(1, "cond"), t({ " then", "\t" }), r(2, "content") }),
     }),
   }),
 
-  s({
-    trig = "for",
-    show_condition = snippet_conds.line_begin * snippet_conds.line_end * local_conds.in_code,
-    desc = [[`for .. do .. end`]],
-  }, { t("for "), i(1), t({ " do", "\t" }), i(2), t({ "", "end" }) }),
+  s(
+    { trig = "for", show_condition = snippet_conds.empty_line * snippet_conds.code },
+    { t("for "), i(1), t({ " do", "\t" }), i(2), t({ "", "end" }) }
+  ),
 
-  s({
-    trig = "function",
-    show_condition = local_conds.in_code,
-    desc = [[Choices:
-- multiline
-- inline]],
-  }, {
+  s({ trig = "function", show_condition = snippet_conds.code }, {
     c(1, {
       sn(nil, {
         t("function "),
@@ -73,31 +46,20 @@ return {
     }),
   }),
 
-  s({
-    trig = "if",
-    show_condition = snippet_conds.line_begin * snippet_conds.line_end * local_conds.in_code,
-    desc = [[Choices:
-- `if … then … end`
-- `if not … then … end`]],
-  }, {
+  s({ trig = "if", show_condition = snippet_conds.empty_line * snippet_conds.code }, {
     c(1, {
       sn(nil, { t("if "), r(1, "cond", i(nil)), t({ " then", "\t" }), r(2, "content", i(nil)), t({ "", "end" }) }),
       sn(nil, { t("if not "), r(1, "cond"), t({ " then", "\t" }), r(2, "content"), t({ "", "end" }) }),
     }),
   }),
 
-  s({
-    trig = "local",
-    show_condition = snippet_conds.line_begin * snippet_conds.line_end * local_conds.in_code,
-    desc = [[`local …`]],
-  }, { t("local ") }),
-  s({
-    trig = "local function",
-    show_condition = snippet_conds.line_begin * snippet_conds.line_end * local_conds.in_code,
-    desc = [[Choices:
-- multiline
-- inline]],
-  }, {
+  s({ trig = "local", show_condition = snippet_conds.empty_line * snippet_conds.code }, {
+    c(1, {
+      sn(nil, { t("local "), r(1, "name", i(nil)), t(" = "), i(2) }),
+      sn(nil, { t("local "), r(1, "name") }),
+    }),
+  }),
+  s({ trig = "local function", show_condition = snippet_conds.empty_line * snippet_conds.code }, {
     c(1, {
       sn(nil, {
         t("local function "),
@@ -119,19 +81,12 @@ return {
       }),
     }),
   }),
-  s({
-    trig = "local … require",
-    show_condition = snippet_conds.line_begin * snippet_conds.line_end * local_conds.in_code,
-    desc = [[`local … = require("…")`]],
-  }, { t("local "), i(1), t(' = require("'), i(2), t('")') }),
+  s(
+    { trig = "local … require", show_condition = snippet_conds.empty_line * snippet_conds.code },
+    { t("local "), i(1), t(' = require("'), i(2), t('")') }
+  ),
 
-  s({
-    trig = "while",
-    show_condition = snippet_conds.line_begin * snippet_conds.line_end * local_conds.in_code,
-    desc = [[Choices:
-- `while … do … end`
-- `while not … do … end`]],
-  }, {
+  s({ trig = "while", show_condition = snippet_conds.empty_line * snippet_conds.code }, {
     c(1, {
       sn(nil, { t("while "), r(1, "cond", i(nil)), t({ " do", "\t" }), r(2, "content", i(nil)), t({ "", "end" }) }),
       sn(nil, { t("while not "), r(1, "cond"), t({ " do", "\t" }), r(2, "content"), t({ "", "end" }) }),

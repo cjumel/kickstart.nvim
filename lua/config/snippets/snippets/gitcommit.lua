@@ -8,17 +8,14 @@ local s = ls.snippet
 local sn = ls.snippet_node
 local t = ls.text_node
 
+local snippets = {}
+
 -- [[ Miscellaneous ]]
 
-local M = {
-  s({
-    trig = "wip",
-    show_condition = snippet_conds.line_begin,
-    desc = [[Work In Progress commit, disable any CI.]],
-  }, {
-    t("🚧 WIP [skip ci]"),
-  }),
+local misc_snippets = {
+  s({ trig = "wip", show_condition = snippet_conds.line_begin }, { t("🚧 WIP [skip ci]") }),
 }
+snippets = vim.list_extend(snippets, misc_snippets)
 
 -- [[ Convsentional Commits ]]
 
@@ -41,20 +38,11 @@ if not vim.g.disable_conventional_commit_snippets then
   }
   for _, conventional_commit_data in ipairs(conventional_commits_data) do
     table.insert(
-      M,
+      snippets,
       s({
         trig = conventional_commit_data.name .. ": ",
         show_condition = snippet_conds.line_begin,
-        desc = conventional_commit_data.desc
-          .. " (Conventional Commits)\n\nMultiple-choice snippet:\n- `"
-          .. conventional_commit_data.name
-          .. ": …`\n- `"
-          .. conventional_commit_data.name
-          .. "(…): …` (with scope)\n- `"
-          .. conventional_commit_data.name
-          .. "(…)!: …` (with scope and breaking change)\n- `"
-          .. conventional_commit_data.name
-          .. "!: …` (with breaking change)",
+        desc = conventional_commit_data.desc .. " (Conventional Commits)",
       }, {
         c(1, {
           sn(nil, { t(conventional_commit_data.name .. ": "), r(1, "content", i(nil)) }),
@@ -152,16 +140,11 @@ if not vim.g.disable_gitmoji_snippets then
   }
   for _, gitmoji_data in ipairs(gitmojis_data) do
     table.insert(
-      M,
+      snippets,
       s({
         trig = gitmoji_data.name .. " " .. gitmoji_data.emoji,
         show_condition = snippet_conds.line_begin,
-        desc = gitmoji_data.desc
-          .. " (Gitmoji)\n\nMultiple-choice snippet:\n- `"
-          .. gitmoji_data.emoji
-          .. " …`\n- `"
-          .. gitmoji_data.emoji
-          .. " (…) …` (with scope)",
+        desc = gitmoji_data.desc .. " (Gitmoji)",
       }, {
         c(1, {
           sn(nil, { t(gitmoji_data.emoji .. " "), r(1, "content", i(nil)) }),
@@ -172,4 +155,4 @@ if not vim.g.disable_gitmoji_snippets then
   end
 end
 
-return M
+return snippets

@@ -1,7 +1,6 @@
 local ls = require("luasnip")
 local ls_conds = require("luasnip.extras.conditions")
 local snippet_conds = require("config.snippets.conditions")
-local snippet_utils = require("config.snippets.utils")
 
 local c = ls.choice_node
 local f = ls.function_node
@@ -12,6 +11,7 @@ local sn = ls.snippet_node
 local t = ls.text_node
 
 local local_conds = {}
+local snippets = {}
 
 -- [[ Todo-comment snippets ]]
 -- Initially taken from: https://github.com/L3MON4D3/LuaSnip/wiki/Cool-Snippets#all---todo-commentsnvim-snippets
@@ -102,47 +102,10 @@ local_conds.support_todo_comments = ls_conds.make_condition(function()
   return true
 end)
 
-local_conds.comment = ls_conds.make_condition(function(line_to_cursor)
-  line_to_cursor = snippet_utils.fix_line_to_cursor(line_to_cursor)
-  local is_treesitter_parsable, node = pcall(snippet_utils.get_treesitter_node_at_trigger, line_to_cursor)
-  if not is_treesitter_parsable then
-    return false
-  end
-  if not node then -- E.g. very beginning of the buffer
-    return true
-  end
-  local is_in_code = not vim.tbl_contains({
-    "comment",
-    "comment_content",
-    "line_comment",
-    "string",
-    "string_start",
-    "string_content",
-  }, node:type())
-  return is_in_code
-end)
-
-local_conds.keyword = ls_conds.make_condition(function(line_to_cursor)
-  line_to_cursor = snippet_utils.fix_line_to_cursor(line_to_cursor)
-  local is_treesitter_parsable, node = pcall(snippet_utils.get_treesitter_node_at_trigger, line_to_cursor)
-  if not is_treesitter_parsable then
-    return false
-  end
-  if not node then -- E.g. very beginning of the buffer
-    return false
-  end
-  local is_in_comment = vim.tbl_contains({
-    "comment",
-    "comment_content",
-    "line_comment",
-  }, node:type())
-  return is_in_comment
-end)
-
-return {
+local todo_comment_snippets = {
   s({
     trig = "todo-comment",
-    show_condition = snippet_conds.line_end * local_conds.support_todo_comments * local_conds.comment,
+    show_condition = snippet_conds.line_end * local_conds.support_todo_comments * snippet_conds.code,
     desc = todo_description,
   }, {
     f(get_comment_string_start),
@@ -151,7 +114,7 @@ return {
   }),
   s({
     trig = "note-comment",
-    show_condition = snippet_conds.line_end * local_conds.support_todo_comments * local_conds.comment,
+    show_condition = snippet_conds.line_end * local_conds.support_todo_comments * snippet_conds.code,
     desc = note_description,
   }, {
     f(get_comment_string_start),
@@ -160,16 +123,19 @@ return {
   }),
   s({
     trig = "todo-keyword",
-    show_condition = snippet_conds.line_end * local_conds.support_todo_comments * local_conds.keyword,
+    show_condition = snippet_conds.line_end * local_conds.support_todo_comments * snippet_conds.comment,
     desc = todo_description,
   }, {
     c(1, get_snippet_choices(todo_keywords)),
   }),
   s({
     trig = "note-keyword",
-    show_condition = snippet_conds.line_end * local_conds.support_todo_comments * local_conds.keyword,
+    show_condition = snippet_conds.line_end * local_conds.support_todo_comments * snippet_conds.comment,
     desc = note_description,
   }, {
     c(1, get_snippet_choices(note_keywords)),
   }),
 }
+snippets = vim.list_extend(snippets, todo_comment_snippets)
+
+return snippets
