@@ -13,7 +13,7 @@ return {
 
   s(
     { trig = "elif", show_condition = snippet_conds.empty_line },
-    { t("elif [ "), i(1), t(" ]; then"), t({ "", "\t" }), i(2) }
+    { t("elif [[ "), i(1), t(" ]]; then"), t({ "", "\t" }), i(2) }
   ),
 
   s({ trig = "else", show_condition = snippet_conds.empty_line }, { t({ "else", "\t" }), i(1) }),
@@ -27,7 +27,7 @@ return {
 
   s(
     { trig = "if", show_condition = snippet_conds.empty_line },
-    { t("if [ "), i(1), t(" ]; then"), t({ "", "\t" }), i(2), t({ "", "fi" }) }
+    { t("if [[ "), i(1), t(" ]]; then"), t({ "", "\t" }), i(2), t({ "", "fi" }) }
   ),
 
   s({ trig = "local", show_condition = snippet_conds.empty_line }, {
