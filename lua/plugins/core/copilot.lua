@@ -6,9 +6,9 @@ return {
     suggestion = {
       auto_trigger = true,
       keymap = {
-        accept = "<Tab>",
-        accept_word = "<M-f>",
-        accept_line = "<C-e>",
+        accept = false, -- Implemented in `./plugin/keymaps.lua` for more control
+        accept_word = false, -- Implemented in `./plugin/keymaps.lua` for more control
+        accept_line = false, -- Implemented in `./plugin/keymaps.lua` for more control
         next = "<M-n>",
         prev = "<M-p>",
         dismiss = "<C-c>",
