@@ -93,6 +93,7 @@ return {
         body = "<leader>w",
         config = { desc = "[W]indow menu" },
         heads = {
+          -- { "d", "<C-w>d" }, -- Doesn't work well with hydra.nvim for some reason
           { "h", "<C-w>h" },
           { "H", "<C-w>H" },
           { "j", "<C-w>j" },
@@ -113,15 +114,18 @@ return {
           { "<", "<C-w><" },
           { "=", "<C-w>=" },
           { ">", "<C-w>>" },
+          -- { "_", "<C-w>_" }, -- Keymap with `_` is not supported by hydra.nvim
+          -- { "|", "<C-w>|" }, -- For consistency with `_`
+          -- { "<C-d>", "<C-w><C-d>" }, -- Prefer `d`
           { "<Esc>", nil, { exit = true, desc = false } },
         },
         hint = [[
-                                                            Window
-    _h_ ➜ Go to the left window        _K_ ➜ Move window to far top    _s_ ➜ Split a window             _+_ ➜ Increase height   
-    _H_ ➜ Move window to far left      _l_ ➜ Go to the right window    _T_ ➜ Break out into a new tab   _-_ ➜ Decrease height   
-    _j_ ➜ Go to the down window        _L_ ➜ Move window to far right  _v_ ➜ Split window vertically    _<_ ➜ Decrease width   
-    _J_ ➜ Move window to far bottom    _o_ ➜ Close all other windows   _w_ ➜ Switch windows             _=_ ➜ Equally high and wide   
-    _k_ ➜ Go to the up window          _q_ ➜ Quit a window             _x_ ➜ Swap current with next     _>_ ➜ Increase width   
+                                                           Window
+   _h_ ➜ Go to the left window       _K_ ➜ Move window to far top     _s_ ➜ Split a window             _+_ ➜ Increase height   
+   _H_ ➜ Move window to far left     _l_ ➜ Go to the right window     _T_ ➜ Break out into a new tab   _-_ ➜ Decrease height   
+   _j_ ➜ Go to the down window       _L_ ➜ Move window to far right   _v_ ➜ Split window vertically    _<_ ➜ Decrease width   
+   _J_ ➜ Move window to far bottom   _o_ ➜ Close all other windows    _w_ ➜ Switch windows             _=_ ➜ Equally high and wide   
+   _k_ ➜ Go to the up window         _q_ ➜ Quit a window              _x_ ➜ Swap current with next     _>_ ➜ Increase width   
 ]],
       },
     },
