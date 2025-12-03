@@ -3,8 +3,7 @@ local default_formatters_by_ft = {
   editorconfig = { "trim_newlines", "trim_whitespace" },
   gitconfig = { "trim_newlines", "trim_whitespace" },
   gitignore = { "trim_newlines", "trim_whitespace" },
-  javascript = { "biome" },
-  json = { "jq" },
+  json = { lsp_format = "first" }, -- JsonLS
   lua = { "stylua" },
   make = { "trim_newlines", "trim_whitespace" },
   markdown = { "mdformat" },
@@ -18,7 +17,7 @@ local default_formatters_by_ft = {
   text = { "trim_newlines", "trim_whitespace" },
   tmux = { "trim_newlines", "trim_whitespace" },
   toml = { lsp_format = "first" }, -- Taplo
-  typescript = { "biome" },
+  typescript = { lsp_format = "first" }, -- Biome
   typst = { lsp_format = "first" }, -- Tinymist
   vim = { "trim_newlines", "trim_whitespace" },
   yaml = { "yamlfmt", "trim_newlines" },

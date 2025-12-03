@@ -152,7 +152,6 @@ snippets = vim.list_extend(snippets, special_file_snippets)
 -- [[ Extensions ]]
 
 local extensions = { -- Can be an array with a priority
-  "js",
   "json",
   "jsonc",
   "jsonl",
