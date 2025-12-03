@@ -229,6 +229,16 @@ return {
       desc = "[F]ind: [H]elp",
     },
     {
+      "<leader>fm",
+      function()
+        Snacks.picker.man({
+          title = "Man Pages",
+          layout = { preset = "telescope_horizontal" },
+        })
+      end,
+      desc = "[F]ind: [M]an pages",
+    },
+    {
       "<leader>fc",
       function()
         Snacks.picker.commands({
