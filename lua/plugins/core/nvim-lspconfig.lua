@@ -14,14 +14,14 @@ local servers_by_ft = {
   },
   markdown = { marksman = {} },
   python = {
-    basedpyright = {
+    basedpyright = { -- Pure LSP features
       settings = {
         basedpyright = {
-          analysis = { typeCheckingMode = "standard" }, -- Relax type checking rules
+          analysis = { typeCheckingMode = "standard" }, -- Relax default type checking rules
         },
       },
     },
-    ruff = {},
+    ruff = {}, -- Lint and format
   },
   rust = {
     rust_analyzer = {
@@ -34,7 +34,15 @@ local servers_by_ft = {
     },
   },
   toml = { taplo = {} },
-  typescript = { ts_ls = {} },
+  typescript = {
+    ts_ls = { -- Pure LSP features
+      on_attach = function(client) -- Disable formatting in favor of biome
+        client.server_capabilities.documentFormattingProvider = false
+        client.server_capabilities.documentRangeFormattingProvider = false
+      end,
+    },
+    biome = {}, -- Lint and format
+  },
   typst = {
     tinymist = {
       settings = {

@@ -26,6 +26,7 @@ return {
       "markdown",
       "markdown_inline", -- Advanced Markdown features (e.g. concealing)
       "proto",
+      "prisma",
       "python",
       "regex",
       "requirements",

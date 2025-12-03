@@ -3,23 +3,22 @@ local default_formatters_by_ft = {
   editorconfig = { "trim_newlines", "trim_whitespace" },
   gitconfig = { "trim_newlines", "trim_whitespace" },
   gitignore = { "trim_newlines", "trim_whitespace" },
-  javascript = { "biome" },
-  json = { "jq" },
+  json = { lsp_format = "first" }, -- jsonls
   lua = { "stylua" },
   make = { "trim_newlines", "trim_whitespace" },
   markdown = { "mdformat" },
   proto = { "trim_newlines", "trim_whitespace" },
   python = {
     "ruff_organize_imports",
-    lsp_format = "last", -- Ruff
+    lsp_format = "last", -- ruff
   },
   rust = { "rustfmt" },
   sh = { "shfmt" },
   text = { "trim_newlines", "trim_whitespace" },
   tmux = { "trim_newlines", "trim_whitespace" },
-  toml = { lsp_format = "first" }, -- Taplo
-  typescript = { "biome" },
-  typst = { lsp_format = "first" }, -- Tinymist
+  toml = { lsp_format = "first" }, -- taplo
+  typescript = { lsp_format = "first" }, -- biome
+  typst = { lsp_format = "first" }, -- tinymist
   vim = { "trim_newlines", "trim_whitespace" },
   yaml = { "yamlfmt", "trim_newlines" },
   zsh = { "shfmt" }, -- Not actually for zsh, but works fine for me
