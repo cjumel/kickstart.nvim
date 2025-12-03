@@ -21,13 +21,7 @@ local servers_by_ft = {
         },
       },
     },
-    ruff = {
-      init_options = {
-        settings = {
-          lint = { enable = false }, -- Favor nvim-lint integration for more control
-        },
-      },
-    },
+    ruff = {},
   },
   rust = {
     rust_analyzer = {

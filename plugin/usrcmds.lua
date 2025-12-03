@@ -1,3 +1,35 @@
+-- [[ Diagnostics ]]
+
+vim.api.nvim_create_user_command("DiagnosticsEnable", function(args)
+  local message, filter = "Diagnostics enabled", {}
+  if args.bang then
+    filter.bufnr = 0
+    message = message .. " for current buffer"
+  end
+  vim.diagnostic.enable(true, filter)
+  vim.notify(message, vim.log.levels.INFO, { title = "Diagnostics" })
+end, { desc = "Enable diagnostics", bang = true })
+vim.api.nvim_create_user_command("DiagnosticsDisable", function(args)
+  local message, filter = "Diagnostics disabled", {}
+  if args.bang then
+    filter.bufnr = 0
+    message = message .. " for current buffer"
+  end
+  vim.diagnostic.enable(false, filter)
+  vim.notify(message, vim.log.levels.INFO, { title = "Diagnostics" })
+end, { desc = "Disable diagnotics", bang = true })
+vim.api.nvim_create_user_command("DiagnosticsToggle", function(args)
+  local message, filter = "", {}
+  if args.bang then
+    filter.bufnr = 0
+    message = " for current buffer"
+  end
+  local is_enabled = vim.diagnostic.is_enabled(filter)
+  message = "Diagnostics " .. (is_enabled and "disabled" or "enabled") .. message
+  vim.diagnostic.enable(not is_enabled, filter)
+  vim.notify(message, vim.log.levels.INFO, { title = "Diagnostics" })
+end, { desc = "Toggle diagnostics", bang = true })
+
 -- [[ Mason ]]
 
 vim.api.nvim_create_user_command("MasonInstallAll", function()
@@ -64,41 +96,7 @@ vim.api.nvim_create_user_command("FormatOnSaveToggle", function(args)
     local status = vim.g.disable_format_on_save and "disabled" or "enabled"
     vim.notify("Format-on-save " .. status, vim.log.levels.INFO, { title = "Format-on-save" })
   end
-end, { desc = "Toggle format_on_save", bang = true })
-
--- [[ Lint ]]
-
-vim.api.nvim_create_user_command("LintEnable", function(args)
-  if args.bang then
-    vim.b.disable_lint = false
-    vim.notify("Lint enabled for current buffer", vim.log.levels.INFO, { title = "Lint" })
-  else
-    vim.g.disable_lint = false
-    vim.notify("Lint enabled", vim.log.levels.INFO, { title = "Lint" })
-  end
-end, { desc = "Enable lint", bang = true })
-vim.api.nvim_create_user_command("LintDisable", function(args)
-  if args.bang then
-    vim.b.disable_lint = true
-    vim.notify("Lint disabled for current buffer", vim.log.levels.INFO, { title = "Lint" })
-  else
-    vim.g.disable_lint = true
-    vim.notify("Lint disabled", vim.log.levels.INFO, { title = "Lint" })
-  end
-  vim.diagnostic.reset() -- Discard existing diagnotics
-end, { desc = "Disable lint", bang = true })
-vim.api.nvim_create_user_command("LintToggle", function(args)
-  if args.bang then
-    vim.b.disable_lint = not vim.b.disable_lint
-    local status = vim.b.disable_lint and "disabled" or "enabled"
-    vim.notify("Lint " .. status .. " for current buffer", vim.log.levels.INFO, { title = "Lint" })
-  else
-    vim.g.disable_lint = not vim.g.disable_lint
-    local status = vim.g.disable_lint and "disabled" or "enabled"
-    vim.notify("Lint " .. status, vim.log.levels.INFO, { title = "Lint" })
-  end
-  vim.diagnostic.reset() -- Discard existing diagnotics
-end, { desc = "Toggle lint", bang = true })
+end, { desc = "Toggle format-on-save", bang = true })
 
 -- [[ Global- and project-level configuration ]]
 

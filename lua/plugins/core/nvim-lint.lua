@@ -1,7 +1,6 @@
 local default_linters_by_ft = {
   json = { "jsonlint" },
   markdown = { "markdownlint" },
-  python = { "ruff" },
   yaml = { "yamllint" },
   zsh = { "shellcheck" }, -- Not actually for zsh, but works fine for me
 }
@@ -26,11 +25,6 @@ return {
     return {
       linters_by_ft = vim.tbl_deep_extend("force", default_linters_by_ft, vim.g.linters_by_ft or {}),
       should_lint = function() -- Custom option to enable/disable linting
-        local lint_is_disabled_by_command = vim.b[vim.fn.bufnr()].disable_lint or vim.g.disable_lint
-        if lint_is_disabled_by_command then
-          return false
-        end
-
         local lint_is_disabled_by_config = (
           vim.g.disable_lint_on_fts == "*"
           or vim.tbl_contains(vim.g.disable_lint_on_fts or {}, vim.bo.filetype)
