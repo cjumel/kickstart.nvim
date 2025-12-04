@@ -45,6 +45,16 @@ return {
       desc = "[E]xecute: [B]uild task with parameters",
     },
     {
+      "<leader>ef",
+      function() require("overseer").run_template({ tags = { "FORMAT" }, prompt = "avoid", first = false }) end,
+      desc = "[E]xecute: [F]ormat task",
+    },
+    {
+      "<leader>eF",
+      function() require("overseer").run_template({ tags = { "FORMAT" }, prompt = "always", first = false }) end,
+      desc = "[E]xecute: [F]ormat task with parameters",
+    },
+    {
       "<leader>ec",
       function() require("overseer").run_template({ tags = { "CHECK" }, prompt = "avoid", first = false }) end,
       desc = "[E]xecute: [C]heck task",
