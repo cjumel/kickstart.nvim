@@ -1,4 +1,3 @@
--- TODO: show_condition calls in snippets have been commented out since they don't work well currently with blink.cmp
 return {
   "L3MON4D3/LuaSnip",
   version = "*",
