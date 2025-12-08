@@ -148,7 +148,8 @@ create a `.nvim.global.lua` file with the following content:
 vim.g.enable_gh_copilot_plugins = true
 ```
 
-Then re-open Neovim and run the `Copilot auth` command to authenticate with GitHub.
+Then re-open Neovim and run the `Copilot auth` command to authenticate with GitHub (this will also
+download the Copilot LSP binary).
 
 ### You're done
 

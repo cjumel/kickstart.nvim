@@ -1,6 +1,6 @@
 return {
   "zbirenbaum/copilot.lua",
-  lazy = true, -- Lazy-loading on a custom `InsertEnter` event is defined in `./plugin/autocmds.lua`
+  cmd = { "Copilot" }, -- Lazy-loading on a custom `InsertEnter` event is also defined in `./plugin/autocmds.lua`
   opts = {
     panel = { enabled = false }, -- Avoid setting panel-related keymaps
     suggestion = {
@@ -26,5 +26,6 @@ return {
       end
       return true
     end,
+    server = { type = "binary" }, -- Avoid issues with Node.js versions (like nvm using a too old one)
   },
 }
