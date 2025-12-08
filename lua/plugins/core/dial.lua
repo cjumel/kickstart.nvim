@@ -10,32 +10,35 @@ return {
     local augend = require("dial.augend")
     local config = require("dial.config")
 
+    local num_augend =
+      augend.constant.new({ elements = { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" }, word = false })
+
     config.augends:register_group({
       default = {
-        augend.constant.new({ elements = { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" }, word = false }),
-        augend.constant.new({ elements = { "true", "false" } }),
-        augend.constant.new({ elements = { "True", "False" } }),
+        num_augend,
+        augend.constant.alias.bool,
+        augend.constant.alias.Bool,
       },
     })
 
     config.augends:on_filetype({
       lua = {
-        augend.constant.new({ elements = { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" }, word = false }),
-        augend.constant.new({ elements = { "true", "false" } }),
+        num_augend,
+        augend.constant.alias.bool,
         augend.constant.new({ elements = { "==", "~=" }, word = false }),
         augend.constant.new({ elements = { "if not", "if" } }),
         augend.constant.new({ elements = { "elseif not", "elseif" } }),
       },
       markdown = {
-        augend.constant.new({ elements = { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" }, word = false }),
-        augend.constant.new({ elements = { "true", "false" } }),
-        augend.constant.new({ elements = { "True", "False" } }),
+        num_augend,
+        augend.constant.alias.bool,
+        augend.constant.alias.Bool,
         augend.misc.alias.markdown_header,
         augend.constant.new({ elements = { "- [ ] ", "- [x] ", "- [-] ", "- [o] ", "- [/] " }, word = false }),
       },
       python = {
-        augend.constant.new({ elements = { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" }, word = false }),
-        augend.constant.new({ elements = { "True", "False" } }),
+        num_augend,
+        augend.constant.alias.Bool,
         augend.constant.new({ elements = { "==", "!=" }, word = false }),
         augend.constant.new({ elements = { "if not", "if" } }),
         augend.constant.new({ elements = { "elif not", "elif" } }),
@@ -43,8 +46,8 @@ return {
         augend.constant.new({ elements = { "not in", "in" } }),
       },
       rust = {
-        augend.constant.new({ elements = { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" }, word = false }),
-        augend.constant.new({ elements = { "true", "false" } }),
+        num_augend,
+        augend.constant.alias.bool,
         augend.constant.new({ elements = { "==", "!=" }, word = false }),
       },
     })

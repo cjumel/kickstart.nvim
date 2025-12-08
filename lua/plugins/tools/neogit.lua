@@ -13,6 +13,7 @@ return {
     mappings = {
       commit_editor = {}, -- Prefer keymap definition in ./after/ftplugin/gitcommit.lua
       commit_editor_I = {},
+      commit_view = {},
       rebase_editor = {}, -- Prefer keymap definition in ./after/ftplugin/gitrebase.lua
       rebase_editor_I = {},
       finder = {},
