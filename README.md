@@ -164,3 +164,16 @@ nvim
 Additional global or project-level configuration can be achieved with the `.nvim-global.lua` file
 and with project-local `.nvim.lua` files. Available options can be seen in the
 `.nvim-global-example.lua` and `.nvim-example.lua` files.
+
+## Clean Neovim data
+
+To clean Neovim data, for instance in order to use a fresh install or test a different Neovim
+configuration without the risk of interference, you can run the following commands.
+
+```bash
+rm -rf ~/.local/share/nvim/
+rm -rf ~/.local/state/nvim/
+```
+
+I try to avoid saving any important data to those directories (e.g. I save scratch files, which I
+don't want to see deleted blindly, in a different directory) so this should be a safe operations.
