@@ -51,9 +51,11 @@ local servers_by_ft = {
     },
   },
   yaml = { yamlls = {} },
+  zsh = { bashls = { filetypes = { "zsh" } } }, -- Not actually for zsh, but works fine for me
 }
 
 local server_to_mason_name = {
+  bashls = "bash-language-server",
   jsonls = "json-lsp",
   lua_ls = "lua-language-server",
   rust_analyzer = "rust-analyzer",
