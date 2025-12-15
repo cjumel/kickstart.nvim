@@ -60,6 +60,8 @@ vim.api.nvim_create_user_command("MasonInstallAll", function()
     end
     if no_package_to_install then
       vim.notify("No package to install", vim.log.levels.INFO, { title = "mason.nvim" })
+    else
+      vim.notify("All packages installed", vim.log.levels.INFO, { title = "mason.nvim" })
     end
   end)
 end, { desc = "Install all the missing packages with Mason" })
