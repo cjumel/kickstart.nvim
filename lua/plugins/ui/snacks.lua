@@ -11,6 +11,8 @@ return {
       desc = "Delete buffer",
     },
     {
+      -- TODO: when a release of Neovim with the `:restart` command is out, change this to use that command and display
+      -- the dashboard again
       "<leader><S-BS>",
       function() Snacks.bufdelete.all() end,
       desc = "Delete all buffers",
@@ -79,6 +81,7 @@ return {
       function()
         Snacks.picker.files({
           title = "Files",
+          hidden = true,
           layout = { preset = "telescope_horizontal" },
           show_empty = true, -- Some stuff can appear after using toggles
           cwd = vim.bo.filetype == "oil" and require("oil").get_current_dir() or nil,
@@ -120,6 +123,7 @@ return {
       function()
         Snacks.picker.pick("directories", {
           title = "Directories",
+          hidden = true,
           layout = { preset = "telescope_horizontal" },
           show_empty = true, -- Some stuff can appear after using toggles
           cwd = vim.bo.filetype == "oil" and require("oil").get_current_dir() or nil,
@@ -133,6 +137,7 @@ return {
       function()
         Snacks.picker.grep({
           title = "Grep",
+          hidden = true,
           regex = false,
           layout = { preset = "telescope_vertical" },
           cwd = vim.bo.filetype == "oil" and require("oil").get_current_dir() or nil,
@@ -556,7 +561,7 @@ return {
             opts.args = args
             local cwd = opts.cwd or vim.fn.getcwd()
             opts.transform = function(item)
-              item.file = vim.fn.fnamemodify(cwd .. "/" .. item.text, ":.")
+              item.file = cwd .. "/" .. item.text
               item.dir = true
             end
             return require("snacks.picker.source.proc").proc(opts, ctx)
