@@ -109,11 +109,11 @@ return {
           { "v", "<C-w>v" },
           { "w", "<C-w>w" },
           { "x", "<C-w>x" },
-          { "+", "<C-w>+" },
-          { "-", "<C-w>-" },
-          { "<", "<C-w><" },
+          { "+", "3<C-w>+" },
+          { "-", "3<C-w>-" },
+          { "<", "3<C-w><" },
           { "=", "<C-w>=" },
-          { ">", "<C-w>>" },
+          { ">", "3<C-w>>" },
           -- { "_", "<C-w>_" }, -- Keymap with `_` is not supported by hydra.nvim
           -- { "|", "<C-w>|" }, -- For consistency with `_`
           -- { "<C-d>", "<C-w><C-d>" }, -- Prefer `d`
