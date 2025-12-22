@@ -25,10 +25,6 @@ coding with Neovim really much more enjoyable for me, compared to my previous ex
 - (optional) a valid [GitHub Copilot](https://github.com/features/copilot) subscription, for
   AI-assisted auto-completion and chat
 
-- (optional) SQL interactive terminal tools (e.g.
-  [psql](https://www.postgresql.org/docs/current/app-psql.html)) to interact with an SQL database
-  using the database explorer plugin
-
 ## Install Neovim
 
 There are a few possibilities to install Neovim, depending on your operating system and your

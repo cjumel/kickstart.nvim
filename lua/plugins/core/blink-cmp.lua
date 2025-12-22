@@ -17,10 +17,7 @@ return {
     },
     snippets = { preset = "luasnip" },
     sources = {
-      per_filetype = {
-        sql = { "dadbod", "buffer" },
-        lua = { inherit_defaults = true, "lazydev" },
-      },
+      per_filetype = { lua = { inherit_defaults = true, "lazydev" } },
       providers = {
         buffer = {
           opts = {
@@ -36,7 +33,6 @@ return {
         },
         snippets = { min_keyword_length = 1, score_offset = 10 },
         lazydev = { name = "LazyDev", module = "lazydev.integrations.blink", score_offset = 100 },
-        dadbod = { name = "Dadbod", module = "vim_dadbod_completion.blink" },
       },
     },
     cmdline = {

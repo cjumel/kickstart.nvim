@@ -27,7 +27,6 @@ return {
       render_markdown = true,
       snacks = { enabled = true },
       lsp_trouble = true,
-      dadbod_ui = true,
       which_key = true,
     },
   },
