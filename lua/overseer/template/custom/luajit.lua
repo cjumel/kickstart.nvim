@@ -1,22 +1,21 @@
+---@type overseer.TemplateFileProvider
 return {
-  name = "luajit",
-  builder = function(params)
+  generator = function()
+    if vim.fn.executable("luajit") == 0 then
+      return {}
+    end
+
+    ---@type overseer.TemplateFileDefinition[]
     return {
-      cmd = { "luajit" },
-      args = vim.list_extend({ vim.fn.expand("%:p:.") }, params.args),
+      {
+        name = "luajit <file>",
+        builder = function()
+          ---@type overseer.TaskDefinition
+          return { cmd = { "luajit", vim.fn.expand("%:p:.") } }
+        end,
+        tags = { "RUN" },
+        condition = { filetype = { "lua" } },
+      },
     }
   end,
-  tags = { "RUN" },
-  params = {
-    args = {
-      type = "list",
-      delimiter = " ",
-      optional = true,
-      default = {},
-    },
-  },
-  condition = {
-    filetype = "lua",
-    callback = function(_) return vim.fn.executable("luajit") == 1 end,
-  },
 }

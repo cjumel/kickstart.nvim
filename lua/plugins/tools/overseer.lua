@@ -1,21 +1,13 @@
+-- TODO: for "CHECK" tasks, send issues to diagnostics and qflist
 return {
   "stevearc/overseer.nvim",
-  tag = "v1.6.0", -- TODO: remove constraint when new version is out
+  dependencies = { "mason-org/mason.nvim" },
   keys = {
-    {
-      "<leader>ee",
-      function() require("overseer").toggle() end,
-      desc = "[E]xecute: toggle task list",
-    },
-    {
-      "<leader>es",
-      function() require("overseer").run_template({ name = "shell" }) end,
-      desc = "[E]xecute: [S]hell task",
-    },
+    { "<leader>ee", function() require("overseer").toggle() end, desc = "[E]xecute: toggle task list" },
     {
       "<leader>er",
       function()
-        require("overseer").run_template({ tags = { "RUN" }, prompt = "avoid", first = false }, function(task, _)
+        require("overseer").run_task({ tags = { "RUN" }, first = false }, function(task)
           if task ~= nil then
             require("overseer").open()
           end
@@ -26,50 +18,60 @@ return {
     {
       "<leader>eR",
       function()
-        require("overseer").run_template({ tags = { "RUN" }, prompt = "always", first = false }, function(task, _)
+        require("overseer").run_task({ tags = { "RUN" }, first = false, params = { prompt = true } }, function(task)
           if task ~= nil then
             require("overseer").open()
           end
         end)
       end,
-      desc = "[E]xecute: [R]un task with parameters",
+      desc = "[E]xecute: [R]un task with arguments",
     },
     {
       "<leader>eb",
-      function() require("overseer").run_template({ tags = { "BUILD" }, prompt = "avoid", first = false }) end,
+      function() require("overseer").run_task({ tags = { "BUILD" }, first = false }) end,
       desc = "[E]xecute: [B]uild task",
     },
     {
       "<leader>eB",
-      function() require("overseer").run_template({ tags = { "BUILD" }, prompt = "always", first = false }) end,
-      desc = "[E]xecute: [B]uild task with parameters",
+      function() require("overseer").run_task({ tags = { "BUILD" }, first = false, params = { prompt = true } }) end,
+      desc = "[E]xecute: [B]uild task with arguments",
+    },
+    {
+      "<leader>ef",
+      function() require("overseer").run_task({ tags = { "FORMAT" }, first = false }) end,
+      desc = "[E]xecute: [F]ormat task",
+    },
+    {
+      "<leader>eF",
+      function() require("overseer").run_task({ tags = { "FORMAT" }, first = false, params = { prompt = true } }) end,
+      desc = "[E]xecute: [F]ormat task with arguments",
     },
     {
       "<leader>ec",
-      function() require("overseer").run_template({ tags = { "CHECK" }, prompt = "avoid", first = false }) end,
+      function() require("overseer").run_task({ tags = { "CHECK" }, first = false }) end,
       desc = "[E]xecute: [C]heck task",
     },
     {
       "<leader>eC",
-      function() require("overseer").run_template({ tags = { "CHECK" }, prompt = "always", first = false }) end,
-      desc = "[E]xecute: [C]heck task with parameters",
+      function() require("overseer").run_task({ tags = { "CHECK" }, first = false, params = { prompt = true } }) end,
+      desc = "[E]xecute: [C]heck task with arguments",
     },
     {
       "<leader>em",
-      function() require("overseer").run_template({ tags = { "MAKE" }, prompt = "avoid", first = false }) end,
+      function() require("overseer").run_task({ tags = { "MAKE" }, first = false }) end,
       desc = "[E]xecute: [M]ake task",
     },
     {
       "<leader>eM",
-      function() require("overseer").run_template({ tags = { "MAKE" }, prompt = "always", first = false }) end,
-      desc = "[E]xecute: [M]ake task with parameters",
+      function() require("overseer").run_task({ tags = { "MAKE" }, first = false, params = { prompt = true } }) end,
+      desc = "[E]xecute: [M]ake task with arguments",
     },
     {
       "<leader>el",
       function()
         local tasks = require("overseer").list_tasks({ recent_first = true })
         if vim.tbl_isempty(tasks) then
-          vim.notify("No tasks found", vim.log.levels.WARN)
+          vim.notify("No tasks found", vim.log.levels.WARN, { title = "overseer.nvim" })
         else
           require("overseer").run_action(tasks[1], "restart")
         end
@@ -78,42 +80,17 @@ return {
     },
   },
   opts = {
-    templates = { "shell", "custom" },
-    dap = false,
+    dap = false, -- Lazy-load nvim-dap but I don't use the integration
     task_list = {
       min_height = 0.25,
-      bindings = { ["<C-h>"] = false, ["<C-j>"] = false, ["<C-k>"] = false, ["<C-l>"] = false },
-    },
-    task_editor = {
-      bindings = {
-        i = {
-          ["<CR>"] = "Submit",
-          ["<C-j>"] = "Next", -- <C-n> doesn't work here
-          ["<C-k>"] = "Prev", -- <C-p> doesn't work here
-          ["<C-c>"] = "Cancel",
-          ["<C-s>"] = false,
-          ["<Tab>"] = false, -- To let Copilot work
-          ["<S-Tab>"] = false,
-        },
-        n = {
-          ["<CR>"] = "Submit",
-          [";"] = "Next",
-          [","] = "Prev",
-          ["<ESC>"] = "Cancel",
-          ["q"] = "Cancel",
-          ["?"] = "ShowHelp",
-          ["<C-s>"] = false,
-          ["<Tab>"] = false,
-          ["<S-Tab>"] = false,
-        },
-      },
+      keymaps = { ["<C-j>"] = false, ["<C-k>"] = false }, -- Don't override window navigation
     },
     component_aliases = {
       default = {
-        { "display_duration", detail_level = 2 },
-        "on_output_summarize",
         "on_exit_set_status",
-        "custom.notify",
+        "custom.on_pre_start_prompt",
+        "custom.on_start_notify",
+        "custom.on_complete_notify",
       },
     },
   },

@@ -1,42 +1,30 @@
+---@type overseer.TemplateFileProvider
 return {
-  name = "typst",
-  condition = { callback = function(_) return vim.fn.executable("typst") == 1 end },
-  generator = function(_, cb)
-    local base_template = {
-      params = {
-        args = {
-          type = "list",
-          delimiter = " ",
-          optional = true,
-          default = {},
-        },
+  generator = function()
+    if vim.fn.executable("typst") == 0 then
+      return {}
+    end
+
+    ---@type overseer.TemplateFileDefinition[]
+    return {
+      {
+        name = "typst compile <file>",
+        builder = function()
+          ---@type overseer.TaskDefinition
+          return { cmd = { "typst", "compile", vim.fn.expand("%:p:.") } }
+        end,
+        tags = { "BUILD" },
+        condition = { filetype = "typst" },
+      },
+      {
+        name = "typst watch <file>",
+        builder = function()
+          ---@type overseer.TaskDefinition
+          return { cmd = { "typst", "watch", vim.fn.expand("%:p:.") } }
+        end,
+        tags = { "BUILD" },
+        condition = { filetype = "typst" },
       },
     }
-    cb({
-      require("overseer").wrap_template(base_template, {
-        name = "typst compile",
-        tags = { "BUILD" },
-        priority = 1,
-        condition = { filetype = "typst" },
-        builder = function(params)
-          return {
-            cmd = { "typst", "compile" },
-            args = vim.list_extend({ vim.fn.expand("%:p:.") }, params.args),
-          }
-        end,
-      }),
-      require("overseer").wrap_template(base_template, {
-        name = "typst watch",
-        tags = { "BUILD" },
-        priority = 2,
-        condition = { filetype = "typst" },
-        builder = function(params)
-          return {
-            cmd = { "typst", "watch" },
-            args = vim.list_extend({ vim.fn.expand("%:p:.") }, params.args),
-          }
-        end,
-      }),
-    })
   end,
 }
