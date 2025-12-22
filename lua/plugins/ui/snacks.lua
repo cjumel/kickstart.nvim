@@ -220,8 +220,8 @@ return {
           win = {
             input = {
               keys = {
-                ["<CR>"] = { { "yank_add", "close" }, mode = "i" },
-                ["<S-CR>"] = { { "yank_del", "close" }, mode = "i" },
+                ["<C-y>"] = { { "yank_add", "close" }, mode = "i" },
+                ["<M-y>"] = { { "yank_del", "close" }, mode = "i" },
               },
             },
           },
@@ -337,32 +337,26 @@ return {
         Snacks.picker.git_log({
           title = "Git Log",
           layout = { preset = "telescope_horizontal" },
-          confirm = { { action = "yank", field = "commit", reg = "+" }, "close" },
           toggles = {
-            current_file = "c", -- Avoid using "f" to let the <M-f> keymap available
-            current_line = "l",
+            buffer_local = "l", -- "f", like "file", is used for "follow rename"
           },
           actions = {
-            toggle_current_file_custom = function(picker)
+            yank_commit = { action = "yank", field = "commit" },
+            copy_commit = { action = "yank", field = "commit", reg = "+" },
+            toggle_buffer_local_custom = function(picker)
               local opts = picker.opts or {}
               opts.current_file = not opts.current_file ---@diagnostic disable-line: inject-field
-              opts.current_line = false ---@diagnostic disable-line: inject-field
               opts.follow = opts.current_file ---@diagnostic disable-line: inject-field
-              picker:find()
-            end,
-            toggle_current_line_custom = function(picker)
-              local opts = picker.opts or {}
-              opts.current_file = false ---@diagnostic disable-line: inject-field
-              opts.current_line = not opts.current_line ---@diagnostic disable-line: inject-field
-              opts.follow = opts.current_line ---@diagnostic disable-line: inject-field
+              opts.buffer_local = opts.current_file ---@diagnostic disable-line: inject-field
               picker:find()
             end,
           },
           win = {
             input = {
               keys = {
-                ["<M-c>"] = { "toggle_current_file_custom", mode = "i" },
-                ["<M-l>"] = { "toggle_current_line_custom", mode = "i" },
+                ["<C-y>"] = { { "yank_commit", "close" }, mode = "i" }, ---@diagnostic disable-line: assign-type-mismatch
+                ["<M-c>"] = { { "copy_commit", "close" }, mode = "i" }, ---@diagnostic disable-line: assign-type-mismatch
+                ["<M-l>"] = { "toggle_buffer_local_custom", mode = "i" },
               },
             },
           },

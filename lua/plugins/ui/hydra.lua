@@ -1,7 +1,7 @@
 return {
   "nvimtools/hydra.nvim",
   keys = {
-    { "<leader>c", desc = "[C]onflict menu" },
+    { "<leader>=", desc = "Conflict menu" },
     { "<leader>h", desc = "[H]unk menu", mode = { "n", "v" } },
     { "<leader>n", desc = "[N]avigate menu" },
     { "<leader>w", desc = "[W]indow menu" },
@@ -10,9 +10,9 @@ return {
     invoke_on_body = true,
     configs = {
       {
-        body = "<leader>c",
+        body = "<leader>=",
         config = {
-          desc = "[C]onflict menu",
+          desc = "Conflict menu",
           color = "pink", -- Allow other keymaps while the Hydra is open (e.g. undo)
         },
         heads = {

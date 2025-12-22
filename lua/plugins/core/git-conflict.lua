@@ -2,7 +2,7 @@ return {
   "akinsho/git-conflict.nvim",
   event = { "BufReadPre" },
   opts = {
-    default_mappings = false, -- Keymaps are implemented in Hydra.nvim and nvim-treesitter-textobjects
+    default_mappings = false, -- Keymaps are implemented in Hydra.nvim and below
     disable_diagnostics = true,
   },
   config = function(_, opts)
@@ -26,8 +26,8 @@ return {
           function() git_conflict.find_next("ours") end,
           function() git_conflict.find_prev("ours") end
         )
-        map({ "n", "x", "o" }, "]<M-c>", next_conflict, { desc = "Next conflict" })
-        map({ "n", "x", "o" }, "[<M-c>", prev_conflict, { desc = "Previous conflict" })
+        map({ "n", "x", "o" }, "]=", next_conflict, { desc = "Next conflict" })
+        map({ "n", "x", "o" }, "[=", prev_conflict, { desc = "Previous conflict" })
       end,
     })
     vim.api.nvim_create_autocmd("User", {
@@ -37,8 +37,8 @@ return {
         ---@param lhs string
         local function unmap(mode, lhs) pcall(vim.keymap.del, mode, lhs, { buffer = event.buf }) end
 
-        unmap({ "n", "x", "o" }, "]<M-c>")
-        unmap({ "n", "x", "o" }, "[<M-c>")
+        unmap({ "n", "x", "o" }, "]=")
+        unmap({ "n", "x", "o" }, "[=")
       end,
     })
   end,

@@ -17,7 +17,6 @@ return {
         Snacks.picker.yanky({ ---@diagnostic disable-line: undefined-field
           layout = { preset = "telescope_horizontal" },
           sort = { fields = { "score:desc", "idx" } }, -- Don't sort by item length to preserve recency order
-          confirm = "set_default_register",
         })
       end,
       desc = "[F]ind: [Y]ank history",

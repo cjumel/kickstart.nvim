@@ -34,6 +34,7 @@ return {
       -- Register keymap groups
       { "gr", group = "LSP" },
       { "<leader><leader>", group = "Local leader" },
+      { "<leader>c", group = "[C]opy" },
       { "<leader>d", group = "[D]ebug" },
       { "<leader>e", group = "[E]xecute" },
       { "<leader>f", group = "[F]ind", mode = { "n", "v" } },
