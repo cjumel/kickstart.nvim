@@ -50,6 +50,7 @@ vim.diagnostic.config({
 -- Filetypes
 vim.filetype.add({
   filename = {
+    [".aliases"] = "sh",
     [".coverage"] = "sqlite3",
     [".env.example"] = "sh",
     [".env.sample"] = "sh",

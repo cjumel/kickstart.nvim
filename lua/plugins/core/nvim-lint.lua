@@ -1,6 +1,7 @@
 local default_linters_by_ft = {
   json = { "jsonlint" },
   markdown = { "markdownlint" },
+  sh = { "shellcheck" },
   yaml = { "yamllint" },
   zsh = { "shellcheck" }, -- Not actually for zsh, but works fine for me
 }

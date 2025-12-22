@@ -1,3 +1,7 @@
+local server_configs = {
+  bashls = { filetypes = { "sh", "zsh" } },
+}
+
 local servers_by_ft = {
   json = { jsonls = {} },
   lua = {
@@ -33,6 +37,7 @@ local servers_by_ft = {
       },
     },
   },
+  sh = { bashls = server_configs.bashls },
   toml = { taplo = {} },
   typescript = {
     ts_ls = { -- Pure LSP features
@@ -51,7 +56,7 @@ local servers_by_ft = {
     },
   },
   yaml = { yamlls = {} },
-  zsh = { bashls = { filetypes = { "zsh" } } }, -- Not actually for zsh, but works fine for me
+  zsh = { bashls = server_configs.bashls }, -- Not actually for zsh, but works fine for me
 }
 
 local server_to_mason_name = {

@@ -3,6 +3,8 @@
 -- https://github.com/nvim-tree/nvim-web-devicons/tree/master/lua/nvim-web-devicons/light
 local extra_filaname_to_icon = {
   dark = {
+    [".aliases"] = { icon = "󱆃", color = "#6D8086", cterm_color = "66", name = "Aliases" },
+    [".bash_aliases"] = { icon = "󱆃", color = "#6D8086", cterm_color = "66", name = "BashAliases" },
     [".coverage"] = { icon = "", color = "#DAD8D8", cterm_color = "188", name = "Sql" },
     [".DS_Store"] = { icon = "", color = "#FFF2F2", cterm_color = "255", name = "DsStore" },
     [".env.example"] = { icon = "", color = "#FAF743", cterm_color = "227", name = "Env" },
@@ -23,6 +25,8 @@ local extra_filaname_to_icon = {
     ["pyproject.toml"] = { icon = "", color = "#9C4221", cterm_color = "124", name = "Pyproject" },
   },
   light = {
+    [".aliases"] = { icon = "󱆃", color = "#526064", cterm_color = "59", name = "Aliases" },
+    [".bash_aliases"] = { icon = "󱆃", color = "#526064", cterm_color = "59", name = "BashAliases" },
     [".coverage"] = { icon = "", color = "#494848", cterm_color = "238", name = "Sql" },
     [".DS_Store"] = { icon = "", color = "#333030", cterm_color = "236", name = "DsStore" },
     [".env.example"] = { icon = "", color = "#32310D", cterm_color = "236", name = "Env" },
