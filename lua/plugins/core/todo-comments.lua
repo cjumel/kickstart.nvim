@@ -13,6 +13,7 @@ return {
           title = "Todo-comments",
           hidden = true,
           layout = { preset = "telescope_vertical" },
+          todo = true,
           toggles = {
             private = "p",
             todo = "t",

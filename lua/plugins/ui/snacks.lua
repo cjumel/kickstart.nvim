@@ -151,6 +151,7 @@ return {
       function()
         Snacks.picker.grep_word({
           title = "Grep",
+          hidden = true,
           layout = { preset = "telescope_vertical" },
           show_empty = true, -- Some stuff can appear after using toggles
           cwd = vim.bo.filetype == "oil" and require("oil").get_current_dir() or nil,
