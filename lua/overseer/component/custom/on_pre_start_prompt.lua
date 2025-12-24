@@ -5,7 +5,7 @@ local comp = {
     return {
       on_pre_start = function(_, task)
         if task.from_template.params.prompt then
-          local args_string = vim.fn.input("Arguments: ")
+          local args_string = vim.fn.input("Arguments")
           if args_string ~= "" then
             task.name = task.name .. " " .. args_string
             local args = vim.split(args_string, " +")

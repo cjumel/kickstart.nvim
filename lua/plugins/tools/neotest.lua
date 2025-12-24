@@ -7,101 +7,58 @@ return {
     "nvim-treesitter/nvim-treesitter",
     "nvim-neotest/neotest-python",
   },
-  keys = {
-    {
-      "<leader>tt",
-      function() require("neotest").summary.toggle() end,
-      desc = "[T]est: toggle summary",
-    },
-    {
-      "<leader>tp",
-      function() require("neotest").output.open({ enter = true }) end,
-      desc = "[T]est: [P]review output",
-    },
-    {
-      "<leader>tr",
-      function() require("neotest").run.run() end,
-      desc = "[T]est: [R]un",
-    },
-    {
-      "<leader>tR",
-      function()
-        vim.ui.input({ promp = "Additional arguments" }, function(input)
-          if input == nil then
-            return
-          end
-          require("neotest").run.run({ extra_args = input ~= "" and vim.split(input, " ") or nil })
-        end)
-      end,
-      desc = "[T]est: [R]un with parameters",
-    },
-    {
-      "<leader>tf",
-      function() require("neotest").run.run({ vim.fn.expand("%") }) end,
-      desc = "[T]est: run [F]ile",
-    },
-    {
-      "<leader>tF",
-      function()
-        vim.ui.input({ promp = "Additional arguments" }, function(input)
-          if input == nil then
-            return
-          end
+  keys = function()
+    ---@return string[]|nil
+    local function get_args()
+      local args_string = vim.fn.input("Arguments")
+      return args_string ~= "" and vim.split(args_string, " +") or nil
+    end
+    return {
+      { "<leader>tt", function() require("neotest").summary.toggle() end, desc = "[T]est: toggle summary window" },
+      { "<leader>tp", function() require("neotest").output.open() end, desc = "[T]est: [P]review output" },
+      {
+        "<leader>tr",
+        function() require("neotest").run.run({ vim.bo.filetype == "oil" and require("oil").get_current_dir() or nil }) end,
+        desc = "[T]est: [R]un",
+      },
+      {
+        "<leader>tR",
+        function()
           require("neotest").run.run({
-            vim.fn.expand("%"),
-            extra_args = input ~= "" and vim.split(input, " ") or nil,
+            vim.bo.filetype == "oil" and require("oil").get_current_dir() or nil,
+            extra_args = get_args(),
           })
-        end)
-      end,
-      desc = "[T]est: run [F]ile with parameters",
-    },
-    {
-      "<leader>ta",
-      function()
-        local opts
-        if vim.bo.filetype == "oil" then
-          opts = { require("oil").get_current_dir() }
-        else
-          opts = { suite = true }
-        end
-        require("neotest").run.run(opts)
-      end,
-      desc = "[T]est: run [A]ll",
-    },
-    {
-      "<leader>tA",
-      function()
-        vim.ui.input({ promp = "Additional arguments" }, function(input)
-          if input == nil then
-            return
-          end
-          local opts
-          if vim.bo.filetype == "oil" then
-            opts = { require("oil").get_current_dir() }
-          else
-            opts = { suite = true }
-          end
-          opts.extra_args = input ~= "" and vim.split(input, " ") or nil
-          require("neotest").run.run(opts)
-        end)
-      end,
-      desc = "[T]est: run [A]ll with parameters",
-    },
-    {
-      "<leader>tl",
-      function() require("neotest").run.run_last() end,
-      desc = "[T]est: run [L]ast",
-    },
-  },
+        end,
+        desc = "[T]est: [R]un with arguments",
+      },
+      { "<leader>td", function() require("neotest").run.run({ strategy = "dap" }) end, desc = "[T]est: [D]ebug" },
+      {
+        "<leader>tD",
+        function() require("neotest").run.run({ strategy = "dap", extra_args = get_args() }) end,
+        desc = "[T]est: [D]ebug with arguments",
+      },
+      { "<leader>tf", function() require("neotest").run.run({ vim.fn.expand("%") }) end, desc = "[T]est: run [F]ile" },
+      {
+        "<leader>tF",
+        function() require("neotest").run.run({ vim.fn.expand("%"), extra_args = get_args() }) end,
+        desc = "[T]est: run [F]ile with arguments",
+      },
+      { "<leader>ta", function() require("neotest").run.run({ suite = true }) end, desc = "[T]est: run [A]ll" },
+      {
+        "<leader>tA",
+        function() require("neotest").run.run({ suite = true, extra_args = get_args() }) end,
+        desc = "[T]est: run [A]ll with arguments",
+      },
+      { "<leader>tl", function() require("neotest").run.run_last() end, desc = "[T]est: run [L]ast" },
+    }
+  end,
   opts = function()
     return {
-      adapters = {
-        require("neotest-python"),
-      },
+      adapters = { require("neotest-python") },
       consumers = {
         notify = function(client)
           client.listeners.run = function()
-            vim.notify("Running tests...", vim.log.levels.INFO, { title = "Neotest", icon = "" })
+            vim.notify("Starting tests", vim.log.levels.INFO, { title = "Neotest", icon = "" })
           end
           client.listeners.results = function(_, results, partial)
             if partial then
@@ -138,10 +95,8 @@ return {
           end
         end,
       },
-      output = {
-        open_on_run = false, -- When enabled, the output window is open without being focused making it kind of useless
-      },
       summary = {
+        mappings = { expand = "<Tab>", jumpto = "<CR>", output = "p" },
         open = "botright vsplit | vertical resize 30",
       },
     }

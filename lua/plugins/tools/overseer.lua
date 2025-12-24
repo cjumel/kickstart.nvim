@@ -16,17 +16,6 @@ return {
       desc = "[E]xecute: [R]un task",
     },
     {
-      "<leader>eR",
-      function()
-        require("overseer").run_task({ tags = { "RUN" }, first = false, params = { prompt = true } }, function(task)
-          if task ~= nil then
-            require("overseer").open()
-          end
-        end)
-      end,
-      desc = "[E]xecute: [R]un task with arguments",
-    },
-    {
       "<leader>eb",
       function() require("overseer").run_task({ tags = { "BUILD" }, first = false }) end,
       desc = "[E]xecute: [B]uild task",

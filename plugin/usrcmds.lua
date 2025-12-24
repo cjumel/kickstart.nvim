@@ -36,7 +36,7 @@ vim.api.nvim_create_user_command("MasonInstallAll", function()
   require("lazy").load({
     plugins = { -- Ensure `vim.g.mason_ensure_installed` is populated
       "conform.nvim",
-      "nvim-dap-python",
+      "nvim-dap",
       "nvim-lint",
       "nvim-lspconfig",
     },

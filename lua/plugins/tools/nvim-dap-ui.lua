@@ -5,10 +5,7 @@ return {
   opts = {
     layouts = {
       {
-        elements = {
-          { id = "console", size = 0.5 },
-          { id = "repl", size = 0.5 },
-        },
+        elements = { { id = "console", size = 0.5 }, { id = "repl", size = 0.5 } },
         position = "bottom",
         size = 10,
       },
