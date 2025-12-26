@@ -49,16 +49,16 @@ vim.diagnostic.config({
 
 -- Filetypes
 vim.filetype.add({
+  pattern = {
+    ["%.env%.%w+"] = "sh",
+    ["%.env%..*%.%w+"] = "sh",
+  },
   filename = {
-    [".aliases"] = "sh",
-    [".coverage"] = "sqlite3",
-    [".env.example"] = "sh",
-    [".env.sample"] = "sh",
-    [".env.test"] = "sh",
-    [".env.test.example"] = "sh",
-    [".gitignore-global"] = "gitignore",
-    [".stow-local-ignore"] = "gitignore",
-    [".vimiumrc"] = "vim",
+    [".markdownlintrc"] = "json", -- Could also be INI in theory
+    [".shellcheckrc"] = "conf",
+    [".stow-local-ignore"] = "conf",
+    ["sketchybarrc"] = "sh",
+    ["ripgreprc"] = "conf",
   },
 })
 
