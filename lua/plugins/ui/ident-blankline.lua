@@ -9,6 +9,5 @@ return {
       show_end = false,
       exclude = { language = { "yaml" } }, -- Exclude languages were the scope feature works poorly
     },
-    exclude = { filetypes = { "markdown", "text" } }, -- Exclude non-code filetypes
   },
 }
