@@ -76,8 +76,8 @@ local function send_to_clipboard()
 end
 vim.keymap.set("n", "gy", send_to_clipboard, { desc = "Send yanked to clipboard" })
 
-local function yank_file_path(mods, register)
-  register = register or '"'
+local function yank_file_path(mods)
+  local register = vim.v.register
   local path = nil
   if vim.bo.buftype == "" then -- Regular buffer
     path = vim.fn.expand("%")
@@ -104,12 +104,9 @@ end
 vim.keymap.set("n", "<leader>yp", function() yank_file_path(":~:.") end, { desc = "[Y]ank: file [P]ath" })
 vim.keymap.set("n", "<leader>yf", function() yank_file_path(":~") end, { desc = "[Y]ank: [F]ull file path" })
 vim.keymap.set("n", "<leader>yn", function() yank_file_path(":t") end, { desc = "[Y]ank: file [N]ame" })
-vim.keymap.set("n", "<leader>cp", function() yank_file_path(":~:.", "+") end, { desc = "[C]opy: file [P]ath" })
-vim.keymap.set("n", "<leader>cf", function() yank_file_path(":~", "+") end, { desc = "[C]opy: [F]ull file path" })
-vim.keymap.set("n", "<leader>cn", function() yank_file_path(":t", "+") end, { desc = "[C]opy: file [N]ame" })
 
-local function yank_buffer_content(register)
-  register = register or '"'
+local function yank_buffer_content()
+  local register = vim.v.register
   local bufnr = vim.api.nvim_get_current_buf()
   local buflines = vim.api.nvim_buf_get_lines(bufnr, 0, -1, false)
   local buffer_content = table.concat(buflines, "\n")
@@ -120,8 +117,8 @@ local function yank_buffer_content(register)
     { title = "Yank" }
   )
 end
-local function yank_buffer_contents(register)
-  register = register or '"'
+local function yank_buffer_contents()
+  local register = vim.v.register
   local lines = {}
   local content_description = ""
   for _, bufnr in ipairs(vim.api.nvim_list_bufs()) do
@@ -151,8 +148,6 @@ local function yank_buffer_contents(register)
 end
 vim.keymap.set("n", "<leader>yb", yank_buffer_content, { desc = "[Y]ank: [B]uffer content" })
 vim.keymap.set("n", "<leader>ya", yank_buffer_contents, { desc = "[Y]ank: [A]ll buffer contents" })
-vim.keymap.set("n", "<leader>cb", function() yank_buffer_content("+") end, { desc = "[C]opy: [B]uffer content" })
-vim.keymap.set("n", "<leader>ca", function() yank_buffer_contents("+") end, { desc = "[C]opy: [A]ll buffer contents" })
 
 -- [[ Navigation keymaps ]]
 

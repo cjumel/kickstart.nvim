@@ -18,55 +18,11 @@ local function map(mode, lhs, rhs, opts)
 end
 
 local function yank_module()
-  local module = require("config.lang_utils.python").get_module()
-  vim.fn.setreg('"', module)
-  vim.notify('Yanked to register `"`:\n```\n' .. module .. "\n```", vim.log.levels.INFO, { title = "Yank" })
-end
-local function yank_imports()
-  local lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
-  local import_lines = {}
-  local imports_block_is_started = false
-
-  for _, line in ipairs(lines) do
-    if
-      not imports_block_is_started and line:match("^%s*#") -- Comment line
-    then
-      table.insert(import_lines, line)
-    elseif line:match("^import ") or line:match("^from ") then
-      table.insert(import_lines, line)
-      imports_block_is_started = true
-    elseif
-      imports_block_is_started
-      and (
-        line:match("^%s+") -- Indented line
-        or line:match("^%)") -- Closing parenthesis
-      )
-    then
-      table.insert(import_lines, line)
-    elseif
-      imports_block_is_started
-      and (
-        line:match("^%s*$") -- Empty line
-        or line:match("^%s*#") -- Comment line
-      )
-    then
-      table.insert(import_lines, line)
-    elseif imports_block_is_started then
-      break
-    end
-  end
-
-  if #import_lines > 0 then
-    local import_text = table.concat(import_lines, "\n")
-    vim.fn.setreg('"', import_text)
-    vim.notify(
-      "Imports (" .. #import_lines .. ' lines) yanked to register `"`',
-      vim.log.levels.INFO,
-      { title = "Yank" }
-    )
-  else
-    vim.notify("No imports found at the top of the file", vim.log.levels.WARN, { title = "Yank" })
-  end
+  local python_utils = require("config.lang_utils.python")
+  local register = vim.v.register
+  local module = python_utils.get_module()
+  vim.fn.setreg(register, module)
+  local message = "Yanked to register `" .. register .. "`:\n```\n" .. module .. "\n```"
+  vim.notify(message, vim.log.levels.INFO, { title = "Yank" })
 end
 map("n", "<leader>ym", yank_module, { desc = "[Y]ank: [M]odule (Python)" })
-map("n", "<leader>yi", yank_imports, { desc = "[Y]ank: [I]mports (Python)" })

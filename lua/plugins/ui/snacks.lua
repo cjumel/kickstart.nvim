@@ -85,7 +85,7 @@ return {
           layout = { preset = "telescope_horizontal" },
           show_empty = true, -- Some stuff can appear after using toggles
           cwd = vim.bo.filetype == "oil" and require("oil").get_current_dir() or nil,
-          only_directory = vim.bo.filetype == "oil",
+          only_current_directory = vim.bo.filetype == "oil",
         })
       end,
       desc = "[F]ind: [F]iles",
@@ -127,7 +127,7 @@ return {
           layout = { preset = "telescope_horizontal" },
           show_empty = true, -- Some stuff can appear after using toggles
           cwd = vim.bo.filetype == "oil" and require("oil").get_current_dir() or nil,
-          only_directory = vim.bo.filetype == "oil",
+          only_current_directory = vim.bo.filetype == "oil",
         })
       end,
       desc = "[F]ind: [D]irectories",
@@ -141,7 +141,7 @@ return {
           regex = false,
           layout = { preset = "telescope_vertical" },
           cwd = vim.bo.filetype == "oil" and require("oil").get_current_dir() or nil,
-          only_directory = vim.bo.filetype == "oil",
+          only_current_directory = vim.bo.filetype == "oil",
         })
       end,
       desc = "[F]ind: [G]rep",
@@ -155,7 +155,7 @@ return {
           layout = { preset = "telescope_vertical" },
           show_empty = true, -- Some stuff can appear after using toggles
           cwd = vim.bo.filetype == "oil" and require("oil").get_current_dir() or nil,
-          only_directory = vim.bo.filetype == "oil",
+          only_current_directory = vim.bo.filetype == "oil",
         })
       end,
       mode = "x",
@@ -338,16 +338,23 @@ return {
           title = "Git Log",
           layout = { preset = "telescope_horizontal" },
           toggles = {
-            buffer_local = "l", -- "f", like "file", is used for "follow rename"
+            current_file = "c", -- "f" is used for "follow rename"
+            current_line = "l",
           },
           actions = {
             yank_commit = { action = "yank", field = "commit" },
-            copy_commit = { action = "yank", field = "commit", reg = "+" },
-            toggle_buffer_local_custom = function(picker)
+            toggle_current_file_custom = function(picker)
               local opts = picker.opts or {}
               opts.current_file = not opts.current_file ---@diagnostic disable-line: inject-field
+              opts.current_line = false ---@diagnostic disable-line: inject-field
               opts.follow = opts.current_file ---@diagnostic disable-line: inject-field
-              opts.buffer_local = opts.current_file ---@diagnostic disable-line: inject-field
+              picker:find()
+            end,
+            toggle_current_line_custom = function(picker)
+              local opts = picker.opts or {}
+              opts.current_file = false ---@diagnostic disable-line: inject-field
+              opts.current_line = not opts.current_line ---@diagnostic disable-line: inject-field
+              opts.follow = opts.current_file ---@diagnostic disable-line: inject-field
               picker:find()
             end,
           },
@@ -355,8 +362,8 @@ return {
             input = {
               keys = {
                 ["<C-y>"] = { { "yank_commit", "close" }, mode = "i" }, ---@diagnostic disable-line: assign-type-mismatch
-                ["<M-c>"] = { { "copy_commit", "close" }, mode = "i" }, ---@diagnostic disable-line: assign-type-mismatch
-                ["<M-l>"] = { "toggle_buffer_local_custom", mode = "i" },
+                ["<M-c>"] = { "toggle_current_file_custom", mode = "i" },
+                ["<M-l>"] = { "toggle_current_line_custom", mode = "i" },
               },
             },
           },
@@ -540,7 +547,7 @@ return {
     picker = {
       enabled = true, -- Use Snacks picker for vim.ui.select
       toggles = {
-        only_directory = "d",
+        only_current_directory = "c",
       },
       sources = {
         directories = {
@@ -564,10 +571,10 @@ return {
         },
       },
       actions = {
-        disable_only_directory = function(picker)
+        disable_only_current_directory = function(picker)
           local opts = picker.opts or {}
-          if opts.only_directory then
-            opts.only_directory = false
+          if opts.only_current_directory then
+            opts.only_current_directory = false
             picker:set_cwd(vim.fn.getcwd())
           end
           picker:find()
@@ -679,7 +686,7 @@ return {
             ["<M-h>"] = { "toggle_hidden", mode = "i" },
             ["<M-i>"] = { "toggle_ignored", mode = "i" },
             ["<M-r>"] = { "toggle_regex", mode = "i" },
-            ["<M-c>"] = { "disable_only_directory", mode = "i" }, -- TODO: make keymap and action flag match
+            ["<M-c>"] = { "disable_only_current_directory", mode = "i" },
             -- Make sure insert-mode emacs-style keybindings are not overridden
             ["<C-f>"] = false,
             ["<C-b>"] = false,
