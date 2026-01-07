@@ -249,9 +249,6 @@ end
 
 -- [[ Insert and command-line keymaps ]]
 
-vim.keymap.set({ "i", "c" }, "<C-w>", "<C-S-w>", { desc = "Delete word" }) -- Make it work also in special buffers
-vim.keymap.set({ "i", "c" }, "<C-r><C-r>", '<C-r>"', { desc = "Paste from main register" })
-
 local function tab_improved()
   local copilot_suggestion = package.loaded["copilot.suggestion"]
   if copilot_suggestion ~= nil and copilot_suggestion.is_visible() then
@@ -277,14 +274,23 @@ local function end_improved()
   end
 end
 
+-- Define emacs-style keybindings to move cursor or delete stuff, augmented with Copilot support
 vim.keymap.set("i", "<Tab>", tab_improved, { desc = "Accept Copilot suggestion or insert tab" })
+vim.keymap.set("i", "<C-n>", "<Down>", { desc = "Down" })
+vim.keymap.set("i", "<C-p>", "<Up>", { desc = "Up" })
 vim.keymap.set({ "i", "c" }, "<C-f>", "<Right>", { desc = "Move cursor one character right" })
 vim.keymap.set({ "i", "c" }, "<C-b>", "<Left>", { desc = "Move cursor one character left" })
 vim.keymap.set({ "i", "c" }, "<M-f>", c_right_improved, { desc = "Accept Copilot word or move cursor to next word" })
 vim.keymap.set({ "i", "c" }, "<M-b>", "<C-Left>", { desc = "Move cursor to previous word" })
 vim.keymap.set({ "i", "c" }, "<C-e>", end_improved, { desc = "Accept Copilot line or move cursor to end of line" })
 vim.keymap.set({ "i", "c" }, "<C-a>", "<Home>", { desc = "Move cursor to beginning of line" })
+vim.keymap.set({ "i", "c" }, "<C-w>", "<C-S-w>", { desc = "Delete word" }) -- Make it also work in special buffers
+vim.keymap.set({ "i", "c" }, "<M-d>", '<C-o>"_de', { desc = "Delete word forward" })
+vim.keymap.set({ "i", "c" }, "<M-u>", '<C-o>"_d$', { desc = "Delete line forward" })
 
+vim.keymap.set({ "i", "c" }, "<C-r><C-r>", '<C-r>"', { desc = "Paste from main register" })
+
+-- Disable native completion in command-line mode
 vim.keymap.set("c", "<Tab>", "<Nop>", { silent = true })
 vim.keymap.set("c", "<S-Tab>", "<Nop>", { silent = true })
 vim.keymap.set("c", "<C-d>", "<Nop>", { silent = true })
