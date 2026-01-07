@@ -62,7 +62,10 @@ return {
         if vim.tbl_isempty(tasks) then
           vim.notify("No tasks found", vim.log.levels.WARN, { title = "overseer.nvim" })
         else
-          require("overseer").run_action(tasks[1], "restart")
+          local task = tasks[1]
+          ---@diagnostic disable-next-line: invisible
+          task.from_template.params.prompt = false -- Custom arguments are already included in `task`
+          require("overseer").run_action(task, "restart")
         end
       end,
       desc = "[E]xecute: [L]ast task",
