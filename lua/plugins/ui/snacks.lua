@@ -220,8 +220,8 @@ return {
           win = {
             input = {
               keys = {
-                ["<C-y>"] = { { "yank_add", "close" }, mode = "i" },
-                ["<M-y>"] = { { "yank_del", "close" }, mode = "i" },
+                ["<C-y>"] = { "yank_add", mode = "i" },
+                ["<M-y>"] = { "yank_del", mode = "i" },
               },
             },
           },
@@ -361,7 +361,7 @@ return {
           win = {
             input = {
               keys = {
-                ["<C-y>"] = { { "yank_commit", "close" }, mode = "i" }, ---@diagnostic disable-line: assign-type-mismatch
+                ["<C-y>"] = { "yank_commit", mode = "i" }, ---@diagnostic disable-line: assign-type-mismatch
                 ["<M-c>"] = { "toggle_current_file_custom", mode = "i" },
                 ["<M-l>"] = { "toggle_current_line_custom", mode = "i" },
               },
