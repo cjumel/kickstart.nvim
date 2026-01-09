@@ -7,7 +7,6 @@ return {
   keys = { { "<leader>gm", function() require("neogit").open() end, desc = "[G]it: [M]enu" } },
   opts = {
     commit_editor = { spell_check = false },
-    remember_settings = false,
     use_default_keymaps = false,
     integrations = { snacks = true },
     mappings = {
