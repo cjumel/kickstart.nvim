@@ -679,7 +679,7 @@ return {
             ["<M-i>"] = { "toggle_ignored", mode = "i" },
             ["<M-r>"] = { "toggle_regex", mode = "i" },
             ["<M-c>"] = { "disable_only_current_directory", mode = "i" },
-            -- Make sure insert-mode emacs-style keybindings are not overridden
+            -- Make sure insert-mode keymaps are not overridden
             ["<C-f>"] = false,
             ["<C-b>"] = false,
             ["<M-f>"] = false,
@@ -687,10 +687,8 @@ return {
             ["<C-e>"] = false,
             ["<C-a>"] = false,
             ["<C-w>"] = false,
-            ["<M-d>"] = false,
             ["<C-u>"] = false,
-            ["<M-u>"] = false,
-            ["<C-d>"] = false,
+            ["<C-d>"] = false, -- Out of consistency with <C-u>
           },
         },
       },
