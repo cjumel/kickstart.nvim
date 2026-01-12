@@ -1,8 +1,5 @@
 -- [[ Modify builtin keymaps ]]
 
--- Remap $ in visual mode to avoid selecting the newline character (consistent with other modes)
-vim.keymap.set("v", "$", "$h", { desc = "End of line" })
-
 -- Smart version of `a` & `i` keymaps to automatically indent in empty lines
 local function smart_a_or_i(default_keymap)
   if
@@ -16,14 +13,8 @@ end
 vim.keymap.set("n", "a", function() return smart_a_or_i("a") end, { desc = "Append", expr = true, noremap = true })
 vim.keymap.set("n", "i", function() return smart_a_or_i("i") end, { desc = "Insert", expr = true, noremap = true })
 
--- Smart version of `dd` keymap, to avoid yanking empty lines
-local function smart_dd()
-  if vim.api.nvim_get_current_line():match("^%s*$") then
-    return '"_dd' -- Save to black hole register
-  end
-  return "dd"
-end
-vim.keymap.set("n", "dd", smart_dd, { desc = "Line", expr = true, noremap = true })
+-- Remap $ in visual mode to avoid selecting the newline character (consistent with other modes)
+vim.keymap.set("v", "$", "$h", { desc = "End of line" })
 
 -- Increase the amount of scrolling with <C-e> and <C-y>
 vim.keymap.set({ "n", "v" }, "<C-y>", "3<C-y>", { desc = "Scroll up a few lines" })
@@ -52,11 +43,6 @@ vim.keymap.set({ "n", "v" }, "+", '"+', { desc = "System clipboard register" })
 
 local buffer_changes = "<cmd>vert new | set buftype=nofile | read ++edit # | 0d_ | diffthis | wincmd p | diffthis<CR>"
 vim.keymap.set("n", "<leader>vb", buffer_changes, { desc = "[V]iew: [B]uffer changes" })
-
-vim.keymap.set("n", "<leader><CR>", "<cmd>w<CR>", { desc = "Write buffer" })
-vim.keymap.set("n", "<leader><S-CR>", "<cmd>wa<CR>", { desc = "Write all buffers" })
-vim.keymap.set("n", "<leader><M-CR>", "<cmd>w!<CR>", { desc = "Force write buffer" })
-vim.keymap.set("n", "<leader><C-CR>", "<cmd>noautocmd w<CR>", { desc = "Write buffer without auto-command" })
 
 local function send_to_clipboard()
   local yanked = vim.fn.getreg('"')

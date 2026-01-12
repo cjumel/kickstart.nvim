@@ -10,11 +10,7 @@ return {
   },
   opts = {
     focus = true,
-    keys = {
-      ["<Tab>"] = "fold_toggle",
-      [";"] = "next",
-      [","] = "prev",
-    },
+    keys = { ["<Tab>"] = "fold_toggle" },
     modes = {
       diagnostics = { title = "{hl:Title}Workspace Diagnostics{hl} {count}" },
       loclist = { title = "{hl:Title}Location list{hl} {count}" },
