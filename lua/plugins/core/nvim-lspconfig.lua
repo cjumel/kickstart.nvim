@@ -45,6 +45,13 @@ local servers_by_ft = {
         client.server_capabilities.documentFormattingProvider = false
         client.server_capabilities.documentRangeFormattingProvider = false
       end,
+      settings = {
+        diagnostics = {
+          ignoredCodes = {
+            80006, -- "This may be converted to an async function", not relevant when chaining promises
+          },
+        },
+      },
     },
     biome = {}, -- Lint and format
   },
