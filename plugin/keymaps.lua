@@ -62,7 +62,11 @@ local function send_to_clipboard()
 end
 vim.keymap.set("n", "gy", send_to_clipboard, { desc = "Send yanked to clipboard" })
 
-local function yank_file_path(mods)
+local function yank_path(absolute, include_cursor_position)
+  absolute = absolute or false
+  include_cursor_position = include_cursor_position or false
+
+  local mods = absolute and ":~" or ":~:."
   local register = vim.v.register
   local path = nil
   if vim.bo.buftype == "" then -- Regular buffer
@@ -79,6 +83,11 @@ local function yank_file_path(mods)
     if path:find("%s") and vim.fn.confirm("White spaces found in path, escape them?", "&Yes\n&No") == 1 then
       path = path:gsub(" ", "\\ ")
     end
+    if include_cursor_position then
+      local line = vim.fn.line(".")
+      local col = vim.fn.col(".")
+      path = path .. ":" .. line .. ":" .. col
+    end
     vim.fn.setreg(register, path)
     vim.notify(
       "Yanked to register `" .. register .. "`:\n```\n" .. path .. "\n```",
@@ -87,9 +96,10 @@ local function yank_file_path(mods)
     )
   end
 end
-vim.keymap.set("n", "<leader>yp", function() yank_file_path(":~:.") end, { desc = "[Y]ank: file [P]ath" })
-vim.keymap.set("n", "<leader>yf", function() yank_file_path(":~") end, { desc = "[Y]ank: [F]ull file path" })
-vim.keymap.set("n", "<leader>yn", function() yank_file_path(":t") end, { desc = "[Y]ank: file [N]ame" })
+vim.keymap.set("n", "<leader>yp", function() yank_path() end, { desc = "[Y]ank: [P]ath" })
+vim.keymap.set("n", "<leader>yP", function() yank_path(true) end, { desc = "[Y]ank: [P]ath (absolute)" })
+vim.keymap.set("n", "<leader>yl", function() yank_path(false, true) end, { desc = "[Y]ank: [L]ocation" })
+vim.keymap.set("n", "<leader>yL", function() yank_path(true, true) end, { desc = "[Y]ank: [L]ocation (absolute)" })
 
 local function yank_buffer_content()
   local register = vim.v.register
@@ -103,7 +113,7 @@ local function yank_buffer_content()
     { title = "Yank" }
   )
 end
-local function yank_buffer_contents()
+local function yank_all_buffer_contents()
   local register = vim.v.register
   local lines = {}
   local content_description = ""
@@ -132,8 +142,8 @@ local function yank_buffer_contents()
     { title = "Yank" }
   )
 end
-vim.keymap.set("n", "<leader>yb", yank_buffer_content, { desc = "[Y]ank: [B]uffer content" })
-vim.keymap.set("n", "<leader>ya", yank_buffer_contents, { desc = "[Y]ank: [A]ll buffer contents" })
+vim.keymap.set("n", "<leader>yc", yank_buffer_content, { desc = "[Y]ank: [C]ontent" })
+vim.keymap.set("n", "<leader>yC", yank_all_buffer_contents, { desc = "[Y]ank: [C]ontent (all buffers)" })
 
 -- [[ Navigation keymaps ]]
 

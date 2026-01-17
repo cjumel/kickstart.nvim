@@ -3,7 +3,8 @@ return {
   dependencies = { "nvim-tree/nvim-web-devicons" },
   cmd = { "Trouble" }, -- For other plugins using trouble.nvim through a command
   keys = {
-    { "<leader>vd", "<cmd>Trouble diagnostics<CR>", desc = "[V]iew: [D]iagnostics" },
+    { "<leader>vd", "<cmd>Trouble diagnostics_document<CR>", desc = "[V]iew: [D]iagnostics" },
+    { "<leader>vD", "<cmd>Trouble diagnostics<CR>", desc = "[V]iew: [D]iagnostics (workspace)" },
     { "<leader>vl", "<cmd>Trouble loclist<CR>", desc = "[V]iew: [L]ocation list" },
     { "<leader>vq", "<cmd>Trouble qflist<CR>", desc = "[V]iew: [Q]uickfix list" },
     { "<leader>vs", "<cmd>Trouble symbols<CR>", desc = "[V]iew: [S]ymbols" },
@@ -13,6 +14,12 @@ return {
     keys = { ["<Tab>"] = "fold_toggle" },
     modes = {
       diagnostics = { title = "{hl:Title}Workspace Diagnostics{hl} {count}" },
+      diagnostics_document = {
+        mode = "diagnostics",
+        title = "{hl:Title}Document Diagnostics{hl} {count}",
+        filter = { buf = 0 }, -- Current buffer items only
+        groups = {}, -- There is only one group
+      },
       loclist = { title = "{hl:Title}Location list{hl} {count}" },
       qflist = { title = "{hl:Title}Quickfix list{hl} {count}" },
       symbols = {

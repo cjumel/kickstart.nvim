@@ -274,7 +274,7 @@ return {
               vim.list_extend(status_filters, { "M ", "MM", "A ", "AM", "D ", "R " })
             end
             if opts.unstaged then ---@diagnostic disable-line: undefined-field
-              vim.list_extend(status_filters, { " M", " D", "MM", "??" })
+              vim.list_extend(status_filters, { " M", " D", "MM", "RM", "??" })
             end
             if opts.conflicts then ---@diagnostic disable-line: undefined-field
               vim.list_extend(status_filters, { "UU" })
