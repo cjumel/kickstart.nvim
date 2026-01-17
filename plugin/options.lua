@@ -54,10 +54,10 @@ vim.filetype.add({
     ["%.env%..*%.%w+"] = "sh",
   },
   filename = {
+    [".aliases"] = "sh",
     [".markdownlintrc"] = "json", -- Could also be INI in theory
     [".shellcheckrc"] = "conf",
     [".stow-local-ignore"] = "conf",
-    ["sketchybarrc"] = "sh",
     ["ripgreprc"] = "conf",
   },
 })

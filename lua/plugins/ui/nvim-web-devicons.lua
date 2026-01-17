@@ -15,7 +15,6 @@ local extra_filaname_to_icon = {
     [".shellcheckrc"] = { icon = "", color = "#6D8086", cterm_color = "66", name = "Conf" },
     [".stow-local-ignore"] = { icon = "", color = "#6D8086", cterm_color = "66", name = "Conf" },
     ["ignore"] = { icon = "", color = "#F54D27", cterm_color = "196", name = "GitIgnore" },
-    ["sketchybarrc"] = { icon = "", color = "#4D5A5E", cterm_color = "240", name = "Sh" },
     ["ripgreprc"] = { icon = "", color = "#6D8086", cterm_color = "66", name = "Conf" },
   },
   light = {
@@ -31,7 +30,6 @@ local extra_filaname_to_icon = {
     [".shellcheckrc"] = { icon = "", color = "#526064", cterm_color = "59", name = "Conf" },
     [".stow-local-ignore"] = { icon = "", color = "#526064", cterm_color = "59", name = "Conf" },
     ["ignore"] = { icon = "", color = "#B83A1D", cterm_color = "160", name = "GitIgnore" },
-    ["sketchybarrc"] = { icon = "", color = "#3A4446", cterm_color = "238", name = "Sh" },
     ["ripgreprc"] = { icon = "", color = "#526064", cterm_color = "59", name = "Conf" },
   },
 }
