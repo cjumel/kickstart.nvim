@@ -2,23 +2,25 @@ return {
   "ThePrimeagen/harpoon",
   branch = "harpoon2",
   dependencies = { "nvim-lua/plenary.nvim" },
+  event = { "BufNewFile", "BufReadPre" }, -- For the lualine.nvim component
   keys = {
-    { "<leader>p", function() require("harpoon"):list():add() end, desc = "[P]in file" },
+    { "<M-p>", function() require("harpoon"):list():add() end, desc = "Pin file" },
+    { "<M-u>", function() require("harpoon"):list():remove() end, desc = "Unpin file" },
     {
-      "<leader>)", -- 0
+      "<M-l>",
       function() require("harpoon").ui:toggle_quick_menu(require("harpoon"):list()) end,
-      desc = "Pinned files",
+      desc = "List pinned files",
     },
-    -- Let's only show one entry in which-key.nvim for all the following keymaps
-    { "<leader>!", function() require("harpoon"):list():select(1) end, desc = "Open pinned file 1~9" }, -- 1
-    { "<leader>@", function() require("harpoon"):list():select(2) end, desc = "<which-key-ignore>" }, -- 2
-    { "<leader>#", function() require("harpoon"):list():select(3) end, desc = "<which-key-ignore>" }, -- 3
-    { "<leader>$", function() require("harpoon"):list():select(4) end, desc = "<which-key-ignore>" }, -- 4
-    { "<leader>%", function() require("harpoon"):list():select(5) end, desc = "<which-key-ignore>" }, -- 5
-    { "<leader>^", function() require("harpoon"):list():select(6) end, desc = "<which-key-ignore>" }, -- 6
-    { "<leader>&", function() require("harpoon"):list():select(7) end, desc = "<which-key-ignore>" }, -- 7
-    { "<leader>*", function() require("harpoon"):list():select(8) end, desc = "<which-key-ignore>" }, -- 8
-    { "<leader>(", function() require("harpoon"):list():select(9) end, desc = "<which-key-ignore>" }, -- 9
+    { "<M-1>", function() require("harpoon"):list():select(1) end, desc = "Open pinned file 1" },
+    { "<M-2>", function() require("harpoon"):list():select(2) end, desc = "Open pinned file 2" },
+    { "<M-3>", function() require("harpoon"):list():select(3) end, desc = "Open pinned file 3" },
+    { "<M-4>", function() require("harpoon"):list():select(4) end, desc = "Open pinned file 4" },
+    { "<M-5>", function() require("harpoon"):list():select(5) end, desc = "Open pinned file 5" },
+    { "<M-6>", function() require("harpoon"):list():select(6) end, desc = "Open pinned file 6" },
+    { "<M-7>", function() require("harpoon"):list():select(7) end, desc = "Open pinned file 7" },
+    { "<M-8>", function() require("harpoon"):list():select(8) end, desc = "Open pinned file 8" },
+    { "<M-9>", function() require("harpoon"):list():select(9) end, desc = "Open pinned file 9" },
+    { "<M-0>", function() require("harpoon"):list():select(10) end, desc = "Open pinned file 10" },
   },
   opts = {
     settings = {

@@ -41,6 +41,34 @@ return {
             "searchcount",
             color = { fg = "#ff9e64" }, -- Orange
           },
+          {
+            function()
+              local harpoon = package.loaded.harpoon
+              if harpoon == nil then
+                return ""
+              end
+              local path
+              if vim.bo.buftype == "" then
+                path = vim.fn.expand("%:p")
+              elseif vim.bo.filetype == "oil" then
+                path = "oil://" .. vim.fn.fnamemodify(require("oil").get_current_dir() --[[@as string]], ":p")
+              else
+                return ""
+              end
+              local s = ""
+              for index = 1, harpoon:list():length() do
+                local harpoon_item = harpoon:list():get(index)
+                if harpoon_item ~= nil then
+                  if path == vim.fn.fnamemodify(harpoon_item.value, ":p") then
+                    s = s .. "[" .. index .. "]"
+                  else
+                    s = s .. " " .. index .. " "
+                  end
+                end
+              end
+              return s ~= "" and "󰀱 " .. s or ""
+            end,
+          },
           "filetype",
         },
         lualine_y = { "location" },
