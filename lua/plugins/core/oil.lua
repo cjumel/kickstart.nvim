@@ -7,25 +7,18 @@ return {
     { "g-", function() require("oil").open(vim.fn.getcwd()) end, desc = "Open current working directory" },
   },
   opts = {
-    win_options = { number = false, relativenumber = false }, -- Disable line-numbering in Oil buffers
-    cleanup_delay_ms = 0, -- Cleanup the Oil buffer right away to avoid jumping back to it with <C-o> and <C-i>
+    win_options = { number = false, relativenumber = false },
+    cleanup_delay_ms = 0, -- Cleanup the Oil buffer right away to avoid jumping back to it with <C-o>
     lsp_file_methods = {
-      timeout_ms = 5000, -- Default, 1000, often times out
+      timeout_ms = 5000, -- Increase duration to avoid time-outs
       autosave_changes = true,
     },
     keymaps = {
-      -- Since Oil can be used as an actual editable buffer, to edit files quickly and optionally in batch, let's not
-      --  overwrite any keymap which could be useful for editing files, to still be able to use features like macros
-      --  (with "q"), visual block edition (with "<C-v>") or decrementing (with "<C-x>") for instance
-
-      -- Main actions
+      -- Let's not overwrite any keymap which could be useful to edit files
       ["-"] = "actions.parent",
-      ["_"] = "actions.open_cwd",
       ["<CR>"] = "actions.select",
-      ["g?"] = "actions.show_help",
       ["gx"] = "actions.open_external",
-
-      -- Oil buffer actions
+      ["<C-c>"] = "actions.close",
       ["<localleader>d"] = {
         function() -- Function taken from Oil recipes
           DETAIL = not DETAIL
@@ -40,7 +33,6 @@ return {
       ["<localleader>h"] = { "actions.toggle_hidden", desc = "Toggle [H]idden files" },
       ["<localleader>p"] = { "actions.preview", desc = "Toggle [P]review" },
       ["<localleader>r"] = { "actions.refresh", desc = "[R]efresh" },
-      ["<localleader>s"] = { "actions.change_sort", desc = "Change [S]ort" },
     },
     use_default_keymaps = false,
     view_options = {
