@@ -16,7 +16,10 @@ local servers_by_ft = {
       },
     },
   },
-  markdown = { marksman = {} },
+  markdown = {
+    marksman = {},
+    rumdl = {},
+  },
   python = {
     basedpyright = { -- Pure LSP features
       settings = {

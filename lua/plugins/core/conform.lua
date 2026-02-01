@@ -6,7 +6,7 @@ local default_formatters_by_ft = {
   json = { lsp_format = "first" }, -- JsonLS
   lua = { "stylua" },
   make = { "trim_newlines", "trim_whitespace" },
-  markdown = { "mdformat" },
+  markdown = { lsp_format = "first" }, -- rumdl
   proto = { "trim_newlines", "trim_whitespace" },
   python = {
     "ruff_organize_imports",
