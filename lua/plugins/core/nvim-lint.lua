@@ -1,5 +1,4 @@
 local default_linters_by_ft = {
-  json = { "jsonlint" },
   markdown = { "markdownlint" },
   sh = { "shellcheck" },
   yaml = { "yamllint" },
