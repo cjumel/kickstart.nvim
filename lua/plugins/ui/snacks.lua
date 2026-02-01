@@ -737,6 +737,7 @@ return {
           },
         },
       },
+      scratch = { width = 120, height = 40 },
     },
   },
 }
