@@ -17,9 +17,13 @@ local misc_snippets = {
 }
 snippets = vim.list_extend(snippets, misc_snippets)
 
--- [[ Convsentional Commits ]]
+-- [[ Commit convention ]]
 
-if not vim.g.disable_conventional_commit_snippets then
+---@type nvim_config.GitCommitConvention
+local git_commit_convention = "conventional_commits"
+git_commit_convention = vim.g.git_commit_convention ~= nil and vim.g.git_commit_convention or git_commit_convention
+
+if git_commit_convention == "conventional_commits" then
   -- Names are taken from https://www.conventionalcommits.org/en/v1.0.0/#specification, but descriptions are a mix from
   -- the Gitmoji equivalent, in https://gitmoji.dev/, and a Conventional Commits cheat sheet, in
   -- https://kapeli.com/cheat_sheets/Conventional_Commits.docset/Contents/Resources/Documents/index
@@ -53,11 +57,7 @@ if not vim.g.disable_conventional_commit_snippets then
       })
     )
   end
-end
-
--- [[ Gitmoji ]]
-
-if not vim.g.disable_gitmoji_snippets then
+elseif git_commit_convention == "gitmoji" then
   -- Data is taken from https://gitmoji.dev/
   local gitmojis_data = {
     { name = "art", emoji = "🎨", desc = "Improve structure / format of the code." },

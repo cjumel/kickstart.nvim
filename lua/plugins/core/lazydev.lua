@@ -6,7 +6,9 @@ return {
   ft = "lua",
   opts = {
     library = {
-      { path = "snacks.nvim", words = { "Snacks" } },
+      { path = "conform.nvim", words = { "conform%." } },
+      { path = "snacks.nvim", words = { "Snacks%." } },
+      { path = vim.fn.stdpath("config"), words = { "nvim_config%." }}
     },
   },
 }

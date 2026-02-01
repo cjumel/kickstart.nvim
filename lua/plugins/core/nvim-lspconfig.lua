@@ -1,11 +1,33 @@
-local server_configs = {
-  bashls = { filetypes = { "sh", "zsh" } },
-}
-
-local servers_by_ft = {
-  json = { jsonls = {} },
-  lua = {
-    lua_ls = {
+---@type nvim_config.LanguageServers
+local default_language_servers = {
+  bashls = {
+    filetypes = { "sh", "zsh" }, -- Not actually for zsh, but works fine for me
+    mason = "bash-language-server",
+    config = {
+      filetypes = { "sh", "zsh" },
+    },
+  },
+  basedpyright = { -- Pure LSP features for Python
+    filetypes = { "python" },
+    config = {
+      settings = {
+        basedpyright = {
+          analysis = { typeCheckingMode = "standard" }, -- Relax default type checking rules
+        },
+      },
+    },
+  },
+  biome = { -- Lint and format for typescript
+    filetypes = { "typescript" },
+  },
+  jsonls = {
+    filetypes = { "json" },
+    mason = "json-lsp",
+  },
+  lua_ls = {
+    filetypes = { "lua" },
+    mason = "lua-language-server",
+    config = {
       settings = {
         Lua = {
           -- Disable snippets in favor of custom ones
@@ -16,22 +38,19 @@ local servers_by_ft = {
       },
     },
   },
-  markdown = {
-    marksman = {},
-    rumdl = {},
+  marksman = {
+    filetypes = { "markdown" },
   },
-  python = {
-    basedpyright = { -- Pure LSP features
-      settings = {
-        basedpyright = {
-          analysis = { typeCheckingMode = "standard" }, -- Relax default type checking rules
-        },
-      },
-    },
-    ruff = {}, -- Lint and format
+  ruff = { -- Lint and format for Python
+    filetypes = { "python" },
   },
-  rust = {
-    rust_analyzer = {
+  rumdl = {
+    filetypes = { "markdown" },
+  },
+  rust_analyzer = {
+    filetypes = { "rust" },
+    mason = "rust-analyzer",
+    config = {
       settings = {
         ["rust-analyzer"] = {
           -- Add parentheses when completing with a function instead of call snippets
@@ -40,10 +59,21 @@ local servers_by_ft = {
       },
     },
   },
-  sh = { bashls = server_configs.bashls },
-  toml = { taplo = {} },
-  typescript = {
-    ts_ls = { -- Pure LSP features
+  taplo = {
+    filetypes = { "toml" },
+  },
+  tinymist = {
+    filetypes = { "typst" },
+    config = {
+      settings = {
+        formatterMode = "typstyle", -- Use the default formatter
+      },
+    },
+  },
+  ts_ls = { -- Pure LSP features for typescript
+    filetypes = { "typescript" },
+    mason = "typescript-language-server",
+    config = {
       on_attach = function(client) -- Disable formatting in favor of biome
         client.server_capabilities.documentFormattingProvider = false
         client.server_capabilities.documentRangeFormattingProvider = false
@@ -56,26 +86,11 @@ local servers_by_ft = {
         },
       },
     },
-    biome = {}, -- Lint and format
   },
-  typst = {
-    tinymist = {
-      settings = {
-        formatterMode = "typstyle", -- Use the default formatter
-      },
-    },
+  yamlls = {
+    filetypes = { "yaml" },
+    mason = "yaml-language-server",
   },
-  yaml = { yamlls = {} },
-  zsh = { bashls = server_configs.bashls }, -- Not actually for zsh, but works fine for me
-}
-
-local server_to_mason_name = {
-  bashls = "bash-language-server",
-  jsonls = "json-lsp",
-  lua_ls = "lua-language-server",
-  rust_analyzer = "rust-analyzer",
-  ts_ls = "typescript-language-server",
-  yamlls = "yaml-language-server",
 }
 
 return {
@@ -84,14 +99,28 @@ return {
     "mason-org/mason.nvim",
     "mason-org/mason-lspconfig.nvim",
   },
-  ft = vim.tbl_keys(servers_by_ft),
+  ft = function() -- `vim.g.language_servers` is not known at this stage so it can't be used
+    local filetypes = {}
+    for _, server in pairs(default_language_servers) do
+      if server then
+        for _, filetype in ipairs(server.filetypes) do
+          if not vim.tbl_contains(filetypes, filetype) then
+            table.insert(filetypes, filetype)
+          end
+        end
+      end
+    end
+    return filetypes
+  end,
   config = function()
+    ---@type nvim_config.LanguageServers
+    local language_servers = vim.tbl_deep_extend("force", default_language_servers, vim.g.language_servers or {})
+
     -- Make sure all required dependencies can be installed with the `MasonInstallAll` command
     local mason_ensure_installed = {}
-    for _, servers in pairs(servers_by_ft) do
-      for server, _ in pairs(servers) do
-        local mason_name = server_to_mason_name[server] or server
-        table.insert(mason_ensure_installed, mason_name)
+    for name, language_server in pairs(language_servers) do
+      if language_server then
+        table.insert(mason_ensure_installed, language_server.mason or name)
       end
     end
     vim.g.mason_ensure_installed = vim.list_extend(vim.g.mason_ensure_installed or {}, mason_ensure_installed)
@@ -108,7 +137,6 @@ return {
           vim.keymap.set(mode, lhs, rhs, opts)
         end
 
-        -- General keymaps
         map("n", "<C-s>", vim.lsp.buf.signature_help, { desc = "Signature help" }) -- Insert-mode keymap is handled by blink.cmp
         map("n", "gd", "<cmd>Trouble lsp_definitions<CR>", { desc = "Go to definition" })
         map("n", "grt", "<cmd>Trouble lsp_type_definitions<CR>", { desc = "LSP: type definition" })
@@ -120,12 +148,13 @@ return {
       end,
     })
 
-    for _, servers in pairs(servers_by_ft) do
-      for name, config in pairs(servers) do
-        vim.lsp.config(name, config)
+    local automatic_enable = {}
+    for name, language_server in pairs(language_servers) do
+      if language_server then
+        table.insert(automatic_enable, name)
+        vim.lsp.config(name, language_server.config or {})
       end
     end
-
-    require("mason-lspconfig").setup()
+    require("mason-lspconfig").setup({ automatic_enable = automatic_enable })
   end,
 }
