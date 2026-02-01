@@ -5,6 +5,7 @@ return {
     "nvim-lua/plenary.nvim",
     "antoinemadec/FixCursorHold.nvim",
     "nvim-treesitter/nvim-treesitter",
+    "nvim-neotest/neotest-jest",
     "nvim-neotest/neotest-python",
   },
   keys = function()
@@ -54,7 +55,10 @@ return {
   end,
   opts = function()
     return {
-      adapters = { require("neotest-python") },
+      adapters = {
+        require("neotest-jest"),
+        require("neotest-python"),
+      },
       consumers = {
         notify = function(client)
           client.listeners.run = function()
