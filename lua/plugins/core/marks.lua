@@ -6,6 +6,7 @@ return {
     { "mm", function() require("marks").set_next() end, desc = "Set next available mark" },
     { "dm", function() require("marks").delete() end, desc = "Delete mark" },
     { "dmm", function() require("marks").delete_line() end, desc = "Delete line marks" },
+    { "<leader>xm", function() require("marks").delete_buf() end, desc = "Delete: [M]arks" },
     {
       "<leader>vm",
       function()

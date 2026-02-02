@@ -5,25 +5,11 @@ return {
   priority = 500, -- Main UI stuff should be loaded first (but after the colorscheme)
   keys = {
     -- Bufdelete
+    { "<leader>xx", function() Snacks.bufdelete.delete() end, desc = "Delete: [B]uffer" },
+    { "<leader>xa", function() Snacks.bufdelete.all() end, desc = "Delete: [A]ll buffers" },
+    { "<leader>xo", function() Snacks.bufdelete.other() end, desc = "Delete: [O]ther buffers" },
     {
-      "<leader><BS>",
-      function() Snacks.bufdelete.delete() end,
-      desc = "Delete buffer",
-    },
-    {
-      -- TODO: when a release of Neovim with the `:restart` command is out, change this to use that command and display
-      -- the dashboard again
-      "<leader><S-BS>",
-      function() Snacks.bufdelete.all() end,
-      desc = "Delete all buffers",
-    },
-    {
-      "<leader><M-BS>",
-      function() Snacks.bufdelete.other() end,
-      desc = "Delete other buffers",
-    },
-    {
-      "<leader><C-BS>",
+      "<leader>xf",
       function()
         if vim.fn.confirm("Do you want to delete the file definitely?", "&Yes\n&No") == 1 then
           local fname = vim.api.nvim_buf_get_name(0)
@@ -31,7 +17,7 @@ return {
           vim.fn.delete(fname)
         end
       end,
-      desc = "Delete buffer and file",
+      desc = "Delete: [F]ile",
     },
 
     -- Gitbrowse

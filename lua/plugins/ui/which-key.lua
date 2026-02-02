@@ -16,6 +16,7 @@ return {
       { "<leader>s", group = "[S]cratch" },
       { "<leader>t", group = "[T]est" },
       { "<leader>v", group = "[V]iew" },
+      { "<leader>x", group = "Delete" },
       { "<leader>y", group = "[Y]ank" },
     },
     win = { border = "rounded" }, -- Better for transparent backgrounds
