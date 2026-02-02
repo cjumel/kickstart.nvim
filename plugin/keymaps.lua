@@ -62,7 +62,13 @@ local function send_to_clipboard()
 end
 vim.keymap.set("n", "gy", send_to_clipboard, { desc = "Send yanked to clipboard" })
 
-local function yank_file_path(mods)
+---@class YankPathOpts
+---@field position? boolean
+
+---@param opts YankPathOpts?
+local function yank_path(opts)
+  opts = opts or {}
+  local position = opts.position or false
   local register = vim.v.register
   local path = nil
   if vim.bo.buftype == "" then -- Regular buffer
@@ -71,13 +77,18 @@ local function yank_file_path(mods)
     local oil = require("oil")
     path = oil.get_current_dir()
     if path ~= nil then
-      path = path:gsub("/$", "") -- Remove the "/" prefix if it exists (necessary to get the tail with `mods`)
+      path = path:gsub("/$", "") -- Remove the "/" suffix if it exists (necessary to get the tail with `mods`)
     end
   end
   if path ~= nil then
-    path = vim.fn.fnamemodify(path, mods)
+    path = vim.fn.fnamemodify(path, ":~:.")
     if path:find("%s") and vim.fn.confirm("White spaces found in path, escape them?", "&Yes\n&No") == 1 then
       path = path:gsub(" ", "\\ ")
+    end
+    if position then
+      local line = vim.fn.line(".")
+      local col = vim.fn.col(".")
+      path = path .. ":" .. line .. ":" .. col
     end
     vim.fn.setreg(register, path)
     vim.notify(
@@ -87,9 +98,8 @@ local function yank_file_path(mods)
     )
   end
 end
-vim.keymap.set("n", "<leader>yp", function() yank_file_path(":~:.") end, { desc = "[Y]ank: file [P]ath" })
-vim.keymap.set("n", "<leader>yf", function() yank_file_path(":~") end, { desc = "[Y]ank: [F]ull file path" })
-vim.keymap.set("n", "<leader>yn", function() yank_file_path(":t") end, { desc = "[Y]ank: file [N]ame" })
+vim.keymap.set("n", "<leader>yp", function() yank_path() end, { desc = "[Y]ank: [P]ath" })
+vim.keymap.set("n", "<leader>yl", function() yank_path({ position = true }) end, { desc = "[Y]ank: [L]ine position" })
 
 -- [[ Navigation keymaps ]]
 
