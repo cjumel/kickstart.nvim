@@ -24,10 +24,6 @@ local local_conds = {
     local python_utils = require("config.lang_utils.python")
     return python_utils.is_project()
   end),
-  rust_project = ls_conds.make_condition(function()
-    local rust_utils = require("config.lang_utils.rust")
-    return rust_utils.is_project()
-  end),
 }
 local snippets = {}
 
@@ -139,12 +135,6 @@ local special_file_snippets = {
   s(
     { trig = "temp.py", show_condition = snippet_conds.empty_line * local_conds.python_project },
     { t("temp"), d(1, get_dynamic_file_index_node("temp", ".py")), t(".py") }
-  ),
-
-  -- Rust
-  s(
-    { trig = "temp.rs", show_condition = snippet_conds.empty_line * local_conds.rust_project },
-    { t("temp"), d(1, get_dynamic_file_index_node("temp", ".rs")), t(".rs") }
   ),
 }
 snippets = vim.list_extend(snippets, special_file_snippets)

@@ -10,21 +10,11 @@ return {
     {
       "<leader>vm",
       function()
-        require("marks").mark_state:buffer_to_list()
+        require("marks").mark_state:all_to_list()
         vim.cmd("Trouble loclist")
       end,
       desc = "[V]iew: [M]arks",
     },
-    {
-      "<leader>vM",
-      function()
-        require("marks").mark_state:all_to_list()
-        vim.cmd("Trouble loclist")
-      end,
-      desc = "[V]iew: [M]arks (workspace)",
-    },
   },
-  opts = {
-    default_mappings = false,
-  },
+  opts = { default_mappings = false },
 }

@@ -4,10 +4,6 @@ return {
     if vim.fn.executable("biome") == 0 then
       return {}
     end
-    local typescript_utils = require("config.lang_utils.typescript")
-    if not typescript_utils.is_project() then
-      return {}
-    end
 
     ---@type overseer.TemplateFileDefinition[]
     return {

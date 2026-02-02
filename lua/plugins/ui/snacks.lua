@@ -203,14 +203,6 @@ return {
           title = "Undo Tree",
           layout = { preset = "telescope_horizontal" },
           sort = { fields = { "score:desc", "idx" } }, -- Don't sort by item length to preserve recency order
-          win = {
-            input = {
-              keys = {
-                ["<C-y>"] = { "yank_add", mode = "i" },
-                ["<M-y>"] = { "yank_del", mode = "i" },
-              },
-            },
-          },
         })
       end,
       desc = "[F]ind: [U]ndo tree",

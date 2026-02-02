@@ -53,11 +53,6 @@ require("lazy").setup({
   },
 })
 
--- Customize lazy.nvim window keymaps
-local lazy_view_config = require("lazy.view.config")
-lazy_view_config.keys.next = ";"
-lazy_view_config.keys.prev = ","
-
 -- Securely source machine-level configuration file
 local global_config_path = vim.fn.stdpath("config") .. "/.nvim-global.lua"
 if vim.fn.filereadable(global_config_path) == 1 then

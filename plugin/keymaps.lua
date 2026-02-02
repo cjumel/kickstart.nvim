@@ -1,8 +1,5 @@
 -- [[ Modify builtin keymaps ]]
 
--- Remap $ in visual mode to avoid selecting the newline character (consistent with other modes)
-vim.keymap.set("v", "$", "$h", { desc = "End of line" })
-
 -- Smart version of `a` & `i` keymaps to automatically indent in empty lines
 local function smart_a_or_i(default_keymap)
   if
@@ -16,14 +13,8 @@ end
 vim.keymap.set("n", "a", function() return smart_a_or_i("a") end, { desc = "Append", expr = true, noremap = true })
 vim.keymap.set("n", "i", function() return smart_a_or_i("i") end, { desc = "Insert", expr = true, noremap = true })
 
--- Smart version of `dd` keymap, to avoid yanking empty lines
-local function smart_dd()
-  if vim.api.nvim_get_current_line():match("^%s*$") then
-    return '"_dd' -- Save to black hole register
-  end
-  return "dd"
-end
-vim.keymap.set("n", "dd", smart_dd, { desc = "Line", expr = true, noremap = true })
+-- Remap $ in visual mode to avoid selecting the newline character (consistent with other modes)
+vim.keymap.set("v", "$", "$h", { desc = "End of line" })
 
 -- Increase the amount of scrolling with <C-e> and <C-y>
 vim.keymap.set({ "n", "v" }, "<C-y>", "3<C-y>", { desc = "Scroll up a few lines" })
@@ -52,11 +43,6 @@ vim.keymap.set({ "n", "v" }, "+", '"+', { desc = "System clipboard register" })
 
 local buffer_changes = "<cmd>vert new | set buftype=nofile | read ++edit # | 0d_ | diffthis | wincmd p | diffthis<CR>"
 vim.keymap.set("n", "<leader>vb", buffer_changes, { desc = "[V]iew: [B]uffer changes" })
-
-vim.keymap.set("n", "<leader><CR>", "<cmd>w<CR>", { desc = "Write buffer" })
-vim.keymap.set("n", "<leader><S-CR>", "<cmd>wa<CR>", { desc = "Write all buffers" })
-vim.keymap.set("n", "<leader><M-CR>", "<cmd>w!<CR>", { desc = "Force write buffer" })
-vim.keymap.set("n", "<leader><C-CR>", "<cmd>noautocmd w<CR>", { desc = "Write buffer without auto-command" })
 
 local function send_to_clipboard()
   local yanked = vim.fn.getreg('"')
@@ -104,50 +90,6 @@ end
 vim.keymap.set("n", "<leader>yp", function() yank_file_path(":~:.") end, { desc = "[Y]ank: file [P]ath" })
 vim.keymap.set("n", "<leader>yf", function() yank_file_path(":~") end, { desc = "[Y]ank: [F]ull file path" })
 vim.keymap.set("n", "<leader>yn", function() yank_file_path(":t") end, { desc = "[Y]ank: file [N]ame" })
-
-local function yank_buffer_content()
-  local register = vim.v.register
-  local bufnr = vim.api.nvim_get_current_buf()
-  local buflines = vim.api.nvim_buf_get_lines(bufnr, 0, -1, false)
-  local buffer_content = table.concat(buflines, "\n")
-  vim.fn.setreg(register, buffer_content)
-  vim.notify(
-    "Buffer content (" .. #buflines .. " lines) yanked to register `" .. register .. "`",
-    vim.log.levels.INFO,
-    { title = "Yank" }
-  )
-end
-local function yank_buffer_contents()
-  local register = vim.v.register
-  local lines = {}
-  local content_description = ""
-  for _, bufnr in ipairs(vim.api.nvim_list_bufs()) do
-    local bufpath = vim.api.nvim_buf_get_name(bufnr)
-    if
-      vim.api.nvim_buf_is_valid(bufnr)
-      and vim.api.nvim_buf_is_loaded(bufnr)
-      and bufpath ~= ""
-      and vim.api.nvim_get_option_value("buftype", { buf = bufnr }) == ""
-    then
-      if not bufpath:match("^" .. vim.env.HOME .. "/.local/share/scratch%-files") then
-        local buflines = vim.api.nvim_buf_get_lines(bufnr, 0, -1, false)
-        vim.list_extend(lines, { "File `" .. bufpath .. "`:", "```" .. vim.bo[bufnr].filetype })
-        vim.list_extend(lines, buflines)
-        vim.list_extend(lines, { "```", "" })
-        content_description = content_description .. "\n  - " .. bufpath .. " (" .. #buflines .. " lines)"
-      end
-    end
-  end
-  local all_buffer_contents = table.concat(lines, "\n")
-  vim.fn.setreg(register, all_buffer_contents)
-  vim.notify(
-    "All buffer contents yanked to register `" .. register .. "`:" .. content_description,
-    vim.log.levels.INFO,
-    { title = "Yank" }
-  )
-end
-vim.keymap.set("n", "<leader>yb", yank_buffer_content, { desc = "[Y]ank: [B]uffer content" })
-vim.keymap.set("n", "<leader>ya", yank_buffer_contents, { desc = "[Y]ank: [A]ll buffer contents" })
 
 -- [[ Navigation keymaps ]]
 
