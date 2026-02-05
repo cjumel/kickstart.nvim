@@ -12,12 +12,15 @@ return {
     focus = true,
     keys = { ["<Tab>"] = "fold_toggle" },
     modes = {
-      diagnostics = { title = "{hl:Title}Workspace Diagnostics{hl} {count}" },
+      diagnostics = {
+        title = "{hl:Title}Diagnostics{hl} {count}",
+        open_no_results = true, -- Results can appear after window opening
+      },
       loclist = { title = "{hl:Title}Location list{hl} {count}" },
       qflist = { title = "{hl:Title}Quickfix list{hl} {count}" },
       symbols = {
         title = "{hl:Title}Symbols{hl} {count}",
-        focus = true,
+        focus = true, -- Important for multi-window usability
         open_no_results = true, -- Results can appear after window opening
         groups = {},
         format = "{kind_icon} {symbol.name}",
