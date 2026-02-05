@@ -689,7 +689,7 @@ return {
           },
           ["<C-c>"] = { "<C-c>", function() vim.cmd([[close]]) end, desc = "Quit" },
           ["q"] = false, -- To make possible the use of macros
-          ["source"] = false, -- Prefer overseer.nvim to source files
+          ["source"] = false,
         },
       },
     },
