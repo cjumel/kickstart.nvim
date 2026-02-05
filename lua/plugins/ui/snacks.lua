@@ -427,48 +427,30 @@ return {
     {
       "<leader>sc",
       function()
-        vim.ui.input({ prompt = "Filetype" }, function(filetype)
-          if filetype then
-            local items = Snacks.scratch.list()
-            local cwd = vim.fn.fnamemodify(vim.fn.getcwd(), ":p:~")
-            local item_names = {}
-            for _, item in ipairs(items) do
-              if item.ft == filetype and item.cwd and vim.fn.fnamemodify(item.cwd, ":p:~") == cwd then
-                table.insert(item_names, item.name)
+        vim.ui.input(
+          { prompt = "Filetype", default = vim.bo.buftype == "" and vim.bo.filetype or nil },
+          function(filetype)
+            if filetype then
+              local items = Snacks.scratch.list()
+              local cwd = vim.fn.fnamemodify(vim.fn.getcwd(), ":p:~")
+              local item_names = {}
+              for _, item in ipairs(items) do
+                if item.ft == filetype and item.cwd and vim.fn.fnamemodify(item.cwd, ":p:~") == cwd then
+                  table.insert(item_names, item.name)
+                end
               end
+              local default_base_name = filetype:sub(1, 1):upper() .. filetype:sub(2) .. " scratch"
+              local name, count = nil, 1
+              while name == nil or vim.tbl_contains(item_names, name) do
+                name = default_base_name .. " " .. count
+                count = count + 1
+              end
+              Snacks.scratch.open({ ft = filetype, name = name })
             end
-            local default_base_name = filetype:sub(1, 1):upper() .. filetype:sub(2) .. " scratch"
-            local name, count = nil, 1
-            while name == nil or vim.tbl_contains(item_names, name) do
-              name = default_base_name .. " " .. count
-              count = count + 1
-            end
-            Snacks.scratch.open({ ft = filetype, name = name })
           end
-        end)
+        )
       end,
       desc = "[S]cratch: [C]reate",
-    },
-    {
-      "<leader>sf",
-      function()
-        local items = Snacks.scratch.list()
-        local cwd = vim.fn.fnamemodify(vim.fn.getcwd(), ":p:~")
-        local item_names = {}
-        for _, item in ipairs(items) do
-          if item.ft == vim.bo.filetype and item.cwd and vim.fn.fnamemodify(item.cwd, ":p:~") == cwd then
-            table.insert(item_names, item.name)
-          end
-        end
-        local default_base_name = vim.bo.filetype:sub(1, 1):upper() .. vim.bo.filetype:sub(2) .. " scratch"
-        local name, count = nil, 1
-        while name == nil or vim.tbl_contains(item_names, name) do
-          name = default_base_name .. " " .. count
-          count = count + 1
-        end
-        Snacks.scratch.open({ name = name })
-      end,
-      desc = "[S]cratch: create with [F]iletype",
     },
     {
       "<leader>sn",
@@ -681,7 +663,7 @@ return {
 
     scratch = {
       -- Don't use nvim user data to avoid losing the scratch files on full nvim cleaning
-      root = vim.env.HOME .. "/.local/share/scratch-files",
+      root = vim.env.HOME .. "/.local/scratch-files",
       filekey = { branch = false },
       win = {
         keys = {
@@ -692,6 +674,7 @@ return {
                 local fname = vim.api.nvim_buf_get_name(self.buf)
                 vim.cmd([[close]])
                 vim.fn.delete(fname)
+                vim.fn.delete(fname .. ".meta")
               end
             end,
             desc = "[D]elete file",
@@ -704,7 +687,8 @@ return {
             end,
             desc = "[E]xpand window",
           },
-          ["q"] = { "q", function() vim.cmd([[close]]) end, desc = "[Q]uit" },
+          ["<C-c>"] = { "<C-c>", function() vim.cmd([[close]]) end, desc = "Quit" },
+          ["q"] = false, -- To make possible the use of macros
           ["source"] = false, -- Prefer overseer.nvim to source files
         },
       },
