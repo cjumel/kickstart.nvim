@@ -1,6 +1,6 @@
-local M = {}
-
-M.kanagawa_enabled = true
-M.kanagawa_style = "dragon"
-
-return M
+---@type ThemeConfig
+return {
+  background = "dark",
+  colorscheme_name = "kanagawa",
+  colorscheme_opts = { background = { dark = "dragon" } },
+}

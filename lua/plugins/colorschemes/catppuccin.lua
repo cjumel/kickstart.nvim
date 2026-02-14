@@ -1,10 +1,9 @@
 return {
   "catppuccin/nvim",
   name = "catppuccin",
-  cond = vim.env["NVIM_ENABLE_ALL_PLUGINS"] or ThemeConfig.catppuccin_enabled or false,
+  cond = vim.env["NVIM_ENABLE_ALL_PLUGINS"] or ThemeConfig.colorscheme_name == "catppuccin",
   priority = 1000, -- Main UI stuff should be loaded first
-  opts = {
-    flavour = ThemeConfig.catppuccin_style or "mocha",
+  opts = vim.tbl_deep_extend("force", {
     transparent_background = true,
     float = { solid = true },
     default_integrations = false,
@@ -27,7 +26,7 @@ return {
       lsp_trouble = true,
       which_key = true,
     },
-  },
+  }, ThemeConfig.colorscheme_opts or {}),
   config = function(_, opts)
     require("catppuccin").setup(opts) -- Must be called before loading the color scheme
     vim.cmd.colorscheme("catppuccin")

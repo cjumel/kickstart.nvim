@@ -1,6 +1,6 @@
-local M = {}
-
-M.catppuccin_enabled = true
-M.catppuccin_style = "mocha"
-
-return M
+---@type ThemeConfig
+return {
+  background = "dark",
+  colorscheme_name = "catppuccin",
+  colorscheme_opts = { flavour = "mocha" },
+}

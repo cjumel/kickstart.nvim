@@ -68,6 +68,6 @@ if vim.g.disable_deprecation_warnings then
 end
 
 -- Theme-specific option overrides
-if ThemeConfig.options_callback then
-  ThemeConfig.options_callback()
+if ThemeConfig.option_callback then
+  ThemeConfig.option_callback()
 end

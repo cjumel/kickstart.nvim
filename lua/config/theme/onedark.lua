@@ -1,14 +1,11 @@
-local M = {}
-
-M.onedark_enabled = true
-M.onedark_style = "dark"
-
-M.get_lualine_opts = function(_)
-  return {
+---@type ThemeConfig
+return {
+  background = "dark",
+  colorscheme_name = "onedark",
+  colorscheme_opts = { style = "dark" },
+  lualine_opts = {
     options = {
       theme = "onedark",
     },
-  }
-end
-
-return M
+  },
+}

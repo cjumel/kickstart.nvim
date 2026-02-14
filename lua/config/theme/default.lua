@@ -1,17 +1,15 @@
-local M = {}
+---@type ThemeConfig
+return {
+  option_callback = function()
+    vim.opt.showmode = true -- Show mode in status line
 
-M.options_callback = function()
-  vim.opt.showmode = true -- Show mode in status line
-
-  -- Remove Neovim background colors to enable transparency
-  vim.cmd.highlight("Normal guibg=none")
-  vim.cmd.highlight("NonText guibg=none")
-  vim.cmd.highlight("Normal ctermbg=none")
-  vim.cmd.highlight("NonText ctermbg=none")
-end
-
-M.get_lualine_opts = function(_)
-  return {
+    -- Remove Neovim background colors to enable transparency
+    vim.cmd.highlight("Normal guibg=none")
+    vim.cmd.highlight("NonText guibg=none")
+    vim.cmd.highlight("Normal ctermbg=none")
+    vim.cmd.highlight("NonText ctermbg=none")
+  end,
+  lualine_opts = {
     options = {
       icons_enabled = false,
       theme = { -- Remove Lualine colors (colors associated with the default theme are not super readable)
@@ -58,7 +56,5 @@ M.get_lualine_opts = function(_)
       lualine_y = {},
       lualine_z = {},
     },
-  }
-end
-
-return M
+  },
+}

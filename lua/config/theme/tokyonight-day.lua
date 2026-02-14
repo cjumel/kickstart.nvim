@@ -1,8 +1,6 @@
-local M = {}
-
-M.background = "light"
-
-M.tokyonight_enabled = true
-M.tokyonight_style = "day"
-
-return M
+---@type ThemeConfig
+return {
+  background = "light",
+  colorscheme_name = "tokyonight",
+  colorscheme_opts = { style = "day" },
+}

@@ -1,6 +1,5 @@
-local M = {}
-
-M.kanagawa_enabled = true
-M.kanagawa_style = "wave"
-
-return M
+---@type ThemeConfig
+return {
+  background = "dark",
+  colorscheme_name = "kanagawa",
+}

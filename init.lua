@@ -22,7 +22,7 @@ vim.g.maplocalleader = "  "
 
 -- Setup background category from current theme, so that plugins can use it
 ThemeConfig = require("config.theme")
-vim.opt.background = ThemeConfig.background or "dark"
+vim.opt.background = ThemeConfig.background
 
 -- Setup lazy.nvim
 require("lazy").setup({

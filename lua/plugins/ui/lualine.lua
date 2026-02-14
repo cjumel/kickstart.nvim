@@ -48,9 +48,7 @@ return {
       },
       tabline = { lualine_y = { "tabs" } },
     }
-    if ThemeConfig.get_lualine_opts ~= nil then
-      opts = vim.tbl_deep_extend("force", opts, ThemeConfig.get_lualine_opts(opts) or {})
-    end
+    opts = vim.tbl_deep_extend("force", opts, ThemeConfig.lualine_opts or {})
     opts.extensions = {
       {
         filetypes = { "oil" },

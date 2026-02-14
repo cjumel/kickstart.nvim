@@ -39,7 +39,7 @@ return {
   lazy = true, -- Only used by many plugins as a dpendency
   opts = function()
     return {
-      override_by_filename = extra_filaname_to_icon[ThemeConfig.background or "dark"], -- Icon customization by filename
+      override_by_filename = extra_filaname_to_icon[ThemeConfig.background], -- Icon customization by filename
     }
   end,
 }

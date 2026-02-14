@@ -1,15 +1,11 @@
-local M = {}
-
-M.gruvbox_enabled = true
-M.gruvbox_style = "dark"
-
-M.get_lualine_opts = function(_)
-  return {
+---@type ThemeConfig
+return {
+  background = "dark",
+  colorscheme_name = "gruvbox",
+  lualine_opts = {
     options = {
       theme = "gruvbox_dark",
       section_separators = { left = "", right = "" },
     },
-  }
-end
-
-return M
+  },
+}

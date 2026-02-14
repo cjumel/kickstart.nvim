@@ -1,6 +1,6 @@
-local M = {}
-
-M.tokyonight_enabled = true
-M.tokyonight_style = "storm"
-
-return M
+---@type ThemeConfig
+return {
+  background = "dark",
+  colorscheme_name = "tokyonight",
+  colorscheme_opts = { style = "storm" },
+}
