@@ -63,12 +63,12 @@ end
 vim.keymap.set("n", "gy", send_to_clipboard, { desc = "Send yanked to clipboard" })
 
 ---@class YankPathOpts
----@field position? boolean
+---@field line? boolean
 
 ---@param opts YankPathOpts?
 local function yank_path(opts)
   opts = opts or {}
-  local position = opts.position or false
+  local line = opts.line or false
   local register = vim.v.register
   local path = nil
   if vim.bo.buftype == "" then -- Regular buffer
@@ -85,10 +85,8 @@ local function yank_path(opts)
     if path:find("%s") and vim.fn.confirm("White spaces found in path, escape them?", "&Yes\n&No") == 1 then
       path = path:gsub(" ", "\\ ")
     end
-    if position then
-      local line = vim.fn.line(".")
-      local col = vim.fn.col(".")
-      path = path .. ":" .. line .. ":" .. col
+    if line then
+      path = path .. ":" .. vim.fn.line(".")
     end
     vim.fn.setreg(register, path)
     vim.notify(
@@ -99,7 +97,7 @@ local function yank_path(opts)
   end
 end
 vim.keymap.set("n", "<leader>yp", function() yank_path() end, { desc = "[Y]ank: [P]ath" })
-vim.keymap.set("n", "<leader>yl", function() yank_path({ position = true }) end, { desc = "[Y]ank: [L]ine position" })
+vim.keymap.set("n", "<leader>yl", function() yank_path({ line = true }) end, { desc = "[Y]ank: [L]ine position" })
 
 -- [[ Navigation keymaps ]]
 
