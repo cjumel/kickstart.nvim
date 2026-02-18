@@ -55,6 +55,7 @@ return {
       vim.tbl_deep_extend("force", default_formatter_to_mason_name, vim.g.formatter_to_mason_name or {})
 
     local function format_on_save(bufnr)
+      -- TODO: move this logic in a same auto-command for lint/diagnostics/format on save
       local format_on_save_is_disabled_by_command = vim.b[bufnr].disable_format_on_save or vim.g.disable_format_on_save
       if format_on_save_is_disabled_by_command then
         return

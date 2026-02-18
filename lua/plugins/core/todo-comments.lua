@@ -27,7 +27,7 @@ return {
             end
             if opts.todo then ---@diagnostic disable-line: undefined-field
               vim.list_extend(keyword_filters, {
-                "_TODO",
+                "_TODO", -- _TODO: remove
                 "TODO",
                 "FIXME",
                 "BUG",
@@ -91,7 +91,7 @@ return {
           win = {
             input = {
               keys = {
-                ["<M-p>"] = { "toggle_private_custom", mode = "i" },
+                ["<M-p>"] = { "toggle_private_custom", mode = "i" }, -- TODO(now): change keymap?
                 ["<M-t>"] = { "toggle_todo_custom", mode = "i" },
                 ["<M-n>"] = { "toggle_note_custom", mode = "i" },
               },

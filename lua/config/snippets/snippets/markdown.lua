@@ -9,6 +9,8 @@ local s = ls.snippet
 local sn = ls.snippet_node
 local t = ls.text_node
 
+-- _TODO: front matter snippet
+
 return {
 
   -- [[ Vanilla Markdown ]]
@@ -46,7 +48,7 @@ return {
 
   s(
     { trig = "code-block", show_condition = snippet_conds.empty_line },
-    { t("```"), c(1, { i(nil), t("bash") }), t({ "", "" }), i(2), t({ "", "```" }) }
+    { t("```"), i(1, "bash"), t({ "", "" }), i(2), t({ "", "```" }) }
   ),
 
   s({ trig = "date" }, {

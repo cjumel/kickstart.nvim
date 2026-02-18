@@ -2,6 +2,8 @@ local ls = require("luasnip")
 local ls_extras = require("luasnip.extras")
 local snippet_conds = require("config.snippets.conditions")
 
+-- _TODO:  ty: ignore
+
 local c = ls.choice_node
 local i = ls.insert_node
 local r = ls.restore_node
@@ -14,54 +16,53 @@ return {
 
   -- [[ Code keywords ]]
 
-  s(
-    { trig = "class", show_condition = snippet_conds.empty_line * snippet_conds.code },
-    { t("class "), i(1), t({ ":", "\t" }), i(2, "pass") }
-  ),
+  s({ trig = "class", show_condition = snippet_conds.empty_line * snippet_conds.code }, {
+    c(1, {
+      sn(nil, { t("class "), r(1, "name", i(nil)), t({ ":", "\t" }), r(2, "content", i(nil, "pass")) }),
+      sn(nil, { t("class "), r(1, "name"), t("("), i(2), t({ "):", "\t" }), r(3, "content") }),
+      sn(nil, { t("class "), r(1, "name"), t("["), i(2), t({ "]:", "\t" }), r(3, "content") }),
+    }),
+  }),
 
   s({ trig = "def", show_condition = snippet_conds.empty_line * snippet_conds.code }, {
-    t("def "),
     c(1, {
-      r(nil, "name", i(nil)),
-      sn(nil, { t("__"), r(1, "name"), t("__") }),
-      sn(nil, { t("test_"), r(1, "name") }),
+      sn(nil, {
+        t("def "),
+        r(1, "name", i(nil)),
+        t("("),
+        r(2, "args", i(nil)),
+        t(") -> "),
+        i(3, "None"),
+        t({ ":", "\t" }),
+        r(4, "content", i(nil, "pass")),
+      }),
+      sn(nil, { t("def "), r(1, "name"), t("("), r(2, "args"), t({ "):", "\t" }), r(3, "content", i(nil, "pass")) }),
     }),
-    t("("),
-    c(2, {
-      r(nil, "args", i(nil)),
-      sn(nil, { t("self"), r(1, "args") }),
-      sn(nil, { t("cls"), r(1, "args") }),
-    }),
-    t(") -> "),
-    i(3, "None"),
-    t({ ":", "\t" }),
-    i(4, "pass"),
   }),
   s({ trig = "async def", show_condition = snippet_conds.empty_line * snippet_conds.code }, {
-    t("async def "),
+
     c(1, {
-      r(nil, "name", i(nil)),
-      sn(nil, { t("__"), r(1, "name"), t("__") }),
-      sn(nil, { t("test_"), r(1, "name") }),
+      sn(nil, {
+        t("async def "),
+        r(1, "name", i(nil)),
+        t("("),
+        r(2, "args", i(nil)),
+        t(") -> "),
+        i(3, "None"),
+        t({ ":", "\t" }),
+        r(4, "content", i(nil, "pass")),
+      }),
+      sn(
+        nil,
+        { t("async def "), r(1, "name"), t("("), r(2, "args"), t({ "):", "\t" }), r(3, "content", i(nil, "pass")) }
+      ),
     }),
-    t("("),
-    c(2, {
-      r(nil, "args", i(nil)),
-      sn(nil, { t("self"), r(1, "args") }),
-      sn(nil, { t("cls"), r(1, "args") }),
-    }),
-    t(") -> "),
-    i(3, "None"),
-    t({ ":", "\t" }),
-    i(4, "pass"),
   }),
 
-  s({ trig = "elif", show_condition = snippet_conds.empty_line * snippet_conds.code }, {
-    c(1, {
-      sn(nil, { t("elif "), r(1, "cond", i(nil)), t({ ":", "\t" }), r(2, "content", i(nil, "pass")) }),
-      sn(nil, { t("elif not "), r(1, "cond"), t({ ":", "\t" }), r(2, "content") }),
-    }),
-  }),
+  s(
+    { trig = "elif", show_condition = snippet_conds.empty_line * snippet_conds.code },
+    { t("elif "), i(1), t({ ":", "\t" }), i(2, "pass") }
+  ),
 
   s(
     { trig = "else", show_condition = snippet_conds.empty_line * snippet_conds.code },
@@ -83,18 +84,11 @@ return {
       sn(nil, { t("from "), r(1, "module"), t(" import "), r(2, "content"), t(" as "), i(3) }),
     }),
   }),
-  s({
-    trig = "from __future__ import annotations",
-    show_condition = snippet_conds.empty_line * snippet_conds.code,
-    priority = 999, -- Default is 1000
-  }, { t({ "from __future__ import annotations", "" }) }),
 
-  s({ trig = "if", show_condition = snippet_conds.empty_line * snippet_conds.code }, {
-    c(1, {
-      sn(nil, { t("if "), r(1, "cond", i(nil)), t({ ":", "\t" }), r(2, "content", i(nil, "pass")) }),
-      sn(nil, { t("if not "), r(1, "cond"), t({ ":", "\t" }), r(2, "content") }),
-    }),
-  }),
+  s(
+    { trig = "if", show_condition = snippet_conds.empty_line * snippet_conds.code },
+    { t("if "), i(1), t({ ":", "\t" }), i(2, "pass") }
+  ),
   s(
     { trig = "if … main", show_condition = snippet_conds.empty_line * snippet_conds.code },
     { t({ 'if __name__ == "__main__":', "\t" }), i(1, "pass") }
@@ -172,13 +166,6 @@ return {
     i(3, "pass"),
   }),
 
-  s({ trig = "union None", show_condition = -snippet_conds.line_begin * snippet_conds.code }, {
-    c(1, {
-      sn(nil, { t("| None"), i(1) }),
-      sn(nil, { t("| None = "), i(1, "None") }),
-    }),
-  }),
-
   s(
     { trig = "with", show_condition = snippet_conds.empty_line * snippet_conds.code },
     { t("with "), i(1), t({ ":", "\t" }), i(2, "pass") }
@@ -188,12 +175,10 @@ return {
     { t("async with "), i(1), t({ ":", "\t" }), i(2, "pass") }
   ),
 
-  s({ trig = "while", show_condition = snippet_conds.empty_line * snippet_conds.code }, {
-    c(1, {
-      sn(nil, { t("while "), r(1, "cond", i(nil)), t({ ":", "\t" }), r(2, "content", i(nil, "pass")) }),
-      sn(nil, { t("while not "), r(1, "cond"), t({ ":", "\t" }), r(2, "content") }),
-    }),
-  }),
+  s(
+    { trig = "while", show_condition = snippet_conds.empty_line * snippet_conds.code },
+    { t("while "), i(1), t({ ":", "\t" }), i(2, "pass") }
+  ),
 
   -- [[ Comment keywords ]]
 

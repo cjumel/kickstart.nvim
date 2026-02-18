@@ -33,6 +33,7 @@ return {
     lint.linters_by_ft = linters_by_ft
 
     local function should_lint()
+      -- TODO: move this logic in a same auto-command for lint/diagnostics/format on save
       local lint_is_disabled_by_config = (
         vim.g.disable_lint_on_fts == "*" or vim.tbl_contains(vim.g.disable_lint_on_fts or {}, vim.bo.filetype)
       )

@@ -11,6 +11,7 @@ vim.g.linters_by_ft = {}
 ---@type nvim_config.LinterToMasonName Mapping from linter name in nvim-lint to its name in Mason, or false if it doesn't have a Mason package.
 vim.g.linter_to_mason_name = {}
 
+-- TODO:
 vim.g.disable_format_on_save_on_fts = {} -- e.g., "*" or { "python" }
 vim.g.disable_format_on_save_on_files = {} -- e.g., { "TODO.md" } (note that special characters like "." or "-" need to be escaped with a preceding "%")
 

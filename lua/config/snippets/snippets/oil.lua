@@ -126,7 +126,7 @@ local special_file_snippets = {
 
   -- Python
   s({
-    trig = "__init__.py",
+    trig = "__init__.py", -- FIXME:
     show_condition = snippet_conds.empty_line
       * -get_file_exist_condition("__init__.py")
       * local_conds.python_project

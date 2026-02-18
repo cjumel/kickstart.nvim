@@ -21,7 +21,7 @@ return {
     },
 
     -- Gitbrowse
-    { "<leader>go", function() Snacks.gitbrowse.open() end, desc = "[G]it: [O]pen repository" },
+    { "<leader>gr", function() Snacks.gitbrowse.open() end, desc = "[G]it: open [R]epository" },
 
     -- Notifier
     { "<leader>,", function() Snacks.notifier.show_history() end, desc = "Notification history" },
@@ -215,9 +215,28 @@ return {
     {
       "<leader>fm",
       function()
-        Snacks.picker.man({
-          title = "Man Pages",
-          layout = { preset = "telescope_horizontal" },
+        Snacks.picker.marks({
+          ["local"] = false,
+          transform = function(item)
+            -- vim.notify(vim.inspect(item))
+            if
+              vim.tbl_contains({
+                "0",
+                "1",
+                "2",
+                "3",
+                "4",
+                "5",
+                "6",
+                "7",
+                "8",
+                "9",
+              }, item.label)
+            then
+              return false
+            end
+            return true
+          end,
         })
       end,
       desc = "[F]ind: [M]an pages",
@@ -260,10 +279,10 @@ return {
               vim.list_extend(status_filters, { "M ", "MM", "A ", "AM", "D ", "R " })
             end
             if opts.unstaged then ---@diagnostic disable-line: undefined-field
-              vim.list_extend(status_filters, { " M", " D", "MM", "??" })
+              vim.list_extend(status_filters, { " M", " D", "MM", "AM", "RM", "??" })
             end
             if opts.conflicts then ---@diagnostic disable-line: undefined-field
-              vim.list_extend(status_filters, { "UU" })
+              vim.list_extend(status_filters, { "UU", "UD", "DU", "AA" })
             end
             return vim.tbl_isempty(status_filters) and true or vim.tbl_contains(status_filters, item.status)
           end,
@@ -491,10 +510,8 @@ return {
       enabled = true,
       win = {
         keys = {
-          i_ctrl_n = { "<C-n>", "hist_down", mode = "i" },
-          i_ctrl_p = { "<C-p>", "hist_up", mode = "i" },
-          i_esc = { "<Esc>", "cancel", mode = "i" },
-          i_ctrl_c = { "<C-C>", "cancel", mode = "i" },
+          ["<C-n>"] = { "hist_down", mode = { "n", "i" } },
+          ["<C-p>"] = { "hist_up", mode = { "n", "i" } },
         },
       },
     },
@@ -626,24 +643,22 @@ return {
       win = {
         input = {
           keys = {
-            ["<CR>"] = { "confirm", mode = "i" },
-            ["<Tab>"] = { "list_down", mode = "i" },
-            ["<S-Tab>"] = { "list_up", mode = "i" },
-            ["<Esc>"] = { "cancel", mode = "i" },
-            ["<C-n>"] = { "list_down", mode = "i" },
-            ["<C-p>"] = { "list_up", mode = "i" },
-            ["<C-g>"] = { "list_top", mode = "i" }, -- Mnemonic: like `gg`
-            ["<C-s>"] = { "select_and_next", mode = "i" },
-            ["<C-q>"] = { "qflist_trouble", mode = "i" },
-            ["<C-l>"] = { "loclist_trouble", mode = "i" },
-            ["<C-j>"] = { "preview_scroll_down", mode = "i" },
-            ["<C-k>"] = { "preview_scroll_up", mode = "i" },
-            ["<C-c>"] = { "cancel", mode = "i" },
+            ["<Tab>"] = { "list_down", mode = { "n", "i" } },
+            ["<S-Tab>"] = { "list_up", mode = { "n", "i" } },
+            ["<C-c>"] = { "cancel", mode = { "n", "i" } },
+            ["<C-s>"] = { "select_and_next", mode = { "n", "i" } },
+            ["<C-g>"] = { "list_top", mode = { "n", "i" } }, -- Mnemonic: like `gg`
+            ["<C-q>"] = { "qflist_trouble", mode = { "n", "i" } },
+            ["<C-l>"] = { "loclist_trouble", mode = { "n", "i" } },
+            ["<C-j>"] = { "preview_scroll_down", mode = { "n", "i" } },
+            ["<C-k>"] = { "preview_scroll_up", mode = { "n", "i" } },
             ["<M-p>"] = { "toggle_preview", mode = "i" },
             ["<M-h>"] = { "toggle_hidden", mode = "i" },
             ["<M-i>"] = { "toggle_ignored", mode = "i" },
             ["<M-r>"] = { "toggle_regex", mode = "i" },
             ["<M-c>"] = { "disable_only_current_directory", mode = "i" },
+            ["<C-S-n>"] = { "history_forward", mode = { "i", "n" } },
+            ["<C-S-p>"] = { "history_back", mode = { "i", "n" } },
             -- Make sure insert-mode keymaps are not overridden
             ["<C-f>"] = false,
             ["<C-b>"] = false,
@@ -652,8 +667,8 @@ return {
             ["<C-e>"] = false,
             ["<C-a>"] = false,
             ["<C-w>"] = false,
-            ["<C-u>"] = false,
-            ["<C-d>"] = false, -- Out of consistency with <C-u>
+            ["<C-u>"] = { "list_scroll_up", mode = "n" },
+            ["<C-d>"] = { "list_scroll_down", mode = "n" }, -- Out of consistency with <C-u>
           },
         },
       },
