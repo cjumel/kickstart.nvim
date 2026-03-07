@@ -1,4 +1,5 @@
-local default_documentation_convention_by_ft = {
+---@type nvim_config.AnnotationConventionByFt
+local default_annotation_convention_by_ft = {
   python = "google_docstrings",
 }
 
@@ -47,11 +48,12 @@ return {
         },
       },
     }
-    local documentation_convention_by_ft =
-      vim.tbl_deep_extend("force", default_documentation_convention_by_ft, vim.g.documentation_convention_by_ft or {})
+    ---@type nvim_config.AnnotationConventionByFt
+    local annotation_convention_by_ft =
+      vim.tbl_deep_extend("force", default_annotation_convention_by_ft, vim.g.annotation_convention_by_ft or {})
     local new_opts = { languages = {} }
-    for ft, documentation_convention in pairs(documentation_convention_by_ft) do
-      new_opts.languages[ft] = { template = { annotation_convention = documentation_convention } }
+    for ft, annotation_convention in pairs(annotation_convention_by_ft) do
+      new_opts.languages[ft] = { template = { annotation_convention = annotation_convention } }
     end
     return vim.tbl_deep_extend("force", base_opts, new_opts)
   end,

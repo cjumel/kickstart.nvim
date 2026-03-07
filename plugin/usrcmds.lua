@@ -70,64 +70,58 @@ end, { desc = "Install all the missing packages with Mason" })
 
 vim.api.nvim_create_user_command("FormatOnSaveEnable", function(args)
   if args.bang then
-    vim.b.disable_format_on_save = false
+    vim.b.format_on_save_is_disabled = false
     vim.notify("Format-on-save enabled for current buffer", vim.log.levels.INFO, { title = "Format-on-save" })
   else
-    vim.g.disable_format_on_save = false
+    vim.g.format_on_save_is_disabled = false
     vim.notify("Format-on-save enabled", vim.log.levels.INFO, { title = "Format-on-save" })
   end
 end, { desc = "Enable format-on-save", bang = true })
-
 vim.api.nvim_create_user_command("FormatOnSaveDisable", function(args)
   if args.bang then
-    vim.b.disable_format_on_save = true
+    vim.b.format_on_save_is_disabled = true
     vim.notify("Format-on-save disabled for current buffer", vim.log.levels.INFO, { title = "Format-on-save" })
   else
-    vim.g.disable_format_on_save = true
+    vim.g.format_on_save_is_disabled = true
     vim.notify("Format-on-save disabled", vim.log.levels.INFO, { title = "Format-on-save" })
   end
 end, { desc = "Disable format-on-save", bang = true })
-
 vim.api.nvim_create_user_command("FormatOnSaveToggle", function(args)
   if args.bang then
-    vim.b.disable_format_on_save = not vim.b.disable_format_on_save
-    local status = vim.b.disable_format_on_save and "disabled" or "enabled"
+    vim.b.format_on_save_is_disabled = not vim.b.format_on_save_is_disabled
+    local status = vim.b.format_on_save_is_disabled and "disabled" or "enabled"
     vim.notify("Format-on-save " .. status .. " for current buffer", vim.log.levels.INFO, { title = "Format-on-save" })
   else
-    vim.g.disable_format_on_save = not vim.g.disable_format_on_save
-    local status = vim.g.disable_format_on_save and "disabled" or "enabled"
+    vim.g.format_on_save_is_disabled = not vim.g.format_on_save_is_disabled
+    local status = vim.g.format_on_save_is_disabled and "disabled" or "enabled"
     vim.notify("Format-on-save " .. status, vim.log.levels.INFO, { title = "Format-on-save" })
   end
 end, { desc = "Toggle format-on-save", bang = true })
 
--- [[ Global- and project-level configuration ]]
+-- [[ Neovim configuration ]]
 
-vim.api.nvim_create_user_command("ConfigProjectEdit", function()
-  local config_file = vim.fn.getcwd() .. "/.nvim.lua"
-  vim.cmd.edit(config_file)
-end, { desc = "Edit the project-level config file" })
-vim.api.nvim_create_user_command("ConfigProjectInit", function()
+vim.api.nvim_create_user_command("NvimConfigLocalInit", function()
   local config_file = vim.fn.getcwd() .. "/.nvim.lua"
   if vim.fn.filereadable(config_file) == 1 then
-    error("Project-level Neovim config file already exists")
+    error("Local Neovim config file already exists")
   end
   local example_file = vim.fn.stdpath("config") .. "/.nvim-example.lua"
   local example_content = vim.fn.readfile(example_file)
   vim.fn.writefile(example_content, config_file)
   vim.cmd.edit(config_file)
-end, { desc = "Initialize the project-level Neovim config file" })
-vim.api.nvim_create_user_command("ConfigProjectYankExample", function()
+end, { desc = "Initialize the local Neovim config file" })
+vim.api.nvim_create_user_command("NvimConfigLocalEdit", function()
+  local config_file = vim.fn.getcwd() .. "/.nvim.lua"
+  vim.cmd.edit(config_file)
+end, { desc = "Edit the local Neovim config file" })
+vim.api.nvim_create_user_command("NvimConfigLocalYankExample", function()
   local example_file = vim.fn.stdpath("config") .. "/.nvim-example.lua"
   local example_content = vim.fn.readfile(example_file)
   vim.fn.setreg('"', table.concat(example_content, "\n"))
-  vim.notify('Project config example yanked to register `"`', vim.log.levels.INFO, { title = "Config" })
-end, { desc = "Yank the project-level Neovim config example" })
+  vim.notify('Local Neovim config example yanked to register `"`', vim.log.levels.INFO, { title = "Neovim config" })
+end, { desc = "Yank the local Neovim config example" })
 
-vim.api.nvim_create_user_command("ConfigGlobalEdit", function()
-  local config_file = vim.fn.stdpath("config") .. "/.nvim-global.lua"
-  vim.cmd.edit(config_file)
-end, { desc = "Edit the global Neovim config file" })
-vim.api.nvim_create_user_command("ConfigGlobalInit", function()
+vim.api.nvim_create_user_command("NvimConfigGlobalInit", function()
   local config_file = vim.fn.stdpath("config") .. "/.nvim-global.lua"
   if vim.fn.filereadable(config_file) == 1 then
     error("Global Neovim config file already exists")
@@ -137,9 +131,13 @@ vim.api.nvim_create_user_command("ConfigGlobalInit", function()
   vim.fn.writefile(example_content, config_file)
   vim.cmd.edit(config_file)
 end, { desc = "Initialize the global Neovim config file" })
-vim.api.nvim_create_user_command("ConfigGlobalYankExample", function()
+vim.api.nvim_create_user_command("NvimConfigGlobalEdit", function()
+  local config_file = vim.fn.stdpath("config") .. "/.nvim-global.lua"
+  vim.cmd.edit(config_file)
+end, { desc = "Edit the global Neovim config file" })
+vim.api.nvim_create_user_command("NvimConfigGlobalYankExample", function()
   local example_file = vim.fn.stdpath("config") .. "/.nvim-global-example.lua"
   local example_content = vim.fn.readfile(example_file)
   vim.fn.setreg('"', table.concat(example_content, "\n"))
-  vim.notify('Global config example yanked to register `"`', vim.log.levels.INFO, { title = "Config" })
+  vim.notify('Global config example yanked to register `"`', vim.log.levels.INFO, { title = "Neovim config" })
 end, { desc = "Yank the global Neovim config example" })

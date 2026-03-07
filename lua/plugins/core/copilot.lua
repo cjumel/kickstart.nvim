@@ -15,13 +15,9 @@ return {
       },
     },
     should_attach = function(_, _)
-      if not vim.g.enable_gh_copilot_plugins then
-        return false
-      end
-      if not vim.bo.buflisted then
-        return false
-      end
-      if vim.bo.buftype ~= "" then
+      ---@type nvim_config.EnableGhCopilotPlugins
+      local enable_gh_copilot_plugins = vim.g.enable_gh_copilot_plugins or false
+      if not enable_gh_copilot_plugins or not vim.bo.buflisted or vim.bo.buftype ~= "" then
         return false
       end
       return true

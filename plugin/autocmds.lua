@@ -26,3 +26,23 @@ vim.api.nvim_create_autocmd("InsertEnter", {
     end
   end,
 })
+
+-- [[ Format on save ]]
+
+vim.api.nvim_create_autocmd("BufReadPre", {
+  callback = function(args)
+    ---@type nvim_config.DisableFormatOnSave
+    local disable_format_on_save = vim.g.disable_format_on_save or false
+    if type(disable_format_on_save) == "boolean" then
+      if vim.g.format_on_save_is_disabled == nil then
+        vim.g.format_on_save_is_disabled = disable_format_on_save
+      end
+    elseif type(disable_format_on_save) == "function" then
+      if vim.b[args.buf].format_on_save_is_disabled == nil then
+        vim.b[args.buf].format_on_save_is_disabled = disable_format_on_save(args.buf)
+      end
+    else
+      error("Unexpected type for `vim.g.disable_format_on_save`: " .. type(disable_format_on_save))
+    end
+  end,
+})

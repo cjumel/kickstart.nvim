@@ -62,7 +62,9 @@ vim.filetype.add({
 })
 
 -- Warnings
-if vim.g.disable_deprecation_warnings then
+---@type nvim_config.DisableDeprecationWarnings
+local disable_deprecation_warnings = vim.g.disable_deprecation_warnings or false
+if disable_deprecation_warnings then
   vim.deprecate = function() end ---@diagnostic disable-line: duplicate-set-field
 end
 
