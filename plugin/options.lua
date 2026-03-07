@@ -53,6 +53,9 @@ vim.filetype.add({
     ["%.env%.%w+"] = "sh",
     ["%.env%..*%.%w+"] = "sh",
   },
+  extension = {
+    mdx = "markdown",
+  },
   filename = {
     [".aliases"] = "sh",
     [".shellcheckrc"] = "conf",
