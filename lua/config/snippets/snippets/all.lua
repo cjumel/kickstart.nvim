@@ -55,7 +55,7 @@ local function get_comment_string_end()
   return comment_string_parts[2]
 end
 
-local todo_keywords = { "_TODO", "TODO", "FIXME", "BUG" }
+local todo_keywords = { "TODO", "FIXME", "BUG" }
 local note_keywords = { "NOTE", "HACK", "WARN" }
 
 local excluded_filetypes = {

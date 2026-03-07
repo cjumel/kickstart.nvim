@@ -15,19 +15,14 @@ return {
           layout = { preset = "telescope_vertical" },
           todo = true,
           toggles = {
-            private = "p",
             todo = "t",
             note = "n",
           },
           transform = function(item, ctx)
             local opts = ctx.picker.opts or {}
             local keyword_filters = {}
-            if opts.private then ---@diagnostic disable-line: undefined-field
-              vim.list_extend(keyword_filters, { "_TODO" })
-            end
             if opts.todo then ---@diagnostic disable-line: undefined-field
               vim.list_extend(keyword_filters, {
-                "_TODO",
                 "TODO",
                 "FIXME",
                 "BUG",
@@ -66,13 +61,6 @@ return {
             return false
           end,
           actions = {
-            toggle_private_custom = function(picker)
-              local opts = picker.opts or {}
-              opts.private = not opts.private ---@diagnostic disable-line: inject-field
-              opts.todo = false ---@diagnostic disable-line: inject-field
-              opts.note = false ---@diagnostic disable-line: inject-field
-              picker:find()
-            end,
             toggle_todo_custom = function(picker)
               local opts = picker.opts or {}
               opts.private = false ---@diagnostic disable-line: inject-field
@@ -91,7 +79,6 @@ return {
           win = {
             input = {
               keys = {
-                ["<M-p>"] = { "toggle_private_custom", mode = "i" },
                 ["<M-t>"] = { "toggle_todo_custom", mode = "i" },
                 ["<M-n>"] = { "toggle_note_custom", mode = "i" },
               },
@@ -111,8 +98,6 @@ return {
     keywords = {
       -- Update builtin keywords
       NOTE = { icon = " ", color = "hint", alt = { "INFO", "IMPORTANT" } },
-      -- Add personal keywords (must be separated to be able to search for them)
-      _TODO = { icon = " ", color = "info" }, -- Like TODO
     },
     search = {
       pattern = [[\b(KEYWORDS)(\([^\)]*\))?:]], -- Support todo-comments with author
