@@ -46,7 +46,7 @@ return {
 
   s(
     { trig = "code-block", show_condition = snippet_conds.empty_line },
-    { t("```"), c(1, { i(nil), t("bash") }), t({ "", "" }), i(2), t({ "", "```" }) }
+    { t("```"), i(1, "bash"), t({ "", "" }), i(2), t({ "", "```" }) }
   ),
 
   s({ trig = "date" }, {
@@ -74,6 +74,8 @@ return {
   }),
 
   s({ trig = "italic" }, { t("_"), i(1), t("_") }),
+
+  s({ trig = "line", priority = 999 }, { t("---") }), -- Default priority is 1000
 
   s({ trig = "link" }, { t("["), i(1, "name"), t("]("), i(2, "link"), t(")") }),
 
@@ -119,5 +121,13 @@ return {
     t({ "</summary>", "", "" }), -- Line break after the summary is important for some blocks like code-blocks
     i(2, "Content"),
     t({ "", "", "</details>" }),
+  }),
+
+  -- [[ Other ]]
+
+  s({ trig = "front-matter", show_condition = snippet_conds.empty_line * snippet_conds.first_line }, {
+    t({ "---", "" }),
+    i(1),
+    t({ "", "---" }),
   }),
 }

@@ -20,48 +20,40 @@ return {
   ),
 
   s({ trig = "def", show_condition = snippet_conds.empty_line * snippet_conds.code }, {
-    t("def "),
     c(1, {
-      r(nil, "name", i(nil)),
-      sn(nil, { t("__"), r(1, "name"), t("__") }),
-      sn(nil, { t("test_"), r(1, "name") }),
+      sn(nil, {
+        t("def "),
+        r(1, "name", i(nil)),
+        t("("),
+        r(2, "args", i(nil)),
+        t(") -> "),
+        i(3, "None"),
+        t({ ":", "\t" }),
+        r(4, "content", i(nil, "pass")),
+      }),
+      sn(nil, { t("def "), r(1, "name"), t("("), r(2, "args"), t({ "):", "\t" }), r(3, "content") }),
     }),
-    t("("),
-    c(2, {
-      r(nil, "args", i(nil)),
-      sn(nil, { t("self"), r(1, "args") }),
-      sn(nil, { t("cls"), r(1, "args") }),
-    }),
-    t(") -> "),
-    i(3, "None"),
-    t({ ":", "\t" }),
-    i(4, "pass"),
   }),
   s({ trig = "async def", show_condition = snippet_conds.empty_line * snippet_conds.code }, {
-    t("async def "),
     c(1, {
-      r(nil, "name", i(nil)),
-      sn(nil, { t("__"), r(1, "name"), t("__") }),
-      sn(nil, { t("test_"), r(1, "name") }),
+      sn(nil, {
+        t("async def "),
+        r(1, "name", i(nil)),
+        t("("),
+        r(2, "args", i(nil)),
+        t(") -> "),
+        i(3, "None"),
+        t({ ":", "\t" }),
+        r(4, "content", i(nil, "pass")),
+      }),
+      sn(nil, { t("async def "), r(1, "name"), t("("), r(2, "args"), t({ "):", "\t" }), r(3, "content") }),
     }),
-    t("("),
-    c(2, {
-      r(nil, "args", i(nil)),
-      sn(nil, { t("self"), r(1, "args") }),
-      sn(nil, { t("cls"), r(1, "args") }),
-    }),
-    t(") -> "),
-    i(3, "None"),
-    t({ ":", "\t" }),
-    i(4, "pass"),
   }),
 
-  s({ trig = "elif", show_condition = snippet_conds.empty_line * snippet_conds.code }, {
-    c(1, {
-      sn(nil, { t("elif "), r(1, "cond", i(nil)), t({ ":", "\t" }), r(2, "content", i(nil, "pass")) }),
-      sn(nil, { t("elif not "), r(1, "cond"), t({ ":", "\t" }), r(2, "content") }),
-    }),
-  }),
+  s(
+    { trig = "elif", show_condition = snippet_conds.empty_line * snippet_conds.code },
+    { t("elif "), i(1), t({ ":", "\t" }), i(2, "pass") }
+  ),
 
   s(
     { trig = "else", show_condition = snippet_conds.empty_line * snippet_conds.code },
@@ -83,18 +75,11 @@ return {
       sn(nil, { t("from "), r(1, "module"), t(" import "), r(2, "content"), t(" as "), i(3) }),
     }),
   }),
-  s({
-    trig = "from __future__ import annotations",
-    show_condition = snippet_conds.empty_line * snippet_conds.code,
-    priority = 999, -- Default is 1000
-  }, { t({ "from __future__ import annotations", "" }) }),
 
-  s({ trig = "if", show_condition = snippet_conds.empty_line * snippet_conds.code }, {
-    c(1, {
-      sn(nil, { t("if "), r(1, "cond", i(nil)), t({ ":", "\t" }), r(2, "content", i(nil, "pass")) }),
-      sn(nil, { t("if not "), r(1, "cond"), t({ ":", "\t" }), r(2, "content") }),
-    }),
-  }),
+  s(
+    { trig = "if", show_condition = snippet_conds.empty_line * snippet_conds.code },
+    { t("if "), i(1), t({ ":", "\t" }), i(2, "pass") }
+  ),
   s(
     { trig = "if … main", show_condition = snippet_conds.empty_line * snippet_conds.code },
     { t({ 'if __name__ == "__main__":', "\t" }), i(1, "pass") }
@@ -172,13 +157,6 @@ return {
     i(3, "pass"),
   }),
 
-  s({ trig = "union None", show_condition = -snippet_conds.line_begin * snippet_conds.code }, {
-    c(1, {
-      sn(nil, { t("| None"), i(1) }),
-      sn(nil, { t("| None = "), i(1, "None") }),
-    }),
-  }),
-
   s(
     { trig = "with", show_condition = snippet_conds.empty_line * snippet_conds.code },
     { t("with "), i(1), t({ ":", "\t" }), i(2, "pass") }
@@ -188,19 +166,17 @@ return {
     { t("async with "), i(1), t({ ":", "\t" }), i(2, "pass") }
   ),
 
-  s({ trig = "while", show_condition = snippet_conds.empty_line * snippet_conds.code }, {
-    c(1, {
-      sn(nil, { t("while "), r(1, "cond", i(nil)), t({ ":", "\t" }), r(2, "content", i(nil, "pass")) }),
-      sn(nil, { t("while not "), r(1, "cond"), t({ ":", "\t" }), r(2, "content") }),
-    }),
-  }),
+  s(
+    { trig = "while", show_condition = snippet_conds.empty_line * snippet_conds.code },
+    { t("while "), i(1), t({ ":", "\t" }), i(2, "pass") }
+  ),
 
   -- [[ Comment keywords ]]
 
   s({
     trig = "noqa",
     show_condition = snippet_conds.comment_start * snippet_conds.line_end,
-    desc = "Ignore lint warnings for Flake8 or Ruff",
+    desc = "Ignore Flake8 or Ruff lint issues",
   }, {
     c(1, {
       sn(nil, { t("noqa: "), i(1) }),
@@ -211,13 +187,13 @@ return {
   s({
     trig = "pragma: no cover",
     show_condition = snippet_conds.comment_start * snippet_conds.line_end,
-    desc = "Exclude from coverage reports for coverage.py",
+    desc = "Exclude from coverage.py coverage report",
   }, { t("pragma: no cover") }),
 
   s({
     trig = "pyright: ignore",
     show_condition = snippet_conds.comment_start * snippet_conds.line_end,
-    desc = "Ignore pyright warnings",
+    desc = "Ignore pyright issues",
   }, {
     c(1, {
       sn(nil, { t("pyright: ignore["), i(1), t("]") }),
@@ -237,9 +213,20 @@ return {
   }),
 
   s({
+    trig = "ty: ignore",
+    show_condition = snippet_conds.comment_start * snippet_conds.line_end,
+    desc = "Ignore ty issues",
+  }, {
+    c(1, {
+      sn(nil, { t("ty: ignore["), i(1), t("]") }),
+      sn(nil, { t("ty: ignore"), i(1) }),
+    }),
+  }),
+
+  s({
     trig = "type: ignore",
     show_condition = snippet_conds.comment_start * snippet_conds.line_end,
-    desc = "Ignore typing warnings for mypy or Pyright",
+    desc = "Ignore mypy or Pyright typing issues",
   }, {
     c(1, {
       sn(nil, { t("type: ignore["), i(1), t("]") }),

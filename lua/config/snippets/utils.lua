@@ -11,7 +11,7 @@ end
 -- During a completion, the matched trigger is the small word part being typed and leading to matching suggestions.
 -- Here, we consider it to be everything after the last white space or punctuation mark in the current line before the
 -- cursor (this is true as long as the matched trigger doesn't have white spaces or punctuation marks itself).
-local separator_pattern = "[%s%p]"
+local separator_pattern = "[^%w_]"
 -- The matched trigger pattern can be used to filter out the matched trigger from the current line. In the following
 -- pattern, the first capturing group captures greedily everything until a separator is found (since it's greedy, it
 -- will capture everything until the last occurence).

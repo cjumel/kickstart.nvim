@@ -11,10 +11,13 @@ local t = ls.text_node
 return {
   s({ trig = "alias", show_condition = snippet_conds.empty_line }, { t("alias "), i(1), t("='"), i(2), t("'") }),
 
-  s(
-    { trig = "elif", show_condition = snippet_conds.empty_line },
-    { t("elif [[ "), i(1), t(" ]]; then"), t({ "", "\t" }), i(2) }
-  ),
+  s({ trig = "elif", show_condition = snippet_conds.empty_line }, {
+    c(1, {
+      sn(nil, { t("elif "), r(1, "cond", i(nil)), t("; then"), t({ "", "\t" }), r(2, "content", i(nil)) }),
+      sn(nil, { t("elif [ "), r(1, "cond"), t(" ]; then"), t({ "", "\t" }), r(2, "content") }),
+      sn(nil, { t("elif [[ "), r(1, "cond"), t(" ]]; then"), t({ "", "\t" }), r(2, "content") }),
+    }),
+  }),
 
   s({ trig = "else", show_condition = snippet_conds.empty_line }, { t({ "else", "\t" }), i(1) }),
 
@@ -25,10 +28,16 @@ return {
     { t("function "), i(1), t("("), i(2), t({ ") { ", "\t" }), i(3), t({ "", "}" }) }
   ),
 
-  s(
-    { trig = "if", show_condition = snippet_conds.empty_line },
-    { t("if [[ "), i(1), t(" ]]; then"), t({ "", "\t" }), i(2), t({ "", "fi" }) }
-  ),
+  s({ trig = "if", show_condition = snippet_conds.empty_line }, {
+    c(1, {
+      sn(
+        nil,
+        { t("if "), r(1, "cond", i(nil)), t("; then"), t({ "", "\t" }), r(2, "content", i(nil)), t({ "", "fi" }) }
+      ),
+      sn(nil, { t("if [ "), r(1, "cond"), t(" ]; then"), t({ "", "\t" }), r(2, "content"), t({ "", "fi" }) }),
+      sn(nil, { t("if [[ "), r(1, "cond"), t(" ]]; then"), t({ "", "\t" }), r(2, "content"), t({ "", "fi" }) }),
+    }),
+  }),
 
   s({ trig = "local", show_condition = snippet_conds.empty_line }, {
     c(1, {

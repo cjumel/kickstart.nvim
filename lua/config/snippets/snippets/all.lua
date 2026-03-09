@@ -10,7 +10,6 @@ local s = ls.snippet
 local sn = ls.snippet_node
 local t = ls.text_node
 
-local local_conds = {}
 local snippets = {}
 
 -- [[ Todo-comment snippets ]]
@@ -55,87 +54,51 @@ local function get_comment_string_end()
   return comment_string_parts[2]
 end
 
-local todo_keywords = { "TODO", "FIXME", "BUG" }
-local note_keywords = { "NOTE", "HACK", "WARN" }
+local keywords = { "TODO", "FIXME", "BUG", "NOTE", "HACK", "WARN", "PERF" }
 
 local excluded_filetypes = {
   "gitcommit",
   "markdown", -- Todo-comments are not recognized by todo-comments.nvim anyway
 }
 
-local function get_description(keywords)
-  local keywords_description = [[
-Supported keywords:]]
-  for _, keyword in ipairs(keywords) do
-    keywords_description = keywords_description .. "\n- `" .. keyword .. "`"
+local support_todo_comment_cond = ls_conds.make_condition(
+  function()
+    return not (
+      vim.bo.buftype ~= ""
+      or vim.tbl_contains(excluded_filetypes, vim.bo.filetype)
+      or vim.bo.commentstring == ""
+    )
   end
-  return keywords_description
-end
-local todo_description = get_description(todo_keywords)
-local note_description = get_description(note_keywords)
-
-local function get_snippet_choices(keywords)
-  local snippet_choices = {}
-  for _, keyword in ipairs(keywords) do
-    table.insert(snippet_choices, sn(nil, { t(keyword .. ": "), r(1, "content", i(nil)) }))
-  end
-  return snippet_choices
-end
-
-local_conds.support_todo_comments = ls_conds.make_condition(function()
-  local is_special_buffer = vim.bo.buftype ~= ""
-  if is_special_buffer then
-    return false
-  end
-  local is_filetype_excluded = vim.tbl_contains(excluded_filetypes, vim.bo.filetype)
-  if is_filetype_excluded then
-    return false
-  end
-  local is_commenstring_set = vim.bo.commentstring ~= ""
-  if not is_commenstring_set then
-    return false
-  end
-  local is_treesitter_available, _ = pcall(vim.treesitter.get_parser)
-  if not is_treesitter_available then
-    return true
-  end
-  return true
-end)
+)
 
 local todo_comment_snippets = {
   s({
     trig = "todo-comment",
-    show_condition = snippet_conds.line_end * local_conds.support_todo_comments * snippet_conds.code,
-    desc = todo_description,
+    show_condition = snippet_conds.line_end * support_todo_comment_cond * snippet_conds.code,
   }, {
     f(get_comment_string_start),
-    c(1, get_snippet_choices(todo_keywords)),
+    c(1, {
+      sn(nil, { t("TODO: "), r(1, "content", i(nil)) }),
+      sn(nil, { t("TODO("), i(1), t("): "), r(2, "content") }),
+    }),
     f(get_comment_string_end),
-  }),
-  s({
-    trig = "note-comment",
-    show_condition = snippet_conds.line_end * local_conds.support_todo_comments * snippet_conds.code,
-    desc = note_description,
-  }, {
-    f(get_comment_string_start),
-    c(1, get_snippet_choices(note_keywords)),
-    f(get_comment_string_end),
-  }),
-  s({
-    trig = "todo-keyword",
-    show_condition = snippet_conds.line_end * local_conds.support_todo_comments * snippet_conds.comment,
-    desc = todo_description,
-  }, {
-    c(1, get_snippet_choices(todo_keywords)),
-  }),
-  s({
-    trig = "note-keyword",
-    show_condition = snippet_conds.line_end * local_conds.support_todo_comments * snippet_conds.comment,
-    desc = note_description,
-  }, {
-    c(1, get_snippet_choices(note_keywords)),
   }),
 }
+for _, keyword in ipairs(keywords) do
+  table.insert(
+    todo_comment_snippets,
+    s({
+      trig = string.lower(keyword) .. "-keyword",
+      show_condition = snippet_conds.line_end * support_todo_comment_cond * snippet_conds.comment,
+    }, {
+      c(1, {
+        sn(nil, { t(keyword .. ": "), r(1, "content", i(nil)) }),
+        sn(nil, { t(keyword .. "("), i(1), t("): "), r(2, "content") }),
+      }),
+    })
+  )
+end
+
 snippets = vim.list_extend(snippets, todo_comment_snippets)
 
 return snippets

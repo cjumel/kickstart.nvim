@@ -14,6 +14,10 @@ local snippets = {}
 
 local misc_snippets = {
   s({ trig = "wip", show_condition = snippet_conds.line_begin }, { t("🚧 WIP [skip ci]") }),
+  s(
+    { trig = "link", show_condition = -snippet_conds.first_line },
+    { t("["), i(1, "name"), t("]("), i(2, "link"), t(")") }
+  ),
 }
 snippets = vim.list_extend(snippets, misc_snippets)
 

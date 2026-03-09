@@ -17,6 +17,8 @@ end)
 
 M.empty_line = M.line_begin * M.line_end
 
+M.first_line = ls_conds.make_condition(function() return vim.fn.line(".") == 1 end)
+
 local function get_ts_node_in_condition(node_types)
   return ls_conds.make_condition(function(line_to_cursor)
     line_to_cursor = snippet_utils.fix_line_to_cursor(line_to_cursor)
