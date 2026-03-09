@@ -12,75 +12,56 @@ return {
         Snacks.picker("todo_comments", {
           title = "Todo-comments",
           hidden = true,
+          show_empty = true, -- Some stuff can appear after using toggles
           layout = { preset = "telescope_vertical" },
+          dirs = vim.bo.filetype == "oil" and { require("oil").get_current_dir() } or nil,
+          directory = vim.bo.filetype == "oil",
+          directory_path = vim.bo.filetype == "oil" and require("oil").get_current_dir() or nil,
           todo = true,
           toggles = {
+            directory = "d",
             todo = "t",
-            note = "n",
           },
           transform = function(item, ctx)
             local opts = ctx.picker.opts or {}
-            local keyword_filters = {}
             if opts.todo then ---@diagnostic disable-line: undefined-field
-              vim.list_extend(keyword_filters, {
-                "TODO",
-                "FIXME",
+              local keyword_filters = {
                 "BUG",
                 "FIX",
                 "FIXIT",
+                "FIXME",
                 "ISSUE",
-                "PERF",
-                "OPTIM",
-                "PERFORMANCE",
-                "OPTIMIZE",
-                "TEST",
-                "TESTING",
-                "PASSED",
-                "FAILED",
-              })
-            end
-            if opts.note then ---@diagnostic disable-line: undefined-field
-              vim.list_extend(keyword_filters, {
-                "NOTE",
-                "HACK",
-                "WARN",
-                "WARNING",
-                "XXX",
-                "INFO",
-                "IMPORTANT",
-              })
-            end
-            if vim.tbl_isempty(keyword_filters) then
-              return true
-            end
-            for _, keyword in ipairs(keyword_filters) do
-              if item.text:find(keyword, 1, true) then
-                return true
+                "TODO",
+              }
+              for _, keyword in ipairs(keyword_filters) do
+                if item.text:find(keyword, 1, true) then
+                  return true
+                end
               end
+              return false
             end
-            return false
+            return true
           end,
           actions = {
-            toggle_todo_custom = function(picker)
+            toggle_directory_ = function(picker)
+              local opts = picker.opts or {}
+              opts.directory = not opts.directory ---@diagnostic disable-line: inject-field
+              opts.dirs = opts.directory and { opts.directory_path } or nil ---@diagnostic disable-line: undefined-field, inject-field
+              picker:find()
+            end,
+            toggle_todo_ = function(picker)
               local opts = picker.opts or {}
               opts.private = false ---@diagnostic disable-line: inject-field
               opts.todo = not opts.todo ---@diagnostic disable-line: inject-field
               opts.note = false ---@diagnostic disable-line: inject-field
               picker:find()
             end,
-            toggle_note_custom = function(picker)
-              local opts = picker.opts or {}
-              opts.private = false ---@diagnostic disable-line: inject-field
-              opts.todo = false ---@diagnostic disable-line: inject-field
-              opts.note = not opts.note ---@diagnostic disable-line: inject-field
-              picker:find()
-            end,
           },
           win = {
             input = {
               keys = {
-                ["<M-t>"] = { "toggle_todo_custom", mode = "i" },
-                ["<M-n>"] = { "toggle_note_custom", mode = "i" },
+                ["<M-d>"] = { "toggle_directory_", mode = { "n", "i" } },
+                ["<M-t>"] = { "toggle_todo_", mode = { "n", "i" } },
               },
             },
           },

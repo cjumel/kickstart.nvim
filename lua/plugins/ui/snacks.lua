@@ -21,7 +21,7 @@ return {
     },
 
     -- Gitbrowse
-    { "<leader>go", function() Snacks.gitbrowse.open() end, desc = "[G]it: [O]pen repository" },
+    { "<leader>gr", function() Snacks.gitbrowse.open() end, desc = "[G]it: open [R]epository" },
 
     -- Notifier
     { "<leader>,", function() Snacks.notifier.show_history() end, desc = "Notification history" },
@@ -36,7 +36,6 @@ return {
           on_show = function(picker) picker.list.cursor = 2 end,
           sort = { fields = { "score:desc", "idx" } }, -- Don't sort by item length to preserve recency order
           layout = { preset = "telescope_dropdown" },
-          win = { input = { keys = { ["<C-d>"] = { "bufdelete", mode = { "i" } } } } },
         })
       end,
       desc = "Buffer switcher",
@@ -70,8 +69,27 @@ return {
           hidden = true,
           layout = { preset = "telescope_horizontal" },
           show_empty = true, -- Some stuff can appear after using toggles
-          cwd = vim.bo.filetype == "oil" and require("oil").get_current_dir() or nil,
-          only_current_directory = vim.bo.filetype == "oil",
+          dirs = vim.bo.filetype == "oil" and { require("oil").get_current_dir() } or nil,
+          directory = vim.bo.filetype == "oil",
+          directory_path = vim.bo.filetype == "oil" and require("oil").get_current_dir() or nil,
+          toggles = {
+            directory = "d",
+          },
+          actions = {
+            toggle_directory_ = function(picker)
+              local opts = picker.opts or {}
+              opts.directory = not opts.directory ---@diagnostic disable-line: inject-field
+              opts.dirs = opts.directory and { opts.directory_path } or nil ---@diagnostic disable-line: undefined-field, inject-field
+              picker:find()
+            end,
+          },
+          win = {
+            input = {
+              keys = {
+                ["<M-d>"] = { "toggle_directory_", mode = { "n", "i" } },
+              },
+            },
+          },
         })
       end,
       desc = "[F]ind: [F]iles",
@@ -91,7 +109,7 @@ return {
           toggles = { only_cwd = "c" },
           show_empty = true, -- Some stuff can appear after using toggles
           actions = {
-            toggle_only_cwd_custom = function(picker)
+            toggle_only_cwd_ = function(picker)
               local opts = picker.opts or {}
               opts.filter = opts.filter or {}
               opts.filter.cwd = not opts.filter.cwd
@@ -99,7 +117,7 @@ return {
               picker:find()
             end,
           },
-          win = { input = { keys = { ["<M-c>"] = { "toggle_only_cwd_custom", mode = "i" } } } },
+          win = { input = { keys = { ["<M-c>"] = { "toggle_only_cwd_", mode = { "n", "i" } } } } },
         })
       end,
       desc = "[F]ind: [R]ecent files",
@@ -112,8 +130,27 @@ return {
           hidden = true,
           layout = { preset = "telescope_horizontal" },
           show_empty = true, -- Some stuff can appear after using toggles
-          cwd = vim.bo.filetype == "oil" and require("oil").get_current_dir() or nil,
-          only_current_directory = vim.bo.filetype == "oil",
+          dirs = vim.bo.filetype == "oil" and { require("oil").get_current_dir() } or nil,
+          directory = vim.bo.filetype == "oil",
+          directory_path = vim.bo.filetype == "oil" and require("oil").get_current_dir() or nil,
+          toggles = {
+            directory = "d",
+          },
+          actions = {
+            toggle_directory_ = function(picker)
+              local opts = picker.opts or {}
+              opts.directory = not opts.directory ---@diagnostic disable-line: inject-field
+              opts.dirs = opts.directory and { opts.directory_path } or nil ---@diagnostic disable-line: undefined-field, inject-field
+              picker:find()
+            end,
+          },
+          win = {
+            input = {
+              keys = {
+                ["<M-d>"] = { "toggle_directory_", mode = { "n", "i" } },
+              },
+            },
+          },
         })
       end,
       desc = "[F]ind: [D]irectories",
@@ -126,8 +163,27 @@ return {
           hidden = true,
           regex = false,
           layout = { preset = "telescope_vertical" },
-          cwd = vim.bo.filetype == "oil" and require("oil").get_current_dir() or nil,
-          only_current_directory = vim.bo.filetype == "oil",
+          dirs = vim.bo.filetype == "oil" and { require("oil").get_current_dir() } or nil,
+          directory = vim.bo.filetype == "oil",
+          directory_path = vim.bo.filetype == "oil" and require("oil").get_current_dir() or nil,
+          toggles = {
+            directory = "d",
+          },
+          actions = {
+            toggle_directory_ = function(picker)
+              local opts = picker.opts or {}
+              opts.directory = not opts.directory ---@diagnostic disable-line: inject-field
+              opts.dirs = opts.directory and { opts.directory_path } or nil ---@diagnostic disable-line: undefined-field, inject-field
+              picker:find()
+            end,
+          },
+          win = {
+            input = {
+              keys = {
+                ["<M-d>"] = { "toggle_directory_", mode = { "n", "i" } },
+              },
+            },
+          },
         })
       end,
       desc = "[F]ind: [G]rep",
@@ -140,8 +196,6 @@ return {
           hidden = true,
           layout = { preset = "telescope_vertical" },
           show_empty = true, -- Some stuff can appear after using toggles
-          cwd = vim.bo.filetype == "oil" and require("oil").get_current_dir() or nil,
-          only_current_directory = vim.bo.filetype == "oil",
         })
       end,
       mode = "x",
@@ -156,19 +210,10 @@ return {
           layout = { preset = "telescope_horizontal" },
           show_empty = true, -- Some stuff can appear after using toggles
           toggles = {
-            workspace = "w",
             all_symbols = "a",
           },
           actions = {
-            toggle_workspace_custom = function(picker)
-              local opts = picker.opts or {}
-              opts.workspace = not opts.workspace ---@diagnostic disable-line: inject-field
-              opts.tree = not opts.tree ---@diagnostic disable-line: inject-field
-              opts.supports_live = not opts.supports_live
-              opts.live = not opts.live
-              picker:find()
-            end,
-            toggle_all_symbols_custom = function(picker)
+            toggle_all_symbols_ = function(picker)
               local opts = picker.opts or {}
               if not opts.default_filter then
                 opts.default_filter = vim.deepcopy(opts.filter) ---@diagnostic disable-line: inject-field
@@ -187,14 +232,50 @@ return {
           win = {
             input = {
               keys = {
-                ["<M-w>"] = { "toggle_workspace_custom", mode = "i" },
-                ["<M-a>"] = { "toggle_all_symbols_custom", mode = "i" },
+                ["<M-a>"] = { "toggle_all_symbols_", mode = { "n", "i" } },
               },
             },
           },
         })
       end,
       desc = "[F]ind: [S]ymbols",
+    },
+    {
+      "<leader>fw",
+      function()
+        Snacks.picker.lsp_workspace_symbols({
+          title = "Workspace Symbols",
+          layout = { preset = "telescope_horizontal" },
+          toggles = {
+            all_symbols = "a",
+          },
+          actions = {
+            toggle_all_symbols_ = function(picker)
+              local opts = picker.opts or {}
+              if not opts.default_filter then
+                opts.default_filter = vim.deepcopy(opts.filter) ---@diagnostic disable-line: inject-field
+              end
+              opts.all_symbols = not opts.all_symbols ---@diagnostic disable-line: inject-field
+              if opts.all_symbols then
+                for k, _ in pairs(opts.filter) do
+                  opts.filter[k] = true
+                end
+              else
+                opts.filter = vim.deepcopy(opts.default_filter)
+              end
+              picker:find()
+            end,
+          },
+          win = {
+            input = {
+              keys = {
+                ["<M-a>"] = { "toggle_all_symbols_", mode = { "n", "i" } },
+              },
+            },
+          },
+        })
+      end,
+      desc = "[F]ind: [W]orkspace symbols",
     },
     {
       "<leader>fu",
@@ -215,12 +296,32 @@ return {
     {
       "<leader>fm",
       function()
-        Snacks.picker.man({
-          title = "Man Pages",
-          layout = { preset = "telescope_horizontal" },
+        Snacks.picker.marks({
+          transform = function(item)
+            return not vim.tbl_contains({
+              "0",
+              "1",
+              "2",
+              "3",
+              "4",
+              "5",
+              "6",
+              "7",
+              "8",
+              "9",
+              "'",
+              '"',
+              ".",
+              "]",
+              "[",
+              "<",
+              ">",
+              "^",
+            }, item.label)
+          end,
         })
       end,
-      desc = "[F]ind: [M]an pages",
+      desc = "[F]ind: [M]arks",
     },
     {
       "<leader>fc",
@@ -245,44 +346,78 @@ return {
     {
       "<leader>gg",
       function()
+        local cwd = vim.fn.getcwd()
+        local git_root = Snacks.git.get_root(cwd)
         Snacks.picker.git_status({
           title = "Git Files",
           layout = { preset = "telescope_horizontal" },
+          show_empty = true, -- Some stuff can appear after using toggles
+          only_cwd = vim.bo.filetype ~= "oil",
+          directory = vim.bo.filetype == "oil",
+          directory_path = vim.bo.filetype == "oil" and require("oil").get_current_dir() or nil,
           toggles = {
+            only_cwd = "c",
+            directory = "d",
             staged = "s",
             unstaged = "u",
-            conflicts = "c",
+            conflicts = "=",
           },
           transform = function(item, ctx)
             local opts = ctx.picker.opts or {}
+            local buffer_path = vim.fn.fnamemodify(git_root .. "/" .. item.file, ":p")
+            if opts.only_cwd then ---@diagnostic disable-line: undefined-field
+              if not vim.startswith(buffer_path, cwd) then
+                return false
+              end
+            end
+            if opts.directory and opts.directory_path then ---@diagnostic disable-line: undefined-field
+              if not vim.startswith(buffer_path, opts.directory_path) then ---@diagnostic disable-line: undefined-field
+                return false
+              end
+            end
             local status_filters = {}
             if opts.staged then ---@diagnostic disable-line: undefined-field
               vim.list_extend(status_filters, { "M ", "MM", "A ", "AM", "D ", "R " })
             end
             if opts.unstaged then ---@diagnostic disable-line: undefined-field
-              vim.list_extend(status_filters, { " M", " D", "MM", "??" })
+              vim.list_extend(status_filters, { " M", " D", "MM", "AM", "RM", "??" })
             end
             if opts.conflicts then ---@diagnostic disable-line: undefined-field
-              vim.list_extend(status_filters, { "UU" })
+              vim.list_extend(status_filters, { "UU", "UD", "DU", "AA" })
             end
-            return vim.tbl_isempty(status_filters) and true or vim.tbl_contains(status_filters, item.status)
+            if not vim.tbl_isempty(status_filters) and not vim.tbl_contains(status_filters, item.status) then
+              return false
+            end
+            return true
           end,
           actions = {
-            toggle_staged_custom = function(picker)
+            toggle_only_cwd_ = function(picker)
+              local opts = picker.opts or {}
+              opts.only_cwd = not opts.only_cwd ---@diagnostic disable-line: inject-field
+              opts.directory = false ---@diagnostic disable-line: inject-field
+              picker:find()
+            end,
+            toggle_directory_ = function(picker)
+              local opts = picker.opts or {}
+              opts.directory = not opts.directory ---@diagnostic disable-line: inject-field
+              opts.only_cwd = false ---@diagnostic disable-line: inject-field
+              picker:find()
+            end,
+            toggle_staged_ = function(picker)
               local opts = picker.opts or {}
               opts.staged = not opts.staged ---@diagnostic disable-line: inject-field
               opts.unstaged = false ---@diagnostic disable-line: inject-field
               opts.conflicts = false ---@diagnostic disable-line: inject-field
               picker:find()
             end,
-            toggle_unstaged_custom = function(picker)
+            toggle_unstaged_ = function(picker)
               local opts = picker.opts or {}
               opts.staged = false ---@diagnostic disable-line: inject-field
               opts.unstaged = not opts.unstaged ---@diagnostic disable-line: inject-field
               opts.conflicts = false ---@diagnostic disable-line: inject-field
               picker:find()
             end,
-            toggle_conflicts_custom = function(picker)
+            toggle_conflicts_ = function(picker)
               local opts = picker.opts or {}
               opts.staged = false ---@diagnostic disable-line: inject-field
               opts.unstaged = false ---@diagnostic disable-line: inject-field
@@ -293,10 +428,15 @@ return {
           win = {
             input = {
               keys = {
-                ["<Tab>"] = { "list_down", mode = "i" }, -- Avoid picker-specific remapping
-                ["<M-s>"] = { "toggle_staged_custom", mode = "i" },
-                ["<M-u>"] = { "toggle_unstaged_custom", mode = "i" },
-                ["<M-c>"] = { "toggle_conflicts_custom", mode = "i" },
+                ["<Tab>"] = { "list_down", mode = { "n", "i" } }, -- Don't remap to `git_stage`
+                ["<C-r>"] = false, -- Don't remap to `git_restore`
+                ["<C-t>"] = { "git_stage", mode = { "n", "i" } }, -- Like `toggle stage`
+                ["<C-x>"] = { "git_restore", mode = { "n", "i" }, nowait = true },
+                ["<M-c>"] = { "toggle_only_cwd_", mode = { "n", "i" } },
+                ["<M-d>"] = { "toggle_directory_", mode = { "n", "i" } },
+                ["<M-s>"] = { "toggle_staged_", mode = { "n", "i" } },
+                ["<M-u>"] = { "toggle_unstaged_", mode = { "n", "i" } },
+                ["<M-=>"] = { "toggle_conflicts_", mode = { "n", "i" } },
               },
             },
           },
@@ -321,14 +461,14 @@ return {
           },
           actions = {
             yank_commit = { action = "yank", field = "commit" },
-            toggle_current_file_custom = function(picker)
+            toggle_current_file_ = function(picker)
               local opts = picker.opts or {}
               opts.current_file = not opts.current_file ---@diagnostic disable-line: inject-field
               opts.current_line = false ---@diagnostic disable-line: inject-field
               opts.follow = opts.current_file ---@diagnostic disable-line: inject-field
               picker:find()
             end,
-            toggle_current_line_custom = function(picker)
+            toggle_current_line_ = function(picker)
               local opts = picker.opts or {}
               opts.current_file = false ---@diagnostic disable-line: inject-field
               opts.current_line = not opts.current_line ---@diagnostic disable-line: inject-field
@@ -339,9 +479,9 @@ return {
           win = {
             input = {
               keys = {
-                ["<C-y>"] = { "yank_commit", mode = "i" }, ---@diagnostic disable-line: assign-type-mismatch
-                ["<M-c>"] = { "toggle_current_file_custom", mode = "i" },
-                ["<M-l>"] = { "toggle_current_line_custom", mode = "i" },
+                ["<C-y>"] = { "yank_commit", mode = { "n", "i" } }, ---@diagnostic disable-line: assign-type-mismatch
+                ["<M-c>"] = { "toggle_current_file_", mode = { "n", "i" } },
+                ["<M-l>"] = { "toggle_current_line_", mode = { "n", "i" } },
               },
             },
           },
@@ -353,102 +493,76 @@ return {
     -- Scratch buffers
     {
       "<leader>ss",
-      function() -- Based on Snacks.scratch.select, restricted to the current working directory
-        local items = Snacks.scratch.list()
-        local selection_items = {}
-        local widths = { 0, 0 }
-        local cwd = vim.fn.fnamemodify(vim.fn.getcwd(), ":p:~")
-        for _, item in ipairs(items) do
-          if vim.fn.fnamemodify(item.cwd, ":p:~") == cwd then
-            item.icon = item.icon or Snacks.util.icon(item.ft, "filetype")
-            item.name = item.count > 1 and item.name .. " " .. item.count or item.name
-            widths[1] = math.max(widths[1], vim.api.nvim_strwidth(item.icon))
-            widths[2] = math.max(widths[2], vim.api.nvim_strwidth(item.name))
-            table.insert(selection_items, item)
-          end
-        end
-        if vim.tbl_isempty(items) then
-          vim.notify("No scratch file found", vim.log.levels.WARN)
-          return
-        end
-        vim.ui.select(selection_items, {
-          prompt = "Scratch files",
-          format_item = function(item)
-            local parts = { item.icon, item.name }
-            for i, part in ipairs(parts) do
-              parts[i] = part .. string.rep(" ", widths[i] - vim.api.nvim_strwidth(part))
+      function()
+        local cwd = vim.fn.getcwd()
+        Snacks.picker.scratch({
+          layout = { preset = "telescope_horizontal" },
+          show_empty = true, -- Some stuff can appear after using toggles
+          only_cwd = true,
+          sort = { fields = { "score:desc", "idx" } }, -- Don't sort by item length to preserve recency order
+          toggles = {
+            only_cwd = "c",
+          },
+          transform = function(item, ctx)
+            local opts = ctx.picker.opts or {}
+            if opts.only_cwd then ---@diagnostic disable-line: undefined-field
+              if item.item.cwd ~= cwd then
+                return false
+              end
             end
-            return table.concat(parts, " ")
+            return true
           end,
-        }, function(selected)
-          if selected then
-            Snacks.scratch.open({ icon = selected.icon, file = selected.file, name = selected.name, ft = selected.ft })
-          end
-        end)
+          actions = {
+            scratch_delete_ = function(picker, item)
+              if vim.fn.confirm("Do you want to delete the scratch file definitely?", "&Yes\n&No") == 1 then
+                local current = item.file
+                os.remove(current) ---@diagnostic disable-line: param-type-mismatch
+                os.remove(current .. ".meta")
+                picker:refresh()
+              end
+            end,
+          },
+          win = {
+            input = {
+              keys = {
+                ["<C-n>"] = { "list_down", mode = { "n", "i" } }, -- Don't remap to new scratch
+                ["<C-x>"] = { "scratch_delete_", mode = { "n", "i" } },
+                ["<M-c>"] = { "toggle_only_cwd", mode = { "n", "i" } },
+              },
+            },
+          },
+        })
       end,
-      desc = "[S]cratch: [S]elect",
-    },
-    {
-      "<leader>sa",
-      function() -- Based on Snacks.scratch.select
-        local items = Snacks.scratch.list()
-        local selection_items = {}
-        local widths = { 0, 0, 0 }
-        for _, item in ipairs(items) do
-          item.cwd = vim.fn.fnamemodify(item.cwd, ":p:~") .. "  "
-          item.icon = item.icon or Snacks.util.icon(item.ft, "filetype")
-          item.name = item.count > 1 and item.name .. " " .. item.count or item.name
-          widths[1] = math.max(widths[1], vim.api.nvim_strwidth(item.cwd))
-          widths[2] = math.max(widths[2], vim.api.nvim_strwidth(item.icon))
-          widths[3] = math.max(widths[3], vim.api.nvim_strwidth(item.name))
-          table.insert(selection_items, item)
-        end
-        if vim.tbl_isempty(items) then
-          vim.notify("No scratch file found", vim.log.levels.WARN)
-          return
-        end
-        vim.ui.select(selection_items, {
-          prompt = "All scratch files",
-          format_item = function(item)
-            local parts = { item.cwd, item.icon, item.name }
-            for i, part in ipairs(parts) do
-              parts[i] = part .. string.rep(" ", widths[i] - vim.api.nvim_strwidth(part))
-            end
-            return table.concat(parts, " ")
-          end,
-        }, function(selected)
-          if selected then
-            Snacks.scratch.open({ icon = selected.icon, file = selected.file, name = selected.name, ft = selected.ft })
-          end
-        end)
-      end,
-      desc = "[S]cratch: select [A]ll",
+      desc = "[S]cratch: pick files",
     },
     {
       "<leader>sc",
       function()
-        vim.ui.input(
-          { prompt = "Filetype", default = vim.bo.buftype == "" and vim.bo.filetype or nil },
-          function(filetype)
-            if filetype then
-              local items = Snacks.scratch.list()
-              local cwd = vim.fn.fnamemodify(vim.fn.getcwd(), ":p:~")
-              local item_names = {}
-              for _, item in ipairs(items) do
-                if item.ft == filetype and item.cwd and vim.fn.fnamemodify(item.cwd, ":p:~") == cwd then
-                  table.insert(item_names, item.name)
-                end
-              end
-              local default_base_name = filetype:sub(1, 1):upper() .. filetype:sub(2) .. " scratch"
-              local name, count = nil, 1
-              while name == nil or vim.tbl_contains(item_names, name) do
-                name = default_base_name .. " " .. count
-                count = count + 1
-              end
-              Snacks.scratch.open({ ft = filetype, name = name })
+        local default_ft = vim.bo.buftype == "" and vim.bo.filetype or nil
+        vim.ui.input({ prompt = "Filetype", default = default_ft }, function(ft)
+          if ft == nil or ft == "" then
+            return
+          end
+          local cwd = vim.fn.fnamemodify(vim.fn.getcwd(), ":p:~")
+          local existing_scratch_names = {}
+          for _, scratch_file in ipairs(Snacks.scratch.list()) do
+            if scratch_file.ft == ft and scratch_file.cwd and vim.fn.fnamemodify(scratch_file.cwd, ":p:~") == cwd then
+              table.insert(existing_scratch_names, scratch_file.name)
             end
           end
-        )
+          local default_base_name = ft:sub(1, 1):upper() .. ft:sub(2) .. " scratch"
+          local default_name, count = nil, 1
+          while default_name == nil or vim.tbl_contains(existing_scratch_names, default_name) do
+            default_name = default_base_name .. " " .. count
+            count = count + 1
+          end
+          vim.ui.input({ prompt = "Name", default = default_name }, function(name)
+            if name == nil or name == "" then
+              return
+            end
+            Snacks.scratch.open({ ft = ft, name = name })
+          end)
+        end)
       end,
       desc = "[S]cratch: [C]reate",
     },
@@ -491,10 +605,8 @@ return {
       enabled = true,
       win = {
         keys = {
-          i_ctrl_n = { "<C-n>", "hist_down", mode = "i" },
-          i_ctrl_p = { "<C-p>", "hist_up", mode = "i" },
-          i_esc = { "<Esc>", "cancel", mode = "i" },
-          i_ctrl_c = { "<C-C>", "cancel", mode = "i" },
+          ["<C-n>"] = { "hist_down", mode = { "n", "i" } },
+          ["<C-p>"] = { "hist_up", mode = { "n", "i" } },
         },
       },
     },
@@ -503,9 +615,6 @@ return {
 
     picker = {
       enabled = true, -- Use Snacks picker for vim.ui.select
-      toggles = {
-        only_current_directory = "c",
-      },
       sources = {
         directories = {
           finder = function(opts, ctx)
@@ -517,10 +626,17 @@ return {
             if opts.ignored then
               table.insert(args, "--no-ignore")
             end
+            local dirs = opts.dirs or {}
+            local cwd = #dirs == 0 and vim.fs.normalize(opts.cwd or vim.uv.cwd() or ".") or nil
+            if #dirs > 0 then
+              dirs = vim.tbl_map(vim.fs.normalize, dirs)
+              args[#args + 1] = "."
+              vim.list_extend(args, dirs)
+            end
             opts.args = args
-            local cwd = opts.cwd or vim.fn.getcwd()
             opts.transform = function(item)
-              item.file = cwd .. "/" .. item.text
+              item.cwd = cwd
+              item.file = item.text
               item.dir = true
             end
             return require("snacks.picker.source.proc").proc(opts, ctx)
@@ -528,14 +644,6 @@ return {
         },
       },
       actions = {
-        disable_only_current_directory = function(picker)
-          local opts = picker.opts or {}
-          if opts.only_current_directory then
-            opts.only_current_directory = false
-            picker:set_cwd(vim.fn.getcwd())
-          end
-          picker:find()
-        end,
         -- Action adatped from https://github.com/folke/snacks.nvim/blob/main/lua/snacks/picker/actions.lua#L447-L447
         qflist_trouble = function(picker)
           picker:close()
@@ -626,24 +734,23 @@ return {
       win = {
         input = {
           keys = {
-            ["<CR>"] = { "confirm", mode = "i" },
-            ["<Tab>"] = { "list_down", mode = "i" },
-            ["<S-Tab>"] = { "list_up", mode = "i" },
-            ["<Esc>"] = { "cancel", mode = "i" },
-            ["<C-n>"] = { "list_down", mode = "i" },
-            ["<C-p>"] = { "list_up", mode = "i" },
-            ["<C-g>"] = { "list_top", mode = "i" }, -- Mnemonic: like `gg`
-            ["<C-s>"] = { "select_and_next", mode = "i" },
-            ["<C-q>"] = { "qflist_trouble", mode = "i" },
-            ["<C-l>"] = { "loclist_trouble", mode = "i" },
-            ["<C-j>"] = { "preview_scroll_down", mode = "i" },
-            ["<C-k>"] = { "preview_scroll_up", mode = "i" },
-            ["<C-c>"] = { "cancel", mode = "i" },
-            ["<M-p>"] = { "toggle_preview", mode = "i" },
-            ["<M-h>"] = { "toggle_hidden", mode = "i" },
-            ["<M-i>"] = { "toggle_ignored", mode = "i" },
-            ["<M-r>"] = { "toggle_regex", mode = "i" },
-            ["<M-c>"] = { "disable_only_current_directory", mode = "i" },
+            ["<Tab>"] = { "list_down", mode = { "n", "i" } },
+            ["<S-Tab>"] = { "list_up", mode = { "n", "i" } },
+            ["<C-c>"] = { "cancel", mode = { "n", "i" } },
+            ["<C-s>"] = { "select_and_next", mode = { "n", "i" } },
+            ["<C-g>"] = { "list_top", mode = { "n", "i" } }, -- Mnemonic: like `gg`
+            ["<C-q>"] = { "qflist_trouble", mode = { "n", "i" } },
+            ["<C-l>"] = { "loclist_trouble", mode = { "n", "i" } },
+            ["<C-j>"] = { "preview_scroll_down", mode = { "n", "i" } },
+            ["<C-k>"] = { "preview_scroll_up", mode = { "n", "i" } },
+            ["<M-n>"] = { "history_forward", mode = { "n", "i" } },
+            ["<M-p>"] = { "history_back", mode = { "n", "i" } },
+            ["<M-v>"] = { "toggle_preview", mode = { "n", "i" } },
+            ["<M-h>"] = { "toggle_hidden", mode = { "n", "i" } },
+            ["<M-i>"] = { "toggle_ignored", mode = { "n", "i" } },
+            ["<M-r>"] = { "toggle_regex", mode = { "n", "i" } },
+            ["<C-v>"] = false,
+            ["<C-t>"] = false,
             -- Make sure insert-mode keymaps are not overridden
             ["<C-f>"] = false,
             ["<C-b>"] = false,
@@ -652,8 +759,8 @@ return {
             ["<C-e>"] = false,
             ["<C-a>"] = false,
             ["<C-w>"] = false,
-            ["<C-u>"] = false,
-            ["<C-d>"] = false, -- Out of consistency with <C-u>
+            ["<C-u>"] = { "list_scroll_up", mode = "n" },
+            ["<C-d>"] = { "list_scroll_down", mode = "n" }, -- Out of consistency with <C-u>
           },
         },
       },
@@ -662,6 +769,7 @@ return {
     quickfile = { enabled = true },
 
     scratch = {
+      autowrite = false, -- When `true`, write files even if empty and automatically set `buflisted` to false
       -- Don't use nvim user data to avoid losing the scratch files on full nvim cleaning
       root = vim.env.HOME .. "/.local/scratch-files",
       filekey = { branch = false },
@@ -698,11 +806,6 @@ return {
 
     words = { enabled = true },
 
-    zen = {
-      toggles = { dim = false },
-      win = { width = 125 }, -- Support line-length up until 120
-    },
-
     styles = {
       notification = { wo = { wrap = true } }, -- Avoid notification truncation
       notification_history = {
@@ -718,7 +821,11 @@ return {
           },
         },
       },
-      scratch = { width = 120, height = 40 },
+      scratch = {
+        width = 120,
+        height = 40,
+        bo = { buflisted = true }, -- To appear in buffer switcher
+      },
     },
   },
 }
