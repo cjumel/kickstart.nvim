@@ -3,12 +3,16 @@ return {
   dependencies = {
     "nvim-lua/plenary.nvim",
     "folke/snacks.nvim",
+    "esmuellert/codediff.nvim",
   },
   keys = { { "<leader>gm", function() require("neogit").open() end, desc = "[G]it: [M]enu" } },
   opts = {
     commit_editor = { spell_check = false },
     use_default_keymaps = false,
-    integrations = { snacks = true },
+    integrations = {
+      snacks = true,
+      codediff = true,
+    },
     mappings = {
       commit_editor = {}, -- Prefer keymap definition in ./after/ftplugin/gitcommit.lua
       commit_editor_I = {},
