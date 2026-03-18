@@ -55,7 +55,26 @@ return {
   opts = function()
     return {
       adapters = {
-        require("neotest-jest"),
+        require("neotest-jest")({
+          -- Only check for jest dependency if a package.json actually exists in an ancestor directory, to avoid trying
+          -- to read a non-existent package.json when test files are detected inside a non-JS project in a mono-repo
+          isTestFile = function(file_path) -- Default is require("neotest-jest.jest-util").defaultIsTestFile
+            if not file_path then
+              return false
+            end
+            local util = require("neotest-jest.util")
+            if not util.defaultTestFileMatcher(file_path) then
+              return false
+            end
+            local lib = require("neotest.lib")
+            local rootPath = lib.files.match_root_pattern("package.json")(file_path)
+            if not rootPath then
+              return false
+            end
+            local jest_util = require("neotest-jest.jest-util")
+            return jest_util.packageJsonHasJestDependency(rootPath .. "/package.json")
+          end,
+        }),
         require("neotest-python"),
       },
       consumers = {
