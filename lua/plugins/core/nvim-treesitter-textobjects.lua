@@ -2,6 +2,7 @@
 return {
   "nvim-treesitter/nvim-treesitter-textobjects",
   dependencies = { "nvim-treesitter/nvim-treesitter" },
+  branch = "master",
   lazy = false, -- Used in plugin/keymaps.lua
   opts = {
     select = {

@@ -26,9 +26,9 @@ return {
       lsp_trouble = true,
       which_key = true,
     },
-  }, ThemeConfig.colorscheme_opts or {}),
+  }, ThemeConfig.colorscheme_name == "catppuccin" and ThemeConfig.colorscheme_opts or {}),
   config = function(_, opts)
     require("catppuccin").setup(opts) -- Must be called before loading the color scheme
-    vim.cmd.colorscheme("catppuccin")
+    vim.cmd.colorscheme("catppuccin-nvim")
   end,
 }
