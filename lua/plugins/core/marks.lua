@@ -15,6 +15,8 @@ return {
       end,
       desc = "[V]iew: [M]arks",
     },
+    { "]`", function() require("marks").next() end, desc = "Next mark" },
+    { "[`", function() require("marks").prev() end, desc = "Previous mark" },
   },
   opts = { default_mappings = false },
 }

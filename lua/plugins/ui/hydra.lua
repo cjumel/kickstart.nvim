@@ -1,7 +1,6 @@
 return {
   "nvimtools/hydra.nvim",
   keys = {
-    { "<leader>=", desc = "Conflict menu" },
     { "<leader>h", desc = "[H]unk menu", mode = { "n", "v" } },
     { "<leader>n", desc = "[N]avigate menu" },
     { "<leader>w", desc = "[W]indow menu" },
@@ -10,24 +9,6 @@ return {
     invoke_on_body = true,
     configs = {
       {
-        body = "<leader>=",
-        config = {
-          desc = "Conflict menu",
-          color = "pink", -- Allow other keymaps while the Hydra is open (e.g. undo)
-        },
-        heads = {
-          { "b", function() require("git-conflict").choose("both") end },
-          { "n", function() require("git-conflict").choose("none") end },
-          { "o", function() require("git-conflict").choose("ours") end },
-          { "t", function() require("git-conflict").choose("theirs") end },
-          { "<Esc>", nil, { exit = true, mode = "n", desc = false } },
-        },
-        hint = [[
-                                      Conflict   
-   _b_ ➜ Choose [B]oth   _n_ ➜ Choose [N]one   _o_ ➜ Choose [O]urs   _t_ ➜ Choose [T]eirs   
-]],
-      },
-      {
         body = "<leader>h",
         config = {
           desc = "[H]unk menu",
@@ -35,11 +16,13 @@ return {
         },
         mode = { "n", "v" },
         heads = {
-          -- Don't use Neovim arrow keys ("h", "j", "k", "l") or visual mode keys ("v" & "V") to be able to select lines and
-          -- stage or discard them
+          { "h", function() require("gitsigns").nav_hunk("next") end },
+          { "H", function() require("gitsigns").nav_hunk("prev") end },
           { "p", function() require("gitsigns").preview_hunk() end },
+          { "s", function() require("gitsigns").nav_hunk("next", { target = "staged" }) end },
+          { "S", function() require("gitsigns").nav_hunk("prev", { target = "staged" }) end },
           {
-            "s",
+            "t",
             function()
               if vim.fn.mode() == "n" then
                 require("gitsigns").stage_hunk()
@@ -61,8 +44,10 @@ return {
           { "<Esc>", nil, { exit = true, mode = "n", desc = false } },
         },
         hint = [[
-                                          Hunk
-   _p_ ➜ [P]review hunk   _s_ ➜ Toggle [S]tage hunk/selection   _x_ ➜ Discard hunk/selection   
+                                  Hunk
+   _h_ ➜ Next hunk       _s_ ➜ Next [S]taged hunk       _t_ ➜ Toggle [S]tage   
+   _H_ ➜ Previous hunk   _S_ ➜ Previous [S]taged hunk   _x_ ➜ Discard   
+   _p_ ➜ [P]review   
 ]],
       },
       {

@@ -360,7 +360,7 @@ return {
             directory = "d",
             staged = "s",
             unstaged = "u",
-            conflicts = "=",
+            conflicts = "x",
           },
           transform = function(item, ctx)
             local opts = ctx.picker.opts or {}
@@ -436,7 +436,7 @@ return {
                 ["<M-d>"] = { "toggle_directory_", mode = { "n", "i" } },
                 ["<M-s>"] = { "toggle_staged_", mode = { "n", "i" } },
                 ["<M-u>"] = { "toggle_unstaged_", mode = { "n", "i" } },
-                ["<M-=>"] = { "toggle_conflicts_", mode = { "n", "i" } },
+                ["<M-x>"] = { "toggle_conflicts_", mode = { "n", "i" } },
               },
             },
           },
@@ -579,6 +579,20 @@ return {
         Snacks.scratch.open({ icon = selected.icon, file = selected.file, name = selected.name, ft = selected.ft })
       end,
       desc = "[S]cratch: open [L]ast",
+    },
+
+    -- Words
+    {
+      "]]",
+      function() Snacks.words.jump(vim.v.count1, true) end,
+      mode = { "n", "x", "o" },
+      desc = "Next word reference",
+    },
+    {
+      "[[",
+      function() Snacks.words.jump(-vim.v.count1, true) end,
+      mode = { "n", "x", "o" },
+      desc = "Previous word reference",
     },
 
     -- Zen mode

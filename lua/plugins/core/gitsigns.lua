@@ -8,14 +8,7 @@ return {
     on_attach = function(bufnr)
       local gitsigns = require("gitsigns")
 
-      ---@param mode string|string[]
-      ---@param lhs string
-      ---@param rhs string|function
-      ---@param opts table
-      local function map(mode, lhs, rhs, opts)
-        opts.buffer = bufnr
-        vim.keymap.set(mode, lhs, rhs, opts)
-      end
+      local map = require("config.utils").get_buffer_map_function(bufnr)
 
       -- General keymaps
       map("n", "<leader>gs", gitsigns.stage_buffer, { desc = "[G]it: [S]tage buffer" })
@@ -25,19 +18,14 @@ return {
       map("n", "<leader>gd", gitsigns.diffthis, { desc = "[G]it: [D]iff buffer" })
 
       -- Navigation keymaps
-      local ts_repeat_move = require("nvim-treesitter.textobjects.repeatable_move")
-      local next_unstaged_hunk, prev_unstaged_hunk = ts_repeat_move.make_repeatable_move_pair(
-        function() gitsigns.nav_hunk("next") end, ---@diagnostic disable-line: param-type-mismatch
-        function() gitsigns.nav_hunk("prev") end ---@diagnostic disable-line: param-type-mismatch
-      )
-      local next_hunk, prev_hunk = ts_repeat_move.make_repeatable_move_pair(
-        function() gitsigns.nav_hunk("next", { target = "all" }) end, ---@diagnostic disable-line: param-type-mismatch
-        function() gitsigns.nav_hunk("prev", { target = "all" }) end ---@diagnostic disable-line: param-type-mismatch
-      )
-      map({ "n", "x", "o" }, "]h", next_unstaged_hunk, { desc = "Next unstaged hunk" })
-      map({ "n", "x", "o" }, "[h", prev_unstaged_hunk, { desc = "Previous unstaged hunk" })
-      map({ "n", "x", "o" }, "]H", next_hunk, { desc = "Next hunk" })
-      map({ "n", "x", "o" }, "[H", prev_hunk, { desc = "Previous hunk" })
+      local function next_hunk() gitsigns.nav_hunk("next") end
+      local function prev_hunk() gitsigns.nav_hunk("next") end
+      map({ "n", "x", "o" }, "]h", next_hunk, { desc = "Next hunk" })
+      map({ "n", "x", "o" }, "[h", prev_hunk, { desc = "Previous hunk" })
+      local function next_staged_hunk() gitsigns.nav_hunk("next", { target = "staged" }) end
+      local function prev_staged_hunk() gitsigns.nav_hunk("prev", { target = "staged" }) end
+      map({ "n", "x", "o" }, "]s", next_staged_hunk, { desc = "Next staged hunk" })
+      map({ "n", "x", "o" }, "[s", prev_staged_hunk, { desc = "Previous staged hunk" })
 
       -- Text object
       map({ "x", "o" }, "gh", gitsigns.select_hunk, { desc = "Hunk" })

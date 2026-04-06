@@ -12,33 +12,43 @@ return {
     vim.api.nvim_create_autocmd("User", {
       pattern = "GitConflictDetected",
       callback = function(event)
-        ---@param mode string|string[]
-        ---@param lhs string
-        ---@param rhs string|function
-        ---@param opts_ table
-        local function map(mode, lhs, rhs, opts_)
-          opts_.buffer = event.buf
-          vim.keymap.set(mode, lhs, rhs, opts_)
-        end
+        local map = require("config.utils").get_buffer_map_function(event.buf)
 
-        local ts_repeat_move = require("nvim-treesitter.textobjects.repeatable_move")
-        local next_conflict, prev_conflict = ts_repeat_move.make_repeatable_move_pair(
-          function() git_conflict.find_next("ours") end,
-          function() git_conflict.find_prev("ours") end
-        )
-        map({ "n", "x", "o" }, "]=", next_conflict, { desc = "Next conflict" })
-        map({ "n", "x", "o" }, "[=", prev_conflict, { desc = "Previous conflict" })
+        map("n", "<leader>cb", function() git_conflict.choose("both") end, { desc = "[C]onflict: [C]hoose [B]oth" })
+        map("n", "<leader>cn", function() git_conflict.choose("none") end, { desc = "[C]onflict: [C]hoose [N]one" })
+        map("n", "<leader>co", function() git_conflict.choose("ours") end, { desc = "[C]onflict: [C]hoose [O]urs" })
+        map("n", "<leader>ct", function() git_conflict.choose("theirs") end, { desc = "[C]onflict: [C]hoose [T]heirs" })
+
+        local function next_conflict_base() git_conflict.find_next("base") end
+        local function prev_conflict_base() git_conflict.find_prev("base") end
+        map({ "n", "x", "o" }, "]b", next_conflict_base, { desc = "Next conflict [B]ase side" })
+        map({ "n", "x", "o" }, "[b", prev_conflict_base, { desc = "Previous conflict [B]ase side" })
+        local function next_conflict_ours() git_conflict.find_next("ours") end
+        local function prev_conflict_ours() git_conflict.find_prev("ours") end
+        map({ "n", "x", "o" }, "]o", next_conflict_ours, { desc = "Next conflict [O]urs side" })
+        map({ "n", "x", "o" }, "[o", prev_conflict_ours, { desc = "Previous conflict [O]urs side" })
+        local function next_conflict_theirs() git_conflict.find_next("theirs") end
+        local function prev_conflict_theirs() git_conflict.find_prev("theirs") end
+        map({ "n", "x", "o" }, "]t", next_conflict_theirs, { desc = "Next conflict [T]heirs side" })
+        map({ "n", "x", "o" }, "[t", prev_conflict_theirs, { desc = "Previous conflict [T]heirs side" })
       end,
     })
     vim.api.nvim_create_autocmd("User", {
       pattern = "GitConflictResolved",
       callback = function(event)
-        ---@param mode string|string[]
-        ---@param lhs string
-        local function unmap(mode, lhs) pcall(vim.keymap.del, mode, lhs, { buffer = event.buf }) end
+        local unmap = require("config.utils").get_buffer_unmap_function(event.buf)
 
-        unmap({ "n", "x", "o" }, "]=")
-        unmap({ "n", "x", "o" }, "[=")
+        unmap("n", "<leader>cb")
+        unmap("n", "<leader>cn")
+        unmap("n", "<leader>co")
+        unmap("n", "<leader>ct")
+
+        unmap({ "n", "x", "o" }, "]b")
+        unmap({ "n", "x", "o" }, "[b")
+        unmap({ "n", "x", "o" }, "]o")
+        unmap({ "n", "x", "o" }, "[o")
+        unmap({ "n", "x", "o" }, "]t")
+        unmap({ "n", "x", "o" }, "[t")
       end,
     })
   end,
