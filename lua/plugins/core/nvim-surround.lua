@@ -7,27 +7,8 @@ return {
     { "S", mode = "x", desc = "Add surrounds" },
   },
   opts = {
-    keymaps = {
-      insert = false,
-      insert_line = false,
-      normal_cur = false,
-      normal_line = false,
-      normal_cur_line = false,
-      visual_line = false,
-      change_line = false,
-    },
     -- Remove the white spaces introduced when using some of the surrounds
-    surrounds = {
-      ["("] = false,
-      ["["] = false,
-      ["{"] = false,
-      ["<"] = false,
-    },
-    aliases = {
-      ["("] = ")",
-      ["["] = "]",
-      ["{"] = "}",
-      ["<"] = ">",
-    },
+    surrounds = { ["("] = false, ["["] = false, ["{"] = false, ["<"] = false },
+    aliases = { ["("] = ")", ["["] = "]", ["{"] = "}", ["<"] = ">" },
   },
 }

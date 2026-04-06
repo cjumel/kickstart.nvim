@@ -1,6 +1,6 @@
 return {
   "saghen/blink.cmp",
-  version = "*",
+  version = "1.*",
   event = { "CmdlineEnter" }, -- Lazy-loading on a custom `InsertEnter` event is also defined in `./plugin/autocmds.lua`
   opts = {
     keymap = {
