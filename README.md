@@ -139,7 +139,7 @@ APP_NAME=nvim-example nvim
 Then, open Neovim with the following install command, which is only required for the first launch:
 
 ```bash
-NVIM_ENABLE_ALL_PLUGINS=1 nvim +MasonInstallAll
+NVIM_ENABLE_ALL_PLUGINS=1 nvim +InstallAll
 ```
 
 This will open Neovim, and the Neovim plugin manager I use,

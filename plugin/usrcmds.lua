@@ -32,39 +32,22 @@ end, { desc = "Toggle diagnostics", bang = true })
 
 -- [[ Mason ]]
 
-vim.api.nvim_create_user_command("MasonInstallAll", function()
-  require("lazy").load({
-    plugins = { -- Ensure `vim.g.mason_ensure_installed` is populated
-      "conform.nvim",
-      "nvim-dap",
-      "nvim-lint",
-      "nvim-lspconfig",
-    },
-  })
-  local ensure_installed = {}
-  for _, pkg_name in ipairs(vim.g.mason_ensure_installed or {}) do
-    if not vim.tbl_contains(ensure_installed, pkg_name) then
-      table.insert(ensure_installed, pkg_name)
-    end
-  end
+vim.api.nvim_create_user_command("InstallAll", function()
+  local mason_packages =
+    vim.list_extend(vim.deepcopy(require("config.data").mason_packages), vim.g.mason_packages or {})
   local mason_registry = require("mason-registry")
   mason_registry.refresh(function()
-    local no_package_to_install = true
-    for _, pkg_name in ipairs(ensure_installed) do
-      local pkg = mason_registry.get_package(pkg_name)
-      if not pkg:is_installed() then
-        vim.notify(('Installing "%s"...'):format(pkg_name), vim.log.levels.INFO, { title = "mason.nvim" })
-        pkg:install()
-        no_package_to_install = false
-      end
-    end
-    if no_package_to_install then
-      vim.notify("No package to install", vim.log.levels.INFO, { title = "mason.nvim" })
-    else
-      vim.notify("All packages installed", vim.log.levels.INFO, { title = "mason.nvim" })
+    for _, pkg_config in ipairs(mason_packages) do
+      local pkg = mason_registry.get_package(pkg_config.name)
+      vim.notify(
+        ('Installing "%s@%s"...'):format(pkg_config.name, pkg_config.version),
+        vim.log.levels.INFO,
+        { title = "mason.nvim" }
+      )
+      pkg:install({ version = pkg_config.version })
     end
   end)
-end, { desc = "Install all the missing packages with Mason" })
+end, { desc = "Install all required Nvim artefacts" })
 
 -- [[ Format-on-save ]]
 

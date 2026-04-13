@@ -7,6 +7,12 @@
 ---@field option_callback function? Callback function called with the options.
 ---@field lualine_opts table? Options for the lualine statusline plugin.
 
+---@class nvim_config.MasonConfig
+---@field name string The name of the package in Mason.
+---@field version string The version of the package to install.
+
+---@alias nvim_config.MasonPackages nvim_config.MasonConfig[]
+
 ---@class nvim_config.LanguageServerConfig
 ---@field filetypes string[] The filetypes triggering this language server, for language server lazy-loading.
 ---@field config? vim.lsp.Config The configuration to pass to the language server when setting it up.
@@ -15,10 +21,8 @@
 ---@alias nvim_config.LanguageServers table<string, nvim_config.LanguageServerConfig|false>
 
 ---@alias nvim_config.FormattersByFiletype table<string, conform.FiletypeFormatter>
----@alias nvim_config.FormatterToMasonName table<string, string|false>
 
 ---@alias nvim_config.LintersByFiletype table<string, string[]>
----@alias nvim_config.LinterToMasonName table<string, string|false>
 
 ---@alias nvim_config.DisableFormatOnSave boolean | function(bufnr: number) -> boolean
 
