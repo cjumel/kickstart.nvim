@@ -33,6 +33,8 @@ end, { desc = "Toggle diagnostics", bang = true })
 -- [[ Mason ]]
 
 vim.api.nvim_create_user_command("InstallAll", function()
+  -- Load plugins which require installing a binary
+  require("lazy").load({ plugins = { "blink.cmp", "codediff.nvim", "copilot.lua" } })
   local mason_packages =
     vim.list_extend(vim.deepcopy(require("config.data").mason_packages), vim.g.mason_packages or {})
   local mason_registry = require("mason-registry")
