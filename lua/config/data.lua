@@ -41,8 +41,8 @@ M.language_servers = {
       },
     },
   },
-  biome = { -- Lint and format for typescript
-    filetypes = { "typescript" },
+  biome = { -- Lint and format
+    filetypes = { "javascript", "typescript" },
   },
   jsonls = {
     filetypes = { "json" },
@@ -91,8 +91,8 @@ M.language_servers = {
       },
     },
   },
-  ts_ls = { -- Pure LSP features for typescript
-    filetypes = { "typescript" },
+  ts_ls = { -- Pure LSP
+    filetypes = { "javascript", "typescript" },
     config = {
       on_attach = function(client) -- Disable formatting in favor of biome
         client.server_capabilities.documentFormattingProvider = false
@@ -118,6 +118,7 @@ M.formatters_by_ft = {
   editorconfig = { "trim_newlines", "trim_whitespace" },
   gitconfig = { "trim_newlines", "trim_whitespace" },
   gitignore = { "trim_newlines", "trim_whitespace" },
+  javascript = { lsp_format = "first" }, -- Biome
   json = { lsp_format = "first" }, -- JsonLS
   lua = { "stylua" },
   make = { "trim_newlines", "trim_whitespace" },
