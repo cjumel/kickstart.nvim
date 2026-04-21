@@ -27,7 +27,7 @@ return {
     { "<leader>,", function() Snacks.notifier.show_history() end, desc = "Notification history" },
 
     -- Picker
-    { "<leader>.", function() Snacks.picker.resume() end, desc = "Resume picker" },
+    { "<leader>.", function() Snacks.picker.resume({ exclude = { "select" } }) end, desc = "Resume picker" },
     {
       "<leader><Tab>",
       function()
