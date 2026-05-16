@@ -7,11 +7,7 @@
 ---@field option_callback function? Callback function called with the options.
 ---@field lualine_opts table? Options for the lualine statusline plugin.
 
----@class nvim_config.MasonConfig
----@field name string The name of the package in Mason.
----@field version string The version of the package to install.
-
----@alias nvim_config.MasonPackages nvim_config.MasonConfig[]
+---@alias nvim_config.MasonPackageVersions table<string, string>
 
 ---@class nvim_config.LanguageServerConfig
 ---@field filetypes string[] The filetypes triggering this language server, for language server lazy-loading.

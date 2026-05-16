@@ -1,5 +1,5 @@
----@type nvim_config.MasonPackages List of Mason packages to install.
-vim.g.mason_packages = {}
+---@type nvim_config.MasonPackageVersions Mapping of Mason packages and their versions to install.
+vim.g.mason_package_versions = {}
 
 ---@type nvim_config.LanguageServers Mapping from language server name in nvim-spconfig to its configuration. Set to false to disable a default language server.
 vim.g.language_servers = {}

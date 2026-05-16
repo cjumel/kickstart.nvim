@@ -32,24 +32,28 @@ end, { desc = "Toggle diagnostics", bang = true })
 
 -- [[ Mason ]]
 
-vim.api.nvim_create_user_command("InstallAll", function()
+vim.api.nvim_create_user_command("InstallAll", function(args)
   -- Load plugins which require installing a binary
   require("lazy").load({ plugins = { "blink.cmp", "codediff.nvim", "copilot.lua" } })
-  local mason_packages =
-    vim.list_extend(vim.deepcopy(require("config.data").mason_packages), vim.g.mason_packages or {})
+
+  local mason_package_versions =
+    vim.tbl_deep_extend("force", require("config.data").mason_package_versions, vim.g.mason_package_versions or {})
   local mason_registry = require("mason-registry")
   mason_registry.refresh(function()
-    for _, pkg_config in ipairs(mason_packages) do
-      local pkg = mason_registry.get_package(pkg_config.name)
-      vim.notify(
-        ('Installing "%s@%s"...'):format(pkg_config.name, pkg_config.version),
-        vim.log.levels.INFO,
-        { title = "mason.nvim" }
-      )
-      pkg:install({ version = pkg_config.version })
+    local no_package_to_install = true
+    for name, version in pairs(mason_package_versions) do
+      local pkg = mason_registry.get_package(name)
+      if args.bang or not pkg:is_installed() then
+        vim.notify(('Installing "%s@%s"...'):format(name, version), vim.log.levels.INFO, { title = "mason.nvim" })
+        pkg:install({ version = version })
+        no_package_to_install = false
+      end
+    end
+    if no_package_to_install then
+      vim.notify("No packages to install", vim.log.levels.INFO, { title = "mason.nvim" })
     end
   end)
-end, { desc = "Install all required Nvim artefacts" })
+end, { desc = "Install all required Nvim artefacts", bang = true })
 
 -- [[ Format-on-save ]]
 

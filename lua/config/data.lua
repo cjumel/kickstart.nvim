@@ -1,26 +1,26 @@
 local M = {}
 
----@type nvim_config.MasonPackages
-M.mason_packages = {
-  { name = "basedpyright", version = "1.39.0" },
-  { name = "bash-language-server", version = "5.6.0" },
-  { name = "biome", version = "2.4.10" },
-  { name = "debugpy", version = "1.8.20" },
-  { name = "json-lsp", version = "4.10.0" },
-  { name = "lua-language-server", version = "3.18.0" },
-  { name = "marksman", version = "2026-02-08" },
-  { name = "ruff", version = "0.15.9" },
-  { name = "rumdl", version = "v0.1.67" },
-  { name = "rust-analyzer", version = "2026-04-06" },
-  { name = "shellcheck", version = "v0.11.0" },
-  { name = "shfmt", version = "v3.13.0" },
-  { name = "stylua", version = "v2.4.1" },
-  { name = "taplo", version = "0.10.0" },
-  { name = "tinymist", version = "v0.14.16" },
-  { name = "typescript-language-server", version = "5.1.3" },
-  { name = "yaml-language-server", version = "1.21.0" },
-  { name = "yamlfmt", version = "v0.21.0" },
-  { name = "yamllint", version = "1.38.0" },
+---@type nvim_config.MasonPackageVersions
+M.mason_package_versions = {
+  basedpyright = "1.39.0",
+  ["bash-language-server"] = "5.6.0",
+  biome = "2.4.10",
+  debugpy = "1.8.20",
+  ["json-lsp"] = "4.10.0",
+  ["lua-language-server"] = "3.18.0",
+  marksman = "2026-02-08",
+  ruff = "0.15.9",
+  rumdl = "v0.1.67",
+  ["rust-analyzer"] = "2026-04-06",
+  shellcheck = "v0.11.0",
+  shfmt = "v3.13.0",
+  stylua = "v2.4.1",
+  taplo = "0.10.0",
+  tinymist = "v0.14.16",
+  ["typescript-language-server"] = "5.1.3",
+  ["yaml-language-server"] = "1.21.0",
+  yamlfmt = "v0.21.0",
+  yamllint = "1.38.0",
 }
 
 ---@type nvim_config.LanguageServers
