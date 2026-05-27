@@ -1,6 +1,6 @@
 return {
   "gbprod/substitute.nvim",
-  depencencies = { "gbprod/yanky.nvim" },
+  dependencies = { "gbprod/yanky.nvim" },
   keys = {
     -- Overwrite: like the paste operator but without yanking the overwritten text
     { "go", function() require("substitute").operator() end, desc = "Overwrite" },

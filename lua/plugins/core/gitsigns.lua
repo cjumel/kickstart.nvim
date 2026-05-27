@@ -19,7 +19,7 @@ return {
 
       -- Navigation keymaps
       local function next_hunk() gitsigns.nav_hunk("next") end
-      local function prev_hunk() gitsigns.nav_hunk("next") end
+      local function prev_hunk() gitsigns.nav_hunk("prev") end
       map({ "n", "x", "o" }, "]h", next_hunk, { desc = "Next hunk" })
       map({ "n", "x", "o" }, "[h", prev_hunk, { desc = "Previous hunk" })
       local function next_staged_hunk() gitsigns.nav_hunk("next", { target = "staged" }) end
