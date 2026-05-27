@@ -57,12 +57,6 @@ M.code = get_ts_node_not_in_condition({
   "string_end",
 })
 
-M.comment = get_ts_node_in_condition({
-  "comment",
-  "comment_content",
-  "line_comment",
-})
-
 M.comment_start = ls_conds.make_condition(function(line_to_cursor)
   line_to_cursor = snippet_utils.fix_line_to_cursor(line_to_cursor)
   local commentstring_suffix = string.sub(vim.bo.commentstring, #vim.bo.commentstring - 1, #vim.bo.commentstring)

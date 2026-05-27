@@ -14,10 +14,6 @@ local snippets = {}
 
 local misc_snippets = {
   s({ trig = "wip", show_condition = snippet_conds.line_begin }, { t("🚧 WIP [skip ci]") }),
-  s(
-    { trig = "link", show_condition = -snippet_conds.first_line },
-    { t("["), i(1, "name"), t("]("), i(2, "link"), t(")") }
-  ),
 }
 snippets = vim.list_extend(snippets, misc_snippets)
 
@@ -159,5 +155,32 @@ elseif commit_convention == "gitmoji" then
 elseif commit_convention ~= false then
   error("Invalid commit convention: " .. commit_convention)
 end
+
+-- [[ Markdown ]]
+
+local markdown_snippets = {
+  -- Vanilla Markdown
+  s({ trig = "bold", show_condition = -snippet_conds.first_line }, { t("**"), i(1), t("**") }),
+  s({ trig = "bold-italic", show_condition = -snippet_conds.first_line }, { t("**_"), i(1), t("_**") }),
+  s(
+    { trig = "code-block", show_condition = -snippet_conds.first_line * snippet_conds.empty_line },
+    { t("```"), i(1, "bash"), t({ "", "" }), i(2), t({ "", "```" }) }
+  ),
+  s({ trig = "italic", show_condition = -snippet_conds.first_line }, { t("_"), i(1), t("_") }),
+  s(
+    { trig = "link", show_condition = -snippet_conds.first_line },
+    { t("["), i(1, "name"), t("]("), i(2, "link"), t(")") }
+  ),
+  s({ trig = "strikethrough", show_condition = -snippet_conds.first_line }, { t("~"), i(1), t("~") }),
+
+  -- GitHub Flavored Markdown
+  s({ trig = "checkbox", show_condition = -snippet_conds.first_line * snippet_conds.line_begin }, {
+    c(1, {
+      sn(nil, { t("- [ ] "), r(1, "content", i(nil)) }),
+      sn(nil, { t("- [x] "), r(1, "content") }),
+    }),
+  }),
+}
+snippets = vim.list_extend(snippets, markdown_snippets)
 
 return snippets

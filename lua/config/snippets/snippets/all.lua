@@ -74,7 +74,7 @@ local support_todo_comment_cond = ls_conds.make_condition(
 local todo_comment_snippets = {
   s({
     trig = "todo-comment",
-    show_condition = snippet_conds.line_end * support_todo_comment_cond * snippet_conds.code,
+    show_condition = support_todo_comment_cond * snippet_conds.code * snippet_conds.line_end,
   }, {
     f(get_comment_string_start),
     c(1, {
@@ -89,7 +89,7 @@ for _, keyword in ipairs(keywords) do
     todo_comment_snippets,
     s({
       trig = string.lower(keyword) .. "-keyword",
-      show_condition = snippet_conds.line_end * support_todo_comment_cond * snippet_conds.comment,
+      show_condition = support_todo_comment_cond * snippet_conds.comment_start,
     }, {
       c(1, {
         sn(nil, { t(keyword .. ": "), r(1, "content", i(nil)) }),
