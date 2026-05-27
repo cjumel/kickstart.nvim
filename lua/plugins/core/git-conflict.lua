@@ -14,10 +14,10 @@ return {
       callback = function(event)
         local map = require("config.utils").get_buffer_map_function(event.buf)
 
-        map("n", "<leader>cb", function() git_conflict.choose("both") end, { desc = "[C]onflict: [C]hoose [B]oth" })
-        map("n", "<leader>cn", function() git_conflict.choose("none") end, { desc = "[C]onflict: [C]hoose [N]one" })
-        map("n", "<leader>co", function() git_conflict.choose("ours") end, { desc = "[C]onflict: [C]hoose [O]urs" })
-        map("n", "<leader>ct", function() git_conflict.choose("theirs") end, { desc = "[C]onflict: [C]hoose [T]heirs" })
+        map("n", "<leader>cb", function() git_conflict.choose("both") end, { desc = "[C]onflict: choose [B]oth" })
+        map("n", "<leader>cn", function() git_conflict.choose("none") end, { desc = "[C]onflict: choose [N]one" })
+        map("n", "<leader>co", function() git_conflict.choose("ours") end, { desc = "[C]onflict: choose [O]urs" })
+        map("n", "<leader>ct", function() git_conflict.choose("theirs") end, { desc = "[C]onflict: choose [T]heirs" })
 
         local function next_conflict_base() git_conflict.find_next("base") end
         local function prev_conflict_base() git_conflict.find_prev("base") end

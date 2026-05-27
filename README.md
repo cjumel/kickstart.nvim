@@ -168,7 +168,7 @@ and with project-local `.nvim.lua` files. Available options can be seen in the
 `.nvim-global-example.lua` and `.nvim-example.lua` files.
 
 For instance, you can setup the GitHub Copilot plugin if you have a valid subscription. To do
-so, create a `.nvim.global.lua` in the configuration directory file with the following content:
+so, create a `.nvim-global.lua` in the configuration directory with the following content:
 
 ```lua
 vim.g.enable_gh_copilot_plugins = true

@@ -348,6 +348,10 @@ return {
       function()
         local cwd = vim.fn.getcwd()
         local git_root = Snacks.git.get_root(cwd)
+        if git_root == nil then
+          vim.notify("Not in a Git repository", vim.log.levels.WARN, { title = "Snacks.nvim" })
+          return
+        end
         Snacks.picker.git_status({
           title = "Git Files",
           layout = { preset = "telescope_horizontal" },
@@ -576,6 +580,10 @@ return {
       function()
         local items = Snacks.scratch.list()
         local selected = items[1] -- Items are ordered with last opened first
+        if selected == nil then
+          vim.notify("No scratch file found", vim.log.levels.INFO, { title = "Snacks.nvim" })
+          return
+        end
         Snacks.scratch.open({ icon = selected.icon, file = selected.file, name = selected.name, ft = selected.ft })
       end,
       desc = "[S]cratch: open [L]ast",
