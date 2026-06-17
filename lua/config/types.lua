@@ -27,5 +27,3 @@
 ---@alias nvim_config.AnnotationConventionByFt table<string, string>
 
 ---@alias nvim_config.DisableDeprecationWarnings boolean
-
----@alias nvim_config.EnableGhCopilotPlugins boolean

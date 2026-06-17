@@ -67,7 +67,6 @@ return {
       {
         filetypes = {
           "checkhealth",
-          "copilot-chat",
           "dap-repl",
           "dapui_breakpoints",
           "dapui_console",

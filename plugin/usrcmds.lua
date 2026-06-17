@@ -34,7 +34,7 @@ end, { desc = "Toggle diagnostics", bang = true })
 
 vim.api.nvim_create_user_command("InstallAll", function(args)
   -- Load plugins which require installing a binary
-  require("lazy").load({ plugins = { "blink.cmp", "codediff.nvim", "copilot.lua" } })
+  require("lazy").load({ plugins = { "blink.cmp", "codediff.nvim" } })
 
   local mason_package_versions =
     vim.tbl_deep_extend("force", require("config.data").mason_package_versions, vim.g.mason_package_versions or {})

@@ -18,8 +18,6 @@ coding with Neovim really much more enjoyable for me, compared to my previous ex
 - (optional) [npm](https://www.npmjs.com/) and [Python](https://www.python.org/), especially to
   install external tools managed with [mason.nvim](https://github.com/mason-org/mason.nvim), like
   language servers, formatters, debuggers, etc.
-- (optional) a valid [GitHub Copilot](https://github.com/features/copilot) subscription, for
-  AI-assisted auto-completion and chat
 
 ## Install Neovim
 
@@ -166,16 +164,6 @@ nvim
 Additional global or project-level configuration can be achieved with the `.nvim-global.lua` file
 and with project-local `.nvim.lua` files. Available options can be seen in the
 `.nvim-global-example.lua` and `.nvim-example.lua` files.
-
-For instance, you can setup the GitHub Copilot plugin if you have a valid subscription. To do
-so, create a `.nvim-global.lua` in the configuration directory with the following content:
-
-```lua
-vim.g.enable_gh_copilot_plugins = true
-```
-
-Then re-open Neovim and run the `Copilot auth` command to authenticate with GitHub (this will also
-download the Copilot LSP binary).
 
 ## Clean Neovim data
 

@@ -14,7 +14,6 @@ vim.api.nvim_create_autocmd("OptionSet", { pattern = "textwidth", callback = set
 
 local insert_enter_plugins = {
   "blink.cmp",
-  "copilot.lua",
   "LuaSnip",
   "nvim-autopairs",
 }
