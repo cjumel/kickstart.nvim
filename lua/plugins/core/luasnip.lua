@@ -1,7 +1,7 @@
 return {
   "L3MON4D3/LuaSnip",
   version = "*",
-  lazy = true, -- Lazy-loading on a custom `InsertEnter` event is defined in `./plugin/autocmds.lua`
+  event = { "InsertEnter" },
   opts = {},
   config = function(_, opts)
     local ls = require("luasnip")

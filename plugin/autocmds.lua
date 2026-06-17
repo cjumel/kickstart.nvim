@@ -9,23 +9,6 @@ end
 vim.api.nvim_create_autocmd("BufEnter", { callback = set_colorcolumn })
 vim.api.nvim_create_autocmd("OptionSet", { pattern = "textwidth", callback = set_colorcolumn })
 
--- [[ Better InsertEnter lazy-loading ]]
--- This enables lazy-loading plugins on `InsertEnter` event, but skipping prompt buffers like snacks.nvim pickers
-
-local insert_enter_plugins = {
-  "blink.cmp",
-  "LuaSnip",
-  "nvim-autopairs",
-}
-vim.api.nvim_create_autocmd("InsertEnter", {
-  callback = function()
-    if not vim.g.insert_enter_plugins_loaded and vim.bo.buftype ~= "prompt" then
-      require("lazy").load({ plugins = insert_enter_plugins })
-      vim.g.insert_enter_plugins_loaded = true
-    end
-  end,
-})
-
 -- [[ Format on save ]]
 
 vim.api.nvim_create_autocmd("BufReadPre", {
