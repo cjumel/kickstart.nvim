@@ -18,19 +18,8 @@ return {
         map("n", "<leader>cn", function() git_conflict.choose("none") end, { desc = "[C]onflict: choose [N]one" })
         map("n", "<leader>co", function() git_conflict.choose("ours") end, { desc = "[C]onflict: choose [O]urs" })
         map("n", "<leader>ct", function() git_conflict.choose("theirs") end, { desc = "[C]onflict: choose [T]heirs" })
-
-        local function next_conflict_base() git_conflict.find_next("base") end
-        local function prev_conflict_base() git_conflict.find_prev("base") end
-        map({ "n", "x", "o" }, "]b", next_conflict_base, { desc = "Next conflict [B]ase side" })
-        map({ "n", "x", "o" }, "[b", prev_conflict_base, { desc = "Previous conflict [B]ase side" })
-        local function next_conflict_ours() git_conflict.find_next("ours") end
-        local function prev_conflict_ours() git_conflict.find_prev("ours") end
-        map({ "n", "x", "o" }, "]o", next_conflict_ours, { desc = "Next conflict [O]urs side" })
-        map({ "n", "x", "o" }, "[o", prev_conflict_ours, { desc = "Previous conflict [O]urs side" })
-        local function next_conflict_theirs() git_conflict.find_next("theirs") end
-        local function prev_conflict_theirs() git_conflict.find_prev("theirs") end
-        map({ "n", "x", "o" }, "]t", next_conflict_theirs, { desc = "Next conflict [T]heirs side" })
-        map({ "n", "x", "o" }, "[t", prev_conflict_theirs, { desc = "Previous conflict [T]heirs side" })
+        map({ "n", "x", "o" }, "]x", function() git_conflict.find_next("ours") end, { desc = "Next conflict" })
+        map({ "n", "x", "o" }, "[x", function() git_conflict.find_prev("ours") end, { desc = "Previous conflict" })
       end,
     })
     vim.api.nvim_create_autocmd("User", {
