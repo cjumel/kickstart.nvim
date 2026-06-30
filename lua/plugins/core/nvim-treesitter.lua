@@ -38,6 +38,7 @@ return {
       "ssh_config",
       "tmux",
       "toml",
+      "tsx",
       "typescript",
       "typst",
       "vim",
