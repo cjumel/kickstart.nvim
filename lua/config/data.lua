@@ -41,21 +41,24 @@ M.language_servers = {
       },
     },
   },
-  biome = { -- Lint and format
+  biome = { -- Lint and format, only in biome workspaces
     filetypes = { "javascript", "json", "typescript" },
-    config = {
-      -- Enable also outside of biome workspaces
-      workspace_required = false,
-      root_dir = function(bufnr, on_dir) on_dir(vim.fs.root(bufnr, { ".git" }) or vim.fn.getcwd()) end,
-    },
   },
   jsonls = {
     filetypes = { "json" },
-    config = {
-      init_options = {
-        provideFormatter = false,
-      },
-    },
+    config = function()
+      local biome_config = vim.fs.find({ "biome.json", "biome.jsonc" }, {
+        path = vim.fn.getcwd(),
+        type = "file",
+        upward = true,
+      })[1]
+      local provideFormatter = biome_config == nil
+      return {
+        init_options = {
+          provideFormatter = provideFormatter,
+        },
+      }
+    end,
   },
   lua_ls = {
     filetypes = { "lua" },
@@ -129,7 +132,7 @@ M.formatters_by_ft = {
   gitconfig = { "trim_newlines", "trim_whitespace" },
   gitignore = { "trim_newlines", "trim_whitespace" },
   javascript = { lsp_format = "first" }, -- Biome
-  json = { lsp_format = "first" }, -- Biome
+  json = { lsp_format = "first" }, -- JsonLS or Biome
   lua = { "stylua" },
   make = { "trim_newlines", "trim_whitespace" },
   markdown = { lsp_format = "first" }, -- rumdl
