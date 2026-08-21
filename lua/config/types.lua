@@ -11,7 +11,7 @@
 
 ---@class nvim_config.LanguageServerConfig
 ---@field filetypes string[] The filetypes triggering this language server, for language server lazy-loading.
----@field config? vim.lsp.Config The configuration to pass to the language server when setting it up.
+---@field config? vim.lsp.Config | fun(): vim.lsp.Config The configuration to pass to the language server when setting it up.
 ---@field mason? string The name of the language server in Mason, when different from the name in nvim-lspconfig.
 
 ---@alias nvim_config.LanguageServers table<string, nvim_config.LanguageServerConfig|false>

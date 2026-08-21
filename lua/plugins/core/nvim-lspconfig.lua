@@ -49,7 +49,11 @@ return {
     for name, language_server in pairs(language_servers) do
       if language_server then
         table.insert(automatic_enable, name)
-        vim.lsp.config(name, language_server.config or {})
+        local config = language_server.config or {}
+        if type(config) == "function" then
+          config = config()
+        end
+        vim.lsp.config(name, config)
       end
     end
     require("mason-lspconfig").setup({ automatic_enable = automatic_enable })
