@@ -11,7 +11,7 @@ vim.api.nvim_create_autocmd("OptionSet", { pattern = "textwidth", callback = set
 
 -- [[ Format on save ]]
 
-vim.api.nvim_create_autocmd("BufReadPre", {
+vim.api.nvim_create_autocmd("BufReadPost", {
   callback = function(args)
     ---@type nvim_config.DisableFormatOnSave
     local disable_format_on_save = vim.g.disable_format_on_save or false
