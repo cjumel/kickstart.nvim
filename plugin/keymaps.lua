@@ -86,7 +86,17 @@ local function yank_path(opts)
       path = path:gsub(" ", "\\ ")
     end
     if line then
-      path = path .. ":" .. vim.fn.line(".")
+      local cursor_line = vim.fn.line(".")
+      local mode = vim.fn.mode()
+      if mode == "v" or mode == "V" or mode == "\22" then
+        local visual_line = vim.fn.line("v")
+        local start_line = math.min(cursor_line, visual_line)
+        local end_line = math.max(cursor_line, visual_line)
+        path = path .. ":" .. start_line
+        if start_line ~= end_line then path = path .. "-" .. end_line end
+      else
+        path = path .. ":" .. cursor_line
+      end
     end
     vim.fn.setreg(register, path)
     vim.notify(
@@ -97,7 +107,7 @@ local function yank_path(opts)
   end
 end
 vim.keymap.set("n", "<leader>yp", function() yank_path() end, { desc = "[Y]ank: [P]ath" })
-vim.keymap.set("n", "<leader>yl", function() yank_path({ line = true }) end, { desc = "[Y]ank: [L]ine position" })
+vim.keymap.set({ "n", "v" }, "<leader>yl", function() yank_path({ line = true }) end, { desc = "[Y]ank: [L]ine position" })
 
 local function next_error() vim.diagnostic.jump({ severity = vim.diagnostic.severity.ERROR, count = 1 }) end
 local function prev_error() vim.diagnostic.jump({ severity = vim.diagnostic.severity.ERROR, count = -1 }) end
