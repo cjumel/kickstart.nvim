@@ -1,5 +1,10 @@
 -- [[ Diagnostics ]]
 
+vim.api.nvim_create_user_command(
+  "DiagnosticsReset",
+  function() vim.diagnostic.reset() end,
+  { desc = "Reset diagnostics" }
+)
 vim.api.nvim_create_user_command("DiagnosticsEnable", function(args)
   local message, filter = "Diagnostics enabled", {}
   if args.bang then

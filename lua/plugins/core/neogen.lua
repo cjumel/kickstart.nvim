@@ -6,7 +6,7 @@ local default_annotation_convention_by_ft = {
 return {
   "danymat/neogen",
   dependencies = { "nvim-treesitter/nvim-treesitter" },
-  keys = { { "ga", function() require("neogen").generate() end, desc = "Add documentation template" } },
+  cmd = { "Neogen" },
   opts = function()
     local i = require("neogen.types.template").item
     local base_opts = {

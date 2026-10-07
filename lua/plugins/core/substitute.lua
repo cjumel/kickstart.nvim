@@ -2,39 +2,52 @@ return {
   "gbprod/substitute.nvim",
   dependencies = { "gbprod/yanky.nvim" },
   keys = {
-    -- Overwrite: overwrite a target with the clipboard content
-    { "go", function() require("substitute").operator() end, desc = "Overwrite" },
-    { "go", function() require("substitute").visual() end, mode = "x", desc = "Overwrite" },
-    -- Substitute: substitute occurrences of a target in a range (prefilled)
+    { "<leader>p", function() require("substitute").operator() end, desc = "[P]aste operator (no yank)" },
+    { "<leader>p", function() require("substitute").visual() end, mode = "x", desc = "[P]aste operator (no yank)" },
     {
-      "gss",
-      function() require("substitute.range").operator({ prompt_current_text = true }) end,
-      desc = "Substitute: substitute (prefilled)",
+      "<leader>rr",
+      function() require("substitute.range").operator() end,
+      desc = "[R]eplace: [R]eplace in range",
     },
     {
-      "gss",
+      "<leader>rr",
+      function() require("substitute.range").visual() end,
+      mode = "x",
+      desc = "[R]eplace: [R]eplace in range",
+    },
+    {
+      "<leader>rs",
+      function() require("substitute.range").operator({ prompt_current_text = true }) end,
+      desc = "[R]eplace: [S]ubstitute in range (prefilled)",
+    },
+    {
+      "<leader>rs",
       function() require("substitute.range").visual({ prompt_current_text = true }) end,
       mode = "x",
-      desc = "Substitute: substitute (prefilled)",
+      desc = "[R]eplace: [S]ubstitute in range (prefilled)",
     },
-    -- Replace: replace occurrences of a target in a range (not prefilled)
-    { "gsr", function() require("substitute.range").operator() end, desc = "Substitute: replace" },
-    { "gsr", function() require("substitute.range").visual() end, mode = "x", desc = "Substitute: replace" },
-    -- Orverwrite (range): overwrite occurrences of a target in a range with the clipboard content
     {
-      "gso",
+      "<leader>ro",
       function() require("substitute.range").operator({ register = "0", auto_apply = true }) end,
-      desc = "Substitute: overwrite (range)",
+      desc = "[R]eplace: [O]verwrite in range",
     },
     {
-      "gso",
+      "<leader>ro",
       function() require("substitute.range").visual({ register = "0", auto_apply = true }) end,
       mode = "x",
-      desc = "Substitute: overwrite (range)",
+      desc = "[R]eplace: [O]verwrite in range",
     },
-    -- Exchange: swap two targets together
-    { "gse", function() require("substitute.exchange").operator() end, desc = "Substitute: exchange" },
-    { "gse", function() require("substitute.exchange").visual() end, mode = "x", desc = "Substitute: exchange" },
+    {
+      "<leader>re",
+      function() require("substitute.exchange").operator() end,
+      desc = "[R]eplace: [E]xchange targets",
+    },
+    {
+      "<leader>re",
+      function() require("substitute.exchange").visual() end,
+      mode = "x",
+      desc = "[R]eplace: [E]xchange targets",
+    },
   },
   opts = function() return { on_substitute = require("yanky.integration").substitute() } end,
 }

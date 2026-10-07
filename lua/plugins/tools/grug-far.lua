@@ -3,23 +3,23 @@ return {
   dependencies = { "nvim-tree/nvim-web-devicons" },
   keys = {
     {
-      "<leader>r",
+      "<leader>rm",
       function()
         require("grug-far").open({
           prefills = { paths = vim.bo.filetype == "oil" and require("oil").get_current_dir() or nil },
         })
       end,
-      desc = "[R]eplace",
+      desc = "[R]eplace: [M]enu",
     },
     {
-      "<leader>r",
+      "<leader>rm",
       function()
         require("grug-far").with_visual_selection({
           prefills = { paths = vim.bo.filetype == "oil" and require("oil").get_current_dir() or nil },
         })
       end,
       mode = { "v" },
-      desc = "[R]eplace",
+      desc = "[R]eplace: [M]enu",
     },
   },
   opts = {

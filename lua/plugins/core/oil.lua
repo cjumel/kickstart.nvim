@@ -2,10 +2,7 @@ return {
   "stevearc/oil.nvim",
   dependencies = { "nvim-tree/nvim-web-devicons" },
   lazy = false, -- Required to be used as default file explorer
-  keys = {
-    { "-", function() require("oil").open() end, desc = "Open parent directory" },
-    { "g-", function() require("oil").open(vim.fn.getcwd()) end, desc = "Open current working directory" },
-  },
+  keys = { { "-", function() require("oil").open() end, desc = "Open parent directory" } },
   opts = {
     win_options = { number = false, relativenumber = false },
     cleanup_delay_ms = 0, -- Cleanup the Oil buffer right away to avoid jumping back to it with <C-o>
@@ -19,6 +16,17 @@ return {
       ["<CR>"] = "actions.select",
       ["gx"] = "actions.open_external",
       ["<C-c>"] = "actions.close",
+      ["<localleader>c"] = { "actions.open_cwd", desc = "Open [C]wd" },
+      ["<localleader>g"] = {
+        function()
+          local git_root = Snacks.git.get_root(vim.fn.getcwd())
+          if git_root == nil then
+            error("Not inside a git repository")
+          end
+          require("oil").open(git_root)
+        end,
+        desc = "Open [G]it root",
+      },
       ["<localleader>d"] = {
         function() -- Function taken from Oil recipes
           DETAIL = not DETAIL

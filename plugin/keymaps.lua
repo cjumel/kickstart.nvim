@@ -22,9 +22,6 @@ vim.keymap.set({ "n", "v" }, "<C-e>", "3<C-e>", { desc = "Scroll down a few line
 
 -- [[ Normal mode keymaps ]]
 
-vim.keymap.set("n", "gp", vim.diagnostic.open_float, { desc = "Preview diagnostics" })
-vim.keymap.set("n", "gl", vim.diagnostic.reset, { desc = "Reload diagnostics" })
-
 local function clear_normal_mode()
   vim.cmd("nohlsearch")
   local lualine = package.loaded.lualine
@@ -60,7 +57,7 @@ local function send_to_clipboard()
   end
   vim.notify(message, vim.log.levels.INFO, { title = "Yank" })
 end
-vim.keymap.set("n", "gy", send_to_clipboard, { desc = "Send yanked to clipboard" })
+vim.keymap.set("n", "<leader>yc", send_to_clipboard, { desc = "[Y]ank: send to [C]lipboard" })
 
 ---@class YankPathOpts
 ---@field line? boolean
