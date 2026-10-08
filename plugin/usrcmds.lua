@@ -48,9 +48,20 @@ vim.api.nvim_create_user_command("InstallAll", function(args)
     local no_package_to_install = true
     for name, version in pairs(mason_package_versions) do
       local pkg = mason_registry.get_package(name)
-      if args.bang or not pkg:is_installed() then
+      if args.bang or not pkg:is_installed() or pkg:get_installed_version() ~= version then
         vim.notify(('Installing "%s@%s"...'):format(name, version), vim.log.levels.INFO, { title = "mason.nvim" })
-        pkg:install({ version = version })
+        pkg:install(
+          { version = version },
+          vim.schedule_wrap(function(success, err)
+            if not success then
+              vim.notify(
+                ('Failed to install "%s@%s": %s'):format(name, version, err),
+                vim.log.levels.ERROR,
+                { title = "mason.nvim" }
+              )
+            end
+          end)
+        )
         no_package_to_install = false
       end
     end
