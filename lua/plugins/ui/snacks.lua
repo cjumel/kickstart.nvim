@@ -792,8 +792,6 @@ return {
 
     scratch = {
       autowrite = false, -- When `true`, write files even if empty and automatically set `buflisted` to false
-      -- Don't use nvim user data to avoid losing the scratch files on full nvim cleaning
-      root = vim.env.HOME .. "/.local/scratch-files",
       filekey = { branch = false },
       win = {
         keys = {
