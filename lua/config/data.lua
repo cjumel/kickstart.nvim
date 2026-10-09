@@ -78,6 +78,25 @@ M.language_servers = {
   },
   rumdl = {
     filetypes = { "markdown" },
+    config = {
+      handlers = {
+        ["textDocument/diagnostic"] = function(err, result, ctx)
+          local bufname = vim.api.nvim_buf_get_name(ctx.bufnr)
+          local is_opencode_prompt = bufname:match("^/private/var/folders/.*%.md$")
+          local scratch_dir = vim.pesc(vim.fn.stdpath("data") .. "/scratch/")
+          local is_scratch_file = bufname:match("^" .. scratch_dir .. ".*%.markdown$")
+          if result and result.items and (is_opencode_prompt or is_scratch_file) then
+            result = vim.deepcopy(result)
+            local missing_header_code = "MD041"
+            result.items = vim.tbl_filter(
+              function(diagnostic) return diagnostic.code ~= missing_header_code end,
+              result.items
+            )
+          end
+          return vim.lsp.diagnostic.on_diagnostic(err, result, ctx)
+        end,
+      },
+    },
   },
   rust_analyzer = {
     filetypes = { "rust" },
