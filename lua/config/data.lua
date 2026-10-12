@@ -1,5 +1,45 @@
 local M = {}
 
+M.treesitter_parsers = {
+  "bash",
+  "csv",
+  "diff",
+  "dockerfile",
+  "editorconfig",
+  "git_config",
+  "git_rebase",
+  "gitattributes",
+  "gitcommit",
+  "gitignore",
+  "go",
+  "gomod",
+  "gosum",
+  "javascript",
+  "json",
+  "lua",
+  "luadoc", -- Lua docstrings
+  "luap", -- Lua search patterns
+  "make",
+  "markdown",
+  "markdown_inline", -- Advanced Markdown features (e.g. concealing)
+  "prisma",
+  "proto",
+  "python",
+  "regex",
+  "requirements",
+  "rust",
+  "sql",
+  "ssh_config",
+  "toml",
+  "tsx",
+  "typescript",
+  "typst",
+  "vim",
+  "vimdoc", -- Vim help files
+  "yaml",
+  "zsh",
+}
+
 ---@type nvim_config.MasonPackageVersions
 M.mason_package_versions = {
   basedpyright = "1.40.1",

@@ -38,11 +38,15 @@ end, { desc = "Toggle diagnostics", bang = true })
 -- [[ Mason ]]
 
 vim.api.nvim_create_user_command("InstallAll", function(args)
+  local config_data = require("config.data")
+
+  require("nvim-treesitter").install(config_data.treesitter_parsers, { summary = true })
+
   -- Load plugins which require installing a binary
   require("lazy").load({ plugins = { "blink.cmp", "codediff.nvim" } })
 
   local mason_package_versions =
-    vim.tbl_deep_extend("force", require("config.data").mason_package_versions, vim.g.mason_package_versions or {})
+    vim.tbl_deep_extend("force", config_data.mason_package_versions, vim.g.mason_package_versions or {})
   local mason_registry = require("mason-registry")
   mason_registry.refresh(function()
     local no_package_to_install = true

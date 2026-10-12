@@ -13,6 +13,8 @@ coding with Neovim really much more enjoyable for me, compared to my previous ex
 
 - [Neovim](https://neovim.io/) version 0.11
 - [git](https://www.git-scm.com/), to clone this repository
+- [tree-sitter-cli](https://github.com/tree-sitter/tree-sitter/blob/master/crates/cli/README.md) to
+  install and update Treesitter parsers
 - (optional but highly recommended) [fd](https://github.com/sharkdp/fd) and
   [ripgrep](https://github.com/BurntSushi/ripgrep) to search files, directories, or within files
 - (optional) [npm](https://www.npmjs.com/) and [Python](https://www.python.org/), especially to

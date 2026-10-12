@@ -1,61 +1,54 @@
--- TODO: change to main branch
 return {
   "nvim-treesitter/nvim-treesitter-textobjects",
   dependencies = { "nvim-treesitter/nvim-treesitter" },
-  branch = "master",
-  lazy = false, -- Used in plugin/keymaps.lua
+  event = "VeryLazy",
   opts = {
-    select = {
-      enable = true,
-      lookahead = true, -- Automatically jump forward to text-object if not on one
-      keymaps = {
-        ["aa"] = { query = "@parameter.outer", desc = "argument" },
-        ["ia"] = { query = "@parameter.inner", desc = "inner argument" },
-        ["ac"] = { query = "@class.outer", desc = "class definition" },
-        ["ic"] = { query = "@class.inner", desc = "inner class definition" },
-        ["af"] = { query = "@call.outer", desc = "function call" },
-        ["if"] = { query = "@call.inner", desc = "inner function call" },
-        ["ag"] = { query = "@comment.outer", desc = "comment" }, -- "g" like builtin "gc" operator
-        ["ig"] = { query = "@comment.inner", desc = "inner comment" }, -- "g" like builtin "gc" operator
-        ["ai"] = { query = "@conditional.outer", desc = "if/else if/else statement" },
-        ["ii"] = { query = "@conditional.inner", desc = "inner if/else if/else statement" },
-        ["al"] = { query = "@loop.outer", desc = "loop" },
-        ["il"] = { query = "@loop.inner", desc = "inner loop" },
-        ["am"] = { query = "@function.outer", desc = "method definition" },
-        ["im"] = { query = "@function.inner", desc = "inner method definition" },
-        ["ar"] = { query = "@return.outer", desc = "return statement" },
-        ["ir"] = { query = "@return.inner", desc = "inner return statement" },
-        ["a="] = { query = "@assignment.outer", desc = "assignment" },
-        ["i="] = { query = "@assignment.inner", desc = "inner assignment" },
-        ["gl"] = { query = "@assignment.lhs", desc = "Left-hand-side of assignment" },
-        ["gr"] = { query = "@assignment.rhs", desc = "Right-hand-side of assignment" },
-      },
-    },
-    move = {
-      enable = true,
-      set_jumps = true, -- Set jumps in the jumplist
-      goto_next_start = {
-        ["]c"] = { query = "@class.outer", desc = "Next class definition start" },
-        ["]g"] = { query = "@comment.outer", desc = "Next comment" },
-        ["]m"] = { query = "@function.outer", desc = "Next function definition start" },
-      },
-      goto_next_end = {
-        ["]C"] = { query = "@class.outer", desc = "Next class definition end" },
-        ["]M"] = { query = "@function.outer", desc = "Next function definition end" },
-      },
-      goto_previous_start = {
-        ["[c"] = { query = "@class.outer", desc = "Previous class definition start" },
-        ["[g"] = { query = "@comment.outer", desc = "Previous comment" },
-        ["[m"] = { query = "@function.outer", desc = "Previous function definition start" },
-      },
-      goto_previous_end = {
-        ["[C"] = { query = "@class.outer", desc = "Previous class definition end" },
-        ["[M"] = { query = "@function.outer", desc = "Previous function definition end" },
-      },
-    },
+    select = { lookahead = true }, -- Automatically jump forward to text-object if not on one
+    move = { set_jumps = true }, -- Set jumps in the jumplist
   },
   config = function(_, opts)
-    local ts_config = require("nvim-treesitter.configs")
-    ts_config.setup({ textobjects = opts })
+    require("nvim-treesitter-textobjects").setup(opts)
+
+    local select = require("nvim-treesitter-textobjects.select")
+    local move = require("nvim-treesitter-textobjects.move")
+
+    local function textobject(lhs, query, desc)
+      vim.keymap.set({ "x", "o" }, lhs, function() select.select_textobject(query, "textobjects") end, { desc = desc })
+    end
+    local function motion(lhs, method, query, desc)
+      vim.keymap.set({ "n", "x", "o" }, lhs, function() method(query, "textobjects") end, { desc = desc })
+    end
+
+    textobject("aa", "@parameter.outer", "argument")
+    textobject("ia", "@parameter.inner", "inner argument")
+    textobject("ac", "@class.outer", "class definition")
+    textobject("ic", "@class.inner", "inner class definition")
+    textobject("af", "@call.outer", "function call")
+    textobject("if", "@call.inner", "inner function call")
+    textobject("ag", "@comment.outer", "comment") -- "g" like builtin "gc" operator
+    textobject("ig", "@comment.inner", "inner comment") -- "g" like builtin "gc" operator
+    textobject("ai", "@conditional.outer", "if/else if/else statement")
+    textobject("ii", "@conditional.inner", "inner if/else if/else statement")
+    textobject("al", "@loop.outer", "loop")
+    textobject("il", "@loop.inner", "inner loop")
+    textobject("am", "@function.outer", "method definition")
+    textobject("im", "@function.inner", "inner method definition")
+    textobject("ar", "@return.outer", "return statement")
+    textobject("ir", "@return.inner", "inner return statement")
+    textobject("a=", "@assignment.outer", "assignment")
+    textobject("i=", "@assignment.inner", "inner assignment")
+    textobject("gl", "@assignment.lhs", "Left-hand side of assignment")
+    textobject("gr", "@assignment.rhs", "Right-hand side of assignment")
+
+    motion("]c", move.goto_next_start, "@class.outer", "Next class definition start")
+    motion("[c", move.goto_previous_start, "@class.outer", "Previous class definition start")
+    motion("]C", move.goto_next_end, "@class.outer", "Next class definition end")
+    motion("[C", move.goto_previous_end, "@class.outer", "Previous class definition end")
+    motion("]g", move.goto_next_start, "@comment.outer", "Next comment")
+    motion("[g", move.goto_previous_start, "@comment.outer", "Previous comment")
+    motion("]m", move.goto_next_start, "@function.outer", "Next function definition start")
+    motion("[m", move.goto_previous_start, "@function.outer", "Previous function definition start")
+    motion("]M", move.goto_next_end, "@function.outer", "Next function definition end")
+    motion("[M", move.goto_previous_end, "@function.outer", "Previous function definition end")
   end,
 }
