@@ -10,8 +10,8 @@ local function smart_a_or_i(default_keymap)
   end
   return '"_cc' -- Save to black hole register to avoid polluting the default register
 end
-vim.keymap.set("n", "a", function() return smart_a_or_i("a") end, { desc = "Append", expr = true, noremap = true })
-vim.keymap.set("n", "i", function() return smart_a_or_i("i") end, { desc = "Insert", expr = true, noremap = true })
+vim.keymap.set("n", "a", function() return smart_a_or_i("a") end, { desc = "Append", expr = true })
+vim.keymap.set("n", "i", function() return smart_a_or_i("i") end, { desc = "Insert", expr = true })
 
 -- Remap $ in visual mode to avoid selecting the newline character (consistent with other modes)
 vim.keymap.set("v", "$", "$h", { desc = "End of line" })

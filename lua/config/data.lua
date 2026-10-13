@@ -133,7 +133,7 @@ M.language_servers = {
               result.items
             )
           end
-          return vim.lsp.diagnostic.on_diagnostic(err, result, ctx)
+          return vim.lsp.handlers["textDocument/diagnostic"](err, result, ctx)
         end,
       },
     },

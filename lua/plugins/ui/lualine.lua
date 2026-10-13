@@ -7,7 +7,8 @@ return {
       options = {
         component_separators = "",
         section_separators = "",
-        globalstatus = true, -- Better single global status line for all splits
+        always_show_tabline = false,
+        globalstatus = true,
       },
       sections = {
         lualine_a = { "mode" },
@@ -16,7 +17,7 @@ return {
           {
             "filename",
             path = 1, -- Relative path
-            symbols = { modified = "●" }, -- Text to show when the buffer is modified
+            symbols = { modified = "●" },
           },
           "diff",
           "diagnostics",
@@ -72,7 +73,6 @@ return {
           "dapui_console",
           "dapui_scopes",
           "dapui_watches",
-          "diff", -- Notably for Undotree
           "lazy",
           "lspinfo",
           "mason",
@@ -90,7 +90,7 @@ return {
           "snacks_notif_history",
           "snacks_picker_input",
           "trouble",
-          "undotree",
+          "nvim-undotree",
         },
         sections = vim.tbl_deep_extend("force", opts.sections, { lualine_c = { function() return "" end } }),
       },
