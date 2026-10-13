@@ -6,7 +6,7 @@ return {
     lsp = {
       override = {
         ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
-        ["vim.lsp.util.stylize_markdown"] = true,
+        ["vim.lsp.util.stylize_markdown"] = true, -- TODO(nvim 0.12): remove after updating and testing Noice
         ["cmp.entry.get_documentation"] = true,
       },
       hover = { silent = true }, -- Irrelevant warnings when one LS doesn't support hover (e.g. ruff in Python)

@@ -30,7 +30,7 @@ return {
         ---@param rhs string|function
         ---@param opts table
         local function map(mode, lhs, rhs, opts)
-          opts.buffer = event.buf
+          opts.buf = event.buf
           vim.keymap.set(mode, lhs, rhs, opts)
         end
 

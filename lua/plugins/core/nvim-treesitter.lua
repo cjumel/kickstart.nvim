@@ -1,7 +1,5 @@
--- TODO(nvim 0.12): re-implement incremental/decrementL selection with native feature.
 return {
   "nvim-treesitter/nvim-treesitter",
-  commit = "90cd6580e720caedacb91fdd587b747a6e77d61f", -- TODO(nvim 0.12): currently pinned to the commit compatible with nvim 0.11
   build = ":TSUpdate",
   lazy = false, -- Lazy-loading is not supported for this plugin
   config = function()

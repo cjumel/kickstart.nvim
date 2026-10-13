@@ -27,7 +27,6 @@ vim.opt.exrc = true -- Enable secure project-local config files (e.g. via a `.nv
 vim.opt.undofile = true
 vim.opt.updatetime = 300 -- Delay for writting swap files
 vim.opt.timeoutlen = 300 -- Delay for mapped key sequences
-vim.opt.diffopt = "internal,filler,closeoff" -- Remove linematch (for gitsigns.nvim hunk jumps)
 vim.opt.complete = "" -- Disable builtin completion
 vim.opt.completeopt = ""
 vim.g.no_plugin_maps = 1 -- Disable builtin filetype plugin keymaps

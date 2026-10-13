@@ -11,7 +11,7 @@ coding with Neovim really much more enjoyable for me, compared to my previous ex
 
 ## Requirements
 
-- [Neovim](https://neovim.io/) version 0.11
+- [Neovim](https://neovim.io/) version 0.12
 - [git](https://www.git-scm.com/), to clone this repository
 - [tree-sitter-cli](https://github.com/tree-sitter/tree-sitter/blob/master/crates/cli/README.md) to
   install and update Treesitter parsers
