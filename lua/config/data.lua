@@ -44,7 +44,6 @@ M.treesitter_parsers = {
 M.mason_package_versions = {
   basedpyright = "1.40.1",
   ["bash-language-server"] = "5.8.1",
-  biome = "2.5.14",
   debugpy = "1.8.22",
   ["json-lsp"] = "4.10.0",
   ["lua-language-server"] = "3.19.1",
@@ -81,21 +80,8 @@ M.language_servers = {
       },
     },
   },
-  biome = { -- Lint and format
-    filetypes = { "javascript", "json", "typescript" },
-    config = {
-      -- Enable also outside of biome workspaces
-      workspace_required = false,
-      root_dir = function(bufnr, on_dir) on_dir(vim.fs.root(bufnr, { ".git" }) or vim.fn.getcwd()) end,
-    },
-  },
   jsonls = {
     filetypes = { "json" },
-    config = {
-      init_options = {
-        provideFormatter = false,
-      },
-    },
   },
   lua_ls = {
     filetypes = { "lua" },
@@ -163,10 +149,6 @@ M.language_servers = {
   ts_ls = { -- Pure LSP
     filetypes = { "javascript", "typescript" },
     config = {
-      on_attach = function(client) -- Disable formatting in favor of biome
-        client.server_capabilities.documentFormattingProvider = false
-        client.server_capabilities.documentRangeFormattingProvider = false
-      end,
       settings = {
         diagnostics = {
           ignoredCodes = {
@@ -187,8 +169,8 @@ M.formatters_by_ft = {
   editorconfig = { "trim_newlines", "trim_whitespace" },
   gitconfig = { "trim_newlines", "trim_whitespace" },
   gitignore = { "trim_newlines", "trim_whitespace" },
-  javascript = { lsp_format = "first" }, -- Biome
-  json = { lsp_format = "first" }, -- Biome
+  javascript = { lsp_format = "first" }, -- ts_ls
+  json = { lsp_format = "first" }, -- JsonLS
   lua = { "stylua" },
   make = { "trim_newlines", "trim_whitespace" },
   markdown = { lsp_format = "first" }, -- rumdl
@@ -202,7 +184,7 @@ M.formatters_by_ft = {
   text = { "trim_newlines", "trim_whitespace" },
   tmux = { "trim_newlines", "trim_whitespace" },
   toml = { lsp_format = "first" }, -- Taplo
-  typescript = { lsp_format = "first" }, -- Biome
+  typescript = { lsp_format = "first" }, -- ts_ls
   typst = { lsp_format = "first" }, -- Tinymist
   vim = { "trim_newlines", "trim_whitespace" },
   yaml = { "yamlfmt", "trim_newlines" },
