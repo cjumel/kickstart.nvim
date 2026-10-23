@@ -19,6 +19,7 @@ return {
           sort = { fields = { "score:desc", "idx" } }, -- Don't sort by item length to preserve recency order
         })
       end,
+      mode = { "n", "v" },
       desc = "[F]ind: [Y]ank history",
     },
   },
@@ -27,6 +28,7 @@ return {
       history_length = 1000,
       storage = "sqlite", -- More stable than "shada"
       update_register_on_cycle = true,
+      filter = function(entry, _) return vim.trim(entry.regcontents) ~= "" end, -- Ignore yanks that only contain whitespaces
     },
     highlight = { timer = 200 },
   },

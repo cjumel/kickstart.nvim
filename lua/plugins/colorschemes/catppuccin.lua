@@ -6,7 +6,7 @@ return {
   opts = vim.tbl_deep_extend("force", {
     transparent_background = true,
     float = { solid = true },
-    default_integrations = false,
+    auto_integrations = false,
     integrations = {
       blink_cmp = { style = "bordered" },
       gitsigns = true,
