@@ -11,6 +11,12 @@ local t = ls.text_node
 return {
   s({ trig = "alias", show_condition = snippet_conds.empty_line }, { t("alias "), i(1), t("='"), i(2), t("'") }),
 
+  s({
+    trig = "shellcheck shell=bash",
+    show_condition = snippet_conds.comment_start * snippet_conds.line_end,
+    desc = "Lint this Zsh file with ShellCheck's Bash compatibility mode (must be before the first command)",
+  }, { t("shellcheck shell=bash") }),
+
   s({ trig = "elif", show_condition = snippet_conds.empty_line }, {
     c(1, {
       sn(nil, { t("elif "), r(1, "cond", i(nil)), t("; then"), t({ "", "\t" }), r(2, "content", i(nil)) }),

@@ -202,6 +202,11 @@ return {
   }),
 
   s({
+    trig = "ruff: ignore",
+    show_condition = snippet_conds.comment_start * snippet_conds.line_end,
+    desc = "Ignore ruff issues",
+  }, { t("ruff: ignore["), i(1), t("]") }),
+  s({
     trig = "ruff: noqa",
     show_condition = snippet_conds.comment_start * snippet_conds.line_end,
     desc = "Ignore Ruff warnings for the whole file (should be near the beginning of the file)",
