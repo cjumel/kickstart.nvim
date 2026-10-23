@@ -46,6 +46,7 @@ return {
         Snacks.picker.command_history({
           sort = { fields = { "score:desc", "idx" } }, -- Don't sort by item length to preserve history order
           layout = { preset = "telescope_dropdown" },
+          transform = function(item) return #item.cmd:gsub("!", "") > 2 end, -- Filter out short commands
         })
       end,
       desc = "Command history",
