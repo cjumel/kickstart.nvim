@@ -18,8 +18,8 @@ return {
         map("n", "<leader>cn", function() git_conflict.choose("none") end, { desc = "[C]onflict: choose [N]one" })
         map("n", "<leader>co", function() git_conflict.choose("ours") end, { desc = "[C]onflict: choose [O]urs" })
         map("n", "<leader>ct", function() git_conflict.choose("theirs") end, { desc = "[C]onflict: choose [T]heirs" })
-        map({ "n", "x", "o" }, "]x", function() git_conflict.find_next("ours") end, { desc = "Next conflict" })
-        map({ "n", "x", "o" }, "[x", function() git_conflict.find_prev("ours") end, { desc = "Previous conflict" })
+        map({ "n", "x", "o" }, "]c", function() git_conflict.find_next("ours") end, { desc = "Next conflict" })
+        map({ "n", "x", "o" }, "[c", function() git_conflict.find_prev("ours") end, { desc = "Previous conflict" })
       end,
     })
     vim.api.nvim_create_autocmd("User", {
@@ -31,13 +31,8 @@ return {
         unmap("n", "<leader>cn")
         unmap("n", "<leader>co")
         unmap("n", "<leader>ct")
-
-        unmap({ "n", "x", "o" }, "]b")
-        unmap({ "n", "x", "o" }, "[b")
-        unmap({ "n", "x", "o" }, "]o")
-        unmap({ "n", "x", "o" }, "[o")
-        unmap({ "n", "x", "o" }, "]t")
-        unmap({ "n", "x", "o" }, "[t")
+        unmap({ "n", "x", "o" }, "]c")
+        unmap({ "n", "x", "o" }, "[c")
       end,
     })
   end,

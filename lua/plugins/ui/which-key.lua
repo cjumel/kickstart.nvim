@@ -3,6 +3,12 @@ return {
   dependencies = { "nvim-tree/nvim-web-devicons" },
   event = "VeryLazy",
   opts = {
+    triggers = {
+      { "<auto>", mode = "nxso" },
+      -- `<C-x>` is Neovim's insert-mode completion prefix, so auto triggers skip it; we register it explicitly to show
+      -- Snacks picker actions using this prefix
+      { "<C-x>", mode = "i" },
+    },
     spec = {
       -- Set or modify the description of builtin keymaps
       { "gq", desc = "Format (formatexpr)", mode = { "n", "x" } },

@@ -46,6 +46,7 @@ return {
         Snacks.picker.command_history({
           sort = { fields = { "score:desc", "idx" } }, -- Don't sort by item length to preserve history order
           layout = { preset = "telescope_dropdown" },
+          transform = function(item) return #item.cmd:gsub("!", "") > 2 end, -- Filter out short commands
         })
       end,
       desc = "Command history",
@@ -209,33 +210,6 @@ return {
           sort = { fields = { "score:desc", "idx" } }, -- Don't sort by item length to preserve document order
           layout = { preset = "telescope_horizontal" },
           show_empty = true, -- Some stuff can appear after using toggles
-          toggles = {
-            all_symbols = "a",
-          },
-          actions = {
-            toggle_all_symbols_ = function(picker)
-              local opts = picker.opts or {}
-              if not opts.default_filter then
-                opts.default_filter = vim.deepcopy(opts.filter) ---@diagnostic disable-line: inject-field
-              end
-              opts.all_symbols = not opts.all_symbols ---@diagnostic disable-line: inject-field
-              if opts.all_symbols then
-                for k, _ in pairs(opts.filter) do
-                  opts.filter[k] = true
-                end
-              else
-                opts.filter = vim.deepcopy(opts.default_filter)
-              end
-              picker:find()
-            end,
-          },
-          win = {
-            input = {
-              keys = {
-                ["<M-a>"] = { "toggle_all_symbols_", mode = { "n", "i" } },
-              },
-            },
-          },
         })
       end,
       desc = "[F]ind: [S]ymbols",
@@ -246,33 +220,6 @@ return {
         Snacks.picker.lsp_workspace_symbols({
           title = "Workspace Symbols",
           layout = { preset = "telescope_horizontal" },
-          toggles = {
-            all_symbols = "a",
-          },
-          actions = {
-            toggle_all_symbols_ = function(picker)
-              local opts = picker.opts or {}
-              if not opts.default_filter then
-                opts.default_filter = vim.deepcopy(opts.filter) ---@diagnostic disable-line: inject-field
-              end
-              opts.all_symbols = not opts.all_symbols ---@diagnostic disable-line: inject-field
-              if opts.all_symbols then
-                for k, _ in pairs(opts.filter) do
-                  opts.filter[k] = true
-                end
-              else
-                opts.filter = vim.deepcopy(opts.default_filter)
-              end
-              picker:find()
-            end,
-          },
-          win = {
-            input = {
-              keys = {
-                ["<M-a>"] = { "toggle_all_symbols_", mode = { "n", "i" } },
-              },
-            },
-          },
         })
       end,
       desc = "[F]ind: [W]orkspace symbols",
@@ -364,7 +311,7 @@ return {
             directory = "d",
             staged = "s",
             unstaged = "u",
-            conflicts = "x",
+            conflicts = "C",
           },
           transform = function(item, ctx)
             local opts = ctx.picker.opts or {}
@@ -434,13 +381,18 @@ return {
               keys = {
                 ["<Tab>"] = { "list_down", mode = { "n", "i" } }, -- Don't remap to `git_stage`
                 ["<C-r>"] = false, -- Don't remap to `git_restore`
-                ["<C-t>"] = { "git_stage", mode = { "n", "i" } }, -- Like `toggle stage`
-                ["<C-x>"] = { "git_restore", mode = { "n", "i" }, nowait = true },
                 ["<M-c>"] = { "toggle_only_cwd_", mode = { "n", "i" } },
                 ["<M-d>"] = { "toggle_directory_", mode = { "n", "i" } },
-                ["<M-s>"] = { "toggle_staged_", mode = { "n", "i" } },
-                ["<M-u>"] = { "toggle_unstaged_", mode = { "n", "i" } },
-                ["<M-x>"] = { "toggle_conflicts_", mode = { "n", "i" } },
+                ["<C-x>s"] = { "toggle_staged_", mode = "i" },
+                ["<C-x>u"] = { "toggle_unstaged_", mode = "i" },
+                ["<C-x>c"] = { "toggle_conflicts_", mode = "i" },
+                ["<C-x>t"] = { "git_stage", mode = "i" },
+                ["<C-x>x"] = { "git_restore", mode = "i" },
+                ["<localleader>s"] = { "toggle_staged_", mode = "n" },
+                ["<localleader>u"] = { "toggle_unstaged_", mode = "n" },
+                ["<localleader>c"] = { "toggle_conflicts_", mode = "n" },
+                ["<localleader>t"] = { "git_stage", mode = "n" },
+                ["<localleader>x"] = { "git_restore", mode = "n" },
               },
             },
           },
@@ -484,8 +436,10 @@ return {
             input = {
               keys = {
                 ["<C-y>"] = { "yank_commit", mode = { "n", "i" } }, ---@diagnostic disable-line: assign-type-mismatch
-                ["<M-c>"] = { "toggle_current_file_", mode = { "n", "i" } },
-                ["<M-l>"] = { "toggle_current_line_", mode = { "n", "i" } },
+                ["<C-x>f"] = { "toggle_current_file_", mode = "i" },
+                ["<C-x>l"] = { "toggle_current_line_", mode = "i" },
+                ["<localleader>f"] = { "toggle_current_file_", mode = "n" },
+                ["<localleader>l"] = { "toggle_current_line_", mode = "n" },
               },
             },
           },
