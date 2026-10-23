@@ -148,7 +148,7 @@ plugins. Then, the [nvim-treesitter](https://github.com/nvim-treesitter/nvim-tre
 install language parsers for [Treesitter](https://tree-sitter.github.io/tree-sitter/), an essential
 tool providing a variety of language-specific features, like synthax highlighting or folding, and
 the [mason.nvim](https://github.com/mason-org/mason.nvim) plugin will install all the required
-language servers, formatters, linters and debuggers.
+language servers, formatters and debuggers.
 
 When notifications stop appearing, this is over and you can quit Neovim by typing the `q` key twice,
 to quite the lazy.nvim menu and Neovim succcessively.

@@ -51,7 +51,7 @@ M.mason_package_versions = {
   ruff = "0.16.8",
   rumdl = "v0.2.73",
   ["rust-analyzer"] = "2026-09-21",
-  shellcheck = "v0.11.0",
+  shellcheck = "v0.11.0", -- Used by bash-language-server for linting
   shfmt = "v3.14.1",
   stylua = "v2.5.2",
   taplo = "0.10.0",
@@ -59,13 +59,12 @@ M.mason_package_versions = {
   ["typescript-language-server"] = "6.0.1",
   ["yaml-language-server"] = "1.24.0",
   yamlfmt = "v0.21.0",
-  yamllint = "1.38.0",
 }
 
 ---@type nvim_config.LanguageServers
 M.language_servers = {
   bashls = {
-    filetypes = { "sh", "zsh" }, -- Not actually for zsh, but works fine for me
+    filetypes = { "sh", "zsh" }, -- Not actually for zsh, but works fine for me; ShellCheck needs `# shellcheck shell=bash` to lint Zsh files
     config = {
       filetypes = { "sh", "zsh" },
     },
@@ -189,13 +188,6 @@ M.formatters_by_ft = {
   vim = { "trim_newlines", "trim_whitespace" },
   yaml = { "yamlfmt", "trim_newlines" },
   zsh = { "shfmt" }, -- Not actually for zsh, but works fine for me
-}
-
----@type nvim_config.LintersByFiletype
-M.linters_by_ft = {
-  sh = { "shellcheck" },
-  yaml = { "yamllint" },
-  zsh = { "shellcheck" }, -- Not actually for zsh, but works fine for me
 }
 
 return M

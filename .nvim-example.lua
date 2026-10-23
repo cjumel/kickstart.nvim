@@ -9,9 +9,6 @@ vim.g.language_servers = {}
 ---@type nvim_config.FormattersByFiletype Mapping from filetype to a list of formatter names.
 vim.g.formatters_by_ft = {}
 
----@type nvim_config.LintersByFiletype Mapping from filetype to a list of linter names.
-vim.g.linters_by_ft = {}
-
 ---@type nvim_config.DisableFormatOnSave Determine when to disable format on save, globally or per-buffer.
 vim.g.disable_format_on_save = false
 

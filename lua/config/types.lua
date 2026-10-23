@@ -18,8 +18,6 @@
 
 ---@alias nvim_config.FormattersByFiletype table<string, conform.FiletypeFormatter>
 
----@alias nvim_config.LintersByFiletype table<string, string[]>
-
 ---@alias nvim_config.DisableFormatOnSave boolean | function(bufnr: number) -> boolean
 
 ---@alias nvim_config.CommitConvention "conventional_commits" |  "gitmoji" | false
