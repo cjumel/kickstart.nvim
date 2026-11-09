@@ -1,3 +1,15 @@
+-- HACK: disable noisy error due to race condition
+local function nav_hunk(direction, opts)
+  require("gitsigns").nav_hunk(direction, opts, function(err)
+    local preview_race = err
+      and err:find("gitsigns/actions/preview.lua", 1, true)
+      and err:find("assertion failed", 1, true)
+    if err and not preview_race then
+      vim.notify(err, vim.log.levels.ERROR, { title = "gitsigns" })
+    end
+  end)
+end
+
 return {
   "nvimtools/hydra.nvim",
   keys = {
@@ -55,11 +67,11 @@ return {
         },
         mode = { "n", "v" },
         heads = {
-          { "h", function() require("gitsigns").nav_hunk("next") end },
-          { "H", function() require("gitsigns").nav_hunk("prev") end },
+          { "h", function() nav_hunk("next") end },
+          { "H", function() nav_hunk("prev") end },
           { "p", function() require("gitsigns").preview_hunk() end },
-          { "s", function() require("gitsigns").nav_hunk("next", { target = "staged" }) end },
-          { "S", function() require("gitsigns").nav_hunk("prev", { target = "staged" }) end },
+          { "s", function() nav_hunk("next", { target = "staged" }) end },
+          { "S", function() nav_hunk("prev", { target = "staged" }) end },
           {
             "t",
             function()

@@ -10,6 +10,18 @@ return {
 
       local map = require("config.utils").get_buffer_map_function(bufnr)
 
+      -- HACK: disable noisy error due to race condition
+      local function nav_hunk(direction, opts)
+        gitsigns.nav_hunk(direction, opts, function(err)
+          local preview_race = err
+            and err:find("gitsigns/actions/preview.lua", 1, true)
+            and err:find("assertion failed", 1, true)
+          if err and not preview_race then
+            vim.notify(err, vim.log.levels.ERROR, { title = "gitsigns" })
+          end
+        end)
+      end
+
       -- General keymaps
       map("n", "<leader>gs", gitsigns.stage_buffer, { desc = "[G]it: [S]tage buffer" })
       map("n", "<leader>gu", gitsigns.reset_buffer_index, { desc = "[G]it: [U]nstage buffer" })
@@ -18,12 +30,12 @@ return {
       map("n", "<leader>gd", gitsigns.diffthis, { desc = "[G]it: [D]iff buffer" })
 
       -- Navigation keymaps
-      local function next_hunk() gitsigns.nav_hunk("next") end
-      local function prev_hunk() gitsigns.nav_hunk("prev") end
+      local function next_hunk() nav_hunk("next") end
+      local function prev_hunk() nav_hunk("prev") end
       map({ "n", "x", "o" }, "]h", next_hunk, { desc = "Next hunk" })
       map({ "n", "x", "o" }, "[h", prev_hunk, { desc = "Previous hunk" })
-      local function next_staged_hunk() gitsigns.nav_hunk("next", { target = "staged" }) end
-      local function prev_staged_hunk() gitsigns.nav_hunk("prev", { target = "staged" }) end
+      local function next_staged_hunk() nav_hunk("next", { target = "staged" }) end
+      local function prev_staged_hunk() nav_hunk("prev", { target = "staged" }) end
       map({ "n", "x", "o" }, "]s", next_staged_hunk, { desc = "Next staged hunk" })
       map({ "n", "x", "o" }, "[s", prev_staged_hunk, { desc = "Previous staged hunk" })
 
